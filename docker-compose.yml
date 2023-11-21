@@ -56,9 +56,9 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
     volumes:
-      - ${MEDIA_PATH:-./enferno/media}:/app/enferno/media:rw
       - ${BAYANAT_IMPORT_PATH:-./enferno/imports}:/app/enferno/imports:rw
       - ${BAYANAT_LOGS_PATH:-./logs}:/app/logs:rw
+      - ${BAYANAT_MEDIA_PATH:-./enferno/media}:/app/enferno/media:rw
     tmpfs:
       - /tmp
     security_opt:
