@@ -162,6 +162,7 @@ class Config(object):
 
     # i18n
     LANGUAGES = manager.get_config('LANGUAGES')
+    LANG_BUTTONS_ENABLE=os.environ.get('LANG_BUTTONS_ENABLE', 'false').lower()
     BABEL_DEFAULT_LOCALE = os.environ.get('DEFAULT_LANGUAGE', 'en')
     # extract messages with the following command
     # pybabel extract -F babel.cfg -k _l -o messages.pot .

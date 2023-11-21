@@ -78,7 +78,10 @@
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
 
-                                    <v-btn :disabled="invalid || lock" block @click.prevent="submit" color="primary">Login</v-btn>
+                                    <v-btn :disabled="invalid || lock" block @click.prevent="submit" color="primary" 
+                                        type="submit" form="loginForm">
+                                        Login
+                                    </v-btn>
                                 </v-card-actions>
                             </v-card>
                             <v-card>

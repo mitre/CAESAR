@@ -4,6 +4,12 @@ services:
   bayanat:
     volumes:
       - ${ENV_FILE:-.env}:/app/.env
+      - $PWD:/app/
+  
+  celery:
+    volumes:
+      - ${ENV_FILE:-.env}:/app/.env
+      - $PWD:/app/
   
   nginx:
     restart: always

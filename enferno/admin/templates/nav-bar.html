@@ -23,6 +23,11 @@
 
   <v-spacer></v-spacer>
 
+  <span v-if="'{{config.LANG_BUTTONS_ENABLE}}' === 'true'">
+    <v-btn v-for="lang in {{config.LANGUAGES }}" :href="`/dashboard/?lang=${lang}`" icon>
+      ${ lang }
+    </v-btn>
+  </span>
 
   <v-menu offset-y transition="slide-y-transition">
     <template v-slot:activator="{ on }">

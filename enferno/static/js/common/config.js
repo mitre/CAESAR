@@ -7,10 +7,10 @@ const vuetify = new Vuetify({
 
         themes: {
             light: {
-                primary: "#439d92",
-                secondary: "#b0bec5",
-                accent: "#8c9eff",
-                third: "#8aa396",
+                primary: "#1C5B93",
+                secondary: "#0B2338",
+                accent: "#ABE8FF",
+                third: "#FCF603",
                 fourth: "#b5c1aa",
                 fifth: "#dde0c6",
                 yv: "#F6932B",
@@ -35,13 +35,13 @@ const vuetify = new Vuetify({
                     lighten5: "#444"
                 },
                 black: {
-                    base: '#ddd',
-                    '--text': '#ddd'
+                    base: "#ddd",
+                    '-text': "#ddd"
                 },
                 yellow: {
-                    lighten5: '#24240f'
+                    lighten5: "#24240f"
                 },
-                primary: '#09a7a6',
+                primary: "#4D75FF",
                 gv: {
                     darken2: "#019985"
                 },
@@ -52,8 +52,6 @@ const vuetify = new Vuetify({
                 teal: {
                     lighten5: "#008080"
                 }
-
-
             }
         }
     },
