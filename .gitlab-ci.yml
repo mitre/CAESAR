@@ -1,0 +1,38 @@
+image: docker:24.0.7
+
+stages:
+  - build
+  - deploy
+
+default:
+  before_script:
+    - touch .env
+    - /bin/sh ./bin/ci-cd/before-script.sh
+
+variables:
+  REGISTRY: artifacts.mitre.org:8200
+
+# Build the docker images and push to the Docker repo
+Build:
+  stage: build
+  tags:
+    - build
+  script:
+    - docker compose -f docker-compose.yml build
+    - docker compose -f docker-compose.yml push
+
+Deploy to conflict-ob:
+  before_script:
+    - cp $dotenv_conflict_ob ./.env
+    - /bin/sh ./bin/ci-cd/before-script.sh
+  stage: deploy
+  tags:
+    - deploy_co
+  variables:
+    DEPLOY_ENV: conflict_ob
+  script:
+    # Source the env vars in .env
+    - set -a; . ./.env; set +a
+    - SETTINGS_TIMESTAMP=$(date +%s) docker stack deploy -c docker-compose.yml --with-registry-auth caesar-co
+  only:
+    - main
