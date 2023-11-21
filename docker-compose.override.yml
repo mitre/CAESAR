@@ -5,11 +5,21 @@ services:
     volumes:
       - ${ENV_FILE:-.env}:/app/.env
       - $PWD:/app/
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
   
   celery:
     volumes:
       - ${ENV_FILE:-.env}:/app/.env
       - $PWD:/app/
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
   
   nginx:
     restart: always

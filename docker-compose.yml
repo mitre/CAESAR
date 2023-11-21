@@ -59,11 +59,6 @@ services:
       - ${MEDIA_PATH:-./enferno/media}:/app/enferno/media:rw
       - ${BAYANAT_IMPORT_PATH:-./enferno/imports}:/app/enferno/imports:rw
       - ${BAYANAT_LOGS_PATH:-./logs}:/app/logs:rw
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
     tmpfs:
       - /tmp
     security_opt:
@@ -94,11 +89,6 @@ services:
       - /tmp
     security_opt:
       - no-new-privileges:true
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
 
 configs:
   dotenv:
