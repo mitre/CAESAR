@@ -19,8 +19,8 @@ Build:
     - build
   variables:
     # Specify User and Group ID to prevent permissions issues on shared volumes
-    GROUP_ID: 39467
-    USER_ID: 39466
+    GROUP_ID: 901
+    USER_ID: 900
   script:
     - docker compose build --build-arg GROUP_ID=$GROUP_ID --build-arg USER_ID=$USER_ID
     - docker compose push
