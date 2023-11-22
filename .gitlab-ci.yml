@@ -17,9 +17,13 @@ Build:
   stage: build
   tags:
     - build
+  variables:
+    # Specify User and Group ID to prevent permissions issues on shared volumes
+    GROUP_ID: 39467
+    USER_ID: 39466
   script:
-    - docker compose -f docker-compose.yml build
-    - docker compose -f docker-compose.yml push
+    - docker compose build --build-arg GROUP_ID=$GROUP_ID --build-arg USER_ID=$USER_ID
+    - docker compose push
 
 Deploy to conflict-ob:
   before_script:
