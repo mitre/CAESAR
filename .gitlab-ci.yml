@@ -25,6 +25,22 @@ Build:
     - docker compose build --build-arg GROUP_ID=$GROUP_ID --build-arg USER_ID=$USER_ID
     - docker compose push
 
+Deploy to dev:
+  before_script:
+    - cp $dotenv_dev ./.env
+    - /bin/sh ./bin/ci-cd/before-script.sh
+  stage: deploy
+  tags:
+    - deploy_dev
+  variables:
+    DEPLOY_ENV: dev
+  script:
+    # Source the env vars in .env
+    - set -a; . ./.env; set +a
+    - SETTINGS_TIMESTAMP=$(date +%s) docker stack deploy -c docker-compose.yml --with-registry-auth caesar-dev
+  only:
+    - main
+
 Deploy to conflict-ob:
   before_script:
     - cp $dotenv_conflict_ob ./.env
