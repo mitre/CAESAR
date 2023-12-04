@@ -26,9 +26,9 @@ def get_locale():
     :return: system language from the current session.
     """
     from flask import session
-    override = request.args.get('lang')
-    if override:
-        session['lang'] = override
+    # override = request.args.get('lang')
+    # if override:
+    #     session['lang'] = override
     default = 'en'
     try:
         default = current_app.config.get('BABEL_DEFAULT_LOCALE')
