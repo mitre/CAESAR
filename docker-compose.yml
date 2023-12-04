@@ -77,6 +77,8 @@ services:
       - source: dotenv
         target: /app/.env
     environment:
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-change-me}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
       POSTGRES_DB: ${POSTGRES_DB:-bayanat}
       POSTGRES_HOST: ${POSTGRES_HOST:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
