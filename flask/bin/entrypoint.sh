@@ -7,6 +7,8 @@ ADMIN_PASSWORD=$ADMIN_PASSWORD
 if [ "$ROLE" = "flask" ]; then
   echo ":: Creating Bayanat Database ::"
   flask create-db --create-exts
+  echo ":: Trying to import default data ::"
+  flask import-data
   echo ":: Trying to Create Admin User ::"
   flask install --username ${ADMIN_USERNAME:-postgres} --password ${ADMIN_PASSWORD:-change_this_password}
   echo ":: Starting Bayanat ::"

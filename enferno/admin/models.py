@@ -825,12 +825,9 @@ class Location(db.Model, BaseMixin):
 
         print('ID tree generated successfuly for location table')
 
-    # imports csv data into db
+    # imports csv data that's been read into a pandas df
     @staticmethod
-    def import_csv(file_storage):
-        tmp = NamedTemporaryFile().name
-        file_storage.save(tmp)
-        df = pd.read_csv(tmp)
+    def import_csv_from_dataframe(df):
         no_df = df.drop('parent_id', axis=1)
         no_df['deleted'] = no_df['deleted'].astype('bool')
 
@@ -859,6 +856,15 @@ class Location(db.Model, BaseMixin):
         print("Location ID counter updated.")
 
         return ""
+
+    # imports csv data into db
+    @staticmethod
+    def import_csv(file_storage):
+        tmp = NamedTemporaryFile().name
+        file_storage.save(tmp)
+        df = pd.read_csv(tmp)
+        return Location.import_csv_from_dataframe(df)        
+
 
 
 class LocationAdminLevel(db.Model, BaseMixin):
