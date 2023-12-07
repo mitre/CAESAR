@@ -28,13 +28,15 @@ services:
     image: 'redis:latest'
     ports:
       - ${REDIS_EXTERNAL_PORT:-6379}:6379
-    command: redis-server --requirepass '${REDIS_PASSWORD}'
+    command: redis-server --requirepass '${REDIS_PASSWORD:-change-me}'
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-change-me}
     security_opt:
       - no-new-privileges:true
     volumes:
       - redis_data:/var/lib/redis/data
     healthcheck:
-      test: [ "CMD", "redis-cli", "--no-auth-warning", "-a", "${REDIS_PASSWORD}", "ping" ]
+      test: [ "CMD", "redis-cli", "--no-auth-warning", "-a", "${REDIS_PASSWORD:-change-me}", "ping" ]
       interval: 3s
       retries: 10
 
