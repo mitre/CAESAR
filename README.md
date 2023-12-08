@@ -47,3 +47,7 @@ If you like our work please consider making a donation at [donate.syriaaccountab
 License
 -------------
 This system is distributed WITHOUT ANY WARRANTY under the GNU Affero General Public License v3.0.
+
+Caesar Data
+-------------
+Location data has been added to the default bayanat data set at /enferno/data in a Locations.csv file. This file contains a list of Ukrainian cities that was pulled from https://simplemaps.com/data/ua-cities.
