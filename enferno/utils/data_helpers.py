@@ -1,7 +1,8 @@
 import pandas as pd
 
 from enferno.admin.models import ClaimedViolation, Eventtype, LocationAdminLevel, LocationType, PotentialViolation, \
-    AtobInfo, BtobInfo, AtoaInfo, ItobInfo, ItoaInfo, ItoiInfo, Country, Ethnography, MediaCategory, GeoLocationType, WorkflowStatus
+    AtobInfo, BtobInfo, AtoaInfo, ItobInfo, ItoaInfo, ItoiInfo, Country, Ethnography, MediaCategory,  Location, \
+        GeoLocationType, WorkflowStatus
 from enferno.extensions import db
 from enferno.admin.models import Media, ClaimedViolation, Eventtype, LocationAdminLevel, LocationType, PotentialViolation
 from enferno.data_import.models import DataImport
@@ -69,19 +70,22 @@ def import_default_data():
     '''
     Imports SJAC data from data dir.
     '''
-    items = [(Eventtype, 'enferno/data/eventtypes.csv'),
-             (PotentialViolation, 'enferno/data/potential_violation.csv'),
-             (ClaimedViolation, 'enferno/data/claimed_violation.csv'),
-             (AtobInfo, 'enferno/data/atob_info.csv'),
-             (BtobInfo, 'enferno/data/btob_info.csv'),
-             (AtoaInfo, 'enferno/data/atoa_info.csv'),
-             (ItobInfo, 'enferno/data/itob_info.csv'),
-             (ItoaInfo, 'enferno/data/itoa_info.csv'),
-             (ItoiInfo, 'enferno/data/itoi_info.csv'),
-             (Country, 'enferno/data/countries.csv'),
-             (Ethnography, 'enferno/data/ethnographies.csv'),
-             (MediaCategory, 'enferno/data/media_categories.csv'),
-             (GeoLocationType, 'enferno/data/geo_location_types.csv')]
+    items = [
+                (Eventtype, 'enferno/data/eventtypes.csv'),
+                (PotentialViolation, 'enferno/data/potential_violation.csv'),
+                (ClaimedViolation, 'enferno/data/claimed_violation.csv'),
+                (AtobInfo, 'enferno/data/atob_info.csv'),
+                (BtobInfo, 'enferno/data/btob_info.csv'),
+                (AtoaInfo, 'enferno/data/atoa_info.csv'),
+                (ItobInfo, 'enferno/data/itob_info.csv'),
+                (ItoaInfo, 'enferno/data/itoa_info.csv'),
+                (ItoiInfo, 'enferno/data/itoi_info.csv'),
+                (Country, 'enferno/data/countries.csv'),
+                (Ethnography, 'enferno/data/ethnographies.csv'),
+                (MediaCategory, 'enferno/data/media_categories.csv'),
+                (GeoLocationType, 'enferno/data/geo_location_types.csv'),
+                (Location, 'enferno/data/locations.csv')
+            ]
              
     for model, path in items:
         import_csv_to_table(model, path)
@@ -109,22 +113,23 @@ def import_csv_to_table(model, csv_file_path):
     """
     Imports CSV data into a database model.
     """
-    df = pd.read_csv(csv_file_path, parse_dates=True, na_filter=False)
-
-    # Remove the 'deleted' column from DataFrame if it exists
-    df.drop(columns=['deleted'], errors='ignore', inplace=True)
-
     # Skip if model table already contains data
     if db.session.query(model).first():
         print(f"{model.__name__} table already populated.")
         return
 
-    # Add each row as a record in the model table
-    for _, row in df.iterrows():
-        data = {col: row[col] for col in row.index if hasattr(model, col)}
-        db.session.add(model(**data))
+    df = pd.read_csv(csv_file_path, parse_dates=True, na_filter=True)
 
-    db.session.commit()
+    if hasattr(model, 'import_csv_from_dataframe') and callable(getattr(model, 'import_csv_from_dataframe')):
+        model.import_csv_from_dataframe(df)
+    else:
+        # Remove the 'deleted' column from DataFrame if it exists
+        df.drop(columns=['deleted'], errors='ignore', inplace=True)
+        # Add each row as a record in the model table
+        for _, row in df.iterrows():
+            data = {col: row[col] for col in row.index if hasattr(model, col)}
+            db.session.add(model(**data))
+        db.session.commit()
     print(f"Data imported into {model.__name__}.")
 
     # reset id sequence counter
