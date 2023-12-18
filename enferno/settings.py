@@ -76,7 +76,7 @@ class Config(object):
     # Disable token apis
 
     SECURITY_TWO_FACTOR_ENABLED_METHODS = ['authenticator']  # 'sms' also valid but requires an sms provider
-    SECURITY_TWO_FACTOR = os.environ.get('SECURITY_TWO_FACTOR')
+    SECURITY_TWO_FACTOR_REQUIRED = manager.get_config('SECURITY_TWO_FACTOR_REQUIRED')
     SECURITY_TWO_FACTOR_RESCUE_MAIL = os.environ.get('SECURITY_TWO_FACTOR_RESCUE_MAIL')
 
     # Enable only session auth
@@ -86,8 +86,6 @@ class Config(object):
 
     security_freshness_grace_period = manager.get_config('SECURITY_FRESHNESS_GRACE_PERIOD')
     SECURITY_FRESHNESS_GRACE_PERIOD = timedelta(minutes=security_freshness_grace_period)
-
-    SECURITY_TWO_FACTOR_REQUIRED = manager.get_config('SECURITY_TWO_FACTOR_REQUIRED')
 
     SECURITY_PASSWORD_LENGTH_MIN = manager.get_config('SECURITY_PASSWORD_LENGTH_MIN')
 

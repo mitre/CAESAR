@@ -1,6 +1,17 @@
-import json
+import json, os
 from types import MappingProxyType
 from flask_security import current_user
+
+# Set the default of a config value to a Boolean value, converting strings
+# as necessary
+def defBool(cfg, default='False'):
+    value = os.environ.get(cfg, default)
+    return str(value).lower() in ("yes", "true", "t", "1")
+
+# Set a default for a comma-separated string, cast to an array
+def defList(cfg, default):
+    value = os.environ.get(cfg, default)
+    return value.split(',')
 
 class ConfigManager:
     CONFIG_FILE_PATH = 'config.json'
@@ -10,72 +21,72 @@ class ConfigManager:
     # Define default core configurations here
     DEFAULT_CONFIG = MappingProxyType({
         # timedelta type
-        'SECURITY_FRESHNESS': 30,
-        'SECURITY_FRESHNESS_GRACE_PERIOD': 30,
-        'SECURITY_TWO_FACTOR_REQUIRED': False,
-        'SECURITY_PASSWORD_LENGTH_MIN': 10,
+        'SECURITY_FRESHNESS': int(os.environ.get('SECURITY_FRESHNESS', 30)),
+        'SECURITY_FRESHNESS_GRACE_PERIOD': int(os.environ.get('SECURITY_FRESHNESS_GRACE_PERIOD', 30)),
+        'SECURITY_TWO_FACTOR_REQUIRED': defBool('SECURITY_TWO_FACTOR_REQUIRED'),
+        'SECURITY_PASSWORD_LENGTH_MIN': int(os.environ.get('SECURITY_PASSWORD_LENGTH_MIN', 10)),
 
-        'SECURITY_ZXCVBN_MINIMUM_SCORE': 3,
+        'SECURITY_ZXCVBN_MINIMUM_SCORE': int(os.environ.get('SECURITY_ZXCVBN_MINIMUM_SCORE', 3)),
 
-        'SECURITY_WEBAUTHN': False,
+        'SECURITY_WEBAUTHN': defBool('SECURITY_WEBAUTHN'),
 
-        'RECAPTCHA_ENABLED': False,
-        'RECAPTCHA_PUBLIC_KEY': '',
-        'RECAPTCHA_PRIVATE_KEY': '',
+        'RECAPTCHA_ENABLED': defBool('RECAPTCHA_ENABLED'),
+        'RECAPTCHA_PUBLIC_KEY': os.environ.get('RECAPTCHA_PUBLIC_KEY', ''),
+        'RECAPTCHA_PRIVATE_KEY': os.environ.get('RECAPTCHA_PRIVATE_KEY', ''),
 
-        'GOOGLE_CLIENT_ID': '',
-        'GOOGLE_CLIENT_SECRET': '',
-        'GOOGLE_DISCOVERY_URL': 'https://accounts.google.com/.well-known/openid-configuration',
+        'GOOGLE_CLIENT_ID': os.environ.get('GOOGLE_CLIENT_ID', ''),
+        'GOOGLE_CLIENT_SECRET': os.environ.get('GOOGLE_CLIENT_SECRET', ''),
+        'GOOGLE_DISCOVERY_URL': os.environ.get('GOOGLE_DISCOVERY_URL', 'https://accounts.google.com/.well-known/openid-configuration'),
 
-        'FILESYSTEM_LOCAL': 1,
+        'FILESYSTEM_LOCAL': defBool('FILESYSTEM_LOCAL', True),
 
-        'AWS_ACCESS_KEY_ID': '',
-        'AWS_SECRET_ACCESS_KEY': '',
-        'S3_BUCKET': '',
-        'AWS_REGION': '',
+        'AWS_ACCESS_KEY_ID': os.environ.get('AWS_ACCESS_KEY_ID', ''),
+        'AWS_SECRET_ACCESS_KEY': os.environ.get('AWS_SECRET_ACCESS_KEY', ''),
+        'S3_BUCKET': os.environ.get('S3_BUCKET', ''),
+        'AWS_REGION': os.environ.get('AWS_REGION', ''),
 
-        'MEDIA_ALLOWED_EXTENSIONS': [".mp4", ".webm", ".jpg", ".gif", ".png", ".pdf", ".doc", ".txt"],
-        'MEDIA_UPLOAD_MAX_FILE_SIZE': 1000,
+        'MEDIA_ALLOWED_EXTENSIONS': defList('MEDIA_ALLOWED_EXTENSIONS', '.mp4,.webm,.jpg,.gif,.png,.pdf,.doc,.txt'),
+        'MEDIA_UPLOAD_MAX_FILE_SIZE': int(os.environ.get('MEDIA_UPLOAD_MAX_FILE_SIZE', 1000)),
 
-        'SHEETS_ALLOWED_EXTENSIONS': ["csv", "xls", "xlsx"],
+        'SHEETS_ALLOWED_EXTENSIONS': defList('SHEETS_ALLOWED_EXTENSIONS', 'csv,xls,xlsx'),
 
-        'ETL_TOOL': False,
-        'ETL_PATH_IMPORT': False,
-        'ETL_VID_EXT': ["webm", "mkv", "flv", "vob", "ogv", "ogg", "rrc", "gifv", "mng", "mov", "avi", "qt", "wmv",
-                        "yuv", "rm", "asf", "amv", "mp4", "m4p", "m4v", "mpg", "mp2", "mpeg", "mpe", "mpv", "m4v",
-                        "svi", "3gp", "3g2", "mxf", "roq", "nsv", "flv", "f4v", "f4p", "f4a", "f4b", "mts", "lvr",
-                        "m2ts"],
+        'ETL_TOOL': defBool('ETL_TOOL'),
+        'ETL_PATH_IMPORT': defBool('ETL_PATH_IMPORT'),
+        'ETL_VID_EXT': defList('ETL_VID_EXT', 
+                               'webm,mkv,flv,vob,ogv,ogg,rrc,gifv,mng,mov,avi,qt,wmv,yuv,rm,asf,amv,mp4,m4p,m4v,mpg,' 
+                               + 'mp2,mpeg,mpe,mpv,m4v,svi,3gp,3g2,mxf,roq,nsv,flv,f4v,f4p,f4a,f4b,mts,lvr,m2ts'),
 
-        'OCR_ENABLED': False,
-        'OCR_EXT': ["png", "jpeg", "tiff", "jpg", "gif", "webp", "bmp", "pnm"],
-        'TESSERACT_CMD': '/usr/bin/tesseract',
+        'OCR_ENABLED': defBool('OCR_ENABLED'),
+        'OCR_EXT': defList('OCR_EXT', 'png,jpeg,tiff,jpg,gif,webp,bmp,pnm'),
+        'TESSERACT_CMD': os.environ.get('TESSERACT_CMD', '/usr/bin/tesseract'),
 
-        'SHEET_IMPORT': False,
+        'SHEET_IMPORT': defBool('SHEET_IMPORT'),
 
-        'DEDUP_TOOL': False,
+        'DEDUP_TOOL': defBool('DEDUP_TOOL'),
 
-        'LANGUAGES': ["en", "ar", "uk", 'fr'],
-        'BABEL_DEFAULT_LOCALE': "en",
+        'LANGUAGES': defList('LANGUAGES', 'en,ar,uk,fr'),
+        'BABEL_DEFAULT_LOCALE': os.environ.get('BABEL_DEFAULT_LOCALE', 'en'),
 
-        'MAPS_API_ENDPOINT': 'https://{s}.tile.osm.org/{z}/{x}/{y}.png',
-        'GOOGLE_MAPS_API_KEY': '',
+        'MAPS_API_ENDPOINT': os.environ.get('MAPS_API_ENDPOINT', 'https://{s}.tile.osm.org/{z}/{x}/{y}.png'),
+        'GOOGLE_MAPS_API_KEY': os.environ.get('GOOGLE_MAPS_API_KEY', ''),
 
-        'MISSING_PERSONS': False,
+        'MISSING_PERSONS': defBool('MISSING_PERSONS'),
 
-        'DEDUP_LOW_DISTANCE': 0.3,
-        'DEDUP_MAX_DISTANCE': 0.5,
-        'DEDUP_BATCH_SIZE': 30,
-        'DEDUP_INTERVAL': 3,
+        'DEDUP_LOW_DISTANCE': float(os.environ.get('DEDUP_LOW_DISTANCE', 0.3)),
+        'DEDUP_MAX_DISTANCE': float(os.environ.get('DEDUP_MAX_DISTANCE', 0.5)),
+        'DEDUP_BATCH_SIZE': int(os.environ.get('DEDUP_BATCH_SIZE', 30)),
+        'DEDUP_INTERVAL': int(os.environ.get('DEDUP_INTERVAL', 3)),
 
-        'GEO_MAP_DEFAULT_CENTER': {'lat': 33.510414,
-                                   'lng': 36.278336
-                                   },
+        'GEO_MAP_DEFAULT_CENTER': {
+            'lat': float(os.environ.get('GEO_MAP_DEFAULT_CENTER_LAT', 33.510414)),
+            'lng': float(os.environ.get('GEO_MAP_DEFAULT_CENTER_LNG', 36.278336)),
+        },
 
         'ITEMS_PER_PAGE_OPTIONS': [10, 30, 100],
 
         'VIDEO_RATES': [0.25, 0.5, 1, 1.5, 2, 4],
 
-        'EXPORT_TOOL': False
+        'EXPORT_TOOL': defBool('EXPORT_TOOL')
     })
 
     CONFIG_LABELS = MappingProxyType({

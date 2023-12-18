@@ -15,10 +15,10 @@ echo "Installing python, curl, and bash"
 apk add --no-cache curl python3 bash
 
 # Make sure pip is installed
-python3 -m ensurepip --upgrade
+# python3 -m ensurepip --upgrade
 
 # Install requests and urllib3 modules for fetch commit
-python3 -m pip install requests urllib3
+# python3 -m pip install requests urllib3
 
 echo "Making sure Docker Login is valid"
 python3 bin/ci-cd/docker-login.py

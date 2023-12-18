@@ -20,3 +20,4 @@ enferno/media/*
 *.xlsx
 .aws
 config.json
+.venv/
