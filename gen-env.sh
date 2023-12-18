@@ -119,7 +119,7 @@ echo "SECURITY_PASSWORD_SALT='$(openssl rand -base64 32)'" >> ./.env
 echo "" >> ./.env
 
 echo "SECURITY_TOTP_SECRETS='$(openssl rand -base64 32)'" >> ./.env
-echo "SECURITY_TWO_FACTOR=True" >> ./.env
+echo "SECURITY_TWO_FACTOR_REQUIRED=True" >> ./.env
 echo "SECURITY_TWO_FACTOR_RESCUE_MAIL=''" >> ./.env
 echo "SECURITY_TWO_FACTOR_AUTHENTICATOR_VALIDITY=90" >> ./.env
 echo "" >> ./.env
