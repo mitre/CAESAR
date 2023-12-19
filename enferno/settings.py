@@ -25,7 +25,8 @@ class Config(object):
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
     DEBUG_TB_ENABLED = os.environ.get('DEBUG_TB_ENABLED', 0)
     DEBUG_TB_INTERCEPT_REDIRECTS = False
-    CACHE_TYPE = 'redis'  # Can be "memcached", "redis", etc.
+    # `CACHE_TYPE` can be "MemcachedCache", "RedisCache", etc. Options: https://flask-caching.readthedocs.io/en/latest/#set-up
+    CACHE_TYPE = 'RedisCache'
 
     # Database
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
@@ -45,13 +46,14 @@ class Config(object):
 
     # Redis
     REDIS_HOST = os.environ.get('REDIS_HOST', 'localhost')
+    REDIS_PORT = os.environ.get('REDIS_PORT', 6379)
     REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD', '')
-    REDIS_URL = F'redis://:{REDIS_PASSWORD}@{REDIS_HOST}:6379/0'
+    REDIS_URL = F'redis://:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}/0'
 
     # Celery
     # Has to be in small case
-    celery_broker_url = F'redis://:{REDIS_PASSWORD}@{REDIS_HOST}:6379/2'
-    result_backend = F'redis://:{REDIS_PASSWORD}@{REDIS_HOST}:6379/3'
+    celery_broker_url = F'redis://:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}/2'
+    result_backend = F'redis://:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}/3'
 
     # Security
     SECURITY_REGISTERABLE = manager.get_config('SECURITY_REGISTERABLE')
@@ -114,7 +116,7 @@ class Config(object):
 
     # Session
     SESSION_TYPE = 'redis'
-    SESSION_REDIS = redis.from_url(F'redis://:{REDIS_PASSWORD}@{REDIS_HOST}:6379/1')
+    SESSION_REDIS = redis.from_url(F'redis://:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}/1')
     PERMANENT_SESSION_LIFETIME = 3600
 
     # Google 0Auth
