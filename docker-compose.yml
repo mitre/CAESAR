@@ -50,6 +50,7 @@ services:
     configs:
       - source: dotenv
         target: /app/.env
+    env_file: .env
     environment:
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-change-me}
       ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
