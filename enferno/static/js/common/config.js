@@ -17,7 +17,7 @@ const vuetify = new Vuetify({
                 ov: "#FCB001",
                 rv: "#910C0A",
                 gv: "#9ECCC3",
-                pv: "#295651",
+                pv: "#021452",
                 error: "#b71c1c"
             },
             // adjust colors for dark mode based on color name
