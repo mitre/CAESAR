@@ -324,7 +324,8 @@ class Label(db.Model, BaseMixin):
         tmp = NamedTemporaryFile().name
         file_storage.save(tmp)
         df = pd.read_csv(tmp)
-        df.order.astype(int)
+        # df.order.astype(int)
+        df.sort_values(by=['id'])
 
         # first ignore foreign key constraints
         dfi = df.copy()
