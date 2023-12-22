@@ -3,7 +3,6 @@
 """
 Name: Docker Login
 Description: Checks for existing docker login, if not found it logs into the private Docker Repo
-Author: Stephen Purdy <sfpurdy@mitre.org>
 Exit Codes:
   1 - ARTIFACTORY_PASSWORD environment variable not set
   2 - `docker login` command failed
