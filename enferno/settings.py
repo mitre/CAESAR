@@ -25,8 +25,6 @@ class Config(object):
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
     DEBUG_TB_ENABLED = os.environ.get('DEBUG_TB_ENABLED', 0)
     DEBUG_TB_INTERCEPT_REDIRECTS = False
-    # `CACHE_TYPE` can be "MemcachedCache", "RedisCache", etc. Options: https://flask-caching.readthedocs.io/en/latest/#set-up
-    CACHE_TYPE = 'RedisCache'
 
     # Database
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
@@ -49,6 +47,12 @@ class Config(object):
     REDIS_PORT = os.environ.get('REDIS_PORT', 6379)
     REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD', '')
     REDIS_URL = F'redis://:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}/0'
+
+    # `CACHE_TYPE` can be "MemcachedCache", "RedisCache", etc. Options: https://flask-caching.readthedocs.io/en/latest/#set-up
+    CACHE_TYPE = 'RedisCache'
+    CACHE_REDIS_HOST = REDIS_HOST
+    CACHE_REDIS_PORT = REDIS_PORT
+    CACHE_REDIS_PASSWORD = REDIS_PASSWORD
 
     # Celery
     # Has to be in small case
