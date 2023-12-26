@@ -717,3 +717,25 @@ span.map-bid:empty {
     max-width: none;
     object-fit: contain;
 }
+
+.anchor-col {
+    border-right: 1px solid #E0E0E0;
+}
+.form-section-header {
+    border-bottom: 1px solid #E0E0E0;
+    padding: 12px 0;
+    margin: 50px 0 12px 0;
+}
+.anchor-menu {
+    position: sticky;
+    top: 30px;
+}
+.required {
+    color: red;
+}
+.anchor {
+    display: block;
+    position: relative;
+    top: -50px;
+    visibility: hidden;
+}
