@@ -47,49 +47,46 @@
                                     <v-list-item-group color="primary">
                                         <v-list-item>
                                             <v-list-item-content @click="anchorScroll('general')">
-                                                <!-- <v-list-item-title><a href="#general">General</a></v-list-item-title> -->
-                                                <v-list-item-title>General</v-list-item-title>
+                                                <v-list-item-title>{{ _('General') }}</v-list-item-title>
                                             </v-list-item-content>
                                         </v-list-item>
                                         <v-list-item>
                                             <v-list-item-content @click="anchorScroll('tags')">
-                                                <!-- <v-list-item-title><a href="#tags"  @click="anchorScroll('#tags')">Tags</a></v-list-item-title> -->
-                                                <v-list-item-title>Tags</v-list-item-title>
+                                                <v-list-item-title>{{ _('Tags') }}</v-list-item-title>
                                             </v-list-item-content>
                                         </v-list-item>
                                         <v-list-item>
                                             <v-list-item-content  @click="anchorScroll('locations')">
-                                                <!-- <v-list-item-title><a href="#locations">Locations</a></v-list-item-title> -->
-                                                <v-list-item-title>Locations</v-list-item-title>
+                                                <v-list-item-title>{{ _('Locations') }}</v-list-item-title>
                                             </v-list-item-content>
                                         </v-list-item>
                                         <v-list-item>
                                             <v-list-item-content  @click="anchorScroll('events')">
-                                                <v-list-item-title>Events</v-list-item-title>
+                                                <v-list-item-title>{{ _('Events') }}</v-list-item-title>
                                             </v-list-item-content>
                                         </v-list-item>
                                         <v-list-item>
                                             <v-list-item-content  @click="anchorScroll('media')">
-                                                <v-list-item-title>Media</v-list-item-title>
+                                                <v-list-item-title>{{ _('Media') }}</v-list-item-title>
                                             </v-list-item-content>
                                         </v-list-item>
                                         <v-list-item>
                                             <v-list-item-content  @click="anchorScroll('data-relationships')">
-                                                <v-list-item-title>Data Relationships</v-list-item-title>
+                                                <v-list-item-title>{{ _('Data Relationships') }}</v-list-item-title>
                                             </v-list-item-content>
                                         </v-list-item>
                                         <v-list-item>
                                             <v-list-item-content  @click="anchorScroll('data-details')">
-                                                <v-list-item-title>Data Details</v-list-item-title>
+                                                <v-list-item-title>{{ _('Data Details') }}</v-list-item-title>
                                             </v-list-item-content>
                                         </v-list-item>
                                     </v-list-item-group>
                                 </v-list>    
                             </v-col>
                             <v-col>
+                                <!-- General -->
                                 <span class="anchor" id="general"></span>
-                                <h2 class="form-section-header">General</h2>
-                                <h3>Name</h3>
+                                <h2 class="form-section-header">{{ _('General') }}</h2>
                                 <v-row>
                                     <v-col cols="12" md="6">
                                         <v-card class="d-flex" flat>
@@ -403,8 +400,9 @@
                                     </v-col>
                                 </v-row>
 
+                                <!-- Tags -->
                                 <span class="anchor" id="tags"></span>
-                                <h2 class="form-section-header">Tags</h2>
+                                <h2 class="form-section-header">{{ _('Tags') }}</h2>
                                 <v-row>
                                     <v-col cols="12" md="12">
                                         <search-field
@@ -445,8 +443,9 @@
                                     </v-col>
                                 </v-row>
 
+                                <!-- Locations -->
                                 <span class="anchor" id="locations"></span>
-                                <h2 class="form-section-header">Locations</h2>
+                                <h2 class="form-section-header">{{ _('Locations') }}</h2>
                                 <v-row>
                                     <v-col cols="12" md="4">
                                         <location-search-field
@@ -492,7 +491,7 @@
 
                                 <!-- events  -->
                                 <span class="anchor" id="events"></span>
-                                <h2 class="form-section-header">Events</h2>
+                                <h2 class="form-section-header">{{ _('Events') }}</h2>
                                 <v-row>
                                     <v-col col="12">
                                         {% include 'admin/partials/event_dialog.html' %}
@@ -500,7 +499,7 @@
                                 </v-row>
 
                                 <span class="anchor" id="media"></span>
-                                <h2 class="form-section-header">Media</h2>
+                                <h2 class="form-section-header">{{ _('Media') }}</h2>
                                 <!-- End Relate Incident Base Card-->
                                 
                                 <v-row>
@@ -805,15 +804,16 @@
                                     </v-col>
                                 </v-row>
 
+                                <!-- Relationships -->
                                 <span class="anchor" id="data-relationships"></span>
-                                <h2 class="form-section-header">Data Relationships</h2>
+                                <h2 class="form-section-header">{{ _('Data Relationships') }}</h2>
                                 <v-row>
                                     <v-col col="12">
                                         <!-- Relate Actors Base Card -->
 
                                         <v-card outlined class="my-5">
                                             <v-card-title class="handle">
-                                                <v-icon left>mdi-library-books</v-icon>
+                                                <v-icon left>mdi-account-multiple</v-icon>
                                                 {{ _('Related Actors') }}
                                                 <v-spacer></v-spacer>
 
@@ -918,14 +918,11 @@
                                         </v-card>
 
 
-                                        <!-- End Relate Actor Base Card-->
-
-
                                         <!-- Relate Bulletins Base Card -->
 
                                         <v-card outlined class="my-5">
                                             <v-card-title class="handle">
-                                                <v-icon left>mdi-library-books</v-icon>
+                                                <v-icon left>mdi-file-document-multiple</v-icon>
                                                 {{ _('Related Bulletins') }}
                                                 <v-spacer></v-spacer>
 
@@ -1129,9 +1126,9 @@
                                     </v-col>
                                 </v-row>
 
+                                <!-- Details -->
                                 <span class="anchor" id="data-details"></span>
-                                <h2 class="form-section-header">Data Details</h2>
-                                <h3>Source <span class="red--text"><strong>* </strong></h3>
+                                <h2 class="form-section-header">{{ _('Data Details') }}</h2>
                                 <v-row>
                                     <v-col cols="12" md="6">
                                         <v-sheet class="d-flex align-center">
@@ -1140,8 +1137,11 @@
                                                 <v-text-field class="mx-2"
                                                             :disabled="source_disabled"
                                                             v-model="editedItem.source_link"
-                                                            label="{{ _('Source Link') }}"
-                                                ></v-text-field>
+                                                >
+                                                <template #label>
+                                                    {{ _('Source Link') }} <span class="red--text"><strong>* </strong></span>
+                                                </template>
+                                                </v-text-field>
                                                 <span class="red--text"> ${errors[0]}</span>
                                             </validation-provider>
 

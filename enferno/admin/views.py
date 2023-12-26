@@ -1465,7 +1465,7 @@ def make_cache_key(*args, **kwargs):
 
 
 @admin.route('/api/bulletins/', methods=['POST', 'GET'])
-@cache.cached(15, make_cache_key)
+# @cache.cached(15, make_cache_key)
 def api_bulletins():
     """Returns bulletins in JSON format, allows search and paging."""
     su = SearchUtils(request.json, cls='Bulletin')
