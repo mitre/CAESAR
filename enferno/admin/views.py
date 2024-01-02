@@ -4,6 +4,7 @@ import shutil
 from datetime import datetime, timedelta
 import unicodedata
 from uuid import uuid4
+from sqlalchemy.orm import aliased
 from zxcvbn import zxcvbn
 import bleach
 import boto3
@@ -14,7 +15,7 @@ from flask.templating import render_template
 from flask_babel import gettext
 from flask_bouncer import requires
 from flask_security.decorators import auth_required, current_user, roles_accepted, roles_required
-from sqlalchemy import and_, desc, or_
+from sqlalchemy import and_, desc, or_, cast, String
 from werkzeug.utils import safe_join
 from werkzeug.utils import secure_filename
 
@@ -155,11 +156,28 @@ def api_labels():
         # remove dups
         ids = list(set(ids))
         result = Label.query.filter(
-            Label.id.in_(ids)).paginate(
-            page=page, per_page=per_page, count=True)
+            Label.id.in_(ids))
     else:
-        result = Label.query.filter(*query).paginate(page=page, per_page=per_page, count=True)
+        result = Label.query.filter(*query)
 
+    #Sort by request property
+    sort_by = request.args.get('sort_by', 'id')
+    sort_desc = request.args.get('sort_desc', 'false').lower() == 'true'
+    if sort_by == '':
+        sort_by = 'id'
+    
+    #Adjust query for sorting by a field in a related model if needed
+    if sort_by == 'parent.title':
+        parent_alias = aliased(Label)
+        result = result.outerjoin(parent_alias, Label.parent_label_id == parent_alias.id)
+        result = result.order_by(parent_alias.title.desc() if sort_desc else parent_alias.title)
+    else:
+        if hasattr(Label, sort_by):
+            result = result.order_by(getattr(Label, sort_by).desc() if sort_desc else getattr(Label, sort_by))
+        else:
+            return {'error': 'Invalid sort_by fied'}, 400
+
+    result = result.paginate(page=page, per_page=per_page, count=True)
     response = {'items': [item.to_dict(request.args.get('mode', 1)) for item in result.items], 'perPage': per_page,
                 'total': result.total}
     return Response(json.dumps(response),
@@ -255,8 +273,18 @@ def api_eventtypes():
         query.append(
             getattr(Eventtype, typ) == True
         )
-    result = Eventtype.query.filter(
-        *query).order_by(Eventtype.id).paginate(page=page, per_page=per_page, count=True)
+    result = Eventtype.query.filter(*query)
+
+    #Sort by request property
+    sort_by = request.args.get('sort_by', 'id')
+    sort_desc = request.args.get('sort_desc', 'false').lower() == 'true'
+    if sort_by == '':
+        sort_by = 'id'
+    if hasattr(Eventtype, sort_by):
+        result = result.order_by(getattr(Eventtype, sort_by).desc() if sort_desc else getattr(Eventtype, sort_by))
+    else:
+        return {'error': 'Invalid sort_by fied'}, 400
+    result = result.paginate(page=page, per_page=per_page, count=True)
     response = {'items': [item.to_dict() for item in result.items], 'perPage': per_page, 'total': result.total}
     return Response(json.dumps(response),
                     content_type='application/json'), 200
@@ -527,11 +555,28 @@ def api_sources():
         ids = list(set(ids))
 
         result = Source.query.filter(
-            Source.id.in_(ids)).order_by(-Source.id).paginate(
-            page=page, per_page=per_page, count=True)
+            Source.id.in_(ids))
     else:
-        result = Source.query.filter(*query).paginate(
-            page=page, per_page=per_page, count=True)
+        result = Source.query.filter(*query)
+
+    #Sort by request property
+    sort_by = request.args.get('sort_by', 'id')
+    sort_desc = request.args.get('sort_desc', 'false').lower() == 'true'
+    if sort_by == '':
+        sort_by = 'id'
+    
+    #Adjust query for sorting by a field in a related model if needed
+    if sort_by == "parent.title":
+        parent_alias = aliased(Source)
+        result = result.outerjoin(parent_alias, Source.parent_id == parent_alias.id)
+        result = result.order_by(parent_alias.title.desc() if sort_desc else parent_alias.title)
+    else:
+        if hasattr(Source, sort_by):
+            result = result.order_by(getattr(Source, sort_by).desc() if sort_desc else getattr(Source, sort_by))
+        else:
+            return {'error': 'Invalid sort_by fied'}, 400
+
+    result = result.paginate(page=page, per_page=per_page, count=True)
     response = {'items': [item.to_dict() for item in result.items], 'perPage': per_page, 'total': result.total}
     return Response(json.dumps(response),
                     content_type='application/json'), 200
@@ -614,12 +659,39 @@ def api_locations():
     query = []
     su = SearchUtils(request.json, cls='Location')
     query = su.get_query()
-
+    result = Location.query.filter(*query)
     options = request.json.get('options')
+
+    #Sort by request property
+    sort_by = options.get('sortBy', [])
+    sort_desc = options.get('sortDesc')[0] if options.get('sortDesc') else False
+    if len(sort_by) <= 0:
+        sort_by = 'id'
+    else:
+        sort_by = sort_by[0]
+    if sort_by == 'full_string':
+        sort_by = 'full_location'
+
+    #Adjust query for sorting by a field in a related model if needed
+    if sort_by == "parent.title":
+        parent_alias = aliased(Location)
+        result = result.outerjoin(parent_alias, Location.parent_id == parent_alias.id)
+        result = result.order_by(parent_alias.title.desc() if sort_desc else parent_alias.title)
+    elif sort_by == "location_type.title":
+        result = result.outerjoin(LocationType, Location.location_type_id == LocationType.id)
+        result = result.order_by(LocationType.title.desc() if sort_desc else LocationType.title)
+    elif sort_by == "admin_level.title":
+        result = result.outerjoin(LocationAdminLevel, Location.admin_level_id == LocationAdminLevel.id)
+        result = result.order_by(LocationAdminLevel.title.desc() if sort_desc else LocationAdminLevel.title)
+    else:
+        if hasattr(Location, sort_by):
+            result = result.order_by(getattr(Location, sort_by).desc() if sort_desc else getattr(Location, sort_by))
+        else:
+            return {'error': 'Invalid sort_by fied'}, 400
     page = options.get('page', 1)
     per_page = options.get('itemsPerPage', PER_PAGE)
 
-    result = Location.query.filter(*query).order_by(Location.id).paginate(page=page, per_page=per_page, count=True)
+    result = result.paginate(page=page, per_page=per_page, count=True)
     response = {'items': [item.to_dict() for item in result.items], 'perPage': per_page, 'total': result.total}
 
     return Response(json.dumps(response),
@@ -1410,6 +1482,29 @@ def api_bulletins():
             elif nextOp == 'intersect':
                 result = result.intersect(Bulletin.query.filter(*nextQuery))
 
+    #Sort by request property
+    sort_by = request.args.get('sort_by', 'id')
+    sort_desc = request.args.get('sort_desc', 'false').lower() == 'true'
+    if sort_by == '':
+        sort_by = 'id'
+    elif sort_by == '_status':
+        sort_by = 'status'
+    
+    #Adjust query for sorting by a field in a related model if needed
+    if sort_by == "assigned_to.name":
+        result = result.outerjoin(User, Bulletin.assigned_to_id == User.id)
+        result = result.order_by(User.name.desc() if sort_desc else User.name)
+    elif sort_by == 'roles':
+        #bulletins to Roles is a many-many relationship so get association table then sort
+        role_alias = aliased(Role)
+        result = result.outerjoin(role_alias, Bulletin.roles)
+        result = result.order_by(role_alias.name.desc() if sort_desc else role_alias.name)
+    else:
+        if hasattr(Bulletin, sort_by):
+            result = result.order_by(getattr(Bulletin, sort_by).desc() if sort_desc else getattr(Bulletin, sort_by))
+        else:
+            return {'error': 'Invalid sort_by fied'}, 400
+
     page = request.args.get('page', 1, int)
     per_page = request.args.get('per_page', PER_PAGE, int)
     result = result.order_by(Bulletin.id.desc()).paginate(page=page, per_page=per_page, count=True)
@@ -2028,9 +2123,32 @@ def api_actors():
             elif nextOp == 'intersect':
                 result = result.intersect(Actor.query.filter(*nextQuery))
 
+    #Sort by request property
+    sort_by = request.args.get('sort_by', 'id')
+    sort_desc = request.args.get('sort_desc', 'false').lower() == 'true'
+    if sort_by == '':
+        sort_by = 'id'
+    elif sort_by == '_status':
+        sort_by = 'status'
+    
+    #Adjust query for sorting by a field in a related model if needed
+    if sort_by == "assigned_to.name":
+        result = result.outerjoin(User, Actor.assigned_to_id == User.id)
+        result = result.order_by(User.name.desc() if sort_desc else User.name)
+    elif sort_by == 'roles':
+        #Actors to Roles is a many-many relationship so get association table then sort
+        role_alias = aliased(Role)
+        result = result.outerjoin(role_alias, Actor.roles)
+        result = result.order_by(role_alias.name.desc() if sort_desc else role_alias.name)
+    else:
+        if hasattr(Actor, sort_by):
+            result = result.order_by(getattr(Actor, sort_by).desc() if sort_desc else getattr(Actor, sort_by))
+        else:
+            return {'error': 'Invalid sort_by fied'}, 400
+
     page = request.args.get('page', 1, int)
     per_page = request.args.get('per_page', PER_PAGE, int)
-    result = result.order_by(Actor.id.desc()).paginate(page=page, per_page=per_page, count=True)
+    result = result.paginate(page=page, per_page=per_page, count=True)
 
     # Select json encoding type
     mode = request.args.get('mode', '1')
@@ -2315,9 +2433,26 @@ def api_users():
     query = []
     if q is not None:
         query.append(User.name.ilike('%' + q + '%'))
-    result = User.query.filter(
-        *query).order_by(User.username).paginate(page=page, per_page=per_page, count=True)
+    result = User.query.filter(*query)
 
+    #Sort by request
+    sort_by = request.args.get('sort_by', 'id')
+    sort_desc = request.args.get('sort_desc', 'false').lower() == 'true'
+    if sort_by == '':
+        sort_by = 'id'
+    
+    #Users to Roles is a many-many relationship so get association table then sort
+    if sort_by == 'roles':
+        role_alias = aliased(Role)
+        result = result.outerjoin(role_alias, User.roles)
+        result = result.order_by(role_alias.name.desc() if sort_desc else role_alias.name)
+    else:
+        if hasattr(User, sort_by):
+            result = result.order_by(getattr(User, sort_by).desc() if sort_desc else getattr(User, sort_by))
+        else:
+            return {'error': 'Invalid sort_by fied'}, 400
+
+    result = result.paginate(page=page, per_page=per_page, count=True)
     response = {'items': [item.to_dict() if current_user.has_role('Admin')
                           else item.to_compact()
                           for item in result.items],
@@ -2511,8 +2646,20 @@ def api_roles(page):
         query.append(
             Role.name.ilike('%' + q + '%')
         )
-    result = Role.query.filter(
-        *query).order_by(Role.id).paginate(page=page, per_page=PER_PAGE, count=True)
+    result = Role.query.filter(*query)
+
+    #Sort by request
+    sort_by = request.args.get('sort_by', 'id')
+    sort_desc = request.args.get('sort_desc', 'false').lower() == 'true'
+    if sort_by == '':
+        sort_by = 'id'
+    
+    if hasattr(Role, sort_by):
+        result = result.order_by(getattr(Role, sort_by).desc() if sort_desc else getattr(Role, sort_by))
+    else:
+        return {'error': 'Invalid sort_by fied'}, 400
+
+    result = result.paginate(page=page, per_page=PER_PAGE, count=True)
     response = {'items': [item.to_dict() for item in result.items], 'perPage': PER_PAGE, 'total': result.total}
     return Response(json.dumps(response),
                     content_type='application/json'), 200
@@ -2632,12 +2779,32 @@ def api_incidents():
     su = SearchUtils(request.json, cls='Incident')
 
     query = su.get_query()
+    result = Incident.query.filter(*query)
 
+    #Sort by request property
+    sort_by = request.args.get('sort_by', 'id')
+    sort_desc = request.args.get('sort_desc', 'false').lower() == 'true'
+    if sort_by == '':
+        sort_by = 'id'
+    
+    #Adjust query for sorting by a field in a related model if needed
+    if sort_by == 'assigned_to.name':
+        result = result.outerjoin(User, Incident.assigned_to_id == User.id)
+        result = result.order_by(User.name.desc() if sort_desc else User.name)
+    elif sort_by == "roles":
+        #Incidents to Roles is a many-many relationship so get association table then sort
+        role_alias = aliased(Role)
+        result = result.outerjoin(role_alias, Incident.roles)
+        result = result.order_by(role_alias.name.desc() if sort_desc else role_alias.name)
+    else:
+        if hasattr(Incident, sort_by):
+            result = result.order_by(getattr(Incident, sort_by).desc() if sort_desc else getattr(Incident, sort_by))
+        else:
+            return {'error': 'Invalid sort_by fied'}, 400
     page = request.args.get('page', 1, int)
     per_page = request.args.get('per_page', PER_PAGE, int)
 
-    result = Incident.query.filter(
-        *query).order_by(Incident.id.desc()).paginate(page=page, per_page=per_page, count=True)
+    result = result.paginate(page=page, per_page=per_page, count=True)
     # Select json encoding type
     mode = request.args.get('mode', '1')
     response = {'items': [item.to_dict(mode=mode) for item in result.items], 'perPage': per_page, 'total': result.total}
@@ -2857,9 +3024,23 @@ def api_activity():
     tag = request.json.get('tag', None)
     if tag:
         query.append(Activity.tag == tag)
+    result = Activity.query.filter(*query)
 
-    result = Activity.query.filter(
-        *query).order_by(-Activity.id).paginate(page=page, per_page=per_page, count=True)
+    #Sort by request property
+    sort_by = request.args.get('sort_by', 'id')
+    sort_desc = request.args.get('sort_desc', 'false').lower() == 'true'
+    if sort_by == '':
+        sort_by = 'id'
+    if hasattr(Activity, sort_by):
+        #Check if its sorting by subject then we have to cast to a string because it's formatted as JSON in the DB
+        if sort_by == 'subject':
+            result = result.order_by(cast(Activity.subject['class'], String).desc().nullslast()) if sort_desc else result.order_by(cast(Activity.subject['class'], String).nullslast())
+        else:
+            result = result.order_by(getattr(Activity, sort_by).desc() if sort_desc else getattr(Activity, sort_by))
+    else:
+        return {'error': 'Invalid sort_by fied'}, 400
+
+    result = result.paginate(page=page, per_page=per_page, count=True)
     response = {'items': [item.to_dict() for item in result.items], 'perPage': per_page, 'total': result.total}
     return Response(json.dumps(response),
                     content_type='application/json'), 200

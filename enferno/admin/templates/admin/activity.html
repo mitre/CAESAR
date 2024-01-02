@@ -150,7 +150,7 @@ const app =   new Vue({
     methods: {
       refresh() {
         this.loading = true;
-              axios.post(`/admin/api/activity?page=${this.options.page}&per_page=${this.options.itemsPerPage}`, {tag: this.tag}).then(res => {
+            axios.post(`/admin/api/activity?page=${this.options.page}&per_page=${this.options.itemsPerPage}&sort_by=${this.options.sortBy}&sort_desc=${this.options.sortDesc}`, {tag: this.tag}).then(res => {
                     this.items = res.data.items;
                     this.itemsLength = res.data.total;
                     this.loading = false;

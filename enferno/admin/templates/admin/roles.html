@@ -286,7 +286,7 @@
 
                 methods: {
                     refresh(options) {
-                        axios.get(`/admin/api/roles/`).then(response => {
+                        axios.get(`/admin/api/roles/?sort_by=${this.options.sortBy}&sort_desc=${this.options.sortDesc}`).then(response => {
                             this.loading = false;
                             this.itemsLength = response.data.total;
                             this.items = response.data.items;
