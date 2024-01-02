@@ -496,13 +496,13 @@
                 },
 
                 headers: [
-                    {text: "{{_('ID')}}", value: "id", width: 12, sortable: false},
-                    {text: "{{_('Title')}}", value: "title", width: 300, sortable: false},
+                    {text: "{{_('ID')}}", value: "id", width: 12, sortable: true},
+                    {text: "{{_('Title')}}", value: "title", width: 300, sortable: true},
                     {% if (current_user.has_role('Admin') or current_user.has_role('DA')) %}
-                        {text: "{{_('Assigned To')}}", value: "assigned_to.name", width: 130, sortable: false},
-                        {text: "{{_('Roles')}}", value: "roles", width: 130, sortable: false},
+                        {text: "{{_('Assigned To')}}", value: "assigned_to.name", width: 130, sortable: true},
+                        {text: "{{_('Roles')}}", value: "roles", width: 130, sortable: true},
                     {% endif %}
-                    {text: "{{_('Status')}}", value: "status", width: 150, sortable: false},
+                    {text: "{{_('Status')}}", value: "status", width: 150, sortable: true},
 
 
                     {text: "{{_('Actions')}}", value: "action", sortable: false, width: 100}
@@ -864,7 +864,7 @@
                     this.loading = true;
                     const startTime = new Date();
 
-                    axios.post(`/admin/api/incidents/?page=${this.options.page}&per_page=${this.options.itemsPerPage}`, {q: this.search}).then(response => {
+                    axios.post(`/admin/api/incidents/?page=${this.options.page}&per_page=${this.options.itemsPerPage}&sort_by=${this.options.sortBy}&sort_desc=${this.options.sortDesc}`, {q: this.search}).then(response => {
                         const endTime = new Date();
                         this.loading = false;
                         this.searchTime = (endTime - startTime) / 1000;
