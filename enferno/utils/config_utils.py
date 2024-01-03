@@ -77,6 +77,8 @@ class ConfigManager:
         'DEDUP_BATCH_SIZE': int(os.environ.get('DEDUP_BATCH_SIZE', 30)),
         'DEDUP_INTERVAL': int(os.environ.get('DEDUP_INTERVAL', 3)),
 
+        'LOCATIONS_FILENAME': os.environ.get('LOCATIONS_FILENAME', 'locations.csv'),
+
         'GEO_MAP_DEFAULT_CENTER': {
             'lat': float(os.environ.get('GEO_MAP_DEFAULT_CENTER_LAT', 33.510414)),
             'lng': float(os.environ.get('GEO_MAP_DEFAULT_CENTER_LNG', 36.278336)),
@@ -142,6 +144,8 @@ class ConfigManager:
         'DEDUP_MAX_DISTANCE': 'Dedup Low Distance',
         'DEDUP_BATCH_SIZE': 'Dedup Batch Size',
         'DEDUP_INTERVAL': 'Dedup Interval',
+
+        'LOCATIONS_FILENAME': 'Locations Filename',
 
         'GEO_MAP_DEFAULT_CENTER_LAT': 'Geo Map Default Center Lat',
         'GEO_MAP_DEFAULT_CENTER_LNG': 'Geo Map Default Center Lng',
@@ -225,6 +229,8 @@ class ConfigManager:
             'DEDUP_MAX_DISTANCE': cfg.DEDUP_MAX_DISTANCE,
             'DEDUP_BATCH_SIZE': cfg.DEDUP_BATCH_SIZE,
             'DEDUP_INTERVAL': cfg.DEDUP_INTERVAL,
+
+            'LOCATIONS_FILENAME': cfg.LOCATIONS_FILENAME,
 
             'GEO_MAP_DEFAULT_CENTER': {
                 'lat': cfg.GEO_MAP_DEFAULT_CENTER_LAT,
