@@ -1881,13 +1881,17 @@ def api_medias_chunk():
 
         print(f"{file.filename} has been uploaded")
         shutil.rmtree(save_dir)
-        # get md5 hash
+        # get sha256 hash
         f = open(filepath, 'rb').read()
-        etag = hashlib.md5(f).hexdigest()
+        etag = hashlib.sha256(f).hexdigest()
 
         # validate etag here // if it exists // reject the upload and send an error code
         if Media.query.filter(Media.etag == etag).first():
             return 'Error, file already exists', 409
+        
+        # Make sure the hash from the client matches the hash from the server
+        if etag != request.form.get('etagClient'):
+            return 'Error, the hash of the image from the client does not match the hash on the server', 409
 
         if not current_app.config.get('FILESYSTEM_LOCAL') and not 'etl' in request.referrer:
             print('uploading file to s3 :::>')
@@ -2007,9 +2011,9 @@ def api_local_medias_upload(request):
         filename = Media.generate_file_name(file.filename)
         filepath = (Media.media_dir / filename).as_posix()
         file.save(filepath)
-        # get md5 hash
+        # get sha256 hash
         f = open(filepath, 'rb').read()
-        etag = hashlib.md5(f).hexdigest()
+        etag = hashlib.sha256(f).hexdigest()
         # check if file already exists
         if Media.query.filter(Media.etag == etag).first():
             return 'Error: File already exists', 409

@@ -382,7 +382,18 @@
                     chunkSize: 500000, // Bytes
                     thumbnailWidth: 80, // px
                     thumbnailHeight: 80,
-                    parallelUploads: 1
+                    parallelUploads: 1,
+                    accept: async function(file, done) {
+                        // Create a hash of the file
+                        const fileArrayBuffer = await file.arrayBuffer();
+                        const hash = await crypto.subtle.digest("SHA-256", fileArrayBuffer);
+                        const hashArray = Array.from(new Uint8Array(hash))
+                        var hashHex = hashArray
+                            .map((b) => b.toString(16).padStart(2, "0"))
+                            .join("");
+                        file.etagClient = hashHex;
+                        done();
+                    }
 
                 },
 

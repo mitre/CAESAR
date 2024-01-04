@@ -159,7 +159,7 @@ def etl_process():
             # server-side import doesn't automatically 
             # retrieve files' hashes
             file_check = open(f, 'rb').read()
-            data_import.file_hash = file["etag"] = hashlib.md5(file_check).hexdigest()
+            data_import.file_hash = file["etag"] = hashlib.sha256(file_check).hexdigest()
             data_import.save()
 
             # checking for existing media or pending or processing imports
@@ -202,9 +202,9 @@ def api_local_csv_upload():
         filename = Media.generate_file_name(f.filename)
         filepath = (import_dir / filename).as_posix()
         f.save(filepath)
-        # get md5 hash
+        # get sha256 hash
         f = open(filepath, 'rb').read()
-        etag = hashlib.md5(f).hexdigest()
+        etag = hashlib.sha256(f).hexdigest()
 
         response = {'etag': etag, 'filename': filename}
         return Response(json.dumps(response), content_type='application/json'), 200
@@ -356,7 +356,7 @@ def api_process_sheet():
     for filename in files:
         filepath = (import_dir / filename).as_posix()
         f = open(filepath, 'rb').read()
-        etag = hashlib.md5(f).hexdigest()
+        etag = hashlib.sha256(f).hexdigest()
 
         df = SheetImport.sheet_to_df(filepath, sheet)
         for row_id, row in df.iterrows():
