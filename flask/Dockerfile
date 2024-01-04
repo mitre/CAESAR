@@ -65,9 +65,9 @@ RUN apt autoremove
 WORKDIR /app
 
 # Allows specifying a custom UID and GID during build
-ARG USER_ID
+ARG USER_ID=${USER_ID:-1000}
 ENV USER_ID=${USER_ID:-1000}
-ARG GROUP_ID
+ARG GROUP_ID=${GROUP_ID:-1000}
 ENV GROUP_ID=${GROUP_ID:-1000}
 
 RUN groupadd bayanat --gid=$GROUP_ID

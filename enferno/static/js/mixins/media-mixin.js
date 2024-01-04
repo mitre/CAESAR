@@ -52,6 +52,10 @@ let mediaMixin = {
             this.showSnack(message);
         },
 
+        fileSending(file, xhr, formData) {
+            formData.set('etagClient', file.etagClient);
+        },
+
         fileAdded(file) {
 
             const dropzone = this.$refs.dropzone.dropzone;

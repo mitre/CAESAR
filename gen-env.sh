@@ -141,6 +141,7 @@ then
     echo "POSTGRES_DB=bayanat" >> ./.env
     echo "POSTGRES_HOST=postgres" >> ./.env
     echo "REDIS_HOST='redis'" >> ./.env
+    echo "REDIS_PORT=6379" >> ./.env
     echo "REDIS_PASSWORD='$(openssl rand -hex 32)'" >> ./.env
     echo "PYTHONUNBUFFERED=True" >> ./.env
     echo "REDIS_AOF_ENABLED=no" >> ./.env

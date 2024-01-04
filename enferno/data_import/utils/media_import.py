@@ -103,10 +103,10 @@ class MediaImport():
                 filepath: filepath of file
 
             Returns:
-                etag: md5 hash
+                etag: sha256 hash
         """
         f = open(filepath, 'rb').read()
-        etag = hashlib.md5(f).hexdigest()
+        etag = hashlib.sha256(f).hexdigest()
         return etag
 
     def parse_docx(self, filepath):
@@ -199,7 +199,7 @@ class MediaImport():
                 True/Flase: whether op is successful
                 new_filename: optimized video filename
                 new_filepath: optimized video file path
-                new_etag: optimized video md5 hash 
+                new_etag: optimized video sha256 hash 
 
         """
         check = ''
