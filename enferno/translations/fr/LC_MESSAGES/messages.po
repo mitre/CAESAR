@@ -3363,6 +3363,114 @@ msgstr "Demander l'envoi d'un code à usage unique"
 msgid "Please re-authenticate"
 msgstr "Veuillez vous authentifier à nouveau"
 
+#: enferno/admin/templates/admin/partials/actor_dialog.html
+msgid "Text field which is used to add a full description of the Actor as well as notes from the user."
+msgstr "Champ de texte utilisé pour ajouter une description complète de l'acteur ainsi que des notes de l'utilisateur."
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html
+msgid "Sources are profiles of the original creators and publishers of the content of Actors and Bulletins in the database. This structure also provides easy search and filtering and prevents data entry mistakes by users."
+msgstr "Les sources sont des profils des créateurs et éditeurs originaux du contenu des Acteurs et des Bulletins dans la base de données. Cette structure facilite également la recherche et le filtrage et évite les erreurs de saisie de données par les utilisateurs."
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html
+#: enferno/admin/templates/admin/partials/incident_dialog.html
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html
+msgid "Labels allow for easy search and filter of the database. Labels can be created by an admin to tag the content or metadata of an item. Additionally, labels can be used for references or workflow control."
+msgstr "Les étiquettes permettent une recherche et un filtrage faciles de la base de données. Les étiquettes peuvent être créées par un administrateur pour baliser le contenu ou les métadonnées d'un élément. De plus, les étiquettes peuvent être utilisées pour les références ou le contrôle du flux de travail."
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html
+msgid "The Verified labels are a set of neutral labels added by the data analyst based on observation and evidence found in the content. Allegations made by the source or person(s) in the content must not influence adding or not adding these labels. SJAC utilises this list of Labels to tag the reliability, priority, metadata or the verified content. The latter is utilized mainly in items with verifiable evidence like video Bulletins."
+msgstr "Les étiquettes Vérifié sont un ensemble d'étiquettes neutres ajoutées par l'analyste de données sur la base des observations et des preuves trouvées dans le contenu. Les allégations faites par la source ou la ou les personnes dans le contenu ne doivent pas influencer l'ajout ou non de ces étiquettes. SJAC utilise cette liste d'étiquettes pour marquer la fiabilité, la priorité, les métadonnées ou le contenu vérifié. Ce dernier est principalement utilisé dans les éléments comportant des preuves vérifiables comme les bulletins vidéo."
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html
+msgid "The location from which the person is originally or in which the body was established."
+msgstr "Le lieu d'où la personne est originaire ou dans lequel le corps a été établi."
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html
+msgid "The location where the person currently resides or the current location of the body if its location has changed."
+msgstr "L'endroit où réside actuellement la personne ou l'emplacement actuel du corps si son emplacement a changé."
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html
+msgid "The local dialect or dialects the person speaks."
+msgstr "Le ou les dialectes locaux parlés par la personne."
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html
+msgid "Marital status and number of children."
+msgstr "État civil et nombre d'enfants."
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html
+msgid "Religious and ethnic groups to which the person belongs."
+msgstr "Groupes religieux et ethniques auxquels appartient la personne."
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html
+msgid "Nationality or nationalities which the person holds or the country of origin of the body."
+msgstr "Nationalité ou nationalités dont est titulaire la personne ou pays d'origine du corps."
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html
+msgid "Any identifying number for a person or a body such as ID, passport, civil record number, etc."
+msgstr "Tout numéro d'identification d'une personne ou d'un organisme tel qu'une pièce d'identité, un passeport, un numéro d'état civil, etc."
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html
+msgid "The person\'s position in their place of employment."
+msgstr "La position de la personne sur son lieu de travail."
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html
+#: enferno/admin/templates/admin/partials/incident_dialog.html
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html
+msgid "Actors are items of documentation about persons or bodies of interest that can be related to other Actors, Bulletins, or Incidents, usually coming from a single source. The Actor profile contains fields to identify the person or body, relate the Actor to other items in the database, add labels and create Events."
+msgstr "Les acteurs sont des éléments de documentation sur des personnes ou des organismes d'intérêt qui peuvent être liés à d'autres acteurs, bulletins ou incidents, provenant généralement d'une seule source. Le profil Acteur contient des champs pour identifier la personne ou le corps, relier l'acteur à d'autres éléments de la base de données, ajouter des étiquettes et créer des événements."
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html
+#: enferno/admin/templates/admin/partials/incident_dialog.html
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html
+msgid "A Bulletin is one piece of documentation that provides information about a specific event. Bulletins could be from almost any type of content, such as videos, audio, pictures, documents, interviews, reports, text files, etc."
+msgstr "Un bulletin est un élément de documentation qui fournit des informations sur un événement spécifique. Les bulletins peuvent provenir de presque n'importe quel type de contenu, tel que des vidéos, de l'audio, des images, des documents, des interviews, des rapports, des fichiers texte, etc."
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html
+msgid "The URL to the original source from which the information was obtained. ‘Not Available’ checkbox can be selected if the source link is no applicable, for example if the information was obtained from an offline source. ‘Private’ slider can be used if the URL is not reachable anymore. The field validates the entry and will not accept an invalid URL."
+msgstr "L'URL de la source d'origine à partir de laquelle les informations ont été obtenues. La case « Non disponible » peut être cochée si le lien source n'est pas applicable, par exemple si les informations ont été obtenues à partir d'une source hors ligne. Le curseur « Privé » peut être utilisé si l’URL n’est plus accessible. Le champ valide la saisie et n'acceptera pas une URL invalide."
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html
+#: enferno/admin/templates/admin/partials/incident_dialog.html
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html
+msgid "Analysis of Actors and Bulletins is intended to follow a "closed universe" approach, where the only focus of the analysis is the evidence contained in each item individually and without looking for additional information outside. This approach allows for speedy initial analysis of Actors and Bulletins and prevents adding any unreliable outside information or opinions. Incidents allow for the evidence contained in individual Actors and Bulletins to be linked together and analyzed as a group."
+msgstr "L'analyse des acteurs et des bulletins est destinée à suivre une approche « d'univers fermé », où le seul objectif de l'analyse est les preuves contenues dans chaque élément individuellement et sans rechercher d'informations supplémentaires à l'extérieur. Cette approche permet une analyse initiale rapide des acteurs et des bulletins et évite l’ajout d’informations ou d’opinions extérieures peu fiables. Les incidents permettent de relier les preuves contenues dans les acteurs et les bulletins individuels et de les analyser en tant que groupe."
+
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html
+msgid "Titles from sources might be edited for clarity, but the “Original Title” is retained."
+msgstr "Les titres des sources peuvent être modifiés pour plus de clarté, mais le « Titre original » est conservé."
+
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html
+msgid "The Bulletin Description should describe, in details, what happens, and what the content shows. Describe the people involved, the surrounding area, information about time and day. Be critical and only use (describe) the facts actually shown in the documentation."
+msgstr "La description du bulletin doit décrire en détail ce qui se passe et ce que le contenu montre. Décrivez les personnes impliquées, les environs, les informations sur l'heure et le jour. Soyez critique et utilisez (décrivez) uniquement les faits réellement présentés dans la documentation."
+
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html
+#: enferno/admin/templates/admin/partials/incident_dialog.html
+msgid "Locations is a central list of entries for the adminstrative centers (cities, towns, villages, etc)."
+msgstr "Locations est une liste centrale d'entrées pour les centres administratifs (villes, villages, etc.)."
+
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html
+msgid "Geo Markers are geographical markers or landmarks that help describe the bulletin."
+msgstr "Les marqueurs géographiques sont des marqueurs géographiques ou des points de repère qui aident à décrire le bulletin."
+
+#: enferno/admin/templates/admin/partials/incident_dialog.html
+msgid "The incident description is a full description of the Incident and the evidence contained in the related Bulletins and Actors, as well as notes and additional resources."
+msgstr "La description de l'incident est une description complète de l'incident et des preuves contenues dans les bulletins et acteurs associés, ainsi que des notes et des ressources supplémentaires."
+
+#: enferno/admin/templates/admin/partials/incident_dialog.html
+msgid "List that is used to determine the category under which the violations related to the incident can be described."
+msgstr "Liste utilisée pour déterminer la catégorie dans laquelle les violations liées à l'incident peuvent être décrites."
+
+#: enferno/admin/templates/admin/partials/incident_dialog.html
+msgid "List of violations that have been committed during the course of the event related to the incident."
+msgstr "Liste des violations commises au cours de l'événement lié à l'incident."
+
+#: enferno/admin/templates/admin/partials/event_dialog.html
+msgid "Events are data forms to store time and location information related to Actors, Bulletins and Incidents. Users can attach one or more events."
+msgstr "Les événements sont des formulaires de données permettant de stocker des informations d'heure et de lieu liées aux acteurs, aux bulletins et aux incidents. Les utilisateurs peuvent joindre un ou plusieurs événements."
+
 #~ msgid "Within"
 #~ msgstr "Sous"
 

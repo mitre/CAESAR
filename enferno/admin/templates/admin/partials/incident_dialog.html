@@ -77,70 +77,99 @@
                         <v-row>
                             <v-col cols="12" md="12">
                                 <div class="body-1 pa-1 grey--text">Description</div>
-                                <tinymce-editor
-                                        :init="tinyConfig"
-                                        v-model="editedItem.description"
-                                ></tinymce-editor>
+                                <v-tooltip top max-width=500 open-delay=1500>
+                                    <template v-slot:activator="{ on }">
+                                        <div v-on="on">
+                                            <tinymce-editor
+                                                :init="tinyConfig"
+                                                v-model="editedItem.description"
+                                            ></tinymce-editor>
+                                        </div>
+                                    </template>
+                                    <span>{{ _('The incident description is a full description of the Incident and the evidence contained in the related Bulletins and Actors, as well as notes and additional resources.') }}</span>
+                                </v-tooltip>
                             </v-col>
+                        </v-row>
+
+
+                        <v-row>
+                            <v-col cols="12" md="6">
+                                <v-tooltip top max-width=500 open-delay=1500>
+                                    <template v-slot:activator="{ on }">
+                                        <div v-on="on">
+                                            <search-field
+                                                v-model="editedItem.potential_violations"
+                                                api="/admin/api/potentialviolation/"
+                                                item-text="title"
+                                                item-value="id"
+                                                :multiple="true"
+                                                label="{{ _('Potential violation categories') }}"
+                                            ></search-field>
+                                        </div>
+                                    </template>
+                                    <span>{{ _('List that is used to determine the category under which the violations related to the incident can be described.') }}</span>
+                                </v-tooltip>
+                            </v-col>
+
+                            <v-col cols="12" md="6">
+                                <v-tooltip top max-width=500 open-delay=1500>
+                                    <template v-slot:activator="{ on }">
+                                        <div v-on="on">
+                                            <search-field
+                                                v-model="editedItem.claimed_violations"
+                                                api="/admin/api/claimedviolation/"
+                                                item-text="title"
+                                                item-value="id"
+                                                :multiple="true"
+                                                label="{{ _('Claimed Violations Categories') }}"
+                                            ></search-field>
+                                        </div>
+                                    </template>
+                                    <span>{{ _('List of violations that have been committed during the course of the event related to the incident.') }}</span>
+                                </v-tooltip>
+                            </v-col>
+
+
                         </v-row>
 
 
                         <v-row>
 
                             <v-col cols="12" md="6">
-                                <search-field
-                                        v-model="editedItem.potential_violations"
-                                        api="/admin/api/potentialviolation/"
-                                        item-text="title"
-                                        item-value="id"
-                                        :multiple="true"
-                                        label="{{ _('Potential violation categories') }}"
-                                ></search-field>
-
-
+                                <v-tooltip top max-width=500 open-delay=1500>
+                                    <template v-slot:activator="{ on }">
+                                        <div v-on="on">
+                                            <search-field
+                                                v-model="editedItem.labels"
+                                                api="/admin/api/labels/"
+                                                :query-params="{ typ: 'for_incident' }"
+                                                item-text="title"
+                                                item-value="id"
+                                                :multiple="true"
+                                                label="{{ _('Labels') }}"
+                                            ></search-field>
+                                        </div>
+                                    </template>
+                                    <span>{{ _('Labels allow for easy search and filter of the database. Labels can be created by an admin to tag the content or metadata of an item. Additionally, labels can be used for references or workflow control.') }}</span>
+                                </v-tooltip>
                             </v-col>
 
                             <v-col cols="12" md="6">
-
-                                <search-field
-                                        v-model="editedItem.claimed_violations"
-                                        api="/admin/api/claimedviolation/"
-                                        item-text="title"
-                                        item-value="id"
-                                        :multiple="true"
-                                        label="{{ _('Claimed Violations Categories') }}"
-                                ></search-field>
-
-                            </v-col>
-
-
-                        </v-row>
-
-
-                        <v-row>
-
-                            <v-col cols="12" md="6">
-                                <search-field
-                                        v-model="editedItem.labels"
-                                        api="/admin/api/labels/"
-                                        :query-params="{ typ: 'for_incident' }"
-                                        item-text="title"
-                                        item-value="id"
-                                        :multiple="true"
-                                        label="{{ _('Labels') }}"
-                                ></search-field>
-                            </v-col>
-
-                            <v-col cols="12" md="6">
-                                <location-search-field
-                                        v-model="editedItem.locations"
-                                        api="/admin/api/locations/"
-                                        item-text="full_string"
-                                        item-value="id"
-                                        :multiple="true"
-                                        label="{{_('Locations')}}"
-                                ></location-search-field>
-
+                                <v-tooltip top max-width=500 open-delay=1500>
+                                    <template v-slot:activator="{ on }">
+                                        <div v-on="on">
+                                            <location-search-field
+                                                v-model="editedItem.locations"
+                                                api="/admin/api/locations/"
+                                                item-text="full_string"
+                                                item-value="id"
+                                                :multiple="true"
+                                                label="{{_('Locations')}}"
+                                            ></location-search-field>
+                                        </div>
+                                    </template>
+                                    <span>{{ _('Locations is a central list of entries for the adminstrative centers (cities, towns, villages, etc).') }}</span>
+                                </v-tooltip>
                             </v-col>
 
 
@@ -175,16 +204,21 @@
                                                outlined>{{ _('Related Actors') }}</v-btn>
 
                                         <v-spacer></v-spacer>
-
-                                        <v-text-field
-                                                v-if="ar_loaded"
-                                                class="mx-5"
-                                                v-model="relateActorTerm"
-                                                label="{{ _('Search & Relate Actors') }}"
-                                                @keydown.enter="searchRelatedActors"
-                                                @click:append="searchRelatedActors"
-                                                append-icon="mdi-magnify"
-                                        ></v-text-field>
+                                        <v-tooltip top max-width=500 open-delay=1500>
+                                            <template v-slot:activator="{ on }">
+                                                <v-text-field
+                                                    v-on="on"
+                                                    v-if="ar_loaded"
+                                                    class="mx-5"
+                                                    v-model="relateActorTerm"
+                                                    label="{{ _('Search & Relate Actors') }}"
+                                                    @keydown.enter="searchRelatedActors"
+                                                    @click:append="searchRelatedActors"
+                                                    append-icon="mdi-magnify"
+                                                ></v-text-field>
+                                            </template>
+                                            <span>{{ _('Actors are items of documentation about persons or bodies of interest that can be related to other Actors, Bulletins, or Incidents, usually coming from a single source. The Actor profile contains fields to identify the person or body, relate the Actor to other items in the database, add labels and create Events.') }}</span>
+                                        </v-tooltip>
                                     </v-card-title>
 
 
@@ -279,16 +313,21 @@
                                                @click.stop="loadBulletinRelations"
                                                outlined>{{ _('Related Bulletins') }}</v-btn>
                                         <v-spacer></v-spacer>
-
-                                        <v-text-field
-                                                v-if="br_loaded"
-                                                class="mx-5"
-                                                v-model="relateBulletinTerm"
-                                                label="{{ _('Search & Relate Bulletins') }}"
-                                                @keydown.enter="searchRelatedBulletins"
-                                                @click:append="searchRelatedBulletins"
-                                                append-icon="mdi-magnify"
-                                        ></v-text-field>
+                                        <v-tooltip top max-width=500 open-delay=1500>
+                                            <template v-slot:activator="{ on }">
+                                                <v-text-field
+                                                    v-on="on"
+                                                    v-if="br_loaded"
+                                                    class="mx-5"
+                                                    v-model="relateBulletinTerm"
+                                                    label="{{ _('Search & Relate Bulletins') }}"
+                                                    @keydown.enter="searchRelatedBulletins"
+                                                    @click:append="searchRelatedBulletins"
+                                                    append-icon="mdi-magnify"
+                                                ></v-text-field>
+                                            </template>
+                                            <span>{{ _('A Bulletin is one piece of documentation that provides information about a specific event. Bulletins could be from almost any type of content, such as videos, audio, pictures, documents, interviews, reports, text files, etc.') }}</span>
+                                        </v-tooltip>
                                     </v-card-title>
 
 
@@ -386,16 +425,21 @@
                                                @click.stop="loadIncidentRelations"
                                                outlined>{{ _('Related Incidents') }}</v-btn>
                                         <v-spacer></v-spacer>
-
-                                        <v-text-field
-                                                v-if="ir_loaded"
-                                                class="mx-5"
-                                                v-model="relateIncidentTerm"
-                                                label="{{ _('Search & Relate Incidents') }}"
-                                                @keydown.enter="searchRelatedIncidents"
-                                                @click:append="searchRelatedIncidents"
-                                                append-icon="mdi-magnify"
-                                        ></v-text-field>
+                                        <v-tooltip top max-width=500 open-delay=1500>
+                                            <template v-slot:activator="{ on }">
+                                                <v-text-field
+                                                    v-on="on"
+                                                    v-if="ir_loaded"
+                                                    class="mx-5"
+                                                    v-model="relateIncidentTerm"
+                                                    label="{{ _('Search & Relate Incidents') }}"
+                                                    @keydown.enter="searchRelatedIncidents"
+                                                    @click:append="searchRelatedIncidents"
+                                                    append-icon="mdi-magnify"
+                                                ></v-text-field>
+                                            </template>
+                                            <span>{{ _('Analysis of Actors and Bulletins is intended to follow a "closed universe" approach, where the only focus of the analysis is the evidence contained in each item individually and without looking for additional information outside. This approach allows for speedy initial analysis of Actors and Bulletins and prevents adding any unreliable outside information or opinions. Incidents allow for the evidence contained in individual Actors and Bulletins to be linked together and analyzed as a group.') }}</span>
+                                        </v-tooltip>
                                     </v-card-title>
 
 
