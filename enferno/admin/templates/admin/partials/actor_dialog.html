@@ -237,54 +237,77 @@
                         <v-row>
                             <v-col cols="12" md="12">
                                 <div class="body-1 pa-1 grey--text">{{ _('Description') }}</div>
-                                <tinymce-editor
-                                        :init="tinyConfig"
-                                        v-model="editedItem.description"
-                                ></tinymce-editor>
+                                <v-tooltip top max-width=500 open-delay=1500>
+                                    <template v-slot:activator="{ on }">
+                                        <div v-on="on">
+                                            <tinymce-editor
+                                                :init="tinyConfig"
+                                                v-model="editedItem.description"
+                                            ></tinymce-editor>
+                                        </div>
+                                    </template>
+                                    <span>{{ _('Text field which is used to add a full description of the Actor as well as notes from the user.') }}</span>
+                                </v-tooltip>
                             </v-col>
                         </v-row>
 
-
                         <v-row>
                             <v-col cols="12" md="12">
-                                <search-field
-                                        v-model="editedItem.sources"
-                                        api="/admin/api/sources/"
-                                        item-text="title"
-                                        item-value="id"
-                                        :multiple="true"
-                                        label="{{ _('Sources') }}"
-                                ></search-field>
+                                <v-tooltip top max-width=500 open-delay=1500>
+                                    <template v-slot:activator="{ on }">
+                                        <div v-on="on">
+                                            <search-field
+                                                v-model="editedItem.sources"
+                                                api="/admin/api/sources/"
+                                                item-text="title"
+                                                item-value="id"
+                                                :multiple="true"
+                                                label="{{ _('Sources') }}"
+                                            ></search-field>
+                                        </div>
+                                    </template>
+                                    <span>{{ _('Sources are profiles of the original creators and publishers of the content of Actors and Bulletins in the database. This structure also provides easy search and filtering and prevents data entry mistakes by users.') }}</span>
+                                </v-tooltip>
                             </v-col>
                         </v-row>
                         <v-row>
-
                             <v-col cols="12" md="12">
-                                <search-field
-                                        v-model="editedItem.labels"
-                                        api="/admin/api/labels/"
-                                        :query-params="{ typ: 'for_actor' }"
-                                        item-text="title"
-                                        item-value="id"
-                                        :multiple="true"
-                                        label="{{ _('Labels') }}"
-                                ></search-field>
+                                <v-tooltip top max-width=500 open-delay=1500>
+                                    <template v-slot:activator="{ on }">
+                                        <div v-on="on">
+                                            <search-field
+                                                v-model="editedItem.labels"
+                                                api="/admin/api/labels/"
+                                                :query-params="{ typ: 'for_actor' }"
+                                                item-text="title"
+                                                item-value="id"
+                                                :multiple="true"
+                                                label="{{ _('Labels') }}"
+                                            ></search-field>
+                                        </div>
+                                    </template>
+                                    <span>{{ _('Labels allow for easy search and filter of the database. Labels can be created by an admin to tag the content or metadata of an item. Additionally, labels can be used for references or workflow control.') }}</span>
+                                </v-tooltip>
                             </v-col>
                         </v-row>
                         <v-row>
-
                             <v-col cols="12" md="12">
-
-                                <search-field
-                                        v-model="editedItem.verLabels"
-                                        api="/admin/api/labels/"
-                                        :query-params="{ fltr: 'verified', typ: 'for_actor' }"
-                                        item-text="title"
-                                        item-value="id"
-                                        :multiple="true"
-                                        label="{{ _('Verified Labels') }}"
-                                ></search-field>
-
+                                <v-tooltip top max-width=500 open-delay=1500>
+                                    <template v-slot:activator="{ on }">
+                                        <div v-on="on">
+                                            <search-field
+                                            v-model="editedItem.verLabels"
+                                            api="/admin/api/labels/"
+                                            :query-params="{ fltr: 'verified', typ: 'for_actor' }"
+                                            item-text="title"
+                                            item-value="id"
+                                            :multiple="true"
+                                            label="{{ _('Verified Labels') }}"
+                                        ></search-field>
+                                        </div>
+                                    </template>
+                                    <span>{{ _('The Verified labels are a set of neutral labels added by the data analyst based on observation and evidence found in the content. Allegations made by the source or person(s) in the content must not influence adding or not adding these labels. SJAC utilises this list of Labels to tag the reliability, priority, metadata or the verified content. The latter is utilized mainly in items with verifiable evidence like video Bulletins.') }}</span>
+                                </v-tooltip>
                             </v-col>
 
 
@@ -348,39 +371,49 @@
 
                         <v-row>
                             <v-col cols="12" md="4">
-
                                 <location-search-field
-                                        v-model="editedItem.birth_place"
-                                        api="/admin/api/locations/"
-                                        item-text="full_string"
-                                        item-value="id"
-                                        :multiple="false"
-                                        label="{{ _('Place of Birth') }}"
+                                    v-model="editedItem.birth_place"
+                                    api="/admin/api/locations/"
+                                    item-text="full_string"
+                                    item-value="id"
+                                    :multiple="false"
+                                    label="{{ _('Place of Birth') }}"
                                 ></location-search-field>
-
-
+                            </v-col>
+                            <v-col cols="12" md="4">
+                                <v-tooltip top max-width=500 open-delay=1500>
+                                    <template v-slot:activator="{ on }">
+                                        <div v-on="on">
+                                            <location-search-field
+                                                v-model="editedItem.residence_place"
+                                                api="/admin/api/locations/"
+                                                item-text="full_string"
+                                                item-value="id"
+                                                :multiple="false"
+                                                label="{{ _('Place of Residence') }}"
+                                            ></location-search-field>
+                                        </div>
+                                    </template>
+                                    <span>{{ _('The location where the person currently resides or the current location of the body if its location has changed.') }}</span>
+                                </v-tooltip>
                             </v-col>
 
                             <v-col cols="12" md="4">
-                                <location-search-field
-                                        v-model="editedItem.residence_place"
-                                        api="/admin/api/locations/"
-                                        item-text="full_string"
-                                        item-value="id"
-                                        :multiple="false"
-                                        label="{{ _('Place of Residence') }}"
-                                ></location-search-field>
-                            </v-col>
-
-                            <v-col cols="12" md="4">
-                                <location-search-field
-                                        v-model="editedItem.origin_place"
-                                        api="/admin/api/locations/"
-                                        item-text="full_string"
-                                        item-value="id"
-                                        :multiple="false"
-                                        label="{{ _('Place of Origin') }}"
-                                ></location-search-field>
+                                <v-tooltip top max-width=500 open-delay=1500>
+                                    <template v-slot:activator="{ on }">
+                                        <div v-on="on">
+                                            <location-search-field
+                                                v-model="editedItem.origin_place"
+                                                api="/admin/api/locations/"
+                                                item-text="full_string"
+                                                item-value="id"
+                                                :multiple="false"
+                                                label="{{ _('Place of Origin') }}"
+                                            ></location-search-field>
+                                        </div>
+                                    </template>
+                                    <span>{{ _('The location from which the person is originally or in which the body was established.') }}</span>
+                                </v-tooltip>
                             </v-col>
                         </v-row>
 
@@ -439,18 +472,24 @@
 
                             <v-col cols="12" md="3">
                                 <v-card class="d-flex" flat>
-                                    <v-text-field
-                                            v-if="position__"
-                                            v-model="editedItem.position"
-                                            label="{{ _('Position') }}"
-                                    ></v-text-field>
-
-                                    <v-text-field
-                                            v-else
-                                            v-model="editedItem.position_ar"
-                                            label="{{ _('Position (AR)') }}"
-                                            background-color="lime lighten-5"
-                                    ></v-text-field>
+                                    <v-tooltip top max-width=500 open-delay=1500>
+                                        <template v-slot:activator="{ on }">
+                                            <div v-on="on">
+                                                <v-text-field
+                                                    v-if="position__"
+                                                    v-model="editedItem.position"
+                                                    label="{{ _('Position') }}"
+                                                ></v-text-field>
+                                                <v-text-field
+                                                    v-else
+                                                    v-model="editedItem.position_ar"
+                                                    label="{{ _('Position (AR)') }}"
+                                                    background-color="lime lighten-5"
+                                                ></v-text-field>
+                                            </div>
+                                        </template>
+                                        <span>{{ _('The person\'s position in their place of employment.') }}</span>
+                                    </v-tooltip>
 
                                     <v-btn
                                             color="grey lighten-2"
@@ -469,18 +508,24 @@
 
                             <v-col cols="12" md="3">
                                 <v-card class="d-flex" flat>
-                                    <v-text-field
-                                            v-if="dialects__"
-                                            v-model="editedItem.dialects"
-                                            label="{{ _('Spoken Dialects') }}"
-                                    ></v-text-field>
-
-                                    <v-text-field
-                                            v-else
-                                            v-model="editedItem.dialects_ar"
-                                            label="{{ _('Spoken Dialects (AR)') }}"
-                                            background-color="lime lighten-5"
-                                    ></v-text-field>
+                                    <v-tooltip top max-width=500 open-delay=1500>
+                                        <template v-slot:activator="{ on }">
+                                            <div v-on="on">
+                                                <v-text-field
+                                                    v-if="dialects__"
+                                                    v-model="editedItem.dialects"
+                                                    label="{{ _('Spoken Dialects') }}"
+                                                ></v-text-field>
+                                                <v-text-field
+                                                    v-else
+                                                    v-model="editedItem.dialects_ar"
+                                                    label="{{ _('Spoken Dialects (AR)') }}"
+                                                    background-color="lime lighten-5"
+                                                ></v-text-field>
+                                            </div>
+                                        </template>
+                                        <span>{{ _('The local dialect or dialects the person speaks.') }}</span>
+                                    </v-tooltip>
 
                                     <v-btn
                                             color="grey lighten-2"
@@ -498,19 +543,24 @@
 
                             <v-col cols="12" md="3">
                                 <v-card class="d-flex" flat>
-                                    <v-text-field
-                                            v-if="family_status__"
-                                            v-model="editedItem.family_status"
-                                            label="{{ _('Family Status') }}"
-                                    ></v-text-field>
-
-                                    <v-text-field
-                                            v-else
-                                            v-model="editedItem.family_status_ar"
-                                            label="{{ _('Family Status (AR)') }}"
-                                            background-color="lime lighten-5"
-                                    ></v-text-field>
-
+                                    <v-tooltip top max-width=500 open-delay=1500>
+                                        <template v-slot:activator="{ on }">
+                                            <div v-on="on">
+                                                <v-text-field
+                                                    v-if="family_status__"
+                                                    v-model="editedItem.family_status"
+                                                    label="{{ _('Family Status') }}"
+                                                ></v-text-field>
+                                                <v-text-field
+                                                    v-else
+                                                    v-model="editedItem.family_status_ar"
+                                                    label="{{ _('Family Status (AR)') }}"
+                                                    background-color="lime lighten-5"
+                                                ></v-text-field>
+                                            </div>
+                                        </template>
+                                        <span>{{ _('Marital status and number of children.') }}</span>
+                                    </v-tooltip>
                                     <v-btn
                                             color="grey lighten-2"
                                             outlined
@@ -529,37 +579,56 @@
 
                         <v-row>
                             <v-col cols="12" md="4">
-                                <search-field
-
-                                        api="/admin/api/ethnographies/"
-                                        :multiple="true"
-                                        clearable
-                                        :return-object="false"
-                                        item-text="title"
-                                        item-value="title"
-                                        v-model="editedItem.ethnography"
-                                        label="{{ _('Ethnographic Information') }}"
-                                ></search-field>
+                                <v-tooltip top max-width=500 open-delay=1500>
+                                    <template v-slot:activator="{ on }">
+                                        <div v-on="on">
+                                            <search-field
+                                                api="/admin/api/ethnographies/"
+                                                :multiple="true"
+                                                clearable
+                                                :return-object="false"
+                                                item-text="title"
+                                                item-value="title"
+                                                v-model="editedItem.ethnography"
+                                                label="{{ _('Ethnographic Information') }}"
+                                            ></search-field>
+                                        </div>
+                                    </template>
+                                    <span>{{ _('Religious and ethnic groups to which the person belongs.') }}</span>
+                                </v-tooltip>
                             </v-col>
 
                             <v-col cols="12" md="4">
-
-                                 <search-field
-                                        v-model="editedItem.nationality"
-                                        api="/admin/api/countries/"
-                                        item-text="title"
-                                        item-value="title"
-                                        :multiple="true"
-                                        :return-object="false"
-                                        clearable
-                                        label="{{ _('Nationalities') }}"
-                                ></search-field>
+                                <v-tooltip top max-width=500 open-delay=1500>
+                                    <template v-slot:activator="{ on }">
+                                        <div v-on="on">
+                                            <search-field
+                                                v-model="editedItem.nationality"
+                                                api="/admin/api/countries/"
+                                                item-text="title"
+                                                item-value="title"
+                                                :multiple="true"
+                                                :return-object="false"
+                                                clearable
+                                                label="{{ _('Nationalities') }}"
+                                            ></search-field>
+                                        </div>
+                                    </template>
+                                    <span>{{ _('Nationality or nationalities which the person holds or the country of origin of the body.') }}</span>
+                                </v-tooltip>
                             </v-col>
                             <v-col cols="12" md="4">
-                                <v-text-field
-                                        v-model="editedItem.national_id_card"
-                                        label="{{ _('National ID Card') }}"
-                                ></v-text-field>
+                                <v-tooltip top max-width=500 open-delay=1500>
+                                    <template v-slot:activator="{ on }">
+                                        <div v-on="on">
+                                            <v-text-field
+                                                v-model="editedItem.national_id_card"
+                                                label="{{ _('National ID Card') }}"
+                                            ></v-text-field>
+                                        </div>
+                                    </template>
+                                    <span>{{ _('Any identifying number for a person or a body such as ID, passport, civil record number, etc.') }}</span>
+                                </v-tooltip>
 
                             </v-col>
 
@@ -585,15 +654,20 @@
                                         <v-icon left>mdi-library-books</v-icon>
                                         {{ _('Related Actors') }}
                                         <v-spacer></v-spacer>
-
-                                        <v-text-field
-                                                class="mx-5"
-                                                v-model="relateActorTerm"
-                                                label="{{ _('Search & Relate Actors') }}"
-                                                @keydown.enter="searchRelatedActors"
-                                                @click:append="searchRelatedActors"
-                                                append-icon="mdi-magnify"
-                                        ></v-text-field>
+                                        <v-tooltip top max-width=500 open-delay=1500>
+                                            <template v-slot:activator="{ on }">
+                                                <v-text-field
+                                                    v-on="on"
+                                                    class="mx-5"
+                                                    v-model="relateActorTerm"
+                                                    label="{{ _('Search & Relate Actors') }}"
+                                                    @keydown.enter="searchRelatedActors"
+                                                    @click:append="searchRelatedActors"
+                                                    append-icon="mdi-magnify"
+                                                ></v-text-field>
+                                            </template>
+                                            <span>{{ _('Actors are items of documentation about persons or bodies of interest that can be related to other Actors, Bulletins, or Incidents, usually coming from a single source. The Actor profile contains fields to identify the person or body, relate the Actor to other items in the database, add labels and create Events.') }}</span>
+                                        </v-tooltip>
                                     </v-card-title>
 
 
@@ -697,15 +771,20 @@
                                         <v-icon left>mdi-library-books</v-icon>
                                         {{ _('Related Bulletins') }}
                                         <v-spacer></v-spacer>
-
-                                        <v-text-field
-                                                class="mx-5"
-                                                v-model="relateBulletinTerm"
-                                                label="{{ _('Search & Relate Bulletins') }}"
-                                                @keydown.enter="searchRelatedBulletins"
-                                                @click:append="searchRelatedBulletins"
-                                                append-icon="mdi-magnify"
-                                        ></v-text-field>
+                                        <v-tooltip top max-width=500 open-delay=1500>
+                                            <template v-slot:activator="{ on }">
+                                                <v-text-field
+                                                    v-on="on"
+                                                    class="mx-5"
+                                                    v-model="relateBulletinTerm"
+                                                    label="{{ _('Search & Relate Bulletins') }}"
+                                                    @keydown.enter="searchRelatedBulletins"
+                                                    @click:append="searchRelatedBulletins"
+                                                    append-icon="mdi-magnify"
+                                                ></v-text-field>
+                                            </template>
+                                            <span>{{ _('A Bulletin is one piece of documentation that provides information about a specific event. Bulletins could be from almost any type of content, such as videos, audio, pictures, documents, interviews, reports, text files, etc.') }}</span>
+                                        </v-tooltip>
                                     </v-card-title>
 
 
@@ -801,15 +880,20 @@
                                         <v-icon left>mdi-hazard-lights</v-icon>
                                         {{ _('Related Incidents') }}
                                         <v-spacer></v-spacer>
-
-                                        <v-text-field
-                                                class="mx-5"
-                                                v-model="relateIncidentTerm"
-                                                label="{{ _('Search & Relate Incidents') }}"
-                                                @keydown.enter="searchRelatedIncidents"
-                                                @click:append="searchRelatedIncidents"
-                                                append-icon="mdi-magnify"
-                                        ></v-text-field>
+                                        <v-tooltip top max-width=500 open-delay=1500>
+                                            <template v-slot:activator="{ on }">
+                                                <v-text-field
+                                                    v-on="on"
+                                                    class="mx-5"
+                                                    v-model="relateIncidentTerm"
+                                                    label="{{ _('Search & Relate Incidents') }}"
+                                                    @keydown.enter="searchRelatedIncidents"
+                                                    @click:append="searchRelatedIncidents"
+                                                    append-icon="mdi-magnify"
+                                                ></v-text-field>
+                                            </template>
+                                            <span>{{ _('SJAC\'s methodology in Actors and Bulletins follows a "closed universe" approach, where the only focus of the analysis is the evidence contained in each item individually and without looking for additional information outside. This approach allows for speedy initial analysis of Actors and Bulletins and prevents adding any unreliable outside information or opinions. Incidents allow for the evidence contained in individual Actors and Bulletins to be linked together and analyzed as a group.') }}</span>
+                                        </v-tooltip>
                                     </v-card-title>
 
 
@@ -1317,11 +1401,18 @@
                                 <v-sheet class="d-flex align-center">
                                     <validation-provider name="Source Link" :rules="source_disabled? '': 'required|url'"
                                                          v-slot="{errors}">
-                                        <v-text-field class="mx-2"
-                                                      :disabled="source_disabled"
-                                                      v-model="editedItem.source_link"
-                                                      label="{{ _('Source Link') }}"
-                                        ></v-text-field>
+                                        <v-tooltip top max-width=500 open-delay=1500>
+                                            <template v-slot:activator="{ on }">
+                                                <div v-on="on">
+                                                    <v-text-field class="mx-2"
+                                                        :disabled="source_disabled"
+                                                        v-model="editedItem.source_link"
+                                                        label="{{ _('Source Link') }}"
+                                                    ></v-text-field>
+                                                </div>
+                                            </template>
+                                            <span>{{ _('The URL to the original source from which the information was obtained. ‘Not Available’ checkbox can be selected if the source link is no applicable, for example if the information was obtained from an offline source. ‘Private’ slider can be used if the URL is not reachable anymore. The field validates the entry and will not accept an invalid URL.') }}</span>
+                                        </v-tooltip>
                                         <span class="orange--text"> ${errors[0]}</span>
                                     </validation-provider>
 

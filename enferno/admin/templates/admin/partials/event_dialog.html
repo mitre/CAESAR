@@ -1,23 +1,28 @@
 <v-dialog v-model="eventDialog" max-width="780px">
   <template v-slot:activator="{ on }">
     <v-card outlined color="grey lighten-3">
-      <v-card-title>
-        <v-icon left>mdi-calendar</v-icon>
-        {{_('Events')}}
-        <v-spacer></v-spacer>
-        <v-btn
-          class="mx-2"
-          depressed
-          x-small
-          fab
-          right
-          top
-          color="teal lighten-2"
-          dark
-          v-on="on"
-          ><v-icon>mdi-plus-circle</v-icon></v-btn
-        >
-      </v-card-title>
+      <v-tooltip top max-width=500 open-delay=1500>
+        <template v-slot:activator="{ on }">
+          <v-card-title v-on="on">
+            <v-icon left>mdi-calendar</v-icon>
+            {{_('Events')}}
+            <v-spacer></v-spacer>
+            <v-btn
+              class="mx-2"
+              depressed
+              x-small
+              fab
+              right
+              top
+              color="teal lighten-2"
+              dark
+              v-on="on"
+              ><v-icon>mdi-plus-circle</v-icon></v-btn
+            >
+          </v-card-title>
+        </template>
+        <span>{{ _('Events are data forms to store time and location information related to Actors, Bulletins and Incidents. Users can attach one or more events.') }}</span>
+      </v-tooltip>
 
       <v-card-text>
         <v-layout wrap>
@@ -27,10 +32,10 @@
             v-for="(item,index) in editedItem.events"
             :key="index"
           >
-           <event-card :number="index+1" :event="item">
+          <event-card :number="index+1" :event="item">
 
-              <template v-slot:actions>
-                <v-card-actions>
+            <template v-slot:actions>
+              <v-card-actions>
                 <v-btn
                 @click="editEvent($event,item,index)"
                 x-small
@@ -49,7 +54,7 @@
               >
             </v-card-actions>
               </template>
-           </event-card>
+          </event-card>
           </v-flex>
         </v-layout>
       </v-card-text>
