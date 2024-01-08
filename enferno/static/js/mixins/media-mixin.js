@@ -386,6 +386,7 @@ let mediaMixin = {
                     item.filename = file.filename;
                     item.etag = file.etag;
                     item.category = this.editedMedia.category;
+                    item.blur = this.editedMedia.isBlur;
                     this.editedItem.medias.push(item);
                 }
 
@@ -429,4 +430,3 @@ let mediaMixin = {
 
     }
 }
-  
