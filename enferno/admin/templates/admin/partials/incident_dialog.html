@@ -207,9 +207,10 @@
                                         <v-card outlined class="my-5">
                                             <v-card-title class="handle">
                                                 <v-icon left>mdi-account-multiple</v-icon>
-                                                <v-btn :loading="ar_loading" :disabled="ar_loaded"
+                                                <!-- <v-btn :loading="ar_loading" :disabled="ar_loaded"
                                                     @click.stop="loadActorRelations"
-                                                    outlined>{{ _('Related Actors') }}</v-btn>
+                                                    outlined>{{ _('Related Actors') }}</v-btn> -->
+                                                    {{ _('Related Actors') }}
 
                                                 <v-spacer></v-spacer>
 
@@ -312,9 +313,10 @@
                                         <v-card outlined class="my-5">
                                             <v-card-title class="handle">
                                                 <v-icon left>mdi-file-document-multiple</v-icon>
-                                                <v-btn :loading="br_loading" :disabled="br_loaded"
+                                                <!-- <v-btn :loading="br_loading" :disabled="br_loaded"
                                                     @click.stop="loadBulletinRelations"
-                                                    outlined>{{ _('Related Bulletins') }}</v-btn>
+                                                    outlined>{{ _('Related Bulletins') }}</v-btn> -->
+                                                    {{ _('Related Bulletins') }}
                                                 <v-spacer></v-spacer>
 
                                                 <v-text-field
@@ -420,9 +422,10 @@
                                         <v-card outlined class="my-5">
                                             <v-card-title class="handle">
                                                 <v-icon left>mdi-hazard-lights</v-icon>
-                                                <v-btn :loading="ir_loading" :disabled="ir_loaded"
+                                                <!-- <v-btn :loading="ir_loading" :disabled="ir_loaded"
                                                     @click.stop="loadIncidentRelations"
-                                                    outlined>{{ _('Related Incidents') }}</v-btn>
+                                                    outlined>{{ _('Related Incidents') }}</v-btn> -->
+                                                    {{ _('Related Incidents') }}
                                                 <v-spacer></v-spacer>
 
                                                 <v-text-field
