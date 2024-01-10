@@ -23,8 +23,14 @@
 
   <v-spacer></v-spacer>
 
-  <span v-if="'{{config.LANG_BUTTONS_ENABLE}}' === 'true'">
+  <!-- <span v-if="'{{config.LANG_BUTTONS_ENABLE}}' === 'true'">
     <v-btn v-for="lang in {{config.LANGUAGES }}" :href="`/dashboard/?lang=${lang}`" icon>
+      ${ lang }
+    </v-btn>
+  </span> -->
+
+  <span v-if="'{{config.LANG_BUTTONS_ENABLE}}' === 'true'">
+    <v-btn v-for="lang in {{config.LANGUAGES }}" @click="updateLanguage(lang)" icon>
       ${ lang }
     </v-btn>
   </span>
@@ -70,3 +76,41 @@
     </v-card>
   </v-menu>
 </v-app-bar>
+
+
+<!-- {% block js %}
+  <script>
+      const app = new Vue({
+          vuetify: vuetify,
+          el: '#app',
+          data: {
+              activeTab: null,
+              snackbar: false,
+              snackMessage: ''
+          },
+          methods: {
+            updateLanguage(language) {
+              axios.patch('/settings/save', {settings: {'language': language}}).then(res => {
+                  this.showSnack(res.data);
+                  this.showSnack('Settings have been saved !')
+                  setTimeout(()=>{
+                      window.location.reload()
+                  }, 1000)
+              }).catch(err => {
+                  this.showSnack(err.body);
+              })
+            }
+          }
+      })
+  </script>
+{% endblock %} -->
+
+<script>
+  function updateLanguage(language) {
+    axios.patch('/settings/save', {settings: {'language': language}}).then(res => {
+        setTimeout(()=>{
+            window.location.reload()
+        }, 1000)
+    })
+  }
+</script>
