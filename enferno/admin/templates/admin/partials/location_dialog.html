@@ -177,10 +177,11 @@
                             <v-row>
                                 <v-col cols="12" md="12">
                                     <geo-map
-                                            edit-mode="true"
+                                        edit-mode="true"
                                         class="flex-grow-1"
                                         v-model="editedItem.latlng"
-                                        map-height="300">
+                                        map-height="300"
+                                        :required="true">
                                     </geo-map>
                                 </v-col>        
                             </v-row>
