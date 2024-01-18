@@ -60,7 +60,7 @@ Vue.component("media-card", {
            data-pswp-width="2000"
            data-pswp-height="2000"
            target="_blank">
-          <img style="width: 215px;height: 140px; object-fit: cover"  :src="s3url" alt=""/>
+          <img style="width: 215px;height: 140px; object-fit: cover" :class="{blur: media.blur}"  :src="s3url" alt=""/>
         </a>
 
 

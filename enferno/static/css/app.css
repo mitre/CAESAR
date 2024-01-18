@@ -445,6 +445,9 @@ input[type="date"]::-webkit-input-placeholder {
 }
 
 
+.blur {
+    filter: blur(8px);
+}
 /* sticky related items headers */
 
 .header-sticky {

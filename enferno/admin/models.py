@@ -527,6 +527,7 @@ class Media(db.Model, BaseMixin):
     ))
 
     time = db.Column(db.Float(precision=2))
+    blur = db.Column(db.Boolean, default=False)
 
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     user = db.relationship("User", backref="user_medias", foreign_keys=[user_id])
@@ -550,6 +551,7 @@ class Media(db.Model, BaseMixin):
             "filename": self.media_file if self.media_file else None,
             "etag": getattr(self, 'etag', None),
             "time": getattr(self, 'time', None),
+            "blur": getattr(self, 'blur', None),
             "duration": self.duration,
             "main": self.main,
             "updated_at": DateHelper.serialize_datetime(self.updated_at) if self.updated_at else None
@@ -566,6 +568,7 @@ class Media(db.Model, BaseMixin):
         self.media_file = json["filename"] if "filename" in json else None
         self.etag = json.get('etag', None)
         self.time = json.get('time', None)
+        self.blur = json.get('blur', None)
         category = json.get('category', None)
         if category:
             self.category = category.get('id')
