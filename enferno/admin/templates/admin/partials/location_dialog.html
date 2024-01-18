@@ -105,15 +105,11 @@
                                             item-text="title"
                                             item-value="id"
                                             @input="checkLevel"
-
-                                            :multiple="false">
-                                            <template #label>
-                                                {{ _('Location Type') }} <span class="red--text"><strong>* </strong></span>
-                                            </template>
+                                            label="{{_('Location Type')}}"
+                                            :multiple="false"
+                                            :required="true">
                                         </search-field>
-
                                         <span class="red--text"> ${errors[0]}</span>
-
                                     </validation-provider>
 
                                 </v-col>
@@ -149,7 +145,8 @@
                                         item-value="title"
                                         :return-object="false"
                                         v-model="editedItem.country"
-                                        label="{{ _('Country') }}">
+                                        label="{{ _('Country') }}"
+                                    >
                                     </search-field>
                                 </v-col>
                             </v-row>
