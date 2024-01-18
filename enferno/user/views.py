@@ -170,6 +170,23 @@ def save_settings():
     user.save()
     return 'Settings Saved', 200
 
+@bp_user.route('/settings/save',methods=['PATCH'])
+@auth_required('session')
+def patch_settings():
+    """API Endpoint to save a subset of user settings."""
+    json = request.json.get('settings')
+    user_id = current_user.id
+    user = User.query.get(user_id)
+    if not user:
+        return 'Problem loading user', 417
+    for key in json:
+        if not user.settings:
+            user.settings = {}
+        user.settings[key] = json[key]
+    flag_modified(user, 'settings')
+    user.save()
+    return 'Settings Saved', 200
+
 @bp_user.route('/settings/load',methods=['GET'])
 @auth_required('session')
 def load_settings():
