@@ -311,7 +311,12 @@
             },
 
             methods: {
-
+                // form anchors for scrolling
+                anchorScroll(id) {
+                    this.$nextTick(() =>
+                        document.getElementById(id).scrollIntoView({ behavior: 'smooth' })
+                    );
+                },
                 resetSearch() {
                     this.q = {};
                     this.doSearch()

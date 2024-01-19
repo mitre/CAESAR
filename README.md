@@ -41,3 +41,11 @@ messages.pot, messages.po, and messages.mo files should all show changes in sour
 ## Caesar Data
 
 Location data has been added to the default bayanat data set at /enferno/data in a Locations.csv file. This file contains a list of Ukrainian cities that was pulled from https://simplemaps.com/data/ua-cities.
+
+
+## Local Development
+
+1. Copy the `.env-sample` to `.env`
+2. `docker compose build`
+3. Run `docker compose up -d`
+4. Frontend available at `http://localhost:5000/`

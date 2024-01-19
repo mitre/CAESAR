@@ -17,7 +17,11 @@ Vue.component("geo-map", {
             type: Boolean,
             default: false,
         },
-        others: []
+        others: [],
+        required: {
+            type: Boolean,
+            default: false,
+        }
     },
 
     computed: {
@@ -241,10 +245,18 @@ Vue.component("geo-map", {
           <v-card-text>
             <h3 v-if="title" class=" mb-5">{{ title }}</h3>
             <div v-if="editMode" class="d-flex" style="column-gap: 20px;">
-              <v-text-field dense type="number" min="-90" max="90" :label="translations.latitude_"
-                            v-model.number="lat"></v-text-field>
+              <v-text-field dense type="number" min="-90" max="90"
+                            v-model.number="lat">
+                                <template #label>
+                                    {{ translations.latitude_ }} <span class="red--text" v-if="required"><strong>* </strong></span>
+                                </template>
+                            </v-text-field>
               <v-text-field dense type="number" min="-180" max="180" :label="translations.longitude_"
-                            v-model.number="lng"></v-text-field>
+                            v-model.number="lng">
+                                <template #label>
+                                    {{ translations.longitude_ }} <span class="red--text" v-if="required"><strong>* </strong></span>
+                                </template>            
+                </v-text-field>
               <v-btn v-if="lat&&lng" small @click="clearMarker" text fab>
                 <v-icon>mdi-close</v-icon>
               </v-btn>

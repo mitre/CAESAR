@@ -1,6 +1,6 @@
 const SearchField =
     {
-        props: ['value', 'label', 'multiple', 'itemText', 'itemValue', 'api', 'queryParams', 'disabled'],
+        props: ['value', 'label', 'multiple', 'itemText', 'itemValue', 'api', 'queryParams', 'disabled', 'required'],
         data: () => {
             return {
                 loading: false,
@@ -91,7 +91,6 @@ const SearchField =
                     hide-no-data
                     no-filter
                     item-color="secondary"
-                    :label="label"
                     :items="items"
                     :item-text="itemText"
                     :item-value="itemValue"
@@ -108,8 +107,11 @@ const SearchField =
                     @change="emitChange"
                     v-bind="$attrs"
                     :loading="loading"
-
-            ></v-combobox>
+            >
+                <template #label>
+                    {{ label }} <span class="red--text" v-if="required"><strong>* </strong></span>
+                </template>
+            </v-combobox>
         `
     };
 
