@@ -232,6 +232,21 @@
                                         <span>Assign to self</span>
                                     </v-tooltip>
 
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on }">
+                                            <v-icon
+                                                    v-on="on"
+                                                    color="primary lighten-1"
+                                                    class="mr-2"
+
+                                                    @click.stop="openAssignOther(item)"
+                                                    v-if="bulkAllowed()"
+                                            >
+                                                mdi-account-box-outline
+                                            </v-icon>
+                                        </template>
+                                        <span>Assign Bulletin</span>
+                                    </v-tooltip>
 
                                     <v-tooltip top>
                                         <template v-slot:activator="{ on }">
@@ -293,6 +308,41 @@
 
                             </v-dialog>
 
+
+                            <v-dialog width="600" v-model="assignDialog">
+                                <v-card class="pa-3">
+                                    <v-card-title>Assign Bulletin #${assignBulletin.id}</v-card-title>
+                                    <v-card-text>
+                                        <validation-provider name="Assigned To" rules="required" v-slot="{ errors }">
+                                            <search-field-single
+                                                v-model="assignBulletin.assigned_to_id"
+                                                api="/admin/api/users/"
+                                                item-text="name"
+                                                item-value="id"
+                                                :return-object="false"
+                                                :multiple="false"
+                                                label="{{ _('Assigned To') }}"
+                                            ></search-field-single>
+                                            <span class="orange--text"> ${errors[0]}</span>
+                                        </validation-provider>
+                                        <v-combobox
+                                            small-chips
+                                            multiple
+                                            v-model="assignBulletin.ref"
+                                            label="{{ _('Ref') }}"
+                                        ></v-combobox>
+                                        <validation-provider name="Comments" rules="required" v-slot="{ errors }">
+                                            <v-textarea v-model="assignBulletin.comments" label="Comments"></v-textarea>
+                                            <span class="orange--text"> ${errors[0]}</span>
+                                        </validation-provider>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                        <v-btn :disabled="!assignBulletin.comments || !assignBulletin.assigned_to_id" class="ma-auto" @click="assignOther()"
+                                            color="primary">Assign Bulletin
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
 
                             <v-snackbar v-model="snackbar">
                                 <div class="d-flex justify-space-between align-center">
@@ -426,6 +476,7 @@
 
                 assignBulletin: {},
                 selfAssignDialog: false,
+                assignDialog: false,
 
                 //global preview dialog
                 preview: false,
@@ -835,24 +886,35 @@
                 openSelfAssign(bulletin) {
                     this.assignBulletin = {id: bulletin.id};
                     this.selfAssignDialog = true;
+                },
 
+                openAssignOther(bulletin) {
+                    this.assignBulletin = {id: bulletin.id};
+                    this.assignDialog = true;
+                },
+
+                assignOther() {
+                    axios.put(`/admin/api/bulletin/assignother/${this.assignBulletin.id}`, {bulletin: this.assignBulletin }).then(res => {
+                        this.showSnack('Bulletin assigned successfully.')
+                        this.searchBulletins(true)
+                    }).catch(err => {
+                        this.showSnack(err.response.data);
+                    }).finally(() => {
+                        this.assignDialog = false;
+                        this.assignBulletin = {};
+                    });
                 },
 
                 selfAssign() {
-
-
                     axios.put(`/admin/api/bulletin/assign/${this.assignBulletin.id}`, {bulletin: this.assignBulletin}).then(res => {
                         this.showSnack('Bulletin assigned successfully.')
                         this.searchBulletins(true)
-
                     }).catch(err => {
                         this.showSnack(err.response.data);
                     }).finally(() => {
                         this.selfAssignDialog = false;
                         this.assignBulletin = {};
-
                     });
-
                 },
 
                 filter_related_to_bulletin(id) {

@@ -1704,6 +1704,40 @@ def api_bulletin_import():
 
 # ----- self assign endpoints -----
 
+@admin.route('/api/bulletin/assignother/<int:id>', methods=['PUT'])
+@roles_accepted('Admin', 'DA')
+def api_bulletin_assign(id):
+    """assign a bulletin to another user"""
+    bulletin = Bulletin.query.get(id)
+
+    if not current_user.can_access(bulletin):
+        return 'Restricted Access', 403
+    
+    if bulletin:
+        b = request.json.get('bulletin')
+        if not b or not b.get('assigned_to_id'):
+            return 'No user selected',  400
+        # update bulletin assignement
+        bulletin.assigned_to_id = b.get('assigned_to_id')
+        bulletin.comments = b.get('comments', '')
+        bulletin.ref = bulletin.ref or []
+        bulletin.ref = bulletin.ref + b.get('ref', [])
+
+        # Change status to assigned if needed
+        if bulletin.status == 'Machine Created' or bulletin.status == 'Human Created':
+            bulletin.status = 'Assigned'
+
+        # Create a revision using latest values
+        # this method automatically commits
+        # bulletin changes (referenced)
+        bulletin.create_revision()
+
+        # Record Activity
+        Activity.create(current_user, Activity.ACTION_UPDATE, bulletin.to_mini(), 'bulletin')
+        return F'Saved Bulletin #{bulletin.id}', 200
+    else:
+        return HTTPResponse.NOT_FOUND
+
 @admin.route('/api/bulletin/assign/<int:id>', methods=['PUT'])
 @roles_accepted('Admin', 'DA')
 def api_bulletin_self_assign(id):
