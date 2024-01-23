@@ -158,6 +158,13 @@
 
                                 </template>
 
+                                <template v-slot:item.assigned_to.name="{ item }">
+                                    <div v-if="item.assigned_to">
+                                        <span :class="{'green--text text--darken-2': currentUser.id == item.assigned_to.id}">${item.assigned_to.name}</span>
+                                        <v-icon v-if="currentUser.id == item.assigned_to.id" class="green--text text--darken-2">mdi-account-badge</v-icon>
+                                    </div>
+                                </template>
+
                                 <template v-slot:item.roles="{item}">
                                     <v-chip
                                             class="mx-2"
