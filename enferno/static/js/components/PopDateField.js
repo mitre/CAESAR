@@ -65,8 +65,11 @@ Vue.component('pop-date-field', {
             this.$emit('input', val);
         },
 
-        textDate(val) {
+        textDate(val, old) {
             this.$emit('input', val);
+            if (val !== old) {
+                this.pickerDate = val;
+            }
         },
 
 
