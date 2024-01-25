@@ -172,6 +172,12 @@
 
                                 </template>
 
+                                <template v-slot:item.assigned_to.name="{ item }">
+                                    <div v-if="item.assigned_to">
+                                        <span :class="{'flex assigned-to-me': currentUser.id == item.assigned_to.id}">${item.assigned_to.name}</span>
+                                    </div>
+                                </template>
+
                                 <template v-slot:item.roles="{item}">
                                     <v-chip
                                             small
