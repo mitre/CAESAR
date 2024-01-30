@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Bayanat\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-01-09 18:09-0500\n"
+"POT-Creation-Date: 2024-01-25 09:30-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ar\n"
@@ -25,7 +25,7 @@ msgstr "تسجيل خروج"
 
 #: enferno/admin/templates/admin/activity.html:94
 #: enferno/admin/templates/admin/actors.html:545
-#: enferno/admin/templates/admin/bulletins.html:546
+#: enferno/admin/templates/admin/bulletins.html:610
 #: enferno/admin/templates/admin/eventtypes.html:211
 #: enferno/admin/templates/admin/incidents.html:495
 #: enferno/admin/templates/admin/labels.html:286
@@ -113,7 +113,7 @@ msgid "Selected items"
 msgstr "المواد المختارة"
 
 #: enferno/admin/templates/admin/actors.html:549
-#: enferno/admin/templates/admin/bulletins.html:550
+#: enferno/admin/templates/admin/bulletins.html:614
 #: enferno/admin/templates/admin/component-data.html:260
 #: enferno/admin/templates/admin/component-data.html:268
 #: enferno/admin/templates/admin/component-data.html:274
@@ -139,9 +139,9 @@ msgstr "الرقم التعريفي"
 
 #: enferno/admin/templates/admin/actors.html:550
 #: enferno/admin/templates/admin/jsapi.jinja2:88
-#: enferno/admin/templates/admin/jsapi.jinja2:170
-#: enferno/admin/templates/admin/partials/actor_dialog.html:51
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1054
+#: enferno/admin/templates/admin/jsapi.jinja2:171
+#: enferno/admin/templates/admin/partials/actor_dialog.html:99
+#: enferno/admin/templates/admin/partials/actor_dialog.html:606
 #: enferno/admin/templates/admin/roles.html:236
 #: enferno/admin/templates/admin/users.html:313
 #: enferno/data_import/templates/media-import.html:420
@@ -151,7 +151,8 @@ msgid "Name"
 msgstr "الاسم"
 
 #: enferno/admin/templates/admin/actors.html:552
-#: enferno/admin/templates/admin/bulletins.html:554
+#: enferno/admin/templates/admin/bulletins.html:337
+#: enferno/admin/templates/admin/bulletins.html:618
 #: enferno/admin/templates/admin/incidents.html:502
 #: enferno/admin/templates/admin/partials/bulk_actor_drawer.html:30
 #: enferno/admin/templates/admin/partials/bulk_bulletin_drawer.html:37
@@ -160,7 +161,7 @@ msgid "Assigned To"
 msgstr "موكل إلى"
 
 #: enferno/admin/templates/admin/actors.html:553
-#: enferno/admin/templates/admin/bulletins.html:555
+#: enferno/admin/templates/admin/bulletins.html:619
 #: enferno/admin/templates/admin/incidents.html:503
 #: enferno/admin/templates/admin/users.html:193
 #: enferno/admin/templates/admin/users.html:315
@@ -168,14 +169,14 @@ msgid "Roles"
 msgstr "الأدوار"
 
 #: enferno/admin/templates/admin/actors.html:555
-#: enferno/admin/templates/admin/bulletins.html:557
+#: enferno/admin/templates/admin/bulletins.html:621
 #: enferno/admin/templates/admin/incidents.html:505
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1466
+#: enferno/admin/templates/admin/partials/actor_dialog.html:1090
 #: enferno/admin/templates/admin/partials/bulk_actor_drawer.html:63
 #: enferno/admin/templates/admin/partials/bulk_bulletin_drawer.html:61
 #: enferno/admin/templates/admin/partials/bulk_incident_drawer.html:63
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:681
-#: enferno/admin/templates/admin/partials/incident_dialog.html:557
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:538
+#: enferno/admin/templates/admin/partials/incident_dialog.html:603
 #: enferno/data_import/templates/import-log.html:179
 #: enferno/data_import/templates/sheets-import.html:28
 #: enferno/deduplication/templates/deduplication.html:132
@@ -184,7 +185,7 @@ msgid "Status"
 msgstr "الحالة"
 
 #: enferno/admin/templates/admin/actors.html:556
-#: enferno/admin/templates/admin/bulletins.html:560
+#: enferno/admin/templates/admin/bulletins.html:624
 #: enferno/admin/templates/admin/component-data.html:263
 #: enferno/admin/templates/admin/component-data.html:270
 #: enferno/admin/templates/admin/component-data.html:277
@@ -214,13 +215,14 @@ msgstr "جميع المواد"
 msgid "New Bulletin"
 msgstr "مادة جديدة"
 
-#: enferno/admin/templates/admin/bulletins.html:282
+#: enferno/admin/templates/admin/bulletins.html:310
+#: enferno/admin/templates/admin/bulletins.html:345
 #: enferno/admin/templates/admin/partials/bulk_bulletin_drawer.html:72
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:119
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:158
 msgid "Ref"
 msgstr "مرجع"
 
-#: enferno/admin/templates/admin/bulletins.html:551
+#: enferno/admin/templates/admin/bulletins.html:615
 #: enferno/admin/templates/admin/component-data.html:262
 #: enferno/admin/templates/admin/component-data.html:269
 #: enferno/admin/templates/admin/component-data.html:275
@@ -232,14 +234,14 @@ msgstr "مرجع"
 #: enferno/admin/templates/admin/eventtypes.html:58
 #: enferno/admin/templates/admin/eventtypes.html:216
 #: enferno/admin/templates/admin/incidents.html:500
-#: enferno/admin/templates/admin/jsapi.jinja2:107
+#: enferno/admin/templates/admin/jsapi.jinja2:108
 #: enferno/admin/templates/admin/labels.html:70
 #: enferno/admin/templates/admin/labels.html:291
 #: enferno/admin/templates/admin/locations.html:214
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:87
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:127
 #: enferno/admin/templates/admin/partials/event_dialog.html:75
-#: enferno/admin/templates/admin/partials/incident_dialog.html:48
-#: enferno/admin/templates/admin/partials/location_dialog.html:39
+#: enferno/admin/templates/admin/partials/incident_dialog.html:84
+#: enferno/admin/templates/admin/partials/location_dialog.html:67
 #: enferno/admin/templates/admin/sources.html:66
 #: enferno/admin/templates/admin/sources.html:238
 #: enferno/admin/templates/admin/system-administration.html:677
@@ -272,7 +274,7 @@ msgstr "الدولة"
 
 #: enferno/admin/templates/admin/component-data.html:31
 #: enferno/admin/templates/admin/component-data.html:101
-#: enferno/admin/templates/admin/partials/actor_dialog.html:593
+#: enferno/admin/templates/admin/partials/actor_dialog.html:319
 #: enferno/data_import/templates/sheets-import.html:452
 msgid "Ethnographic Information"
 msgstr "معلومات إثنيَّة"
@@ -363,9 +365,9 @@ msgstr "عنصر جديد"
 
 #: enferno/admin/templates/admin/eventtypes.html:64
 #: enferno/admin/templates/admin/labels.html:76
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:93
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:133
 #: enferno/admin/templates/admin/partials/event_dialog.html:81
-#: enferno/admin/templates/admin/partials/incident_dialog.html:55
+#: enferno/admin/templates/admin/partials/incident_dialog.html:91
 msgid "Title (AR)"
 msgstr "عنوان المصدر (عربي)"
 
@@ -381,26 +383,25 @@ msgstr "المواد"
 
 #: enferno/admin/templates/admin/eventtypes.html:83
 #: enferno/admin/templates/admin/eventtypes.html:220
-#: enferno/admin/templates/admin/jsapi.jinja2:122
+#: enferno/admin/templates/admin/jsapi.jinja2:123
 #: enferno/admin/templates/admin/labels.html:84
 #: enferno/admin/templates/admin/labels.html:292
-#: enferno/admin/templates/admin/partials/actor_dialog.html:734
-#: enferno/admin/templates/admin/partials/actor_dialog.html:844
-#: enferno/admin/templates/admin/partials/actor_dialog.html:954
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1454
+#: enferno/admin/templates/admin/partials/actor_dialog.html:927
+#: enferno/admin/templates/admin/partials/actor_dialog.html:1011
+#: enferno/admin/templates/admin/partials/actor_dialog.html:1082
 #: enferno/admin/templates/admin/partials/bulk_actor_drawer.html:93
 #: enferno/admin/templates/admin/partials/bulk_bulletin_drawer.html:104
 #: enferno/admin/templates/admin/partials/bulk_incident_drawer.html:92
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:339
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:451
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:559
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:665
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:322
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:387
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:454
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:529
 #: enferno/admin/templates/admin/partials/event_dialog.html:102
 #: enferno/admin/templates/admin/partials/export_drawer.html:56
-#: enferno/admin/templates/admin/partials/incident_dialog.html:275
-#: enferno/admin/templates/admin/partials/incident_dialog.html:387
-#: enferno/admin/templates/admin/partials/incident_dialog.html:496
-#: enferno/admin/templates/admin/partials/incident_dialog.html:542
+#: enferno/admin/templates/admin/partials/incident_dialog.html:315
+#: enferno/admin/templates/admin/partials/incident_dialog.html:428
+#: enferno/admin/templates/admin/partials/incident_dialog.html:539
+#: enferno/admin/templates/admin/partials/incident_dialog.html:589
 #: enferno/admin/templates/admin/sources.html:96
 #: enferno/admin/templates/admin/sources.html:241
 #: enferno/data_import/templates/sheets-import.html:397
@@ -729,15 +730,15 @@ msgstr "تحميل بحث (تم حفظه مسبقاً)"
 
 #: enferno/admin/templates/admin/jsapi.jinja2:70
 #: enferno/admin/templates/admin/jsapi.jinja2:71
-#: enferno/admin/templates/admin/jsapi.jinja2:142
-#: enferno/admin/templates/admin/partials/actor_dialog.html:448
+#: enferno/admin/templates/admin/jsapi.jinja2:143
+#: enferno/admin/templates/admin/partials/actor_dialog.html:354
 #: enferno/data_import/templates/sheets-import.html:426
 msgid "Occupation"
 msgstr "المهنة"
 
 #: enferno/admin/templates/admin/jsapi.jinja2:72
-#: enferno/admin/templates/admin/jsapi.jinja2:143
-#: enferno/admin/templates/admin/partials/actor_dialog.html:481
+#: enferno/admin/templates/admin/jsapi.jinja2:144
+#: enferno/admin/templates/admin/partials/actor_dialog.html:371
 #: enferno/data_import/templates/sheets-import.html:433
 msgid "Position"
 msgstr "المنصب"
@@ -747,34 +748,34 @@ msgid "Spoken dialects"
 msgstr "اللهجات المحكية"
 
 #: enferno/admin/templates/admin/jsapi.jinja2:74
-#: enferno/admin/templates/admin/jsapi.jinja2:145
-#: enferno/admin/templates/admin/partials/actor_dialog.html:552
+#: enferno/admin/templates/admin/jsapi.jinja2:146
+#: enferno/admin/templates/admin/partials/actor_dialog.html:412
 #: enferno/data_import/templates/sheets-import.html:445
 msgid "Family Status"
 msgstr "الوضع العائلي"
 
 #: enferno/admin/templates/admin/jsapi.jinja2:75
-#: enferno/admin/templates/admin/jsapi.jinja2:132
-#: enferno/admin/templates/admin/partials/actor_dialog.html:326
+#: enferno/admin/templates/admin/jsapi.jinja2:133
+#: enferno/admin/templates/admin/partials/actor_dialog.html:289
 #: enferno/data_import/templates/sheets-import.html:344
 msgid "Sex"
 msgstr "الجنس"
 
 #: enferno/admin/templates/admin/jsapi.jinja2:76
-#: enferno/admin/templates/admin/partials/actor_dialog.html:337
+#: enferno/admin/templates/admin/partials/actor_dialog.html:294
 #: enferno/data_import/templates/sheets-import.html:346
 msgid "Minor/Adult"
 msgstr "قاصر/بالغ"
 
 #: enferno/admin/templates/admin/jsapi.jinja2:77
-#: enferno/admin/templates/admin/partials/actor_dialog.html:348
+#: enferno/admin/templates/admin/partials/actor_dialog.html:299
 #: enferno/data_import/templates/sheets-import.html:348
 msgid "Civilian/Non Civilian"
 msgstr "مدني/غير مدني"
 
 #: enferno/admin/templates/admin/jsapi.jinja2:78
-#: enferno/admin/templates/admin/jsapi.jinja2:135
-#: enferno/admin/templates/admin/partials/actor_dialog.html:359
+#: enferno/admin/templates/admin/jsapi.jinja2:136
+#: enferno/admin/templates/admin/partials/actor_dialog.html:304
 #: enferno/data_import/templates/sheets-import.html:352
 msgid "Actor Type"
 msgstr "نوع الكيان"
@@ -797,31 +798,31 @@ msgid "Date of birth"
 msgstr "تاريخ الولادة"
 
 #: enferno/admin/templates/admin/jsapi.jinja2:83
-#: enferno/admin/templates/admin/jsapi.jinja2:149
-#: enferno/admin/templates/admin/partials/actor_dialog.html:626
+#: enferno/admin/templates/admin/jsapi.jinja2:150
+#: enferno/admin/templates/admin/partials/actor_dialog.html:342
 #: enferno/data_import/templates/sheets-import.html:456
 msgid "National ID Card"
 msgstr "الرقم الوطني"
 
 #: enferno/admin/templates/admin/jsapi.jinja2:84
-#: enferno/admin/templates/admin/jsapi.jinja2:323
-#: enferno/admin/templates/admin/jsapi.jinja2:385
+#: enferno/admin/templates/admin/jsapi.jinja2:324
+#: enferno/admin/templates/admin/jsapi.jinja2:386
 msgid "Yes"
 msgstr "نعم"
 
 #: enferno/admin/templates/admin/jsapi.jinja2:85
-#: enferno/admin/templates/admin/jsapi.jinja2:324
-#: enferno/admin/templates/admin/jsapi.jinja2:386
+#: enferno/admin/templates/admin/jsapi.jinja2:325
+#: enferno/admin/templates/admin/jsapi.jinja2:387
 msgid "No"
 msgstr "لا"
 
 #: enferno/admin/templates/admin/jsapi.jinja2:86
-#: enferno/admin/templates/admin/jsapi.jinja2:270
-#: enferno/admin/templates/admin/jsapi.jinja2:274
-#: enferno/admin/templates/admin/jsapi.jinja2:317
-#: enferno/admin/templates/admin/jsapi.jinja2:325
-#: enferno/admin/templates/admin/jsapi.jinja2:381
-#: enferno/admin/templates/admin/jsapi.jinja2:387
+#: enferno/admin/templates/admin/jsapi.jinja2:271
+#: enferno/admin/templates/admin/jsapi.jinja2:275
+#: enferno/admin/templates/admin/jsapi.jinja2:318
+#: enferno/admin/templates/admin/jsapi.jinja2:326
+#: enferno/admin/templates/admin/jsapi.jinja2:382
+#: enferno/admin/templates/admin/jsapi.jinja2:388
 msgid "Unknown"
 msgstr "غير معروف"
 
@@ -863,7 +864,7 @@ msgid "Parent"
 msgstr "أب"
 
 #: enferno/admin/templates/admin/jsapi.jinja2:97
-#: enferno/admin/templates/admin/partials/location_dialog.html:137
+#: enferno/admin/templates/admin/partials/location_dialog.html:172
 msgid "Postal Code"
 msgstr "الرمز البريدي"
 
@@ -877,29 +878,34 @@ msgid "Edit"
 msgstr "تعديل"
 
 #: enferno/admin/templates/admin/jsapi.jinja2:104
+#: enferno/data_import/templates/sheets-import.html:237
+msgid "Delete"
+msgstr "حذف"
+
+#: enferno/admin/templates/admin/jsapi.jinja2:105
 msgid "Visualize"
 msgstr "تمثيل مرئي"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:105
+#: enferno/admin/templates/admin/jsapi.jinja2:106
 msgid "Assigned User:"
 msgstr "المسؤول:"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:106
-#: enferno/admin/templates/admin/partials/actor_dialog.html:239
+#: enferno/admin/templates/admin/jsapi.jinja2:107
+#: enferno/admin/templates/admin/partials/actor_dialog.html:430
 #: enferno/admin/templates/admin/roles.html:89
 #: enferno/admin/templates/admin/roles.html:238
 #: enferno/data_import/templates/sheets-import.html:315
 msgid "Description"
 msgstr "التوصيف"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:108
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:50
+#: enferno/admin/templates/admin/jsapi.jinja2:109
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:93
 msgid "Original Title"
 msgstr "العنوان الأصلي"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:109
-#: enferno/admin/templates/admin/partials/actor_dialog.html:265
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:137
+#: enferno/admin/templates/admin/jsapi.jinja2:110
+#: enferno/admin/templates/admin/partials/actor_dialog.html:452
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:168
 #: enferno/admin/templates/admin/sources.html:29
 #: enferno/data_import/templates/media-import.html:213
 #: enferno/data_import/templates/sheets-import.html:333
@@ -907,739 +913,758 @@ msgstr "العنوان الأصلي"
 msgid "Sources"
 msgstr "المصادر"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:110
+#: enferno/admin/templates/admin/jsapi.jinja2:111
 #: enferno/admin/templates/admin/labels.html:32
-#: enferno/admin/templates/admin/partials/actor_dialog.html:285
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:175
-#: enferno/admin/templates/admin/partials/incident_dialog.html:149
+#: enferno/admin/templates/admin/partials/actor_dialog.html:465
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:197
+#: enferno/admin/templates/admin/partials/incident_dialog.html:187
 #: enferno/data_import/templates/media-import.html:179
 #: enferno/data_import/templates/sheets-import.html:335
 #: enferno/templates/nav-drawer.html:81
 msgid "Labels"
 msgstr "الوسوم"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:111
-#: enferno/admin/templates/admin/partials/actor_dialog.html:305
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:197
+#: enferno/admin/templates/admin/jsapi.jinja2:112
+#: enferno/admin/templates/admin/partials/actor_dialog.html:479
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:211
 #: enferno/data_import/templates/media-import.html:190
 #: enferno/data_import/templates/sheets-import.html:337
 msgid "Verified Labels"
 msgstr "الوسوم المُثبتة"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:112
-#: enferno/admin/templates/admin/jsapi.jinja2:241
-#: enferno/admin/templates/admin/jsapi.jinja2:250
+#: enferno/admin/templates/admin/jsapi.jinja2:113
+#: enferno/admin/templates/admin/jsapi.jinja2:242
+#: enferno/admin/templates/admin/jsapi.jinja2:251
+#: enferno/admin/templates/admin/partials/actor_dialog.html:65
+#: enferno/admin/templates/admin/partials/actor_dialog.html:530
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:58
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:257
 #: enferno/admin/templates/admin/partials/event_dialog.html:8
+#: enferno/admin/templates/admin/partials/incident_dialog.html:55
+#: enferno/admin/templates/admin/partials/incident_dialog.html:219
 #: enferno/data_import/templates/sheets-import.html:370
 msgid "Events"
 msgstr "الحوادث"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:113
+#: enferno/admin/templates/admin/jsapi.jinja2:114
+#: enferno/admin/templates/admin/partials/actor_dialog.html:70
+#: enferno/admin/templates/admin/partials/actor_dialog.html:539
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:63
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:266
 #: enferno/admin/templates/admin/partials/media_dialog.html:6
 msgid "Media"
 msgstr "وسائط"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:114
-#: enferno/admin/templates/admin/jsapi.jinja2:239
+#: enferno/admin/templates/admin/jsapi.jinja2:115
+#: enferno/admin/templates/admin/jsapi.jinja2:240
 #: enferno/admin/templates/admin/locations.html:33
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:217
-#: enferno/admin/templates/admin/partials/incident_dialog.html:167
+#: enferno/admin/templates/admin/partials/actor_dialog.html:60
+#: enferno/admin/templates/admin/partials/actor_dialog.html:489
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:53
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:221
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:228
+#: enferno/admin/templates/admin/partials/incident_dialog.html:205
 #: enferno/data_import/templates/media-import.html:202
 #: enferno/templates/nav-drawer.html:55
 msgid "Locations"
 msgstr "الأماكن"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:115
-#: enferno/admin/templates/admin/partials/actor_dialog.html:772
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:266
-#: enferno/admin/templates/admin/partials/incident_dialog.html:314
+#: enferno/admin/templates/admin/jsapi.jinja2:116
+#: enferno/admin/templates/admin/partials/actor_dialog.html:949
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:341
+#: enferno/admin/templates/admin/partials/incident_dialog.html:354
+#: enferno/admin/templates/admin/partials/incident_dialog.html:355
 msgid "Related Bulletins"
 msgstr "المواد المرتبطة"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:116
-#: enferno/admin/templates/admin/partials/actor_dialog.html:655
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:378
-#: enferno/admin/templates/admin/partials/incident_dialog.html:204
+#: enferno/admin/templates/admin/jsapi.jinja2:117
+#: enferno/admin/templates/admin/partials/actor_dialog.html:873
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:282
+#: enferno/admin/templates/admin/partials/incident_dialog.html:243
+#: enferno/admin/templates/admin/partials/incident_dialog.html:244
 msgid "Related Actors"
 msgstr "الكيانات المرتبطة"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:117
-#: enferno/admin/templates/admin/partials/actor_dialog.html:881
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:489
-#: enferno/admin/templates/admin/partials/incident_dialog.html:426
+#: enferno/admin/templates/admin/jsapi.jinja2:118
+#: enferno/admin/templates/admin/partials/actor_dialog.html:967
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:411
+#: enferno/admin/templates/admin/partials/incident_dialog.html:468
+#: enferno/admin/templates/admin/partials/incident_dialog.html:469
 msgid "Related Incidents"
 msgstr "الوقائع المرتبطة"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:118
+#: enferno/admin/templates/admin/jsapi.jinja2:119
 msgid "Relationship Info"
 msgstr "معلومات الارتباط"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:119
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1431
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:637
+#: enferno/admin/templates/admin/jsapi.jinja2:120
+#: enferno/admin/templates/admin/partials/actor_dialog.html:1064
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:506
 #: enferno/data_import/templates/sheets-import.html:477
 msgid "Publish Date"
 msgstr "تاريخ النشر"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:120
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1438
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:645
+#: enferno/admin/templates/admin/jsapi.jinja2:121
+#: enferno/admin/templates/admin/partials/actor_dialog.html:1070
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:514
 #: enferno/data_import/templates/sheets-import.html:479
 msgid "Documentation Date"
 msgstr "تاريخ التوثيق"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:121
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1410
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:613
+#: enferno/admin/templates/admin/jsapi.jinja2:122
+#: enferno/admin/templates/admin/partials/actor_dialog.html:1043
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:486
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:488
 #: enferno/data_import/templates/sheets-import.html:462
 msgid "Source Link"
 msgstr "رابط المصدر"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:123
+#: enferno/admin/templates/admin/jsapi.jinja2:124
 msgid "Log History"
 msgstr "سجل التغييرات"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:126
+#: enferno/admin/templates/admin/jsapi.jinja2:127
 #: enferno/admin/templates/admin/users.html:96
 msgid "Full Name"
 msgstr "الاسم الكامل"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:127
+#: enferno/admin/templates/admin/jsapi.jinja2:128
 msgid "Nick Name"
 msgstr "اللقب"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:128
-#: enferno/admin/templates/admin/partials/actor_dialog.html:122
+#: enferno/admin/templates/admin/jsapi.jinja2:129
+#: enferno/admin/templates/admin/partials/actor_dialog.html:172
 #: enferno/data_import/templates/sheets-import.html:282
 msgid "First Name"
 msgstr "الاسم"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:129
+#: enferno/admin/templates/admin/jsapi.jinja2:130
+#: enferno/admin/templates/admin/partials/actor_dialog.html:202
 msgid "Middle Name"
 msgstr "الاسم الأوسط"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:130
-#: enferno/admin/templates/admin/partials/actor_dialog.html:182
+#: enferno/admin/templates/admin/jsapi.jinja2:131
+#: enferno/admin/templates/admin/partials/actor_dialog.html:232
 #: enferno/data_import/templates/sheets-import.html:296
 msgid "Last Name"
 msgstr "الكنية"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:131
-#: enferno/admin/templates/admin/partials/actor_dialog.html:211
+#: enferno/admin/templates/admin/jsapi.jinja2:132
+#: enferno/admin/templates/admin/partials/actor_dialog.html:261
 #: enferno/data_import/templates/sheets-import.html:302
 msgid "Mother's Name"
 msgstr "اسم الأم"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:133
+#: enferno/admin/templates/admin/jsapi.jinja2:134
 msgid "Age"
 msgstr "العمر"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:134
-#: enferno/admin/templates/admin/jsapi.jinja2:275
+#: enferno/admin/templates/admin/jsapi.jinja2:135
+#: enferno/admin/templates/admin/jsapi.jinja2:276
 msgid "Civilian"
 msgstr "مدني"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:137
-#: enferno/admin/templates/admin/partials/actor_dialog.html:365
+#: enferno/admin/templates/admin/jsapi.jinja2:138
+#: enferno/admin/templates/admin/partials/actor_dialog.html:309
 #: enferno/data_import/templates/sheets-import.html:354
 msgid "Date of Birth"
 msgstr "تاريخ الولادة"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:138
-#: enferno/admin/templates/admin/partials/actor_dialog.html:380
+#: enferno/admin/templates/admin/jsapi.jinja2:139
+#: enferno/admin/templates/admin/partials/actor_dialog.html:493
 #: enferno/data_import/templates/sheets-import.html:360
 msgid "Place of Birth"
 msgstr "مكان الولادة"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:139
-#: enferno/admin/templates/admin/partials/actor_dialog.html:411
+#: enferno/admin/templates/admin/jsapi.jinja2:140
+#: enferno/admin/templates/admin/partials/actor_dialog.html:513
 #: enferno/data_import/templates/sheets-import.html:364
 msgid "Place of Origin"
 msgstr "مكان الولادة"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:140
-#: enferno/admin/templates/admin/partials/actor_dialog.html:393
+#: enferno/admin/templates/admin/jsapi.jinja2:141
+#: enferno/admin/templates/admin/partials/actor_dialog.html:501
 #: enferno/data_import/templates/sheets-import.html:362
 msgid "Place of Residence"
 msgstr "مكان الإقامة"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:144
-#: enferno/admin/templates/admin/partials/actor_dialog.html:517
+#: enferno/admin/templates/admin/jsapi.jinja2:145
+#: enferno/admin/templates/admin/partials/actor_dialog.html:392
 #: enferno/data_import/templates/sheets-import.html:439
 msgid "Spoken Dialects"
 msgstr "اللهجات المحكية"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:147
+#: enferno/admin/templates/admin/jsapi.jinja2:148
 msgid "Ethnographic Info"
 msgstr "معلومات إثنيَّة"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:148
-#: enferno/admin/templates/admin/partials/actor_dialog.html:613
+#: enferno/admin/templates/admin/jsapi.jinja2:149
+#: enferno/admin/templates/admin/partials/actor_dialog.html:332
 msgid "Nationalities"
 msgstr "الجنسية"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:151
+#: enferno/admin/templates/admin/jsapi.jinja2:152
 msgid "Overview"
 msgstr "ملخص"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:154
-#: enferno/admin/templates/admin/partials/incident_dialog.html:124
+#: enferno/admin/templates/admin/jsapi.jinja2:155
+#: enferno/admin/templates/admin/partials/incident_dialog.html:162
 msgid "Claimed Violations Categories"
 msgstr "فئات الانتهاكات المزعومة"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:155
-#: enferno/admin/templates/admin/partials/incident_dialog.html:106
+#: enferno/admin/templates/admin/jsapi.jinja2:156
+#: enferno/admin/templates/admin/partials/incident_dialog.html:144
 msgid "Potential violation categories"
 msgstr "فئات الانتهاكات المحتملة"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:158
-#: enferno/admin/templates/admin/jsapi.jinja2:240
+#: enferno/admin/templates/admin/jsapi.jinja2:159
+#: enferno/admin/templates/admin/jsapi.jinja2:241
 msgid "Geo Markers"
 msgstr "علامات جغرافية"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:159
+#: enferno/admin/templates/admin/jsapi.jinja2:160
 msgid "Add Geo Marker"
 msgstr "أضف علامة جغرافية"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:162
+#: enferno/admin/templates/admin/jsapi.jinja2:163
 msgid "Missing Person"
 msgstr "ملف الشخص المفقود"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:164
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1002
+#: enferno/admin/templates/admin/jsapi.jinja2:165
+#: enferno/admin/templates/admin/partials/actor_dialog.html:557
 msgid "Last Address"
 msgstr "آخر عنوان"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:165
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1006
+#: enferno/admin/templates/admin/jsapi.jinja2:166
+#: enferno/admin/templates/admin/partials/actor_dialog.html:561
 msgid "Marriage History"
 msgstr "سجل الزواج"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:166
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1011
+#: enferno/admin/templates/admin/jsapi.jinja2:167
+#: enferno/admin/templates/admin/partials/actor_dialog.html:567
 msgid "Bio Children"
 msgstr "الأولاد البيولوجيون"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:167
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1019
+#: enferno/admin/templates/admin/jsapi.jinja2:168
+#: enferno/admin/templates/admin/partials/actor_dialog.html:575
 msgid "Pregnant at Disappearance"
 msgstr "حامل وقت الاختفاء"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:168
+#: enferno/admin/templates/admin/jsapi.jinja2:169
 msgid "Months Pregnant at Disappearance"
 msgstr "شهر الحمل وقت الاختفاء"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:169
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1039
+#: enferno/admin/templates/admin/jsapi.jinja2:170
+#: enferno/admin/templates/admin/partials/actor_dialog.html:591
 msgid "Missing Relatives"
 msgstr "أقارب مفقودين"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:171
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1056
+#: enferno/admin/templates/admin/jsapi.jinja2:172
+#: enferno/admin/templates/admin/partials/actor_dialog.html:608
 msgid "Address"
 msgstr "العنوان"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:172
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1058
+#: enferno/admin/templates/admin/jsapi.jinja2:173
+#: enferno/admin/templates/admin/partials/actor_dialog.html:610
 msgid "Phone"
 msgstr "رقم الهاتف"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:173
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1064
+#: enferno/admin/templates/admin/jsapi.jinja2:174
+#: enferno/admin/templates/admin/partials/actor_dialog.html:614
 #: enferno/admin/templates/admin/users.html:111
 #: enferno/admin/templates/admin/users.html:312
 msgid "Email"
 msgstr "البريد الالكتروني"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:174
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1073
+#: enferno/admin/templates/admin/jsapi.jinja2:175
+#: enferno/admin/templates/admin/partials/actor_dialog.html:623
 msgid "Seen in a detention center?"
 msgstr "هل شوهد في مركز اعتقال؟"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:175
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1080
+#: enferno/admin/templates/admin/jsapi.jinja2:176
+#: enferno/admin/templates/admin/partials/actor_dialog.html:628
 msgid "Injured around time of disappearance?"
 msgstr "هل كان مصابا وقت الاختفاء؟"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:176
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1088
+#: enferno/admin/templates/admin/jsapi.jinja2:177
+#: enferno/admin/templates/admin/partials/actor_dialog.html:634
 msgid "Known to be dead?"
 msgstr "هل يعرف بأنه ميت؟"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:177
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1094
+#: enferno/admin/templates/admin/jsapi.jinja2:178
+#: enferno/admin/templates/admin/partials/actor_dialog.html:639
 msgid "Details about circumstances of death"
 msgstr "تفاصيل حول ظروف الوفاة"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:178
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1100
+#: enferno/admin/templates/admin/jsapi.jinja2:179
+#: enferno/admin/templates/admin/partials/actor_dialog.html:644
 msgid "Personal Items (watch,ring,chains etc)"
 msgstr "متعلقات شخصية (ساعة، خاتم، قلادة..إلخ)"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:179
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1110
+#: enferno/admin/templates/admin/jsapi.jinja2:180
+#: enferno/admin/templates/admin/partials/actor_dialog.html:653
 msgid "Height"
 msgstr "الطول"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:180
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1122
+#: enferno/admin/templates/admin/jsapi.jinja2:181
+#: enferno/admin/templates/admin/partials/actor_dialog.html:663
 msgid "Weight"
 msgstr "الوزن"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:181
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1131
+#: enferno/admin/templates/admin/jsapi.jinja2:182
+#: enferno/admin/templates/admin/partials/actor_dialog.html:671
 msgid "Physique"
 msgstr "البنية الجسدية"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:182
+#: enferno/admin/templates/admin/jsapi.jinja2:183
 msgid "Hair Loss"
 msgstr "كثافة الشعر"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:183
+#: enferno/admin/templates/admin/jsapi.jinja2:184
 msgid "Hair Type"
 msgstr "نوع الشعر"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:184
+#: enferno/admin/templates/admin/jsapi.jinja2:185
 msgid "Hair Length"
 msgstr "طول الشعر"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:185
+#: enferno/admin/templates/admin/jsapi.jinja2:186
 msgid "Hair Color"
 msgstr "لون الشعر"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:186
+#: enferno/admin/templates/admin/jsapi.jinja2:187
 msgid "Facial Hair"
 msgstr "شعر الوجه"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:187
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1196
+#: enferno/admin/templates/admin/jsapi.jinja2:188
+#: enferno/admin/templates/admin/partials/actor_dialog.html:705
 msgid "Notes on posture and walking style"
 msgstr "ملاحظة عن القامة وطريقة المشي"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:188
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1218
+#: enferno/admin/templates/admin/jsapi.jinja2:189
+#: enferno/admin/templates/admin/partials/actor_dialog.html:714
 msgid "Skin Markings"
 msgstr "علامات ظاهرة على الجلد"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:189
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1198
+#: enferno/admin/templates/admin/jsapi.jinja2:190
+#: enferno/admin/templates/admin/partials/actor_dialog.html:706
 msgid "Handness"
 msgstr "أيمن/أعسر"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:190
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1204
+#: enferno/admin/templates/admin/jsapi.jinja2:191
+#: enferno/admin/templates/admin/partials/actor_dialog.html:708
 msgid "Glasses"
 msgstr "نظارات"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:191
+#: enferno/admin/templates/admin/jsapi.jinja2:192
 msgid "Eye Color"
 msgstr "لون العين"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:192
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1233
+#: enferno/admin/templates/admin/jsapi.jinja2:193
+#: enferno/admin/templates/admin/partials/actor_dialog.html:724
 msgid "Distinctive characteristics (congenital)"
 msgstr "سمات مميزة (خلقية)"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:193
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1238
+#: enferno/admin/templates/admin/jsapi.jinja2:194
+#: enferno/admin/templates/admin/partials/actor_dialog.html:728
 msgid "Distinctive characteristics (acquired)"
 msgstr "سمات مميزة (مكتسبة)"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:194
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1244
+#: enferno/admin/templates/admin/jsapi.jinja2:195
+#: enferno/admin/templates/admin/partials/actor_dialog.html:734
 msgid "Physical habits"
 msgstr "عادات بدنية"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:195
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1248
+#: enferno/admin/templates/admin/jsapi.jinja2:196
+#: enferno/admin/templates/admin/partials/actor_dialog.html:738
 msgid "Other comments"
 msgstr "تعليقات"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:196
+#: enferno/admin/templates/admin/jsapi.jinja2:197
 msgid "Physician\\u2019s name and contact"
 msgstr "اسم ومعلومات الاتصال الخاصة بالطبيب"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:197
+#: enferno/admin/templates/admin/jsapi.jinja2:198
 msgid "Fractures / Injuries"
 msgstr "كسور / إصابات"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:198
+#: enferno/admin/templates/admin/jsapi.jinja2:199
 msgid "Implants "
 msgstr "عمليات زرع "
 
-#: enferno/admin/templates/admin/jsapi.jinja2:199
+#: enferno/admin/templates/admin/jsapi.jinja2:200
 msgid "Congenital malformations"
 msgstr "التشوهات الخلقية"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:200
+#: enferno/admin/templates/admin/jsapi.jinja2:201
 msgid "Pain and / or ailments"
 msgstr "آلام واعتلالات"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:201
+#: enferno/admin/templates/admin/jsapi.jinja2:202
 msgid "Other medical conditions"
 msgstr "حالات طبية أخرى"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:202
+#: enferno/admin/templates/admin/jsapi.jinja2:203
 msgid "Accidents"
 msgstr "الوقائع"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:203
+#: enferno/admin/templates/admin/jsapi.jinja2:204
 msgid "Prescription drugs taken"
 msgstr "الأدوية المتناولة التي تتطلب وصفات طبية"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:204
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1310
+#: enferno/admin/templates/admin/jsapi.jinja2:205
+#: enferno/admin/templates/admin/partials/actor_dialog.html:791
 msgid "Smoker"
 msgstr "مدخن"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:205
+#: enferno/admin/templates/admin/jsapi.jinja2:206
 msgid "Is there a Dental Record"
 msgstr "هل هناك سجل أسنان"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:206
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1320
+#: enferno/admin/templates/admin/jsapi.jinja2:207
+#: enferno/admin/templates/admin/partials/actor_dialog.html:800
 msgid "Dentist’s name and contact"
 msgstr "اسم ومعلومات الاتصال الخاصة بطبيب الأسنان"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:207
+#: enferno/admin/templates/admin/jsapi.jinja2:208
 msgid "Teeth features"
 msgstr "مواصفات الأسنان"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:208
+#: enferno/admin/templates/admin/jsapi.jinja2:209
 msgid "Dental problems"
 msgstr "مشاكل سنية"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:209
+#: enferno/admin/templates/admin/jsapi.jinja2:210
 msgid "Dental treatments"
 msgstr "علاجات سنية"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:210
+#: enferno/admin/templates/admin/jsapi.jinja2:211
 msgid "Dental habits"
 msgstr "عادات سنية"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:211
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1348
+#: enferno/admin/templates/admin/jsapi.jinja2:212
+#: enferno/admin/templates/admin/partials/actor_dialog.html:827
 msgid "Case status"
 msgstr "حالة الكيان"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:212
+#: enferno/admin/templates/admin/jsapi.jinja2:213
 msgid "Reporters"
 msgstr "الإبلاغ عن الأشخاص"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:213
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1368
+#: enferno/admin/templates/admin/jsapi.jinja2:214
+#: enferno/admin/templates/admin/partials/actor_dialog.html:840
 msgid "Identified by (responsible institution)"
 msgstr "تم التعرف عليه من قبل (المؤسسة المسؤولة)"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:214
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1373
+#: enferno/admin/templates/admin/jsapi.jinja2:215
+#: enferno/admin/templates/admin/partials/actor_dialog.html:844
 msgid "Was the family notified?"
 msgstr "هل تم إخطار العائلة؟"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:215
+#: enferno/admin/templates/admin/jsapi.jinja2:216
 msgid "Location of reburial"
 msgstr "مكان إعادة الدفن (العنوان كاملا)"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:216
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1051
+#: enferno/admin/templates/admin/jsapi.jinja2:217
+#: enferno/admin/templates/admin/partials/actor_dialog.html:603
 msgid "Details of the person who saw them last"
 msgstr "معلومات الشخص الذي شاهدهم أخر مرة"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:218
+#: enferno/admin/templates/admin/jsapi.jinja2:219
 msgid "Contact"
 msgstr "معلومات الاتصال"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:223
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1431
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1438
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:637
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:645
+#: enferno/admin/templates/admin/jsapi.jinja2:224
+#: enferno/admin/templates/admin/partials/actor_dialog.html:1064
+#: enferno/admin/templates/admin/partials/actor_dialog.html:1070
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:506
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:514
 #: enferno/admin/templates/admin/partials/event_dialog.html:156
 #: enferno/admin/templates/admin/partials/event_dialog.html:159
 msgid "Time"
 msgstr "الوقت"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:226
+#: enferno/admin/templates/admin/jsapi.jinja2:227
 #: enferno/templates/nav-drawer.html:29
 msgid "Actors"
 msgstr "الكيانات"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:227
+#: enferno/admin/templates/admin/jsapi.jinja2:228
 #: enferno/templates/nav-drawer.html:18
 msgid "Bulletins"
 msgstr "المواد"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:228
+#: enferno/admin/templates/admin/jsapi.jinja2:229
 #: enferno/templates/nav-drawer.html:40
 msgid "Incidents"
 msgstr "الوقائع"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:229
+#: enferno/admin/templates/admin/jsapi.jinja2:230
 msgid "Double click on a node to expand graph, click and hold CTRL to view"
 msgstr "اضغط على العنصر لتوسيع التمثيل، اضغط مع مفتاح التحكم لمعاينة العنصر"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:232
-#: enferno/admin/templates/admin/jsapi.jinja2:296
+#: enferno/admin/templates/admin/jsapi.jinja2:233
+#: enferno/admin/templates/admin/jsapi.jinja2:297
 msgid "Maybe"
 msgstr "ضئيل"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:233
-#: enferno/admin/templates/admin/jsapi.jinja2:297
+#: enferno/admin/templates/admin/jsapi.jinja2:234
+#: enferno/admin/templates/admin/jsapi.jinja2:298
 msgid "Likely"
 msgstr "غالب/محتمل"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:234
-#: enferno/admin/templates/admin/jsapi.jinja2:298
+#: enferno/admin/templates/admin/jsapi.jinja2:235
+#: enferno/admin/templates/admin/jsapi.jinja2:299
 msgid "Certain"
 msgstr "أكيد"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:247
+#: enferno/admin/templates/admin/jsapi.jinja2:248
 #, fuzzy
 msgid "Birth Place"
 msgstr "استبدل"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:248
+#: enferno/admin/templates/admin/jsapi.jinja2:249
 #, fuzzy
 msgid "Residence Place"
 msgstr "استبدل"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:249
+#: enferno/admin/templates/admin/jsapi.jinja2:250
 #, fuzzy
 msgid "Origin Place"
 msgstr "رقم تعريف المصدر"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:258
+#: enferno/admin/templates/admin/jsapi.jinja2:259
 msgid "Person"
 msgstr "شخص"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:259
+#: enferno/admin/templates/admin/jsapi.jinja2:260
 msgid "Entity"
 msgstr "كيان"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:263
+#: enferno/admin/templates/admin/jsapi.jinja2:264
 msgid "Male"
 msgstr "ذكر"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:264
+#: enferno/admin/templates/admin/jsapi.jinja2:265
 msgid "Female"
 msgstr "أنثى"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:268
+#: enferno/admin/templates/admin/jsapi.jinja2:269
 msgid "Minor"
 msgstr "قاصر"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:269
+#: enferno/admin/templates/admin/jsapi.jinja2:270
 msgid "Adult"
 msgstr "بالغ"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:276
+#: enferno/admin/templates/admin/jsapi.jinja2:277
 msgid "Non-Civilian"
 msgstr "غير مدني"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:277
+#: enferno/admin/templates/admin/jsapi.jinja2:278
 msgid "Police"
 msgstr "شرطة"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:278
+#: enferno/admin/templates/admin/jsapi.jinja2:279
 msgid "Other Security Forces"
 msgstr "قوات أمنية أخرى"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:306
+#: enferno/admin/templates/admin/jsapi.jinja2:307
 msgid "Very thin"
 msgstr "نحيل جداً"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:307
+#: enferno/admin/templates/admin/jsapi.jinja2:308
 msgid "Thin"
 msgstr "نحيل"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:308
+#: enferno/admin/templates/admin/jsapi.jinja2:309
 msgid "Average"
 msgstr "متوسط البنية"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:309
+#: enferno/admin/templates/admin/jsapi.jinja2:310
 msgid "Muscular"
 msgstr "ذو بنية عضلية"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:310
+#: enferno/admin/templates/admin/jsapi.jinja2:311
 msgid "Overweight"
 msgstr "ذو وزن زائد"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:311
+#: enferno/admin/templates/admin/jsapi.jinja2:312
 msgid "Obese"
 msgstr "بدين"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:315
+#: enferno/admin/templates/admin/jsapi.jinja2:316
 msgid "Pregnant"
 msgstr "حامل"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:316
+#: enferno/admin/templates/admin/jsapi.jinja2:317
 msgid "Not Pregnant"
 msgstr "غير حامل"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:318
+#: enferno/admin/templates/admin/jsapi.jinja2:319
 msgid "Not Applicable"
 msgstr "غير متوفر"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:319
+#: enferno/admin/templates/admin/jsapi.jinja2:320
 msgid "The Question Was Not Asked"
 msgstr "لم يتم طرح السؤال"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:329
+#: enferno/admin/templates/admin/jsapi.jinja2:330
 msgid "Full"
 msgstr "كامل"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:330
+#: enferno/admin/templates/admin/jsapi.jinja2:331
 msgid "Bald"
 msgstr "أصلع"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:331
+#: enferno/admin/templates/admin/jsapi.jinja2:332
 msgid "Partial hair loss"
 msgstr "فقدان شعر جزئي"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:335
+#: enferno/admin/templates/admin/jsapi.jinja2:336
 msgid "Straight"
 msgstr "أملس"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:336
+#: enferno/admin/templates/admin/jsapi.jinja2:337
 msgid "Wavy"
 msgstr "مموج"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:337
+#: enferno/admin/templates/admin/jsapi.jinja2:338
 msgid "Curly"
 msgstr "مجعد"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:338
+#: enferno/admin/templates/admin/jsapi.jinja2:339
 msgid "Very curly"
 msgstr "مجعد جداً"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:343
+#: enferno/admin/templates/admin/jsapi.jinja2:344
 msgid "Very short"
 msgstr "قصير جداً"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:344
+#: enferno/admin/templates/admin/jsapi.jinja2:345
 msgid "Short"
 msgstr "قصير"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:345
+#: enferno/admin/templates/admin/jsapi.jinja2:346
 msgid "Medium"
 msgstr "متوسط"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:346
+#: enferno/admin/templates/admin/jsapi.jinja2:347
 msgid "Long"
 msgstr "طويل"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:347
+#: enferno/admin/templates/admin/jsapi.jinja2:348
 msgid "Very long"
 msgstr "طويل جداً"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:351
-#: enferno/admin/templates/admin/jsapi.jinja2:392
+#: enferno/admin/templates/admin/jsapi.jinja2:352
+#: enferno/admin/templates/admin/jsapi.jinja2:393
 msgid "Black"
 msgstr "أسود"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:352
-#: enferno/admin/templates/admin/jsapi.jinja2:393
+#: enferno/admin/templates/admin/jsapi.jinja2:353
+#: enferno/admin/templates/admin/jsapi.jinja2:394
 msgid "Brown"
 msgstr "بني"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:353
+#: enferno/admin/templates/admin/jsapi.jinja2:354
 msgid "Blonde"
 msgstr "أشقر"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:354
-#: enferno/admin/templates/admin/jsapi.jinja2:396
+#: enferno/admin/templates/admin/jsapi.jinja2:355
+#: enferno/admin/templates/admin/jsapi.jinja2:397
 msgid "Grey"
 msgstr "رمادي/أشيب"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:355
+#: enferno/admin/templates/admin/jsapi.jinja2:356
 msgid "Turning grey"
 msgstr "بدأ يشيب"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:356
+#: enferno/admin/templates/admin/jsapi.jinja2:357
 msgid "Red"
 msgstr "أحمر/أصهب"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:357
+#: enferno/admin/templates/admin/jsapi.jinja2:358
 msgid "Other"
 msgstr "أخرى"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:360
+#: enferno/admin/templates/admin/jsapi.jinja2:361
 msgid "none"
 msgstr "لا يوجد"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:361
+#: enferno/admin/templates/admin/jsapi.jinja2:362
 msgid "Beard"
 msgstr "لحية"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:362
+#: enferno/admin/templates/admin/jsapi.jinja2:363
 msgid "Moustache"
 msgstr "شارب"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:363
+#: enferno/admin/templates/admin/jsapi.jinja2:364
 msgid "Beard and moustache"
 msgstr "شارب ولحية"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:364
+#: enferno/admin/templates/admin/jsapi.jinja2:365
 msgid "Goatee"
 msgstr "سكسوكة"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:365
+#: enferno/admin/templates/admin/jsapi.jinja2:366
 msgid "Whiskers"
 msgstr "سوالف"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:369
+#: enferno/admin/templates/admin/jsapi.jinja2:370
 msgid "Scar"
 msgstr "ندبة"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:370
+#: enferno/admin/templates/admin/jsapi.jinja2:371
 msgid "Tattoo"
 msgstr "وشم"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:371
+#: enferno/admin/templates/admin/jsapi.jinja2:372
 msgid "piercing"
 msgstr "ثقب/قرط"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:372
+#: enferno/admin/templates/admin/jsapi.jinja2:373
 msgid "Mole"
 msgstr "شامة"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:373
+#: enferno/admin/templates/admin/jsapi.jinja2:374
 msgid "Birthmarks"
 msgstr "علامات ولادة (وحمة)"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:374
+#: enferno/admin/templates/admin/jsapi.jinja2:375
 msgid "Cuts"
 msgstr "جروح"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:378
+#: enferno/admin/templates/admin/jsapi.jinja2:379
 msgid "Right"
 msgstr "أيمن"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:379
+#: enferno/admin/templates/admin/jsapi.jinja2:380
 msgid "Left"
 msgstr "أعسر"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:380
+#: enferno/admin/templates/admin/jsapi.jinja2:381
 msgid "Both Hands"
 msgstr "كلا اليدين"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:388
+#: enferno/admin/templates/admin/jsapi.jinja2:389
 msgid "Question Not Asked"
 msgstr "لم يتم طرح السؤال"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:394
+#: enferno/admin/templates/admin/jsapi.jinja2:395
 msgid "Green"
 msgstr "أخضر"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:395
+#: enferno/admin/templates/admin/jsapi.jinja2:396
 msgid "Blue"
 msgstr "أزرق"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:400
+#: enferno/admin/templates/admin/jsapi.jinja2:401
 msgid "Missing"
 msgstr "مفقود"
 
-#: enferno/admin/templates/admin/jsapi.jinja2:401
+#: enferno/admin/templates/admin/jsapi.jinja2:402
 msgid "Identified"
 msgstr "محدد / معرَّف"
 
@@ -1664,17 +1689,17 @@ msgid "New Location"
 msgstr "أضف مواقع"
 
 #: enferno/admin/templates/admin/locations.html:215
-#: enferno/admin/templates/admin/partials/location_dialog.html:55
+#: enferno/admin/templates/admin/partials/location_dialog.html:84
 msgid "Full Location"
 msgstr "الموقع الكامل"
 
 #: enferno/admin/templates/admin/locations.html:217
-#: enferno/admin/templates/admin/partials/location_dialog.html:73
+#: enferno/admin/templates/admin/partials/location_dialog.html:108
 msgid "Location Type"
 msgstr "نوع المكان"
 
 #: enferno/admin/templates/admin/locations.html:218
-#: enferno/admin/templates/admin/partials/location_dialog.html:97
+#: enferno/admin/templates/admin/partials/location_dialog.html:132
 msgid "Admin Level"
 msgstr "المستوى الإداري"
 
@@ -1708,6 +1733,14 @@ msgstr "تعديل المجموعة"
 msgid "ETL ID"
 msgstr "عنوان الETL"
 
+#: enferno/admin/templates/admin/partials/actor_dialog.html:50
+#: enferno/admin/templates/admin/partials/actor_dialog.html:89
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:43
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:82
+#: enferno/admin/templates/admin/partials/incident_dialog.html:45
+#: enferno/admin/templates/admin/partials/incident_dialog.html:74
+#: enferno/admin/templates/admin/partials/location_dialog.html:41
+#: enferno/admin/templates/admin/partials/location_dialog.html:60
 #: enferno/admin/templates/admin/system-administration.html:21
 #, fuzzy
 msgid "General"
@@ -2172,54 +2205,132 @@ msgstr "عيّن اسم للبحث"
 msgid "Save Actor"
 msgstr "حفظ الكيان"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:64
+#: enferno/admin/templates/admin/partials/actor_dialog.html:55
+#: enferno/admin/templates/admin/partials/actor_dialog.html:445
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:48
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:190
+#: enferno/admin/templates/admin/partials/incident_dialog.html:50
+#: enferno/admin/templates/admin/partials/incident_dialog.html:132
+#: enferno/admin/templates/admin/partials/location_dialog.html:51
+#: enferno/admin/templates/admin/partials/location_dialog.html:191
+#: enferno/admin/templates/admin/partials/location_dialog.html:198
+msgid "Tags"
+msgstr "الوسوم"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:75
+#: enferno/admin/templates/admin/partials/actor_dialog.html:866
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:68
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:275
+#: enferno/admin/templates/admin/partials/incident_dialog.html:60
+#: enferno/admin/templates/admin/partials/incident_dialog.html:231
+#, fuzzy
+msgid "Data Relationships"
+msgstr "العلاقة"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:80
+#: enferno/admin/templates/admin/partials/actor_dialog.html:1033
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:73
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:476
+#: enferno/admin/templates/admin/partials/incident_dialog.html:65
+#: enferno/admin/templates/admin/partials/incident_dialog.html:574
+#, fuzzy
+msgid "Data Details"
+msgstr "تفاصيل"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:115
 #: enferno/data_import/templates/sheets-import.html:260
 msgid "Name (AR)"
 msgstr "الاسم (عربي)"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:91
+#: enferno/admin/templates/admin/partials/actor_dialog.html:142
 #: enferno/data_import/templates/sheets-import.html:263
 msgid "Nickname"
 msgstr "اللقب"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:97
+#: enferno/admin/templates/admin/partials/actor_dialog.html:148
 #: enferno/data_import/templates/sheets-import.html:266
 msgid "Nickname (AR)"
 msgstr "اللقب (عربي)"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:128
+#: enferno/admin/templates/admin/partials/actor_dialog.html:178
 #: enferno/data_import/templates/sheets-import.html:285
 msgid "First Name (AR)"
 msgstr "الاسم (عربي)"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:152
-#: enferno/data_import/templates/sheets-import.html:289
-msgid "Middle/Father's Name"
-msgstr "اسم الأب/الاسم الأوسط"
+#: enferno/admin/templates/admin/partials/actor_dialog.html:208
+#, fuzzy
+msgid "Middle Name (AR)"
+msgstr "الاسم الأوسط"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:158
-#: enferno/data_import/templates/sheets-import.html:292
-msgid "Middle/Father's Name (AR)"
-msgstr "اسم الأب/الاسم الأوسط (عربي)"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:188
+#: enferno/admin/templates/admin/partials/actor_dialog.html:238
 #: enferno/data_import/templates/sheets-import.html:299
 msgid "Last Name (AR)"
 msgstr "الكنية (عربي)"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:217
+#: enferno/admin/templates/admin/partials/actor_dialog.html:267
 #: enferno/data_import/templates/sheets-import.html:305
 msgid "Mother's Name (AR)"
 msgstr "اسم الأم (عربي)"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:249
+#: enferno/admin/templates/admin/partials/actor_dialog.html:322
+msgid "Religious and ethnic groups to which the person belongs."
+msgstr "الجماعات الدينية والعرقية التي ينتمي إليها الشخص"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:335
+msgid ""
+"Nationality or nationalities which the person holds or the country of "
+"origin of the body."
+msgstr "الجنسية أو الجنسيات التي يحملها الشخص أو البلد الأصلي للجهة"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:345
+msgid ""
+"Any identifying number for a person or a body such as ID, passport, civil"
+" record number, etc."
+msgstr ""
+"أي رقم تعريفي لشخص أو جهة مثل الهوية أو جواز السفر أو رقم السجل المدني "
+"وغيرها"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:356
+#: enferno/data_import/templates/sheets-import.html:429
+msgid "Occupation (AR)"
+msgstr "المهنة (عربي)"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:372
+#: enferno/data_import/templates/sheets-import.html:435
+msgid "Position (AR)"
+msgstr "المنصب (عربي)"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:376
+#, fuzzy
+msgid "The person's position in their place of employment."
+msgstr "موقف الشخص في مكان عمله"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:393
+#: enferno/data_import/templates/sheets-import.html:441
+msgid "Spoken Dialects (AR)"
+msgstr "اللهجات المحكية (عربي)"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:397
+msgid "The local dialect or dialects the person speaks."
+msgstr "اللهجة المحلية أو اللهجات التي يتحدث بها الشخص"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:413
+#: enferno/data_import/templates/sheets-import.html:447
+msgid "Family Status (AR)"
+msgstr "الوضع العائلي (عربي)"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:417
+msgid "Marital status and number of children."
+msgstr "الحالة الاجتماعية وعدد الأطفال"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:437
 msgid ""
 "Text field which is used to add a full description of the Actor as well "
 "as notes from the user."
 msgstr "حقل نصي يُستخدم لإضافة وصف كامل للممثل بالإضافة إلى ملاحظات من المستخدم"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:269
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:141
+#: enferno/admin/templates/admin/partials/actor_dialog.html:455
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:171
 msgid ""
 "Sources are profiles of the original creators and publishers of the "
 "content of Actors and Bulletins in the database. This structure also "
@@ -2230,9 +2341,9 @@ msgstr ""
 "والنشرات في قاعدة البيانات. توفر هذه البنية أيضًا سهولة البحث والتصفية "
 "وتمنع أخطاء إدخال البيانات من قبل المستخدمين"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:289
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:179
-#: enferno/admin/templates/admin/partials/incident_dialog.html:153
+#: enferno/admin/templates/admin/partials/actor_dialog.html:468
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:200
+#: enferno/admin/templates/admin/partials/incident_dialog.html:191
 msgid ""
 "Labels allow for easy search and filter of the database. Labels can be "
 "created by an admin to tag the content or metadata of an item. "
@@ -2242,8 +2353,8 @@ msgstr ""
 "التصنيفات لوضع علامة على المحتوى أو البيانات التعريفية لعنصر ما. بالإضافة"
 " إلى ذلك، يمكن استخدام التسميات للمراجع أو التحكم في سير العمل"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:309
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:201
+#: enferno/admin/templates/admin/partials/actor_dialog.html:482
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:214
 msgid ""
 "The Verified labels are a set of neutral labels added by the data analyst"
 " based on observation and evidence found in the content. Allegations made"
@@ -2260,78 +2371,124 @@ msgstr ""
 "الوصفية أو المحتوى الذي تم التحقق منه. يتم استخدام الأخير بشكل أساسي في "
 "العناصر التي تحتوي على أدلة يمكن التحقق منها مثل نشرات الفيديو"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:397
+#: enferno/admin/templates/admin/partials/actor_dialog.html:504
 msgid ""
 "The location where the person currently resides or the current location "
 "of the body if its location has changed."
 msgstr "الموقع الذي يقيم فيه الشخص حاليا أو الموقع الحالي للجسم إذا تغير موقعه"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:415
+#: enferno/admin/templates/admin/partials/actor_dialog.html:516
 msgid ""
 "The location from which the person is originally or in which the body was"
 " established."
 msgstr "الموقع الذي أصل منه الشخص أو الذي أنشئت فيه الهيئة"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:454
-#: enferno/data_import/templates/sheets-import.html:429
-msgid "Occupation (AR)"
-msgstr "المهنة (عربي)"
+#: enferno/admin/templates/admin/partials/actor_dialog.html:547
+msgid "Missing Person Profile"
+msgstr "ملف الشخص المفقود"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:486
-#: enferno/data_import/templates/sheets-import.html:435
-msgid "Position (AR)"
-msgstr "المنصب (عربي)"
+#: enferno/admin/templates/admin/partials/actor_dialog.html:584
+msgid "Months Pregnant at time of disappearance"
+msgstr "شهر الحمل وقت الاختفاء"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:491
-#, fuzzy
-msgid "The person's position in their place of employment."
-msgstr "موقف الشخص في مكان عمله"
+#: enferno/admin/templates/admin/partials/actor_dialog.html:676
+msgid "Hair loss"
+msgstr "كثافة الشعر"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:522
-#: enferno/data_import/templates/sheets-import.html:441
-msgid "Spoken Dialects (AR)"
-msgstr "اللهجات المحكية (عربي)"
+#: enferno/admin/templates/admin/partials/actor_dialog.html:684
+msgid "Hair type"
+msgstr "نوع الشعر"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:527
-msgid "The local dialect or dialects the person speaks."
-msgstr "اللهجة المحلية أو اللهجات التي يتحدث بها الشخص"
+#: enferno/admin/templates/admin/partials/actor_dialog.html:688
+msgid "Hair length"
+msgstr "طول الشعر"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:557
-#: enferno/data_import/templates/sheets-import.html:447
-msgid "Family Status (AR)"
-msgstr "الوضع العائلي (عربي)"
+#: enferno/admin/templates/admin/partials/actor_dialog.html:692
+msgid "Hair color"
+msgstr "لون الشعر"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:562
-msgid "Marital status and number of children."
-msgstr "الحالة الاجتماعية وعدد الأطفال"
+#: enferno/admin/templates/admin/partials/actor_dialog.html:696
+msgid "Facial hair"
+msgstr "شعر الوجه"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:597
-msgid "Religious and ethnic groups to which the person belongs."
-msgstr "الجماعات الدينية والعرقية التي ينتمي إليها الشخص"
+#: enferno/admin/templates/admin/partials/actor_dialog.html:710
+msgid "Eye color"
+msgstr "لون العين"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:617
+#: enferno/admin/templates/admin/partials/actor_dialog.html:745
+msgid "Physician’s name and contact"
+msgstr "اسم ومعلومات الاتصال الخاصة بالطبيب"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:750
 msgid ""
-"Nationality or nationalities which the person holds or the country of "
-"origin of the body."
-msgstr "الجنسية أو الجنسيات التي يحملها الشخص أو البلد الأصلي للجهة"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:630
-msgid ""
-"Any identifying number for a person or a body such as ID, passport, civil"
-" record number, etc."
+"Fractures / Injuries (indicate place, side, circumstances, age at the "
+"time of injury, treatment)"
 msgstr ""
-"أي رقم تعريفي لشخص أو جهة مثل الهوية أو جواز السفر أو رقم السجل المدني "
-"وغيرها"
+"كسور / إصابات (حدد مكان الإصابة، الطرف، الظروف والعمر عند الإصابة مع "
+"معلومات العلاج)"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:663
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:386
-#: enferno/admin/templates/admin/partials/incident_dialog.html:214
+#: enferno/admin/templates/admin/partials/actor_dialog.html:757
+msgid ""
+"Implants (pacemakers, orthopedic prostheses, screws or metal plates, "
+"etc...) with date or age"
+msgstr ""
+"عمليات زرع (منظمات ضربات القلب، أطراف صناعية، براغي أو ألواح معدنية، "
+"إلخ...)"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:762
+msgid ""
+"Congenital malformations (indicate type and whether there is more than "
+"one relative with the same pathology)"
+msgstr "التشوهات الخلقية (حدد النوع واذا وُجد قريب آخر يعاني من ذات التشوه)"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:768
+msgid "Pain and/or ailments"
+msgstr "آلام واعتلالات"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:773
+msgid "Other medical conditions (specify type and age of occurrence)"
+msgstr "حالات طبية أخرى (حدد النوع وتاريخ الحدوث)"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:779
+msgid "Accidents (indicate age of occurrence)"
+msgstr "حوادث (حدد تاريخ الحدوث)"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:784
+msgid "Prescription drugs taken (indicate at what age and reason)"
+msgstr "الأدوية المتناولة التي تتطلب وصفات طبية"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:796
+msgid "Is there a Dental Record?"
+msgstr "هل هناك سجل أسنان؟"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:805
+msgid "Teeth features (spacing, extra teeth, missing teeth, overbite, etc...)"
+msgstr "مواصفات الأسنان (مثل التباعد، أسنان زائدة، تراكب العضة، إلخ...)"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:814
+msgid "Dental problems (absences, infections, bleeding, etc...)"
+msgstr "مشاكل سنية (مثل فقد، عدوى، نزيف، إلخ...)"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:819
+msgid "Dental treatments (extractions, fillings, etc...) with dates"
+msgstr "علاجات سنية (خلع، حشوات، إلخ...) مع التاريخ"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:823
+msgid "Dental habits (toothpicks, smoking, etc...)"
+msgstr "عادات سنية (أعواد الأسنان، تدخين، إلخ...)"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:849
+msgid "Location of reburial (full address)"
+msgstr "مكان إعادة الدفن (العنوان كاملا)"
+
+#: enferno/admin/templates/admin/partials/actor_dialog.html:878
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:286
+#: enferno/admin/templates/admin/partials/incident_dialog.html:254
 msgid "Search & Relate Actors"
 msgstr "البحث عن الكيانات المرتبطة"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:669
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:392
-#: enferno/admin/templates/admin/partials/incident_dialog.html:220
+#: enferno/admin/templates/admin/partials/actor_dialog.html:881
+#: enferno/admin/templates/admin/partials/incident_dialog.html:260
 msgid ""
 "Actors are items of documentation about persons or bodies of interest "
 "that can be related to other Actors, Bulletins, or Incidents, usually "
@@ -2344,46 +2501,44 @@ msgstr ""
 "تعريف الممثل على حقول لتحديد الشخص أو الجسم، وربط الممثل بالعناصر الأخرى "
 "في قاعدة البيانات، وإضافة تسميات وإنشاء الأحداث"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:692
-#: enferno/admin/templates/admin/partials/actor_dialog.html:809
-#: enferno/admin/templates/admin/partials/actor_dialog.html:918
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:304
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:415
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:526
-#: enferno/admin/templates/admin/partials/incident_dialog.html:242
-#: enferno/admin/templates/admin/partials/incident_dialog.html:353
-#: enferno/admin/templates/admin/partials/incident_dialog.html:463
+#: enferno/admin/templates/admin/partials/actor_dialog.html:895
+#: enferno/admin/templates/admin/partials/actor_dialog.html:989
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:301
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:362
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:432
+#: enferno/admin/templates/admin/partials/incident_dialog.html:282
+#: enferno/admin/templates/admin/partials/incident_dialog.html:394
+#: enferno/admin/templates/admin/partials/incident_dialog.html:506
 msgid "Relationship Information"
 msgstr "معلومات الارتباط"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:699
-#: enferno/admin/templates/admin/partials/actor_dialog.html:815
-#: enferno/admin/templates/admin/partials/actor_dialog.html:925
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:310
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:421
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:532
-#: enferno/admin/templates/admin/partials/incident_dialog.html:248
+#: enferno/admin/templates/admin/partials/actor_dialog.html:902
+#: enferno/admin/templates/admin/partials/actor_dialog.html:994
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:305
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:368
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:437
+#: enferno/admin/templates/admin/partials/incident_dialog.html:288
 msgid "Probability"
 msgstr "الاحتمالية"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:712
-#: enferno/admin/templates/admin/partials/actor_dialog.html:826
-#: enferno/admin/templates/admin/partials/actor_dialog.html:936
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:321
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:433
-#: enferno/admin/templates/admin/partials/incident_dialog.html:259
+#: enferno/admin/templates/admin/partials/actor_dialog.html:911
+#: enferno/admin/templates/admin/partials/actor_dialog.html:1001
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:313
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:375
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:444
+#: enferno/admin/templates/admin/partials/incident_dialog.html:299
 msgid "Related As"
 msgstr "نوع الارتباط"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:780
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:274
-#: enferno/admin/templates/admin/partials/incident_dialog.html:323
+#: enferno/admin/templates/admin/partials/actor_dialog.html:954
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:345
+#: enferno/admin/templates/admin/partials/incident_dialog.html:364
 msgid "Search & Relate Bulletins"
 msgstr "البحث عن المواد المرتبطة"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:786
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:280
-#: enferno/admin/templates/admin/partials/incident_dialog.html:329
+#: enferno/admin/templates/admin/partials/actor_dialog.html:957
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:349
+#: enferno/admin/templates/admin/partials/incident_dialog.html:370
 msgid ""
 "A Bulletin is one piece of documentation that provides information about "
 "a specific event. Bulletins could be from almost any type of content, "
@@ -2394,24 +2549,23 @@ msgstr ""
 "تكون النشرات من أي نوع من المحتوى تقريبًا، مثل مقاطع الفيديو والصوت "
 "والصور والمستندات والمقابلات والتقارير والملفات النصية وما إلى ذلك"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:889
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:497
-#: enferno/admin/templates/admin/partials/incident_dialog.html:435
+#: enferno/admin/templates/admin/partials/actor_dialog.html:972
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:416
+#: enferno/admin/templates/admin/partials/incident_dialog.html:478
 msgid "Search & Relate Incidents"
 msgstr "البحث عن الوقائع المرتبطة"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:895
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:503
-#: enferno/admin/templates/admin/partials/incident_dialog.html:441
+#: enferno/admin/templates/admin/partials/actor_dialog.html:975
+#, fuzzy
 msgid ""
-"Analysis of Actors and Bulletins is intended to follow a \"closed "
+"_(\"Analysis of Actors and Bulletins is intended to follow a \"closed "
 "universe\" approach, where the only focus of the analysis is the evidence"
 " contained in each item individually and without looking for additional "
 "information outside. This approach allows for speedy initial analysis of "
 "Actors and Bulletins and prevents adding any unreliable outside "
 "information or opinions. Incidents allow for the evidence contained in "
 "individual Actors and Bulletins to be linked together and analyzed as a "
-"group."
+"group.\")"
 msgstr ""
 "يهدف تحليل الممثلين والنشرات إلى اتباع نهج \"العالم المغلق\"، حيث يكون "
 "التركيز الوحيد للتحليل هو الأدلة الواردة في كل عنصر على حدة ودون البحث عن"
@@ -2420,106 +2574,8 @@ msgstr ""
 "الحوادث بربط الأدلة الواردة في الجهات الفاعلة والنشرات الفردية معًا "
 "وتحليلها كمجموعة"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:992
-msgid "Missing Person Profile"
-msgstr "ملف الشخص المفقود"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1032
-msgid "Months Pregnant at time of disappearance"
-msgstr "شهر الحمل وقت الاختفاء"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1141
-msgid "Hair loss"
-msgstr "كثافة الشعر"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1154
-msgid "Hair type"
-msgstr "نوع الشعر"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1163
-msgid "Hair length"
-msgstr "طول الشعر"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1172
-msgid "Hair color"
-msgstr "لون الشعر"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1181
-msgid "Facial hair"
-msgstr "شعر الوجه"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1210
-msgid "Eye color"
-msgstr "لون العين"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1255
-msgid "Physician’s name and contact"
-msgstr "اسم ومعلومات الاتصال الخاصة بالطبيب"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1260
-msgid ""
-"Fractures / Injuries (indicate place, side, circumstances, age at the "
-"time of injury, treatment)"
-msgstr ""
-"كسور / إصابات (حدد مكان الإصابة، الطرف، الظروف والعمر عند الإصابة مع "
-"معلومات العلاج)"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1268
-msgid ""
-"Implants (pacemakers, orthopedic prostheses, screws or metal plates, "
-"etc...) with date or age"
-msgstr ""
-"عمليات زرع (منظمات ضربات القلب، أطراف صناعية، براغي أو ألواح معدنية، "
-"إلخ...)"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1273
-msgid ""
-"Congenital malformations (indicate type and whether there is more than "
-"one relative with the same pathology)"
-msgstr "التشوهات الخلقية (حدد النوع واذا وُجد قريب آخر يعاني من ذات التشوه)"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1280
-msgid "Pain and/or ailments"
-msgstr "آلام واعتلالات"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1285
-msgid "Other medical conditions (specify type and age of occurrence)"
-msgstr "حالات طبية أخرى (حدد النوع وتاريخ الحدوث)"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1293
-msgid "Accidents (indicate age of occurrence)"
-msgstr "حوادث (حدد تاريخ الحدوث)"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1298
-msgid "Prescription drugs taken (indicate at what age and reason)"
-msgstr "الأدوية المتناولة التي تتطلب وصفات طبية"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1316
-msgid "Is there a Dental Record?"
-msgstr "هل هناك سجل أسنان؟"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1325
-msgid "Teeth features (spacing, extra teeth, missing teeth, overbite, etc...)"
-msgstr "مواصفات الأسنان (مثل التباعد، أسنان زائدة، تراكب العضة، إلخ...)"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1334
-msgid "Dental problems (absences, infections, bleeding, etc...)"
-msgstr "مشاكل سنية (مثل فقد، عدوى، نزيف، إلخ...)"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1339
-msgid "Dental treatments (extractions, fillings, etc...) with dates"
-msgstr "علاجات سنية (خلع، حشوات، إلخ...) مع التاريخ"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1344
-msgid "Dental habits (toothpicks, smoking, etc...)"
-msgstr "عادات سنية (أعواد الأسنان، تدخين، إلخ...)"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1379
-msgid "Location of reburial (full address)"
-msgstr "مكان إعادة الدفن (العنوان كاملا)"
-
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1414
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:617
+#: enferno/admin/templates/admin/partials/actor_dialog.html:1048
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:493
 msgid ""
 "The URL to the original source from which the information was obtained. "
 "‘Not Available’ checkbox can be selected if the source link is no "
@@ -2533,13 +2589,13 @@ msgstr ""
 "استخدام شريط التمرير \"الخاص\" إذا لم يعد من الممكن الوصول إلى عنوان URL."
 " يتحقق الحقل من صحة الإدخال ولن يقبل عنوان URL غير صالح"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1419
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:622
+#: enferno/admin/templates/admin/partials/actor_dialog.html:1053
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:498
 msgid "Not Available"
 msgstr "غير متوفر"
 
-#: enferno/admin/templates/admin/partials/actor_dialog.html:1421
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:626
+#: enferno/admin/templates/admin/partials/actor_dialog.html:1055
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:501
 #: enferno/data_import/templates/sheets-import.html:475
 msgid "Private"
 msgstr "خاص"
@@ -2591,16 +2647,16 @@ msgstr "تقييد العناصر المرتبطة"
 msgid "Bulk Update Incidents"
 msgstr "تحديث وقائع بالجملة"
 
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:23
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:22
 msgid "Save Bulletin"
 msgstr "حفظ المادة"
 
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:56
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:99
 msgid "Original Title (AR)"
 msgstr "العنوان الأصلي (عربي)"
 
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:60
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:97
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:103
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:137
 msgid ""
 "Titles from sources might be edited for clarity, but the “Original Title”"
 " is retained."
@@ -2608,7 +2664,7 @@ msgstr ""
 "قد يتم تحرير العناوين من المصادر من أجل الوضوح، ولكن يتم الاحتفاظ بـ "
 "\"العنوان الأصلي\""
 
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:157
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:183
 msgid ""
 "The Bulletin Description should describe, in details, what happens, and "
 "what the content shows. Describe the people involved, the surrounding "
@@ -2619,8 +2675,8 @@ msgstr ""
 " المعنيين، والمنطقة المحيطة، ومعلومات عن الوقت واليوم. كن نقديًا واستخدم "
 "(وصف) فقط الحقائق الموضحة بالفعل في الوثائق"
 
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:221
-#: enferno/admin/templates/admin/partials/incident_dialog.html:171
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:231
+#: enferno/admin/templates/admin/partials/incident_dialog.html:209
 msgid ""
 "Locations is a central list of entries for the adminstrative centers "
 "(cities, towns, villages, etc)."
@@ -2628,11 +2684,44 @@ msgstr ""
 "المواقع هي قائمة مركزية لإدخالات المراكز الإدارية (المدن والبلدات والقرى "
 "وغيرها)"
 
-#: enferno/admin/templates/admin/partials/bulletin_dialog.html:252
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:250
 msgid ""
 "Geo Markers are geographical markers or landmarks that help describe the "
 "bulletin."
 msgstr "العلامات الجغرافية هي علامات جغرافية أو معالم تساعد في وصف النشرة"
+
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:290
+#, fuzzy
+msgid ""
+"Actors are items of documentation about persons or bodies of interest "
+"that can be related to otherActors, Bulletins, or Incidents, usually "
+"coming from a single source. The Actor profile contains fields to "
+"identify the person or body, relate the Actor to other items in the "
+"database, add labels and create Events."
+msgstr ""
+"الممثلون عبارة عن وثائق حول أشخاص أو هيئات ذات أهمية يمكن أن تكون مرتبطة "
+"بممثلين آخرين أو نشرات أو حوادث، وعادة ما تأتي من مصدر واحد. يحتوي ملف "
+"تعريف الممثل على حقول لتحديد الشخص أو الجسم، وربط الممثل بالعناصر الأخرى "
+"في قاعدة البيانات، وإضافة تسميات وإنشاء الأحداث"
+
+#: enferno/admin/templates/admin/partials/bulletin_dialog.html:419
+#: enferno/admin/templates/admin/partials/incident_dialog.html:484
+msgid ""
+"Analysis of Actors and Bulletins is intended to follow a \"closed "
+"universe\" approach, where the only focus of the analysis is the evidence"
+" contained in each item individually and without looking for additional "
+"information outside. This approach allows for speedy initial analysis of "
+"Actors and Bulletins and prevents adding any unreliable outside "
+"information or opinions. Incidents allow for the evidence contained in "
+"individual Actors and Bulletins to be linked together and analyzed as a "
+"group."
+msgstr ""
+"يهدف تحليل الممثلين والنشرات إلى اتباع نهج \"العالم المغلق\"، حيث يكون "
+"التركيز الوحيد للتحليل هو الأدلة الواردة في كل عنصر على حدة ودون البحث عن"
+" معلومات إضافية في الخارج. يسمح هذا الأسلوب بإجراء تحليل أولي سريع "
+"للممثلين والنشرات ويمنع إضافة أي معلومات أو آراء خارجية غير موثوقة. تسمح "
+"الحوادث بربط الأدلة الواردة في الجهات الفاعلة والنشرات الفردية معًا "
+"وتحليلها كمجموعة"
 
 #: enferno/admin/templates/admin/partials/event_dialog.html:24
 msgid ""
@@ -2680,7 +2769,7 @@ msgstr ""
 msgid "Save Incident"
 msgstr "حفظ الواقعة"
 
-#: enferno/admin/templates/admin/partials/incident_dialog.html:89
+#: enferno/admin/templates/admin/partials/incident_dialog.html:125
 msgid ""
 "The incident description is a full description of the Incident and the "
 "evidence contained in the related Bulletins and Actors, as well as notes "
@@ -2689,7 +2778,7 @@ msgstr ""
 "وصف الحادث هو وصف كامل للحادث والأدلة الواردة في النشرات والجهات الفاعلة "
 "ذات الصلة، بالإضافة إلى الملاحظات والموارد الإضافية"
 
-#: enferno/admin/templates/admin/partials/incident_dialog.html:110
+#: enferno/admin/templates/admin/partials/incident_dialog.html:148
 msgid ""
 "List that is used to determine the category under which the violations "
 "related to the incident can be described."
@@ -2697,7 +2786,7 @@ msgstr ""
 "القائمة التي يتم استخدامها لتحديد الفئة التي يمكن ضمنها وصف المخالفات "
 "المتعلقة بالحادثة"
 
-#: enferno/admin/templates/admin/partials/incident_dialog.html:128
+#: enferno/admin/templates/admin/partials/incident_dialog.html:166
 msgid ""
 "List of violations that have been committed during the course of the "
 "event related to the incident."
@@ -2707,21 +2796,23 @@ msgstr "قائمة المخالفات التي تم ارتكابها أثناء 
 msgid "Save Location"
 msgstr "حفظ الموقع"
 
-#: enferno/admin/templates/admin/partials/location_dialog.html:47
+#: enferno/admin/templates/admin/partials/location_dialog.html:46
+#: enferno/admin/templates/admin/partials/location_dialog.html:96
+#, fuzzy
+msgid "Location Details"
+msgstr "نوع المكان"
+
+#: enferno/admin/templates/admin/partials/location_dialog.html:76
 msgid "Title (Ar)"
 msgstr "العنوان (عربي)"
 
-#: enferno/admin/templates/admin/partials/location_dialog.html:113
+#: enferno/admin/templates/admin/partials/location_dialog.html:148
 msgid "Country"
 msgstr "الدولة"
 
-#: enferno/admin/templates/admin/partials/location_dialog.html:129
+#: enferno/admin/templates/admin/partials/location_dialog.html:164
 msgid "Parent Location"
 msgstr "الموقع الأب"
-
-#: enferno/admin/templates/admin/partials/location_dialog.html:170
-msgid "Tags"
-msgstr "الوسوم"
 
 #: enferno/admin/templates/admin/partials/review_dialog.html:115
 msgid "Needs Review"
@@ -2919,13 +3010,17 @@ msgstr "اسم الخريطة"
 msgid "Update map"
 msgstr "تحديث الخريطة"
 
-#: enferno/data_import/templates/sheets-import.html:237
-msgid "Delete"
-msgstr "حذف"
-
 #: enferno/data_import/templates/sheets-import.html:243
 msgid "Origin ID"
 msgstr "رقم تعريف المصدر"
+
+#: enferno/data_import/templates/sheets-import.html:289
+msgid "Middle/Father's Name"
+msgstr "اسم الأب/الاسم الأوسط"
+
+#: enferno/data_import/templates/sheets-import.html:292
+msgid "Middle/Father's Name (AR)"
+msgstr "اسم الأب/الاسم الأوسط (عربي)"
 
 #: enferno/data_import/templates/sheets-import.html:697
 msgid "Sheet file:"

@@ -1470,7 +1470,7 @@ def api_bulletins():
     """Returns bulletins in JSON format, allows search and paging."""
     su = SearchUtils(request.json, cls='Bulletin')
     queries, ops = su.get_query()
-    result = Bulletin.query.filter(*queries.pop(0))
+    result = Bulletin.query.filter(or_(Bulletin.deleted == False, Bulletin.deleted.is_(None))).filter(*queries.pop(0))
 
     # nested queries
     if len(queries) > 0:
@@ -1551,6 +1551,23 @@ def api_bulletin_update(id):
         return F'Saved Bulletin #{bulletin.id}', 200
     else:
         return HTTPResponse.NOT_FOUND
+
+@admin.delete('/api/bulletin/<int:id>')
+@roles_required('Admin')
+def api_bulletin_delete(id):
+    """
+    Endpoint to delete a bulletin
+    :param id: id of the bulletin to delete
+    :return: success/error based on operation's result
+    """
+    bulletin = Bulletin.query.get(id)
+    if bulletin is None:
+        return HTTPResponse.NOT_FOUND
+    # Record Activity
+    Activity.create(current_user, Activity.ACTION_DELETE, bulletin.to_mini(), 'bulletin')
+    bulletin.deleted = True
+    bulletin.create_revision()
+    return F'Deleted Bulletin #{bulletin.id}', 200
 
 
 # Add/Update review bulletin endpoint
