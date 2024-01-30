@@ -112,7 +112,7 @@
                                                                             :disabled="disableEmail"
                                                                             v-model="editedItem.email"
                                                                     ></v-text-field>
-                                                                    <span class="orange--text">${errors[0]}</span>
+                                                                    <span class="red--text">${errors[0]}</span>
                                                                 </validation-provider>
                                                                 <v-btn @click.stop="enableEmail"
                                                                        v-if="editedItem.id" class="my-auto mx-1"
@@ -145,7 +145,7 @@
                                                                             _('Strong Password')
                                                                         }}</span>
 
-                                                                    <span class="orange--text"> ${errors[0]}</span>
+                                                                    <span class="red--text"> ${errors[0]}</span>
 
                                                                 </validation-provider>
 
@@ -171,7 +171,7 @@
                                                                                   label="Username"
                                                                                   :disabled="disableUsername"
                                                                                   v-model="editedItem.username"></v-text-field>
-                                                                    <span class="orange--text">${errors[0]}</span>
+                                                                    <span class="red--text">${errors[0]}</span>
                                                                 </validation-provider>
 
                                                                 <v-btn @click.stop="enableUsername"

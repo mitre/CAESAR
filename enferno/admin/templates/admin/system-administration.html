@@ -90,7 +90,7 @@
                                                                           label="{{ _('Deduplication Low Distance') }}"
                                                                           v-model.number="eitem.DEDUP_LOW_DISTANCE"></v-text-field>
 
-                                                            <span class="orange--text"> ${errors[0]}</span>
+                                                            <span class="red--text"> ${errors[0]}</span>
                                                         </validation-provider>
 
                                                         <validation-provider name="Deduplication Max Distance"
@@ -101,7 +101,7 @@
                                                                           hint="{{ _('Highest value of distance to process.') }}"
                                                                           label="{{ _('Deduplication Max Distance') }}"
                                                                           v-model.number="eitem.DEDUP_MAX_DISTANCE"></v-text-field>
-                                                            <span class="orange--text"> ${errors[0]}</span>
+                                                            <span class="red--text"> ${errors[0]}</span>
                                                         </validation-provider>
 
                                                         <validation-provider name="Deduplication Batch Size"
@@ -112,7 +112,7 @@
                                                                           hint="{{ _('Number of matches to send for processing in every batch. Affects speed of processing and performance of the server.') }}"
                                                                           label="{{ _('Deduplication Batch Size') }}"
                                                                           v-model.number="eitem.DEDUP_BATCH_SIZE"></v-text-field>
-                                                            <span class="orange--text"> ${errors[0]}</span>
+                                                            <span class="red--text"> ${errors[0]}</span>
                                                         </validation-provider>
 
                                                         <validation-provider name="Deduplication Interval"
@@ -123,7 +123,7 @@
                                                                           hint="{{ _('Interval of batches sent for processing. Affects speed of processing and performance of the server.') }}"
                                                                           label="{{ _('Deduplication Interval') }}"
                                                                           v-model.number="eitem.DEDUP_INTERVAL"></v-text-field>
-                                                            <span class="orange--text"> ${errors[0]}</span>
+                                                            <span class="red--text"> ${errors[0]}</span>
                                                         </validation-provider>
 
                                                     </v-sheet>
@@ -155,7 +155,7 @@
                                                                              v-slot="{ errors }">
                                                             <v-text-field label="{{ _('AWS Access Key ID') }}"
                                                                           v-model="eitem.AWS_ACCESS_KEY_ID"></v-text-field>
-                                                            <span class="orange--text"> ${errors[0]}</span>
+                                                            <span class="red--text"> ${errors[0]}</span>
                                                         </validation-provider>
 
                                                         <validation-provider name="AWS Access Key Secret"
@@ -163,7 +163,7 @@
                                                                              v-slot="{ errors }">
                                                             <v-text-field label="{{ _('AWS Access Key Secret') }}"
                                                                           v-model="eitem.AWS_SECRET_ACCESS_KEY"></v-text-field>
-                                                            <span class="orange--text"> ${errors[0]}</span>
+                                                            <span class="red--text"> ${errors[0]}</span>
                                                         </validation-provider>
 
                                                         <validation-provider name="S3 Bucket Name"
@@ -171,7 +171,7 @@
                                                                              v-slot="{ errors }">
                                                             <v-text-field label="{{ _('S3 Bucket Name') }}"
                                                                           v-model="eitem.S3_BUCKET"></v-text-field>
-                                                            <span class="orange--text"> ${errors[0]}</span>
+                                                            <span class="red--text"> ${errors[0]}</span>
                                                         </validation-provider>
 
                                                         <validation-provider name="S3 Region"
@@ -179,7 +179,7 @@
                                                                              v-slot="{ errors }">
                                                             <v-text-field label="{{ _('S3 Region') }}"
                                                                           v-model="eitem.AWS_REGION"></v-text-field>
-                                                            <span class="orange--text"> ${errors[0]}</span>
+                                                            <span class="red--text"> ${errors[0]}</span>
                                                         </validation-provider>
 
                                                     </v-sheet>
@@ -232,7 +232,7 @@
                                                                              v-slot="{ errors }">
                                                             <v-text-field label="{{ _('Recaptcha Public Key') }}"
                                                                           v-model="eitem.RECAPTCHA_PUBLIC_KEY"></v-text-field>
-                                                            <span class="orange--text"> ${errors[0]}</span>
+                                                            <span class="red--text"> ${errors[0]}</span>
                                                         </validation-provider>
 
                                                         <validation-provider name="Recaptcha Private Key"
@@ -240,7 +240,7 @@
                                                                              v-slot="{ errors }">
                                                             <v-text-field label="{{ _('Recaptcha Private Key') }}"
                                                                           v-model="eitem.RECAPTCHA_PRIVATE_KEY"></v-text-field>
-                                                            <span class="orange--text"> ${errors[0]}</span>
+                                                            <span class="red--text"> ${errors[0]}</span>
                                                         </validation-provider>
                                                     </v-sheet>
                                                 </v-slide-y-transition>
@@ -258,7 +258,7 @@
                                                                              v-slot="{ errors }">
                                                             <v-text-field label="{{ _('Google Client ID') }}"
                                                                           v-model="eitem.GOOGLE_CLIENT_ID"></v-text-field>
-                                                            <span class="orange--text"> ${errors[0]}</span>
+                                                            <span class="red--text"> ${errors[0]}</span>
                                                         </validation-provider>
 
                                                         <validation-provider name="Google Client Secret"
@@ -266,7 +266,7 @@
                                                                              v-slot="{ errors }">
                                                             <v-text-field label="{{ _('Google Client Secret') }}"
                                                                           v-model="eitem.GOOGLE_CLIENT_SECRET"></v-text-field>
-                                                            <span class="orange--text"> ${errors[0]}</span>
+                                                            <span class="red--text"> ${errors[0]}</span>
                                                         </validation-provider>
 
                                                         <validation-provider name="Google Discovery URL"
@@ -274,7 +274,7 @@
                                                                              v-slot="{ errors }">
                                                             <v-text-field label="{{ _('Google Discovery URL') }}"
                                                                           v-model="eitem.GOOGLE_DISCOVERY_URL"></v-text-field>
-                                                            <span class="orange--text"> ${errors[0]}</span>
+                                                            <span class="red--text"> ${errors[0]}</span>
                                                         </validation-provider>
 
                                                     </v-sheet>
@@ -369,7 +369,7 @@
                                                                         :items="eitem.ETL_VID_EXT"
                                                                         label="{{ _('ETL Video Extensions') }}"
                                                                         v-model="eitem.ETL_VID_EXT"></v-combobox>
-                                                            <span class="orange--text"> ${errors[0]}</span>
+                                                            <span class="red--text"> ${errors[0]}</span>
                                                         </validation-provider>
 
                                                         <v-switch class="mb-9"
@@ -391,7 +391,7 @@
                                                                                 :items="eitem.OCR_EXT"
                                                                                 label="{{ _('OCR Extensions') }}"
                                                                                 v-model="eitem.OCR_EXT"></v-combobox>
-                                                                    <span class="orange--text"> ${errors[0]}</span>
+                                                                    <span class="red--text"> ${errors[0]}</span>
                                                                 </validation-provider>
 
                                                                 <validation-provider name="Path to Tesseract Library"
@@ -400,7 +400,7 @@
                                                                     <v-text-field
                                                                             label="{{ _('Path to Tesseract executable.') }}"
                                                                                 v-model="eitem.TESSERACT_CMD"></v-text-field>
-                                                                    <span class="orange--text"> ${errors[0]}</span>
+                                                                    <span class="red--text"> ${errors[0]}</span>
                                                                 </validation-provider>
                                                             </v-sheet>
 
@@ -424,7 +424,7 @@
                                                                         label="{{ _('Allowed Sheets Extensions') }}"
                                                                         :items="eitem.SHEETS_ALLOWED_EXTENSIONS"
                                                                         v-model="eitem.SHEETS_ALLOWED_EXTENSIONS"></v-combobox>
-                                                            <span class="orange--text"> ${errors[0]}</span>
+                                                            <span class="red--text"> ${errors[0]}</span>
                                                         </validation-provider>
 
                                                     </v-sheet>

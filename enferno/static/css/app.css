@@ -42,13 +42,25 @@
     /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
+/* julius - latin */
+@font-face {
+    font-family: "Julius";
+    font-style: normal;
+    font-weight: 700;
+    src: local("Julius"), local("Julius-Regular"),
+        url("../font/julius-sans-one/JuliusSansOne-Regular.ttf") format("ttf"),
+        /* Chrome 26+, Opera 23+, Firefox 39+ */
+        url("../font/julius-sans-one/JuliusSansOne-Regular.ttf") format("ttf");
+    /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
 .v-application {
     font-family: "Roboto", sans-serif;
 }
 
 .v-application .headline,
-.v-application .title {
-    font-family: "Tajawal", sans-serif !important;
+.v-application .title, .v-toolbar__title {
+    font-family: "Tajawal", sans-serif!important;
 }
 
 tbody tr td:nth-child(4) {

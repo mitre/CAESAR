@@ -329,7 +329,7 @@
                                                 :multiple="false"
                                                 label="{{ _('Assigned To') }}"
                                             ></search-field-single>
-                                            <span class="orange--text"> ${errors[0]}</span>
+                                            <span class="red--text"> ${errors[0]}</span>
                                         </validation-provider>
                                         <v-combobox
                                             small-chips
@@ -339,7 +339,7 @@
                                         ></v-combobox>
                                         <validation-provider name="Comments" rules="required" v-slot="{ errors }">
                                             <v-textarea v-model="assignBulletin.comments" label="Comments"></v-textarea>
-                                            <span class="orange--text"> ${errors[0]}</span>
+                                            <span class="red--text"> ${errors[0]}</span>
                                         </validation-provider>
                                     </v-card-text>
                                     <v-card-actions>
