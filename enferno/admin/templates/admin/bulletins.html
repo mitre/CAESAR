@@ -267,6 +267,19 @@
                                         <span>Add Review</span>
                                     </v-tooltip>
 
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on }">
+                                            <v-icon v-on="on"
+                                                    v-if="has_role(currentUser, 'Admin')"
+                                                    @click.stop="deleteItem(item)"
+                                                    color="red darken-3"
+                                                    class="mr-2"
+                                            >mdi-delete-sweep
+                                            </v-icon>
+                                        </template>
+                                        <span>Delete Bulletin</span>
+                                    </v-tooltip>
+
                                 </template>
 
 
