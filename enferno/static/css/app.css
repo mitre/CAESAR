@@ -59,7 +59,7 @@
 }
 
 .v-application .headline,
-.v-application .title, .v-toolbar__title {
+.v-application .title, .v-toolbar__title, h1, h2, h3, h4 {
     font-family: "Tajawal", sans-serif!important;
 }
 

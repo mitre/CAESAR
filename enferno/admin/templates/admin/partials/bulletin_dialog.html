@@ -1,11 +1,9 @@
 <validation-observer v-slot="{ invalid} ">
     <v-dialog :retain-focus="false" no-click-animation persistent v-model="dialog" fullscreen>
-
-
         <v-card v-if="dialog" class="overflow-hidden card-edit">
             <v-app-bar
                     absolute
-                    color="pv"
+                    color="secondary"
                     dark
                     class="card-header"
             >
@@ -18,15 +16,13 @@
                 <v-spacer></v-spacer>
 
 
-                <v-btn @click="save" :disabled="invalid" dark color="primary darken-1" small class="mx-2" depressed>
+                <v-btn @click="save" :disabled="invalid" dark color="accent" small class="mx-2" depressed>
                     {{ _('Save Bulletin') }}
                 </v-btn>
                 <v-btn @click="confirmClose" icon>
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
-
-            </v-app-bar
-            >
+            </v-app-bar>
             <v-sheet
                     id="card-content"
                     max-height="100vh"
@@ -505,17 +501,11 @@
                                     <v-col cols="12" md="3">
                                         <pop-date-time-field time-label="{{ _('Time') }}" label="{{ _('Publish Date') }}"
                                             v-model="editedItem.publish_date"></pop-date-time-field>
-                                
-                                
-                                    </v-col>
-                                
-                                    <v-col cols="12" md="3">
-                                
+                                    </v-col>                            
+                                    <v-col cols="12" md="3">                         
                                         <pop-date-time-field time-label="{{ _('Time') }}" label="{{ _('Documentation Date') }}"
-                                            v-model="editedItem.documentation_date"></pop-date-time-field>
-                                
+                                            v-model="editedItem.documentation_date"></pop-date-time-field>                      
                                     </v-col>
-                                
                                 </v-row>
                                 <v-row>
                                     <v-col cols="12" md="8">
@@ -539,25 +529,29 @@
                                     </v-col>
                                 </v-row>       
                                 <v-row v-if="editedItem.review">
-                                    <v-col cols="12" md="12">
-                                
+                                    <v-col cols="12" md="12">                  
                                         <v-card color="light-green lighten-5" elevation="0">
                                             <v-card-title class="subtitle-2">Review</v-card-title>
                                             <v-card-text>
                                                 <p v-html="editedItem.review">
                                 
                                                 </p>
-                                            </v-card-text>
-                                
-                                        </v-card>
-                                
+                                            </v-card-text>                    
+                                        </v-card>                  
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col>
+                                        <v-spacer></v-spacer>
+                                        <v-btn @click="save" :disabled="invalid" dark color="accent" small class="mx-2" depressed>
+                                            {{ _('Save Bulletin') }}
+                                        </v-btn>
                                     </v-col>
                                 </v-row>
                             </v-col>
                         </v-row>
                     </v-container>
                 </v-card-text>
-
             </v-sheet>
         </v-card>
 

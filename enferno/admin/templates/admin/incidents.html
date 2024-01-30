@@ -10,280 +10,271 @@
             {% include   'admin/partials/export_drawer.html' %}
             <v-main>
                 <v-container class="container--fluid">
+                    <div>
+                        <v-data-table
+                                fixed-header
+                                height="calc(100vh - 355px)"
+                                id="incidents-dt"
+                                v-model="selected"
+                                :headers="headers"
+                                @click:row="rowClick"
+                                show-select
+                                :items="items"
+                                :options.sync="options"
+                                :footer-props.sync="footerProps"
+                                :loading="loading"
+                                :server-items-length="itemsLength"
+                                class=""
+                                :item-class="rowClass"
+                                @toggle-select-all="selectAllRestrict"
+                        >
+                            <template v-slot:item.data-table-select="{ item, isSelected, select }">
+                                <v-simple-checkbox
+                                        :value="isSelected"
+                                        :readonly="item.restricted"
+                                        v-if="!item.restricted"
+
+                                        @input="select($event)"
+                                ></v-simple-checkbox>
+                            </template>
+                            <template v-slot:top>
+                                <v-toolbar flat color="white">
+                                    <v-btn class="hidden-sm-and-down" small @click="allIncidents"
+                                            text>{{ _('All Incidents') }}</v-btn>
+                                    <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
+                                    <v-btn class="hidden-sm-and-down" small @click="myAssigned"
+                                            text>{{ _('Assigned to me') }}</v-btn>
+                                    <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
+                                    <v-btn small @click="myReview" class="mr-2 hidden-sm-and-down"
+                                            text>{{ _('My Review List') }}</v-btn>
 
 
-                    <v-card>
-                        <v-card-title>
-                            <div class="flex-grow-1"></div>
-                        </v-card-title>
-                        <v-card-text>
-                            <v-data-table
-                                    fixed-header
-                                    height="calc(100vh - 355px)"
-                                    id="incidents-dt"
-                                    v-model="selected"
-                                    :headers="headers"
-                                    @click:row="rowClick"
-                                    show-select
-                                    :items="items"
-                                    :options.sync="options"
-                                    :footer-props.sync="footerProps"
-                                    :loading="loading"
-                                    :server-items-length="itemsLength"
-                                    class="elevation-1"
-                                    :item-class="rowClass"
-                                    @toggle-select-all="selectAllRestrict"
-                            >
-                                <template v-slot:item.data-table-select="{ item, isSelected, select }">
-                                    <v-simple-checkbox
-                                            :value="isSelected"
-                                            :readonly="item.restricted"
-                                            v-if="!item.restricted"
+                                    <v-text-field
+                                            flat
+                                            dense
+                                            outlined
+                                            small
+                                            v-model="search.tsv"
+                                            @keydown.enter="searchIncidents"
 
-                                            @input="select($event)"
-                                    ></v-simple-checkbox>
-                                </template>
-                                <template v-slot:top>
-                                    <v-toolbar flat color="white">
-                                        <v-btn class="hidden-sm-and-down" small @click="allIncidents"
-                                               text>{{ _('All Incidents') }}</v-btn>
-                                        <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
-                                        <v-btn class="hidden-sm-and-down" small @click="myAssigned"
-                                               text>{{ _('Assigned to me') }}</v-btn>
-                                        <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
-                                        <v-btn small @click="myReview" class="mr-2 hidden-sm-and-down"
-                                               text>{{ _('My Review List') }}</v-btn>
+                                            hide-details
+                                            append-outer-icon="mdi-ballot"
+                                            append-icon="mdi-close"
+                                            @click:append-outer="toggleAdvSearch"
+                                            @click:append="resetSearch"
+                                            prepend-inner-icon="mdi-magnify"
+                                            label="{{ _('Search') }}"
+                                    ></v-text-field>
 
 
-                                        <v-text-field
-                                                flat
-                                                dense
-                                                outlined
-                                                small
-                                                v-model="search.tsv"
-                                                @keydown.enter="searchIncidents"
+                                    <v-spacer></v-spacer>
+                                    {% if current_user.roles_in(['Admin','DA']) %}
+                                        <v-btn @click="editItem" color="accent" dark class="ma-2"
+                                        >{{ _('New Incident') }}</v-btn
+                                        >
+                                    {% endif %}
+                                    {% include 'admin/partials/incident_dialog.html' %}
+                                    {% include 'admin/partials/review_dialog.html' %}
 
-                                                hide-details
-                                                append-outer-icon="mdi-ballot"
-                                                append-icon="mdi-close"
-                                                @click:append-outer="toggleAdvSearch"
-                                                @click:append="resetSearch"
-                                                prepend-inner-icon="mdi-magnify"
-                                                label="{{ _('Search') }}"
-                                        ></v-text-field>
+                                </v-toolbar>
 
 
+                                <v-expand-transition>
+                                    {% include 'admin/partials/incident_advsearch.html' %}
+                                </v-expand-transition>
+
+                                    <v-toolbar v-if="bulkAllowed() || exportAllowed()" dense color="white" flat>
+
+                                        <template v-if="bulkIcons">
+
+                                            <v-btn @click="selected=[]" x-small fab
+                                                    class="mr-3" elevation="0" color="white">
+                                                <v-icon>mdi-checkbox-blank-outline</v-icon>
+                                            </v-btn>
+
+
+                                            <v-btn 
+                                                    @click="bulkIncidentDrawer=true" 
+                                                    small 
+                                                    color="fifth" 
+                                                    depressed
+                                                    v-if="bulkAllowed()">
+                                                <v-icon small left>mdi-circle-edit-outline</v-icon>
+                                                {{ _('Bulk update') }}</v-btn>
+
+                                                <v-btn
+                                                        @click="exportDrawer=true"
+                                                        small
+                                                        color="primary"
+                                                        class="mx-2"
+                                                        depressed
+                                                        v-if="exportAllowed()"
+                                                >
+                                                    <v-icon small left
+                                                    >mdi-file-export-outline
+                                                    </v-icon>
+                                                    {{ _('Export') }}
+                                                </v-btn>
+
+                                        </template>
+
+                                        <template>
+                                            <v-progress-circular v-for="job in jobs"
+                                                                    size="20" small
+                                                                    :indeterminate="job.status!='SUCCESS'"
+
+                                                                    :color="job.status=='SUCCESS' ? 'success': 'amber'"
+                                                                    :value="job.status=='SUCCESS'?100:null"
+                                                                    class="mx-1"
+                                                                    stroke="1"
+                                            ></v-progress-circular>
+                                        </template>
                                         <v-spacer></v-spacer>
-                                        {% if current_user.roles_in(['Admin','DA']) %}
-                                            <v-btn @click="editItem" color="primary" dark class="ma-2"
-                                            >{{ _('New Incident') }}</v-btn
-                                            >
-                                        {% endif %}
-                                        {% include 'admin/partials/incident_dialog.html' %}
-                                        {% include 'admin/partials/review_dialog.html' %}
+
+                                        <div>
+                                            <v-tooltip top>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-chip v-on="on" label small close color="yellow lighten-4"
+                                                            class="grey--text text--darken-2"
+                                                            @click:close="allIncidents"
+                                                    >{{ _('About') }} ${itemsLength} {{ _('results') }}
+                                                        (${searchTime} {{ _('seconds') }})
+                                                    </v-chip>
+                                                </template>
+                                                <span>${search}</span>
+                                            </v-tooltip>
+                                        </div>
+                                        <v-spacer></v-spacer>
+                                        <v-chip small color="accent" v-if="selected.length">
+                                            ${selected.length} {{ _('Selected items') }}</v-chip>
 
                                     </v-toolbar>
 
+                            </template>
 
-                                    <v-expand-transition>
-                                        {% include 'admin/partials/incident_advsearch.html' %}
-                                    </v-expand-transition>
-
-                                        <v-toolbar v-if="bulkAllowed() || exportAllowed()" dense color="white" flat>
-
-                                            <template v-if="bulkIcons">
-
-                                                <v-btn @click="selected=[]" x-small fab
-                                                       class="mr-3" elevation="0" color="white">
-                                                    <v-icon>mdi-checkbox-blank-outline</v-icon>
-                                                </v-btn>
-
-
-                                                <v-btn 
-                                                        @click="bulkIncidentDrawer=true" 
-                                                        small 
-                                                        color="fifth" 
-                                                        depressed
-                                                        v-if="bulkAllowed()">
-                                                    <v-icon small left>mdi-circle-edit-outline</v-icon>
-                                                    {{ _('Bulk update') }}</v-btn>
-
-                                                    <v-btn
-                                                            @click="exportDrawer=true"
-                                                            small
-                                                            color="primary"
-                                                            class="mx-2"
-                                                            depressed
-                                                            v-if="exportAllowed()"
-                                                    >
-                                                        <v-icon small left
-                                                        >mdi-file-export-outline
-                                                        </v-icon>
-                                                        {{ _('Export') }}
-                                                    </v-btn>
-
-                                            </template>
-
-                                            <template>
-                                                <v-progress-circular v-for="job in jobs"
-                                                                     size="20" small
-                                                                     :indeterminate="job.status!='SUCCESS'"
-
-                                                                     :color="job.status=='SUCCESS' ? 'success': 'amber'"
-                                                                     :value="job.status=='SUCCESS'?100:null"
-                                                                     class="mx-1"
-                                                                     stroke="1"
-                                                ></v-progress-circular>
-                                            </template>
-                                            <v-spacer></v-spacer>
-
-                                            <div>
-                                                <v-tooltip top>
-                                                    <template v-slot:activator="{ on, attrs }">
-                                                        <v-chip v-on="on" label small close color="yellow lighten-4"
-                                                                class="grey--text text--darken-2"
-                                                                @click:close="allIncidents"
-                                                        >{{ _('About') }} ${itemsLength} {{ _('results') }}
-                                                            (${searchTime} {{ _('seconds') }})
-                                                        </v-chip>
-                                                    </template>
-                                                    <span>${search}</span>
-                                                </v-tooltip>
-                                            </div>
-                                            <v-spacer></v-spacer>
-                                            <v-chip small color="accent" v-if="selected.length">
-                                                ${selected.length} {{ _('Selected items') }}</v-chip>
-
-                                        </v-toolbar>
-
-                                </template>
-
-                                <template v-slot:item.assigned_to.name="{ item }">
-                                    <div v-if="item.assigned_to">
-                                        <span :class="{'flex assigned-to-me': currentUser.id == item.assigned_to.id}">${item.assigned_to.name}</span>
-                                    </div>
-                                </template>
-
-                                <template v-slot:item.roles="{item}">
-                                    <v-chip
-                                            class="mx-2"
-                                            small
-                                            style="scale:0.7"
-                                            v-tippy
-                                            :content="role.name"
-                                            v-for="role in item.roles"
-                                            :color="role.color"
-                                    >
-
-                                    </v-chip>
-                                </template>
-
-                                <template v-slot:item.status="{ item }">
-                                    ${item.status}
-                                    <v-chip x-small v-if="item.review_action" color="grey lighten-4"
-                                            class="secondary--text">${item.review_action}
-                                    </v-chip>
-                                </template>
-                                <template v-slot:item.action="{ item }">
-
-                                    <v-tooltip top>
-                                        <template v-slot:activator="{ on }">
-                                            <v-icon
-                                                    v-on="on"
-                                                    color="ov darken-1"
-                                                    class="mr-2"
-                                                    @click.stop="editItem(item)"
-                                                    v-if="editAllowed(item)"
-                                            >
-                                                mdi-pencil
-                                            </v-icon>
-                                        </template>
-                                        <span>Edit</span>
-                                    </v-tooltip>
-
-
-                                    <v-tooltip top>
-                                        <template v-slot:activator="{ on }">
-                                            <v-icon
-                                                    v-on="on"
-                                                    color="primary lighten-1"
-                                                    class="mr-2"
-
-                                                    @click.stop="openSelfAssign(item)"
-                                                    v-if="selfAssignAllowed(item)"
-                                            >
-                                                mdi-arrow-left-thin-circle-outline
-                                            </v-icon>
-
-
-                                        </template>
-                                        <span>Assign to self</span>
-                                    </v-tooltip>
-
-
-                                    <v-tooltip top>
-                                        <template v-slot:activator="{ on }">
-                                            <v-icon v-on="on"
-                                                    v-if="reviewAllowed(item)"
-                                                    @click.stop="addReview(item)"
-                                                    color="gv darken-1"
-                                                    class="mr-2"
-                                            >mdi-message-draw
-                                            </v-icon>
-                                        </template>
-                                        <span>Add Review</span>
-                                    </v-tooltip>
-
-
-                                </template>
-                                <template v-slot:no-data></template>
-                            </v-data-table>
-
-                            <v-overlay :value="loading">
-                                <v-progress-circular indeterminate size="64"></v-progress-circular>
-                            </v-overlay>
-
-                            <relate-bulletins :i18n="translations" @relate="relateBulletin" :exids="exBulletins"
-                                              ref="relateBulletins"></relate-bulletins>
-                            <relate-actors :i18n="translations" @relate="relateActor" :exids="exActors"
-                                           ref="relateActors"></relate-actors>
-                            <relate-incidents :i18n="translations" @relate="relateIncident" :exids="exIncidents"
-                                              ref="relateIncidents"></relate-incidents>
-
-
-                            <v-dialog width="600" v-model="selfAssignDialog">
-                                <v-card class="pa-3">
-                                    <v-card-title>Self Assign Incidnet #${assignIncident.id}</v-card-title>
-                                    <v-card-text>
-
-                                        <v-textarea v-model="assignIncident.comments" label="Comments"></v-textarea>
-                                    </v-card-text>
-                                    <v-card-actions>
-                                        <v-btn :disabled="!assignIncident.comments" class="ma-auto"
-                                               @click="selfAssign"
-                                               color="primary">Assign to self
-                                        </v-btn>
-                                    </v-card-actions>
-                                </v-card>
-
-                            </v-dialog>
-
-
-
-                            <v-snackbar v-model="snackbar">
-                                <div class="d-flex justify-space-between align-center">
-                                    <span class="text-subtitle-1">${snackMessage}</span>
-                                    <v-btn color="white" fab small color="secondary" text @click="snackbar = false">
-                                        <v-icon small>mdi-close</v-icon>
-                                    </v-btn>
+                            <template v-slot:item.assigned_to.name="{ item }">
+                                <div v-if="item.assigned_to">
+                                    <span :class="{'flex assigned-to-me': currentUser.id == item.assigned_to.id}">${item.assigned_to.name}</span>
                                 </div>
+                            </template>
 
-                            </v-snackbar>
-                        </v-card-text>
-                    </v-card>
+                            <template v-slot:item.roles="{item}">
+                                <v-chip
+                                        class="mx-2"
+                                        small
+                                        style="scale:0.7"
+                                        v-tippy
+                                        :content="role.name"
+                                        v-for="role in item.roles"
+                                        :color="role.color"
+                                >
 
+                                </v-chip>
+                            </template>
+
+                            <template v-slot:item.status="{ item }">
+                                ${item.status}
+                                <v-chip x-small v-if="item.review_action" color="grey lighten-4"
+                                        class="secondary--text">${item.review_action}
+                                </v-chip>
+                            </template>
+                            <template v-slot:item.action="{ item }">
+
+                                <v-tooltip top>
+                                    <template v-slot:activator="{ on }">
+                                        <v-icon
+                                                v-on="on"
+                                                color="ov darken-1"
+                                                class="mr-2"
+                                                @click.stop="editItem(item)"
+                                                v-if="editAllowed(item)"
+                                        >
+                                            mdi-pencil
+                                        </v-icon>
+                                    </template>
+                                    <span>Edit</span>
+                                </v-tooltip>
+
+
+                                <v-tooltip top>
+                                    <template v-slot:activator="{ on }">
+                                        <v-icon
+                                                v-on="on"
+                                                color="primary lighten-1"
+                                                class="mr-2"
+
+                                                @click.stop="openSelfAssign(item)"
+                                                v-if="selfAssignAllowed(item)"
+                                        >
+                                            mdi-arrow-left-thin-circle-outline
+                                        </v-icon>
+
+
+                                    </template>
+                                    <span>Assign to self</span>
+                                </v-tooltip>
+
+
+                                <v-tooltip top>
+                                    <template v-slot:activator="{ on }">
+                                        <v-icon v-on="on"
+                                                v-if="reviewAllowed(item)"
+                                                @click.stop="addReview(item)"
+                                                color="gv darken-1"
+                                                class="mr-2"
+                                        >mdi-message-draw
+                                        </v-icon>
+                                    </template>
+                                    <span>Add Review</span>
+                                </v-tooltip>
+
+
+                            </template>
+                            <template v-slot:no-data></template>
+                        </v-data-table>
+
+                        <v-overlay :value="loading">
+                            <v-progress-circular indeterminate size="64"></v-progress-circular>
+                        </v-overlay>
+
+                        <relate-bulletins :i18n="translations" @relate="relateBulletin" :exids="exBulletins"
+                                            ref="relateBulletins"></relate-bulletins>
+                        <relate-actors :i18n="translations" @relate="relateActor" :exids="exActors"
+                                        ref="relateActors"></relate-actors>
+                        <relate-incidents :i18n="translations" @relate="relateIncident" :exids="exIncidents"
+                                            ref="relateIncidents"></relate-incidents>
+
+
+                        <v-dialog width="600" v-model="selfAssignDialog">
+                            <v-card class="pa-3">
+                                <v-card-title>Self Assign Incidnet #${assignIncident.id}</v-card-title>
+                                <v-card-text>
+
+                                    <v-textarea v-model="assignIncident.comments" label="Comments"></v-textarea>
+                                </v-card-text>
+                                <v-card-actions>
+                                    <v-btn :disabled="!assignIncident.comments" class="ma-auto"
+                                            @click="selfAssign"
+                                            color="primary">Assign to self
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
+
+                        </v-dialog>
+
+
+
+                        <v-snackbar v-model="snackbar">
+                            <div class="d-flex justify-space-between align-center">
+                                <span class="text-subtitle-1">${snackMessage}</span>
+                                <v-btn color="white" fab small color="secondary" text @click="snackbar = false">
+                                    <v-icon small>mdi-close</v-icon>
+                                </v-btn>
+                            </div>
+
+                        </v-snackbar>
+                    </div>
                 </v-container>
-
             </v-main>
             {% include 'footer.html' %}
         </v-app>

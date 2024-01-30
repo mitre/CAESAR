@@ -4,263 +4,173 @@
   <v-app id="inspire" v-cloak>
     {% include 'nav-drawer.html' %} {% include 'nav-bar.html' %}
     <v-main>
+      <v-container class="container--fluid">
+        <v-row>
+          <v-col cols="12">
+            <div>
+              <v-data-table height="calc(100vh - 335px)" fixed-header :headers="headers" :items="items"
+                :options.sync="options" :footer-props.sync="footerProps" :loading="loading"
+                :server-items-length="itemsLength" class="">
+                <template v-slot:top>
+                  <v-toolbar flat color="white">
+                    <v-toolbar-title>{{_('Labels')}}</v-toolbar-title>
+
+                    <v-divider class="mx-4" inset vertical></v-divider>
+                    <v-text-field outlined dense class="mt-6" v-model="q" @keydown.enter="refresh()"
+                      label="{{ _('Search') }}">
+
+                    </v-text-field>
+
+                    <v-spacer></v-spacer>
+                    <v-dialog v-model="dialog" max-width="900px">
+                      {% if current_user.roles_in(['Admin','Mod']) %}
+                      <template v-slot:activator="{ on }">
+                        <v-btn color="accent" dark class="ma-2" v-on="on">{{_('New Item')}}</v-btn>
+                      </template>
+                      {% endif %}
+                      <v-card>
+                        <v-card-title>
+                          <span class="headline">${ formTitle }</span>
+                        </v-card-title>
+
+                        <v-card-text>
+                          <v-container>
+                            <v-row>
+                              <v-col cols="12" md="6">
+                                <v-text-field v-model="editedItem.title" label="{{_('Title')}}"></v-text-field>
+                              </v-col>
+                              <v-col cols="12" md="6">
+                                <v-text-field v-model="editedItem.title_ar" label="{{_('Title (AR)')}}"></v-text-field>
+                              </v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col cols="12" md="6">
+                                <v-text-field v-model="editedItem.comments" label="{{_('Comments')}}"></v-text-field>
+                              </v-col>
+                              <v-col cols="12" md="6">
+                                <v-text-field v-model="editedItem.comments_ar"
+                                  label="{{_('Comments (AR)')}}"></v-text-field>
+                              </v-col>
+                            </v-row>
+                            <v-row>
+                              <v-col cols="12" md="6">
+
+
+                                <search-field api="/admin/api/labels/" item-text="title" label="{{_('Parent')}}"
+                                  v-model="editedItem.parent" item-value="id" :multiple="false" label="Labels"
+                                  :query-params="{ fltr: 'all' }"></search-field>
 
 
 
-            <v-container class="container--fluid">
-              <v-row>
-                <v-col cols="12">
-                  <v-card>
-                    <v-card-title>
-                      <div class="flex-grow-1"></div>
-                    </v-card-title>
+                              </v-col>
+                              <v-col cols="12" md="6">
 
-                    <v-card-text>
-                      <v-data-table
-                          height="calc(100vh - 335px)"
-                          fixed-header
-                        :headers="headers"
-                        :items="items"
-                        :options.sync="options"
-                        :footer-props.sync="footerProps"
-                        :loading="loading"
-                        :server-items-length="itemsLength"
-                        class="elevation-1"
-                      >
-                        <template v-slot:top>
-                          <v-toolbar flat color="white">
-                            <v-toolbar-title>{{_('Labels')}}</v-toolbar-title>
+                              </v-col>
+                            </v-row>
 
-                            <v-divider class="mx-4" inset vertical></v-divider>
-                          <v-text-field
-                                  outlined
-                                  dense
-                                  class="mt-6"
-                                  v-model="q"
-                                  @keydown.enter="refresh()"
+                            <v-row>
+                              <v-col cols="12" md="2">
+                                <v-checkbox v-model="editedItem.verified" label="{{_('Verified')}}"></v-checkbox>
 
-                          label="{{ _('Search') }}">
+                              </v-col>
+                              <v-col cols="12" md="2">
+                                <v-checkbox v-model="editedItem.for_bulletin" label="{{_('Bulletin')}}"></v-checkbox>
 
-                          </v-text-field>
+                              </v-col>
 
-                            <v-spacer></v-spacer>
-                            <v-dialog v-model="dialog" max-width="900px">
-                              {% if current_user.roles_in(['Admin','Mod']) %}
-                              <template v-slot:activator="{ on }">
-                                <v-btn
-                                  color="primary"
-                                  dark
-                                  class="ma-2"
-                                  v-on="on"
-                                  >{{_('New Item')}}</v-btn
-                                >
-                              </template>
-                              {% endif %}
-                              <v-card>
-                                <v-card-title>
-                                  <span class="headline">${ formTitle }</span>
-                                </v-card-title>
+                              <v-col cols="12" md="2">
+                                <v-checkbox v-model="editedItem.for_actor" label="{{_('Actor')}}"></v-checkbox>
 
-                                <v-card-text>
-                                  <v-container>
-                                    <v-row>
-                                      <v-col cols="12" md="6">
-                                        <v-text-field
-                                          v-model="editedItem.title"
-                                         label="{{_('Title')}}"
-                                        ></v-text-field>
-                                      </v-col>
-                                      <v-col cols="12" md="6">
-                                        <v-text-field
-                                          v-model="editedItem.title_ar"
-                                         label="{{_('Title (AR)')}}"
-                                        ></v-text-field>
-                                      </v-col>
-                                    </v-row>
-                                    <v-row>
-                                      <v-col cols="12" md="6">
-                                        <v-text-field
-                                          v-model="editedItem.comments"
-                                         label="{{_('Comments')}}"
-                                        ></v-text-field>
-                                      </v-col>
-                                      <v-col cols="12" md="6">
-                                        <v-text-field
-                                          v-model="editedItem.comments_ar"
-                                         label="{{_('Comments (AR)')}}"
-                                        ></v-text-field>
-                                      </v-col>
-                                    </v-row>
-                                    <v-row>
-                                      <v-col cols="12" md="6">
+                              </v-col>
+
+                              <v-col cols="12" md="2">
+                                <v-checkbox v-model="editedItem.for_incident" label="{{_('Incident')}}"></v-checkbox>
+
+                              </v-col>
+
+                              <v-col cols="12" md="2">
+                                <v-checkbox v-model="editedItem.for_offline" label="{{_('Offline')}}"></v-checkbox>
+
+                              </v-col>
+
+                            </v-row>
+                          </v-container>
+                        </v-card-text>
+
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn text @click="close">{{_('Cancel')}}</v-btn>
+                          <v-btn color="accent" text @click="save">{{_('Save')}}</v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
+
+                    <v-dialog v-model="imDialog" width="500">
+                      {% if current_user.has_role('Admin') %}
+                      <template v-slot:activator="{ on }">
+                        <v-btn outlined color="accent" dark class="ma-2" v-on="on">{{_('Import CSV')}}</v-btn>
+                      </template>
+                      {% endif %}
+
+                      <v-card>
+                        <v-card-title>
+                          <span class="headline">{{_('Import CSV')}}</span>
+                        </v-card-title>
+
+                        <v-card-text>
+                          <v-container>
+                            <v-row>
+                              <v-col cols="12" md="12">
+                                <v-file-input v-model="csvFile" show-size accept=".csv"
+                                  label="{{_('Select CSV File')}}"></v-file-input>
+
+                              </v-col>
+                            </v-row>
+                          </v-container>
+                        </v-card-text>
+
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn text @click="imDialog=false">Cancel</v-btn>
+                          <v-btn color="accent" text @click="importCSV">Save</v-btn>
+                        </v-card-actions>
+                      </v-card>
+
+                    </v-dialog>
+
+                  </v-toolbar>
+                </template>
+
+                <template v-slot:item.action="{ item }">
+
+                  <v-icon small class="mr-2" @click="editItem(item)">
+                    mdi-pencil
+                  </v-icon>
 
 
-                           <search-field
-                                    api="/admin/api/labels/"
-                                    item-text="title"
-                                    label="{{_('Parent')}}"
-                                    v-model="editedItem.parent"
-                                    item-value="id"
-                                    :multiple="false"
-                                    label="Labels"
-                                    :query-params="{ fltr: 'all' }"
-                            ></search-field>
+                  <v-icon small @click="deleteItem(item)">
+                    mdi-delete-sweep
+                  </v-icon>
+                </template>
 
+                <template v-slot:no-data> </template>
+              </v-data-table>
 
+              <v-snackbar v-model="snackbar">
+                ${snackMessage}
+                <v-btn color="pink" text @click="snackbar = false">
+                  Close
+                </v-btn>
+              </v-snackbar>
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
 
-                                      </v-col>
-                                      <v-col cols="12" md="6">
-                                       
-                                      </v-col>
-                                    </v-row>
-
-                                    <v-row>
-                                      <v-col cols="12" md="2">
-                                        <v-checkbox
-                                        v-model="editedItem.verified"
-                                       label="{{_('Verified')}}"
-                                      ></v-checkbox>
-                                        
-                                      </v-col>
-                                      <v-col cols="12" md="2">
-                                        <v-checkbox
-                                        v-model="editedItem.for_bulletin"
-                                       label="{{_('Bulletin')}}"
-                                      ></v-checkbox>
-                                        
-                                      </v-col>
-
-                                      <v-col cols="12" md="2">
-                                        <v-checkbox
-                                        v-model="editedItem.for_actor"
-                                       label="{{_('Actor')}}"
-                                      ></v-checkbox>
-                                        
-                                      </v-col>
-
-                                      <v-col cols="12" md="2">
-                                        <v-checkbox
-                                        v-model="editedItem.for_incident"
-                                       label="{{_('Incident')}}"
-                                      ></v-checkbox>
-                                        
-                                      </v-col>
-
-                                      <v-col cols="12" md="2">
-                                        <v-checkbox
-                                        v-model="editedItem.for_offline"
-                                       label="{{_('Offline')}}"
-                                      ></v-checkbox>
-                                        
-                                      </v-col>
-                                      
-                                    </v-row>
-                                  </v-container>
-                                </v-card-text>
-
-                                <v-card-actions>
-                                  <v-spacer></v-spacer>
-                                  <v-btn
-                                    color="blue darken-1"
-                                    text
-                                    @click="close"
-                                    >{{_('Cancel')}}</v-btn
-                                  >
-                                  <v-btn
-                                    color="blue darken-1"
-                                    text
-                                    @click="save"
-                                    >{{_('Save')}}</v-btn
-                                  >
-                                </v-card-actions>
-                              </v-card>
-                            </v-dialog>
-
-                            <v-dialog
-                            v-model="imDialog"
-                            width="500"
-                          >
-                          {% if current_user.has_role('Admin') %}
-                            <template v-slot:activator="{ on }">
-                                <v-btn
-                                color="secondary"
-                                dark
-                                class="ma-2"
-                                v-on="on"
-                                >{{_('Import CSV')}}</v-btn
-                              >
-                            </template>
-                            {% endif %}
-                      
-                            <v-card>
-                            <v-card-title>
-                                <span class="headline">{{_('Import CSV')}}</span>
-                              </v-card-title>
-
-                              <v-card-text>
-                                <v-container>
-                                  <v-row>
-                                    <v-col cols="12" md="12">
-                                        <v-file-input v-model="csvFile" show-size accept=".csv"label="{{_('Select CSV File')}}"></v-file-input>
-
-                                    </v-col>
-                                  </v-row>
-                                </v-container>
-                              </v-card-text>
-
-                              <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn
-                                  color="blue darken-1"
-                                  text
-                                  @click="imDialog=false"
-                                  >Cancel</v-btn
-                                >
-                                <v-btn
-                                  color="blue darken-1"
-                                  text
-                                  @click="importCSV"
-                                  >Save</v-btn
-                                >
-                              </v-card-actions>
-                            </v-card>
-
-                          </v-dialog>
-
-                          </v-toolbar>
-                        </template>
-
-                        <template v-slot:item.action="{ item }">
-                        
-                          <v-icon small class="mr-2" @click="editItem(item)">
-                            mdi-pencil
-                          </v-icon>
-                          
-                          
-                          <v-icon small @click="deleteItem(item)">
-                            mdi-delete-sweep
-                          </v-icon>
-                        </template>
-
-                        <template v-slot:no-data> </template>
-                      </v-data-table>
-
-                      <v-snackbar v-model="snackbar">
-                        ${snackMessage}
-                        <v-btn color="pink" text @click="snackbar = false">
-                          Close
-                        </v-btn>
-                      </v-snackbar>
-                    </v-card-text>
-                  </v-card>
-                </v-col>
-              </v-row>
-            </v-container>
-
-        </v-layout>
+      </v-layout>
       </v-container>
     </v-main>
-      {% include 'footer.html' %}
+    {% include 'footer.html' %}
   </v-app>
 </div>
 
@@ -283,140 +193,140 @@
       options: {},
       footerProps: {
         itemsPerPageOptions: itemsPerPageOptions,
-          itemsPerPageText: "{{ _('Rows per page')}}"
+        itemsPerPageText: "{{ _('Rows per page')}}"
       },
 
       headers: [
         { text: "{{_('ID')}}", value: "id" },
         { text: "{{_('Title')}}", value: "title" },
         { text: "{{_('Comments')}}", value: "comments" },
-        {text: "{{_('Parent')}}", value: "parent.title"},
+        { text: "{{_('Parent')}}", value: "parent.title" },
         { text: "{{_('Verified')}}", value: "verified" },
         { text: "{{_('Bulletin')}}", value: "for_bulletin" },
         { text: "{{_('Actor')}}", value: "for_actor" },
         { text: "{{_('Incident')}}", value: "for_incident" },
         { text: "{{_('Offline')}}", value: "for_offline" },
-        {% if current_user.roles_in(['Admin','Mod']) %}
+        {% if current_user.roles_in(['Admin', 'Mod']) %}
         { text: "{{_('Actions')}}", value: "action", sortable: false }
         {% endif %}
       ],
 
-      items: [],
-      parentList: [],
+  items: [],
+    parentList: [],
       itemsLength: 10,
-      editedIndex: -1,
-        q: '',
-      editedItem: {
-        title: "",
-        parent :null
-      },
-      defaultItem: {
-        title: ""
-      }
+        editedIndex: -1,
+          q: '',
+            editedItem: {
+    title: "",
+      parent : null
+  },
+  defaultItem: {
+    title: ""
+  }
     }),
 
-    computed: {
-      formTitle() {
-        return this.editedIndex === -1 ? "{{_('New Item')}}" : "{{_('Edit Item')}}";
-      }
+  computed: {
+    formTitle() {
+      return this.editedIndex === -1 ? "{{_('New Item')}}" : "{{_('Edit Item')}}";
+    }
+  },
+
+  watch: {
+    dialog(val) {
+      val || this.close();
     },
 
-    watch: {
-      dialog(val) {
-        val || this.close();
-      },
+    options: {
+      handler: "refresh"
+    }
+  },
 
-      options: {
-        handler: "refresh"
-      }
+  methods: {
+    refresh() {
+      axios.get(`/admin/api/labels/?page=${this.options.page}&per_page=${this.options.itemsPerPage}&fltr=all&q=${this.q}&sort_by=${this.options.sortBy}&sort_desc=${this.options.sortDesc}`).then(response => {
+        this.loading = false;
+        this.itemsLength = response.data.total;
+        this.items = response.data.items;
+      });
     },
 
-    methods: {
-      refresh() {
-        axios.get(`/admin/api/labels/?page=${this.options.page}&per_page=${this.options.itemsPerPage}&fltr=all&q=${this.q}&sort_by=${this.options.sortBy}&sort_desc=${this.options.sortDesc}`).then(response => {
-          this.loading = false;
-          this.itemsLength = response.data.total;
-          this.items = response.data.items;
-        });
-      },
+    importCSV() {
+      const reqData = new FormData();
+      reqData.append('csv', this.csvFile)
+      axios.post('/admin/api/label/import/', reqData).then(response => {
+        this.imDialog = false;
+        this.refresh();
+        this.snackMessage = response.data;
+        this.snackbar = true;
+      })
 
-      importCSV () {
-        const reqData = new FormData();
-        reqData.append('csv',this.csvFile)
-        axios.post('/admin/api/label/import/',reqData).then(response => {
-          this.imDialog = false;
-          this.refresh();
-          this.snackMessage = response.data;
-          this.snackbar = true;
-        })
+    },
 
-      },
+    searchParents: debounce(function (evt) {
 
-      searchParents: debounce(function(evt){
-        
-        axios.get(`/admin/api/labels/?q=${evt.target.value}`).then(response => {
-          this.parentList = response.data.items;
-        })
-      }, 500),
+      axios.get(`/admin/api/labels/?q=${evt.target.value}`).then(response => {
+        this.parentList = response.data.items;
+      })
+    }, 500),
 
       editItem(item) {
-        this.editedIndex = this.items.indexOf(item);
-        this.editedItem = Object.assign({}, item);
-        this.dialog = true;
-      },
+      this.editedIndex = this.items.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
+    },
 
-      deleteItem(item) {
-        const index = this.items.indexOf(item);
-        const cfm = confirm("Are you sure you want to delete this item?") &&
-          this.items.splice(index, 1);
-          if (cfm){
-          axios.delete(`/admin/api/label/${item.id}`)
+    deleteItem(item) {
+      const index = this.items.indexOf(item);
+      const cfm = confirm("Are you sure you want to delete this item?") &&
+        this.items.splice(index, 1);
+      if (cfm) {
+        axios.delete(`/admin/api/label/${item.id}`)
           .then(response => {
             this.snackMessage = response.data;
-             this.snackbar = true;
-             this.refresh()
+            this.snackbar = true;
+            this.refresh()
           })
-        }
-      },
-
-      close() {
-        this.dialog = false;
-        setTimeout(() => {
-          this.editedItem = Object.assign({}, this.defaultItem);
-          this.editedIndex = -1;
-        }, 300);
-      },
-
-      save() {
-        if (this.editedIndex > -1) {
-          Object.assign(this.items[this.editedIndex], this.editedItem);
-          axios.put(`/admin/api/label/${this.editedItem.id}`,{item: this.editedItem})
-          .then(response => {
-            this.snackMessage = response.data;
-             this.snackbar = true;
-             this.refresh()
-          })
-        } else {
-          this.items.push(this.editedItem);
-          
-          axios
-            .post("/admin/api/label/", { item: this.editedItem })
-            .then(response => {
-              
-             this.snackMessage = response.data;
-             this.snackbar = true;
-             this.refresh()
-            }).catch(error => {
-              if(error.response){
-                this.snackMessage = error.response.data
-                this.snackbar = true;
-              }
-              
-            });
-        }
-        this.close();
       }
+    },
+
+    close() {
+      this.dialog = false;
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      }, 300);
+    },
+
+    save() {
+      if (this.editedIndex > -1) {
+        Object.assign(this.items[this.editedIndex], this.editedItem);
+        axios.put(`/admin/api/label/${this.editedItem.id}`, { item: this.editedItem })
+          .then(response => {
+            this.snackMessage = response.data;
+            this.snackbar = true;
+            this.refresh()
+          })
+      } else {
+        this.items.push(this.editedItem);
+
+        axios
+          .post("/admin/api/label/", { item: this.editedItem })
+          .then(response => {
+
+            this.snackMessage = response.data;
+            this.snackbar = true;
+            this.refresh()
+          }).catch(error => {
+            if (error.response) {
+              this.snackMessage = error.response.data
+              this.snackbar = true;
+            }
+
+          });
+      }
+      this.close();
     }
+  }
   });
 </script>
 {% endblock %}

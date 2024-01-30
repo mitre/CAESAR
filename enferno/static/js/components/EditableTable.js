@@ -43,7 +43,7 @@ Vue.component("EditableTable", {
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </v-card-title>
-        <v-data-table :headers="itemHeaders" :items="itemList" class="elevation-1">
+        <v-data-table :headers="itemHeaders" :items="itemList" class="">
           <template v-slot:item.title="{ item }">
             <v-text-field v-model="editableItem.title" :hide-details="true"
                           dense single-line :autofocus="true"

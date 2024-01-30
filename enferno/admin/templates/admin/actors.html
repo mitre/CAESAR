@@ -14,12 +14,7 @@
       <v-main>
         {% include 'admin/partials/actor_advsearch.html' %}
         <v-container class="container--fluid">
-
-          <v-card>
-            <v-card-title>
-              <div class="flex-grow-1"></div>
-            </v-card-title>
-            <v-card-text>
+            <div>
               <v-data-table
                   fixed-header
                   height="calc(100vh - 355px)"
@@ -36,7 +31,7 @@
                   :footer-props.sync="footerProps"
                   :loading="loading"
                   :server-items-length="itemsLength"
-                  class="elevation-1"
+                  class=""
                   @toggle-select-all="selectAllRestrict"
               >
 
@@ -79,7 +74,7 @@
 
                     <v-spacer></v-spacer>
                     {% if current_user.roles_in(['Admin','DA']) %}
-                      <v-btn @click="editItem" color="primary" dark
+                      <v-btn @click="editItem" color="accent" dark
                              class="ma-2">{{ _('New Actor') }}</v-btn>
                     {% endif %}
                     {% include 'admin/partials/actor_dialog.html' %}
@@ -249,10 +244,6 @@
                                 ref="relateIncidents"></relate-incidents>
 
               {% include 'admin/partials/video_player_dialog.html' %}
-
-
-
-
               <v-dialog width="600" v-model="selfAssignDialog">
                 <v-card class="pa-3">
                   <v-card-title>Self Assign Actor #${assignActor.id}</v-card-title>
@@ -268,7 +259,6 @@
                 </v-card>
 
               </v-dialog>
-
               <v-snackbar v-model="snackbar">
                 <div class="d-flex justify-space-between align-center">
                   <span class="text-subtitle-1">${snackMessage}</span>
@@ -277,9 +267,7 @@
                   </v-btn>
                 </div>
               </v-snackbar>
-            </v-card-text>
-          </v-card>
-
+            </div>
         </v-container>
       </v-main>
       {% include 'footer.html' %}
