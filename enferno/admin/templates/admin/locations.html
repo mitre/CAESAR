@@ -44,11 +44,13 @@
                                                         @click:append-outer="toggleAdvSearch"
                                                         @click:append="resetSearch"
                                                         append-icon="mdi-close"
-
                                                         label="{{ _('Search') }}">
-
-
                                                 </v-text-field>
+
+                                                <v-btn @click="refresh()" icon>
+                                                  <v-icon>mdi-refresh</v-icon>
+                                                </v-btn>
+
                                                 <v-spacer></v-spacer>
                                                 <v-btn @click="newItem"
                                                        color="primary"

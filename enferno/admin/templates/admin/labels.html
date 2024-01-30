@@ -38,10 +38,12 @@
                                   class="mt-6"
                                   v-model="q"
                                   @keydown.enter="refresh()"
-
-                          label="{{ _('Search') }}">
-
+                                  label="{{ _('Search') }}">
                           </v-text-field>
+
+                          <v-btn @click="refresh()" icon>
+                            <v-icon>mdi-refresh</v-icon>
+                          </v-btn>
 
                             <v-spacer></v-spacer>
                             <v-dialog v-model="dialog" max-width="900px">
@@ -333,10 +335,14 @@
 
     methods: {
       refresh() {
+        this.loading = true;
         axios.get(`/admin/api/labels/?page=${this.options.page}&per_page=${this.options.itemsPerPage}&fltr=all&q=${this.q}&sort_by=${this.options.sortBy}&sort_desc=${this.options.sortDesc}`).then(response => {
-          this.loading = false;
           this.itemsLength = response.data.total;
           this.items = response.data.items;
+        }).catch(err => {
+          console.error(err.response.data);
+        }).finally(() => {
+          this.loading = false;
         });
       },
 
