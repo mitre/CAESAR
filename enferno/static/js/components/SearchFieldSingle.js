@@ -1,6 +1,6 @@
 Vue.component('search-field-single',
     {
-        props: ['value', 'label', 'itemText', 'itemValue', 'api','queryParams', 'returnObject','disabled'],
+        props: ['value', 'label', 'itemText', 'itemValue', 'api','queryParams', 'returnObject','disabled', 'required'],
         data: () => {
             return {
                 loading: false,
@@ -40,7 +40,6 @@ Vue.component('search-field-single',
                     hide-no-data
                     no-filter
                     item-color="secondary"
-                    :label="label"
                     v-model="model"
                     :items="items"
                     :item-text="itemText"
@@ -54,6 +53,11 @@ Vue.component('search-field-single',
                     @focus="search"
                     :return-object="returnObject"
                     :loading="loading"
-            ></v-autocomplete>
+            >
+                <template #label>
+                    {{label }} <span class="red--text" v-if="required"><strong>*
+                        </strong></span>
+                </template>
+            </v-autocomplete>
         `
     })

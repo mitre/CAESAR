@@ -1,44 +1,32 @@
-
 <v-dialog :retain-focus="false" no-click-animation persistent v-model="logDialog" fullscreen>
 
-    <v-card v-if="logDialog" class="overflow-hidden">
+  <v-card v-if="logDialog" class="overflow-hidden">
 
-        <v-app-bar
-                absolute
-                color="pv"
-                dark
+    <v-app-bar absolute color="primary" dark class="card-header">
+      <v-toolbar-title>Log ${eitem.id}</v-toolbar-title>
+      <v-spacer></v-spacer>
 
-                class="card-header"
+      <v-btn @click="close" icon>
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
 
-        >
-            <v-toolbar-title>Log ${eitem.id}</v-toolbar-title>
-            <v-spacer></v-spacer>
+    </v-app-bar>
 
-            <v-btn @click="close" icon>
-                <v-icon>mdi-close</v-icon>
-            </v-btn>
+    <v-sheet id="card-content" max-height="100vh" class="overflow-y-auto pt-11">
 
-        </v-app-bar>
+      <v-container v-if="logLoader" fluid fill-height>
+        <v-layout justify-center align-center>
+          <v-progress-circular indeterminate size="44"></v-progress-circular>
+        </v-layout>
+      </v-container>
 
-        <v-sheet
-                id="card-content"
-                max-height="100vh"
-                class="overflow-y-auto pt-11">
+      <div v-else>
+        <!-- @ emit events passed to card to approve, reject and set expiry datetime -->
+        <log-card :i18n="translations" :log="eitem"></log-card>
 
-                <v-container v-if="logLoader"  fluid fill-height>
-                    <v-layout justify-center align-center>
-                      <v-progress-circular indeterminate size="44"></v-progress-circular>
-                    </v-layout>
-                  </v-container>
-                
-                  <div v-else>
-                    <!-- @ emit events passed to card to approve, reject and set expiry datetime -->
-                      <log-card :i18n="translations" :log="eitem" ></log-card>
-                
-                  </div>
+      </div>
 
-        </v-sheet>
-    </v-card>
+    </v-sheet>
+  </v-card>
 
 </v-dialog>
-

@@ -3,7 +3,7 @@
 
         <v-card v-if="dialog" class="overflow-hidden">
 
-            <v-app-bar absolute color="pv" dark class="card-header">
+            <v-app-bar absolute color="primary" dark class="card-header">
                 <v-toolbar-title>${formTitle} <span class="gv--text" v-if="editedItem.id"> ${editedItem.id}</span>
 
                     <v-chip v-if="editedItem.originid" :href="editedItem.source_link" target="_blank" pill label
