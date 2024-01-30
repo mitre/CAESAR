@@ -76,6 +76,9 @@
                         label="{{ _('Search') }}"
                     ></v-text-field>
 
+                    <v-btn @click="searchActors(false)" icon>
+                      <v-icon>mdi-refresh</v-icon>
+                    </v-btn>
 
                     <v-spacer></v-spacer>
                     {% if current_user.roles_in(['Admin','DA']) %}

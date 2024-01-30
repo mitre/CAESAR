@@ -30,6 +30,11 @@
                             <v-toolbar-title>{{_('Event Types')}}</v-toolbar-title>
 
                             <v-divider class="mx-4" inset vertical></v-divider>
+
+                            <v-btn @click="refresh()" icon>
+                              <v-icon>mdi-refresh</v-icon>
+                            </v-btn>
+
                             <v-spacer></v-spacer>
                             <v-dialog v-model="dialog" max-width="500px">
 
@@ -252,12 +257,14 @@
 
     methods: {
       refresh(options) {
-        
+        this.loading = true;
         axios.get(`/admin/api/eventtypes/?page=${this.options.page}&per_page=${this.options.itemsPerPage}&sort_by=${this.options.sortBy}&sort_desc=${this.options.sortDesc}`).then(response => {
-          this.loading = false;
-          
           this.itemsLength = response.data.total;
           this.items = response.data.items;
+        }).catch(err => {
+          console.error(err.response.data);
+        }).finally(() => {
+          this.loading = false;
         });
       },
 
