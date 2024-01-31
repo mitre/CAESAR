@@ -38,7 +38,8 @@
     font-weight: 700;
     src: local("Roboto Bold"), local("Roboto-Bold"),
     url("../font/roboto-v20-latin-700.woff2") format("woff2"),
-        /* Chrome 26+, Opera 23+, Firefox 39+ */ url("../font/roboto-v20-latin-700.woff") format("woff");
+    /* Chrome 26+, Opera 23+, Firefox 39+ */
+    url("../font/roboto-v20-latin-700.woff") format("woff");
     /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
@@ -48,9 +49,9 @@
     font-style: normal;
     font-weight: 700;
     src: local("Julius"), local("Julius-Regular"),
-        url("../font/julius-sans-one/JuliusSansOne-Regular.ttf") format("ttf"),
+    url("../font/julius-sans-one/JuliusSansOne-Regular.ttf") format("truetype"),
         /* Chrome 26+, Opera 23+, Firefox 39+ */
-        url("../font/julius-sans-one/JuliusSansOne-Regular.ttf") format("ttf");
+        url("../font/julius-sans-one/JuliusSansOne-Regular.ttf") format("truetype");
     /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
@@ -771,15 +772,39 @@ span.map-bid:empty {
     align-items: center;
     gap: 8px;
     color: white !important;
+    /* color: black !important; */
     text-decoration: none !important;
-    font-family: 'Tajawal';
+    font-family: 'Julius' !important;
     font-size:  22px;
   }
   .hero {
-    /* background-image: url('/static/img/co-hero-2.png'); */
-    padding: 20px;
+    padding: 80px 20px 20px 20px;
     margin: -12px;
     display: flex;
-    filter: brightness(0);
-    /* background-color: #001830; */
-  }
+    align-items: start;
+    background-image: url('/static/img/map2.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    /* background: #001830;
+    background: -webkit-linear-gradient(to right, #0F4987, #001830);
+    background: linear-gradient(to right, #0F4987, #001830); */
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 80%);
+    min-height: 350px;
+}
+.hero > .v-image__image {
+    filter: brightness(0) !important;
+}
+.welcome-message {
+    max-width: 950px;
+    padding: 20px;
+}
+.welcome-login {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 40px;
+    
+}
+.v-application .text-h5 {
+    font-family: 'Julius' !important;
+}

@@ -132,8 +132,8 @@
 
                             <v-tooltip top>
                                 <template v-slot:activator="{ on }">
-                                    <v-icon v-on="on" color="ov darken-1" class="mr-2" @click.stop="editItem(item)"
-                                        v-if="editAllowed(item)">
+                                    <v-icon v-on="on" color="primary lighten-1" class="mr-2"
+                                        @click.stop="editItem(item)" v-if="editAllowed(item)">
                                         mdi-pencil
                                     </v-icon>
                                 </template>
@@ -157,7 +157,7 @@
                             <v-tooltip top>
                                 <template v-slot:activator="{ on }">
                                     <v-icon v-on="on" v-if="reviewAllowed(item)" @click.stop="addReview(item)"
-                                        color="gv darken-1" class="mr-2">mdi-message-draw
+                                        color="primary lighten-1" class="mr-2">mdi-message-draw
                                     </v-icon>
                                 </template>
                                 <span>Add Review</span>

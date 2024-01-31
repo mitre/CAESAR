@@ -134,8 +134,8 @@
                         <template v-slot:item.action="{ item }">
                             <v-tooltip top>
                                 <template v-slot:activator="{ on }">
-                                    <v-icon v-on="on" color="ov darken-1" class="mr-2" @click.stop="editItem(item)"
-                                        v-if="editAllowed(item)">
+                                    <v-icon v-on="on" color="primary lighten-1" class="mr-2"
+                                        @click.stop="editItem(item)" v-if="editAllowed(item)">
                                         mdi-pencil
                                     </v-icon>
 
