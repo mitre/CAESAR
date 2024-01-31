@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  postgres:
+    volumes:
+      - ${DB_DATA:-/opt/caesar/volumes/conflict-ob/postgres/data}:/var/lib/postgresql/data
+      - ${DB_BACKUP:-/opt/caesar/volumes/conflict-ob/postgres/backup}:/opt/backup
