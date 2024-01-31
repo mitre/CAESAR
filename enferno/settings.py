@@ -184,7 +184,6 @@ class Config(object):
     MISSING_PERSONS = manager.get_config('MISSING_PERSONS')
 
     # Deduplication
-
     # specify min and max distance for matching
     DEDUP_LOW_DISTANCE = manager.get_config('DEDUP_LOW_DISTANCE')
     DEDUP_MAX_DISTANCE = manager.get_config('DEDUP_MAX_DISTANCE')
@@ -198,6 +197,9 @@ class Config(object):
     # Sheet import tool settings
     SHEET_IMPORT = manager.get_config('SHEET_IMPORT')
     IMPORT_DIR = 'enferno/imports'
+
+    # Configurable default data
+    LOCATIONS_FILENAME = manager.get_config('LOCATIONS_FILENAME')
 
     geo_map_default_center = manager.get_config('GEO_MAP_DEFAULT_CENTER')
 

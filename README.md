@@ -40,8 +40,8 @@ messages.pot, messages.po, and messages.mo files should all show changes in sour
 
 ## Caesar Data
 
-Location data has been added to the default bayanat data set at /enferno/data in a Locations.csv file. This file contains a list of Ukrainian cities that was pulled from https://simplemaps.com/data/ua-cities.
-
+Ukraine location data has been added to the default bayanat data set at /enferno/data in the ukraine_locations.csv file. This file contains a list of Ukrainian cities that was pulled from https://simplemaps.com/data/ua-cities.
+Sudan location data has been added to the default bayanat data set at /enferno/data in the sudan_locations.csv file. This file contains a list of Ukrainian cities that was pulled from https://simplemaps.com/data/ua-cities.
 
 ## Local Development
 
