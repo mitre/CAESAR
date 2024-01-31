@@ -15,7 +15,7 @@
                                     <v-toolbar flat color="white">
                                         <v-toolbar-title>{{ _('Role Groups') }}</v-toolbar-title>
 
-                                        <v-divider class="mx-4" inset vertical></v-divider>
+                                        <v-divider class="ml-4" inset vertical></v-divider>
 
                                         <v-btn @click="refresh()" icon>
                                             <v-icon>mdi-refresh</v-icon>
@@ -120,10 +120,10 @@
                                 </template>
                                 <template v-slot:item.action="{ item }">
                                     <template v-if="!['Admin','Mod','DA'].includes(item.name)">
-                                        <v-icon small class="mr-2" @click="editItem(item)">
+                                        <v-icon color="primary lighten-1" class="mr-2" @click="editItem(item)">
                                             mdi-pencil
                                         </v-icon>
-                                        <v-icon small @click="deleteItem(item)">
+                                        <v-icon color="primary lighten-1" @click="deleteItem(item)">
                                             mdi-delete-sweep
                                         </v-icon></template>
                                 </template>

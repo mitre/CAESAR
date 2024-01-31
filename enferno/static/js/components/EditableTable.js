@@ -78,17 +78,17 @@ Vue.component("EditableTable", {
             <div v-if="!noActionIds.includes(item.id)">
 
               <div v-if="item.id === editableItem.id">
-                <v-icon small class="mr-3" @click="itemCancel">
+                <v-icon color="primary lighten-1" class="mr-3" @click="itemCancel">
                   mdi-window-close
                 </v-icon>
-                <v-icon small @click="itemSave(item)">mdi-content-save
+                <v-icon color="primary lighten-1" @click="itemSave(item)">mdi-content-save
                 </v-icon>
               </div>
               <div v-else>
-                <v-icon small class="mr-3" @click="itemEdit(item)">
+                <v-icon color="primary lighten-1" class="mr-3" @click="itemEdit(item)">
                   mdi-pencil
                 </v-icon>
-                <v-icon v-if="deleteEndpoint" small @click="itemDelete(item)">mdi-delete
+                <v-icon v-if="deleteEndpoint" color="primary lighten-1" @click="itemDelete(item)">mdi-delete
                 </v-icon>
 
               </div>

@@ -757,9 +757,9 @@ span.map-bid:empty {
 }
 
 .assigned-to-me {
-    background-color: rgba(42, 130, 206, 0.2);
+    background-color: rgba(54, 147, 181, 0.4);
     padding: 4px 8px;
-    border-radius: 8px;
+    border-radius: 50px;
     color: black;
 }
 
