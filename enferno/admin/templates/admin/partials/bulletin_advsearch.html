@@ -2,6 +2,7 @@
 
     <v-card>
         <v-card-title>
+            {{ _('Bulletin Advanced Search') }}
             <v-spacer></v-spacer>
             <v-btn fab text @click="advSearchExpand=false">
                 <v-icon>mdi-close</v-icon>
@@ -52,13 +53,13 @@
             </v-btn>
             <v-spacer></v-spacer>
             <v-btn @click="resetSearch" text>{{ _('Clear Search') }}</v-btn>
-            <v-btn v-if="!savedSearchSelection" @click="openSaveQueryDialog" color="accent" depressed>{{ _('Save
+            <v-btn v-if="!savedSearchSelection" @click="openSaveQueryDialog" color="accent" text>{{ _('Save
                 Search') }}</v-btn>
             <v-btn v-if="savedSearchSelection" @click="updateSearch" color="warning" depressed>{{ _('Update Search')
                 }}</v-btn>
             <v-btn v-if="savedSearchSelection" @click="openSaveQueryDialog" color="warning" depressed>{{ _('Save As
                 New') }}</v-btn>
-            <v-btn @click="doSearch" color="primary">{{ _('Search') }}</v-btn>
+            <v-btn @click="doSearch" color="accent">{{ _('Search') }}</v-btn>
         </v-card-text>
     </v-card>
     <v-dialog width="300" v-model="saveQueryDialog">
