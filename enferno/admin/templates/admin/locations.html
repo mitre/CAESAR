@@ -11,8 +11,7 @@
                         <div>
                             <v-data-table height="calc(100vh - 335px)" id="locations-dt" fixed-header :headers="headers"
                                 @click:row="rowClick" :items="items" :options.sync="options"
-                                :footer-props.sync="footerProps" :loading="loading" :server-items-length="itemsLength"
-                                class="elevation-1">
+                                :footer-props.sync="footerProps" :loading="loading" :server-items-length="itemsLength">
                                 <template v-slot:top>
                                     <v-toolbar flat color="white">
                                         <v-toolbar-title>{{ _('Locations') }}</v-toolbar-title>
