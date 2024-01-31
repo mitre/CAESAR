@@ -786,10 +786,7 @@ span.map-bid:empty {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    /* background: #001830;
-    background: -webkit-linear-gradient(to right, #0F4987, #001830);
-    background: linear-gradient(to right, #0F4987, #001830); */
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 80%);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 70%);
     min-height: 350px;
 }
 .hero > .v-image__image {
