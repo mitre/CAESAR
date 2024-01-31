@@ -10,7 +10,6 @@
         {% include 'nav-drawer.html' %} {% include 'nav-bar.html' %} {% include
         'admin/partials/bulletin_drawer.html' %} {% include
         'admin/partials/bulk_bulletin_drawer.html' %}
-
         {% include
         'admin/partials/export_drawer.html' %}
         <v-main>
@@ -43,6 +42,9 @@
                                     append-icon="mdi-close" @click:append="resetSearch"
                                     @click:append-outer="toggleAdvSearch" prepend-inner-icon="mdi-magnify"
                                     label="{{ _('Search') }}" :background-color="searchBg"></v-text-field>
+                                <v-btn @click="searchBulletins(false)" icon>
+                                    <v-icon>mdi-refresh</v-icon>
+                                </v-btn>
 
 
                                 <v-spacer></v-spacer>
@@ -57,125 +59,163 @@
                             <v-toolbar v-if="bulkAllowed() || exportAllowed()" dense color="white" flat>
                                 <template v-if="bulkIcons">
 
-                                    <v-btn @click="selected=[]" x-small fab class="mr-3" elevation="0" color="white">
-                                        <v-icon>mdi-checkbox-blank-outline</v-icon>
-                                    </v-btn>
-
-                                    <v-btn @click="bulkBulletinDrawer=true" small color="primary" class="mx-2" depressed
-                                        v-if="bulkAllowed()">
-                                        <v-icon small left>mdi-circle-edit-outline
-                                        </v-icon>
-                                        {{ _('Bulk update') }}
-                                    </v-btn>
-                                    {% if config.EXPORT_TOOL %}
-                                    <v-btn @click="exportDrawer=true" small color="primary" class="mx-2" depressed
-                                        v-if="exportAllowed()">
-                                        <v-icon small left>mdi-file-export-outline
-                                        </v-icon>
-                                        {{ _('Export') }}
-                                    </v-btn>
-                                    {% endif %}
+                                    @input="select($event)"
+                                    ></v-simple-checkbox>
                                 </template>
-                                <template>
-                                    <v-progress-circular v-for="job in jobs" size="20" small
-                                        :indeterminate="job.status!='SUCCESS'"
-                                        :color="job.status=='SUCCESS' ? 'success': 'amber'"
-                                        :value="job.status=='SUCCESS'?100:null" class="mx-1"
-                                        stroke="1"></v-progress-circular>
-                                </template>
-                                <v-spacer></v-spacer>
+                                <template v-slot:top>
+                                    <v-toolbar flat color="white">
+                                        <v-btn class="hidden-sm-and-down" small @click="allBulletins" text>{{ _('All
+                                            Bulletins') }}</v-btn>
+                                        <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
+                                        <v-btn class="hidden-sm-and-down" small @click="myAssigned" text>{{ _('Assigned
+                                            to me') }}</v-btn>
+                                        <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
+                                        <v-btn small @click="myReview" class="mr-2 hidden-sm-and-down" text>{{ _('My
+                                            Review List') }}</v-btn>
 
-                                <div>
+                                        <v-text-field flat dense outlined small v-model.trim="search[0].tsv"
+                                            @keydown.enter="doSearch()" hide-details append-outer-icon="mdi-ballot"
+                                            append-icon="mdi-close" @click:append="resetSearch"
+                                            @click:append-outer="toggleAdvSearch" prepend-inner-icon="mdi-magnify"
+                                            label="{{ _('Search') }}" :background-color="searchBg"></v-text-field>
+
+                                        <v-btn @click="searchBulletins(false)" icon>
+                                            <v-icon>mdi-refresh</v-icon>
+                                        </v-btn>
+
+                                        <v-spacer></v-spacer>
+                                        {% if current_user.roles_in(['Admin','DA']) %}
+                                        <v-btn @click="editItem" color="primary" dark class="ma-2">{{ _('New Bulletin')
+                                            }}</v-btn>
+                                        {% endif %} {% include
+                                        'admin/partials/bulletin_dialog.html' %} {% include
+                                        'admin/partials/review_dialog.html' %}
+                                    </v-toolbar>
+
+                                    <v-toolbar v-if="bulkAllowed() || exportAllowed()" dense color="white" flat>
+                                        <template v-if="bulkIcons">
+
+                                            <v-btn @click="selected=[]" x-small fab class="mr-3" elevation="0"
+                                                color="white">
+                                                <v-icon>mdi-checkbox-blank-outline</v-icon>
+                                            </v-btn>
+
+                                            <v-btn @click="bulkBulletinDrawer=true" small color="primary" class="mx-2"
+                                                depressed v-if="bulkAllowed()">
+                                                <v-icon small left>mdi-circle-edit-outline
+                                                </v-icon>
+                                                {{ _('Bulk update') }}
+                                            </v-btn>
+                                            {% if config.EXPORT_TOOL %}
+                                            <v-btn @click="exportDrawer=true" small color="primary" class="mx-2"
+                                                depressed v-if="exportAllowed()">
+                                                <v-icon small left>mdi-file-export-outline
+                                                </v-icon>
+                                                {{ _('Export') }}
+                                            </v-btn>
+                                            {% endif %}
+                                        </template>
+                                        <template>
+                                            <v-progress-circular v-for="job in jobs" size="20" small
+                                                :indeterminate="job.status!='SUCCESS'"
+                                                :color="job.status=='SUCCESS' ? 'success': 'amber'"
+                                                :value="job.status=='SUCCESS'?100:null" class="mx-1"
+                                                stroke="1"></v-progress-circular>
+                                        </template>
+                                        <v-spacer></v-spacer>
+
+                                        <div>
+
+                                            <v-tooltip top>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-chip v-on="on" label small close color="yellow lighten-4"
+                                                        class="grey--text text--darken-2" @click:close="allBulletins">{{
+                                                        _('About') }} ${itemsLength} {{ _('results') }}
+                                                        (${searchTime} {{ _('seconds') }})
+                                                    </v-chip>
+                                                </template>
+                                                <span>${search}</span>
+                                            </v-tooltip>
+                                        </div>
+
+                                        <v-spacer></v-spacer>
+                                        <v-chip small color="accent" v-if="selected.length">${selected.length} {{
+                                            _('Selected items') }}</v-chip>
+                                    </v-toolbar>
+                                </template>
+
+                                <template v-slot:item.assigned_to.name="{ item }">
+                                    <div v-if="item.assigned_to">
+                                        <span
+                                            :class="{'flex assigned-to-me': currentUser.id == item.assigned_to.id}">${item.assigned_to.name}</span>
+                                    </div>
+                                </template>
+
+                                <template v-slot:item.roles="{item}">
+                                    <v-chip small v-for="role in item.roles" :color="role.color" style="scale:0.7"
+                                        v-tippy :content="role.name">
+                                    </v-chip>
+                                </template>
+
+                                <template v-slot:item.status="{ item }">
+                                    ${item.status}
+                                    <v-chip x-small v-if="item.review_action" color="grey lighten-4"
+                                        class="secondary--text">${item.review_action}
+                                    </v-chip>
+                                </template>
+                                <template v-slot:item.action="{ item }">
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on }">
+                                            <v-icon v-on="on" color="ov darken-1" class="mr-2"
+                                                @click.stop="editItem(item)" v-if="editAllowed(item)">
+                                                mdi-pencil
+                                            </v-icon>
+                                        </template>
+                                        <span>Edit</span>
+                                    </v-tooltip>
 
                                     <v-tooltip top>
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-chip v-on="on" label small close color="yellow lighten-4"
-                                                class="grey--text text--darken-2" @click:close="allBulletins">{{
-                                                _('About') }} ${itemsLength} {{ _('results') }}
-                                                (${searchTime} {{ _('seconds') }})
-                                            </v-chip>
+                                        <template v-slot:activator="{ on }">
+                                            <v-icon v-on="on" color="primary lighten-1" class="mr-2"
+                                                @click.stop="openSelfAssign(item)" v-if="selfAssignAllowed(item)">
+                                                mdi-arrow-left-thin-circle-outline
+                                            </v-icon>
                                         </template>
-                                        <span>${search}</span>
+                                        <span>Assign to self</span>
                                     </v-tooltip>
-                                </div>
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on }">
+                                            <v-icon v-on="on" color="primary lighten-1" class="mr-2"
+                                                @click.stop="openAssignOther(item)" v-if="bulkAllowed()">
+                                                mdi-account-box-outline
+                                            </v-icon>
+                                        </template>
+                                        <span>Assign Bulletin</span>
+                                    </v-tooltip>
 
-
-                                <v-spacer></v-spacer>
-                                <v-chip small color="accent" v-if="selected.length">${selected.length} {{ _('Selected
-                                    items') }}</v-chip>
-                            </v-toolbar>
-
-                        </template>
-
-                        <template v-slot:item.assigned_to.name="{ item }">
-                            <div v-if="item.assigned_to">
-                                <span
-                                    :class="{'flex assigned-to-me': currentUser.id == item.assigned_to.id}">${item.assigned_to.name}</span>
-                            </div>
-                        </template>
-
-                        <template v-slot:item.roles="{item}">
-                            <v-chip small v-for="role in item.roles" :color="role.color" style="scale:0.7" v-tippy
-                                :content="role.name">
-
-                            </v-chip>
-                        </template>
-
-                        <template v-slot:item.status="{ item }">
-                            ${item.status}
-                            <v-chip x-small v-if="item.review_action" color="grey lighten-4"
-                                class="secondary--text">${item.review_action}
-                            </v-chip>
-                        </template>
-                        <template v-slot:item.action="{ item }">
-                            <v-tooltip top>
-                                <template v-slot:activator="{ on }">
-                                    <v-icon v-on="on" color="ov darken-1" class="mr-2" @click.stop="editItem(item)"
-                                        v-if="editAllowed(item)">
-                                        mdi-pencil
-                                    </v-icon>
-
-
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on }">
+                                            <v-icon v-on="on" v-if="reviewAllowed(item)" @click.stop="addReview(item)"
+                                                color="gv darken-1" class="mr-2">mdi-message-draw
+                                            </v-icon>
+                                        </template>
+                                        <span>Add Review</span>
+                                    </v-tooltip>
+                                    <v-tooltip top>
+                                        <template v-slot:activator="{ on }">
+                                            <v-icon v-on="on" v-if="has_role(currentUser, 'Admin')"
+                                                @click.stop="deleteItem(item)" color="red darken-3"
+                                                class="mr-2">mdi-delete-sweep
+                                            </v-icon>
+                                        </template>
+                                        <span>Delete Bulletin</span>
+                                    </v-tooltip>
                                 </template>
-                                <span>Edit</span>
-                            </v-tooltip>
-
-                            <v-tooltip top>
-                                <template v-slot:activator="{ on }">
-                                    <v-icon v-on="on" color="primary lighten-1" class="mr-2"
-                                        @click.stop="openSelfAssign(item)" v-if="selfAssignAllowed(item)">
-                                        mdi-arrow-left-thin-circle-outline
-                                    </v-icon>
 
 
-                                </template>
-                                <span>Assign to self</span>
-                            </v-tooltip>
-
-                            <v-tooltip top>
-                                <template v-slot:activator="{ on }">
-                                    <v-icon v-on="on" color="primary lighten-1" class="mr-2"
-                                        @click.stop="openAssignOther(item)" v-if="bulkAllowed()">
-                                        mdi-account-box-outline
-                                    </v-icon>
-                                </template>
-                                <span>Assign Bulletin</span>
-                            </v-tooltip>
-
-                            <v-tooltip top>
-                                <template v-slot:activator="{ on }">
-                                    <v-icon v-on="on" v-if="reviewAllowed(item)" @click.stop="addReview(item)"
-                                        color="gv darken-1" class="mr-2">mdi-message-draw
-                                    </v-icon>
-                                </template>
-                                <span>Add Review</span>
-                            </v-tooltip>
-
-                        </template>
-
-
-                        <template v-slot:no-data></template>
+                                <template v-slot:no-data></template>
                     </v-data-table>
+
                     <v-overlay :value="loading">
                         <v-progress-circular indeterminate size="64"></v-progress-circular>
                     </v-overlay>
@@ -185,27 +225,30 @@
                         ref="relateActors"></relate-actors>
                     <relate-incidents :i18n="translations" @relate="relateIncident" :exids="exIncidents"
                         ref="relateIncidents"></relate-incidents>
+
+
                     {% include 'admin/partials/video_player_dialog.html' %}
+
+
+
                     <v-dialog width="600" v-model="selfAssignDialog">
                         <v-card class="pa-3">
                             <v-card-title>Self Assign Bulletin #${assignBulletin.id}</v-card-title>
                             <v-card-text>
                                 <v-combobox small-chips multiple v-model="assignBulletin.ref" label="{{ _('Ref') }}"
                                     class="mr-2"></v-combobox>
-                                <v-textarea v-model="assignBulletin.comments">
-                                    <template #label>
-                                        {{ _('Comments') }}
-                                    </template>
-                                </v-textarea>
+                                <v-textarea v-model="assignBulletin.comments" label="Comments"></v-textarea>
                             </v-card-text>
                             <v-card-actions>
                                 <v-btn :disabled="!assignBulletin.comments" class="ma-auto" @click="selfAssign"
-                                    color="accent">Assign to self
+                                    color="primary">Assign to self
                                 </v-btn>
                             </v-card-actions>
                         </v-card>
 
                     </v-dialog>
+
+
                     <v-dialog width="600" v-model="assignDialog">
                         <v-card class="pa-3">
                             <v-card-title>Assign Bulletin #${assignBulletin.id}</v-card-title>
@@ -213,25 +256,19 @@
                                 <validation-provider name="Assigned To" rules="required" v-slot="{ errors }">
                                     <search-field-single v-model="assignBulletin.assigned_to_id" api="/admin/api/users/"
                                         item-text="name" item-value="id" :return-object="false" :multiple="false"
-                                        label="{{ _('Assigned To') }}" :required="true">
-                                    </search-field-single>
-                                    <span class="red--text"> ${errors[0]}</span>
+                                        label="{{ _('Assigned To') }}"></search-field-single>
+                                    <span class="orange--text"> ${errors[0]}</span>
                                 </validation-provider>
                                 <v-combobox small-chips multiple v-model="assignBulletin.ref"
                                     label="{{ _('Ref') }}"></v-combobox>
                                 <validation-provider name="Comments" rules="required" v-slot="{ errors }">
-                                    <v-textarea v-model="assignBulletin.comments">
-                                        <template #label>
-                                            {{ _('Comments') }} <span class="red--text"><strong>*
-                                                </strong></span>
-                                        </template>
-                                    </v-textarea>
-                                    <span class="red--text"> ${errors[0]}</span>
+                                    <v-textarea v-model="assignBulletin.comments" label="Comments"></v-textarea>
+                                    <span class="orange--text"> ${errors[0]}</span>
                                 </validation-provider>
                             </v-card-text>
                             <v-card-actions>
                                 <v-btn :disabled="!assignBulletin.comments || !assignBulletin.assigned_to_id"
-                                    class="ma-auto" @click="assignOther()" color="accent">Assign Bulletin
+                                    class="ma-auto" @click="assignOther()" color="primary">Assign Bulletin
                                 </v-btn>
                             </v-card-actions>
                         </v-card>
@@ -242,10 +279,189 @@
                             <v-btn color="white" fab small color="secondary" text @click="snackbar = false">
                                 <v-icon small>mdi-close</v-icon>
                             </v-btn>
-                        </div>
 
-                    </v-snackbar>
-                </div>
+                            <v-btn @click="bulkBulletinDrawer=true" small color="primary" class="mx-2" depressed
+                                v-if="bulkAllowed()">
+                                <v-icon small left>mdi-circle-edit-outline
+                                </v-icon>
+                                {{ _('Bulk update') }}
+                            </v-btn>
+                            {% if config.EXPORT_TOOL %}
+                            <v-btn @click="exportDrawer=true" small color="primary" class="mx-2" depressed
+                                v-if="exportAllowed()">
+                                <v-icon small left>mdi-file-export-outline
+                                </v-icon>
+                                {{ _('Export') }}
+                            </v-btn>
+                            {% endif %}
+                            </template>
+                            <template>
+                                <v-progress-circular v-for="job in jobs" size="20" small
+                                    :indeterminate="job.status!='SUCCESS'"
+                                    :color="job.status=='SUCCESS' ? 'success': 'amber'"
+                                    :value="job.status=='SUCCESS'?100:null" class="mx-1"
+                                    stroke="1"></v-progress-circular>
+                            </template>
+                            <v-spacer></v-spacer>
+
+                            <div>
+
+                                <v-tooltip top>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-chip v-on="on" label small close color="yellow lighten-4"
+                                            class="grey--text text--darken-2" @click:close="allBulletins">{{
+                                            _('About') }} ${itemsLength} {{ _('results') }}
+                                            (${searchTime} {{ _('seconds') }})
+                                        </v-chip>
+                                    </template>
+                                    <span>${search}</span>
+                                </v-tooltip>
+                            </div>
+                            <v-spacer></v-spacer>
+                            <v-chip small color="accent" v-if="selected.length">${selected.length} {{ _('Selected
+                                items') }}</v-chip>
+                            </v-toolbar>
+
+                            </template>
+
+                            <template v-slot:item.assigned_to.name="{ item }">
+                                <div v-if="item.assigned_to">
+                                    <span
+                                        :class="{'flex assigned-to-me': currentUser.id == item.assigned_to.id}">${item.assigned_to.name}</span>
+                                </div>
+                            </template>
+
+                            <template v-slot:item.roles="{item}">
+                                <v-chip small v-for="role in item.roles" :color="role.color" style="scale:0.7" v-tippy
+                                    :content="role.name">
+
+                                </v-chip>
+                            </template>
+
+                            <template v-slot:item.status="{ item }">
+                                ${item.status}
+                                <v-chip x-small v-if="item.review_action" color="grey lighten-4"
+                                    class="secondary--text">${item.review_action}
+                                </v-chip>
+                            </template>
+                            <template v-slot:item.action="{ item }">
+                                <v-tooltip top>
+                                    <template v-slot:activator="{ on }">
+                                        <v-icon v-on="on" color="ov darken-1" class="mr-2" @click.stop="editItem(item)"
+                                            v-if="editAllowed(item)">
+                                            mdi-pencil
+                                        </v-icon>
+                                    </template>
+                                    <span>Edit</span>
+                                </v-tooltip>
+
+                                <v-tooltip top>
+                                    <template v-slot:activator="{ on }">
+                                        <v-icon v-on="on" color="primary lighten-1" class="mr-2"
+                                            @click.stop="openSelfAssign(item)" v-if="selfAssignAllowed(item)">
+                                            mdi-arrow-left-thin-circle-outline
+                                        </v-icon>
+
+
+                                    </template>
+                                    <span>Assign to self</span>
+                                </v-tooltip>
+
+                                <v-tooltip top>
+                                    <template v-slot:activator="{ on }">
+                                        <v-icon v-on="on" color="primary lighten-1" class="mr-2"
+                                            @click.stop="openAssignOther(item)" v-if="bulkAllowed()">
+                                            mdi-account-box-outline
+                                        </v-icon>
+                                    </template>
+                                    <span>Assign Bulletin</span>
+                                </v-tooltip>
+
+                                <v-tooltip top>
+                                    <template v-slot:activator="{ on }">
+                                        <v-icon v-on="on" v-if="reviewAllowed(item)" @click.stop="addReview(item)"
+                                            color="gv darken-1" class="mr-2">mdi-message-draw
+                                        </v-icon>
+                                    </template>
+                                    <span>Add Review</span>
+                                </v-tooltip>
+
+                            </template>
+
+
+                            <template v-slot:no-data></template>
+                            </v-data-table>
+                            <v-overlay :value="loading">
+                                <v-progress-circular indeterminate size="64"></v-progress-circular>
+                            </v-overlay>
+                            <relate-bulletins :i18n="translations" @relate="relateBulletin" :exids="exBulletins"
+                                ref="relateBulletins"></relate-bulletins>
+                            <relate-actors :i18n="translations" @relate="relateActor" :exids="exActors"
+                                ref="relateActors"></relate-actors>
+                            <relate-incidents :i18n="translations" @relate="relateIncident" :exids="exIncidents"
+                                ref="relateIncidents"></relate-incidents>
+                            {% include 'admin/partials/video_player_dialog.html' %}
+                            <v-dialog width="600" v-model="selfAssignDialog">
+                                <v-card class="pa-3">
+                                    <v-card-title>Self Assign Bulletin #${assignBulletin.id}</v-card-title>
+                                    <v-card-text>
+                                        <v-combobox small-chips multiple v-model="assignBulletin.ref"
+                                            label="{{ _('Ref') }}" class="mr-2"></v-combobox>
+                                        <v-textarea v-model="assignBulletin.comments">
+                                            <template #label>
+                                                {{ _('Comments') }}
+                                            </template>
+                                        </v-textarea>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                        <v-btn :disabled="!assignBulletin.comments" class="ma-auto" @click="selfAssign"
+                                            color="accent">Assign to self
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+
+                            </v-dialog>
+                            <v-dialog width="600" v-model="assignDialog">
+                                <v-card class="pa-3">
+                                    <v-card-title>Assign Bulletin #${assignBulletin.id}</v-card-title>
+                                    <v-card-text>
+                                        <validation-provider name="Assigned To" rules="required" v-slot="{ errors }">
+                                            <search-field-single v-model="assignBulletin.assigned_to_id"
+                                                api="/admin/api/users/" item-text="name" item-value="id"
+                                                :return-object="false" :multiple="false" label="{{ _('Assigned To') }}"
+                                                :required="true">
+                                            </search-field-single>
+                                            <span class="red--text"> ${errors[0]}</span>
+                                        </validation-provider>
+                                        <v-combobox small-chips multiple v-model="assignBulletin.ref"
+                                            label="{{ _('Ref') }}"></v-combobox>
+                                        <validation-provider name="Comments" rules="required" v-slot="{ errors }">
+                                            <v-textarea v-model="assignBulletin.comments">
+                                                <template #label>
+                                                    {{ _('Comments') }} <span class="red--text"><strong>*
+                                                        </strong></span>
+                                                </template>
+                                            </v-textarea>
+                                            <span class="red--text"> ${errors[0]}</span>
+                                        </validation-provider>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                        <v-btn :disabled="!assignBulletin.comments || !assignBulletin.assigned_to_id"
+                                            class="ma-auto" @click="assignOther()" color="accent">Assign Bulletin
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+                            <v-snackbar v-model="snackbar">
+                                <div class="d-flex justify-space-between align-center">
+                                    <span class="text-subtitle-1">${snackMessage}</span>
+                                    <v-btn color="white" fab small color="secondary" text @click="snackbar = false">
+                                        <v-icon small>mdi-close</v-icon>
+                                    </v-btn>
+                                </div>
+
+                            </v-snackbar>
+                        </div>
             </v-container>
         </v-main>
         {% include 'footer.html' %}

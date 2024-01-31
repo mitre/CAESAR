@@ -7,162 +7,140 @@
       <v-container class="container--fluid">
         <v-row>
           <v-col cols="12">
-            <div>
-              <v-data-table height="calc(100vh - 335px)" fixed-header :headers="headers" :items="items"
-                :options.sync="options" :footer-props.sync="footerProps" :loading="loading"
-                :server-items-length="itemsLength" class="">
-                <template v-slot:top>
-                  <v-toolbar flat color="white">
-                    <v-toolbar-title>{{_('Labels')}}</v-toolbar-title>
+            <v-data-table height="calc(100vh - 335px)" fixed-header :headers="headers" :items="items"
+              :options.sync="options" :footer-props.sync="footerProps" :loading="loading"
+              :server-items-length="itemsLength" class="elevation-1">
+              <template v-slot:top>
+                <v-toolbar flat color="white">
+                  <v-toolbar-title>{{_('Labels')}}</v-toolbar-title>
 
-                    <v-divider class="mx-4" inset vertical></v-divider>
-                    <v-text-field outlined dense class="mt-6" v-model="q" @keydown.enter="refresh()"
-                      label="{{ _('Search') }}">
+                  <v-divider class="mx-4" inset vertical></v-divider>
+                  <v-text-field outlined dense class="mt-6" v-model="q" @keydown.enter="refresh()"
+                    label="{{ _('Search') }}">
+                  </v-text-field>
 
-                    </v-text-field>
+                  <v-btn @click="refresh()" icon>
+                    <v-icon>mdi-refresh</v-icon>
+                  </v-btn>
 
-                    <v-spacer></v-spacer>
-                    <v-dialog v-model="dialog" max-width="900px">
-                      {% if current_user.roles_in(['Admin','Mod']) %}
-                      <template v-slot:activator="{ on }">
-                        <v-btn color="accent" dark class="ma-2" v-on="on">{{_('New Item')}}</v-btn>
-                      </template>
-                      {% endif %}
-                      <v-card>
-                        <v-card-title>
-                          <span class="headline">${ formTitle }</span>
-                        </v-card-title>
+                  <v-spacer></v-spacer>
+                  <v-dialog v-model="dialog" max-width="900px">
+                    {% if current_user.roles_in(['Admin','Mod']) %}
+                    <template v-slot:activator="{ on }">
+                      <v-btn color="accent" dark class="ma-2" v-on="on">{{_('New Item')}}</v-btn>
+                    </template>
+                    {% endif %}
+                    <v-card>
+                      <v-card-title>
+                        <span class="headline">${ formTitle }</span>
+                      </v-card-title>
+                      <v-card-text>
+                        <v-container>
+                          <v-row>
+                            <v-col cols="12" md="6">
+                              <v-text-field v-model="editedItem.title" label="{{_('Title')}}"></v-text-field>
+                            </v-col>
+                            <v-col cols="12" md="6">
+                              <v-text-field v-model="editedItem.title_ar" label="{{_('Title (AR)')}}"></v-text-field>
+                            </v-col>
+                          </v-row>
+                          <v-row>
+                            <v-col cols="12" md="6">
+                              <v-text-field v-model="editedItem.comments" label="{{_('Comments')}}"></v-text-field>
+                            </v-col>
+                            <v-col cols="12" md="6">
+                              <v-text-field v-model="editedItem.comments_ar"
+                                label="{{_('Comments (AR)')}}"></v-text-field>
+                            </v-col>
+                          </v-row>
+                          <v-row>
+                            <v-col cols="12" md="6">
+                              <search-field api="/admin/api/labels/" item-text="title" label="{{_('Parent')}}"
+                                v-model="editedItem.parent" item-value="id" :multiple="false" label="Labels"
+                                :query-params="{ fltr: 'all' }"></search-field>
+                            </v-col>
+                            <v-col cols="12" md="6">
+                            </v-col>
+                          </v-row>
+                          <v-row>
+                            <v-col cols="12" md="2">
+                              <v-checkbox v-model="editedItem.verified" label="{{_('Verified')}}"></v-checkbox>
+                            </v-col>
+                            <v-col cols="12" md="2">
+                              <v-checkbox v-model="editedItem.for_bulletin" label="{{_('Bulletin')}}"></v-checkbox>
+                            </v-col>
+                            <v-col cols="12" md="2">
+                              <v-checkbox v-model="editedItem.for_actor" label="{{_('Actor')}}"></v-checkbox>
+                            </v-col>
+                            <v-col cols="12" md="2">
+                              <v-checkbox v-model="editedItem.for_incident" label="{{_('Incident')}}"></v-checkbox>
+                            </v-col>
+                            <v-col cols="12" md="2">
+                              <v-checkbox v-model="editedItem.for_offline" label="{{_('Offline')}}"></v-checkbox>
+                            </v-col>
+                          </v-row>
+                        </v-container>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn text @click="close">{{_('Cancel')}}</v-btn>
+                        <v-btn color="accent" text @click="save">{{_('Save')}}</v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
 
-                        <v-card-text>
-                          <v-container>
-                            <v-row>
-                              <v-col cols="12" md="6">
-                                <v-text-field v-model="editedItem.title" label="{{_('Title')}}"></v-text-field>
-                              </v-col>
-                              <v-col cols="12" md="6">
-                                <v-text-field v-model="editedItem.title_ar" label="{{_('Title (AR)')}}"></v-text-field>
-                              </v-col>
-                            </v-row>
-                            <v-row>
-                              <v-col cols="12" md="6">
-                                <v-text-field v-model="editedItem.comments" label="{{_('Comments')}}"></v-text-field>
-                              </v-col>
-                              <v-col cols="12" md="6">
-                                <v-text-field v-model="editedItem.comments_ar"
-                                  label="{{_('Comments (AR)')}}"></v-text-field>
-                              </v-col>
-                            </v-row>
-                            <v-row>
-                              <v-col cols="12" md="6">
+                  <v-dialog v-model="imDialog" width="500">
+                    {% if current_user.has_role('Admin') %}
+                    <template v-slot:activator="{ on }">
+                      <v-btn color="accent" outlined dark class="ma-2" v-on="on">{{_('Import CSV')}}</v-btn>
+                    </template>
+                    {% endif %}
 
+                    <v-card>
+                      <v-card-title>
+                        <span class="headline">{{_('Import CSV')}}</span>
+                      </v-card-title>
 
-                                <search-field api="/admin/api/labels/" item-text="title" label="{{_('Parent')}}"
-                                  v-model="editedItem.parent" item-value="id" :multiple="false" label="Labels"
-                                  :query-params="{ fltr: 'all' }"></search-field>
+                      <v-card-text>
+                        <v-container>
+                          <v-row>
+                            <v-col cols="12" md="12">
+                              <v-file-input v-model="csvFile" show-size accept=".csv"
+                                label="{{_('Select CSV File')}}"></v-file-input>
 
+                            </v-col>
+                          </v-row>
+                        </v-container>
+                      </v-card-text>
 
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn text @click="imDialog=false">Cancel</v-btn>
+                        <v-btn color="accent" text @click="importCSV">Save</v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </v-toolbar>
+              </template>
 
-                              </v-col>
-                              <v-col cols="12" md="6">
+              <template v-slot:item.action="{ item }">
+                <v-icon small class="mr-2" @click="editItem(item)">
+                  mdi-pencil
+                </v-icon>
+                <v-icon small @click="deleteItem(item)">
+                  mdi-delete-sweep
+                </v-icon>
+              </template>
+              <template v-slot:no-data> </template>
+            </v-data-table>
 
-                              </v-col>
-                            </v-row>
-
-                            <v-row>
-                              <v-col cols="12" md="2">
-                                <v-checkbox v-model="editedItem.verified" label="{{_('Verified')}}"></v-checkbox>
-
-                              </v-col>
-                              <v-col cols="12" md="2">
-                                <v-checkbox v-model="editedItem.for_bulletin" label="{{_('Bulletin')}}"></v-checkbox>
-
-                              </v-col>
-
-                              <v-col cols="12" md="2">
-                                <v-checkbox v-model="editedItem.for_actor" label="{{_('Actor')}}"></v-checkbox>
-
-                              </v-col>
-
-                              <v-col cols="12" md="2">
-                                <v-checkbox v-model="editedItem.for_incident" label="{{_('Incident')}}"></v-checkbox>
-
-                              </v-col>
-
-                              <v-col cols="12" md="2">
-                                <v-checkbox v-model="editedItem.for_offline" label="{{_('Offline')}}"></v-checkbox>
-
-                              </v-col>
-
-                            </v-row>
-                          </v-container>
-                        </v-card-text>
-
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn text @click="close">{{_('Cancel')}}</v-btn>
-                          <v-btn color="accent" text @click="save">{{_('Save')}}</v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </v-dialog>
-
-                    <v-dialog v-model="imDialog" width="500">
-                      {% if current_user.has_role('Admin') %}
-                      <template v-slot:activator="{ on }">
-                        <v-btn outlined color="accent" dark class="ma-2" v-on="on">{{_('Import CSV')}}</v-btn>
-                      </template>
-                      {% endif %}
-
-                      <v-card>
-                        <v-card-title>
-                          <span class="headline">{{_('Import CSV')}}</span>
-                        </v-card-title>
-
-                        <v-card-text>
-                          <v-container>
-                            <v-row>
-                              <v-col cols="12" md="12">
-                                <v-file-input v-model="csvFile" show-size accept=".csv"
-                                  label="{{_('Select CSV File')}}"></v-file-input>
-
-                              </v-col>
-                            </v-row>
-                          </v-container>
-                        </v-card-text>
-
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn text @click="imDialog=false">Cancel</v-btn>
-                          <v-btn color="accent" text @click="importCSV">Save</v-btn>
-                        </v-card-actions>
-                      </v-card>
-
-                    </v-dialog>
-
-                  </v-toolbar>
-                </template>
-
-                <template v-slot:item.action="{ item }">
-
-                  <v-icon small class="mr-2" @click="editItem(item)">
-                    mdi-pencil
-                  </v-icon>
-
-
-                  <v-icon small @click="deleteItem(item)">
-                    mdi-delete-sweep
-                  </v-icon>
-                </template>
-
-                <template v-slot:no-data> </template>
-              </v-data-table>
-
-              <v-snackbar v-model="snackbar">
-                ${snackMessage}
-                <v-btn color="pink" text @click="snackbar = false">
-                  Close
-                </v-btn>
-              </v-snackbar>
-            </div>
+            <v-snackbar v-model="snackbar">
+              ${snackMessage}
+              <v-btn color="pink" text @click="snackbar = false">
+                Close
+              </v-btn>
+            </v-snackbar>
+            </v-card>
           </v-col>
         </v-row>
       </v-container>
@@ -176,7 +154,6 @@
 
 {% endblock %} {% block js %}
 <script>
-
   let app = new Vue({
     el: "#app",
     vuetify: vuetify,
@@ -195,7 +172,6 @@
         itemsPerPageOptions: itemsPerPageOptions,
         itemsPerPageText: "{{ _('Rows per page')}}"
       },
-
       headers: [
         { text: "{{_('ID')}}", value: "id" },
         { text: "{{_('Title')}}", value: "title" },
@@ -210,7 +186,6 @@
         { text: "{{_('Actions')}}", value: "action", sortable: false }
         {% endif %}
       ],
-
   items: [],
     parentList: [],
       itemsLength: 10,
@@ -224,13 +199,11 @@
     title: ""
   }
     }),
-
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "{{_('New Item')}}" : "{{_('Edit Item')}}";
     }
   },
-
   watch: {
     dialog(val) {
       val || this.close();
@@ -240,16 +213,18 @@
       handler: "refresh"
     }
   },
-
   methods: {
     refresh() {
+      this.loading = true;
       axios.get(`/admin/api/labels/?page=${this.options.page}&per_page=${this.options.itemsPerPage}&fltr=all&q=${this.q}&sort_by=${this.options.sortBy}&sort_desc=${this.options.sortDesc}`).then(response => {
-        this.loading = false;
         this.itemsLength = response.data.total;
         this.items = response.data.items;
+      }).catch(err => {
+        console.error(err.response.data);
+      }).finally(() => {
+        this.loading = false;
       });
     },
-
     importCSV() {
       const reqData = new FormData();
       reqData.append('csv', this.csvFile)
@@ -259,22 +234,18 @@
         this.snackMessage = response.data;
         this.snackbar = true;
       })
-
     },
-
     searchParents: debounce(function (evt) {
 
       axios.get(`/admin/api/labels/?q=${evt.target.value}`).then(response => {
         this.parentList = response.data.items;
       })
     }, 500),
-
       editItem(item) {
       this.editedIndex = this.items.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
-
     deleteItem(item) {
       const index = this.items.indexOf(item);
       const cfm = confirm("Are you sure you want to delete this item?") &&
@@ -288,7 +259,6 @@
           })
       }
     },
-
     close() {
       this.dialog = false;
       setTimeout(() => {
@@ -296,7 +266,6 @@
         this.editedIndex = -1;
       }, 300);
     },
-
     save() {
       if (this.editedIndex > -1) {
         Object.assign(this.items[this.editedIndex], this.editedItem);
@@ -308,7 +277,6 @@
           })
       } else {
         this.items.push(this.editedItem);
-
         axios
           .post("/admin/api/label/", { item: this.editedItem })
           .then(response => {
@@ -321,7 +289,6 @@
               this.snackMessage = error.response.data
               this.snackbar = true;
             }
-
           });
       }
       this.close();

@@ -43,6 +43,14 @@
                               <v-col cols="12" md="6">
                                 <v-checkbox label="{{_('For Actors')}}" v-model="editedItem.for_actor">
                                 </v-checkbox>
+                                <v-divider class="mx-4" inset vertical></v-divider>
+
+                                <v-btn @click="refresh()" icon>
+                                  <v-icon>mdi-refresh</v-icon>
+                                </v-btn>
+
+                                <v-spacer></v-spacer>
+                                <v-dialog v-model="dialog" max-width="500px">
 
                               </v-col>
                               <v-col cols="12" md="6">
@@ -130,10 +138,9 @@
     {% include 'footer.html' %}
   </v-app>
 </div>
-
 {% endblock %} {% block js %}
-<script>
 
+<script>
   const app = new Vue({
     el: "#app",
     vuetify: vuetify,
@@ -152,7 +159,6 @@
         itemsPerPageOptions: itemsPerPageOptions,
         itemsPerPageText: "{{ _('Rows per page')}}"
       },
-
       headers: [
         { text: "{{_('ID')}}", value: "id" },
         { text: "{{_('Title')}}", value: "title" },
@@ -161,10 +167,9 @@
         { text: "{{_('For Bulletins')}}", value: "for_bulletin" },
         { text: "{{_('Comments')}}", value: "comments" },
         {% if current_user.roles_in(['Admin', 'Mod']) %}
-        { text: "{{_('Actions')}}", value: "action", sortable: false }
+          { text: "{{_('Actions')}}", value: "action", sortable: false }
         {% endif %}
       ],
-
   items: [],
     itemsLength: 10,
       editedIndex: -1,
@@ -175,13 +180,11 @@
     title: ""
   }
     }),
-
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "{{_('New Item')}}" : "{{_('Edit Item')}}";
     }
   },
-
   watch: {
     dialog(val) {
       val || this.close();
@@ -191,37 +194,33 @@
       handler: "refresh"
     }
   },
-
   methods: {
     refresh(options) {
-
+      this.loading = true;
       axios.get(`/admin/api/eventtypes/?page=${this.options.page}&per_page=${this.options.itemsPerPage}&sort_by=${this.options.sortBy}&sort_desc=${this.options.sortDesc}`).then(response => {
-        this.loading = false;
-
         this.itemsLength = response.data.total;
         this.items = response.data.items;
+      }).catch(err => {
+        console.error(err.response.data);
+      }).finally(() => {
+        this.loading = false;
       });
     },
-
     importCSV() {
       const reqData = new FormData();
       reqData.append('csv', this.csvFile)
       axios.post('/admin/api/eventtype/import/', reqData).then(response => {
-
         this.imDialog = false;
         this.refresh(this.options);
         this.snackMessage = response.data;
         this.snackbar = true;
       })
-
     },
-
     editItem(item) {
       this.editedIndex = this.items.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
-
     deleteItem(item) {
       const index = this.items.indexOf(item);
       const cfm = confirm("Are you sure you want to delete this item?") &&
@@ -235,7 +234,6 @@
           })
       }
     },
-
     close() {
       this.dialog = false;
       setTimeout(() => {
@@ -243,7 +241,6 @@
         this.editedIndex = -1;
       }, 300);
     },
-
     save() {
       if (this.editedIndex > -1) {
         Object.assign(this.items[this.editedIndex], this.editedItem);
@@ -255,7 +252,6 @@
           })
       } else {
         this.items.push(this.editedItem);
-
         axios
           .post("/admin/api/eventtype/", { item: this.editedItem })
           .then(response => {
@@ -268,6 +264,6 @@
       this.close();
     }
   }
-  });
+});
 </script>
 {% endblock %}

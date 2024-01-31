@@ -78,6 +78,9 @@
 
                                 </v-toolbar>
 
+                                        <v-btn @click="searchIncidents(false)" icon>
+                                          <v-icon>mdi-refresh</v-icon>
+                                        </v-btn>
 
                                 <v-expand-transition>
                                     {% include 'admin/partials/incident_advsearch.html' %}

@@ -12,26 +12,35 @@
                             <v-data-table height="calc(100vh - 335px)" id="locations-dt" fixed-header :headers="headers"
                                 @click:row="rowClick" :items="items" :options.sync="options"
                                 :footer-props.sync="footerProps" :loading="loading" :server-items-length="itemsLength"
-                                class="">
+                                class="elevation-1">
                                 <template v-slot:top>
                                     <v-toolbar flat color="white">
                                         <v-toolbar-title>{{ _('Locations') }}</v-toolbar-title>
+
                                         <v-divider class="mx-4" inset vertical></v-divider>
+
                                         <v-text-field outlined dense class="mt-6" v-model="q.title"
                                             @keydown.enter="refresh()" append-outer-icon="mdi-ballot"
                                             @click:append-outer="toggleAdvSearch" @click:append="resetSearch"
                                             append-icon="mdi-close" label="{{ _('Search') }}">
                                         </v-text-field>
+
+                                        <v-btn @click="refresh()" icon>
+                                            <v-icon>mdi-refresh</v-icon>
+                                        </v-btn>
+
                                         <v-spacer></v-spacer>
                                         <v-btn @click="newItem" color="accent" dark class="ma-2"
                                             :disabled="!editAllowed()">
                                             {{ _('New Location') }}
                                         </v-btn>
+
                                         {% include 'admin/partials/location_dialog.html' %}
+
                                         <v-dialog v-model="imDialog" width="500">
                                             <template v-slot:activator="{ on }">
                                                 {% if current_user.roles_in(['Admin']) %}
-                                                <v-btn outlined color="accent" dark class="ma-2" v-on="on">
+                                                <v-btn color="accent" outlined dark class="ma-2" v-on="on">
                                                     {{ _('Import CSV') }}
                                                 </v-btn>
                                                 {% endif %}
@@ -70,11 +79,13 @@
 
                                 <template v-slot:item.parent.title="{ item }">
                                     <div v-if="item.parent">
-                                        <v-btn style="scale: 0.76" depressed fab x-small>
+                                        <v-btn style="scale:0.76" depressed fab x-small>
                                             ${item.parent.id}
                                         </v-btn>
                                         ${item.parent.title}
                                     </div>
+
+
                                 </template>
                                 <template v-slot:item.action="{ item }">
                                     <v-icon small class="mr-2" @click.stop="editItem(item)" v-if="editAllowed()">
@@ -91,7 +102,7 @@
 
                             <v-snackbar v-model="snackbar" class="d-flex">
                                 ${snackMessage}
-                                <v-btn color="grey lighten-4" text @click="confirmClose">
+                                <v-btn text @click="confirmClose">
                                     Close
                                 </v-btn>
                             </v-snackbar>
@@ -105,19 +116,25 @@
 </div>
 
 {% endblock %} {% block js %}
-<script src="/static/js/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="/static/js/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin">
+</script>
 <script src="/static/js/tinymce-vue.min.js"></script>
 <script src="/static/js/components/LocationCard.js"></script>
 <script src="/static/js/components/UniField.js"></script>
 <script src="/static/js/components/LocationSearchBox.js"></script>
 
-{% if config.GOOGLE_MAPS_API_KEY %} {{ '
+{% if config.GOOGLE_MAPS_API_KEY %}
+{{ '
 <script src="https://maps.googleapis.com/maps/api/js?key='|safe + config.GOOGLE_MAPS_API_KEY + '" async defer></script>
-'|safe }} {% endif %}
+'|safe }}
+
+{% endif %}
 <script src="/static/js/Leaflet.GoogleMutant.js"></script>
 
 <script>
     window.__GOOGLE_MAPS_API_KEY__ = '{{ config.GOOGLE_MAPS_API_KEY }}';
+
+
     let app = new Vue({
         el: "#app",
         vuetify: vuetify,
@@ -151,6 +168,7 @@
                 itemsPerPageOptions: itemsPerPageOptions,
                 itemsPerPageText: "{{ _('Rows per page')}}"
             },
+
             headers: [
                 { text: "{{_('ID')}}", value: "id" },
                 { text: "{{_('Title')}}", value: "title" },
@@ -160,12 +178,15 @@
                 { text: "{{_('Admin Level')}}", value: "admin_level.title" },
 
                 {% if current_user.roles_in(['Admin', 'Mod']) or current_user.can_edit_locations %}
-                  { text: "{{_('Actions')}}", value: "action", sortable: false }
-              {% endif %}
-          ],
+                        { text: "{{_('Actions')}}", value: "action", sortable: false }
+                    {% endif %}
+                ],
+
     items: [],
+
         itemsLength: 10,
             editedIndex: -1,
+
                 locQueryParams: { },
     editedItem: {
         title: "",
@@ -173,24 +194,31 @@
             id: null,
                 title: ''
         }
+
     },
     defaultItem: {
         title: "",
             admin_level: null,
                 parent: null,
-          },
+                },
     location: { },
     locationLoader: false
-      }),
+            }),
+
     computed: {
         checkAdminLevel() {
             if (this.editedItem.location_type?.title === 'Administrative Location') {
+
                 return 'required';
             }
+
+
         },
+
         formTitle() {
             return !this.editedItem.id ? "{{_('New Location')}}" : "{{_('Edit Location')}}";
         },
+
         latlngValid() {
             if (this.editedItem.latlng) {
                 if (this.editedItem.latlng.lat && this.editedItem.latlng.lng) {
@@ -203,7 +231,9 @@
             return false;
         }
     },
+
     watch: {
+
         locationDrawer: function (val) {
             if (val === false) {
 
@@ -211,25 +241,35 @@
                     this.$router.push('/admin/locations/')
             }
         },
+
+
         dialog(val) {
             val || this.close();
         },
+
         options: {
             handler: "refresh"
         }
     },
+
     mounted: function () {
         if (this.$route.params.id) {
             this.showLocation(this.$route.params.id);
         }
+
         this.$router.afterEach((to, from, next) => {
+
+
             if (this.$route.params.id) {
                 this.showLocation(this.$route.params.id);
             } else {
                 this.bulletinDrawer = false;
             }
+
         })
+
     },
+
     methods: {
         // form anchors for scrolling
         anchorScroll(id) {
@@ -262,14 +302,20 @@
                 this.loading = false;
                 this.advSearchOpen = false;
             });
+
+
         },
+
         toggleAdvSearch() {
             this.advSearchOpen = true;
+
         },
+
         rowClick(item) {
             path = `/admin/locations/${item.id}`;
             if (this.$route.path !== path)
                 this.$router.push(path);
+
         },
         showLocation(id) {
             this.locationLoader = true;
@@ -312,11 +358,13 @@
             }
             return false;
         },
+
         checkLevel() {
             if (this.editedItem.location_type?.title !== 'Administrative Location') {
                 this.editedItem.admin_level = null;
             }
         },
+
         preprocess(items) {
             // adjust title
             for (const i of items) {
@@ -344,6 +392,7 @@
                     this.loading = false;
                 });
         },
+
         importCSV() {
             const reqData = new FormData();
             reqData.append('csv', this.csvFile)
@@ -352,12 +401,15 @@
                 this.imDialog = false;
                 this.refresh();
                 this.showSnack(response.data);
+
             })
         },
+
         showSnack(message) {
             this.snackMessage = message;
             this.snackbar = true;
         },
+
         newItem() {
 
             this.editedItem = JSON.parse(JSON.stringify(this.defaultItem));
@@ -365,7 +417,9 @@
             this.$nextTick(() => {
                 this.locationKey += 1;
             })
+
         },
+
         editItem(item) {
             this.locationDrawer = false;
             this.editedIndex = this.items.indexOf(item);
@@ -375,7 +429,9 @@
             this.$nextTick(() => {
                 this.locationKey += 1;
             });
+
         },
+
         deleteItem(item) {
             const index = this.items.indexOf(item);
             const cfm = confirm("Are you sure you want to delete this item?") &&
@@ -384,10 +440,12 @@
                 axios.delete(`/admin/api/location/${item.id}`)
                     .then(response => {
                         this.showSnack(response.data);
+
                         this.refresh()
                     })
             }
         },
+
         confirmClose() {
             if (confirm('Are you sure?')) {
                 this.dialog = false;
@@ -398,6 +456,7 @@
                 }, 300);
             }
         },
+
         close() {
             this.dialog = false;
             setTimeout(() => {
@@ -405,6 +464,7 @@
                 this.editedIndex = -1;
             }, 300);
         },
+
         save() {
             if (!this.editedItem.latlng?.lat) {
                 this.editedItem.latlng = null;
@@ -437,6 +497,6 @@
             }
         }
     }
-  });
+        });
 </script>
 {% endblock %}

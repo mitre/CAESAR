@@ -18,7 +18,16 @@
 
                     <v-divider class="mx-4" inset vertical></v-divider>
                     <v-spacer></v-spacer>
+                    <v-divider class="mx-4" inset vertical></v-divider>
 
+                    <v-btn @click="refresh()" icon>
+                      <v-icon>mdi-refresh</v-icon>
+                    </v-btn>
+
+                    <v-spacer></v-spacer>
+
+                  </v-toolbar>
+                  <v-toolbar flat>
 
                   </v-toolbar>
                   <v-toolbar flat>
@@ -139,19 +148,12 @@
         axios.post(`/admin/api/activity?page=${this.options.page}&per_page=${this.options.itemsPerPage}&sort_by=${this.options.sortBy}&sort_desc=${this.options.sortDesc}`, { tag: this.tag }).then(res => {
           this.items = res.data.items;
           this.itemsLength = res.data.total;
+        }).catch(err => {
+          console.log(err.response.data);
+        }).finally(() => {
           this.loading = false;
-
         });
-
-
       },
-
-
-
-
-
-
-
 
       close() {
         this.dialog = false;

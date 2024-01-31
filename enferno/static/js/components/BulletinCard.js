@@ -159,6 +159,15 @@ Vue.component("bulletin-card", {
             return this.$root.editAllowed(this.bulletin) && this.showEdit;
         },
 
+        deleteAllowed() {
+            return this.$root.has_role(this.$root.currentUser, "Admin") && this.showEdit;
+        },
+
+        deleteBulletin() {
+            this.$emit("delete", this.bulletin);
+            this.$emit("close")
+        },
+
         loadRevisions() {
             this.hloading = true;
             axios
@@ -287,6 +296,12 @@ Vue.component("bulletin-card", {
               <v-icon color="primary" left>mdi-graph-outline</v-icon>
               {{ i18n.visualize_ }}
             </v-btn>
+
+            <v-btn v-if="deleteAllowed()" class="ml-2 red darken-3" @click="deleteBulletin" small outlined>
+              <v-icon color="white" left>mdi-delete-sweep</v-icon>
+              <span class="white--text">{{ i18n.delete_ }}</span>
+            </v-btn>
+
           </v-card-text>
 
 

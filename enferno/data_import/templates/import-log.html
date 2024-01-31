@@ -25,8 +25,18 @@
                                     </v-toolbar>
                                 </template>
 
-                                <template v-slot:item.expires_on="{item}">
-                                    ${item.expires_on|localDate}
+                                <template v-slot:top>
+                                    <v-toolbar flat color="white">
+                                        <v-toolbar-title>{{ _('Import Log') }}</v-toolbar-title>
+
+                                        <v-divider class="mx-4" inset vertical></v-divider>
+
+                                        <v-btn @click="refresh()" icon>
+                                            <v-icon>mdi-refresh</v-icon>
+                                        </v-btn>
+
+                                        <v-spacer></v-spacer>
+                                    </v-toolbar>
                                 </template>
 
                                 <template v-slot:item.created_at="{item}">
