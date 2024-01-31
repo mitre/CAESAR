@@ -808,3 +808,6 @@ span.map-bid:empty {
 .v-application .text-h5 {
     font-family: 'Julius' !important;
 }
+.dashboard-page{
+    background-color: #F5F5F5;
+}
