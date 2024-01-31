@@ -7,9 +7,9 @@
         <v-container class="container--fluid">
             <v-row>
                 <v-col cols="12">
-                    <v-card>
+                    <div>
                         <v-card-title class="justify-end">
-                            <v-btn class="ma-1" small @click="showRevisions=!showRevisions" depressed color="secondary">
+                            <v-btn class="ma-1" small @click="showRevisions=!showRevisions" depressed>
                                 <v-icon left>mdi-history</v-icon>
                                 Revision History
                             </v-btn>
@@ -452,7 +452,7 @@
 
                             </validation-observer>
                         </v-card-text>
-                    </v-card>
+                    </div>
                 </v-col>
             </v-row>
         </v-container>

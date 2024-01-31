@@ -10,7 +10,7 @@
                         <div>
                             <v-data-table height="calc(100vh - 335px)" fixed-header :headers="headers" :items="items"
                                 :options.sync="options" :footer-props.sync="footerProps" :loading="loading"
-                                :server-items-length="itemsLength" class="elevation-1">
+                                :server-items-length="itemsLength">
                                 <template v-slot:top>
                                     <v-toolbar flat color="white">
                                         <v-toolbar-title>{{ _('Role Groups') }}</v-toolbar-title>
@@ -22,11 +22,9 @@
                                         </v-btn>
 
                                         <v-spacer></v-spacer>
-                                        <v-btn @click="newItem" color="primary" dark class="ma-2">{{ _('New Group')
+                                        <v-btn @click="newItem" color="accent" dark class="ma-2">{{ _('New Group')
                                             }}</v-btn>
                                         <v-dialog v-model="dialog" max-width="700px">
-
-
                                             <v-card>
                                                 <v-card-title>
                                                     <span class="headline">${ formTitle }</span>
@@ -84,7 +82,7 @@
 
                                         <v-dialog v-model="imDialog" width="500">
                                             <template v-slot:activator="{ on }">
-                                                <v-btn color="secondary" dark class="ma-2" v-on="on">{{ _('Import
+                                                <v-btn color="accent" outlined dark class="ma-2" v-on="on">{{ _('Import
                                                     CSV') }}</v-btn>
                                             </template>
 
@@ -99,7 +97,6 @@
                                                             <v-col cols="12" md="12">
                                                                 <v-file-input v-model="csvFile" show-size accept=".csv"
                                                                     label="{{ _('Select CSV File') }}"></v-file-input>
-
                                                             </v-col>
                                                         </v-row>
                                                     </v-container>
@@ -107,15 +104,14 @@
 
                                                 <v-card-actions>
                                                     <v-spacer></v-spacer>
-                                                    <v-btn color="blue darken-1" text @click="imDialog=false">{{
+                                                    <v-btn text @click="imDialog=false">{{
                                                         _('Cancel') }}</v-btn>
-                                                    <v-btn color="blue darken-1" text @click="importCSV">{{
+                                                    <v-btn color="accent" text @click="importCSV">{{
                                                         _('Save') }}</v-btn>
                                                 </v-card-actions>
                                             </v-card>
 
                                         </v-dialog>
-
                                     </v-toolbar>
                                 </template>
 
