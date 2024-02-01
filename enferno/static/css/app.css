@@ -60,8 +60,11 @@
 }
 
 .v-application .headline,
-.v-application .title, .v-toolbar__title, h1, h2, h3, h4 {
+.v-application .title, .v-toolbar__title, h2, h3, h4 {
     font-family: "Tajawal", sans-serif!important;
+}
+h1 {
+    font-family: "Julius", sans-serif !important;
 }
 
 tbody tr td:nth-child(4) {
@@ -805,6 +808,11 @@ span.map-bid:empty {
 .v-application .text-h5 {
     font-family: 'Julius' !important;
 }
-.dashboard-page{
+.dashboard-page, .login-bg{
     background-color: #F5F5F5;
+}
+
+.login-msg {
+    display: flex;
+    gap: 8px;
 }
