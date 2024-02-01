@@ -761,7 +761,7 @@ span.map-bid:empty {
 
 .assigned-to-me {
     background-color: rgba(54, 147, 181, 0.4);
-    padding: 4px 8px;
+    outline: 5px solid rgba(54, 147, 181, 0.4);
     border-radius: 50px;
     color: black;
 }
