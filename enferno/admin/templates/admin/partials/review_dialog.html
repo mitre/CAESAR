@@ -1,45 +1,35 @@
 <v-dialog :retain-focus="false" no-click-animation persistent v-model="reviewDialog" fullscreen>
     <v-card v-if="reviewDialog" class="overflow-hidden">
 
-        <v-app-bar
-            absolute
-            color="pv"
-            dark
-            class="card-header"
-            style="z-index: 1000000;"
-        >
+        <v-app-bar absolute color="primary" dark class="card-header" style="z-index: 1000000;">
             <v-toolbar-title>Add Review</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn :disabled="!reviewItem.review_action" @click="saveReview" dark color="primary darken-1" small class="mx-2" depressed>Save Review</v-btn>
+            <v-btn :disabled="!reviewItem.review_action" @click="saveReview" dark color="accent" small
+                class="mx-2" depressed>Save Review</v-btn>
             <v-btn @click="reviewDialog=false" icon>
                 <v-icon>mdi-close</v-icon>
             </v-btn>
         </v-app-bar>
 
 
-        <v-sheet
-            id="card-content"
-            max-height="100vh"
-            class="overflow-y-auto pt-16">
+        <v-sheet id="card-content" max-height="100vh" class="overflow-y-auto pt-16">
 
-            <bulletin-card :i18n="translations" v-if="reviewItem.class=='bulletin'" @thumb-click="viewImage" :close="false" :bulletin="reviewItem"></bulletin-card>
-            <actor-card :i18n="translations" v-if="reviewItem.class=='actor'" @thumb-click="viewImage" :close="false" :actor="reviewItem"></actor-card>
-            <incident-card :i18n="translations" v-if="reviewItem.class=='incident'" :close="false" :incident="reviewItem"></incident-card>
+            <bulletin-card :i18n="translations" v-if="reviewItem.class=='bulletin'" @thumb-click="viewImage"
+                :close="false" :bulletin="reviewItem"></bulletin-card>
+            <actor-card :i18n="translations" v-if="reviewItem.class=='actor'" @thumb-click="viewImage" :close="false"
+                :actor="reviewItem"></actor-card>
+            <incident-card :i18n="translations" v-if="reviewItem.class=='incident'" :close="false"
+                :incident="reviewItem"></incident-card>
 
 
             <v-card-text class="mt-5">
 
-                <tinymce-editor :key="reviewKey"  :init="tinyConfig" v-model="reviewItem.review"> </tinymce-editor>
+                <tinymce-editor :key="reviewKey" :init="tinyConfig" v-model="reviewItem.review"> </tinymce-editor>
 
-            <v-card class="elevation-0 mt-6 mx-auto" max-width="500" v-if="reviewItem.class=='bulletin'">
-                <v-combobox
-                chips
-                multiple
-                v-model="reviewItem.revrefs"
-                label="Ref"
-                hint="Appends the reference to the bulletin (does not remove existing refs)"
-                ></v-combobox>
-            </v-card>
+                <v-card class="elevation-0 mt-6 mx-auto" max-width="500" v-if="reviewItem.class=='bulletin'">
+                    <v-combobox chips multiple v-model="reviewItem.revrefs" label="Ref"
+                        hint="Appends the reference to the bulletin (does not remove existing refs)"></v-combobox>
+                </v-card>
 
             </v-card-text>
 
@@ -50,49 +40,29 @@
                     <div class="d-flex align-center">
                         <div class="pa-4">
 
-                            <location-search-field
-                                    api="/admin/api/locations/"
-                                    item-text="full_string"
-                                    item-value="id"
-                                    :multiple="true"
-                                    label="Locations"
-                            ></location-search-field>
+                            <location-search-field api="/admin/api/locations/" item-text="full_string" item-value="id"
+                                :multiple="true" label="Locations"></location-search-field>
 
                         </div>
                         <div class="pa-4">
 
-                            <search-field
-                                    api="/admin/api/labels/"
-                                    item-text="title"
-                                    item-value="id"
-                                    :multiple="true"
-                                    label="Labels"
-                            ></search-field>
+                            <search-field api="/admin/api/labels/" item-text="title" item-value="id" :multiple="true"
+                                label="Labels"></search-field>
 
 
                         </div>
                         <div class="pa-4">
 
-                            <search-field
-                                    api="/admin/api/labels/"
-                                    :query-params="{ fltr: 'verified' }"
-                                    item-text="title"
-                                    item-value="id"
-                                    :multiple="true"
-                                    label="Verified Labels"
-                            ></search-field>
+                            <search-field api="/admin/api/labels/" :query-params="{ fltr: 'verified' }"
+                                item-text="title" item-value="id" :multiple="true"
+                                label="Verified Labels"></search-field>
 
 
                         </div>
                         <div class="pa-4">
 
-                            <search-field
-                                    api="/admin/api/sources/"
-                                    item-text="title"
-                                    item-value="id"
-                                    :multiple="true"
-                                    label="Sources"
-                            ></search-field>
+                            <search-field api="/admin/api/sources/" item-text="title" item-value="id" :multiple="true"
+                                label="Sources"></search-field>
 
                         </div>
                     </div>
@@ -100,9 +70,12 @@
                 </v-card-text>
                 <v-card-text>
                     <div class="d-flex justify-space-around">
-                        <v-btn class="mx-3" depressed @click="searchRelatedBulletins" > <v-icon left>mdi-magnify</v-icon> Related Bulletins</v-btn>
-                        <v-btn class="mx-3" depressed @click="searchRelatedActors" > <v-icon left>mdi-magnify</v-icon> Related Actors</v-btn>
-                        <v-btn class="mx-3" depressed @click="searchRelatedIncidents" > <v-icon left>mdi-magnify</v-icon> Related Incidents</v-btn>
+                        <v-btn class="mx-3" depressed @click="searchRelatedBulletins"> <v-icon left>mdi-magnify</v-icon>
+                            Related Bulletins</v-btn>
+                        <v-btn class="mx-3" depressed @click="searchRelatedActors"> <v-icon left>mdi-magnify</v-icon>
+                            Related Actors</v-btn>
+                        <v-btn class="mx-3" depressed @click="searchRelatedIncidents"> <v-icon left>mdi-magnify</v-icon>
+                            Related Incidents</v-btn>
 
                     </div>
                 </v-card-text>
@@ -111,9 +84,10 @@
 
             <v-card-text class="text-center">
 
-                <v-btn-toggle  borderless v-model="reviewItem.review_action">
+                <v-btn-toggle borderless v-model="reviewItem.review_action">
                     <v-btn small outlined color="red darken-2 " value="Needs Review">{{ _('Needs Review')}}</v-btn>
-                    <v-btn small outlined color="lime darken-2 " value="No Review Needed">{{ _('No Review Needed')}}</v-btn>
+                    <v-btn small outlined color="lime darken-2 " value="No Review Needed">{{ _('No Review
+                        Needed')}}</v-btn>
                 </v-btn-toggle>
 
             </v-card-text>

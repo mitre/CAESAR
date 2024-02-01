@@ -38,7 +38,20 @@
     font-weight: 700;
     src: local("Roboto Bold"), local("Roboto-Bold"),
     url("../font/roboto-v20-latin-700.woff2") format("woff2"),
-        /* Chrome 26+, Opera 23+, Firefox 39+ */ url("../font/roboto-v20-latin-700.woff") format("woff");
+    /* Chrome 26+, Opera 23+, Firefox 39+ */
+    url("../font/roboto-v20-latin-700.woff") format("woff");
+    /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* julius - latin */
+@font-face {
+    font-family: "Julius";
+    font-style: normal;
+    font-weight: 700;
+    src: local("Julius"), local("Julius-Regular"),
+    url("../font/julius-sans-one/JuliusSansOne-Regular.ttf") format("truetype"),
+        /* Chrome 26+, Opera 23+, Firefox 39+ */
+        url("../font/julius-sans-one/JuliusSansOne-Regular.ttf") format("truetype");
     /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
@@ -47,8 +60,11 @@
 }
 
 .v-application .headline,
-.v-application .title {
-    font-family: "Tajawal", sans-serif !important;
+.v-application .title, .v-toolbar__title, h2, h3, h4 {
+    font-family: "Tajawal", sans-serif!important;
+}
+h1 {
+    font-family: "Julius", sans-serif !important;
 }
 
 tbody tr td:nth-child(4) {
@@ -744,8 +760,59 @@ span.map-bid:empty {
 }
 
 .assigned-to-me {
-    background-color: rgba(28, 91, 147, 0.3);
-    padding: 2px 4px;
-    border-radius: 3px;
+    background-color: rgba(54, 147, 181, 0.4);
+    outline: 5px solid rgba(54, 147, 181, 0.4);
+    border-radius: 50px;
     color: black;
+}
+
+  .white-img {
+      filter: brightness(0) invert(1);
+  }
+
+  .toolbar-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white !important;
+    /* color: black !important; */
+    text-decoration: none !important;
+    font-family: 'Julius' !important;
+    font-size:  22px;
+  }
+  .hero {
+    padding: 80px 20px 20px 20px;
+    margin: -12px;
+    display: flex;
+    align-items: start;
+    background-image: url('/static/img/map2.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 70%);
+    min-height: 350px;
+}
+.hero > .v-image__image {
+    filter: brightness(0) !important;
+}
+.welcome-message {
+    max-width: 950px;
+    padding: 20px;
+}
+.welcome-login {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 40px;
+    
+}
+.v-application .text-h5 {
+    font-family: 'Julius' !important;
+}
+.dashboard-page, .login-bg{
+    background-color: #F5F5F5;
+}
+
+.login-msg {
+    display: flex;
+    gap: 8px;
 }

@@ -7,9 +7,9 @@ const vuetify = new Vuetify({
 
         themes: {
             light: {
-                primary: "#1C5B93",
-                secondary: "#0B2338",
-                accent: "#ABE8FF",
+                primary: "#2B2C2A",
+                secondary: "#141514",
+                accent: "#208AAE",
                 third: "#FCF603",
                 fourth: "#b5c1aa",
                 fifth: "#dde0c6",

@@ -1,5 +1,4 @@
 Vue.component('geo-locations', {
-
     props: {
         value: {
             default: []
@@ -7,11 +6,7 @@ Vue.component('geo-locations', {
         i18n: {},
         others : []
 
-    }
-
-
-    ,
-
+    },
     data: function () {
         return {
             // temp item to hold new locations
@@ -19,17 +14,9 @@ Vue.component('geo-locations', {
             addDlg: false,
             eindex: null,
             locations: this.value.length ? this.value : [],
-
-
         }
-
     },
-
-
-    mounted() {
-        // this.geoTypes = translations.geoLocationTypes_.map(t=>t.tr)
-
-    },
+    mounted() { },
     computed : {
         eformValid(){
             if (this.e.latlng){
@@ -40,41 +27,30 @@ Vue.component('geo-locations', {
             return false;
         }
     },
-
     watch: {
         value(val) {
             if (val && val.length) {
                 this.locations = val;
             }
         },
-
         locations() {
             this.$emit('input', this.locations)
         }
-
     },
 
     methods: {
-
         newLocation(){
           this.e = {};
-
           this.addDlg = true;
-
-
         },
         saveLocation(){
-
-
-            if (this.e.mode === 'edit') {
-                this.modifyLocation();
-            }
-            else {
-                this.addLocation();
-            }
-
+          if (this.e.mode === 'edit') {
+              this.modifyLocation();
+          }
+          else {
+              this.addLocation();
+          }
         },
-
         modifyLocation() {
             //preprocess
             this.e.lat = this.e.latlng.lat;
@@ -86,11 +62,7 @@ Vue.component('geo-locations', {
             this.e = {};
             // broadcast an event to  refresh parent global map
             this.$emit('locations-updated')
-
-
-
         },
-
         addLocation() {
             this.e.lat = this.e.latlng.lat;
             this.e.lng = this.e.latlng.lng;
@@ -99,8 +71,6 @@ Vue.component('geo-locations', {
             this.addDlg = false;
             // reset edited item
             this.e = {};
-
-
         },
         editLocation(item, index) {
             item.latlng = {lat: item.lat, lng: item.lng};
@@ -109,17 +79,11 @@ Vue.component('geo-locations', {
             this.eindex = index;
             this.addDlg = true;
             this.e.mode = 'edit';
-
         },
-
-
-
         removeLocation(i) {
             if (confirm('Are you sure?')) {
             this.locations.splice(i,1);
             }
-
-
         }
     },
 
@@ -131,7 +95,7 @@ Vue.component('geo-locations', {
             {{ i18n.geoMarkers_}}
           </v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn @click="newLocation" fab x-small elevation="0" color="teal lighten-2">
+          <v-btn @click="newLocation" fab x-small elevation="0" color="accent lighten-2">
             <v-icon color="white" dark>mdi-plus-circle</v-icon>
           </v-btn>
         </v-toolbar>
