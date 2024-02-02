@@ -53,6 +53,6 @@ Deploy to conflict-ob:
   script:
     # Source the env vars in .env
     - set -a; . ./.env; set +a
-    - SETTINGS_TIMESTAMP=$(date +%s) docker stack deploy -c docker-compose.yml -c docker-compose.swarm.yml --with-registry-auth caesar-co
+    - SETTINGS_TIMESTAMP=$(date +%s) docker stack deploy -c docker-compose.yml --with-registry-auth caesar-co
   only:
     - main
