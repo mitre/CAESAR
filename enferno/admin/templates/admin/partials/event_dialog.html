@@ -1,18 +1,22 @@
 <v-dialog v-model="eventDialog" max-width="780px">
   <template v-slot:activator="{ on }">
     <v-card outlined>
-      <v-tooltip top max-width=500 open-delay=1500>
-        <template v-slot:activator="{ on }">
-          <v-card-title v-on="on">
-            <v-icon left>mdi-calendar</v-icon>
-            {{_('Events')}}
-            <v-spacer></v-spacer>
-            <v-btn class="mx-2" depressed x-small fab right top color="accent lighten-2" dark
-              v-on="on"><v-icon>mdi-plus-circle</v-icon></v-btn>
-          </v-card-title>
-        </template>
-        <span>{{ _('Events are data forms to store time and location information related to Actors, Bulletins and
-          Incidents. Users can attach one or more events.') }}</span>
+      <v-card-title>
+        <v-tooltip top max-width=500 open-delay=1500>
+          <template v-slot:activator="{ on }">
+            <span v-on="on">
+              <v-icon left>mdi-calendar</v-icon>
+              {{_('Events')}}
+            </span>
+          </template>
+          <span>{{ _('Events are data forms to store time and location information related to Actors, Bulletins and
+            Incidents. Users can attach one or more events.') }}</span>
+        </v-tooltip>
+
+        <v-spacer></v-spacer>
+        <v-btn class="mx-2" depressed x-small fab right top color="accent lighten-2" dark
+          v-on="on"><v-icon>mdi-plus-circle</v-icon></v-btn>
+      </v-card-title>
       </v-tooltip>
 
       <v-card-text>
@@ -34,6 +38,7 @@
       </v-card-text>
     </v-card>
   </template>
+
   <v-card>
     <v-card-title>
       <span class="headline">{{_('Event')}}</span>
