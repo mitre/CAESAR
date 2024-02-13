@@ -5,6 +5,7 @@ from flask import Flask, render_template, current_app, request
 from flask_security import current_user
 from flask_login import user_logged_in, user_logged_out
 from flask_security import Security, SQLAlchemyUserDatastore
+from flask_migrate import Migrate
 
 import enferno.commands as commands
 from enferno.admin.models import Bulletin, Label, Source, Location, Event, Eventtype, Media, Btob, Actor, Atoa, Atob, \
@@ -63,6 +64,7 @@ def create_app(config_object=Config):
 def register_extensions(app):
     cache.init_app(app)
     db.init_app(app)
+    Migrate(app, db)
     user_datastore = SQLAlchemyUserDatastore(db, User, Role,webauthn_model=WebAuthn)
     security = Security(app, user_datastore,
                         register_form=ExtendedRegisterForm)
