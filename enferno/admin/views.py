@@ -1796,6 +1796,37 @@ def api_bulletin_self_assign(id):
     else:
         return HTTPResponse.NOT_FOUND
 
+@admin.route('/api/actor/assignother/<int:id>', methods=['PUT'])
+@roles_accepted('Admin', 'DA')
+def api_actor_assign(id):
+    """assign a actor to another user"""
+    actor = Actor.query.get(id)
+
+    if not current_user.can_access(actor):
+        return 'Restricted Access', 403
+    
+    if actor:
+        a = request.json.get('actor')
+        if not a or not a.get('assigned_to_id'):
+            return 'No user selected',  400
+        # update actor assignement
+        actor.assigned_to_id = a.get('assigned_to_id')
+        actor.comments = a.get('comments', '')
+
+        # Change status to assigned if needed
+        if actor.status == 'Machine Created' or actor.status == 'Human Created':
+            actor.status = 'Assigned'
+
+        # Create a revision using latest values
+        # this method automatically commits
+        # actor changes (referenced)
+        actor.create_revision()
+
+        # Record Activity
+        Activity.create(current_user, Activity.ACTION_UPDATE, actor.to_mini(), 'actor')
+        return F'Saved Actor #{actor.id}', 200
+    else:
+        return HTTPResponse.NOT_FOUND
 
 @admin.route('/api/actor/assign/<int:id>', methods=['PUT'])
 @roles_accepted('Admin', 'DA')
@@ -1833,6 +1864,37 @@ def api_actor_self_assign(id):
     else:
         return HTTPResponse.NOT_FOUND
 
+@admin.route('/api/incident/assignother/<int:id>', methods=['PUT'])
+@roles_accepted('Admin', 'DA')
+def api_incident_assign(id):
+    """assign a actor to another user"""
+    incident = Incident.query.get(id)
+
+    if not current_user.can_access(incident):
+        return 'Restricted Access', 403
+    
+    if incident:
+        i = request.json.get('incident')
+        if not i or not i.get('assigned_to_id'):
+            return 'No user selected',  400
+        # update incident assignement
+        incident.assigned_to_id = i.get('assigned_to_id')
+        incident.comments = i.get('comments', '')
+
+        # Change status to assigned if needed
+        if incident.status == 'Machine Created' or incident.status == 'Human Created':
+            incident.status = 'Assigned'
+
+        # Create a revision using latest values
+        # this method automatically commits
+        # incident changes (referenced)
+        incident.create_revision()
+
+        # Record Activity
+        Activity.create(current_user, Activity.ACTION_UPDATE, incident.to_mini(), 'incident')
+        return F'Saved Incident #{incident.id}', 200
+    else:
+        return HTTPResponse.NOT_FOUND
 
 @admin.route('/api/incident/assign/<int:id>', methods=['PUT'])
 @roles_accepted('Admin', 'DA')
