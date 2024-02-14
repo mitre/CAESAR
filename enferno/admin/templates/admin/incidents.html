@@ -153,6 +153,15 @@
                                 <span>Assign to self</span>
                             </v-tooltip>
 
+                            <v-tooltip top>
+                                <template v-slot:activator="{ on }">
+                                    <v-icon v-on="on" color="primary lighten-1" class="mr-2"
+                                        @click.stop="openAssignOther(item)" v-if="bulkAllowed()">
+                                        mdi-account-box-outline
+                                    </v-icon>
+                                </template>
+                                <span>Assign Incident</span>
+                            </v-tooltip>
 
                             <v-tooltip top>
                                 <template v-slot:activator="{ on }">
@@ -193,10 +202,30 @@
                                 </v-btn>
                             </v-card-actions>
                         </v-card>
-
                     </v-dialog>
 
-
+                    <v-dialog width="600" v-model="assignDialog">
+                        <v-card class="pa-3">
+                            <v-card-title>Assign Incident #${assignIncident.id}</v-card-title>
+                            <v-card-text>
+                                <validation-provider name="Assigned To" rules="required" v-slot="{ errors }">
+                                    <search-field-single v-model="assignIncident.assigned_to_id" api="/admin/api/users/"
+                                        item-text="name" item-value="id" :return-object="false" :multiple="false"
+                                        label="{{ _('Assigned To') }}"></search-field-single>
+                                    <span class="red--text"> ${errors[0]}</span>
+                                </validation-provider>
+                                <validation-provider name="Comments" rules="required" v-slot="{ errors }">
+                                    <v-textarea v-model="assignIncident.comments" label="Comments"></v-textarea>
+                                    <span class="red--text"> ${errors[0]}</span>
+                                </validation-provider>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-btn :disabled="!assignIncident.comments || !assignIncident.assigned_to_id"
+                                    class="ma-auto" @click="assignOther()" color="primary">Assign Incident
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
 
                     <v-snackbar v-model="snackbar">
                         <div class="d-flex justify-space-between align-center">
@@ -282,6 +311,7 @@
 
             assignIncident: {},
             selfAssignDialog: false,
+            assignDialog: false,
 
             //global preview dialog
             preview: false,
@@ -673,7 +703,23 @@
         openSelfAssign(incident) {
             this.assignIncident = { id: incident.id };
             this.selfAssignDialog = true;
+        },
 
+        openAssignOther(incident) {
+            this.assignIncident = { id: incident.id };
+            this.assignDialog = true;
+        },
+
+        assignOther() {
+            axios.put(`/admin/api/incident/assignother/${this.assignIncident.id}`, { incident: this.assignIncident }).then(res => {
+                this.showSnack('Incident assigned successfully.')
+                this.searchIncidents(true)
+            }).catch(err => {
+                this.showSnack(err.response.data);
+            }).finally(() => {
+                this.assignDialog = false;
+                this.assignIncident = {};
+            });
         },
 
         selfAssign() {
