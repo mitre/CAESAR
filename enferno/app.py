@@ -19,7 +19,8 @@ from enferno.settings import Config
 from enferno.user.forms import ExtendedRegisterForm
 from enferno.user.models import User, Role
 from enferno.user.views import bp_user
-
+from apiflask import APIFlask
+from flask_swagger_ui import get_swaggerui_blueprint
 
 def get_locale():
     """
@@ -49,7 +50,13 @@ def get_locale():
     return session.get('lang', default)
 
 def create_app(config_object=Config):
-    app = Flask(__name__)
+    if config_object.ENV == 'dev':
+        # Use APIFlask instead of `Flask` so it generates an Open API spec
+        app = APIFlask(__name__, spec_path='/openapi.yaml')
+        register_openapi_docs(app)
+    else:
+        app = Flask(__name__)
+    
     app.config.from_object(config_object)
     register_blueprints(app)
     register_extensions(app)
@@ -171,3 +178,16 @@ def register_commands(app):
     app.cli.add_command(commands.add_role)
     app.cli.add_command(commands.reset)
     app.cli.add_command(commands.i18n_cli)
+
+def register_openapi_docs(app):
+    # Setup Swagger UI to display OpenAPI spec
+    swaggerui_blueprint = get_swaggerui_blueprint(
+        '/api/docs', 
+        '/openapi.yaml',
+        config={
+            'app_name': "CAESAR"
+        },
+    )
+
+    app.register_blueprint(swaggerui_blueprint)
+    app.config['SPEC_FORMAT'] = 'yaml'

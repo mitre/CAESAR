@@ -2,18 +2,19 @@ import json
 import os
 
 import requests
-from flask import Blueprint, request, session, redirect, g, Response, current_app
+from flask import request, session, redirect, g, Response, current_app
 from flask.templating import render_template
 from flask_security import auth_required, login_user, current_user
 from flask_security.forms import LoginForm
 from oauthlib.oauth2 import WebApplicationClient
 from sqlalchemy.orm.attributes import flag_modified
+from apiflask import APIBlueprint
 
 from enferno.settings import Config as cfg
 from enferno.user.forms import ExtendedLoginForm
 from enferno.user.models import User
 from flask_security.signals import password_changed
-bp_user = Blueprint('users', __name__, static_folder='../static')
+bp_user = APIBlueprint('users', __name__, static_folder='../static')
 
 client = WebApplicationClient(cfg.GOOGLE_CLIENT_ID)
 
