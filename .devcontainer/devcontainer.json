@@ -1,0 +1,70 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/docker-in-docker
+{
+	"name": "CAESAR Dev Container",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
+
+	"features": {
+		"ghcr.io/bdsoha/devcontainers/custom-root-ca:1": {
+			"source": "http://pki.mitre.org/MITRE%20BA%20ROOT.crt, http://pki.mitre.org/MITRE%20BA%20NPE%20CA-1.crt, http://pki.mitre.org/MITRE%20BA%20NPE%20CA-3(1).crt, http://pki.mitre.org/MITRE%20BA%20NPE%20CA-4.crt, http://pki.mitre.org/ZScaler_Root.crt"
+			//"source": "http://pki.mitre.org/MITRE-chain.txt"
+		},
+		// "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+		// 	"enableNonRootDocker": "true",
+		// 	"moby": "true"
+		// },
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {
+			"version": "latest",
+			"enableNonRootDocker": "true",
+			"moby": "true"
+		},
+		"ghcr.io/devcontainers/features/python:1": {
+			"installTools": true,
+			"installJupyterlab": true,
+			"version": "3.11"
+		},
+		"ghcr.io/devcontainers-contrib/features/corepack:1": {
+			"version": "latest"
+		}
+	},
+	
+	"remoteEnv": { 
+		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}" 
+	},
+
+	"containerEnv": {
+		"CURLOPT_CAPATH": "/etc/ssl/certs/",
+		"NODE_EXTRA_CA_CERTS": "/etc/ssl/certs/custom-root-ca.bundle.pem",
+ 		"SSL_CERT_FILE": "/etc/ssl/certs/custom-root-ca.bundle.pem"
+	},	
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [5000, 5050, 5432],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "docker --version",
+	"postCreateCommand": "chmod +x .devcontainer/post-create.sh && ./.devcontainer/post-create.sh -q",
+
+	// Configure tool-specific properties.
+	// "customizations": {},
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
+
+	// "initializeCommand": "docker network inspect caesar --format \"network {{.Name}} already exists\" || docker network create --driver bridge caesar",
+
+	"runArgs": [
+		// "--network=caesar", 
+		"--name=caesar-dev"
+	],
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-toolsai.jupyter",
+				"esbenp.prettier-vscode",
+				"eamodio.gitlens"
+			]
+		}
+	}
+}
