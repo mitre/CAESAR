@@ -19,6 +19,7 @@ def uia_username_mapper(identity):
 
 class Config(object):
     BASE_URL = os.environ.get('BASE_URL', 'http://127.0.0.1:5000/')
+    ENV = os.environ.get('ENV', 'prod')
 
     SECRET_KEY = os.environ.get('SECRET_KEY')
     APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory

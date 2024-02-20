@@ -10,7 +10,7 @@ import bleach
 import boto3
 import passlib
 import shortuuid
-from flask import request, abort, Response, Blueprint, current_app, json, g, send_from_directory
+from flask import request, abort, Response, current_app, json, g, send_from_directory
 from flask.templating import render_template
 from flask_babel import gettext
 from flask_bouncer import requires
@@ -32,10 +32,10 @@ from enferno.user.models import User, Role
 from enferno.utils.config_utils import ConfigManager
 from enferno.utils.http_response import HTTPResponse
 from enferno.utils.search_utils import SearchUtils
-
+from apiflask import APIBlueprint
 
 root = os.path.abspath(os.path.dirname(__file__))
-admin = Blueprint('admin', __name__,
+admin = APIBlueprint('admin', __name__,
                   template_folder=os.path.join(root, 'templates'),
                   static_folder=os.path.join(root, 'static'),
                   url_prefix='/admin')

@@ -4,15 +4,16 @@ from multiprocessing import Pool, cpu_count
 
 import click
 import pandas as pd
-from flask import Blueprint, render_template, Response, request
+from flask import render_template, Response, request
 from flask.cli import with_appcontext
 from flask_security import auth_required
 from flask_security import roles_required, roles_accepted, current_user
+from apiflask import APIBlueprint
 
 from enferno.deduplication.models import DedupRelation
 from enferno.extensions import db, rds
 
-deduplication = Blueprint('deduplication', __name__, static_folder='../static',
+deduplication = APIBlueprint('deduplication', __name__, static_folder='../static',
                           template_folder='../deduplication/templates', cli_group=None)
 
 
