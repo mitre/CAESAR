@@ -377,14 +377,17 @@
 
                                 </v-row>
                                 <v-row>
-                                    <v-col cols="12" md="12">
-                                        <div class="body-1 pa-1 grey--text">{{ _('Description') }}</div>
-                                        <v-tooltip top max-width=500 open-delay=1500>
+                                    <v-col cols="12" md="11">
+                                        <div>
+                                          <tinymce-editor :init="tinyConfig"
+                                            v-model="editedItem.description"></tinymce-editor>
+                                        </div>
+                                    </v-col>
+                                    <v-col cols="12" md="1">
+                                        <v-tooltip left max-width=500 open-delay=500>
                                             <template v-slot:activator="{ on }">
                                                 <div v-on="on">
-                                                    <tinymce-editor :init="tinyConfig"
-                                                        v-model="editedItem.description"></tinymce-editor>
-                                                </div>
+                                                  <v-icon>mdi-information-outline</v-icon>
                                             </template>
                                             <span>{{ _('Text field which is used to add a full description of the Actor
                                                 as well as notes from the user.')
