@@ -21,6 +21,7 @@ from enferno.user.models import User, Role
 from enferno.user.views import bp_user
 from apiflask import APIFlask
 from flask_swagger_ui import get_swaggerui_blueprint
+from enferno.utils.ldap import LdapLoginForm
 
 def get_locale():
     """
@@ -67,14 +68,15 @@ def create_app(config_object=Config):
     register_signals(app)
     return app
 
-
 def register_extensions(app):
     cache.init_app(app)
     db.init_app(app)
     Migrate(app, db)
     user_datastore = SQLAlchemyUserDatastore(db, User, Role,webauthn_model=WebAuthn)
     security = Security(app, user_datastore,
-                        register_form=ExtendedRegisterForm)
+                        register_form=ExtendedRegisterForm,
+                        login_form=LdapLoginForm,
+    )
     session.init_app(app)
     bouncer.init_app(app)
     babel.init_app(app, locale_selector=get_locale, default_domain='messages', default_locale='en')

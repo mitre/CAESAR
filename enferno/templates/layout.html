@@ -62,6 +62,9 @@
         window.__settings__ = JSON.parse(document.querySelector('[data-settings]').dataset.settings);
         window.__lang__ = document.querySelector('[data-lang]').dataset.lang;
         window.__MAPS_API_ENDPOINT__ = document.querySelector('[data-maps-api-endpoint]').dataset.mapsApiEndpoint;
+
+        // Set whether the LDAP server integration is enabled so we can shut off the 'change password' functionality
+        window.__LDAP_ENABLE__ = '{{config.LDAP_ENABLE}}'?.toLowerCase() === 'true';
     </script>
 
 
