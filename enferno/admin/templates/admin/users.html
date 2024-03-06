@@ -21,8 +21,8 @@
                                         </v-btn>
 
                                         <v-spacer></v-spacer>
-
-                                        <v-btn @click="createItem" color="accent">{{ _('New User') }}
+                                        
+                                        <v-btn @click="createItem" color="accent" v-if="!ldapEnabled">{{ _('New User') }}
                                         </v-btn>
                                     </v-toolbar>
                                 </template>
@@ -98,7 +98,7 @@
                                                     </v-col>
                                                     <v-col cols="12" md="4">
 
-                                                        <div class="d-flex align-center">
+                                                        <div class="d-flex align-center" v-if="!ldapEnabled">
                                                             <validation-provider name="Password" style="flex:1"
                                                                 :debounce="250" :rules="passwordRules()"
                                                                 v-slot="{ errors }">
@@ -280,7 +280,8 @@
             },
             disableUsername: true,
             disablePassword: true,
-            disableEmail: true
+            disableEmail: true,
+            ldapEnabled: window.__LDAP_ENABLE__
         }),
 
         mixins: [globalMixin],

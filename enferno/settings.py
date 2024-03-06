@@ -100,6 +100,16 @@ class Config(object):
 
     SECURITY_ZXCVBN_MINIMUM_SCORE = manager.get_config('SECURITY_ZXCVBN_MINIMUM_SCORE')
 
+    # LDAP
+    ## Enable LDAP integration
+    LDAP_DOMAIN = manager.get_config('LDAP_DOMAIN')
+    LDAP_ENABLE = manager.get_config('LDAP_ENABLE')
+    LDAP_FIELD_UID = manager.get_config('LDAP_FIELD_UID')
+    LDAP_SEARCH_BASE = manager.get_config('LDAP_SEARCH_BASE')
+    LDAP_SEC_PROTOTCOL = manager.get_config('LDAP_SEC_PROTOTCOL')
+    LDAP_SERVER = manager.get_config('LDAP_SERVER')
+
+    ADMIN_USERNAME = manager.get_config('ADMIN_USERNAME')
 
     # Strong session protection
     SESSION_PROTECTION = 'strong'
