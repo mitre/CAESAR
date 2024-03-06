@@ -1,0 +1,6 @@
+{
+  "js": {
+    "preserve_newlines": false,
+    "templating": ["django"]
+  }
+}
