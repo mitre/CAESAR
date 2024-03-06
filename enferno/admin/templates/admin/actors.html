@@ -444,7 +444,6 @@
 
             statusDisabled: false,
 
-
             //field language switchers
             name__: true,
             nickname__: true,
@@ -512,35 +511,33 @@
               ],
 
     items: [],
-        selected: [],
-            itemsLength: 10,
-
-                editedIndex: -1,
-                    editedItem: {
+    selected: [],
+    itemsLength: 10,
+    editedIndex: -1,
+    editedItem: {
         events: [],
-            medias: [],
-                actor_relations: [],
-                    bulletin_relations: [],
-                        incident_relations: []
+        medias: [],
+        actor_relations: [],
+        bulletin_relations: [],
+        incident_relations: []
 
     },
     defaultItem: {
         description: "",
+        status: "",
+        // related events
+        events: [],
+        // related media
+        medias: [],
+        // related actors
+        actor_relations: [],
+        // related bulletins
+        bulletin_relations: [],
 
-            // related events
-            events: [],
-                // related media
-                medias: [],
-                    // related actors
-                    actor_relations: [],
-
-                        // related bulletins
-                        bulletin_relations: [],
-
-                            // related incidents
-                            incident_relations: [],
-                                publish_date: '',
-                                    documentation_date: ''
+        // related incidents
+        incident_relations: [],
+        publish_date: '',
+        documentation_date: ''
     },
 
     //events
@@ -569,6 +566,22 @@
           }),
 
     computed: {
+        statusForbidsAssignment() {
+            if(this.statusDisabled)
+            {
+                return true;
+            }
+
+            statusesPreventingAssignment = ["Machine Created", "Human Created"];
+            var assignmentDisabled = statusesPreventingAssignment.includes(this.editedItem.status);
+            return assignmentDisabled;
+        },
+
+        statusRequiresAssignment(){
+            statusesRequiringAssignment = ["Assigned", "Second Peer Review", "Peer Review Assigned"];
+            return statusesRequiringAssignment.includes(this.editedItem.status);
+        },
+        
         compLocations() {
             return aggregateActorLocations(this.editedItem);
         },
@@ -646,6 +659,7 @@
         }
     },
     mounted: function () {
+        this.statusDisabled = !this.has_role(this.currentUser, 'Admin')
 
         // populate roles for advanced search for admins
         {% if current_user.has_role('Admin') %}
@@ -711,9 +725,12 @@
 
 
     },
-
     methods: {
-        // form anchors for scrolling
+        assignItemByUserId(userId) {
+            this.editedItem.assigned_to = this.users.find(x => x.id == userId);
+        },
+
+    // form anchors for scrolling
         anchorScroll(id) {
             this.$nextTick(() =>
                 document.getElementById(id).scrollIntoView({ behavior: 'smooth' })
@@ -1016,7 +1033,6 @@
         }
               ,
 
-
         // ---------------- end advanced search -----------------------
 
 
@@ -1109,35 +1125,21 @@
         }, 350),
 
 
-            handleStatus(actor) {
-
-
-            if (this.editedItem.id) {
-                // edit existing bulletin mode
-                if (this.has_role(this.currentUser, 'Admin')) {
-
-                    this.statusDisabled = false;
-                    return;
-                }
-
-                // else is a standard user
+        handleStatus(actor) {
+        if (!this.editedItem.id){
+                // new bulletin mode
+                this.editedItem.status = this.statusItems[1].en;
+            }
+            else if(!this.has_role(this.currentUser, 'Admin'))
+            {
+                // automatic progression of status for non-admin users editing bulletins, not for new bulletins
                 this.statusItems = this.statuses;
-
                 if (this.editedItem.status == 'Assigned' || this.editedItem.status == 'Human Created') {
                     this.editedItem.status = this.statusItems[2].en;
                 }
-
                 if (this.editedItem.status == 'Peer Reviewed') {
                     this.editedItem.status = this.statusItems[9].en;
                 }
-
-                this.statusDisabled = true;
-            } else {
-                // new bulletin mode
-
-                this.editedItem.status = this.statusItems[1].en;
-                this.statusDisabled = true;
-
             }
         },
 
@@ -1191,7 +1193,6 @@
         },
 
         reviewAllowed(actor) {
-
             if (actor.restricted) {
                 return false;
             }

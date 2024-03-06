@@ -481,8 +481,6 @@
                 second: false,
                 third: false
             },
-
-
             //event dates popups
             eventFromMenu: false,
             eventToMenu: false,
@@ -508,42 +506,36 @@
 
 
     { text: "{{_('Actions')}}", value: "action", sortable: false, width: 100 }
-
                 ],
-
-
-    items: [],
-        selected: [],
-            itemsLength: 10,
-
+                items: [],
+                selected: [],
+                itemsLength: 10,
                 editedIndex: -1,
-                    editedItem: {
-        title: "",
-            events: [],
-                medias: [],
+                editedItem: {
+                    title: "",
+                    events: [],
+                    medias: [],
                     bulletin_relations: [],
-                        actor_relations: [],
-                            incident_relations: []
-    },
-    defaultItem: {
-        title: "",
-            description: "",
-
-                // related events
-                events: [],
+                    actor_relations: [],
+                    incident_relations: []
+                },
+                defaultItem: {
+                    title: "",
+                    status: "",
+                    description: "",
+                    // related events
+                    events: [],
                     // related media
                     medias: [],
-                        // related bulletins
-                        bulletin_relations: [],
-
-                            // related actors
-                            actor_relations: [],
-
-                                // related incidents
-                                incident_relations: [],
-                                    publish_date: '',
-                                        documentation_date: ''
-    },
+                    // related bulletins
+                    bulletin_relations: [],
+                    // related actors
+                    actor_relations: [],
+                    // related incidents
+                    incident_relations: [],
+                    publish_date: '',
+                    documentation_date: ''
+                },
 
     reviewItem: { },
 
@@ -571,6 +563,21 @@
             }),
 
     computed: {
+        statusForbidsAssignment() {
+            if(this.statusDisabled)
+            {
+                return true;
+            }
+
+            statusesPreventingAssignment = ["Machine Created", "Human Created"];
+            assignmentDisabled = statusesPreventingAssignment.includes(this.editedItem.status);
+            return assignmentDisabled;
+        },
+
+        statusRequiresAssignment(){
+            statusesRequiringAssignment = ["Assigned", "Second Peer Review", "Peer Review Assigned"];
+            return statusesRequiringAssignment.includes(this.editedItem.status);
+        },
         compLocations() {
             return aggregateBulletinLocations(this.editedItem);
         },
@@ -665,10 +672,7 @@
         }
     },
     mounted: function () {
-
-
-
-
+        this.statusDisabled = !this.has_role(this.currentUser, 'Admin')
 
         // populate roles for advanced search for admins
         {% if current_user.has_role('Admin') %}
@@ -739,6 +743,10 @@
     },
 
     methods: {
+        assignItemByUserId(userId) {
+            this.editedItem.assigned_to = this.users.find(x => x.id == userId);
+        },
+
         // form anchors for scrolling
         anchorScroll(id) {
             this.$nextTick(() =>
@@ -1133,37 +1141,22 @@
                 });
         }, 350),
 
-
-            handleStatus(bulletin) {
-
-            if (this.editedItem.id) {
-                // edit existing bulletin mode
-                if (this.has_role(this.currentUser, 'Admin')) {
-
-                    this.statusDisabled = false;
-                    return;
-                }
-
-                // else is a standard user
+        handleStatus(bulletin) {
+            if (!this.editedItem.id){
+                // new bulletin mode
+                this.editedItem.status = this.statusItems[1].en;
+            }
+            else if(!this.has_role(this.currentUser, 'Admin'))
+            {
+                // automatic progression of status for non-admin users editing bulletins, not for new bulletins
                 this.statusItems = this.statuses;
-
                 if (this.editedItem.status == 'Assigned' || this.editedItem.status == 'Human Created') {
                     this.editedItem.status = this.statusItems[2].en;
                 }
-
                 if (this.editedItem.status == 'Peer Reviewed') {
                     this.editedItem.status = this.statusItems[9].en;
                 }
-
-                this.statusDisabled = true;
-            } else {
-                // new bulletin mode
-
-                this.editedItem.status = this.statusItems[1].en;
-                this.statusDisabled = true;
-
             }
-
         },
 
         showSnack(message) {
@@ -1275,13 +1268,8 @@
 
 
                 })
-
-
             })
-
-
-        }
-                ,
+        },
 
         saveReview() {
 
@@ -1340,7 +1328,6 @@
                             this.source_alt = false;
                         }
                         this.editedItem.comments = '';
-
                         this.resetSwitchers();
                         this.handleStatus(item);
                     })

@@ -1522,10 +1522,10 @@ def api_bulletins():
 def api_bulletin_create():
     """Creates a new bulletin."""
     bulletin = Bulletin()
-    bulletin.from_json(request.json['item'])
-
     # assign automatically to the creator user
     bulletin.assigned_to_id = current_user.id
+    # assignment will be overwritten if it is specified in the creation request
+    bulletin.from_json(request.json['item'])
     bulletin.save()
 
     # the below will create the first revision by default
@@ -1539,7 +1539,6 @@ def api_bulletin_create():
 @roles_accepted('Admin', 'DA')
 def api_bulletin_update(id):
     """Updates a bulletin."""
-
     bulletin = Bulletin.query.get(id)
     if bulletin is not None:
         if not current_user.can_access(bulletin):
@@ -2284,9 +2283,10 @@ def api_actor_create():
     :return: success/error based on the operation's result
     """
     actor = Actor()
-    actor.from_json(request.json['item'])
     # assign actor to creator by default
     actor.assigned_to_id = current_user.id
+    # assignment will be overwritten if it is specified in the creation request
+    actor.from_json(request.json['item'])
     result = actor.save()
     if result:
         # the below will create the first revision by default
@@ -2936,9 +2936,10 @@ def api_incident_create():
     """API endpoint to create an incident."""
 
     incident = Incident()
-    incident.from_json(request.json['item'])
     # assign to creator by default
     incident.assigned_to_id = current_user.id
+    # assignment will be overwritten if it is specified in the creation request
+    incident.from_json(request.json['item'])
     incident.save()
     # the below will create the first revision by default
     incident.create_revision()
