@@ -461,42 +461,35 @@
         { text: "{{_('Roles')}}", value: "roles", width: 130, sortable: true },
         {% endif %}
     { text: "{{_('Status')}}", value: "status", width: 150, sortable: true },
-
-
     { text: "{{_('Actions')}}", value: "action", sortable: false, width: 100 }
-
                 ],
 
 
-    items: [],
+        items: [],
         selected: [],
-            itemsLength: 10,
-
-                editedIndex: -1,
-                    editedItem: {
+        itemsLength: 10,
+        editedIndex: -1,
+        editedItem: {
         title: "",
-            events: [],
-                incident_relations: [],
-                    bulletin_relations: [],
-                        actor_relations: []
+        events: [],
+        incident_relations: [],
+        bulletin_relations: [],
+        actor_relations: []
     },
     defaultItem: {
         title: "",
-            description: "",
-
-                // related events
-                events: [],
-                    // related incidents
-                    incident_relations: [],
-
-                        // related bulletins
-                        bulletin_relations: [],
-
-                            // related actors
-                            actor_relations: [],
-                                publish_date: '',
-                                    documentation_date: ''
-
+        status: "",
+        description: "",
+        // related events
+        events: [],
+        // related incidents
+        incident_relations: [],
+        // related bulletins
+        bulletin_relations: [],
+        // related actors
+        actor_relations: [],
+        publish_date: '',
+        documentation_date: ''
     },
 
     reviewItem: { },
@@ -523,7 +516,21 @@
             }),
 
     computed: {
+        statusForbidsAssignment() {
+            if(this.statusDisabled)
+            {
+                return true;
+            }
 
+            statusesPreventingAssignment = ["Machine Created", "Human Created"];
+            var assignmentDisabled = statusesPreventingAssignment.includes(this.editedItem.status);
+            return assignmentDisabled;
+        },
+
+        statusRequiresAssignment(){
+            statusesRequiringAssignment = ["Assigned", "Second Peer Review", "Peer Review Assigned"];
+            return statusesRequiringAssignment.includes(this.editedItem.status);
+        },
 
         exBulletins() {
             let ids = [];
@@ -578,25 +585,23 @@
             val || this.closeEvent();
         },
 
-
         options: {
             handler: "refresh"
         }
     },
-    mounted: function () {
 
+    mounted: function () {
+        this.statusDisabled = !this.has_role(this.currentUser, 'Admin')
+        
         // populate roles for advanced search for admins
         {% if current_user.has_role('Admin') %}
-        axios.get('/admin/api/roles/').then(res => {
-            this.roles = res.data.items;
-        }).catch(e => {
-            this.roles = [];
-            console.log(e.message);
-        });
-        {% endif %}
-
-
-
+            axios.get('/admin/api/roles/').then(res => {
+                this.roles = res.data.items;
+            }).catch(e => {
+                this.roles = [];
+                console.log(e.message);
+            });
+        {% endif  %}
 
         // display confirmation alert if edit dialog is open.
         let self = this;
@@ -651,6 +656,10 @@
     },
 
     methods: {
+        assignItemByUserId(userId) {
+            this.editedItem.assigned_to = this.users.find(x => x.id == userId);
+        },
+        
         // form anchors for scrolling
         anchorScroll(id) {
             this.$nextTick(() =>
@@ -1021,36 +1030,21 @@
             });
         }, 350),
 
-
-            handleStatus(incident) {
-
-
-            if (this.editedItem.id) {
-                // edit existing bulletin mode
-                if (this.has_role(this.currentUser, 'Admin')) {
-
-                    this.statusDisabled = false;
-                    return;
-                }
-
-                // else is a standard user
+        handleStatus(incident) {
+            if (!this.editedItem.id){
+                // new bulletin mode
+                this.editedItem.status = this.statusItems[1].en;
+            }
+            else if(!this.has_role(this.currentUser, 'Admin'))
+            {
+                // automatic progression of status for non-admin users editing bulletins, not for new bulletins
                 this.statusItems = this.statuses;
-
                 if (this.editedItem.status == 'Assigned' || this.editedItem.status == 'Human Created') {
                     this.editedItem.status = this.statusItems[2].en;
                 }
-
                 if (this.editedItem.status == 'Peer Reviewed') {
                     this.editedItem.status = this.statusItems[9].en;
                 }
-
-                this.statusDisabled = true;
-            } else {
-                // new bulletin mode
-
-                this.editedItem.status = this.statusItems[1].en;
-                this.statusDisabled = true;
-
             }
         },
 
@@ -1161,7 +1155,6 @@
         },
 
         saveReview() {
-
             axios.put(`/admin/api/incident/review/${this.reviewItem.id}`, {
                 item: this.reviewItem
             })
@@ -1258,8 +1251,6 @@
                     this.$nextTick(() => {
                         this.loading = false
                         this.editedItem = response.data;
-
-
                         this.editedItem.comments = '';
                         this.resetSwitchers();
                         this.handleStatus(item);

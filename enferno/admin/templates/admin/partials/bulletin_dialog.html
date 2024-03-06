@@ -576,25 +576,68 @@
                                 </v-row>
                                 <v-row>
                                     <v-col cols="12" md="8">
-
-
                                         <validation-provider name="Comments" rules="required" v-slot="{ errors }">
-
-
                                             <v-textarea outlined v-model="editedItem.comments">
                                                 <template #label>
                                                     {{ _('Comments') }} <span class="red--text"><strong>*
                                                         </strong></span>
                                                 </template>
                                             </v-textarea>
-
                                             <span class="red--text"> ${errors[0]}</span>
                                         </validation-provider>
                                     </v-col>
                                     <v-col cols="12" md="4">
-                                        <v-select :disabled="statusDisabled" item-text="tr" item-value="en"
-                                            :items="statusItems" v-model="editedItem.status"
-                                            label="{{ _('Status') }}"></v-select>
+                                        <v-select
+                                            :disabled="statusDisabled" 
+                                            item-text="tr" 
+                                            item-value="en" 
+                                            :items="statusItems"
+                                            v-model="editedItem.status" 
+                                            label="{{ _('Status') }}">
+                                        </v-select>
+                                        <v-autocomplete
+                                            v-if="statusForbidsAssignment"
+                                            label="{{ _('Assigned To') }}"
+                                            :disabled="true"
+                                            prepend-inner-icon="mdi-magnify"
+                                            item-color="secondary"
+                                        ></v-autocomplete>
+                                        <validation-provider v-else-if="statusRequiresAssignment" name="Assigned To" rules="required" v-slot="{ errors }">
+                                            <v-autocomplete
+                                                :value="editedItem.assigned_to"
+                                                @input="assignItemByUserId"
+                                                label="{{ _('Assigned To') }}"
+                                                :items="users"
+                                                item-text="name"
+                                                item-value="id"
+                                                :disabled="false"
+                                                prepend-inner-icon="mdi-magnify"
+                                                hide-no-data
+                                                no-filter
+                                                small-chips
+                                                clearable
+                                                :return-object="false"
+                                                item-color="secondary"
+                                            ></v-autocomplete>
+                                            <span class="red--text"> ${errors[0]}</span>
+                                        </validation-provider>
+                                        <v-autocomplete
+                                            v-else
+                                            :value="editedItem.assigned_to"
+                                            @input="assignItemByUserId"
+                                            label="{{ _('Assigned To') }}"
+                                            :items="users"
+                                            item-text="name"
+                                            item-value="id"
+                                            :disabled="false"
+                                            prepend-inner-icon="mdi-magnify"
+                                            hide-no-data
+                                            no-filter
+                                            small-chips
+                                            clearable
+                                            :return-object="false"
+                                            item-color="secondary"
+                                        ></v-autocomplete>
                                     </v-col>
                                 </v-row>
                                 <v-row v-if="editedItem.review">
