@@ -1,5 +1,5 @@
-Vue.component('pop-date-range-field', {
-  props: ['value', 'label'],
+Vue.component("pop-date-range-field", {
+  props: ["value", "label"],
 
   data() {
     return {
@@ -9,8 +9,8 @@ Vue.component('pop-date-range-field', {
   },
 
   created() {
-    this.id = 'dateRange' + this._uid;
-    this.$emit('input', this.value);
+    this.id = "dateRange" + this._uid;
+    this.$emit("input", this.value);
   },
 
   computed: {
@@ -26,28 +26,28 @@ Vue.component('pop-date-range-field', {
       }
 
       // If same date selected only show one, else range
-      return this.value[0] === this.value[1] ? this.value[0] : this.value.join(' - ');
+      return this.value[0] === this.value[1]
+        ? this.value[0]
+        : this.value.join(" - ");
     },
   },
 
   watch: {
     value(val) {
-
       // Emit empty value if dates cleared
       if (!val) {
-        this.$emit('input', val);
+        this.$emit("input", val);
         return;
       }
 
       // allow backward selection
       if (new Date(val[1]) < new Date(val[0])) {
-        [val[0], val[1]] = [val[1], val[0]]
-
+        [val[0], val[1]] = [val[1], val[0]];
       }
 
       // Valid date range
       if (val.length === 2) {
-        this.$emit('input', val);
+        this.$emit("input", val);
         this.menu = false;
       }
     },
@@ -58,7 +58,7 @@ Vue.component('pop-date-range-field', {
         // then selects a single date & closes menu
         // handle as if single date selected
         if (this.value && this.value.length === 1) {
-          this.$emit('input', [this.value[0], this.value[0]]);
+          this.$emit("input", [this.value[0], this.value[0]]);
         }
       }
     },
@@ -84,12 +84,11 @@ Vue.component('pop-date-range-field', {
           onClick="event.preventDefault()"
           v-bind="attrs"
           :label="label"
-          
           prepend-icon="mdi-calendar"
           clearable
           @click:clear="value = null"
-            hint="Select a single date or a range"
-            persistent-hint
+          hint="Select a single date or a range"
+          persistent-hint
         ></v-text-field>
       </template>
 

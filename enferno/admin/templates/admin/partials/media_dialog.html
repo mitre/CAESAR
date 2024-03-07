@@ -3,53 +3,21 @@
         <v-card outlined>
             <v-card-title class="handle">
                 <v-icon left>mdi-folder-multiple-image</v-icon>
-                {{ _('Media') }}
+                {{ _("Media") }}
                 <v-spacer></v-spacer>
-
-        <v-btn
-          class="mx-2 white--text"
-          x-small
-          fab
-          dark
-          depressed
-          color="accent lighten-2"
-          @click="addMedia"
-        >
-          <v-icon dark>mdi-plus-circle</v-icon></v-btn
-        >
-      </v-card-title>
-
-            <!--  Grid of Media Items -->
-
+                <v-btn class="mx-2 white--text" x-small fab dark depressed color="accent lighten-2" @click="addMedia">
+                    <v-icon dark>mdi-plus-circle</v-icon></v-btn>
+            </v-card-title>
+    <!--  Grid of Media Items -->
             <v-card-text id="medias">
                 <v-layout wrap>
-                    <v-flex
-                            class="pa-2"
-                            md3
-                            v-for="(item,index) in editedItem.medias"
-                            :key="index"
-                    >
-                        <media-card
-                                conf="simple"
-                                @thumb-click="viewImage"
-                                @video-click="viewPlayer"
-                                :media="item"
-                                :key="index+editedItem.medias.length"
-                        >
+                    <v-flex class="pa-2" md3 v-for="(item,index) in editedItem.medias" :key="index">
+                        <media-card conf="simple" @thumb-click="viewImage" @video-click="viewPlayer" :media="item" :key="index+editedItem.medias.length">
                             <template v-slot:actions>
                                 <v-spacer></v-spacer>
-                                <v-btn
-                                        v-if="!item.main"
-                                        @click="removeMedia($event,index)"
-                                        x-small
-                                        depressed
-                                        fab
-                                        outlined
-                                        color="red lighten-1"
-                                >
+                                <v-btn v-if="!item.main" @click="removeMedia($event,index)" x-small depressed fab outlined color="red lighten-1">
                                     <v-icon>mdi-delete-sweep</v-icon>
-                                </v-btn
-                                >
+                                </v-btn>
                             </template>
                         </media-card>
                     </v-flex>
@@ -65,68 +33,28 @@
             <v-container>
                 <v-row>
                     <v-col cols="12">
-
-
-                        <vue-dropzone ref="dropzone" id="dropzone" :options="dzOpts"
-                                      @vdropzone-error="showError"
-                                      @vdropzone-removed-file="fileRemoved"
-                                      @vdropzone-file-added="fileAdded"
-                                      @vdropzone-success="uploadSuccess"
-                                      @vdropzone-sending="fileSending"
-                                      ></vue-dropzone>
+                        <vue-dropzone ref="dropzone" id="dropzone" :options="dzOpts" @vdropzone-error="showError" @vdropzone-removed-file="fileRemoved" @vdropzone-file-added="fileAdded" @vdropzone-success="uploadSuccess" @vdropzone-sending="fileSending"></vue-dropzone>
                         <span>Supported formats: .mp4, .webm, .jpg, .gif, .png, .pdf, .doc, .txt</span>
-
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col cols="12" md="6">
                         <v-card class="d-flex" flat>
-                            <v-text-field
-                                    v-if="mediaTitle__"
-                                    v-model="editedMedia.title"
-                                    label="Title"
-                            ></v-text-field>
-
-                            <v-text-field
-                                    v-else
-                                    v-model="editedMedia.title_ar"
-                                    label="Title (AR)"
-                                    background-color="lime lighten-5"
-                            ></v-text-field>
-
-                            <v-btn
-                                    color="grey lighten-2"
-                                    outlined
-                                    x-small
-                                    fab
-                                    class="swh d-inline"
-                                    @click="mediaTitle__=!mediaTitle__"
-                            >
+                            <v-text-field v-if="mediaTitle__" v-model="editedMedia.title" label="Title"></v-text-field>
+                            <v-text-field v-else v-model="editedMedia.title_ar" label="Title (AR)" background-color="lime lighten-5"></v-text-field>
+                            <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline" @click="mediaTitle__=!mediaTitle__">
                                 <v-icon>mdi-web</v-icon>
-                            </v-btn
-                            >
+                            </v-btn>
                         </v-card>
                     </v-col>
-
                     <v-col cols="12" md="6">
                         <v-card class="d-flex" flat>
-                            <!-- category -->
-
-                            <search-field
-                                    label="Media Category"
-                            api="/admin/api/mediacategories"
-                            v-model="editedMedia.category"
-                            item-text="title"
-                            item-value="id"
-                            :return-object="false"
-                            >
-
+<!-- category -->
+                            <search-field label="Media Category" api="/admin/api/mediacategories" v-model="editedMedia.category" item-text="title" item-value="id" :return-object="false">
                             </search-field>
-                           
                         </v-card>
                     </v-col>
                 </v-row>
-
                 <v-row>
                     <v-col>
                         <v-card class="d-flex" flat>
@@ -134,22 +62,14 @@
                         </v-card>
                     </v-col>
                 </v-row>
-
                 <v-row></v-row>
             </v-container>
         </v-card-text>
         <v-card-actions class="pa-5">
             <v-spacer></v-spacer>
             <v-btn color="grey lighten-1" text @click="closeMedia">Cancel</v-btn>
-            <v-btn
-                    color="primary"
-
-                    :disabled="!enableAttach"
-
-                    @click="attachMedia"
-            >Attach Media
-            </v-btn
-            >
+            <v-btn color="primary"  :disabled="!enableAttach"  @click="attachMedia">Attach Media
+            </v-btn>
         </v-card-actions>
     </v-card>
 </v-dialog>

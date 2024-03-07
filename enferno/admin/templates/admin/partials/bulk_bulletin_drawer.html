@@ -1,117 +1,43 @@
-<v-navigation-drawer
-        v-model="bulkBulletinDrawer"
-        clipped
-        right
-        temporary
-        width="440"
-        app
->
+<v-navigation-drawer v-model="bulkBulletinDrawer" clipped right temporary width="440" app>
     <validation-observer v-slot="{invalid}">
         <v-card flat color="grey lighten-3" class="mx-auto pa-3">
             <v-card-title>
-                {{ _('Bulk Update') }}
+                {{ _("Bulk Update") }}
             </v-card-title>
-            <v-btn
-                    @click="bulkBulletinDrawer=false"
-                    fab
-                    absolute
-                    top
-                    right
-                    x-small
-                    text
-                    class="mt-6"
-            >
+            <v-btn @click="bulkBulletinDrawer=false" fab absolute top right x-small text class="mt-6">
                 <v-icon>mdi-close</v-icon>
-            </v-btn
-            >
+            </v-btn>
             <v-card-text>
-
-                <search-field-single
-                        v-model="bulk.assigned_to_id"
-                        api="/admin/api/users/"
-                        item-text="name"
-                        item-value="id"
-                        :return-object="false"
-
-                        :multiple="false"
-                        label="{{ _('Assigned To') }}"
-                ></search-field-single>
-
-
-            </v-card-text>
-
-            <v-card-text>
-                <search-field-single
-                        v-model="bulk.first_peer_reviewer_id"
-                        api="/admin/api/users/"
-                        item-text="name"
-                        item-value="id"
-                        :multiple="false"
-                        label="{{ _('Peer Reviewer') }}"
-                ></search-field-single>
-
-
+                <search-field-single v-model="bulk.assigned_to_id" api="/admin/api/users/" item-text="name" item-value="id" :return-object="false"  :multiple="false" label="{{ _("Assigned To") }}"></search-field-single>
             </v-card-text>
             <v-card-text>
-                <v-select
-                        :items="statuses"
-                        item-text="tr"
-                        v-model="bulk.status"
-                        item-value="en"
-                        label="{{ _('Status') }}"
-                        clearable
-                ></v-select>
+                <search-field-single v-model="bulk.first_peer_reviewer_id" api="/admin/api/users/" item-text="name" item-value="id" :multiple="false" label="{{ _("Peer Reviewer") }}"></search-field-single>
+            </v-card-text>
+            <v-card-text>
+                <v-select :items="statuses" item-text="tr" v-model="bulk.status" item-value="en" label="{{ _("Status") }}" clearable></v-select>
             </v-card-text>
             <v-card-text>
                 <div class="d-flex">
-                    <v-combobox
-
-                            small-chips
-                            multiple
-                            v-model="bulk.ref"
-                            label="{{ _('Ref') }}"
-                            class="mr-2"
-                    ></v-combobox>
-
-                    <v-checkbox small v-model="bulk.refReplace" label="{{ _('Replace') }}"></v-checkbox>
+                    <v-combobox small-chips multiple v-model="bulk.ref" label="{{ _("Ref") }}" class="mr-2"></v-combobox>
+                    <v-checkbox small v-model="bulk.refReplace" label="{{ _("Replace") }}"></v-checkbox>
                 </div>
-
             </v-card-text>
-
             <v-card-text v-if="has_role(currentUser,'Admin')">
                 <div class="d-flex">
-                    <search-field
-                        api="/admin/api/roles/"
-                        item-text="name"
-                        item-value="id"
-                        :multiple="true"
-                        label="{{ _('Access Roles') }}"
-                        v-model="bulk.roles"
-                ></search-field>
-
-
-                    <v-checkbox small v-model="bulk.rolesReplace" label="{{ _('Replace') }}"></v-checkbox>
+                    <search-field api="/admin/api/roles/" item-text="name" item-value="id" :multiple="true" label="{{ _("Access Roles") }}" v-model="bulk.roles"></search-field>
+                    <v-checkbox small v-model="bulk.rolesReplace" label="{{ _("Replace") }}"></v-checkbox>
                 </div>
-
-
             </v-card-text>
-
             <v-card-text>
                 <validation-provider name="Comments" rules="required" v-slot="{ errors }">
-
-                    <v-textarea outlined
-                                v-model="bulk.comments"
-                                label="{{ _('Comments') }}"
-                    >
-
+                    <v-textarea outlined v-model="bulk.comments" label="{{ _("Comments") }}">
                     </v-textarea>
-                    <span class="red--text"> ${errors[0]}</span>
+                    <span class="red--text">${errors[0]}</span>
                 </validation-provider>
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn :disabled="invalid" @click="bulk_update" color="primary">{{ _('Bulk Update Bulletins') }}</v-btn>
-
+                <v-btn :disabled="invalid" @click="bulk_update" color="primary">{{ _("Bulk Update Bulletins") }}</v-btn>
                 <v-spacer></v-spacer>
             </v-card-actions>
         </v-card>

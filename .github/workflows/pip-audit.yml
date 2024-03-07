@@ -2,11 +2,11 @@ on:
   pull_request: {}
   push:
     branches:
-    - main
+      - main
     paths:
-    - requirements.txt
+      - requirements.txt
   schedule:
-  - cron: 19 20 * * *
+    - cron: 19 20 * * *
 name: pip-audit
 jobs:
   selftest:

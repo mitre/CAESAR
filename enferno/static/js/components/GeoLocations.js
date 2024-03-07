@@ -1,93 +1,91 @@
-Vue.component('geo-locations', {
-    props: {
-        value: {
-            default: []
-        },
-        i18n: {},
-        others : []
-
+Vue.component("geo-locations", {
+  props: {
+    value: {
+      default: [],
     },
-    data: function () {
-        return {
-            // temp item to hold new locations
-            e: {},
-            addDlg: false,
-            eindex: null,
-            locations: this.value.length ? this.value : [],
+    i18n: {},
+    others: [],
+  },
+  data: function () {
+    return {
+      // temp item to hold new locations
+      e: {},
+      addDlg: false,
+      eindex: null,
+      locations: this.value.length ? this.value : [],
+    };
+  },
+  mounted() {},
+  computed: {
+    eformValid() {
+      if (this.e.latlng) {
+        if (this.e.latlng.lat && this.e.latlng.lng) {
+          return true;
         }
+      }
+      return false;
     },
-    mounted() { },
-    computed : {
-        eformValid(){
-            if (this.e.latlng){
-                if (this.e.latlng.lat && this.e.latlng.lng) {
-                    return true;
-                }
-            }
-            return false;
-        }
+  },
+  watch: {
+    value(val) {
+      if (val && val.length) {
+        this.locations = val;
+      }
     },
-    watch: {
-        value(val) {
-            if (val && val.length) {
-                this.locations = val;
-            }
-        },
-        locations() {
-            this.$emit('input', this.locations)
-        }
+    locations() {
+      this.$emit("input", this.locations);
     },
+  },
 
-    methods: {
-        newLocation(){
-          this.e = {};
-          this.addDlg = true;
-        },
-        saveLocation(){
-          if (this.e.mode === 'edit') {
-              this.modifyLocation();
-          }
-          else {
-              this.addLocation();
-          }
-        },
-        modifyLocation() {
-            //preprocess
-            this.e.lat = this.e.latlng.lat;
-            this.e.lng = this.e.latlng.lng;
-
-            this.locations[this.eindex] = this.e;
-            this.addDlg = false;
-            // reset edited item
-            this.e = {};
-            // broadcast an event to  refresh parent global map
-            this.$emit('locations-updated')
-        },
-        addLocation() {
-            this.e.lat = this.e.latlng.lat;
-            this.e.lng = this.e.latlng.lng;
-
-            this.locations.push(this.e);
-            this.addDlg = false;
-            // reset edited item
-            this.e = {};
-        },
-        editLocation(item, index) {
-            item.latlng = {lat: item.lat, lng: item.lng};
-            this.e = item;
-
-            this.eindex = index;
-            this.addDlg = true;
-            this.e.mode = 'edit';
-        },
-        removeLocation(i) {
-            if (confirm('Are you sure?')) {
-            this.locations.splice(i,1);
-            }
-        }
+  methods: {
+    newLocation() {
+      this.e = {};
+      this.addDlg = true;
     },
+    saveLocation() {
+      if (this.e.mode === "edit") {
+        this.modifyLocation();
+      } else {
+        this.addLocation();
+      }
+    },
+    modifyLocation() {
+      //preprocess
+      this.e.lat = this.e.latlng.lat;
+      this.e.lng = this.e.latlng.lng;
 
-    template: `
+      this.locations[this.eindex] = this.e;
+      this.addDlg = false;
+      // reset edited item
+      this.e = {};
+      // broadcast an event to  refresh parent global map
+      this.$emit("locations-updated");
+    },
+    addLocation() {
+      this.e.lat = this.e.latlng.lat;
+      this.e.lng = this.e.latlng.lng;
+
+      this.locations.push(this.e);
+      this.addDlg = false;
+      // reset edited item
+      this.e = {};
+    },
+    editLocation(item, index) {
+      item.latlng = { lat: item.lat, lng: item.lng };
+      this.e = item;
+
+      this.eindex = index;
+      this.addDlg = true;
+      this.e.mode = "edit";
+    },
+    removeLocation(i) {
+      if (confirm("Are you sure?")) {
+        this.locations.splice(i, 1);
+      }
+    },
+  },
+
+  template: `
       <div>
       <v-card outlined color="grey lighten-3">
         <v-toolbar elevation="0">
@@ -200,5 +198,5 @@ Vue.component('geo-locations', {
 
       </v-dialog>
       </div>
-    `
-})
+    `,
+});
