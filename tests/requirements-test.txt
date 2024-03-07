@@ -1,0 +1,6 @@
+beautifulsoup4==4.12.3
+iniconfig==2.0.0
+pluggy==1.4.0
+pytest==8.0.1
+soupsieve==2.5
+tomli==2.0.1
