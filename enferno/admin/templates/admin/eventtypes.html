@@ -13,7 +13,11 @@
                                     <template v-slot:top>
                                         <v-toolbar flat color="white">
                                             <v-toolbar-title>{{ _("Event Types") }}</v-toolbar-title>
-                                            <v-divider class="mx-4" inset vertical></v-divider>
+                                            <v-divider class="mx-4" inset vertical>
+                                            </v-divider>
+                                            <v-btn @click="refresh()" icon>
+                                                <v-icon>mdi-refresh</v-icon>
+                                            </v-btn>
                                             <v-spacer></v-spacer>
                                             <v-dialog v-model="dialog" max-width="500px">
                                                 {% if current_user.roles_in(['Admin','Mod']) %}
@@ -39,12 +43,6 @@
                                                                 <v-col cols="12" md="6">
                                                                     <v-checkbox label="{{ _("For Actors") }}" v-model="editedItem.for_actor">
                                                                     </v-checkbox>
-                                                                    <v-divider class="mx-4" inset vertical></v-divider>
-                                                                    <v-btn @click="refresh()" icon>
-                                                                        <v-icon>mdi-refresh</v-icon>
-                                                                    </v-btn>
-                                                                    <v-spacer></v-spacer>
-                                                                    <v-dialog v-model="dialog" max-width="500px">
                                                                     </v-col>
                                                                     <v-col cols="12" md="6">
                                                                         <v-checkbox label="{{ _("For Bulletins") }}" v-model="editedItem.for_bulletin">
