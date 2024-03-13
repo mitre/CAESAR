@@ -43,19 +43,17 @@ else
     echo "psql is already installed."
 fi
 
-sudo apt install \
+sudo apt-get install -y \
                 exiftool \
                 libpq-dev \
                 build-essential \
                 python3-dev \
                 python3-virtualenv \
-                libjpeg8-dev \
                 libzip-dev \
                 libxml2-dev \
                 libssl-dev \
                 libffi-dev \
                 libxslt1-dev \
-                libmysqlclient-dev \
                 libncurses5-dev \
                 python-setuptools \
                 postgresql \
