@@ -43,29 +43,29 @@ else
     echo "psql is already installed."
 fi
 
-sudo apt-get install -y \
-                exiftool \
-                libpq-dev \
-                build-essential \
-                python3-dev \
-                python3-virtualenv \
-                libzip-dev \
-                libxml2-dev \
-                libssl-dev \
-                libffi-dev \
-                libxslt1-dev \
-                libncurses5-dev \
-                python-setuptools \
-                postgresql \
-                postgresql-contrib \
-                python3-pip \
-                libpq-dev \
-                git \
-                redis-server \
-                libimage-exiftool-perl \
-                postgis \
-                ffmpeg \
-                tesseract-ocr
+# sudo apt-get install -y \
+#                 exiftool \
+#                 libpq-dev \
+#                 build-essential \
+#                 python3-dev \
+#                 python3-virtualenv \
+#                 libzip-dev \
+#                 libxml2-dev \
+#                 libssl-dev \
+#                 libffi-dev \
+#                 libxslt1-dev \
+#                 libncurses5-dev \
+#                 python-setuptools \
+#                 postgresql \
+#                 postgresql-contrib \
+#                 python3-pip \
+#                 libpq-dev \
+#                 git \
+#                 redis-server \
+#                 libimage-exiftool-perl \
+#                 postgis \
+#                 ffmpeg \
+#                 tesseract-ocr
 
 # Add the psqlc alias to the user's bash configuration file
 echo "alias psqlc='psql -U postgres -h localhost bayanat'" >> ~/.bashrc
