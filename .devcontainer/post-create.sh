@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e 
 
 # Function to display script usage
 usage() {
@@ -27,35 +28,58 @@ done
 shift $((OPTIND -1))
 
 
-echo "installing MITRE certificates"
-sudo wget -q -O - --no-check-certificate https://gitlab.mitre.org/mitre-scripts/mitre-pki/raw/master/os_scripts/install_certs.sh | MODE=alpine sudo sh
+echo "Installing MITRE Certificates"
+sudo wget -q -O - --no-check-certificate https://gitlab.mitre.org/mitre-scripts/mitre-pki/raw/master/os_scripts/install_certs.sh | sudo sh
 
-echo "installing MITRE certificates for python"
-curl -ksSL https://gitlab.mitre.org/mitre-scripts/mitre-pki/raw/master/tool_scripts/install_certs.sh | MODE=python sh
+echo "Updating Packages..."
+sudo apt-get update && sudo apt-get upgrade
 
 # Check if psql is installed
 if ! command -v psql &> /dev/null
 then
     echo "psql is not installed. Installing..."
-    # Update package lists
-    sudo apt-get update
-    # Install psql
     sudo apt-get install postgresql-client -y
-    echo "psql has been installed successfully."
 else
     echo "psql is already installed."
 fi
+
+# sudo apt install \
+#             exiftool \
+#             libpq-dev \
+#             build-essential \
+#             python3-dev \
+#             python3-virtualenv \
+#             libjpeg8-dev \
+#             libzip-dev \
+#             libxml2-dev \
+#             libssl-dev \
+#             libffi-dev \
+#             libxslt1-dev \
+#             libmysqlclient-dev \
+#             libncurses5-dev \
+#             python-setuptools \
+#             postgresql \
+#             postgresql-contrib \
+#             python3-pip \
+#             libpq-dev \
+#             git \
+#             redis-server \
+#             libimage-exiftool-perl \
+#             postgis \
+#             ffmpeg \
+#             tesseract-ocr
 
 # Add the psqlc alias to the user's bash configuration file
 echo "alias psqlc='psql -U postgres -h localhost bayanat'" >> ~/.bashrc
 # Apply the changes immediately
 source ~/.bashrc
 
-# Define the template file and output file
-template_file=".env-template"
-output_file=".env"
-
+# Define the template file and output file and default vars
+template_file=".devcontainer/.env-template"
+output_file=".devcontainer/.env-devcontainer"
 password="change-me"
+encoded_passphrase="oITuL697Y25v9vT9F362LjWk"
+
 # If -quiet option is not specified, prompt the user for password
 if [ -z "$quiet" ]; then
     # Prompt the user for the option with a timeout of 10 seconds
@@ -70,7 +94,6 @@ if [ -z "$quiet" ]; then
     fi
 fi 
 
-encoded_passphrase="oITuL697Y25v9vT9F362LjWk"
 # If -quiet option is not specified, prompt the user for secret option
 if [ -z "$quiet" ]; then
     read -t 10 -p "Generate a base64 encoded random secret? (y/N): " gen
@@ -99,10 +122,13 @@ fi
 if [ -z "$quiet" ]; then
     read -t 30 -p "Do you want to start the CAESAR docker containers? (y/N): " start
     if [[ $start == "y" || $start == "Y" ]]; then
-        docker compose up -d
+        docker compose --env-file .devcontainer/.env-devcontainer -f docker-compose.yml -f .devcontainer/docker-compose-devcontainer.yml up -d --build
         echo
     elif [ -z "$start" ]; then
         echo 
         echo 'To start CAESAR, enter "docker compose up -d"'
     fi
+elif
+    # bring up docker containers here...
+    docker compose --env-file .devcontainer/.env-devcontainer -f docker-compose.yml -f .devcontainer/docker-compose-devcontainer.yml up -d --build
 fi

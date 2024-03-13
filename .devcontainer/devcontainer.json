@@ -3,22 +3,29 @@
 {
 	"name": "CAESAR Dev Container",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	// "image": "mcr.microsoft.com/devcontainers/base:ubuntu-20.04",
 	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
-
+	
 	"features": {
 		"ghcr.io/bdsoha/devcontainers/custom-root-ca:1": {
 			"source": "http://pki.mitre.org/MITRE%20BA%20ROOT.crt, http://pki.mitre.org/MITRE%20BA%20NPE%20CA-1.crt, http://pki.mitre.org/MITRE%20BA%20NPE%20CA-3(1).crt, http://pki.mitre.org/MITRE%20BA%20NPE%20CA-4.crt, http://pki.mitre.org/ZScaler_Root.crt"
 			//"source": "http://pki.mitre.org/MITRE-chain.txt"
 		},
-		// "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
-		// 	"enableNonRootDocker": "true",
-		// 	"moby": "true"
-		// },
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {
-			"version": "latest",
+
+		// DooD Notes: run docker cli in the context of the devcontainer host 
+		// 		there are known limitations/issues bind mounting from the devcontainer to any child conatainers since the paths are relative to the host.
+		// 		to get around this special environment variables can be used to reference paths outside the devcontainer.
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
 			"enableNonRootDocker": "true",
 			"moby": "true"
 		},
+		// DiD Notes: run isolated docker inside the devcontainer
+		// 		will be completely separate from the host docker including cache, so poetentially uses more space. 
+		// "ghcr.io/devcontainers/features/docker-in-docker:2": {
+		// 	"version": "latest",
+		// 	"enableNonRootDocker": "true",
+		// 	"moby": "true"
+		// },
 		"ghcr.io/devcontainers/features/python:1": {
 			"installTools": true,
 			"installJupyterlab": true,
@@ -30,7 +37,8 @@
 	},
 	
 	"remoteEnv": { 
-		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}" 
+		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
+		"REMOTE_WORKSPACE_FOLDER": "${containerWorkspaceFolder}"
 	},
 
 	"containerEnv": {
@@ -54,9 +62,12 @@
 
 	// "initializeCommand": "docker network inspect caesar --format \"network {{.Name}} already exists\" || docker network create --driver bridge caesar",
 
+	"mounts": ["source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind"],
+
 	"runArgs": [
 		// "--network=caesar", 
-		"--name=caesar-dev"
+		"--name=caesar-dev",
+		"--add-host=host.docker.internal:host-gateway"
 	],
 	"customizations": {
 		"vscode": {

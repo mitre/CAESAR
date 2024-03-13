@@ -1,0 +1,48 @@
+version: '3'
+
+services:  
+  bayanat:
+    # env_file: ${LOCAL_WORKSPACE_FOLDER}/.env
+    volumes:
+      - ${BAYANAT_IMPORT_PATH:-${LOCAL_WORKSPACE_FOLDER}/enferno/imports}:/app/enferno/imports:rw
+      - ${BAYANAT_LOGS_PATH:-${LOCAL_WORKSPACE_FOLDER}/logs}:/app/logs:rw
+      - ${BAYANAT_MEDIA_PATH:-${LOCAL_WORKSPACE_FOLDER}/enferno/media}:/app/enferno/media:rw
+      - ${ENV_FILE:-${LOCAL_WORKSPACE_FOLDER}/.env}:/app/.env
+      - ${LOCAL_WORKSPACE_FOLDER}:/app/
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  celery:  
+    volumes:
+      - ${BAYANAT_IMPORT_PATH:-${LOCAL_WORKSPACE_FOLDER}/enferno/imports}:/app/enferno/imports:rw
+      - ${BAYANAT_LOGS_PATH:-${LOCAL_WORKSPACE_FOLDER}/logs}:/app/logs:rw
+      - ${BAYANAT_MEDIA_PATH:-${LOCAL_WORKSPACE_FOLDER}/enferno/media}:/app/enferno/media:rw
+      - ${ENV_FILE:-${LOCAL_WORKSPACE_FOLDER}/.env}:/app/.env
+      - ${LOCAL_WORKSPACE_FOLDER}:/app/
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "5050:80"
+    volumes:
+      - ${LOCAL_WORKSPACE_FOLDER}/.devcontainer/pgadmin-servers.json:/pgadmin4/servers.json
+    environment:
+      PGADMIN_DEFAULT_EMAIL: caesar@localhost.net
+      PGADMIN_DEFAULT_PASSWORD: change-me
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+    depends_on:
+      - postgres
+
+configs:
+  dotenv:
+    file: ${LOCAL_WORKSPACE_FOLDER}/.env
+    name: "dotenv_${DEPLOY_ENV:-dev}_${SETTINGS_TIMESTAMP:-1111111111}"
