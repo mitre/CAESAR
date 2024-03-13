@@ -67,7 +67,8 @@
 	"runArgs": [
 		// "--network=caesar", 
 		"--name=caesar-dev",
-		"--add-host=host.docker.internal:host-gateway"
+		"--add-host=host.docker.internal:host-gateway",
+		"--add-host=localhost:host-gateway"
 	],
 	"customizations": {
 		"vscode": {
