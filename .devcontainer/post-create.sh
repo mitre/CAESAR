@@ -128,7 +128,7 @@ if [ -z "$quiet" ]; then
         echo 
         echo 'To start CAESAR, enter "docker compose up -d"'
     fi
-elif
+else
     # bring up docker containers here...
     docker compose --env-file .devcontainer/.env-devcontainer -f docker-compose.yml -f .devcontainer/docker-compose-devcontainer.yml up -d --build
 fi
