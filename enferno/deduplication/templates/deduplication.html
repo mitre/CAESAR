@@ -1,304 +1,222 @@
 {% extends 'layout.html' %}
-
 {% block content %}
-
-<div id="app">
-    <v-app v-cloak>
-        {% include 'nav-drawer.html' %} {% include 'nav-bar.html' %}
-        <v-main class="align-start ma-3">
-            <v-container fluid fill-height>
-                <v-row>
-                    <v-col cols="12">
-                        <v-toolbar elevation="1" dense >
-                            <v-btn @click="process" :disabled="processOn" color="green" class="white--text">
-                                <v-icon  left>mdi-play</v-icon>
-                                {{ _('Start') }}
-                            </v-btn>
-
-                            <v-btn  @click="stop" :disabled="!processOn" color="red"  class="mx-3 white--text" >
-                                <v-icon left>mdi-stop</v-icon>
-                                {{ _('Stop') }}
-                            </v-btn>
-
-                            <v-progress-linear :value="progress" color="primary" height="25">
-                                <template v-slot:default="{ value }">
-                                    <strong>${progressText}</strong>
+    <div id="app">
+        <v-app v-cloak>
+            {% include 'nav-drawer.html' %}
+            {% include 'nav-bar.html' %}
+            <v-main class="align-start ma-3">
+                <v-container fluid fill-height>
+                    <v-row>
+                        <v-col cols="12">
+                            <v-toolbar elevation="1" dense>
+                                <v-btn @click="process" :disabled="processOn" color="green" class="white--text">
+                                    <v-icon left>mdi-play</v-icon>
+                                    {{ _("Start") }}
+                                </v-btn>
+                                <v-btn @click="stop" :disabled="!processOn" color="red"  class="mx-3 white--text">
+                                    <v-icon left>mdi-stop</v-icon>
+                                    {{ _("Stop") }}
+                                </v-btn>
+                                <v-progress-linear :value="progress" color="primary" height="25">
+                                    <template v-slot:default="{ value }">
+                                        <strong>${progressText}</strong>
+                                    </template>
+                                </v-progress-linear>
+                                <v-progress-circular :indeterminate="processOn" color="green" class="mx-3"></v-progress-circular>
+                            </v-toolbar>
+                            <v-data-table height="calc(100vh - 290px)" fixed-header :loading="loading" :items="items" :headers="headers" :options.sync="options" :server-items-length="itemsLength" :footer-props.sync="footerProps" class="">
+                                <template v-slot:item.distance="{item}">
+                                    ${item.distance | formatDistance}
                                 </template>
-
-
-                            </v-progress-linear>
-
-                            <v-progress-circular
-      :indeterminate="processOn"
-      color="green"
-      class="mx-3"
-    ></v-progress-circular>
-
-
-                        </v-toolbar>
-                        <v-data-table
-                                height="calc(100vh - 290px)"
-                                fixed-header
-                                :loading="loading"
-                                :items="items"
-                                :headers="headers"
-                                :options.sync="options"
-                                :server-items-length="itemsLength"
-                                :footer-props.sync="footerProps"
-                                class="elevation-1"
-
-                        >
-
-                            <template v-slot:item.distance="{item}">
-                                ${item.distance | formatDistance}
-
-                            </template>
-
-                            <template v-slot:item.result="{item}">
-                                <div v-if="item.status==3">
-                                    <v-btn @click="previewItem('/admin/api/bulletin/'+item.result.b1)"
-                                           color="grey lighten-2" elevation="0" class="mx-2" small>
-                                        <v-icon color="grey darken-2" left x-small>mdi-library-books</v-icon>
-                                        ${item.result.b1}
-                                    </v-btn>
-                                    -
-                                    <v-btn @click="previewItem('/admin/api/bulletin/'+item.result.b2)"
-                                           color="grey lighten-2" class="mx-1" elevation="0" small>
-                                        <v-icon color="grey darken-2" left x-small>mdi-library-books</v-icon>
-                                        ${item.result.b2}
-                                    </v-btn>
-                                </div>
-                            </template>
-
-                        </v-data-table>
-
-
-                        <preview-card :i18n="translations" ref="prev" :item="pitem" v-model="preview"></preview-card>
-
-
-                        <v-snackbar v-model="snackbar">
-                            ${snackMessage}
-                            <v-btn color="secondary" text @click="snackbar = false">
-                                Close
-                            </v-btn>
-                        </v-snackbar>
-                    </v-col>
-                </v-row>
-            </v-container>
+                                <template v-slot:item.result="{item}">
+                                    <div v-if="item.status==3">
+                                        <v-btn @click="previewItem('/admin/api/bulletin/'+item.result.b1)" color="grey lighten-2" elevation="0" class="mx-2" small>
+                                            <v-icon color="grey darken-2" left x-small>mdi-library-books</v-icon>
+                                            ${item.result.b1}
+                                        </v-btn>
+                                        -
+                                        <v-btn @click="previewItem('/admin/api/bulletin/'+item.result.b2)" color="grey lighten-2" class="mx-1" elevation="0" small>
+                                            <v-icon color="grey darken-2" left x-small>mdi-library-books</v-icon>
+                                            ${item.result.b2}
+                                        </v-btn>
+                                    </div>
+                                </template>
+                            </v-data-table>
+        <preview-card :i18n="translations" ref="prev" :item="pitem" v-model="preview"></preview-card>
+        <v-snackbar v-model="snackbar">
+        ${snackMessage}
+        <v-btn color="secondary" text @click="snackbar = false">
+        Close
+        </v-btn>
+        </v-snackbar>
+        </v-col>
+        </v-row>
+        </v-container>
         </v-main>
         {% include 'footer.html' %}
-    </v-app>
-</div>
-
-
+        </v-app>
+    </div>
 {% endblock %}
-
 {% block js %}
-<script src="/static/js/components/MediaCard.js"></script>
-<script src="/static/js/components/BulletinResult.js"></script>
-<script src="/static/js/components/ActorResult.js"></script>
-<script src="/static/js/components/IncidentResult.js"></script>
-
-<script>
-
-    const app = new Vue({
-        el: "#app",
-        vuetify: vuetify,
-        delimiters: delimiters,
-        data: () => ({
-
-            translations: translations,
-            
-            // will use this to calculate progress based on all database items and what is being processed
-            progress: 0,
-            progressText: '',
-            processOn : false,
-            // remaining unprocessed items
-            pending: null,
-            drawer: drawer,
-            mode: null,
-            sideNav: sideNav,
-            snackbar: false,
-            snackMessage: '',
-            loading: false,
-            itemsLength: 0,
-            headers: [
-                {text: "{{_('ID')}}", value: 'id', sortable: false},
-                {text: "{{ _('Query') }}", value: 'query', sortable: false},
-                {text: "{{ _('Match')}}", value: 'match', sortable: false},
-                {text: "{{_('Distance')}}", value: 'distance', sortable: false},
-
-                {text: "{{_('Data')}}", width: 300, value: 'result'},
-                {text: "{{_('Status')}}", value: 'hstatus', sortable: false},
-
-            ],
-
-            //preview bulletins
-            pitem: {},
-            preview: false,
-
-
-            items: [],
-            options: {
-                page: 1,
-                itemsPerPage: 1000
-            },
-            footerProps: {
-                itemsPerPageOptions: [1000, 5000, 10000],
-                itemsPerPageText: "{{ _('Rows per page')}}"
-            },
-
-
-        }),
-        filters: {
-            formatDistance: function (n) {
-
-                return parseFloat(n).toFixed(2);
-
-            }
-        },
-        mounted() {
-            this.refresh();
-            this.sse();
-
-
-        },
-
-
-        computed: {},
-
-
-        watch: {
-
-
-            options: {
-                handler: "refresh"
-            }
-        },
-
-        methods: {
-            sse() {
-                let source = new EventSource('/stream');
-                let self = this;
-                source.onmessage = function (e) {
-                    if (e.data == '1') {
-                        // reload only if process is active
-                        self.refresh()
-                        self.processOn = true;
-                    }
-                    else if (e.data == '2'){
-                        // process is finished, just refresh
-
-                        self.refresh();
-                        self.processOn = false;
-
-                    }
-                    else {
-                        // process is stopped
-                        self.processOn = false;
-                    }
-
-
+    <script src="/static/js/components/MediaCard.js"></script>
+    <script src="/static/js/components/BulletinResult.js"></script>
+    <script src="/static/js/components/ActorResult.js"></script>
+    <script src="/static/js/components/IncidentResult.js"></script>
+    <script>
+        const app = new Vue({
+            el: "#app",
+            vuetify: vuetify,
+            delimiters: delimiters,
+            data: () => ({
+                translations: translations,
+                // will use this to calculate progress based on all database items and what is being processed
+                progress: 0,
+                progressText: '',
+                processOn: false,
+                // remaining unprocessed items
+                pending: null,
+                drawer: drawer,
+                mode: null,
+                sideNav: sideNav,
+                snackbar: false,
+                snackMessage: '',
+                loading: false,
+                itemsLength: 0,
+                headers: [{
+                    text: "{{_('ID')}}",
+                    value: 'id',
+                    sortable: false
+                }, {
+                    text: "{{ _('Query') }}",
+                    value: 'query',
+                    sortable: false
+                }, {
+                    text: "{{ _('Match')}}",
+                    value: 'match',
+                    sortable: false
+                }, {
+                    text: "{{_('Distance')}}",
+                    value: 'distance',
+                    sortable: false
+                }, {
+                    text: "{{_('Data')}}",
+                    width: 300,
+                    value: 'result'
+                }, {
+                    text: "{{_('Status')}}",
+                    value: 'hstatus',
+                    sortable: false
+                }, ],
+                //preview bulletins
+                pitem: {},
+                preview: false,
+                items: [],
+                options: {
+                    page: 1,
+                    itemsPerPage: 1000
+                },
+                footerProps: {
+                    itemsPerPageOptions: [1000, 5000, 10000],
+                    itemsPerPageText: "{{ _('Rows per page')}}"
+                },
+            }),
+            filters: {
+                formatDistance: function(n) {
+                    return parseFloat(n).toFixed(2);
                 }
-
-
             },
-
-            previewItem(endpoint) {
-
-                axios.get(endpoint).then(res => {
-                    this.pitem = res.data;
-                    this.preview = true;
-
-                })
+            mounted() {
+                this.refresh();
+                this.sse();
             },
-            editAllowed() {
-                return false;
+            computed: {},
+            watch: {
+                options: {
+                    handler: "refresh"
+                }
             },
-
-
-            showSnack(message) {
-                this.snackMessage = message;
-                this.snackbar = true;
-            },
-
-
-            clearData() {
-                this.loading = true;
-                axios.delete('/api/deduplication/clear').then(res => {
-                    this.showSnack(res.data);
-                }).catch(err => console.log(err)).finally(
-                    () => {
-                        this.loading = false;
-                        this.refresh();
-
+            methods: {
+                sse() {
+                    let source = new EventSource('/stream');
+                    let self = this;
+                    source.onmessage = function(e) {
+                        if (e.data == '1') {
+                            // reload only if process is active
+                            self.refresh()
+                            self.processOn = true;
+                        } else if (e.data == '2') {
+                            // process is finished, just refresh
+                            self.refresh();
+                            self.processOn = false;
+                        } else {
+                            // process is stopped
+                            self.processOn = false;
+                        }
                     }
-                )
-            },
-
-
-            process() {
-                this.loading = true;
-                axios.post('/api/deduplication/process').then(res => {
-                    this.showSnack(res.data);
-
-                }).catch(err => console.log(err.response.data))
-                    .finally(() => {
+                },
+                previewItem(endpoint) {
+                    axios.get(endpoint).then(res => {
+                        this.pitem = res.data;
+                        this.preview = true;
+                    })
+                },
+                editAllowed() {
+                    return false;
+                },
+                showSnack(message) {
+                    this.snackMessage = message;
+                    this.snackbar = true;
+                },
+                clearData() {
+                    this.loading = true;
+                    axios.delete('/api/deduplication/clear').then(res => {
+                        this.showSnack(res.data);
+                    }).catch(err => console.log(err)).finally(
+                        () => {
+                            this.loading = false;
+                            this.refresh();
+                        })
+                },
+                process() {
+                    this.loading = true;
+                    axios.post('/api/deduplication/process').then(res => {
+                        this.showSnack(res.data);
+                    }).catch(err => console.log(err.response.data)).finally(() => {
                         this.loading = false;
                         this.refresh();
                     })
-
-            },
-            stop() {
-                this.loading = true;
-                axios.post('/api/deduplication/stop').then(res => {
-                    this.showSnack(res.data);
-
-                }).catch(err => console.log(err.response.data)).finally(() => {
-                    this.loading = false;
-                    this.refresh();
-                })
-
-
-            },
-
-
-            refresh() {
-
-                this.loading = true;
-                axios.get(`/api/deduplication/?page=${this.options.page}&per_page=${this.options.itemsPerPage}`).then(res => {
-                    this.items = res.data.items;
-                    this.itemsLength = res.data.total;
-
-                    // update progress bar
-
-                    this.progress = Math.round(((this.itemsLength - res.data.pending) * 100) / this.itemsLength);
-                    this.progressText = (this.itemsLength - res.data.pending).toString() + ' of ' + this.itemsLength  + ' items';
-                    console.log('progress', this.progress);
-
-
-
-                }).catch(err => console.log(err)).finally(() => {
-                    this.loading = false
-                })
-
-            },
-
-            validFile(filename) {
-                const ext = ".".concat("",filename.split(".").pop().toLowerCase());
-                if (ETL_EXTENSIONS.includes(ext)) {
-                    return true;
-
-                } else {
-                    return false;
-                }
-
-
-            },
-
-
-        }
-    });
-</script>
-
+                },
+                stop() {
+                    this.loading = true;
+                    axios.post('/api/deduplication/stop').then(res => {
+                        this.showSnack(res.data);
+                    }).catch(err => console.log(err.response.data)).finally(() => {
+                        this.loading = false;
+                        this.refresh();
+                    })
+                },
+                refresh() {
+                    this.loading = true;
+                    axios.get(`/api/deduplication/?page=${this.options.page}&per_page=${this.options.itemsPerPage}`).then(res => {
+                        this.items = res.data.items;
+                        this.itemsLength = res.data.total;
+                        // update progress bar
+                        this.progress = Math.round(((this.itemsLength - res.data.pending) * 100) / this.itemsLength);
+                        this.progressText = (this.itemsLength - res.data.pending).toString() + ' of ' + this.itemsLength + ' items';
+                        console.log('progress', this.progress);
+                    }).catch(err => console.log(err)).finally(() => {
+                        this.loading = false
+                    })
+                },
+                validFile(filename) {
+                    const ext = ".".concat("", filename.split(".").pop().toLowerCase());
+                    if (ETL_EXTENSIONS.includes(ext)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                },
+            }
+        });
+    </script>
 {% endblock %}

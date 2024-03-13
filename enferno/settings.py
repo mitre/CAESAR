@@ -19,6 +19,7 @@ def uia_username_mapper(identity):
 
 class Config(object):
     BASE_URL = os.environ.get('BASE_URL', 'http://127.0.0.1:5000/')
+    ENV = os.environ.get('ENV', 'prod')
 
     SECRET_KEY = os.environ.get('SECRET_KEY')
     APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory
@@ -99,6 +100,16 @@ class Config(object):
 
     SECURITY_ZXCVBN_MINIMUM_SCORE = manager.get_config('SECURITY_ZXCVBN_MINIMUM_SCORE')
 
+    # LDAP
+    ## Enable LDAP integration
+    LDAP_DOMAIN = manager.get_config('LDAP_DOMAIN')
+    LDAP_ENABLE = manager.get_config('LDAP_ENABLE')
+    LDAP_FIELD_UID = manager.get_config('LDAP_FIELD_UID')
+    LDAP_SEARCH_BASE = manager.get_config('LDAP_SEARCH_BASE')
+    LDAP_SEC_PROTOTCOL = manager.get_config('LDAP_SEC_PROTOTCOL')
+    LDAP_SERVER = manager.get_config('LDAP_SERVER')
+
+    ADMIN_USERNAME = manager.get_config('ADMIN_USERNAME')
 
     # Strong session protection
     SESSION_PROTECTION = 'strong'
@@ -184,7 +195,6 @@ class Config(object):
     MISSING_PERSONS = manager.get_config('MISSING_PERSONS')
 
     # Deduplication
-
     # specify min and max distance for matching
     DEDUP_LOW_DISTANCE = manager.get_config('DEDUP_LOW_DISTANCE')
     DEDUP_MAX_DISTANCE = manager.get_config('DEDUP_MAX_DISTANCE')
@@ -198,6 +208,9 @@ class Config(object):
     # Sheet import tool settings
     SHEET_IMPORT = manager.get_config('SHEET_IMPORT')
     IMPORT_DIR = 'enferno/imports'
+
+    # Configurable default data
+    LOCATIONS_FILENAME = manager.get_config('LOCATIONS_FILENAME')
 
     geo_map_default_center = manager.get_config('GEO_MAP_DEFAULT_CENTER')
 

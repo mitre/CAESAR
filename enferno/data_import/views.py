@@ -4,7 +4,7 @@ import hashlib
 import os
 
 import shortuuid
-from flask import request, Response, Blueprint, current_app, json
+from flask import request, Response, current_app, json
 from flask.templating import render_template
 from flask_security.decorators import auth_required, current_user, roles_accepted, roles_required
 from sqlalchemy.orm.attributes import flag_modified
@@ -16,8 +16,9 @@ from enferno.data_import.utils.sheet_import import SheetImport
 from enferno.tasks import etl_process_file, process_row
 from enferno.utils.data_helpers import media_check_duplicates
 from enferno.utils.http_response import HTTPResponse
+from apiflask import APIBlueprint
 
-imports = Blueprint('imports', __name__, static_folder='../static',
+imports = APIBlueprint('imports', __name__, static_folder='../static',
                    template_folder='../data_import/templates', cli_group=None,
                    url_prefix='/import')
 

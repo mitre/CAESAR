@@ -1553,10 +1553,8 @@ class Bulletin(db.Model, BaseMixin):
         self.sjac_title_ar = json["sjac_title_ar"] if "sjac_title_ar" in json else None
 
         # assigned to
-        if "assigned_to" in json:
-            if json["assigned_to"]:
-                if "id" in json["assigned_to"]:
-                    self.assigned_to_id = json["assigned_to"]["id"]
+        if "assigned_to" in json and json["assigned_to"] and "id" in json["assigned_to"]:
+            self.assigned_to_id = json["assigned_to"]["id"]
 
         # first_peer_reviewer
         if "first_peer_reviewer" in json:
@@ -2411,6 +2409,9 @@ class Actor(db.Model, BaseMixin):
     # populate actor object from json dict
     def from_json(self, json):
         # All text fields
+        # assigned to
+        if "assigned_to" in json and json["assigned_to"] and "id" in json["assigned_to"]:
+            self.assigned_to_id = json["assigned_to"]["id"]
 
         self.originid = json["originid"] if "originid" in json else None
         self.name = json["name"] if "name" in json else None
@@ -3750,6 +3751,9 @@ class Incident(db.Model, BaseMixin):
     # populate model from json dict
     def from_json(self, json):
         # All text fields
+        # assigned to
+        if "assigned_to" in json and json["assigned_to"] and "id" in json["assigned_to"]:
+            self.assigned_to_id = json["assigned_to"]["id"]
 
         self.title = json["title"] if "title" in json else None
         self.title_ar = json["title_ar"] if "title_ar" in json else None

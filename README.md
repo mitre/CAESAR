@@ -40,8 +40,8 @@ messages.pot, messages.po, and messages.mo files should all show changes in sour
 
 ## Caesar Data
 
-Location data has been added to the default bayanat data set at /enferno/data in a Locations.csv file. This file contains a list of Ukrainian cities that was pulled from https://simplemaps.com/data/ua-cities.
-
+Ukraine location data has been added to the default bayanat data set at /enferno/data in the ukraine_locations.csv file. This file contains a list of Ukrainian cities that was pulled from https://simplemaps.com/data/ua-cities.
+Sudan location data has been added to the default bayanat data set at /enferno/data in the sudan_locations.csv file. This file contains a list of Ukrainian cities that was pulled from https://simplemaps.com/data/ua-cities.
 
 ## Local Development
 
@@ -49,3 +49,19 @@ Location data has been added to the default bayanat data set at /enferno/data in
 2. `docker compose build`
 3. Run `docker compose up -d`
 4. Frontend available at `http://localhost:5000/`
+
+## Database Migrations
+
+If you need to change the database model, you will need to create a migration to ensure the changes are reflected in the existing databases. 
+
+### Create and Execute a Migration
+
+1. Make the changes to the model
+2. Create a new migration file with the command `flask db migrate -m "Add a short description here"`
+3. Verify the new migration file in the `migrations/versions/` directory
+4. Execute the migration with the command `flask db upgrade`
+5. Commit the new migration file
+
+### Rolling Back a Migration
+
+If something goes wrong with the new migration and you need to undo it, run `flask db downgrade`

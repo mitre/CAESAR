@@ -1,74 +1,68 @@
 {% extends 'layout.html' %}
-
 {% block content %}
-
-<v-app id="app" v-cloak>
-    {% include 'nav-drawer.html' %}
-    {% include 'nav-bar.html' %}
-    <v-main>
-        <v-container fluid fill-height>
-            <v-layout align-top justify-center>
-                <v-container grid-list-sm>
-                    <v-container>
-                        <v-row>
-                            <v-col cols="12">
-
-                                <v-card>
-                                    <v-card-text>
-                                        {% include "security/_messages.html" %}
-                                    </v-card-text>
-                                    <v-card-title>
-                                        {{ _('Welcome') }}, {{ g.user.username }}!
-                                    </v-card-title>
+    <v-app id="app" v-cloak>
+        {% include 'nav-drawer.html' %}
+        {% include 'nav-bar.html' %}
+        <v-main>
+            <v-container fluid fill-height class="dashboard-page">
+                <v-layout align-top justify-center>
+                    <v-row>
+                        <v-col cols="12">
+                            <div class="hero">
+                                <v-img src="/static/img/co-hero-2.png" max-width="700" alt="Conflict observatory logo" contain></v-img>
+                            </div>
+                            <div class="welcome-message text-subtitle-1">
+                                <div class="welcome-login">
+                                    <span class="text-h5">{{ _("Welcome") }}, {{ g.user.username }}!</span>
                                     {% if g.user.last_login_at %}
-                                    <v-card-text>
-                                        <p>{{ _('Last login') }} — {{ g.user.last_login_at.strftime('%b %d, %Y') }}</p>
+                                        <span class="text-caption">{{ _("Last login") }} — {{ g.user.last_login_at.strftime('%b
+                                            %d,
+                                            %Y') }}</span>
                                     {% endif %}
                                     {% if current_user.has_role('Admin') and config.ETL_PATH_IMPORT %}
                                         <v-icon>mdi-alert</v-icon>
                                         Warning: Media Import's path processing is enabled!
-                                    </v-card-text>
                                     {% endif %}
-
-
-                                </v-card>
-
-
-                            </v-col>
-                        </v-row>
-                    </v-container>
-
-                </v-container>
-
-
-            </v-layout>
-        </v-container>
-    </v-main>
-
-    {% include 'footer.html' %}
-</v-app>
-{% endblock  %}
-
+                                </div>
+                                <p class="">
+                                    Bayanat is the second generation of Syria Justice and Accountability Center's
+                                    (SJAC) open-source web data management
+                                    application. SJAC used its own six years of first-hand experience in collecting,
+                                    preserving, processing, and sharing documentation of human rights violations to build
+                                    Bayanat.
+                                </p>
+                                <p>
+                                    Conflict Observatory aims to build on Bayanat and customize the experience to
+                                    create a
+                                    unified workflow for all C.O. members.
+                                </p>
+                                <a href="https://docs.bayanat.org/en/home"
+                                   target="_blank"
+                                   class="v-btn v-btn--outlined theme--light v-size--default secondary--text">Bayanat
+                                    Documentation
+                                    <v-icon small class="ml-2">mdi-open-in-new</v-icon></a>
+                            </div>
+                        </v-col>
+                    </v-row>
+                </v-layout>
+            </v-container>
+        </v-main>
+        {% include 'footer.html' %}
+    </v-app>
+{% endblock %}
 {% block js %}
-<script>
-    new Vue({
-        el: '#app',
-        vuetify: vuetify,
-        delimiters: delimiters,
-
-
-        methods: {},
-
-
-        data: () => ({
-            search: '',
-            dialog: dialog,
-            drawer: drawer,
-            sideNav: sideNav
-
-        }),
-
-
-    })
-</script>
+    <script>
+        new Vue({
+            el: '#app',
+            vuetify: vuetify,
+            delimiters: delimiters,
+            methods: {},
+            data: () => ({
+                search: '',
+                dialog: dialog,
+                drawer: drawer,
+                sideNav: sideNav
+            }),
+        })
+    </script>
 {% endblock %}

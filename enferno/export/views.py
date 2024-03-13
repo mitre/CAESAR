@@ -1,14 +1,15 @@
 from pathlib import Path
 
-from flask import request, Response, Blueprint, json, send_from_directory
+from flask import request, Response, json, send_from_directory
 from flask.templating import render_template
 from flask_security.decorators import auth_required, current_user, roles_required
 from enferno.admin.models import Activity
 from enferno.export.models import Export
 from enferno.tasks import generate_export
 from enferno.utils.http_response import HTTPResponse
+from apiflask import APIBlueprint
 
-export = Blueprint('export', __name__, static_folder='../static',
+export = APIBlueprint('export', __name__, static_folder='../static',
                    template_folder='../export/templates', cli_group=None,
                    url_prefix='/export')
 

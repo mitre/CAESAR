@@ -13,6 +13,16 @@ def defList(cfg, default):
     value = os.environ.get(cfg, default)
     return value.split(',')
 
+def whitelist(cfg, allowed, default):
+    value = os.environ.get(cfg)
+    if not value:
+        return default
+    
+    if value in allowed:
+        return value
+    
+    raise ValueError(f'The value ({value}) for config {cfg} is not in the list of allowed values. Allowed values: {allowed}')
+
 class ConfigManager:
     CONFIG_FILE_PATH = 'config.json'
     MASK_STRING = '**********'
@@ -27,6 +37,15 @@ class ConfigManager:
         'SECURITY_PASSWORD_LENGTH_MIN': int(os.environ.get('SECURITY_PASSWORD_LENGTH_MIN', 10)),
 
         'SECURITY_ZXCVBN_MINIMUM_SCORE': int(os.environ.get('SECURITY_ZXCVBN_MINIMUM_SCORE', 3)),
+
+        'LDAP_DOMAIN': os.environ.get('LDAP_USERNAME_PREFIX', 'Domain'),
+        'LDAP_ENABLE': defBool('LDAP_ENABLE', 'False'),
+        'LDAP_FIELD_UID': os.environ.get('LDAP_FIELD_UID', 'sAMAccountName'),
+        'LDAP_SEARCH_BASE': os.environ.get('LDAP_SEARCH_BASE'),
+        'LDAP_SEC_PROTOTCOL': whitelist('LDAP_SEC_PROTOTCOL', ['SIMPLE', 'SASL', 'NTLM'], 'NTLM'),
+        'LDAP_SERVER': os.environ.get('LDAP_SERVER'),
+
+        'ADMIN_USERNAME': os.environ.get('ADMIN_USERNAME', 'admin'),
 
         'SECURITY_WEBAUTHN': defBool('SECURITY_WEBAUTHN'),
 
@@ -77,6 +96,8 @@ class ConfigManager:
         'DEDUP_BATCH_SIZE': int(os.environ.get('DEDUP_BATCH_SIZE', 30)),
         'DEDUP_INTERVAL': int(os.environ.get('DEDUP_INTERVAL', 3)),
 
+        'LOCATIONS_FILENAME': os.environ.get('LOCATIONS_FILENAME', 'locations.csv'),
+
         'GEO_MAP_DEFAULT_CENTER': {
             'lat': float(os.environ.get('GEO_MAP_DEFAULT_CENTER_LAT', 33.510414)),
             'lng': float(os.environ.get('GEO_MAP_DEFAULT_CENTER_LNG', 36.278336)),
@@ -96,6 +117,13 @@ class ConfigManager:
         'SECURITY_TWO_FACTOR_REQUIRED': 'Enforce 2FA User Enrollment',
         'SECURITY_PASSWORD_LENGTH_MIN': 'Minimum Password Length',
         'SECURITY_ZXCVBN_MINIMUM_SCORE': 'Password Strength Score',
+        'LDAP_DOMAIN': 'When using NTLM, this is added to the username as `Domain\\username`',
+        'LDAP_ENABLE': 'Turn on LDAP authentication',
+        'LDAP_FIELD_UID': 'Field to search for the UID / username',
+        'LDAP_SEARCH_BASE': 'LDAP search base',
+        'LDAP_SEC_PROTOTCOL': 'LDAP Protocol to use (SIMPLE, SASL or NTLM)',
+        'LDAP_SERVER': 'LDAP Server to use',
+        'ADMIN_USERNAME': 'Username for the initial admin user',
         'SECURITY_WEBAUTHN': '2FA with Hardware/FIDO Device',
         'RECAPTCHA_ENABLED': 'Recaptcha Enabled',
         'RECAPTCHA_PUBLIC_KEY': 'Recaptcha Public Key',
@@ -142,6 +170,8 @@ class ConfigManager:
         'DEDUP_MAX_DISTANCE': 'Dedup Low Distance',
         'DEDUP_BATCH_SIZE': 'Dedup Batch Size',
         'DEDUP_INTERVAL': 'Dedup Interval',
+
+        'LOCATIONS_FILENAME': 'Locations Filename',
 
         'GEO_MAP_DEFAULT_CENTER_LAT': 'Geo Map Default Center Lat',
         'GEO_MAP_DEFAULT_CENTER_LNG': 'Geo Map Default Center Lng',
@@ -225,6 +255,8 @@ class ConfigManager:
             'DEDUP_MAX_DISTANCE': cfg.DEDUP_MAX_DISTANCE,
             'DEDUP_BATCH_SIZE': cfg.DEDUP_BATCH_SIZE,
             'DEDUP_INTERVAL': cfg.DEDUP_INTERVAL,
+
+            'LOCATIONS_FILENAME': cfg.LOCATIONS_FILENAME,
 
             'GEO_MAP_DEFAULT_CENTER': {
                 'lat': cfg.GEO_MAP_DEFAULT_CENTER_LAT,

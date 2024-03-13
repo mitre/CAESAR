@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   bayanat:
@@ -10,7 +10,7 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-  
+
   celery:
     volumes:
       - ${ENV_FILE:-.env}:/app/.env
@@ -20,10 +20,10 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-  
+
   nginx:
     restart: always
-    image: 'bitnami/nginx:latest'
+    image: "bitnami/nginx:latest"
     ports:
       - ${NGINX_EXTERNAL_PORT:-80}:80
     profiles:
@@ -40,6 +40,6 @@ services:
     tmpfs:
       - /opt/bitnami/nginx/tmp/
     healthcheck:
-      test: [ "CMD", "service", "nginx", "status" ]
+      test: ["CMD", "service", "nginx", "status"]
       interval: 3s
       retries: 10

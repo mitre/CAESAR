@@ -1,21 +1,28 @@
 // Version 1.42.18 force-graph - https://github.com/vasturiano/force-graph
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.ForceGraph = factory());
-})(this, (function () { 'use strict';
+  typeof exports === "object" && typeof module !== "undefined"
+    ? (module.exports = factory())
+    : typeof define === "function" && define.amd
+      ? define(factory)
+      : ((global =
+          typeof globalThis !== "undefined" ? globalThis : global || self),
+        (global.ForceGraph = factory()));
+})(this, function () {
+  "use strict";
 
   function styleInject(css, ref) {
-    if ( ref === void 0 ) ref = {};
+    if (ref === void 0) ref = {};
     var insertAt = ref.insertAt;
 
-    if (!css || typeof document === 'undefined') { return; }
+    if (!css || typeof document === "undefined") {
+      return;
+    }
 
-    var head = document.head || document.getElementsByTagName('head')[0];
-    var style = document.createElement('style');
-    style.type = 'text/css';
+    var head = document.head || document.getElementsByTagName("head")[0];
+    var style = document.createElement("style");
+    style.type = "text/css";
 
-    if (insertAt === 'top') {
+    if (insertAt === "top") {
       if (head.firstChild) {
         head.insertBefore(style, head.firstChild);
       } else {
@@ -32,11 +39,16 @@
     }
   }
 
-  var css_248z = ".force-graph-container canvas {\n  display: block;\n  user-select: none;\n  outline: none;\n  -webkit-tap-highlight-color: transparent;\n}\n\n.force-graph-container .graph-tooltip {\n  position: absolute;\n  top: 0;\n  font-family: sans-serif;\n  font-size: 16px;\n  padding: 4px;\n  border-radius: 3px;\n  color: #eee;\n  background: rgba(0,0,0,0.65);\n  visibility: hidden; /* by default */\n}\n\n.force-graph-container .clickable {\n  cursor: pointer;\n}\n\n.force-graph-container .grabbable {\n  cursor: move;\n  cursor: grab;\n  cursor: -moz-grab;\n  cursor: -webkit-grab;\n}\n\n.force-graph-container .grabbable:active {\n  cursor: grabbing;\n  cursor: -moz-grabbing;\n  cursor: -webkit-grabbing;\n}\n";
+  var css_248z =
+    ".force-graph-container canvas {\n  display: block;\n  user-select: none;\n  outline: none;\n  -webkit-tap-highlight-color: transparent;\n}\n\n.force-graph-container .graph-tooltip {\n  position: absolute;\n  top: 0;\n  font-family: sans-serif;\n  font-size: 16px;\n  padding: 4px;\n  border-radius: 3px;\n  color: #eee;\n  background: rgba(0,0,0,0.65);\n  visibility: hidden; /* by default */\n}\n\n.force-graph-container .clickable {\n  cursor: pointer;\n}\n\n.force-graph-container .grabbable {\n  cursor: move;\n  cursor: grab;\n  cursor: -moz-grab;\n  cursor: -webkit-grab;\n}\n\n.force-graph-container .grabbable:active {\n  cursor: grabbing;\n  cursor: -moz-grabbing;\n  cursor: -webkit-grabbing;\n}\n";
   styleInject(css_248z);
 
   function _iterableToArrayLimit$2(arr, i) {
-    var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+    var _i =
+      null == arr
+        ? null
+        : ("undefined" != typeof Symbol && arr[Symbol.iterator]) ||
+          arr["@@iterator"];
     if (null != _i) {
       var _s,
         _e,
@@ -46,15 +58,26 @@
         _n = !0,
         _d = !1;
       try {
-        if (_x = (_i = _i.call(arr)).next, 0 === i) {
+        if (((_x = (_i = _i.call(arr)).next), 0 === i)) {
           if (Object(_i) !== _i) return;
           _n = !1;
-        } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
+        } else
+          for (
+            ;
+            !(_n = (_s = _x.call(_i)).done) &&
+            (_arr.push(_s.value), _arr.length !== i);
+            _n = !0
+          );
       } catch (err) {
-        _d = !0, _e = err;
+        (_d = !0), (_e = err);
       } finally {
         try {
-          if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return;
+          if (
+            !_n &&
+            null != _i.return &&
+            ((_r = _i.return()), Object(_r) !== _r)
+          )
+            return;
         } finally {
           if (_d) throw _e;
         }
@@ -66,31 +89,55 @@
     var keys = Object.keys(object);
     if (Object.getOwnPropertySymbols) {
       var symbols = Object.getOwnPropertySymbols(object);
-      enumerableOnly && (symbols = symbols.filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-      })), keys.push.apply(keys, symbols);
+      enumerableOnly &&
+        (symbols = symbols.filter(function (sym) {
+          return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+        })),
+        keys.push.apply(keys, symbols);
     }
     return keys;
   }
   function _objectSpread2(target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = null != arguments[i] ? arguments[i] : {};
-      i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
+      i % 2
+        ? ownKeys(Object(source), !0).forEach(function (key) {
+            _defineProperty(target, key, source[key]);
+          })
+        : Object.getOwnPropertyDescriptors
+          ? Object.defineProperties(
+              target,
+              Object.getOwnPropertyDescriptors(source),
+            )
+          : ownKeys(Object(source)).forEach(function (key) {
+              Object.defineProperty(
+                target,
+                key,
+                Object.getOwnPropertyDescriptor(source, key),
+              );
+            });
     }
     return target;
   }
   function _typeof(obj) {
     "@babel/helpers - typeof";
 
-    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
-      return typeof obj;
-    } : function (obj) {
-      return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    }, _typeof(obj);
+    return (
+      (_typeof =
+        "function" == typeof Symbol && "symbol" == typeof Symbol.iterator
+          ? function (obj) {
+              return typeof obj;
+            }
+          : function (obj) {
+              return obj &&
+                "function" == typeof Symbol &&
+                obj.constructor === Symbol &&
+                obj !== Symbol.prototype
+                ? "symbol"
+                : typeof obj;
+            }),
+      _typeof(obj)
+    );
   }
   function _defineProperty(obj, key, value) {
     key = _toPropertyKey$1(key);
@@ -99,7 +146,7 @@
         value: value,
         enumerable: true,
         configurable: true,
-        writable: true
+        writable: true,
       });
     } else {
       obj[key] = value;
@@ -107,10 +154,12 @@
     return obj;
   }
   function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
-      o.__proto__ = p;
-      return o;
-    };
+    _setPrototypeOf = Object.setPrototypeOf
+      ? Object.setPrototypeOf.bind()
+      : function _setPrototypeOf(o, p) {
+          o.__proto__ = p;
+          return o;
+        };
     return _setPrototypeOf(o, p);
   }
   function _isNativeReflectConstruct() {
@@ -118,7 +167,9 @@
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
     try {
-      Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
+      Boolean.prototype.valueOf.call(
+        Reflect.construct(Boolean, [], function () {}),
+      );
       return true;
     } catch (e) {
       return false;
@@ -140,10 +191,20 @@
     return _construct.apply(null, arguments);
   }
   function _slicedToArray$2(arr, i) {
-    return _arrayWithHoles$2(arr) || _iterableToArrayLimit$2(arr, i) || _unsupportedIterableToArray$3(arr, i) || _nonIterableRest$2();
+    return (
+      _arrayWithHoles$2(arr) ||
+      _iterableToArrayLimit$2(arr, i) ||
+      _unsupportedIterableToArray$3(arr, i) ||
+      _nonIterableRest$2()
+    );
   }
   function _toConsumableArray$2(arr) {
-    return _arrayWithoutHoles$2(arr) || _iterableToArray$2(arr) || _unsupportedIterableToArray$3(arr) || _nonIterableSpread$2();
+    return (
+      _arrayWithoutHoles$2(arr) ||
+      _iterableToArray$2(arr) ||
+      _unsupportedIterableToArray$3(arr) ||
+      _nonIterableSpread$2()
+    );
   }
   function _arrayWithoutHoles$2(arr) {
     if (Array.isArray(arr)) return _arrayLikeToArray$3(arr);
@@ -152,7 +213,11 @@
     if (Array.isArray(arr)) return arr;
   }
   function _iterableToArray$2(iter) {
-    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
+    if (
+      (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null) ||
+      iter["@@iterator"] != null
+    )
+      return Array.from(iter);
   }
   function _unsupportedIterableToArray$3(o, minLen) {
     if (!o) return;
@@ -160,7 +225,8 @@
     var n = Object.prototype.toString.call(o).slice(8, -1);
     if (n === "Object" && o.constructor) n = o.constructor.name;
     if (n === "Map" || n === "Set") return Array.from(o);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$3(o, minLen);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
+      return _arrayLikeToArray$3(o, minLen);
   }
   function _arrayLikeToArray$3(arr, len) {
     if (len == null || len > arr.length) len = arr.length;
@@ -168,10 +234,14 @@
     return arr2;
   }
   function _nonIterableSpread$2() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    throw new TypeError(
+      "Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.",
+    );
   }
   function _nonIterableRest$2() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    throw new TypeError(
+      "Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.",
+    );
   }
   function _toPrimitive$1(input, hint) {
     if (typeof input !== "object" || input === null) return input;
@@ -195,52 +265,75 @@
     xhtml: xhtml,
     xlink: "http://www.w3.org/1999/xlink",
     xml: "http://www.w3.org/XML/1998/namespace",
-    xmlns: "http://www.w3.org/2000/xmlns/"
+    xmlns: "http://www.w3.org/2000/xmlns/",
   };
 
   function namespace(name) {
-    var prefix = name += "", i = prefix.indexOf(":");
-    if (i >= 0 && (prefix = name.slice(0, i)) !== "xmlns") name = name.slice(i + 1);
-    return namespaces.hasOwnProperty(prefix) ? {space: namespaces[prefix], local: name} : name; // eslint-disable-line no-prototype-builtins
+    var prefix = (name += ""),
+      i = prefix.indexOf(":");
+    if (i >= 0 && (prefix = name.slice(0, i)) !== "xmlns")
+      name = name.slice(i + 1);
+    return namespaces.hasOwnProperty(prefix)
+      ? { space: namespaces[prefix], local: name }
+      : name; // eslint-disable-line no-prototype-builtins
   }
 
   function creatorInherit(name) {
-    return function() {
+    return function () {
       var document = this.ownerDocument,
-          uri = this.namespaceURI;
+        uri = this.namespaceURI;
       return uri === xhtml && document.documentElement.namespaceURI === xhtml
-          ? document.createElement(name)
-          : document.createElementNS(uri, name);
+        ? document.createElement(name)
+        : document.createElementNS(uri, name);
     };
   }
 
   function creatorFixed(fullname) {
-    return function() {
+    return function () {
       return this.ownerDocument.createElementNS(fullname.space, fullname.local);
     };
   }
 
   function creator(name) {
     var fullname = namespace(name);
-    return (fullname.local
-        ? creatorFixed
-        : creatorInherit)(fullname);
+    return (fullname.local ? creatorFixed : creatorInherit)(fullname);
   }
 
   function none() {}
 
   function selector(selector) {
-    return selector == null ? none : function() {
-      return this.querySelector(selector);
-    };
+    return selector == null
+      ? none
+      : function () {
+          return this.querySelector(selector);
+        };
   }
 
   function selection_select(select) {
     if (typeof select !== "function") select = selector(select);
 
-    for (var groups = this._groups, m = groups.length, subgroups = new Array(m), j = 0; j < m; ++j) {
-      for (var group = groups[j], n = group.length, subgroup = subgroups[j] = new Array(n), node, subnode, i = 0; i < n; ++i) {
-        if ((node = group[i]) && (subnode = select.call(node, node.__data__, i, group))) {
+    for (
+      var groups = this._groups,
+        m = groups.length,
+        subgroups = new Array(m),
+        j = 0;
+      j < m;
+      ++j
+    ) {
+      for (
+        var group = groups[j],
+          n = group.length,
+          subgroup = (subgroups[j] = new Array(n)),
+          node,
+          subnode,
+          i = 0;
+        i < n;
+        ++i
+      ) {
+        if (
+          (node = group[i]) &&
+          (subnode = select.call(node, node.__data__, i, group))
+        ) {
           if ("__data__" in node) subnode.__data__ = node.__data__;
           subgroup[i] = subnode;
         }
@@ -265,13 +358,15 @@
   }
 
   function selectorAll(selector) {
-    return selector == null ? empty : function() {
-      return this.querySelectorAll(selector);
-    };
+    return selector == null
+      ? empty
+      : function () {
+          return this.querySelectorAll(selector);
+        };
   }
 
   function arrayAll(select) {
-    return function() {
+    return function () {
       return array(select.apply(this, arguments));
     };
   }
@@ -280,9 +375,17 @@
     if (typeof select === "function") select = arrayAll(select);
     else select = selectorAll(select);
 
-    for (var groups = this._groups, m = groups.length, subgroups = [], parents = [], j = 0; j < m; ++j) {
+    for (
+      var groups = this._groups,
+        m = groups.length,
+        subgroups = [],
+        parents = [],
+        j = 0;
+      j < m;
+      ++j
+    ) {
       for (var group = groups[j], n = group.length, node, i = 0; i < n; ++i) {
-        if (node = group[i]) {
+        if ((node = group[i])) {
           subgroups.push(select.call(node, node.__data__, i, group));
           parents.push(node);
         }
@@ -293,13 +396,13 @@
   }
 
   function matcher(selector) {
-    return function() {
+    return function () {
       return this.matches(selector);
     };
   }
 
   function childMatcher(selector) {
-    return function(node) {
+    return function (node) {
       return node.matches(selector);
     };
   }
@@ -307,7 +410,7 @@
   var find$1 = Array.prototype.find;
 
   function childFind(match) {
-    return function() {
+    return function () {
       return find$1.call(this.children, match);
     };
   }
@@ -317,8 +420,11 @@
   }
 
   function selection_selectChild(match) {
-    return this.select(match == null ? childFirst
-        : childFind(typeof match === "function" ? match : childMatcher(match)));
+    return this.select(
+      match == null
+        ? childFirst
+        : childFind(typeof match === "function" ? match : childMatcher(match)),
+    );
   }
 
   var filter = Array.prototype.filter;
@@ -328,21 +434,41 @@
   }
 
   function childrenFilter(match) {
-    return function() {
+    return function () {
       return filter.call(this.children, match);
     };
   }
 
   function selection_selectChildren(match) {
-    return this.selectAll(match == null ? children
-        : childrenFilter(typeof match === "function" ? match : childMatcher(match)));
+    return this.selectAll(
+      match == null
+        ? children
+        : childrenFilter(
+            typeof match === "function" ? match : childMatcher(match),
+          ),
+    );
   }
 
   function selection_filter(match) {
     if (typeof match !== "function") match = matcher(match);
 
-    for (var groups = this._groups, m = groups.length, subgroups = new Array(m), j = 0; j < m; ++j) {
-      for (var group = groups[j], n = group.length, subgroup = subgroups[j] = [], node, i = 0; i < n; ++i) {
+    for (
+      var groups = this._groups,
+        m = groups.length,
+        subgroups = new Array(m),
+        j = 0;
+      j < m;
+      ++j
+    ) {
+      for (
+        var group = groups[j],
+          n = group.length,
+          subgroup = (subgroups[j] = []),
+          node,
+          i = 0;
+        i < n;
+        ++i
+      ) {
         if ((node = group[i]) && match.call(node, node.__data__, i, group)) {
           subgroup.push(node);
         }
@@ -357,7 +483,10 @@
   }
 
   function selection_enter() {
-    return new Selection$1(this._enter || this._groups.map(sparse), this._parents);
+    return new Selection$1(
+      this._enter || this._groups.map(sparse),
+      this._parents,
+    );
   }
 
   function EnterNode(parent, datum) {
@@ -370,29 +499,37 @@
 
   EnterNode.prototype = {
     constructor: EnterNode,
-    appendChild: function(child) { return this._parent.insertBefore(child, this._next); },
-    insertBefore: function(child, next) { return this._parent.insertBefore(child, next); },
-    querySelector: function(selector) { return this._parent.querySelector(selector); },
-    querySelectorAll: function(selector) { return this._parent.querySelectorAll(selector); }
+    appendChild: function (child) {
+      return this._parent.insertBefore(child, this._next);
+    },
+    insertBefore: function (child, next) {
+      return this._parent.insertBefore(child, next);
+    },
+    querySelector: function (selector) {
+      return this._parent.querySelector(selector);
+    },
+    querySelectorAll: function (selector) {
+      return this._parent.querySelectorAll(selector);
+    },
   };
 
   function constant$4(x) {
-    return function() {
+    return function () {
       return x;
     };
   }
 
   function bindIndex(parent, group, enter, update, exit, data) {
     var i = 0,
-        node,
-        groupLength = group.length,
-        dataLength = data.length;
+      node,
+      groupLength = group.length,
+      dataLength = data.length;
 
     // Put any non-null nodes that fit into update.
     // Put any null nodes into enter.
     // Put any remaining data into enter.
     for (; i < dataLength; ++i) {
-      if (node = group[i]) {
+      if ((node = group[i])) {
         node.__data__ = data[i];
         update[i] = node;
       } else {
@@ -402,7 +539,7 @@
 
     // Put any non-null nodes that don’t fit into exit.
     for (; i < groupLength; ++i) {
-      if (node = group[i]) {
+      if ((node = group[i])) {
         exit[i] = node;
       }
     }
@@ -410,17 +547,17 @@
 
   function bindKey(parent, group, enter, update, exit, data, key) {
     var i,
-        node,
-        nodeByKeyValue = new Map,
-        groupLength = group.length,
-        dataLength = data.length,
-        keyValues = new Array(groupLength),
-        keyValue;
+      node,
+      nodeByKeyValue = new Map(),
+      groupLength = group.length,
+      dataLength = data.length,
+      keyValues = new Array(groupLength),
+      keyValue;
 
     // Compute the key for each node.
     // If multiple nodes have the same key, the duplicates are added to exit.
     for (i = 0; i < groupLength; ++i) {
-      if (node = group[i]) {
+      if ((node = group[i])) {
         keyValues[i] = keyValue = key.call(node, node.__data__, i, group) + "";
         if (nodeByKeyValue.has(keyValue)) {
           exit[i] = node;
@@ -435,7 +572,7 @@
     // If there is not (or the key is a duplicate), add it to enter.
     for (i = 0; i < dataLength; ++i) {
       keyValue = key.call(parent, data[i], i, data) + "";
-      if (node = nodeByKeyValue.get(keyValue)) {
+      if ((node = nodeByKeyValue.get(keyValue))) {
         update[i] = node;
         node.__data__ = data[i];
         nodeByKeyValue.delete(keyValue);
@@ -446,7 +583,7 @@
 
     // Add any remaining nodes that were not bound to data to exit.
     for (i = 0; i < groupLength; ++i) {
-      if ((node = group[i]) && (nodeByKeyValue.get(keyValues[i]) === node)) {
+      if ((node = group[i]) && nodeByKeyValue.get(keyValues[i]) === node) {
         exit[i] = node;
       }
     }
@@ -460,20 +597,30 @@
     if (!arguments.length) return Array.from(this, datum);
 
     var bind = key ? bindKey : bindIndex,
-        parents = this._parents,
-        groups = this._groups;
+      parents = this._parents,
+      groups = this._groups;
 
     if (typeof value !== "function") value = constant$4(value);
 
-    for (var m = groups.length, update = new Array(m), enter = new Array(m), exit = new Array(m), j = 0; j < m; ++j) {
+    for (
+      var m = groups.length,
+        update = new Array(m),
+        enter = new Array(m),
+        exit = new Array(m),
+        j = 0;
+      j < m;
+      ++j
+    ) {
       var parent = parents[j],
-          group = groups[j],
-          groupLength = group.length,
-          data = arraylike(value.call(parent, parent && parent.__data__, j, parents)),
-          dataLength = data.length,
-          enterGroup = enter[j] = new Array(dataLength),
-          updateGroup = update[j] = new Array(dataLength),
-          exitGroup = exit[j] = new Array(groupLength);
+        group = groups[j],
+        groupLength = group.length,
+        data = arraylike(
+          value.call(parent, parent && parent.__data__, j, parents),
+        ),
+        dataLength = data.length,
+        enterGroup = (enter[j] = new Array(dataLength)),
+        updateGroup = (update[j] = new Array(dataLength)),
+        exitGroup = (exit[j] = new Array(groupLength));
 
       bind(parent, group, enterGroup, updateGroup, exitGroup, data, key);
 
@@ -481,7 +628,7 @@
       // appendChild can insert the materialized enter node before this node,
       // rather than at the end of the parent node.
       for (var i0 = 0, i1 = 0, previous, next; i0 < dataLength; ++i0) {
-        if (previous = enterGroup[i0]) {
+        if ((previous = enterGroup[i0])) {
           if (i0 >= i1) i1 = i0 + 1;
           while (!(next = updateGroup[i1]) && ++i1 < dataLength);
           previous._next = next || null;
@@ -508,11 +655,16 @@
   }
 
   function selection_exit() {
-    return new Selection$1(this._exit || this._groups.map(sparse), this._parents);
+    return new Selection$1(
+      this._exit || this._groups.map(sparse),
+      this._parents,
+    );
   }
 
   function selection_join(onenter, onupdate, onexit) {
-    var enter = this.enter(), update = this, exit = this.exit();
+    var enter = this.enter(),
+      update = this,
+      exit = this.exit();
     if (typeof onenter === "function") {
       enter = onenter(enter);
       if (enter) enter = enter.selection();
@@ -523,16 +675,36 @@
       update = onupdate(update);
       if (update) update = update.selection();
     }
-    if (onexit == null) exit.remove(); else onexit(exit);
+    if (onexit == null) exit.remove();
+    else onexit(exit);
     return enter && update ? enter.merge(update).order() : update;
   }
 
   function selection_merge(context) {
     var selection = context.selection ? context.selection() : context;
 
-    for (var groups0 = this._groups, groups1 = selection._groups, m0 = groups0.length, m1 = groups1.length, m = Math.min(m0, m1), merges = new Array(m0), j = 0; j < m; ++j) {
-      for (var group0 = groups0[j], group1 = groups1[j], n = group0.length, merge = merges[j] = new Array(n), node, i = 0; i < n; ++i) {
-        if (node = group0[i] || group1[i]) {
+    for (
+      var groups0 = this._groups,
+        groups1 = selection._groups,
+        m0 = groups0.length,
+        m1 = groups1.length,
+        m = Math.min(m0, m1),
+        merges = new Array(m0),
+        j = 0;
+      j < m;
+      ++j
+    ) {
+      for (
+        var group0 = groups0[j],
+          group1 = groups1[j],
+          n = group0.length,
+          merge = (merges[j] = new Array(n)),
+          node,
+          i = 0;
+        i < n;
+        ++i
+      ) {
+        if ((node = group0[i] || group1[i])) {
           merge[i] = node;
         }
       }
@@ -546,11 +718,15 @@
   }
 
   function selection_order() {
+    for (var groups = this._groups, j = -1, m = groups.length; ++j < m; ) {
+      for (
+        var group = groups[j], i = group.length - 1, next = group[i], node;
+        --i >= 0;
 
-    for (var groups = this._groups, j = -1, m = groups.length; ++j < m;) {
-      for (var group = groups[j], i = group.length - 1, next = group[i], node; --i >= 0;) {
-        if (node = group[i]) {
-          if (next && node.compareDocumentPosition(next) ^ 4) next.parentNode.insertBefore(node, next);
+      ) {
+        if ((node = group[i])) {
+          if (next && node.compareDocumentPosition(next) ^ 4)
+            next.parentNode.insertBefore(node, next);
           next = node;
         }
       }
@@ -566,9 +742,24 @@
       return a && b ? compare(a.__data__, b.__data__) : !a - !b;
     }
 
-    for (var groups = this._groups, m = groups.length, sortgroups = new Array(m), j = 0; j < m; ++j) {
-      for (var group = groups[j], n = group.length, sortgroup = sortgroups[j] = new Array(n), node, i = 0; i < n; ++i) {
-        if (node = group[i]) {
+    for (
+      var groups = this._groups,
+        m = groups.length,
+        sortgroups = new Array(m),
+        j = 0;
+      j < m;
+      ++j
+    ) {
+      for (
+        var group = groups[j],
+          n = group.length,
+          sortgroup = (sortgroups[j] = new Array(n)),
+          node,
+          i = 0;
+        i < n;
+        ++i
+      ) {
+        if ((node = group[i])) {
           sortgroup[i] = node;
         }
       }
@@ -594,7 +785,6 @@
   }
 
   function selection_node() {
-
     for (var groups = this._groups, j = 0, m = groups.length; j < m; ++j) {
       for (var group = groups[j], i = 0, n = group.length; i < n; ++i) {
         var node = group[i];
@@ -616,10 +806,9 @@
   }
 
   function selection_each(callback) {
-
     for (var groups = this._groups, j = 0, m = groups.length; j < m; ++j) {
       for (var group = groups[j], i = 0, n = group.length, node; i < n; ++i) {
-        if (node = group[i]) callback.call(node, node.__data__, i, group);
+        if ((node = group[i])) callback.call(node, node.__data__, i, group);
       }
     }
 
@@ -627,31 +816,31 @@
   }
 
   function attrRemove$1(name) {
-    return function() {
+    return function () {
       this.removeAttribute(name);
     };
   }
 
   function attrRemoveNS$1(fullname) {
-    return function() {
+    return function () {
       this.removeAttributeNS(fullname.space, fullname.local);
     };
   }
 
   function attrConstant$1(name, value) {
-    return function() {
+    return function () {
       this.setAttribute(name, value);
     };
   }
 
   function attrConstantNS$1(fullname, value) {
-    return function() {
+    return function () {
       this.setAttributeNS(fullname.space, fullname.local, value);
     };
   }
 
   function attrFunction$1(name, value) {
-    return function() {
+    return function () {
       var v = value.apply(this, arguments);
       if (v == null) this.removeAttribute(name);
       else this.setAttribute(name, v);
@@ -659,7 +848,7 @@
   }
 
   function attrFunctionNS$1(fullname, value) {
-    return function() {
+    return function () {
       var v = value.apply(this, arguments);
       if (v == null) this.removeAttributeNS(fullname.space, fullname.local);
       else this.setAttributeNS(fullname.space, fullname.local, v);
@@ -672,36 +861,47 @@
     if (arguments.length < 2) {
       var node = this.node();
       return fullname.local
-          ? node.getAttributeNS(fullname.space, fullname.local)
-          : node.getAttribute(fullname);
+        ? node.getAttributeNS(fullname.space, fullname.local)
+        : node.getAttribute(fullname);
     }
 
-    return this.each((value == null
-        ? (fullname.local ? attrRemoveNS$1 : attrRemove$1) : (typeof value === "function"
-        ? (fullname.local ? attrFunctionNS$1 : attrFunction$1)
-        : (fullname.local ? attrConstantNS$1 : attrConstant$1)))(fullname, value));
+    return this.each(
+      (value == null
+        ? fullname.local
+          ? attrRemoveNS$1
+          : attrRemove$1
+        : typeof value === "function"
+          ? fullname.local
+            ? attrFunctionNS$1
+            : attrFunction$1
+          : fullname.local
+            ? attrConstantNS$1
+            : attrConstant$1)(fullname, value),
+    );
   }
 
   function defaultView(node) {
-    return (node.ownerDocument && node.ownerDocument.defaultView) // node is a Node
-        || (node.document && node) // node is a Window
-        || node.defaultView; // node is a Document
+    return (
+      (node.ownerDocument && node.ownerDocument.defaultView) || // node is a Node
+      (node.document && node) || // node is a Window
+      node.defaultView
+    ); // node is a Document
   }
 
   function styleRemove$1(name) {
-    return function() {
+    return function () {
       this.style.removeProperty(name);
     };
   }
 
   function styleConstant$1(name, value, priority) {
-    return function() {
+    return function () {
       this.style.setProperty(name, value, priority);
     };
   }
 
   function styleFunction$1(name, value, priority) {
-    return function() {
+    return function () {
       var v = value.apply(this, arguments);
       if (v == null) this.style.removeProperty(name);
       else this.style.setProperty(name, v, priority);
@@ -710,32 +910,37 @@
 
   function selection_style(name, value, priority) {
     return arguments.length > 1
-        ? this.each((value == null
-              ? styleRemove$1 : typeof value === "function"
+      ? this.each(
+          (value == null
+            ? styleRemove$1
+            : typeof value === "function"
               ? styleFunction$1
-              : styleConstant$1)(name, value, priority == null ? "" : priority))
-        : styleValue(this.node(), name);
+              : styleConstant$1)(name, value, priority == null ? "" : priority),
+        )
+      : styleValue(this.node(), name);
   }
 
   function styleValue(node, name) {
-    return node.style.getPropertyValue(name)
-        || defaultView(node).getComputedStyle(node, null).getPropertyValue(name);
+    return (
+      node.style.getPropertyValue(name) ||
+      defaultView(node).getComputedStyle(node, null).getPropertyValue(name)
+    );
   }
 
   function propertyRemove(name) {
-    return function() {
+    return function () {
       delete this[name];
     };
   }
 
   function propertyConstant(name, value) {
-    return function() {
+    return function () {
       this[name] = value;
     };
   }
 
   function propertyFunction(name, value) {
-    return function() {
+    return function () {
       var v = value.apply(this, arguments);
       if (v == null) delete this[name];
       else this[name] = v;
@@ -744,11 +949,14 @@
 
   function selection_property(name, value) {
     return arguments.length > 1
-        ? this.each((value == null
-            ? propertyRemove : typeof value === "function"
-            ? propertyFunction
-            : propertyConstant)(name, value))
-        : this.node()[name];
+      ? this.each(
+          (value == null
+            ? propertyRemove
+            : typeof value === "function"
+              ? propertyFunction
+              : propertyConstant)(name, value),
+        )
+      : this.node()[name];
   }
 
   function classArray(string) {
@@ -765,49 +973,53 @@
   }
 
   ClassList.prototype = {
-    add: function(name) {
+    add: function (name) {
       var i = this._names.indexOf(name);
       if (i < 0) {
         this._names.push(name);
         this._node.setAttribute("class", this._names.join(" "));
       }
     },
-    remove: function(name) {
+    remove: function (name) {
       var i = this._names.indexOf(name);
       if (i >= 0) {
         this._names.splice(i, 1);
         this._node.setAttribute("class", this._names.join(" "));
       }
     },
-    contains: function(name) {
+    contains: function (name) {
       return this._names.indexOf(name) >= 0;
-    }
+    },
   };
 
   function classedAdd(node, names) {
-    var list = classList(node), i = -1, n = names.length;
+    var list = classList(node),
+      i = -1,
+      n = names.length;
     while (++i < n) list.add(names[i]);
   }
 
   function classedRemove(node, names) {
-    var list = classList(node), i = -1, n = names.length;
+    var list = classList(node),
+      i = -1,
+      n = names.length;
     while (++i < n) list.remove(names[i]);
   }
 
   function classedTrue(names) {
-    return function() {
+    return function () {
       classedAdd(this, names);
     };
   }
 
   function classedFalse(names) {
-    return function() {
+    return function () {
       classedRemove(this, names);
     };
   }
 
   function classedFunction(names, value) {
-    return function() {
+    return function () {
       (value.apply(this, arguments) ? classedAdd : classedRemove)(this, names);
     };
   }
@@ -816,15 +1028,20 @@
     var names = classArray(name + "");
 
     if (arguments.length < 2) {
-      var list = classList(this.node()), i = -1, n = names.length;
+      var list = classList(this.node()),
+        i = -1,
+        n = names.length;
       while (++i < n) if (!list.contains(names[i])) return false;
       return true;
     }
 
-    return this.each((typeof value === "function"
-        ? classedFunction : value
-        ? classedTrue
-        : classedFalse)(names, value));
+    return this.each(
+      (typeof value === "function"
+        ? classedFunction
+        : value
+          ? classedTrue
+          : classedFalse)(names, value),
+    );
   }
 
   function textRemove() {
@@ -832,13 +1049,13 @@
   }
 
   function textConstant$1(value) {
-    return function() {
+    return function () {
       this.textContent = value;
     };
   }
 
   function textFunction$1(value) {
-    return function() {
+    return function () {
       var v = value.apply(this, arguments);
       this.textContent = v == null ? "" : v;
     };
@@ -846,11 +1063,14 @@
 
   function selection_text(value) {
     return arguments.length
-        ? this.each(value == null
-            ? textRemove : (typeof value === "function"
-            ? textFunction$1
-            : textConstant$1)(value))
-        : this.node().textContent;
+      ? this.each(
+          value == null
+            ? textRemove
+            : (typeof value === "function" ? textFunction$1 : textConstant$1)(
+                value,
+              ),
+        )
+      : this.node().textContent;
   }
 
   function htmlRemove() {
@@ -858,13 +1078,13 @@
   }
 
   function htmlConstant(value) {
-    return function() {
+    return function () {
       this.innerHTML = value;
     };
   }
 
   function htmlFunction(value) {
-    return function() {
+    return function () {
       var v = value.apply(this, arguments);
       this.innerHTML = v == null ? "" : v;
     };
@@ -872,11 +1092,14 @@
 
   function selection_html(value) {
     return arguments.length
-        ? this.each(value == null
-            ? htmlRemove : (typeof value === "function"
-            ? htmlFunction
-            : htmlConstant)(value))
-        : this.node().innerHTML;
+      ? this.each(
+          value == null
+            ? htmlRemove
+            : (typeof value === "function" ? htmlFunction : htmlConstant)(
+                value,
+              ),
+        )
+      : this.node().innerHTML;
   }
 
   function raise() {
@@ -888,7 +1111,8 @@
   }
 
   function lower() {
-    if (this.previousSibling) this.parentNode.insertBefore(this, this.parentNode.firstChild);
+    if (this.previousSibling)
+      this.parentNode.insertBefore(this, this.parentNode.firstChild);
   }
 
   function selection_lower() {
@@ -897,7 +1121,7 @@
 
   function selection_append(name) {
     var create = typeof name === "function" ? name : creator(name);
-    return this.select(function() {
+    return this.select(function () {
       return this.appendChild(create.apply(this, arguments));
     });
   }
@@ -908,9 +1132,17 @@
 
   function selection_insert(name, before) {
     var create = typeof name === "function" ? name : creator(name),
-        select = before == null ? constantNull : typeof before === "function" ? before : selector(before);
-    return this.select(function() {
-      return this.insertBefore(create.apply(this, arguments), select.apply(this, arguments) || null);
+      select =
+        before == null
+          ? constantNull
+          : typeof before === "function"
+            ? before
+            : selector(before);
+    return this.select(function () {
+      return this.insertBefore(
+        create.apply(this, arguments),
+        select.apply(this, arguments) || null,
+      );
     });
   }
 
@@ -924,12 +1156,14 @@
   }
 
   function selection_cloneShallow() {
-    var clone = this.cloneNode(false), parent = this.parentNode;
+    var clone = this.cloneNode(false),
+      parent = this.parentNode;
     return parent ? parent.insertBefore(clone, this.nextSibling) : clone;
   }
 
   function selection_cloneDeep() {
-    var clone = this.cloneNode(true), parent = this.parentNode;
+    var clone = this.cloneNode(true),
+      parent = this.parentNode;
     return parent ? parent.insertBefore(clone, this.nextSibling) : clone;
   }
 
@@ -939,30 +1173,38 @@
 
   function selection_datum(value) {
     return arguments.length
-        ? this.property("__data__", value)
-        : this.node().__data__;
+      ? this.property("__data__", value)
+      : this.node().__data__;
   }
 
   function contextListener(listener) {
-    return function(event) {
+    return function (event) {
       listener.call(this, event, this.__data__);
     };
   }
 
   function parseTypenames$1(typenames) {
-    return typenames.trim().split(/^|\s+/).map(function(t) {
-      var name = "", i = t.indexOf(".");
-      if (i >= 0) name = t.slice(i + 1), t = t.slice(0, i);
-      return {type: t, name: name};
-    });
+    return typenames
+      .trim()
+      .split(/^|\s+/)
+      .map(function (t) {
+        var name = "",
+          i = t.indexOf(".");
+        if (i >= 0) (name = t.slice(i + 1)), (t = t.slice(0, i));
+        return { type: t, name: name };
+      });
   }
 
   function onRemove(typename) {
-    return function() {
+    return function () {
       var on = this.__on;
       if (!on) return;
       for (var j = 0, i = -1, m = on.length, o; j < m; ++j) {
-        if (o = on[j], (!typename.type || o.type === typename.type) && o.name === typename.name) {
+        if (
+          ((o = on[j]),
+          (!typename.type || o.type === typename.type) &&
+            o.name === typename.name)
+        ) {
           this.removeEventListener(o.type, o.listener, o.options);
         } else {
           on[++i] = o;
@@ -974,35 +1216,52 @@
   }
 
   function onAdd(typename, value, options) {
-    return function() {
-      var on = this.__on, o, listener = contextListener(value);
-      if (on) for (var j = 0, m = on.length; j < m; ++j) {
-        if ((o = on[j]).type === typename.type && o.name === typename.name) {
-          this.removeEventListener(o.type, o.listener, o.options);
-          this.addEventListener(o.type, o.listener = listener, o.options = options);
-          o.value = value;
-          return;
+    return function () {
+      var on = this.__on,
+        o,
+        listener = contextListener(value);
+      if (on)
+        for (var j = 0, m = on.length; j < m; ++j) {
+          if ((o = on[j]).type === typename.type && o.name === typename.name) {
+            this.removeEventListener(o.type, o.listener, o.options);
+            this.addEventListener(
+              o.type,
+              (o.listener = listener),
+              (o.options = options),
+            );
+            o.value = value;
+            return;
+          }
         }
-      }
       this.addEventListener(typename.type, listener, options);
-      o = {type: typename.type, name: typename.name, value: value, listener: listener, options: options};
+      o = {
+        type: typename.type,
+        name: typename.name,
+        value: value,
+        listener: listener,
+        options: options,
+      };
       if (!on) this.__on = [o];
       else on.push(o);
     };
   }
 
   function selection_on(typename, value, options) {
-    var typenames = parseTypenames$1(typename + ""), i, n = typenames.length, t;
+    var typenames = parseTypenames$1(typename + ""),
+      i,
+      n = typenames.length,
+      t;
 
     if (arguments.length < 2) {
       var on = this.node().__on;
-      if (on) for (var j = 0, m = on.length, o; j < m; ++j) {
-        for (i = 0, o = on[j]; i < n; ++i) {
-          if ((t = typenames[i]).type === o.type && t.name === o.name) {
-            return o.value;
+      if (on)
+        for (var j = 0, m = on.length, o; j < m; ++j) {
+          for (i = 0, o = on[j]; i < n; ++i) {
+            if ((t = typenames[i]).type === o.type && t.name === o.name) {
+              return o.value;
+            }
           }
         }
-      }
       return;
     }
 
@@ -1013,13 +1272,15 @@
 
   function dispatchEvent(node, type, params) {
     var window = defaultView(node),
-        event = window.CustomEvent;
+      event = window.CustomEvent;
 
     if (typeof event === "function") {
       event = new event(type, params);
     } else {
       event = window.document.createEvent("Event");
-      if (params) event.initEvent(type, params.bubbles, params.cancelable), event.detail = params.detail;
+      if (params)
+        event.initEvent(type, params.bubbles, params.cancelable),
+          (event.detail = params.detail);
       else event.initEvent(type, false, false);
     }
 
@@ -1027,27 +1288,30 @@
   }
 
   function dispatchConstant(type, params) {
-    return function() {
+    return function () {
       return dispatchEvent(this, type, params);
     };
   }
 
   function dispatchFunction(type, params) {
-    return function() {
+    return function () {
       return dispatchEvent(this, type, params.apply(this, arguments));
     };
   }
 
   function selection_dispatch(type, params) {
-    return this.each((typeof params === "function"
-        ? dispatchFunction
-        : dispatchConstant)(type, params));
+    return this.each(
+      (typeof params === "function" ? dispatchFunction : dispatchConstant)(
+        type,
+        params,
+      ),
+    );
   }
 
   function* selection_iterator() {
     for (var groups = this._groups, j = 0, m = groups.length; j < m; ++j) {
       for (var group = groups[j], i = 0, n = group.length, node; i < n; ++i) {
-        if (node = group[i]) yield node;
+        if ((node = group[i])) yield node;
       }
     }
   }
@@ -1103,18 +1367,21 @@
     datum: selection_datum,
     on: selection_on,
     dispatch: selection_dispatch,
-    [Symbol.iterator]: selection_iterator
+    [Symbol.iterator]: selection_iterator,
   };
 
   function d3Select(selector) {
     return typeof selector === "string"
-        ? new Selection$1([[document.querySelector(selector)]], [document.documentElement])
-        : new Selection$1([[selector]], root$1);
+      ? new Selection$1(
+          [[document.querySelector(selector)]],
+          [document.documentElement],
+        )
+      : new Selection$1([[selector]], root$1);
   }
 
   function sourceEvent(event) {
     let sourceEvent;
-    while (sourceEvent = event.sourceEvent) event = sourceEvent;
+    while ((sourceEvent = event.sourceEvent)) event = sourceEvent;
     return event;
   }
 
@@ -1125,23 +1392,27 @@
       var svg = node.ownerSVGElement || node;
       if (svg.createSVGPoint) {
         var point = svg.createSVGPoint();
-        point.x = event.clientX, point.y = event.clientY;
+        (point.x = event.clientX), (point.y = event.clientY);
         point = point.matrixTransform(node.getScreenCTM().inverse());
         return [point.x, point.y];
       }
       if (node.getBoundingClientRect) {
         var rect = node.getBoundingClientRect();
-        return [event.clientX - rect.left - node.clientLeft, event.clientY - rect.top - node.clientTop];
+        return [
+          event.clientX - rect.left - node.clientLeft,
+          event.clientY - rect.top - node.clientTop,
+        ];
       }
     }
     return [event.pageX, event.pageY];
   }
 
-  var noop = {value: () => {}};
+  var noop = { value: () => {} };
 
   function dispatch() {
     for (var i = 0, n = arguments.length, _ = {}, t; i < n; ++i) {
-      if (!(t = arguments[i] + "") || (t in _) || /[\s.]/.test(t)) throw new Error("illegal type: " + t);
+      if (!(t = arguments[i] + "") || t in _ || /[\s.]/.test(t))
+        throw new Error("illegal type: " + t);
       _[t] = [];
     }
     return new Dispatch(_);
@@ -1152,53 +1423,70 @@
   }
 
   function parseTypenames(typenames, types) {
-    return typenames.trim().split(/^|\s+/).map(function(t) {
-      var name = "", i = t.indexOf(".");
-      if (i >= 0) name = t.slice(i + 1), t = t.slice(0, i);
-      if (t && !types.hasOwnProperty(t)) throw new Error("unknown type: " + t);
-      return {type: t, name: name};
-    });
+    return typenames
+      .trim()
+      .split(/^|\s+/)
+      .map(function (t) {
+        var name = "",
+          i = t.indexOf(".");
+        if (i >= 0) (name = t.slice(i + 1)), (t = t.slice(0, i));
+        if (t && !types.hasOwnProperty(t))
+          throw new Error("unknown type: " + t);
+        return { type: t, name: name };
+      });
   }
 
   Dispatch.prototype = dispatch.prototype = {
     constructor: Dispatch,
-    on: function(typename, callback) {
+    on: function (typename, callback) {
       var _ = this._,
-          T = parseTypenames(typename + "", _),
-          t,
-          i = -1,
-          n = T.length;
+        T = parseTypenames(typename + "", _),
+        t,
+        i = -1,
+        n = T.length;
 
       // If no callback was specified, return the callback of the given type and name.
       if (arguments.length < 2) {
-        while (++i < n) if ((t = (typename = T[i]).type) && (t = get$1(_[t], typename.name))) return t;
+        while (++i < n)
+          if ((t = (typename = T[i]).type) && (t = get$1(_[t], typename.name)))
+            return t;
         return;
       }
 
       // If a type was specified, set the callback for the given type and name.
       // Otherwise, if a null callback was specified, remove callbacks of the given name.
-      if (callback != null && typeof callback !== "function") throw new Error("invalid callback: " + callback);
+      if (callback != null && typeof callback !== "function")
+        throw new Error("invalid callback: " + callback);
       while (++i < n) {
-        if (t = (typename = T[i]).type) _[t] = set$1(_[t], typename.name, callback);
-        else if (callback == null) for (t in _) _[t] = set$1(_[t], typename.name, null);
+        if ((t = (typename = T[i]).type))
+          _[t] = set$1(_[t], typename.name, callback);
+        else if (callback == null)
+          for (t in _) _[t] = set$1(_[t], typename.name, null);
       }
 
       return this;
     },
-    copy: function() {
-      var copy = {}, _ = this._;
+    copy: function () {
+      var copy = {},
+        _ = this._;
       for (var t in _) copy[t] = _[t].slice();
       return new Dispatch(copy);
     },
-    call: function(type, that) {
-      if ((n = arguments.length - 2) > 0) for (var args = new Array(n), i = 0, n, t; i < n; ++i) args[i] = arguments[i + 2];
-      if (!this._.hasOwnProperty(type)) throw new Error("unknown type: " + type);
-      for (t = this._[type], i = 0, n = t.length; i < n; ++i) t[i].value.apply(that, args);
+    call: function (type, that) {
+      if ((n = arguments.length - 2) > 0)
+        for (var args = new Array(n), i = 0, n, t; i < n; ++i)
+          args[i] = arguments[i + 2];
+      if (!this._.hasOwnProperty(type))
+        throw new Error("unknown type: " + type);
+      for (t = this._[type], i = 0, n = t.length; i < n; ++i)
+        t[i].value.apply(that, args);
     },
-    apply: function(type, that, args) {
-      if (!this._.hasOwnProperty(type)) throw new Error("unknown type: " + type);
-      for (var t = this._[type], i = 0, n = t.length; i < n; ++i) t[i].value.apply(that, args);
-    }
+    apply: function (type, that, args) {
+      if (!this._.hasOwnProperty(type))
+        throw new Error("unknown type: " + type);
+      for (var t = this._[type], i = 0, n = t.length; i < n; ++i)
+        t[i].value.apply(that, args);
+    },
   };
 
   function get$1(type, name) {
@@ -1212,18 +1500,18 @@
   function set$1(type, name, callback) {
     for (var i = 0, n = type.length; i < n; ++i) {
       if (type[i].name === name) {
-        type[i] = noop, type = type.slice(0, i).concat(type.slice(i + 1));
+        (type[i] = noop), (type = type.slice(0, i).concat(type.slice(i + 1)));
         break;
       }
     }
-    if (callback != null) type.push({name: name, value: callback});
+    if (callback != null) type.push({ name: name, value: callback });
     return type;
   }
 
   // These are typically used in conjunction with noevent to ensure that we can
   // preventDefault on the event.
-  const nonpassive = {passive: false};
-  const nonpassivecapture = {capture: true, passive: false};
+  const nonpassive = { passive: false };
+  const nonpassivecapture = { capture: true, passive: false };
 
   function nopropagation$1(event) {
     event.stopImmediatePropagation();
@@ -1236,7 +1524,11 @@
 
   function dragDisable(view) {
     var root = view.document.documentElement,
-        selection = d3Select(view).on("dragstart.drag", noevent$1, nonpassivecapture);
+      selection = d3Select(view).on(
+        "dragstart.drag",
+        noevent$1,
+        nonpassivecapture,
+      );
     if ("onselectstart" in root) {
       selection.on("selectstart.drag", noevent$1, nonpassivecapture);
     } else {
@@ -1247,10 +1539,12 @@
 
   function yesdrag(view, noclick) {
     var root = view.document.documentElement,
-        selection = d3Select(view).on("dragstart.drag", null);
+      selection = d3Select(view).on("dragstart.drag", null);
     if (noclick) {
       selection.on("click.drag", noevent$1, nonpassivecapture);
-      setTimeout(function() { selection.on("click.drag", null); }, 0);
+      setTimeout(function () {
+        selection.on("click.drag", null);
+      }, 0);
     }
     if ("onselectstart" in root) {
       selection.on("selectstart.drag", null);
@@ -1260,33 +1554,39 @@
     }
   }
 
-  var constant$3 = x => () => x;
+  var constant$3 = (x) => () => x;
 
-  function DragEvent(type, {
-    sourceEvent,
-    subject,
-    target,
-    identifier,
-    active,
-    x, y, dx, dy,
-    dispatch
-  }) {
+  function DragEvent(
+    type,
+    {
+      sourceEvent,
+      subject,
+      target,
+      identifier,
+      active,
+      x,
+      y,
+      dx,
+      dy,
+      dispatch,
+    },
+  ) {
     Object.defineProperties(this, {
-      type: {value: type, enumerable: true, configurable: true},
-      sourceEvent: {value: sourceEvent, enumerable: true, configurable: true},
-      subject: {value: subject, enumerable: true, configurable: true},
-      target: {value: target, enumerable: true, configurable: true},
-      identifier: {value: identifier, enumerable: true, configurable: true},
-      active: {value: active, enumerable: true, configurable: true},
-      x: {value: x, enumerable: true, configurable: true},
-      y: {value: y, enumerable: true, configurable: true},
-      dx: {value: dx, enumerable: true, configurable: true},
-      dy: {value: dy, enumerable: true, configurable: true},
-      _: {value: dispatch}
+      type: { value: type, enumerable: true, configurable: true },
+      sourceEvent: { value: sourceEvent, enumerable: true, configurable: true },
+      subject: { value: subject, enumerable: true, configurable: true },
+      target: { value: target, enumerable: true, configurable: true },
+      identifier: { value: identifier, enumerable: true, configurable: true },
+      active: { value: active, enumerable: true, configurable: true },
+      x: { value: x, enumerable: true, configurable: true },
+      y: { value: y, enumerable: true, configurable: true },
+      dx: { value: dx, enumerable: true, configurable: true },
+      dy: { value: dy, enumerable: true, configurable: true },
+      _: { value: dispatch },
     });
   }
 
-  DragEvent.prototype.on = function() {
+  DragEvent.prototype.on = function () {
     var value = this._.on.apply(this._, arguments);
     return value === this._ ? this : value;
   };
@@ -1301,41 +1601,47 @@
   }
 
   function defaultSubject(event, d) {
-    return d == null ? {x: event.x, y: event.y} : d;
+    return d == null ? { x: event.x, y: event.y } : d;
   }
 
   function defaultTouchable$1() {
-    return navigator.maxTouchPoints || ("ontouchstart" in this);
+    return navigator.maxTouchPoints || "ontouchstart" in this;
   }
 
   function d3Drag() {
     var filter = defaultFilter$1,
-        container = defaultContainer,
-        subject = defaultSubject,
-        touchable = defaultTouchable$1,
-        gestures = {},
-        listeners = dispatch("start", "drag", "end"),
-        active = 0,
-        mousedownx,
-        mousedowny,
-        mousemoving,
-        touchending,
-        clickDistance2 = 0;
+      container = defaultContainer,
+      subject = defaultSubject,
+      touchable = defaultTouchable$1,
+      gestures = {},
+      listeners = dispatch("start", "drag", "end"),
+      active = 0,
+      mousedownx,
+      mousedowny,
+      mousemoving,
+      touchending,
+      clickDistance2 = 0;
 
     function drag(selection) {
       selection
-          .on("mousedown.drag", mousedowned)
+        .on("mousedown.drag", mousedowned)
         .filter(touchable)
-          .on("touchstart.drag", touchstarted)
-          .on("touchmove.drag", touchmoved, nonpassive)
-          .on("touchend.drag touchcancel.drag", touchended)
-          .style("touch-action", "none")
-          .style("-webkit-tap-highlight-color", "rgba(0,0,0,0)");
+        .on("touchstart.drag", touchstarted)
+        .on("touchmove.drag", touchmoved, nonpassive)
+        .on("touchend.drag touchcancel.drag", touchended)
+        .style("touch-action", "none")
+        .style("-webkit-tap-highlight-color", "rgba(0,0,0,0)");
     }
 
     function mousedowned(event, d) {
       if (touchending || !filter.call(this, event, d)) return;
-      var gesture = beforestart(this, container.call(this, event, d), event, d, "mouse");
+      var gesture = beforestart(
+        this,
+        container.call(this, event, d),
+        event,
+        d,
+        "mouse",
+      );
       if (!gesture) return;
       d3Select(event.view)
         .on("mousemove.drag", mousemoved, nonpassivecapture)
@@ -1351,7 +1657,8 @@
     function mousemoved(event) {
       noevent$1(event);
       if (!mousemoving) {
-        var dx = event.clientX - mousedownx, dy = event.clientY - mousedowny;
+        var dx = event.clientX - mousedownx,
+          dy = event.clientY - mousedowny;
         mousemoving = dx * dx + dy * dy > clickDistance2;
       }
       gestures.mouse("drag", event);
@@ -1367,11 +1674,22 @@
     function touchstarted(event, d) {
       if (!filter.call(this, event, d)) return;
       var touches = event.changedTouches,
-          c = container.call(this, event, d),
-          n = touches.length, i, gesture;
+        c = container.call(this, event, d),
+        n = touches.length,
+        i,
+        gesture;
 
       for (i = 0; i < n; ++i) {
-        if (gesture = beforestart(this, c, event, d, touches[i].identifier, touches[i])) {
+        if (
+          (gesture = beforestart(
+            this,
+            c,
+            event,
+            d,
+            touches[i].identifier,
+            touches[i],
+          ))
+        ) {
           nopropagation$1(event);
           gesture("start", event, touches[i]);
         }
@@ -1380,10 +1698,12 @@
 
     function touchmoved(event) {
       var touches = event.changedTouches,
-          n = touches.length, i, gesture;
+        n = touches.length,
+        i,
+        gesture;
 
       for (i = 0; i < n; ++i) {
-        if (gesture = gestures[touches[i].identifier]) {
+        if ((gesture = gestures[touches[i].identifier])) {
           noevent$1(event);
           gesture("drag", event, touches[i]);
         }
@@ -1392,12 +1712,16 @@
 
     function touchended(event) {
       var touches = event.changedTouches,
-          n = touches.length, i, gesture;
+        n = touches.length,
+        i,
+        gesture;
 
       if (touchending) clearTimeout(touchending);
-      touchending = setTimeout(function() { touchending = null; }, 500); // Ghost clicks are delayed!
+      touchending = setTimeout(function () {
+        touchending = null;
+      }, 500); // Ghost clicks are delayed!
       for (i = 0; i < n; ++i) {
-        if (gesture = gestures[touches[i].identifier]) {
+        if ((gesture = gestures[touches[i].identifier])) {
           nopropagation$1(event);
           gesture("end", event, touches[i]);
         }
@@ -1406,30 +1730,45 @@
 
     function beforestart(that, container, event, d, identifier, touch) {
       var dispatch = listeners.copy(),
-          p = pointer(touch || event, container), dx, dy,
-          s;
+        p = pointer(touch || event, container),
+        dx,
+        dy,
+        s;
 
-      if ((s = subject.call(that, new DragEvent("beforestart", {
-          sourceEvent: event,
-          target: drag,
-          identifier,
-          active,
-          x: p[0],
-          y: p[1],
-          dx: 0,
-          dy: 0,
-          dispatch
-        }), d)) == null) return;
+      if (
+        (s = subject.call(
+          that,
+          new DragEvent("beforestart", {
+            sourceEvent: event,
+            target: drag,
+            identifier,
+            active,
+            x: p[0],
+            y: p[1],
+            dx: 0,
+            dy: 0,
+            dispatch,
+          }),
+          d,
+        )) == null
+      )
+        return;
 
       dx = s.x - p[0] || 0;
       dy = s.y - p[1] || 0;
 
       return function gesture(type, event, touch) {
-        var p0 = p, n;
+        var p0 = p,
+          n;
         switch (type) {
-          case "start": gestures[identifier] = gesture, n = active++; break;
-          case "end": delete gestures[identifier], --active; // falls through
-          case "drag": p = pointer(touch || event, container), n = active; break;
+          case "start":
+            (gestures[identifier] = gesture), (n = active++);
+            break;
+          case "end":
+            delete gestures[identifier], --active; // falls through
+          case "drag":
+            (p = pointer(touch || event, container)), (n = active);
+            break;
         }
         dispatch.call(
           type,
@@ -1444,36 +1783,46 @@
             y: p[1] + dy,
             dx: p[0] - p0[0],
             dy: p[1] - p0[1],
-            dispatch
+            dispatch,
           }),
-          d
+          d,
         );
       };
     }
 
-    drag.filter = function(_) {
-      return arguments.length ? (filter = typeof _ === "function" ? _ : constant$3(!!_), drag) : filter;
+    drag.filter = function (_) {
+      return arguments.length
+        ? ((filter = typeof _ === "function" ? _ : constant$3(!!_)), drag)
+        : filter;
     };
 
-    drag.container = function(_) {
-      return arguments.length ? (container = typeof _ === "function" ? _ : constant$3(_), drag) : container;
+    drag.container = function (_) {
+      return arguments.length
+        ? ((container = typeof _ === "function" ? _ : constant$3(_)), drag)
+        : container;
     };
 
-    drag.subject = function(_) {
-      return arguments.length ? (subject = typeof _ === "function" ? _ : constant$3(_), drag) : subject;
+    drag.subject = function (_) {
+      return arguments.length
+        ? ((subject = typeof _ === "function" ? _ : constant$3(_)), drag)
+        : subject;
     };
 
-    drag.touchable = function(_) {
-      return arguments.length ? (touchable = typeof _ === "function" ? _ : constant$3(!!_), drag) : touchable;
+    drag.touchable = function (_) {
+      return arguments.length
+        ? ((touchable = typeof _ === "function" ? _ : constant$3(!!_)), drag)
+        : touchable;
     };
 
-    drag.on = function() {
+    drag.on = function () {
       var value = listeners.on.apply(listeners, arguments);
       return value === listeners ? drag : value;
     };
 
-    drag.clickDistance = function(_) {
-      return arguments.length ? (clickDistance2 = (_ = +_) * _, drag) : Math.sqrt(clickDistance2);
+    drag.clickDistance = function (_) {
+      return arguments.length
+        ? ((clickDistance2 = (_ = +_) * _), drag)
+        : Math.sqrt(clickDistance2);
     };
 
     return drag;
@@ -1496,15 +1845,15 @@
   var brighter = 1 / darker;
 
   var reI = "\\s*([+-]?\\d+)\\s*",
-      reN = "\\s*([+-]?(?:\\d*\\.)?\\d+(?:[eE][+-]?\\d+)?)\\s*",
-      reP = "\\s*([+-]?(?:\\d*\\.)?\\d+(?:[eE][+-]?\\d+)?)%\\s*",
-      reHex = /^#([0-9a-f]{3,8})$/,
-      reRgbInteger = new RegExp(`^rgb\\(${reI},${reI},${reI}\\)$`),
-      reRgbPercent = new RegExp(`^rgb\\(${reP},${reP},${reP}\\)$`),
-      reRgbaInteger = new RegExp(`^rgba\\(${reI},${reI},${reI},${reN}\\)$`),
-      reRgbaPercent = new RegExp(`^rgba\\(${reP},${reP},${reP},${reN}\\)$`),
-      reHslPercent = new RegExp(`^hsl\\(${reN},${reP},${reP}\\)$`),
-      reHslaPercent = new RegExp(`^hsla\\(${reN},${reP},${reP},${reN}\\)$`);
+    reN = "\\s*([+-]?(?:\\d*\\.)?\\d+(?:[eE][+-]?\\d+)?)\\s*",
+    reP = "\\s*([+-]?(?:\\d*\\.)?\\d+(?:[eE][+-]?\\d+)?)%\\s*",
+    reHex = /^#([0-9a-f]{3,8})$/,
+    reRgbInteger = new RegExp(`^rgb\\(${reI},${reI},${reI}\\)$`),
+    reRgbPercent = new RegExp(`^rgb\\(${reP},${reP},${reP}\\)$`),
+    reRgbaInteger = new RegExp(`^rgba\\(${reI},${reI},${reI},${reN}\\)$`),
+    reRgbaPercent = new RegExp(`^rgba\\(${reP},${reP},${reP},${reN}\\)$`),
+    reHslPercent = new RegExp(`^hsl\\(${reN},${reP},${reP}\\)$`),
+    reHslaPercent = new RegExp(`^hsla\\(${reN},${reP},${reP},${reN}\\)$`);
 
   var named = {
     aliceblue: 0xf0f8ff,
@@ -1654,12 +2003,12 @@
     white: 0xffffff,
     whitesmoke: 0xf5f5f5,
     yellow: 0xffff00,
-    yellowgreen: 0x9acd32
+    yellowgreen: 0x9acd32,
   };
 
   define(Color, color, {
     copy(channels) {
-      return Object.assign(new this.constructor, this, channels);
+      return Object.assign(new this.constructor(), this, channels);
     },
     displayable() {
       return this.rgb().displayable();
@@ -1669,7 +2018,7 @@
     formatHex8: color_formatHex8,
     formatHsl: color_formatHsl,
     formatRgb: color_formatRgb,
-    toString: color_formatRgb
+    toString: color_formatRgb,
   });
 
   function color_formatHex() {
@@ -1691,24 +2040,64 @@
   function color(format) {
     var m, l;
     format = (format + "").trim().toLowerCase();
-    return (m = reHex.exec(format)) ? (l = m[1].length, m = parseInt(m[1], 16), l === 6 ? rgbn(m) // #ff0000
-        : l === 3 ? new Rgb((m >> 8 & 0xf) | (m >> 4 & 0xf0), (m >> 4 & 0xf) | (m & 0xf0), ((m & 0xf) << 4) | (m & 0xf), 1) // #f00
-        : l === 8 ? rgba(m >> 24 & 0xff, m >> 16 & 0xff, m >> 8 & 0xff, (m & 0xff) / 0xff) // #ff000000
-        : l === 4 ? rgba((m >> 12 & 0xf) | (m >> 8 & 0xf0), (m >> 8 & 0xf) | (m >> 4 & 0xf0), (m >> 4 & 0xf) | (m & 0xf0), (((m & 0xf) << 4) | (m & 0xf)) / 0xff) // #f000
-        : null) // invalid hex
-        : (m = reRgbInteger.exec(format)) ? new Rgb(m[1], m[2], m[3], 1) // rgb(255, 0, 0)
-        : (m = reRgbPercent.exec(format)) ? new Rgb(m[1] * 255 / 100, m[2] * 255 / 100, m[3] * 255 / 100, 1) // rgb(100%, 0%, 0%)
-        : (m = reRgbaInteger.exec(format)) ? rgba(m[1], m[2], m[3], m[4]) // rgba(255, 0, 0, 1)
-        : (m = reRgbaPercent.exec(format)) ? rgba(m[1] * 255 / 100, m[2] * 255 / 100, m[3] * 255 / 100, m[4]) // rgb(100%, 0%, 0%, 1)
-        : (m = reHslPercent.exec(format)) ? hsla(m[1], m[2] / 100, m[3] / 100, 1) // hsl(120, 50%, 50%)
-        : (m = reHslaPercent.exec(format)) ? hsla(m[1], m[2] / 100, m[3] / 100, m[4]) // hsla(120, 50%, 50%, 1)
-        : named.hasOwnProperty(format) ? rgbn(named[format]) // eslint-disable-line no-prototype-builtins
-        : format === "transparent" ? new Rgb(NaN, NaN, NaN, 0)
-        : null;
+    return (m = reHex.exec(format))
+      ? ((l = m[1].length),
+        (m = parseInt(m[1], 16)),
+        l === 6
+          ? rgbn(m) // #ff0000
+          : l === 3
+            ? new Rgb(
+                ((m >> 8) & 0xf) | ((m >> 4) & 0xf0),
+                ((m >> 4) & 0xf) | (m & 0xf0),
+                ((m & 0xf) << 4) | (m & 0xf),
+                1,
+              ) // #f00
+            : l === 8
+              ? rgba(
+                  (m >> 24) & 0xff,
+                  (m >> 16) & 0xff,
+                  (m >> 8) & 0xff,
+                  (m & 0xff) / 0xff,
+                ) // #ff000000
+              : l === 4
+                ? rgba(
+                    ((m >> 12) & 0xf) | ((m >> 8) & 0xf0),
+                    ((m >> 8) & 0xf) | ((m >> 4) & 0xf0),
+                    ((m >> 4) & 0xf) | (m & 0xf0),
+                    (((m & 0xf) << 4) | (m & 0xf)) / 0xff,
+                  ) // #f000
+                : null) // invalid hex
+      : (m = reRgbInteger.exec(format))
+        ? new Rgb(m[1], m[2], m[3], 1) // rgb(255, 0, 0)
+        : (m = reRgbPercent.exec(format))
+          ? new Rgb(
+              (m[1] * 255) / 100,
+              (m[2] * 255) / 100,
+              (m[3] * 255) / 100,
+              1,
+            ) // rgb(100%, 0%, 0%)
+          : (m = reRgbaInteger.exec(format))
+            ? rgba(m[1], m[2], m[3], m[4]) // rgba(255, 0, 0, 1)
+            : (m = reRgbaPercent.exec(format))
+              ? rgba(
+                  (m[1] * 255) / 100,
+                  (m[2] * 255) / 100,
+                  (m[3] * 255) / 100,
+                  m[4],
+                ) // rgb(100%, 0%, 0%, 1)
+              : (m = reHslPercent.exec(format))
+                ? hsla(m[1], m[2] / 100, m[3] / 100, 1) // hsl(120, 50%, 50%)
+                : (m = reHslaPercent.exec(format))
+                  ? hsla(m[1], m[2] / 100, m[3] / 100, m[4]) // hsla(120, 50%, 50%, 1)
+                  : named.hasOwnProperty(format)
+                    ? rgbn(named[format]) // eslint-disable-line no-prototype-builtins
+                    : format === "transparent"
+                      ? new Rgb(NaN, NaN, NaN, 0)
+                      : null;
   }
 
   function rgbn(n) {
-    return new Rgb(n >> 16 & 0xff, n >> 8 & 0xff, n & 0xff, 1);
+    return new Rgb((n >> 16) & 0xff, (n >> 8) & 0xff, n & 0xff, 1);
   }
 
   function rgba(r, g, b, a) {
@@ -1718,13 +2107,15 @@
 
   function rgbConvert(o) {
     if (!(o instanceof Color)) o = color(o);
-    if (!o) return new Rgb;
+    if (!o) return new Rgb();
     o = o.rgb();
     return new Rgb(o.r, o.g, o.b, o.opacity);
   }
 
   function rgb(r, g, b, opacity) {
-    return arguments.length === 1 ? rgbConvert(r) : new Rgb(r, g, b, opacity == null ? 1 : opacity);
+    return arguments.length === 1
+      ? rgbConvert(r)
+      : new Rgb(r, g, b, opacity == null ? 1 : opacity);
   }
 
   function Rgb(r, g, b, opacity) {
@@ -1734,33 +2125,48 @@
     this.opacity = +opacity;
   }
 
-  define(Rgb, rgb, extend(Color, {
-    brighter(k) {
-      k = k == null ? brighter : Math.pow(brighter, k);
-      return new Rgb(this.r * k, this.g * k, this.b * k, this.opacity);
-    },
-    darker(k) {
-      k = k == null ? darker : Math.pow(darker, k);
-      return new Rgb(this.r * k, this.g * k, this.b * k, this.opacity);
-    },
-    rgb() {
-      return this;
-    },
-    clamp() {
-      return new Rgb(clampi(this.r), clampi(this.g), clampi(this.b), clampa(this.opacity));
-    },
-    displayable() {
-      return (-0.5 <= this.r && this.r < 255.5)
-          && (-0.5 <= this.g && this.g < 255.5)
-          && (-0.5 <= this.b && this.b < 255.5)
-          && (0 <= this.opacity && this.opacity <= 1);
-    },
-    hex: rgb_formatHex, // Deprecated! Use color.formatHex.
-    formatHex: rgb_formatHex,
-    formatHex8: rgb_formatHex8,
-    formatRgb: rgb_formatRgb,
-    toString: rgb_formatRgb
-  }));
+  define(
+    Rgb,
+    rgb,
+    extend(Color, {
+      brighter(k) {
+        k = k == null ? brighter : Math.pow(brighter, k);
+        return new Rgb(this.r * k, this.g * k, this.b * k, this.opacity);
+      },
+      darker(k) {
+        k = k == null ? darker : Math.pow(darker, k);
+        return new Rgb(this.r * k, this.g * k, this.b * k, this.opacity);
+      },
+      rgb() {
+        return this;
+      },
+      clamp() {
+        return new Rgb(
+          clampi(this.r),
+          clampi(this.g),
+          clampi(this.b),
+          clampa(this.opacity),
+        );
+      },
+      displayable() {
+        return (
+          -0.5 <= this.r &&
+          this.r < 255.5 &&
+          -0.5 <= this.g &&
+          this.g < 255.5 &&
+          -0.5 <= this.b &&
+          this.b < 255.5 &&
+          0 <= this.opacity &&
+          this.opacity <= 1
+        );
+      },
+      hex: rgb_formatHex, // Deprecated! Use color.formatHex.
+      formatHex: rgb_formatHex,
+      formatHex8: rgb_formatHex8,
+      formatRgb: rgb_formatRgb,
+      toString: rgb_formatRgb,
+    }),
+  );
 
   function rgb_formatHex() {
     return `#${hex(this.r)}${hex(this.g)}${hex(this.b)}`;
@@ -1798,17 +2204,17 @@
   function hslConvert(o) {
     if (o instanceof Hsl) return new Hsl(o.h, o.s, o.l, o.opacity);
     if (!(o instanceof Color)) o = color(o);
-    if (!o) return new Hsl;
+    if (!o) return new Hsl();
     if (o instanceof Hsl) return o;
     o = o.rgb();
     var r = o.r / 255,
-        g = o.g / 255,
-        b = o.b / 255,
-        min = Math.min(r, g, b),
-        max = Math.max(r, g, b),
-        h = NaN,
-        s = max - min,
-        l = (max + min) / 2;
+      g = o.g / 255,
+      b = o.b / 255,
+      min = Math.min(r, g, b),
+      max = Math.max(r, g, b),
+      h = NaN,
+      s = max - min,
+      l = (max + min) / 2;
     if (s) {
       if (r === max) h = (g - b) / s + (g < b) * 6;
       else if (g === max) h = (b - r) / s + 2;
@@ -1822,7 +2228,9 @@
   }
 
   function hsl(h, s, l, opacity) {
-    return arguments.length === 1 ? hslConvert(h) : new Hsl(h, s, l, opacity == null ? 1 : opacity);
+    return arguments.length === 1
+      ? hslConvert(h)
+      : new Hsl(h, s, l, opacity == null ? 1 : opacity);
   }
 
   function Hsl(h, s, l, opacity) {
@@ -1832,41 +2240,54 @@
     this.opacity = +opacity;
   }
 
-  define(Hsl, hsl, extend(Color, {
-    brighter(k) {
-      k = k == null ? brighter : Math.pow(brighter, k);
-      return new Hsl(this.h, this.s, this.l * k, this.opacity);
-    },
-    darker(k) {
-      k = k == null ? darker : Math.pow(darker, k);
-      return new Hsl(this.h, this.s, this.l * k, this.opacity);
-    },
-    rgb() {
-      var h = this.h % 360 + (this.h < 0) * 360,
+  define(
+    Hsl,
+    hsl,
+    extend(Color, {
+      brighter(k) {
+        k = k == null ? brighter : Math.pow(brighter, k);
+        return new Hsl(this.h, this.s, this.l * k, this.opacity);
+      },
+      darker(k) {
+        k = k == null ? darker : Math.pow(darker, k);
+        return new Hsl(this.h, this.s, this.l * k, this.opacity);
+      },
+      rgb() {
+        var h = (this.h % 360) + (this.h < 0) * 360,
           s = isNaN(h) || isNaN(this.s) ? 0 : this.s,
           l = this.l,
           m2 = l + (l < 0.5 ? l : 1 - l) * s,
           m1 = 2 * l - m2;
-      return new Rgb(
-        hsl2rgb(h >= 240 ? h - 240 : h + 120, m1, m2),
-        hsl2rgb(h, m1, m2),
-        hsl2rgb(h < 120 ? h + 240 : h - 120, m1, m2),
-        this.opacity
-      );
-    },
-    clamp() {
-      return new Hsl(clamph(this.h), clampt(this.s), clampt(this.l), clampa(this.opacity));
-    },
-    displayable() {
-      return (0 <= this.s && this.s <= 1 || isNaN(this.s))
-          && (0 <= this.l && this.l <= 1)
-          && (0 <= this.opacity && this.opacity <= 1);
-    },
-    formatHsl() {
-      const a = clampa(this.opacity);
-      return `${a === 1 ? "hsl(" : "hsla("}${clamph(this.h)}, ${clampt(this.s) * 100}%, ${clampt(this.l) * 100}%${a === 1 ? ")" : `, ${a})`}`;
-    }
-  }));
+        return new Rgb(
+          hsl2rgb(h >= 240 ? h - 240 : h + 120, m1, m2),
+          hsl2rgb(h, m1, m2),
+          hsl2rgb(h < 120 ? h + 240 : h - 120, m1, m2),
+          this.opacity,
+        );
+      },
+      clamp() {
+        return new Hsl(
+          clamph(this.h),
+          clampt(this.s),
+          clampt(this.l),
+          clampa(this.opacity),
+        );
+      },
+      displayable() {
+        return (
+          ((0 <= this.s && this.s <= 1) || isNaN(this.s)) &&
+          0 <= this.l &&
+          this.l <= 1 &&
+          0 <= this.opacity &&
+          this.opacity <= 1
+        );
+      },
+      formatHsl() {
+        const a = clampa(this.opacity);
+        return `${a === 1 ? "hsl(" : "hsla("}${clamph(this.h)}, ${clampt(this.s) * 100}%, ${clampt(this.l) * 100}%${a === 1 ? ")" : `, ${a})`}`;
+      },
+    }),
+  );
 
   function clamph(value) {
     value = (value || 0) % 360;
@@ -1879,30 +2300,42 @@
 
   /* From FvD 13.37, CSS Color Module Level 3 */
   function hsl2rgb(h, m1, m2) {
-    return (h < 60 ? m1 + (m2 - m1) * h / 60
-        : h < 180 ? m2
-        : h < 240 ? m1 + (m2 - m1) * (240 - h) / 60
-        : m1) * 255;
+    return (
+      (h < 60
+        ? m1 + ((m2 - m1) * h) / 60
+        : h < 180
+          ? m2
+          : h < 240
+            ? m1 + ((m2 - m1) * (240 - h)) / 60
+            : m1) * 255
+    );
   }
 
-  var constant$2 = x => () => x;
+  var constant$2 = (x) => () => x;
 
   function linear(a, d) {
-    return function(t) {
+    return function (t) {
       return a + t * d;
     };
   }
 
   function exponential(a, b, y) {
-    return a = Math.pow(a, y), b = Math.pow(b, y) - a, y = 1 / y, function(t) {
-      return Math.pow(a + t * b, y);
-    };
+    return (
+      (a = Math.pow(a, y)),
+      (b = Math.pow(b, y) - a),
+      (y = 1 / y),
+      function (t) {
+        return Math.pow(a + t * b, y);
+      }
+    );
   }
 
   function gamma(y) {
-    return (y = +y) === 1 ? nogamma : function(a, b) {
-      return b - a ? exponential(a, b, y) : constant$2(isNaN(a) ? b : a);
-    };
+    return (y = +y) === 1
+      ? nogamma
+      : function (a, b) {
+          return b - a ? exponential(a, b, y) : constant$2(isNaN(a) ? b : a);
+        };
   }
 
   function nogamma(a, b) {
@@ -1915,10 +2348,10 @@
 
     function rgb$1(start, end) {
       var r = color((start = rgb(start)).r, (end = rgb(end)).r),
-          g = color(start.g, end.g),
-          b = color(start.b, end.b),
-          opacity = nogamma(start.opacity, end.opacity);
-      return function(t) {
+        g = color(start.g, end.g),
+        b = color(start.b, end.b),
+        opacity = nogamma(start.opacity, end.opacity);
+      return function (t) {
         start.r = r(t);
         start.g = g(t);
         start.b = b(t);
@@ -1933,52 +2366,60 @@
   })(1);
 
   function interpolateNumber(a, b) {
-    return a = +a, b = +b, function(t) {
-      return a * (1 - t) + b * t;
-    };
+    return (
+      (a = +a),
+      (b = +b),
+      function (t) {
+        return a * (1 - t) + b * t;
+      }
+    );
   }
 
   var reA = /[-+]?(?:\d+\.?\d*|\.?\d+)(?:[eE][-+]?\d+)?/g,
-      reB = new RegExp(reA.source, "g");
+    reB = new RegExp(reA.source, "g");
 
   function zero(b) {
-    return function() {
+    return function () {
       return b;
     };
   }
 
   function one(b) {
-    return function(t) {
+    return function (t) {
       return b(t) + "";
     };
   }
 
   function interpolateString(a, b) {
-    var bi = reA.lastIndex = reB.lastIndex = 0, // scan index for next number in b
-        am, // current match in a
-        bm, // current match in b
-        bs, // string preceding current number in b, if any
-        i = -1, // index in s
-        s = [], // string constants and placeholders
-        q = []; // number interpolators
+    var bi = (reA.lastIndex = reB.lastIndex = 0), // scan index for next number in b
+      am, // current match in a
+      bm, // current match in b
+      bs, // string preceding current number in b, if any
+      i = -1, // index in s
+      s = [], // string constants and placeholders
+      q = []; // number interpolators
 
     // Coerce inputs to strings.
-    a = a + "", b = b + "";
+    (a = a + ""), (b = b + "");
 
     // Interpolate pairs of numbers in a & b.
-    while ((am = reA.exec(a))
-        && (bm = reB.exec(b))) {
-      if ((bs = bm.index) > bi) { // a string precedes the next number in b
+    while ((am = reA.exec(a)) && (bm = reB.exec(b))) {
+      if ((bs = bm.index) > bi) {
+        // a string precedes the next number in b
         bs = b.slice(bi, bs);
-        if (s[i]) s[i] += bs; // coalesce with previous string
+        if (s[i])
+          s[i] += bs; // coalesce with previous string
         else s[++i] = bs;
       }
-      if ((am = am[0]) === (bm = bm[0])) { // numbers in a & b match
-        if (s[i]) s[i] += bm; // coalesce with previous string
+      if ((am = am[0]) === (bm = bm[0])) {
+        // numbers in a & b match
+        if (s[i])
+          s[i] += bm; // coalesce with previous string
         else s[++i] = bm;
-      } else { // interpolate non-matching numbers
+      } else {
+        // interpolate non-matching numbers
         s[++i] = null;
-        q.push({i: i, x: interpolateNumber(am, bm)});
+        q.push({ i: i, x: interpolateNumber(am, bm) });
       }
       bi = reB.lastIndex;
     }
@@ -1986,19 +2427,22 @@
     // Add remains of b.
     if (bi < b.length) {
       bs = b.slice(bi);
-      if (s[i]) s[i] += bs; // coalesce with previous string
+      if (s[i])
+        s[i] += bs; // coalesce with previous string
       else s[++i] = bs;
     }
 
     // Special optimization for only a single match.
     // Otherwise, interpolate each of the numbers and rejoin the string.
-    return s.length < 2 ? (q[0]
+    return s.length < 2
+      ? q[0]
         ? one(q[0].x)
-        : zero(b))
-        : (b = q.length, function(t) {
-            for (var i = 0, o; i < b; ++i) s[(o = q[i]).i] = o.x(t);
-            return s.join("");
-          });
+        : zero(b)
+      : ((b = q.length),
+        function (t) {
+          for (var i = 0, o; i < b; ++i) s[(o = q[i]).i] = o.x(t);
+          return s.join("");
+        });
   }
 
   var degrees = 180 / Math.PI;
@@ -2009,22 +2453,23 @@
     rotate: 0,
     skewX: 0,
     scaleX: 1,
-    scaleY: 1
+    scaleY: 1,
   };
 
   function decompose(a, b, c, d, e, f) {
     var scaleX, scaleY, skewX;
-    if (scaleX = Math.sqrt(a * a + b * b)) a /= scaleX, b /= scaleX;
-    if (skewX = a * c + b * d) c -= a * skewX, d -= b * skewX;
-    if (scaleY = Math.sqrt(c * c + d * d)) c /= scaleY, d /= scaleY, skewX /= scaleY;
-    if (a * d < b * c) a = -a, b = -b, skewX = -skewX, scaleX = -scaleX;
+    if ((scaleX = Math.sqrt(a * a + b * b))) (a /= scaleX), (b /= scaleX);
+    if ((skewX = a * c + b * d)) (c -= a * skewX), (d -= b * skewX);
+    if ((scaleY = Math.sqrt(c * c + d * d)))
+      (c /= scaleY), (d /= scaleY), (skewX /= scaleY);
+    if (a * d < b * c) (a = -a), (b = -b), (skewX = -skewX), (scaleX = -scaleX);
     return {
       translateX: e,
       translateY: f,
       rotate: Math.atan2(b, a) * degrees,
       skewX: Math.atan(skewX) * degrees,
       scaleX: scaleX,
-      scaleY: scaleY
+      scaleY: scaleY,
     };
   }
 
@@ -2032,13 +2477,16 @@
 
   /* eslint-disable no-undef */
   function parseCss(value) {
-    const m = new (typeof DOMMatrix === "function" ? DOMMatrix : WebKitCSSMatrix)(value + "");
+    const m = new (
+      typeof DOMMatrix === "function" ? DOMMatrix : WebKitCSSMatrix
+    )(value + "");
     return m.isIdentity ? identity$1 : decompose(m.a, m.b, m.c, m.d, m.e, m.f);
   }
 
   function parseSvg(value) {
     if (value == null) return identity$1;
-    if (!svgNode) svgNode = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    if (!svgNode)
+      svgNode = document.createElementNS("http://www.w3.org/2000/svg", "g");
     svgNode.setAttribute("transform", value);
     if (!(value = svgNode.transform.baseVal.consolidate())) return identity$1;
     value = value.matrix;
@@ -2046,7 +2494,6 @@
   }
 
   function interpolateTransform(parse, pxComma, pxParen, degParen) {
-
     function pop(s) {
       return s.length ? s.pop() + " " : "";
     }
@@ -2054,7 +2501,10 @@
     function translate(xa, ya, xb, yb, s, q) {
       if (xa !== xb || ya !== yb) {
         var i = s.push("translate(", null, pxComma, null, pxParen);
-        q.push({i: i - 4, x: interpolateNumber(xa, xb)}, {i: i - 2, x: interpolateNumber(ya, yb)});
+        q.push(
+          { i: i - 4, x: interpolateNumber(xa, xb) },
+          { i: i - 2, x: interpolateNumber(ya, yb) },
+        );
       } else if (xb || yb) {
         s.push("translate(" + xb + pxComma + yb + pxParen);
       }
@@ -2062,8 +2512,12 @@
 
     function rotate(a, b, s, q) {
       if (a !== b) {
-        if (a - b > 180) b += 360; else if (b - a > 180) a += 360; // shortest path
-        q.push({i: s.push(pop(s) + "rotate(", null, degParen) - 2, x: interpolateNumber(a, b)});
+        if (a - b > 180) b += 360;
+        else if (b - a > 180) a += 360; // shortest path
+        q.push({
+          i: s.push(pop(s) + "rotate(", null, degParen) - 2,
+          x: interpolateNumber(a, b),
+        });
       } else if (b) {
         s.push(pop(s) + "rotate(" + b + degParen);
       }
@@ -2071,7 +2525,10 @@
 
     function skewX(a, b, s, q) {
       if (a !== b) {
-        q.push({i: s.push(pop(s) + "skewX(", null, degParen) - 2, x: interpolateNumber(a, b)});
+        q.push({
+          i: s.push(pop(s) + "skewX(", null, degParen) - 2,
+          x: interpolateNumber(a, b),
+        });
       } else if (b) {
         s.push(pop(s) + "skewX(" + b + degParen);
       }
@@ -2080,30 +2537,40 @@
     function scale(xa, ya, xb, yb, s, q) {
       if (xa !== xb || ya !== yb) {
         var i = s.push(pop(s) + "scale(", null, ",", null, ")");
-        q.push({i: i - 4, x: interpolateNumber(xa, xb)}, {i: i - 2, x: interpolateNumber(ya, yb)});
+        q.push(
+          { i: i - 4, x: interpolateNumber(xa, xb) },
+          { i: i - 2, x: interpolateNumber(ya, yb) },
+        );
       } else if (xb !== 1 || yb !== 1) {
         s.push(pop(s) + "scale(" + xb + "," + yb + ")");
       }
     }
 
-    return function(a, b) {
+    return function (a, b) {
       var s = [], // string constants and placeholders
-          q = []; // number interpolators
-      a = parse(a), b = parse(b);
+        q = []; // number interpolators
+      (a = parse(a)), (b = parse(b));
       translate(a.translateX, a.translateY, b.translateX, b.translateY, s, q);
       rotate(a.rotate, b.rotate, s, q);
       skewX(a.skewX, b.skewX, s, q);
       scale(a.scaleX, a.scaleY, b.scaleX, b.scaleY, s, q);
       a = b = null; // gc
-      return function(t) {
-        var i = -1, n = q.length, o;
+      return function (t) {
+        var i = -1,
+          n = q.length,
+          o;
         while (++i < n) s[(o = q[i]).i] = o.x(t);
         return s.join("");
       };
     };
   }
 
-  var interpolateTransformCss = interpolateTransform(parseCss, "px, ", "px)", "deg)");
+  var interpolateTransformCss = interpolateTransform(
+    parseCss,
+    "px, ",
+    "px)",
+    "deg)",
+  );
   var interpolateTransformSvg = interpolateTransform(parseSvg, ", ", ")", ")");
 
   var epsilon2 = 1e-12;
@@ -2121,57 +2588,58 @@
   }
 
   var interpolateZoom = (function zoomRho(rho, rho2, rho4) {
-
     // p0 = [ux0, uy0, w0]
     // p1 = [ux1, uy1, w1]
     function zoom(p0, p1) {
-      var ux0 = p0[0], uy0 = p0[1], w0 = p0[2],
-          ux1 = p1[0], uy1 = p1[1], w1 = p1[2],
-          dx = ux1 - ux0,
-          dy = uy1 - uy0,
-          d2 = dx * dx + dy * dy,
-          i,
-          S;
+      var ux0 = p0[0],
+        uy0 = p0[1],
+        w0 = p0[2],
+        ux1 = p1[0],
+        uy1 = p1[1],
+        w1 = p1[2],
+        dx = ux1 - ux0,
+        dy = uy1 - uy0,
+        d2 = dx * dx + dy * dy,
+        i,
+        S;
 
       // Special case for u0 ≅ u1.
       if (d2 < epsilon2) {
         S = Math.log(w1 / w0) / rho;
-        i = function(t) {
-          return [
-            ux0 + t * dx,
-            uy0 + t * dy,
-            w0 * Math.exp(rho * t * S)
-          ];
+        i = function (t) {
+          return [ux0 + t * dx, uy0 + t * dy, w0 * Math.exp(rho * t * S)];
         };
       }
 
       // General case.
       else {
         var d1 = Math.sqrt(d2),
-            b0 = (w1 * w1 - w0 * w0 + rho4 * d2) / (2 * w0 * rho2 * d1),
-            b1 = (w1 * w1 - w0 * w0 - rho4 * d2) / (2 * w1 * rho2 * d1),
-            r0 = Math.log(Math.sqrt(b0 * b0 + 1) - b0),
-            r1 = Math.log(Math.sqrt(b1 * b1 + 1) - b1);
+          b0 = (w1 * w1 - w0 * w0 + rho4 * d2) / (2 * w0 * rho2 * d1),
+          b1 = (w1 * w1 - w0 * w0 - rho4 * d2) / (2 * w1 * rho2 * d1),
+          r0 = Math.log(Math.sqrt(b0 * b0 + 1) - b0),
+          r1 = Math.log(Math.sqrt(b1 * b1 + 1) - b1);
         S = (r1 - r0) / rho;
-        i = function(t) {
+        i = function (t) {
           var s = t * S,
-              coshr0 = cosh(r0),
-              u = w0 / (rho2 * d1) * (coshr0 * tanh(rho * s + r0) - sinh(r0));
+            coshr0 = cosh(r0),
+            u = (w0 / (rho2 * d1)) * (coshr0 * tanh(rho * s + r0) - sinh(r0));
           return [
             ux0 + u * dx,
             uy0 + u * dy,
-            w0 * coshr0 / cosh(rho * s + r0)
+            (w0 * coshr0) / cosh(rho * s + r0),
           ];
         };
       }
 
-      i.duration = S * 1000 * rho / Math.SQRT2;
+      i.duration = (S * 1000 * rho) / Math.SQRT2;
 
       return i;
     }
 
-    zoom.rho = function(_) {
-      var _1 = Math.max(1e-3, +_), _2 = _1 * _1, _4 = _2 * _2;
+    zoom.rho = function (_) {
+      var _1 = Math.max(1e-3, +_),
+        _2 = _1 * _1,
+        _4 = _2 * _2;
       return zoomRho(_1, _2, _4);
     };
 
@@ -2179,19 +2647,27 @@
   })(Math.SQRT2, 2, 4);
 
   var frame = 0, // is an animation frame pending?
-      timeout$1 = 0, // is a timeout pending?
-      interval = 0, // are any timers active?
-      pokeDelay = 1000, // how frequently we check for clock skew
-      taskHead,
-      taskTail,
-      clockLast = 0,
-      clockNow = 0,
-      clockSkew = 0,
-      clock = typeof performance === "object" && performance.now ? performance : Date,
-      setFrame = typeof window === "object" && window.requestAnimationFrame ? window.requestAnimationFrame.bind(window) : function(f) { setTimeout(f, 17); };
+    timeout$1 = 0, // is a timeout pending?
+    interval = 0, // are any timers active?
+    pokeDelay = 1000, // how frequently we check for clock skew
+    taskHead,
+    taskTail,
+    clockLast = 0,
+    clockNow = 0,
+    clockSkew = 0,
+    clock =
+      typeof performance === "object" && performance.now ? performance : Date,
+    setFrame =
+      typeof window === "object" && window.requestAnimationFrame
+        ? window.requestAnimationFrame.bind(window)
+        : function (f) {
+            setTimeout(f, 17);
+          };
 
   function now$3() {
-    return clockNow || (setFrame(clearNow), clockNow = clock.now() + clockSkew);
+    return (
+      clockNow || (setFrame(clearNow), (clockNow = clock.now() + clockSkew))
+    );
   }
 
   function clearNow() {
@@ -2199,15 +2675,14 @@
   }
 
   function Timer() {
-    this._call =
-    this._time =
-    this._next = null;
+    this._call = this._time = this._next = null;
   }
 
   Timer.prototype = timer.prototype = {
     constructor: Timer,
-    restart: function(callback, delay, time) {
-      if (typeof callback !== "function") throw new TypeError("callback is not a function");
+    restart: function (callback, delay, time) {
+      if (typeof callback !== "function")
+        throw new TypeError("callback is not a function");
       time = (time == null ? now$3() : +time) + (delay == null ? 0 : +delay);
       if (!this._next && taskTail !== this) {
         if (taskTail) taskTail._next = this;
@@ -2218,17 +2693,17 @@
       this._time = time;
       sleep();
     },
-    stop: function() {
+    stop: function () {
       if (this._call) {
         this._call = null;
         this._time = Infinity;
         sleep();
       }
-    }
+    },
   };
 
   function timer(callback, delay, time) {
-    var t = new Timer;
+    var t = new Timer();
     t.restart(callback, delay, time);
     return t;
   }
@@ -2236,7 +2711,8 @@
   function timerFlush() {
     now$3(); // Get the current time, if not already set.
     ++frame; // Pretend we’ve set an alarm, if we haven’t already.
-    var t = taskHead, e;
+    var t = taskHead,
+      e;
     while (t) {
       if ((e = clockNow - t._time) >= 0) t._call.call(undefined, e);
       t = t._next;
@@ -2257,19 +2733,23 @@
   }
 
   function poke() {
-    var now = clock.now(), delay = now - clockLast;
-    if (delay > pokeDelay) clockSkew -= delay, clockLast = now;
+    var now = clock.now(),
+      delay = now - clockLast;
+    if (delay > pokeDelay) (clockSkew -= delay), (clockLast = now);
   }
 
   function nap() {
-    var t0, t1 = taskHead, t2, time = Infinity;
+    var t0,
+      t1 = taskHead,
+      t2,
+      time = Infinity;
     while (t1) {
       if (t1._call) {
         if (time > t1._time) time = t1._time;
-        t0 = t1, t1 = t1._next;
+        (t0 = t1), (t1 = t1._next);
       } else {
-        t2 = t1._next, t1._next = null;
-        t1 = t0 ? t0._next = t2 : taskHead = t2;
+        (t2 = t1._next), (t1._next = null);
+        t1 = t0 ? (t0._next = t2) : (taskHead = t2);
       }
     }
     taskTail = t0;
@@ -2281,21 +2761,27 @@
     if (timeout$1) timeout$1 = clearTimeout(timeout$1);
     var delay = time - clockNow; // Strictly less than if we recomputed clockNow.
     if (delay > 24) {
-      if (time < Infinity) timeout$1 = setTimeout(wake, time - clock.now() - clockSkew);
+      if (time < Infinity)
+        timeout$1 = setTimeout(wake, time - clock.now() - clockSkew);
       if (interval) interval = clearInterval(interval);
     } else {
-      if (!interval) clockLast = clock.now(), interval = setInterval(poke, pokeDelay);
-      frame = 1, setFrame(wake);
+      if (!interval)
+        (clockLast = clock.now()), (interval = setInterval(poke, pokeDelay));
+      (frame = 1), setFrame(wake);
     }
   }
 
   function timeout(callback, delay, time) {
-    var t = new Timer;
+    var t = new Timer();
     delay = delay == null ? 0 : +delay;
-    t.restart(elapsed => {
-      t.stop();
-      callback(elapsed + delay);
-    }, delay, time);
+    t.restart(
+      (elapsed) => {
+        t.stop();
+        callback(elapsed + delay);
+      },
+      delay,
+      time,
+    );
     return t;
   }
 
@@ -2325,13 +2811,14 @@
       duration: timing.duration,
       ease: timing.ease,
       timer: null,
-      state: CREATED
+      state: CREATED,
     });
   }
 
   function init(node, id) {
     var schedule = get(node, id);
-    if (schedule.state > CREATED) throw new Error("too late; already scheduled");
+    if (schedule.state > CREATED)
+      throw new Error("too late; already scheduled");
     return schedule;
   }
 
@@ -2343,13 +2830,14 @@
 
   function get(node, id) {
     var schedule = node.__transition;
-    if (!schedule || !(schedule = schedule[id])) throw new Error("transition not found");
+    if (!schedule || !(schedule = schedule[id]))
+      throw new Error("transition not found");
     return schedule;
   }
 
   function create(node, id, self) {
     var schedules = node.__transition,
-        tween;
+      tween;
 
     // Initialize the self timer when the transition is created.
     // Note the actual delay is not known until the first callback!
@@ -2400,7 +2888,7 @@
       // Note the transition may be canceled after start and before the first tick!
       // Note this must be scheduled before the start event; see d3/d3-transition#16!
       // Assuming this is successful, subsequent callbacks go straight to tick.
-      timeout(function() {
+      timeout(function () {
         if (self.state === STARTED) {
           self.state = RUNNING;
           self.timer.restart(tick, self.delay, self.time);
@@ -2416,9 +2904,16 @@
       self.state = STARTED;
 
       // Initialize the tween, deleting null tween.
-      tween = new Array(n = self.tween.length);
+      tween = new Array((n = self.tween.length));
       for (i = 0, j = -1; i < n; ++i) {
-        if (o = self.tween[i].value.call(node, node.__data__, self.index, self.group)) {
+        if (
+          (o = self.tween[i].value.call(
+            node,
+            node.__data__,
+            self.index,
+            self.group,
+          ))
+        ) {
           tween[++j] = o;
         }
       }
@@ -2426,9 +2921,12 @@
     }
 
     function tick(elapsed) {
-      var t = elapsed < self.duration ? self.ease.call(null, elapsed / self.duration) : (self.timer.restart(stop), self.state = ENDING, 1),
-          i = -1,
-          n = tween.length;
+      var t =
+          elapsed < self.duration
+            ? self.ease.call(null, elapsed / self.duration)
+            : (self.timer.restart(stop), (self.state = ENDING), 1),
+        i = -1,
+        n = tween.length;
 
       while (++i < n) {
         tween[i].call(node, t);
@@ -2452,21 +2950,30 @@
 
   function interrupt(node, name) {
     var schedules = node.__transition,
-        schedule,
-        active,
-        empty = true,
-        i;
+      schedule,
+      active,
+      empty = true,
+      i;
 
     if (!schedules) return;
 
     name = name == null ? null : name + "";
 
     for (i in schedules) {
-      if ((schedule = schedules[i]).name !== name) { empty = false; continue; }
+      if ((schedule = schedules[i]).name !== name) {
+        empty = false;
+        continue;
+      }
       active = schedule.state > STARTING && schedule.state < ENDING;
       schedule.state = ENDED;
       schedule.timer.stop();
-      schedule.on.call(active ? "interrupt" : "cancel", node, node.__data__, schedule.index, schedule.group);
+      schedule.on.call(
+        active ? "interrupt" : "cancel",
+        node,
+        node.__data__,
+        schedule.index,
+        schedule.group,
+      );
       delete schedules[i];
     }
 
@@ -2474,16 +2981,16 @@
   }
 
   function selection_interrupt(name) {
-    return this.each(function() {
+    return this.each(function () {
       interrupt(this, name);
     });
   }
 
   function tweenRemove(id, name) {
     var tween0, tween1;
-    return function() {
+    return function () {
       var schedule = set(this, id),
-          tween = schedule.tween;
+        tween = schedule.tween;
 
       // If this node shared tween with the previous node,
       // just assign the updated shared tween and we’re done!
@@ -2505,17 +3012,21 @@
 
   function tweenFunction(id, name, value) {
     var tween0, tween1;
-    if (typeof value !== "function") throw new Error;
-    return function() {
+    if (typeof value !== "function") throw new Error();
+    return function () {
       var schedule = set(this, id),
-          tween = schedule.tween;
+        tween = schedule.tween;
 
       // If this node shared tween with the previous node,
       // just assign the updated shared tween and we’re done!
       // Otherwise, copy-on-write.
       if (tween !== tween0) {
         tween1 = (tween0 = tween).slice();
-        for (var t = {name: name, value: value}, i = 0, n = tween1.length; i < n; ++i) {
+        for (
+          var t = { name: name, value: value }, i = 0, n = tween1.length;
+          i < n;
+          ++i
+        ) {
           if (tween1[i].name === name) {
             tween1[i] = t;
             break;
@@ -2543,112 +3054,146 @@
       return null;
     }
 
-    return this.each((value == null ? tweenRemove : tweenFunction)(id, name, value));
+    return this.each(
+      (value == null ? tweenRemove : tweenFunction)(id, name, value),
+    );
   }
 
   function tweenValue(transition, name, value) {
     var id = transition._id;
 
-    transition.each(function() {
+    transition.each(function () {
       var schedule = set(this, id);
-      (schedule.value || (schedule.value = {}))[name] = value.apply(this, arguments);
+      (schedule.value || (schedule.value = {}))[name] = value.apply(
+        this,
+        arguments,
+      );
     });
 
-    return function(node) {
+    return function (node) {
       return get(node, id).value[name];
     };
   }
 
   function interpolate(a, b) {
     var c;
-    return (typeof b === "number" ? interpolateNumber
-        : b instanceof color ? interpolateRgb
-        : (c = color(b)) ? (b = c, interpolateRgb)
-        : interpolateString)(a, b);
+    return (
+      typeof b === "number"
+        ? interpolateNumber
+        : b instanceof color
+          ? interpolateRgb
+          : (c = color(b))
+            ? ((b = c), interpolateRgb)
+            : interpolateString
+    )(a, b);
   }
 
   function attrRemove(name) {
-    return function() {
+    return function () {
       this.removeAttribute(name);
     };
   }
 
   function attrRemoveNS(fullname) {
-    return function() {
+    return function () {
       this.removeAttributeNS(fullname.space, fullname.local);
     };
   }
 
   function attrConstant(name, interpolate, value1) {
     var string00,
-        string1 = value1 + "",
-        interpolate0;
-    return function() {
+      string1 = value1 + "",
+      interpolate0;
+    return function () {
       var string0 = this.getAttribute(name);
-      return string0 === string1 ? null
-          : string0 === string00 ? interpolate0
-          : interpolate0 = interpolate(string00 = string0, value1);
+      return string0 === string1
+        ? null
+        : string0 === string00
+          ? interpolate0
+          : (interpolate0 = interpolate((string00 = string0), value1));
     };
   }
 
   function attrConstantNS(fullname, interpolate, value1) {
     var string00,
-        string1 = value1 + "",
-        interpolate0;
-    return function() {
+      string1 = value1 + "",
+      interpolate0;
+    return function () {
       var string0 = this.getAttributeNS(fullname.space, fullname.local);
-      return string0 === string1 ? null
-          : string0 === string00 ? interpolate0
-          : interpolate0 = interpolate(string00 = string0, value1);
+      return string0 === string1
+        ? null
+        : string0 === string00
+          ? interpolate0
+          : (interpolate0 = interpolate((string00 = string0), value1));
     };
   }
 
   function attrFunction(name, interpolate, value) {
-    var string00,
-        string10,
-        interpolate0;
-    return function() {
-      var string0, value1 = value(this), string1;
+    var string00, string10, interpolate0;
+    return function () {
+      var string0,
+        value1 = value(this),
+        string1;
       if (value1 == null) return void this.removeAttribute(name);
       string0 = this.getAttribute(name);
       string1 = value1 + "";
-      return string0 === string1 ? null
-          : string0 === string00 && string1 === string10 ? interpolate0
-          : (string10 = string1, interpolate0 = interpolate(string00 = string0, value1));
+      return string0 === string1
+        ? null
+        : string0 === string00 && string1 === string10
+          ? interpolate0
+          : ((string10 = string1),
+            (interpolate0 = interpolate((string00 = string0), value1)));
     };
   }
 
   function attrFunctionNS(fullname, interpolate, value) {
-    var string00,
-        string10,
-        interpolate0;
-    return function() {
-      var string0, value1 = value(this), string1;
-      if (value1 == null) return void this.removeAttributeNS(fullname.space, fullname.local);
+    var string00, string10, interpolate0;
+    return function () {
+      var string0,
+        value1 = value(this),
+        string1;
+      if (value1 == null)
+        return void this.removeAttributeNS(fullname.space, fullname.local);
       string0 = this.getAttributeNS(fullname.space, fullname.local);
       string1 = value1 + "";
-      return string0 === string1 ? null
-          : string0 === string00 && string1 === string10 ? interpolate0
-          : (string10 = string1, interpolate0 = interpolate(string00 = string0, value1));
+      return string0 === string1
+        ? null
+        : string0 === string00 && string1 === string10
+          ? interpolate0
+          : ((string10 = string1),
+            (interpolate0 = interpolate((string00 = string0), value1)));
     };
   }
 
   function transition_attr(name, value) {
-    var fullname = namespace(name), i = fullname === "transform" ? interpolateTransformSvg : interpolate;
-    return this.attrTween(name, typeof value === "function"
-        ? (fullname.local ? attrFunctionNS : attrFunction)(fullname, i, tweenValue(this, "attr." + name, value))
-        : value == null ? (fullname.local ? attrRemoveNS : attrRemove)(fullname)
-        : (fullname.local ? attrConstantNS : attrConstant)(fullname, i, value));
+    var fullname = namespace(name),
+      i = fullname === "transform" ? interpolateTransformSvg : interpolate;
+    return this.attrTween(
+      name,
+      typeof value === "function"
+        ? (fullname.local ? attrFunctionNS : attrFunction)(
+            fullname,
+            i,
+            tweenValue(this, "attr." + name, value),
+          )
+        : value == null
+          ? (fullname.local ? attrRemoveNS : attrRemove)(fullname)
+          : (fullname.local ? attrConstantNS : attrConstant)(
+              fullname,
+              i,
+              value,
+            ),
+    );
   }
 
   function attrInterpolate(name, i) {
-    return function(t) {
+    return function (t) {
       this.setAttribute(name, i.call(this, t));
     };
   }
 
   function attrInterpolateNS(fullname, i) {
-    return function(t) {
+    return function (t) {
       this.setAttributeNS(fullname.space, fullname.local, i.call(this, t));
     };
   }
@@ -2679,58 +3224,73 @@
     var key = "attr." + name;
     if (arguments.length < 2) return (key = this.tween(key)) && key._value;
     if (value == null) return this.tween(key, null);
-    if (typeof value !== "function") throw new Error;
+    if (typeof value !== "function") throw new Error();
     var fullname = namespace(name);
-    return this.tween(key, (fullname.local ? attrTweenNS : attrTween)(fullname, value));
+    return this.tween(
+      key,
+      (fullname.local ? attrTweenNS : attrTween)(fullname, value),
+    );
   }
 
   function delayFunction(id, value) {
-    return function() {
+    return function () {
       init(this, id).delay = +value.apply(this, arguments);
     };
   }
 
   function delayConstant(id, value) {
-    return value = +value, function() {
-      init(this, id).delay = value;
-    };
+    return (
+      (value = +value),
+      function () {
+        init(this, id).delay = value;
+      }
+    );
   }
 
   function transition_delay(value) {
     var id = this._id;
 
     return arguments.length
-        ? this.each((typeof value === "function"
-            ? delayFunction
-            : delayConstant)(id, value))
-        : get(this.node(), id).delay;
+      ? this.each(
+          (typeof value === "function" ? delayFunction : delayConstant)(
+            id,
+            value,
+          ),
+        )
+      : get(this.node(), id).delay;
   }
 
   function durationFunction(id, value) {
-    return function() {
+    return function () {
       set(this, id).duration = +value.apply(this, arguments);
     };
   }
 
   function durationConstant(id, value) {
-    return value = +value, function() {
-      set(this, id).duration = value;
-    };
+    return (
+      (value = +value),
+      function () {
+        set(this, id).duration = value;
+      }
+    );
   }
 
   function transition_duration(value) {
     var id = this._id;
 
     return arguments.length
-        ? this.each((typeof value === "function"
-            ? durationFunction
-            : durationConstant)(id, value))
-        : get(this.node(), id).duration;
+      ? this.each(
+          (typeof value === "function" ? durationFunction : durationConstant)(
+            id,
+            value,
+          ),
+        )
+      : get(this.node(), id).duration;
   }
 
   function easeConstant(id, value) {
-    if (typeof value !== "function") throw new Error;
-    return function() {
+    if (typeof value !== "function") throw new Error();
+    return function () {
       set(this, id).ease = value;
     };
   }
@@ -2739,28 +3299,43 @@
     var id = this._id;
 
     return arguments.length
-        ? this.each(easeConstant(id, value))
-        : get(this.node(), id).ease;
+      ? this.each(easeConstant(id, value))
+      : get(this.node(), id).ease;
   }
 
   function easeVarying(id, value) {
-    return function() {
+    return function () {
       var v = value.apply(this, arguments);
-      if (typeof v !== "function") throw new Error;
+      if (typeof v !== "function") throw new Error();
       set(this, id).ease = v;
     };
   }
 
   function transition_easeVarying(value) {
-    if (typeof value !== "function") throw new Error;
+    if (typeof value !== "function") throw new Error();
     return this.each(easeVarying(this._id, value));
   }
 
   function transition_filter(match) {
     if (typeof match !== "function") match = matcher(match);
 
-    for (var groups = this._groups, m = groups.length, subgroups = new Array(m), j = 0; j < m; ++j) {
-      for (var group = groups[j], n = group.length, subgroup = subgroups[j] = [], node, i = 0; i < n; ++i) {
+    for (
+      var groups = this._groups,
+        m = groups.length,
+        subgroups = new Array(m),
+        j = 0;
+      j < m;
+      ++j
+    ) {
+      for (
+        var group = groups[j],
+          n = group.length,
+          subgroup = (subgroups[j] = []),
+          node,
+          i = 0;
+        i < n;
+        ++i
+      ) {
         if ((node = group[i]) && match.call(node, node.__data__, i, group)) {
           subgroup.push(node);
         }
@@ -2771,11 +3346,30 @@
   }
 
   function transition_merge(transition) {
-    if (transition._id !== this._id) throw new Error;
+    if (transition._id !== this._id) throw new Error();
 
-    for (var groups0 = this._groups, groups1 = transition._groups, m0 = groups0.length, m1 = groups1.length, m = Math.min(m0, m1), merges = new Array(m0), j = 0; j < m; ++j) {
-      for (var group0 = groups0[j], group1 = groups1[j], n = group0.length, merge = merges[j] = new Array(n), node, i = 0; i < n; ++i) {
-        if (node = group0[i] || group1[i]) {
+    for (
+      var groups0 = this._groups,
+        groups1 = transition._groups,
+        m0 = groups0.length,
+        m1 = groups1.length,
+        m = Math.min(m0, m1),
+        merges = new Array(m0),
+        j = 0;
+      j < m;
+      ++j
+    ) {
+      for (
+        var group0 = groups0[j],
+          group1 = groups1[j],
+          n = group0.length,
+          merge = (merges[j] = new Array(n)),
+          node,
+          i = 0;
+        i < n;
+        ++i
+      ) {
+        if ((node = group0[i] || group1[i])) {
           merge[i] = node;
         }
       }
@@ -2789,18 +3383,23 @@
   }
 
   function start(name) {
-    return (name + "").trim().split(/^|\s+/).every(function(t) {
-      var i = t.indexOf(".");
-      if (i >= 0) t = t.slice(0, i);
-      return !t || t === "start";
-    });
+    return (name + "")
+      .trim()
+      .split(/^|\s+/)
+      .every(function (t) {
+        var i = t.indexOf(".");
+        if (i >= 0) t = t.slice(0, i);
+        return !t || t === "start";
+      });
   }
 
   function onFunction(id, name, listener) {
-    var on0, on1, sit = start(name) ? init : set;
-    return function() {
+    var on0,
+      on1,
+      sit = start(name) ? init : set;
+    return function () {
       var schedule = sit(this, id),
-          on = schedule.on;
+        on = schedule.on;
 
       // If this node shared a dispatch with the previous node,
       // just assign the updated shared dispatch and we’re done!
@@ -2815,12 +3414,12 @@
     var id = this._id;
 
     return arguments.length < 2
-        ? get(this.node(), id).on.on(name)
-        : this.each(onFunction(id, name, listener));
+      ? get(this.node(), id).on.on(name)
+      : this.each(onFunction(id, name, listener));
   }
 
   function removeFunction(id) {
-    return function() {
+    return function () {
       var parent = this.parentNode;
       for (var i in this.__transition) if (+i !== id) return;
       if (parent) parent.removeChild(this);
@@ -2833,13 +3432,32 @@
 
   function transition_select(select) {
     var name = this._name,
-        id = this._id;
+      id = this._id;
 
     if (typeof select !== "function") select = selector(select);
 
-    for (var groups = this._groups, m = groups.length, subgroups = new Array(m), j = 0; j < m; ++j) {
-      for (var group = groups[j], n = group.length, subgroup = subgroups[j] = new Array(n), node, subnode, i = 0; i < n; ++i) {
-        if ((node = group[i]) && (subnode = select.call(node, node.__data__, i, group))) {
+    for (
+      var groups = this._groups,
+        m = groups.length,
+        subgroups = new Array(m),
+        j = 0;
+      j < m;
+      ++j
+    ) {
+      for (
+        var group = groups[j],
+          n = group.length,
+          subgroup = (subgroups[j] = new Array(n)),
+          node,
+          subnode,
+          i = 0;
+        i < n;
+        ++i
+      ) {
+        if (
+          (node = group[i]) &&
+          (subnode = select.call(node, node.__data__, i, group))
+        ) {
           if ("__data__" in node) subnode.__data__ = node.__data__;
           subgroup[i] = subnode;
           schedule(subgroup[i], name, id, i, subgroup, get(node, id));
@@ -2852,15 +3470,31 @@
 
   function transition_selectAll(select) {
     var name = this._name,
-        id = this._id;
+      id = this._id;
 
     if (typeof select !== "function") select = selectorAll(select);
 
-    for (var groups = this._groups, m = groups.length, subgroups = [], parents = [], j = 0; j < m; ++j) {
+    for (
+      var groups = this._groups,
+        m = groups.length,
+        subgroups = [],
+        parents = [],
+        j = 0;
+      j < m;
+      ++j
+    ) {
       for (var group = groups[j], n = group.length, node, i = 0; i < n; ++i) {
-        if (node = group[i]) {
-          for (var children = select.call(node, node.__data__, i, group), child, inherit = get(node, id), k = 0, l = children.length; k < l; ++k) {
-            if (child = children[k]) {
+        if ((node = group[i])) {
+          for (
+            var children = select.call(node, node.__data__, i, group),
+              child,
+              inherit = get(node, id),
+              k = 0,
+              l = children.length;
+            k < l;
+            ++k
+          ) {
+            if ((child = children[k])) {
               schedule(child, name, id, k, children, inherit);
             }
           }
@@ -2880,82 +3514,105 @@
   }
 
   function styleNull(name, interpolate) {
-    var string00,
-        string10,
-        interpolate0;
-    return function() {
+    var string00, string10, interpolate0;
+    return function () {
       var string0 = styleValue(this, name),
-          string1 = (this.style.removeProperty(name), styleValue(this, name));
-      return string0 === string1 ? null
-          : string0 === string00 && string1 === string10 ? interpolate0
-          : interpolate0 = interpolate(string00 = string0, string10 = string1);
+        string1 = (this.style.removeProperty(name), styleValue(this, name));
+      return string0 === string1
+        ? null
+        : string0 === string00 && string1 === string10
+          ? interpolate0
+          : (interpolate0 = interpolate(
+              (string00 = string0),
+              (string10 = string1),
+            ));
     };
   }
 
   function styleRemove(name) {
-    return function() {
+    return function () {
       this.style.removeProperty(name);
     };
   }
 
   function styleConstant(name, interpolate, value1) {
     var string00,
-        string1 = value1 + "",
-        interpolate0;
-    return function() {
+      string1 = value1 + "",
+      interpolate0;
+    return function () {
       var string0 = styleValue(this, name);
-      return string0 === string1 ? null
-          : string0 === string00 ? interpolate0
-          : interpolate0 = interpolate(string00 = string0, value1);
+      return string0 === string1
+        ? null
+        : string0 === string00
+          ? interpolate0
+          : (interpolate0 = interpolate((string00 = string0), value1));
     };
   }
 
   function styleFunction(name, interpolate, value) {
-    var string00,
-        string10,
-        interpolate0;
-    return function() {
+    var string00, string10, interpolate0;
+    return function () {
       var string0 = styleValue(this, name),
-          value1 = value(this),
-          string1 = value1 + "";
-      if (value1 == null) string1 = value1 = (this.style.removeProperty(name), styleValue(this, name));
-      return string0 === string1 ? null
-          : string0 === string00 && string1 === string10 ? interpolate0
-          : (string10 = string1, interpolate0 = interpolate(string00 = string0, value1));
+        value1 = value(this),
+        string1 = value1 + "";
+      if (value1 == null)
+        string1 = value1 =
+          (this.style.removeProperty(name), styleValue(this, name));
+      return string0 === string1
+        ? null
+        : string0 === string00 && string1 === string10
+          ? interpolate0
+          : ((string10 = string1),
+            (interpolate0 = interpolate((string00 = string0), value1)));
     };
   }
 
   function styleMaybeRemove(id, name) {
-    var on0, on1, listener0, key = "style." + name, event = "end." + key, remove;
-    return function() {
+    var on0,
+      on1,
+      listener0,
+      key = "style." + name,
+      event = "end." + key,
+      remove;
+    return function () {
       var schedule = set(this, id),
-          on = schedule.on,
-          listener = schedule.value[key] == null ? remove || (remove = styleRemove(name)) : undefined;
+        on = schedule.on,
+        listener =
+          schedule.value[key] == null
+            ? remove || (remove = styleRemove(name))
+            : undefined;
 
       // If this node shared a dispatch with the previous node,
       // just assign the updated shared dispatch and we’re done!
       // Otherwise, copy-on-write.
-      if (on !== on0 || listener0 !== listener) (on1 = (on0 = on).copy()).on(event, listener0 = listener);
+      if (on !== on0 || listener0 !== listener)
+        (on1 = (on0 = on).copy()).on(event, (listener0 = listener));
 
       schedule.on = on1;
     };
   }
 
   function transition_style(name, value, priority) {
-    var i = (name += "") === "transform" ? interpolateTransformCss : interpolate;
-    return value == null ? this
-        .styleTween(name, styleNull(name, i))
-        .on("end.style." + name, styleRemove(name))
-      : typeof value === "function" ? this
-        .styleTween(name, styleFunction(name, i, tweenValue(this, "style." + name, value)))
-        .each(styleMaybeRemove(this._id, name))
-      : this
-        .styleTween(name, styleConstant(name, i, value), priority)
-        .on("end.style." + name, null);
+    var i =
+      (name += "") === "transform" ? interpolateTransformCss : interpolate;
+    return value == null
+      ? this.styleTween(name, styleNull(name, i)).on(
+          "end.style." + name,
+          styleRemove(name),
+        )
+      : typeof value === "function"
+        ? this.styleTween(
+            name,
+            styleFunction(name, i, tweenValue(this, "style." + name, value)),
+          ).each(styleMaybeRemove(this._id, name))
+        : this.styleTween(name, styleConstant(name, i, value), priority).on(
+            "end.style." + name,
+            null,
+          );
   }
 
   function styleInterpolate(name, i, priority) {
-    return function(t) {
+    return function (t) {
       this.style.setProperty(name, i.call(this, t), priority);
     };
   }
@@ -2975,31 +3632,37 @@
     var key = "style." + (name += "");
     if (arguments.length < 2) return (key = this.tween(key)) && key._value;
     if (value == null) return this.tween(key, null);
-    if (typeof value !== "function") throw new Error;
-    return this.tween(key, styleTween(name, value, priority == null ? "" : priority));
+    if (typeof value !== "function") throw new Error();
+    return this.tween(
+      key,
+      styleTween(name, value, priority == null ? "" : priority),
+    );
   }
 
   function textConstant(value) {
-    return function() {
+    return function () {
       this.textContent = value;
     };
   }
 
   function textFunction(value) {
-    return function() {
+    return function () {
       var value1 = value(this);
       this.textContent = value1 == null ? "" : value1;
     };
   }
 
   function transition_text(value) {
-    return this.tween("text", typeof value === "function"
+    return this.tween(
+      "text",
+      typeof value === "function"
         ? textFunction(tweenValue(this, "text", value))
-        : textConstant(value == null ? "" : value + ""));
+        : textConstant(value == null ? "" : value + ""),
+    );
   }
 
   function textInterpolate(i) {
-    return function(t) {
+    return function (t) {
       this.textContent = i.call(this, t);
     };
   }
@@ -3019,24 +3682,24 @@
     var key = "text";
     if (arguments.length < 1) return (key = this.tween(key)) && key._value;
     if (value == null) return this.tween(key, null);
-    if (typeof value !== "function") throw new Error;
+    if (typeof value !== "function") throw new Error();
     return this.tween(key, textTween(value));
   }
 
   function transition_transition() {
     var name = this._name,
-        id0 = this._id,
-        id1 = newId();
+      id0 = this._id,
+      id1 = newId();
 
     for (var groups = this._groups, m = groups.length, j = 0; j < m; ++j) {
       for (var group = groups[j], n = group.length, node, i = 0; i < n; ++i) {
-        if (node = group[i]) {
+        if ((node = group[i])) {
           var inherit = get(node, id0);
           schedule(node, name, id1, i, group, {
             time: inherit.time + inherit.delay + inherit.duration,
             delay: 0,
             duration: inherit.duration,
-            ease: inherit.ease
+            ease: inherit.ease,
           });
         }
       }
@@ -3046,14 +3709,22 @@
   }
 
   function transition_end() {
-    var on0, on1, that = this, id = that._id, size = that.size();
-    return new Promise(function(resolve, reject) {
-      var cancel = {value: reject},
-          end = {value: function() { if (--size === 0) resolve(); }};
+    var on0,
+      on1,
+      that = this,
+      id = that._id,
+      size = that.size();
+    return new Promise(function (resolve, reject) {
+      var cancel = { value: reject },
+        end = {
+          value: function () {
+            if (--size === 0) resolve();
+          },
+        };
 
-      that.each(function() {
+      that.each(function () {
         var schedule = set(this, id),
-            on = schedule.on;
+          on = schedule.on;
 
         // If this node shared a dispatch with the previous node,
         // just assign the updated shared dispatch and we’re done!
@@ -3118,7 +3789,7 @@
     ease: transition_ease,
     easeVarying: transition_easeVarying,
     end: transition_end,
-    [Symbol.iterator]: selection_prototype[Symbol.iterator]
+    [Symbol.iterator]: selection_prototype[Symbol.iterator],
   };
 
   function cubicInOut(t) {
@@ -3129,7 +3800,7 @@
     time: null, // Set on use.
     delay: 0,
     duration: 250,
-    ease: cubicInOut
+    ease: cubicInOut,
   };
 
   function inherit(node, id) {
@@ -3143,18 +3814,19 @@
   }
 
   function selection_transition(name) {
-    var id,
-        timing;
+    var id, timing;
 
     if (name instanceof Transition) {
-      id = name._id, name = name._name;
+      (id = name._id), (name = name._name);
     } else {
-      id = newId(), (timing = defaultTiming).time = now$3(), name = name == null ? null : name + "";
+      (id = newId()),
+        ((timing = defaultTiming).time = now$3()),
+        (name = name == null ? null : name + "");
     }
 
     for (var groups = this._groups, m = groups.length, j = 0; j < m; ++j) {
       for (var group = groups[j], n = group.length, node, i = 0; i < n; ++i) {
-        if (node = group[i]) {
+        if ((node = group[i])) {
           schedule(node, name, id, i, group, timing || inherit(node, id));
         }
       }
@@ -3166,20 +3838,15 @@
   selection.prototype.interrupt = selection_interrupt;
   selection.prototype.transition = selection_transition;
 
-  var constant$1 = x => () => x;
+  var constant$1 = (x) => () => x;
 
-  function ZoomEvent(type, {
-    sourceEvent,
-    target,
-    transform,
-    dispatch
-  }) {
+  function ZoomEvent(type, { sourceEvent, target, transform, dispatch }) {
     Object.defineProperties(this, {
-      type: {value: type, enumerable: true, configurable: true},
-      sourceEvent: {value: sourceEvent, enumerable: true, configurable: true},
-      target: {value: target, enumerable: true, configurable: true},
-      transform: {value: transform, enumerable: true, configurable: true},
-      _: {value: dispatch}
+      type: { value: type, enumerable: true, configurable: true },
+      sourceEvent: { value: sourceEvent, enumerable: true, configurable: true },
+      target: { value: target, enumerable: true, configurable: true },
+      transform: { value: transform, enumerable: true, configurable: true },
+      _: { value: dispatch },
     });
   }
 
@@ -3191,39 +3858,45 @@
 
   Transform.prototype = {
     constructor: Transform,
-    scale: function(k) {
+    scale: function (k) {
       return k === 1 ? this : new Transform(this.k * k, this.x, this.y);
     },
-    translate: function(x, y) {
-      return x === 0 & y === 0 ? this : new Transform(this.k, this.x + this.k * x, this.y + this.k * y);
+    translate: function (x, y) {
+      return (x === 0) & (y === 0)
+        ? this
+        : new Transform(this.k, this.x + this.k * x, this.y + this.k * y);
     },
-    apply: function(point) {
+    apply: function (point) {
       return [point[0] * this.k + this.x, point[1] * this.k + this.y];
     },
-    applyX: function(x) {
+    applyX: function (x) {
       return x * this.k + this.x;
     },
-    applyY: function(y) {
+    applyY: function (y) {
       return y * this.k + this.y;
     },
-    invert: function(location) {
+    invert: function (location) {
       return [(location[0] - this.x) / this.k, (location[1] - this.y) / this.k];
     },
-    invertX: function(x) {
+    invertX: function (x) {
       return (x - this.x) / this.k;
     },
-    invertY: function(y) {
+    invertY: function (y) {
       return (y - this.y) / this.k;
     },
-    rescaleX: function(x) {
-      return x.copy().domain(x.range().map(this.invertX, this).map(x.invert, x));
+    rescaleX: function (x) {
+      return x
+        .copy()
+        .domain(x.range().map(this.invertX, this).map(x.invert, x));
     },
-    rescaleY: function(y) {
-      return y.copy().domain(y.range().map(this.invertY, this).map(y.invert, y));
+    rescaleY: function (y) {
+      return y
+        .copy()
+        .domain(y.range().map(this.invertY, this).map(y.invert, y));
     },
-    toString: function() {
+    toString: function () {
       return "translate(" + this.x + "," + this.y + ") scale(" + this.k + ")";
-    }
+    },
   };
 
   var identity = new Transform(1, 0, 0);
@@ -3247,7 +3920,7 @@
   // Ignore right-click, since that should open the context menu.
   // except for pinch-to-zoom, which is sent as a wheel+ctrlKey event
   function defaultFilter(event) {
-    return (!event.ctrlKey || event.type === 'wheel') && !event.button;
+    return (!event.ctrlKey || event.type === "wheel") && !event.button;
   }
 
   function defaultExtent() {
@@ -3256,11 +3929,20 @@
       e = e.ownerSVGElement || e;
       if (e.hasAttribute("viewBox")) {
         e = e.viewBox.baseVal;
-        return [[e.x, e.y], [e.x + e.width, e.y + e.height]];
+        return [
+          [e.x, e.y],
+          [e.x + e.width, e.y + e.height],
+        ];
       }
-      return [[0, 0], [e.width.baseVal.value, e.height.baseVal.value]];
+      return [
+        [0, 0],
+        [e.width.baseVal.value, e.height.baseVal.value],
+      ];
     }
-    return [[0, 0], [e.clientWidth, e.clientHeight]];
+    return [
+      [0, 0],
+      [e.clientWidth, e.clientHeight],
+    ];
   }
 
   function defaultTransform() {
@@ -3268,146 +3950,233 @@
   }
 
   function defaultWheelDelta(event) {
-    return -event.deltaY * (event.deltaMode === 1 ? 0.05 : event.deltaMode ? 1 : 0.002) * (event.ctrlKey ? 10 : 1);
+    return (
+      -event.deltaY *
+      (event.deltaMode === 1 ? 0.05 : event.deltaMode ? 1 : 0.002) *
+      (event.ctrlKey ? 10 : 1)
+    );
   }
 
   function defaultTouchable() {
-    return navigator.maxTouchPoints || ("ontouchstart" in this);
+    return navigator.maxTouchPoints || "ontouchstart" in this;
   }
 
   function defaultConstrain(transform, extent, translateExtent) {
     var dx0 = transform.invertX(extent[0][0]) - translateExtent[0][0],
-        dx1 = transform.invertX(extent[1][0]) - translateExtent[1][0],
-        dy0 = transform.invertY(extent[0][1]) - translateExtent[0][1],
-        dy1 = transform.invertY(extent[1][1]) - translateExtent[1][1];
+      dx1 = transform.invertX(extent[1][0]) - translateExtent[1][0],
+      dy0 = transform.invertY(extent[0][1]) - translateExtent[0][1],
+      dy1 = transform.invertY(extent[1][1]) - translateExtent[1][1];
     return transform.translate(
       dx1 > dx0 ? (dx0 + dx1) / 2 : Math.min(0, dx0) || Math.max(0, dx1),
-      dy1 > dy0 ? (dy0 + dy1) / 2 : Math.min(0, dy0) || Math.max(0, dy1)
+      dy1 > dy0 ? (dy0 + dy1) / 2 : Math.min(0, dy0) || Math.max(0, dy1),
     );
   }
 
   function d3Zoom() {
     var filter = defaultFilter,
-        extent = defaultExtent,
-        constrain = defaultConstrain,
-        wheelDelta = defaultWheelDelta,
-        touchable = defaultTouchable,
-        scaleExtent = [0, Infinity],
-        translateExtent = [[-Infinity, -Infinity], [Infinity, Infinity]],
-        duration = 250,
-        interpolate = interpolateZoom,
-        listeners = dispatch("start", "zoom", "end"),
-        touchstarting,
-        touchfirst,
-        touchending,
-        touchDelay = 500,
-        wheelDelay = 150,
-        clickDistance2 = 0,
-        tapDistance = 10;
+      extent = defaultExtent,
+      constrain = defaultConstrain,
+      wheelDelta = defaultWheelDelta,
+      touchable = defaultTouchable,
+      scaleExtent = [0, Infinity],
+      translateExtent = [
+        [-Infinity, -Infinity],
+        [Infinity, Infinity],
+      ],
+      duration = 250,
+      interpolate = interpolateZoom,
+      listeners = dispatch("start", "zoom", "end"),
+      touchstarting,
+      touchfirst,
+      touchending,
+      touchDelay = 500,
+      wheelDelay = 150,
+      clickDistance2 = 0,
+      tapDistance = 10;
 
     function zoom(selection) {
       selection
-          .property("__zoom", defaultTransform)
-          .on("wheel.zoom", wheeled, {passive: false})
-          .on("mousedown.zoom", mousedowned)
-          .on("dblclick.zoom", dblclicked)
+        .property("__zoom", defaultTransform)
+        .on("wheel.zoom", wheeled, { passive: false })
+        .on("mousedown.zoom", mousedowned)
+        .on("dblclick.zoom", dblclicked)
         .filter(touchable)
-          .on("touchstart.zoom", touchstarted)
-          .on("touchmove.zoom", touchmoved)
-          .on("touchend.zoom touchcancel.zoom", touchended)
-          .style("-webkit-tap-highlight-color", "rgba(0,0,0,0)");
+        .on("touchstart.zoom", touchstarted)
+        .on("touchmove.zoom", touchmoved)
+        .on("touchend.zoom touchcancel.zoom", touchended)
+        .style("-webkit-tap-highlight-color", "rgba(0,0,0,0)");
     }
 
-    zoom.transform = function(collection, transform, point, event) {
-      var selection = collection.selection ? collection.selection() : collection;
+    zoom.transform = function (collection, transform, point, event) {
+      var selection = collection.selection
+        ? collection.selection()
+        : collection;
       selection.property("__zoom", defaultTransform);
       if (collection !== selection) {
         schedule(collection, transform, point, event);
       } else {
-        selection.interrupt().each(function() {
+        selection.interrupt().each(function () {
           gesture(this, arguments)
             .event(event)
             .start()
-            .zoom(null, typeof transform === "function" ? transform.apply(this, arguments) : transform)
+            .zoom(
+              null,
+              typeof transform === "function"
+                ? transform.apply(this, arguments)
+                : transform,
+            )
             .end();
         });
       }
     };
 
-    zoom.scaleBy = function(selection, k, p, event) {
-      zoom.scaleTo(selection, function() {
-        var k0 = this.__zoom.k,
+    zoom.scaleBy = function (selection, k, p, event) {
+      zoom.scaleTo(
+        selection,
+        function () {
+          var k0 = this.__zoom.k,
             k1 = typeof k === "function" ? k.apply(this, arguments) : k;
-        return k0 * k1;
-      }, p, event);
+          return k0 * k1;
+        },
+        p,
+        event,
+      );
     };
 
-    zoom.scaleTo = function(selection, k, p, event) {
-      zoom.transform(selection, function() {
-        var e = extent.apply(this, arguments),
+    zoom.scaleTo = function (selection, k, p, event) {
+      zoom.transform(
+        selection,
+        function () {
+          var e = extent.apply(this, arguments),
             t0 = this.__zoom,
-            p0 = p == null ? centroid(e) : typeof p === "function" ? p.apply(this, arguments) : p,
+            p0 =
+              p == null
+                ? centroid(e)
+                : typeof p === "function"
+                  ? p.apply(this, arguments)
+                  : p,
             p1 = t0.invert(p0),
             k1 = typeof k === "function" ? k.apply(this, arguments) : k;
-        return constrain(translate(scale(t0, k1), p0, p1), e, translateExtent);
-      }, p, event);
+          return constrain(
+            translate(scale(t0, k1), p0, p1),
+            e,
+            translateExtent,
+          );
+        },
+        p,
+        event,
+      );
     };
 
-    zoom.translateBy = function(selection, x, y, event) {
-      zoom.transform(selection, function() {
-        return constrain(this.__zoom.translate(
-          typeof x === "function" ? x.apply(this, arguments) : x,
-          typeof y === "function" ? y.apply(this, arguments) : y
-        ), extent.apply(this, arguments), translateExtent);
-      }, null, event);
+    zoom.translateBy = function (selection, x, y, event) {
+      zoom.transform(
+        selection,
+        function () {
+          return constrain(
+            this.__zoom.translate(
+              typeof x === "function" ? x.apply(this, arguments) : x,
+              typeof y === "function" ? y.apply(this, arguments) : y,
+            ),
+            extent.apply(this, arguments),
+            translateExtent,
+          );
+        },
+        null,
+        event,
+      );
     };
 
-    zoom.translateTo = function(selection, x, y, p, event) {
-      zoom.transform(selection, function() {
-        var e = extent.apply(this, arguments),
+    zoom.translateTo = function (selection, x, y, p, event) {
+      zoom.transform(
+        selection,
+        function () {
+          var e = extent.apply(this, arguments),
             t = this.__zoom,
-            p0 = p == null ? centroid(e) : typeof p === "function" ? p.apply(this, arguments) : p;
-        return constrain(identity.translate(p0[0], p0[1]).scale(t.k).translate(
-          typeof x === "function" ? -x.apply(this, arguments) : -x,
-          typeof y === "function" ? -y.apply(this, arguments) : -y
-        ), e, translateExtent);
-      }, p, event);
+            p0 =
+              p == null
+                ? centroid(e)
+                : typeof p === "function"
+                  ? p.apply(this, arguments)
+                  : p;
+          return constrain(
+            identity
+              .translate(p0[0], p0[1])
+              .scale(t.k)
+              .translate(
+                typeof x === "function" ? -x.apply(this, arguments) : -x,
+                typeof y === "function" ? -y.apply(this, arguments) : -y,
+              ),
+            e,
+            translateExtent,
+          );
+        },
+        p,
+        event,
+      );
     };
 
     function scale(transform, k) {
       k = Math.max(scaleExtent[0], Math.min(scaleExtent[1], k));
-      return k === transform.k ? transform : new Transform(k, transform.x, transform.y);
+      return k === transform.k
+        ? transform
+        : new Transform(k, transform.x, transform.y);
     }
 
     function translate(transform, p0, p1) {
-      var x = p0[0] - p1[0] * transform.k, y = p0[1] - p1[1] * transform.k;
-      return x === transform.x && y === transform.y ? transform : new Transform(transform.k, x, y);
+      var x = p0[0] - p1[0] * transform.k,
+        y = p0[1] - p1[1] * transform.k;
+      return x === transform.x && y === transform.y
+        ? transform
+        : new Transform(transform.k, x, y);
     }
 
     function centroid(extent) {
-      return [(+extent[0][0] + +extent[1][0]) / 2, (+extent[0][1] + +extent[1][1]) / 2];
+      return [
+        (+extent[0][0] + +extent[1][0]) / 2,
+        (+extent[0][1] + +extent[1][1]) / 2,
+      ];
     }
 
     function schedule(transition, transform, point, event) {
       transition
-          .on("start.zoom", function() { gesture(this, arguments).event(event).start(); })
-          .on("interrupt.zoom end.zoom", function() { gesture(this, arguments).event(event).end(); })
-          .tween("zoom", function() {
-            var that = this,
-                args = arguments,
-                g = gesture(that, args).event(event),
-                e = extent.apply(that, args),
-                p = point == null ? centroid(e) : typeof point === "function" ? point.apply(that, args) : point,
-                w = Math.max(e[1][0] - e[0][0], e[1][1] - e[0][1]),
-                a = that.__zoom,
-                b = typeof transform === "function" ? transform.apply(that, args) : transform,
-                i = interpolate(a.invert(p).concat(w / a.k), b.invert(p).concat(w / b.k));
-            return function(t) {
-              if (t === 1) t = b; // Avoid rounding error on end.
-              else { var l = i(t), k = w / l[2]; t = new Transform(k, p[0] - l[0] * k, p[1] - l[1] * k); }
-              g.zoom(null, t);
-            };
-          });
+        .on("start.zoom", function () {
+          gesture(this, arguments).event(event).start();
+        })
+        .on("interrupt.zoom end.zoom", function () {
+          gesture(this, arguments).event(event).end();
+        })
+        .tween("zoom", function () {
+          var that = this,
+            args = arguments,
+            g = gesture(that, args).event(event),
+            e = extent.apply(that, args),
+            p =
+              point == null
+                ? centroid(e)
+                : typeof point === "function"
+                  ? point.apply(that, args)
+                  : point,
+            w = Math.max(e[1][0] - e[0][0], e[1][1] - e[0][1]),
+            a = that.__zoom,
+            b =
+              typeof transform === "function"
+                ? transform.apply(that, args)
+                : transform,
+            i = interpolate(
+              a.invert(p).concat(w / a.k),
+              b.invert(p).concat(w / b.k),
+            );
+          return function (t) {
+            if (t === 1)
+              t = b; // Avoid rounding error on end.
+            else {
+              var l = i(t),
+                k = w / l[2];
+              t = new Transform(k, p[0] - l[0] * k, p[1] - l[1] * k);
+            }
+            g.zoom(null, t);
+          };
+        });
     }
 
     function gesture(that, args, clean) {
@@ -3424,33 +4193,36 @@
     }
 
     Gesture.prototype = {
-      event: function(event) {
+      event: function (event) {
         if (event) this.sourceEvent = event;
         return this;
       },
-      start: function() {
+      start: function () {
         if (++this.active === 1) {
           this.that.__zooming = this;
           this.emit("start");
         }
         return this;
       },
-      zoom: function(key, transform) {
-        if (this.mouse && key !== "mouse") this.mouse[1] = transform.invert(this.mouse[0]);
-        if (this.touch0 && key !== "touch") this.touch0[1] = transform.invert(this.touch0[0]);
-        if (this.touch1 && key !== "touch") this.touch1[1] = transform.invert(this.touch1[0]);
+      zoom: function (key, transform) {
+        if (this.mouse && key !== "mouse")
+          this.mouse[1] = transform.invert(this.mouse[0]);
+        if (this.touch0 && key !== "touch")
+          this.touch0[1] = transform.invert(this.touch0[0]);
+        if (this.touch1 && key !== "touch")
+          this.touch1[1] = transform.invert(this.touch1[0]);
         this.that.__zoom = transform;
         this.emit("zoom");
         return this;
       },
-      end: function() {
+      end: function () {
         if (--this.active === 0) {
           delete this.that.__zooming;
           this.emit("end");
         }
         return this;
       },
-      emit: function(type) {
+      emit: function (type) {
         var d = d3Select(this.that).datum();
         listeners.call(
           type,
@@ -3460,32 +4232,37 @@
             target: zoom,
             type,
             transform: this.that.__zoom,
-            dispatch: listeners
+            dispatch: listeners,
           }),
-          d
+          d,
         );
-      }
+      },
     };
 
     function wheeled(event, ...args) {
       if (!filter.apply(this, arguments)) return;
       var g = gesture(this, args).event(event),
-          t = this.__zoom,
-          k = Math.max(scaleExtent[0], Math.min(scaleExtent[1], t.k * Math.pow(2, wheelDelta.apply(this, arguments)))),
-          p = pointer(event);
+        t = this.__zoom,
+        k = Math.max(
+          scaleExtent[0],
+          Math.min(
+            scaleExtent[1],
+            t.k * Math.pow(2, wheelDelta.apply(this, arguments)),
+          ),
+        ),
+        p = pointer(event);
 
       // If the mouse is in the same location as before, reuse it.
       // If there were recent wheel events, reset the wheel idle timeout.
       if (g.wheel) {
         if (g.mouse[0][0] !== p[0] || g.mouse[0][1] !== p[1]) {
-          g.mouse[1] = t.invert(g.mouse[0] = p);
+          g.mouse[1] = t.invert((g.mouse[0] = p));
         }
         clearTimeout(g.wheel);
       }
 
       // If this wheel event won’t trigger a transform change, ignore it.
       else if (t.k === k) return;
-
       // Otherwise, capture the mouse point and location at the start.
       else {
         g.mouse = [p, t.invert(p)];
@@ -3495,7 +4272,14 @@
 
       noevent(event);
       g.wheel = setTimeout(wheelidled, wheelDelay);
-      g.zoom("mouse", constrain(translate(scale(t, k), g.mouse[0], g.mouse[1]), g.extent, translateExtent));
+      g.zoom(
+        "mouse",
+        constrain(
+          translate(scale(t, k), g.mouse[0], g.mouse[1]),
+          g.extent,
+          translateExtent,
+        ),
+      );
 
       function wheelidled() {
         g.wheel = null;
@@ -3506,11 +4290,13 @@
     function mousedowned(event, ...args) {
       if (touchending || !filter.apply(this, arguments)) return;
       var currentTarget = event.currentTarget,
-          g = gesture(this, args, true).event(event),
-          v = d3Select(event.view).on("mousemove.zoom", mousemoved, true).on("mouseup.zoom", mouseupped, true),
-          p = pointer(event, currentTarget),
-          x0 = event.clientX,
-          y0 = event.clientY;
+        g = gesture(this, args, true).event(event),
+        v = d3Select(event.view)
+          .on("mousemove.zoom", mousemoved, true)
+          .on("mouseup.zoom", mouseupped, true),
+        p = pointer(event, currentTarget),
+        x0 = event.clientX,
+        y0 = event.clientY;
 
       dragDisable(event.view);
       nopropagation(event);
@@ -3521,11 +4307,22 @@
       function mousemoved(event) {
         noevent(event);
         if (!g.moved) {
-          var dx = event.clientX - x0, dy = event.clientY - y0;
+          var dx = event.clientX - x0,
+            dy = event.clientY - y0;
           g.moved = dx * dx + dy * dy > clickDistance2;
         }
-        g.event(event)
-         .zoom("mouse", constrain(translate(g.that.__zoom, g.mouse[0] = pointer(event, currentTarget), g.mouse[1]), g.extent, translateExtent));
+        g.event(event).zoom(
+          "mouse",
+          constrain(
+            translate(
+              g.that.__zoom,
+              (g.mouse[0] = pointer(event, currentTarget)),
+              g.mouse[1],
+            ),
+            g.extent,
+            translateExtent,
+          ),
+        );
       }
 
       function mouseupped(event) {
@@ -3539,35 +4336,55 @@
     function dblclicked(event, ...args) {
       if (!filter.apply(this, arguments)) return;
       var t0 = this.__zoom,
-          p0 = pointer(event.changedTouches ? event.changedTouches[0] : event, this),
-          p1 = t0.invert(p0),
-          k1 = t0.k * (event.shiftKey ? 0.5 : 2),
-          t1 = constrain(translate(scale(t0, k1), p0, p1), extent.apply(this, args), translateExtent);
+        p0 = pointer(
+          event.changedTouches ? event.changedTouches[0] : event,
+          this,
+        ),
+        p1 = t0.invert(p0),
+        k1 = t0.k * (event.shiftKey ? 0.5 : 2),
+        t1 = constrain(
+          translate(scale(t0, k1), p0, p1),
+          extent.apply(this, args),
+          translateExtent,
+        );
 
       noevent(event);
-      if (duration > 0) d3Select(this).transition().duration(duration).call(schedule, t1, p0, event);
+      if (duration > 0)
+        d3Select(this)
+          .transition()
+          .duration(duration)
+          .call(schedule, t1, p0, event);
       else d3Select(this).call(zoom.transform, t1, p0, event);
     }
 
     function touchstarted(event, ...args) {
       if (!filter.apply(this, arguments)) return;
       var touches = event.touches,
-          n = touches.length,
-          g = gesture(this, args, event.changedTouches.length === n).event(event),
-          started, i, t, p;
+        n = touches.length,
+        g = gesture(this, args, event.changedTouches.length === n).event(event),
+        started,
+        i,
+        t,
+        p;
 
       nopropagation(event);
       for (i = 0; i < n; ++i) {
-        t = touches[i], p = pointer(t, this);
+        (t = touches[i]), (p = pointer(t, this));
         p = [p, this.__zoom.invert(p), t.identifier];
-        if (!g.touch0) g.touch0 = p, started = true, g.taps = 1 + !!touchstarting;
-        else if (!g.touch1 && g.touch0[2] !== p[2]) g.touch1 = p, g.taps = 0;
+        if (!g.touch0)
+          (g.touch0 = p), (started = true), (g.taps = 1 + !!touchstarting);
+        else if (!g.touch1 && g.touch0[2] !== p[2])
+          (g.touch1 = p), (g.taps = 0);
       }
 
       if (touchstarting) touchstarting = clearTimeout(touchstarting);
 
       if (started) {
-        if (g.taps < 2) touchfirst = p[0], touchstarting = setTimeout(function() { touchstarting = null; }, touchDelay);
+        if (g.taps < 2)
+          (touchfirst = p[0]),
+            (touchstarting = setTimeout(function () {
+              touchstarting = null;
+            }, touchDelay));
         interrupt(this);
         g.start();
       }
@@ -3576,26 +4393,31 @@
     function touchmoved(event, ...args) {
       if (!this.__zooming) return;
       var g = gesture(this, args).event(event),
-          touches = event.changedTouches,
-          n = touches.length, i, t, p, l;
+        touches = event.changedTouches,
+        n = touches.length,
+        i,
+        t,
+        p,
+        l;
 
       noevent(event);
       for (i = 0; i < n; ++i) {
-        t = touches[i], p = pointer(t, this);
+        (t = touches[i]), (p = pointer(t, this));
         if (g.touch0 && g.touch0[2] === t.identifier) g.touch0[0] = p;
         else if (g.touch1 && g.touch1[2] === t.identifier) g.touch1[0] = p;
       }
       t = g.that.__zoom;
       if (g.touch1) {
-        var p0 = g.touch0[0], l0 = g.touch0[1],
-            p1 = g.touch1[0], l1 = g.touch1[1],
-            dp = (dp = p1[0] - p0[0]) * dp + (dp = p1[1] - p0[1]) * dp,
-            dl = (dl = l1[0] - l0[0]) * dl + (dl = l1[1] - l0[1]) * dl;
+        var p0 = g.touch0[0],
+          l0 = g.touch0[1],
+          p1 = g.touch1[0],
+          l1 = g.touch1[1],
+          dp = (dp = p1[0] - p0[0]) * dp + (dp = p1[1] - p0[1]) * dp,
+          dl = (dl = l1[0] - l0[0]) * dl + (dl = l1[1] - l0[1]) * dl;
         t = scale(t, Math.sqrt(dp / dl));
         p = [(p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2];
         l = [(l0[0] + l1[0]) / 2, (l0[1] + l1[1]) / 2];
-      }
-      else if (g.touch0) p = g.touch0[0], l = g.touch0[1];
+      } else if (g.touch0) (p = g.touch0[0]), (l = g.touch0[1]);
       else return;
 
       g.zoom("touch", constrain(translate(t, p, l), g.extent, translateExtent));
@@ -3604,25 +4426,31 @@
     function touchended(event, ...args) {
       if (!this.__zooming) return;
       var g = gesture(this, args).event(event),
-          touches = event.changedTouches,
-          n = touches.length, i, t;
+        touches = event.changedTouches,
+        n = touches.length,
+        i,
+        t;
 
       nopropagation(event);
       if (touchending) clearTimeout(touchending);
-      touchending = setTimeout(function() { touchending = null; }, touchDelay);
+      touchending = setTimeout(function () {
+        touchending = null;
+      }, touchDelay);
       for (i = 0; i < n; ++i) {
         t = touches[i];
         if (g.touch0 && g.touch0[2] === t.identifier) delete g.touch0;
         else if (g.touch1 && g.touch1[2] === t.identifier) delete g.touch1;
       }
-      if (g.touch1 && !g.touch0) g.touch0 = g.touch1, delete g.touch1;
+      if (g.touch1 && !g.touch0) (g.touch0 = g.touch1), delete g.touch1;
       if (g.touch0) g.touch0[1] = this.__zoom.invert(g.touch0[0]);
       else {
         g.end();
         // If this was a dbltap, reroute to the (optional) dblclick.zoom handler.
         if (g.taps === 2) {
           t = pointer(t, this);
-          if (Math.hypot(touchfirst[0] - t[0], touchfirst[1] - t[1]) < tapDistance) {
+          if (
+            Math.hypot(touchfirst[0] - t[0], touchfirst[1] - t[1]) < tapDistance
+          ) {
             var p = d3Select(this).on("dblclick.zoom");
             if (p) p.apply(this, arguments);
           }
@@ -3630,53 +4458,81 @@
       }
     }
 
-    zoom.wheelDelta = function(_) {
-      return arguments.length ? (wheelDelta = typeof _ === "function" ? _ : constant$1(+_), zoom) : wheelDelta;
+    zoom.wheelDelta = function (_) {
+      return arguments.length
+        ? ((wheelDelta = typeof _ === "function" ? _ : constant$1(+_)), zoom)
+        : wheelDelta;
     };
 
-    zoom.filter = function(_) {
-      return arguments.length ? (filter = typeof _ === "function" ? _ : constant$1(!!_), zoom) : filter;
+    zoom.filter = function (_) {
+      return arguments.length
+        ? ((filter = typeof _ === "function" ? _ : constant$1(!!_)), zoom)
+        : filter;
     };
 
-    zoom.touchable = function(_) {
-      return arguments.length ? (touchable = typeof _ === "function" ? _ : constant$1(!!_), zoom) : touchable;
+    zoom.touchable = function (_) {
+      return arguments.length
+        ? ((touchable = typeof _ === "function" ? _ : constant$1(!!_)), zoom)
+        : touchable;
     };
 
-    zoom.extent = function(_) {
-      return arguments.length ? (extent = typeof _ === "function" ? _ : constant$1([[+_[0][0], +_[0][1]], [+_[1][0], +_[1][1]]]), zoom) : extent;
+    zoom.extent = function (_) {
+      return arguments.length
+        ? ((extent =
+            typeof _ === "function"
+              ? _
+              : constant$1([
+                  [+_[0][0], +_[0][1]],
+                  [+_[1][0], +_[1][1]],
+                ])),
+          zoom)
+        : extent;
     };
 
-    zoom.scaleExtent = function(_) {
-      return arguments.length ? (scaleExtent[0] = +_[0], scaleExtent[1] = +_[1], zoom) : [scaleExtent[0], scaleExtent[1]];
+    zoom.scaleExtent = function (_) {
+      return arguments.length
+        ? ((scaleExtent[0] = +_[0]), (scaleExtent[1] = +_[1]), zoom)
+        : [scaleExtent[0], scaleExtent[1]];
     };
 
-    zoom.translateExtent = function(_) {
-      return arguments.length ? (translateExtent[0][0] = +_[0][0], translateExtent[1][0] = +_[1][0], translateExtent[0][1] = +_[0][1], translateExtent[1][1] = +_[1][1], zoom) : [[translateExtent[0][0], translateExtent[0][1]], [translateExtent[1][0], translateExtent[1][1]]];
+    zoom.translateExtent = function (_) {
+      return arguments.length
+        ? ((translateExtent[0][0] = +_[0][0]),
+          (translateExtent[1][0] = +_[1][0]),
+          (translateExtent[0][1] = +_[0][1]),
+          (translateExtent[1][1] = +_[1][1]),
+          zoom)
+        : [
+            [translateExtent[0][0], translateExtent[0][1]],
+            [translateExtent[1][0], translateExtent[1][1]],
+          ];
     };
 
-    zoom.constrain = function(_) {
-      return arguments.length ? (constrain = _, zoom) : constrain;
+    zoom.constrain = function (_) {
+      return arguments.length ? ((constrain = _), zoom) : constrain;
     };
 
-    zoom.duration = function(_) {
-      return arguments.length ? (duration = +_, zoom) : duration;
+    zoom.duration = function (_) {
+      return arguments.length ? ((duration = +_), zoom) : duration;
     };
 
-    zoom.interpolate = function(_) {
-      return arguments.length ? (interpolate = _, zoom) : interpolate;
+    zoom.interpolate = function (_) {
+      return arguments.length ? ((interpolate = _), zoom) : interpolate;
     };
 
-    zoom.on = function() {
+    zoom.on = function () {
       var value = listeners.on.apply(listeners, arguments);
       return value === listeners ? zoom : value;
     };
 
-    zoom.clickDistance = function(_) {
-      return arguments.length ? (clickDistance2 = (_ = +_) * _, zoom) : Math.sqrt(clickDistance2);
+    zoom.clickDistance = function (_) {
+      return arguments.length
+        ? ((clickDistance2 = (_ = +_) * _), zoom)
+        : Math.sqrt(clickDistance2);
     };
 
-    zoom.tapDistance = function(_) {
-      return arguments.length ? (tapDistance = +_, zoom) : tapDistance;
+    zoom.tapDistance = function (_) {
+      return arguments.length ? ((tapDistance = +_), zoom) : tapDistance;
     };
 
     return zoom;
@@ -3685,8 +4541,12 @@
   class InternMap extends Map {
     constructor(entries, key = keyof) {
       super();
-      Object.defineProperties(this, {_intern: {value: new Map()}, _key: {value: key}});
-      if (entries != null) for (const [key, value] of entries) this.set(key, value);
+      Object.defineProperties(this, {
+        _intern: { value: new Map() },
+        _key: { value: key },
+      });
+      if (entries != null)
+        for (const [key, value] of entries) this.set(key, value);
     }
     get(key) {
       return super.get(intern_get(this, key));
@@ -3702,19 +4562,19 @@
     }
   }
 
-  function intern_get({_intern, _key}, value) {
+  function intern_get({ _intern, _key }, value) {
     const key = _key(value);
     return _intern.has(key) ? _intern.get(key) : value;
   }
 
-  function intern_set({_intern, _key}, value) {
+  function intern_set({ _intern, _key }, value) {
     const key = _key(value);
     if (_intern.has(key)) return _intern.get(key);
     _intern.set(key, value);
     return value;
   }
 
-  function intern_delete({_intern, _key}, value) {
+  function intern_delete({ _intern, _key }, value) {
     const key = _key(value);
     if (_intern.has(key)) {
       value = _intern.get(key);
@@ -3724,23 +4584,29 @@
   }
 
   function keyof(value) {
-    return value !== null && typeof value === "object" ? value.valueOf() : value;
+    return value !== null && typeof value === "object"
+      ? value.valueOf()
+      : value;
   }
 
   function max$1(values, valueof) {
     let max;
     if (valueof === undefined) {
       for (const value of values) {
-        if (value != null
-            && (max < value || (max === undefined && value >= value))) {
+        if (
+          value != null &&
+          (max < value || (max === undefined && value >= value))
+        ) {
           max = value;
         }
       }
     } else {
       let index = -1;
       for (let value of values) {
-        if ((value = valueof(value, ++index, values)) != null
-            && (max < value || (max === undefined && value >= value))) {
+        if (
+          (value = valueof(value, ++index, values)) != null &&
+          (max < value || (max === undefined && value >= value))
+        ) {
           max = value;
         }
       }
@@ -3752,16 +4618,20 @@
     let min;
     if (valueof === undefined) {
       for (const value of values) {
-        if (value != null
-            && (min > value || (min === undefined && value >= value))) {
+        if (
+          value != null &&
+          (min > value || (min === undefined && value >= value))
+        ) {
           min = value;
         }
       }
     } else {
       let index = -1;
       for (let value of values) {
-        if ((value = valueof(value, ++index, values)) != null
-            && (min > value || (min === undefined && value >= value))) {
+        if (
+          (value = valueof(value, ++index, values)) != null &&
+          (min > value || (min === undefined && value >= value))
+        ) {
           min = value;
         }
       }
@@ -3769,7 +4639,16 @@
     return min;
   }
 
-  var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+  var commonjsGlobal =
+    typeof globalThis !== "undefined"
+      ? globalThis
+      : typeof window !== "undefined"
+        ? window
+        : typeof global !== "undefined"
+          ? global
+          : typeof self !== "undefined"
+            ? self
+            : {};
 
   /**
    * lodash (Custom Build) <https://lodash.com/>
@@ -3781,13 +4660,13 @@
    */
 
   /** Used as the `TypeError` message for "Functions" methods. */
-  var FUNC_ERROR_TEXT = 'Expected a function';
+  var FUNC_ERROR_TEXT = "Expected a function";
 
   /** Used as references for various `Number` constants. */
   var NAN = 0 / 0;
 
   /** `Object#toString` result references. */
-  var symbolTag = '[object Symbol]';
+  var symbolTag = "[object Symbol]";
 
   /** Used to match leading and trailing whitespace. */
   var reTrim = /^\s+|\s+$/g;
@@ -3805,13 +4684,18 @@
   var freeParseInt = parseInt;
 
   /** Detect free variable `global` from Node.js. */
-  var freeGlobal = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
+  var freeGlobal =
+    typeof commonjsGlobal == "object" &&
+    commonjsGlobal &&
+    commonjsGlobal.Object === Object &&
+    commonjsGlobal;
 
   /** Detect free variable `self`. */
-  var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+  var freeSelf =
+    typeof self == "object" && self && self.Object === Object && self;
 
   /** Used as a reference to the global object. */
-  var root = freeGlobal || freeSelf || Function('return this')();
+  var root = freeGlobal || freeSelf || Function("return this")();
 
   /** Used for built-in method references. */
   var objectProto = Object.prototype;
@@ -3825,7 +4709,7 @@
 
   /* Built-in method references for those with the same name as other `lodash` methods. */
   var nativeMax = Math.max,
-      nativeMin = Math.min;
+    nativeMin = Math.min;
 
   /**
    * Gets the timestamp of the number of milliseconds that have elapsed since
@@ -3843,7 +4727,7 @@
    * }, _.now());
    * // => Logs the number of milliseconds it took for the deferred invocation.
    */
-  var now$2 = function() {
+  var now$2 = function () {
     return root.Date.now();
   };
 
@@ -3903,30 +4787,32 @@
    */
   function debounce$1(func, wait, options) {
     var lastArgs,
-        lastThis,
-        maxWait,
-        result,
-        timerId,
-        lastCallTime,
-        lastInvokeTime = 0,
-        leading = false,
-        maxing = false,
-        trailing = true;
+      lastThis,
+      maxWait,
+      result,
+      timerId,
+      lastCallTime,
+      lastInvokeTime = 0,
+      leading = false,
+      maxing = false,
+      trailing = true;
 
-    if (typeof func != 'function') {
+    if (typeof func != "function") {
       throw new TypeError(FUNC_ERROR_TEXT);
     }
     wait = toNumber(wait) || 0;
     if (isObject(options)) {
       leading = !!options.leading;
-      maxing = 'maxWait' in options;
-      maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
-      trailing = 'trailing' in options ? !!options.trailing : trailing;
+      maxing = "maxWait" in options;
+      maxWait = maxing
+        ? nativeMax(toNumber(options.maxWait) || 0, wait)
+        : maxWait;
+      trailing = "trailing" in options ? !!options.trailing : trailing;
     }
 
     function invokeFunc(time) {
       var args = lastArgs,
-          thisArg = lastThis;
+        thisArg = lastThis;
 
       lastArgs = lastThis = undefined;
       lastInvokeTime = time;
@@ -3945,21 +4831,25 @@
 
     function remainingWait(time) {
       var timeSinceLastCall = time - lastCallTime,
-          timeSinceLastInvoke = time - lastInvokeTime,
-          result = wait - timeSinceLastCall;
+        timeSinceLastInvoke = time - lastInvokeTime,
+        result = wait - timeSinceLastCall;
 
       return maxing ? nativeMin(result, maxWait - timeSinceLastInvoke) : result;
     }
 
     function shouldInvoke(time) {
       var timeSinceLastCall = time - lastCallTime,
-          timeSinceLastInvoke = time - lastInvokeTime;
+        timeSinceLastInvoke = time - lastInvokeTime;
 
       // Either this is the first call, activity has stopped and we're at the
       // trailing edge, the system time has gone backwards and we're treating
       // it as the trailing edge, or we've hit the `maxWait` limit.
-      return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
-        (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+      return (
+        lastCallTime === undefined ||
+        timeSinceLastCall >= wait ||
+        timeSinceLastCall < 0 ||
+        (maxing && timeSinceLastInvoke >= maxWait)
+      );
     }
 
     function timerExpired() {
@@ -3997,7 +4887,7 @@
 
     function debounced() {
       var time = now$2(),
-          isInvoking = shouldInvoke(time);
+        isInvoking = shouldInvoke(time);
 
       lastArgs = arguments;
       lastThis = this;
@@ -4069,19 +4959,19 @@
    */
   function throttle(func, wait, options) {
     var leading = true,
-        trailing = true;
+      trailing = true;
 
-    if (typeof func != 'function') {
+    if (typeof func != "function") {
       throw new TypeError(FUNC_ERROR_TEXT);
     }
     if (isObject(options)) {
-      leading = 'leading' in options ? !!options.leading : leading;
-      trailing = 'trailing' in options ? !!options.trailing : trailing;
+      leading = "leading" in options ? !!options.leading : leading;
+      trailing = "trailing" in options ? !!options.trailing : trailing;
     }
     return debounce$1(func, wait, {
-      'leading': leading,
-      'maxWait': wait,
-      'trailing': trailing
+      leading: leading,
+      maxWait: wait,
+      trailing: trailing,
     });
   }
 
@@ -4112,7 +5002,7 @@
    */
   function isObject(value) {
     var type = typeof value;
-    return !!value && (type == 'object' || type == 'function');
+    return !!value && (type == "object" || type == "function");
   }
 
   /**
@@ -4140,7 +5030,7 @@
    * // => false
    */
   function isObjectLike(value) {
-    return !!value && typeof value == 'object';
+    return !!value && typeof value == "object";
   }
 
   /**
@@ -4161,8 +5051,10 @@
    * // => false
    */
   function isSymbol(value) {
-    return typeof value == 'symbol' ||
-      (isObjectLike(value) && objectToString.call(value) == symbolTag);
+    return (
+      typeof value == "symbol" ||
+      (isObjectLike(value) && objectToString.call(value) == symbolTag)
+    );
   }
 
   /**
@@ -4189,24 +5081,26 @@
    * // => 3.2
    */
   function toNumber(value) {
-    if (typeof value == 'number') {
+    if (typeof value == "number") {
       return value;
     }
     if (isSymbol(value)) {
       return NAN;
     }
     if (isObject(value)) {
-      var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
-      value = isObject(other) ? (other + '') : other;
+      var other = typeof value.valueOf == "function" ? value.valueOf() : value;
+      value = isObject(other) ? other + "" : other;
     }
-    if (typeof value != 'string') {
+    if (typeof value != "string") {
       return value === 0 ? value : +value;
     }
-    value = value.replace(reTrim, '');
+    value = value.replace(reTrim, "");
     var isBinary = reIsBinary.test(value);
-    return (isBinary || reIsOctal.test(value))
+    return isBinary || reIsOctal.test(value)
       ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
-      : (reIsBadHex.test(value) ? NAN : +value);
+      : reIsBadHex.test(value)
+        ? NAN
+        : +value;
   }
 
   var lodash_throttle = throttle;
@@ -4217,187 +5111,198 @@
    * The Ease class provides a collection of easing functions for use with tween.js.
    */
   var Easing = {
-      Linear: {
-          None: function (amount) {
-              return amount;
-          },
+    Linear: {
+      None: function (amount) {
+        return amount;
       },
-      Quadratic: {
-          In: function (amount) {
-              return amount * amount;
-          },
-          Out: function (amount) {
-              return amount * (2 - amount);
-          },
-          InOut: function (amount) {
-              if ((amount *= 2) < 1) {
-                  return 0.5 * amount * amount;
-              }
-              return -0.5 * (--amount * (amount - 2) - 1);
-          },
+    },
+    Quadratic: {
+      In: function (amount) {
+        return amount * amount;
       },
-      Cubic: {
-          In: function (amount) {
-              return amount * amount * amount;
-          },
-          Out: function (amount) {
-              return --amount * amount * amount + 1;
-          },
-          InOut: function (amount) {
-              if ((amount *= 2) < 1) {
-                  return 0.5 * amount * amount * amount;
-              }
-              return 0.5 * ((amount -= 2) * amount * amount + 2);
-          },
+      Out: function (amount) {
+        return amount * (2 - amount);
       },
-      Quartic: {
-          In: function (amount) {
-              return amount * amount * amount * amount;
-          },
-          Out: function (amount) {
-              return 1 - --amount * amount * amount * amount;
-          },
-          InOut: function (amount) {
-              if ((amount *= 2) < 1) {
-                  return 0.5 * amount * amount * amount * amount;
-              }
-              return -0.5 * ((amount -= 2) * amount * amount * amount - 2);
-          },
+      InOut: function (amount) {
+        if ((amount *= 2) < 1) {
+          return 0.5 * amount * amount;
+        }
+        return -0.5 * (--amount * (amount - 2) - 1);
       },
-      Quintic: {
-          In: function (amount) {
-              return amount * amount * amount * amount * amount;
-          },
-          Out: function (amount) {
-              return --amount * amount * amount * amount * amount + 1;
-          },
-          InOut: function (amount) {
-              if ((amount *= 2) < 1) {
-                  return 0.5 * amount * amount * amount * amount * amount;
-              }
-              return 0.5 * ((amount -= 2) * amount * amount * amount * amount + 2);
-          },
+    },
+    Cubic: {
+      In: function (amount) {
+        return amount * amount * amount;
       },
-      Sinusoidal: {
-          In: function (amount) {
-              return 1 - Math.cos((amount * Math.PI) / 2);
-          },
-          Out: function (amount) {
-              return Math.sin((amount * Math.PI) / 2);
-          },
-          InOut: function (amount) {
-              return 0.5 * (1 - Math.cos(Math.PI * amount));
-          },
+      Out: function (amount) {
+        return --amount * amount * amount + 1;
       },
-      Exponential: {
-          In: function (amount) {
-              return amount === 0 ? 0 : Math.pow(1024, amount - 1);
-          },
-          Out: function (amount) {
-              return amount === 1 ? 1 : 1 - Math.pow(2, -10 * amount);
-          },
-          InOut: function (amount) {
-              if (amount === 0) {
-                  return 0;
-              }
-              if (amount === 1) {
-                  return 1;
-              }
-              if ((amount *= 2) < 1) {
-                  return 0.5 * Math.pow(1024, amount - 1);
-              }
-              return 0.5 * (-Math.pow(2, -10 * (amount - 1)) + 2);
-          },
+      InOut: function (amount) {
+        if ((amount *= 2) < 1) {
+          return 0.5 * amount * amount * amount;
+        }
+        return 0.5 * ((amount -= 2) * amount * amount + 2);
       },
-      Circular: {
-          In: function (amount) {
-              return 1 - Math.sqrt(1 - amount * amount);
-          },
-          Out: function (amount) {
-              return Math.sqrt(1 - --amount * amount);
-          },
-          InOut: function (amount) {
-              if ((amount *= 2) < 1) {
-                  return -0.5 * (Math.sqrt(1 - amount * amount) - 1);
-              }
-              return 0.5 * (Math.sqrt(1 - (amount -= 2) * amount) + 1);
-          },
+    },
+    Quartic: {
+      In: function (amount) {
+        return amount * amount * amount * amount;
       },
-      Elastic: {
-          In: function (amount) {
-              if (amount === 0) {
-                  return 0;
-              }
-              if (amount === 1) {
-                  return 1;
-              }
-              return -Math.pow(2, 10 * (amount - 1)) * Math.sin((amount - 1.1) * 5 * Math.PI);
-          },
-          Out: function (amount) {
-              if (amount === 0) {
-                  return 0;
-              }
-              if (amount === 1) {
-                  return 1;
-              }
-              return Math.pow(2, -10 * amount) * Math.sin((amount - 0.1) * 5 * Math.PI) + 1;
-          },
-          InOut: function (amount) {
-              if (amount === 0) {
-                  return 0;
-              }
-              if (amount === 1) {
-                  return 1;
-              }
-              amount *= 2;
-              if (amount < 1) {
-                  return -0.5 * Math.pow(2, 10 * (amount - 1)) * Math.sin((amount - 1.1) * 5 * Math.PI);
-              }
-              return 0.5 * Math.pow(2, -10 * (amount - 1)) * Math.sin((amount - 1.1) * 5 * Math.PI) + 1;
-          },
+      Out: function (amount) {
+        return 1 - --amount * amount * amount * amount;
       },
-      Back: {
-          In: function (amount) {
-              var s = 1.70158;
-              return amount * amount * ((s + 1) * amount - s);
-          },
-          Out: function (amount) {
-              var s = 1.70158;
-              return --amount * amount * ((s + 1) * amount + s) + 1;
-          },
-          InOut: function (amount) {
-              var s = 1.70158 * 1.525;
-              if ((amount *= 2) < 1) {
-                  return 0.5 * (amount * amount * ((s + 1) * amount - s));
-              }
-              return 0.5 * ((amount -= 2) * amount * ((s + 1) * amount + s) + 2);
-          },
+      InOut: function (amount) {
+        if ((amount *= 2) < 1) {
+          return 0.5 * amount * amount * amount * amount;
+        }
+        return -0.5 * ((amount -= 2) * amount * amount * amount - 2);
       },
-      Bounce: {
-          In: function (amount) {
-              return 1 - Easing.Bounce.Out(1 - amount);
-          },
-          Out: function (amount) {
-              if (amount < 1 / 2.75) {
-                  return 7.5625 * amount * amount;
-              }
-              else if (amount < 2 / 2.75) {
-                  return 7.5625 * (amount -= 1.5 / 2.75) * amount + 0.75;
-              }
-              else if (amount < 2.5 / 2.75) {
-                  return 7.5625 * (amount -= 2.25 / 2.75) * amount + 0.9375;
-              }
-              else {
-                  return 7.5625 * (amount -= 2.625 / 2.75) * amount + 0.984375;
-              }
-          },
-          InOut: function (amount) {
-              if (amount < 0.5) {
-                  return Easing.Bounce.In(amount * 2) * 0.5;
-              }
-              return Easing.Bounce.Out(amount * 2 - 1) * 0.5 + 0.5;
-          },
+    },
+    Quintic: {
+      In: function (amount) {
+        return amount * amount * amount * amount * amount;
       },
+      Out: function (amount) {
+        return --amount * amount * amount * amount * amount + 1;
+      },
+      InOut: function (amount) {
+        if ((amount *= 2) < 1) {
+          return 0.5 * amount * amount * amount * amount * amount;
+        }
+        return 0.5 * ((amount -= 2) * amount * amount * amount * amount + 2);
+      },
+    },
+    Sinusoidal: {
+      In: function (amount) {
+        return 1 - Math.cos((amount * Math.PI) / 2);
+      },
+      Out: function (amount) {
+        return Math.sin((amount * Math.PI) / 2);
+      },
+      InOut: function (amount) {
+        return 0.5 * (1 - Math.cos(Math.PI * amount));
+      },
+    },
+    Exponential: {
+      In: function (amount) {
+        return amount === 0 ? 0 : Math.pow(1024, amount - 1);
+      },
+      Out: function (amount) {
+        return amount === 1 ? 1 : 1 - Math.pow(2, -10 * amount);
+      },
+      InOut: function (amount) {
+        if (amount === 0) {
+          return 0;
+        }
+        if (amount === 1) {
+          return 1;
+        }
+        if ((amount *= 2) < 1) {
+          return 0.5 * Math.pow(1024, amount - 1);
+        }
+        return 0.5 * (-Math.pow(2, -10 * (amount - 1)) + 2);
+      },
+    },
+    Circular: {
+      In: function (amount) {
+        return 1 - Math.sqrt(1 - amount * amount);
+      },
+      Out: function (amount) {
+        return Math.sqrt(1 - --amount * amount);
+      },
+      InOut: function (amount) {
+        if ((amount *= 2) < 1) {
+          return -0.5 * (Math.sqrt(1 - amount * amount) - 1);
+        }
+        return 0.5 * (Math.sqrt(1 - (amount -= 2) * amount) + 1);
+      },
+    },
+    Elastic: {
+      In: function (amount) {
+        if (amount === 0) {
+          return 0;
+        }
+        if (amount === 1) {
+          return 1;
+        }
+        return (
+          -Math.pow(2, 10 * (amount - 1)) *
+          Math.sin((amount - 1.1) * 5 * Math.PI)
+        );
+      },
+      Out: function (amount) {
+        if (amount === 0) {
+          return 0;
+        }
+        if (amount === 1) {
+          return 1;
+        }
+        return (
+          Math.pow(2, -10 * amount) * Math.sin((amount - 0.1) * 5 * Math.PI) + 1
+        );
+      },
+      InOut: function (amount) {
+        if (amount === 0) {
+          return 0;
+        }
+        if (amount === 1) {
+          return 1;
+        }
+        amount *= 2;
+        if (amount < 1) {
+          return (
+            -0.5 *
+            Math.pow(2, 10 * (amount - 1)) *
+            Math.sin((amount - 1.1) * 5 * Math.PI)
+          );
+        }
+        return (
+          0.5 *
+            Math.pow(2, -10 * (amount - 1)) *
+            Math.sin((amount - 1.1) * 5 * Math.PI) +
+          1
+        );
+      },
+    },
+    Back: {
+      In: function (amount) {
+        var s = 1.70158;
+        return amount * amount * ((s + 1) * amount - s);
+      },
+      Out: function (amount) {
+        var s = 1.70158;
+        return --amount * amount * ((s + 1) * amount + s) + 1;
+      },
+      InOut: function (amount) {
+        var s = 1.70158 * 1.525;
+        if ((amount *= 2) < 1) {
+          return 0.5 * (amount * amount * ((s + 1) * amount - s));
+        }
+        return 0.5 * ((amount -= 2) * amount * ((s + 1) * amount + s) + 2);
+      },
+    },
+    Bounce: {
+      In: function (amount) {
+        return 1 - Easing.Bounce.Out(1 - amount);
+      },
+      Out: function (amount) {
+        if (amount < 1 / 2.75) {
+          return 7.5625 * amount * amount;
+        } else if (amount < 2 / 2.75) {
+          return 7.5625 * (amount -= 1.5 / 2.75) * amount + 0.75;
+        } else if (amount < 2.5 / 2.75) {
+          return 7.5625 * (amount -= 2.25 / 2.75) * amount + 0.9375;
+        } else {
+          return 7.5625 * (amount -= 2.625 / 2.75) * amount + 0.984375;
+        }
+      },
+      InOut: function (amount) {
+        if (amount < 0.5) {
+          return Easing.Bounce.In(amount * 2) * 0.5;
+        }
+        return Easing.Bounce.Out(amount * 2 - 1) * 0.5 + 0.5;
+      },
+    },
   };
 
   var now;
@@ -4405,30 +5310,38 @@
   // In node.js, use process.hrtime.
   // eslint-disable-next-line
   // @ts-ignore
-  if (typeof self === 'undefined' && typeof process !== 'undefined' && process.hrtime) {
-      now = function () {
-          // eslint-disable-next-line
-          // @ts-ignore
-          var time = process.hrtime();
-          // Convert [seconds, nanoseconds] to milliseconds.
-          return time[0] * 1000 + time[1] / 1000000;
-      };
+  if (
+    typeof self === "undefined" &&
+    typeof process !== "undefined" &&
+    process.hrtime
+  ) {
+    now = function () {
+      // eslint-disable-next-line
+      // @ts-ignore
+      var time = process.hrtime();
+      // Convert [seconds, nanoseconds] to milliseconds.
+      return time[0] * 1000 + time[1] / 1000000;
+    };
   }
   // In a browser, use self.performance.now if it is available.
-  else if (typeof self !== 'undefined' && self.performance !== undefined && self.performance.now !== undefined) {
-      // This must be bound, because directly assigning this function
-      // leads to an invocation exception in Chrome.
-      now = self.performance.now.bind(self.performance);
+  else if (
+    typeof self !== "undefined" &&
+    self.performance !== undefined &&
+    self.performance.now !== undefined
+  ) {
+    // This must be bound, because directly assigning this function
+    // leads to an invocation exception in Chrome.
+    now = self.performance.now.bind(self.performance);
   }
   // Use Date.now if it is available.
   else if (Date.now !== undefined) {
-      now = Date.now;
+    now = Date.now;
   }
   // Otherwise, use 'new Date().getTime()'.
   else {
-      now = function () {
-          return new Date().getTime();
-      };
+    now = function () {
+      return new Date().getTime();
+    };
   }
   var now$1 = now;
 
@@ -4439,147 +5352,166 @@
    * In these cases, you may want to create your own smaller groups of tween
    */
   var Group = /** @class */ (function () {
-      function Group() {
-          this._tweens = {};
-          this._tweensAddedDuringUpdate = {};
+    function Group() {
+      this._tweens = {};
+      this._tweensAddedDuringUpdate = {};
+    }
+    Group.prototype.getAll = function () {
+      var _this = this;
+      return Object.keys(this._tweens).map(function (tweenId) {
+        return _this._tweens[tweenId];
+      });
+    };
+    Group.prototype.removeAll = function () {
+      this._tweens = {};
+    };
+    Group.prototype.add = function (tween) {
+      this._tweens[tween.getId()] = tween;
+      this._tweensAddedDuringUpdate[tween.getId()] = tween;
+    };
+    Group.prototype.remove = function (tween) {
+      delete this._tweens[tween.getId()];
+      delete this._tweensAddedDuringUpdate[tween.getId()];
+    };
+    Group.prototype.update = function (time, preserve) {
+      if (time === void 0) {
+        time = now$1();
       }
-      Group.prototype.getAll = function () {
-          var _this = this;
-          return Object.keys(this._tweens).map(function (tweenId) {
-              return _this._tweens[tweenId];
-          });
-      };
-      Group.prototype.removeAll = function () {
-          this._tweens = {};
-      };
-      Group.prototype.add = function (tween) {
-          this._tweens[tween.getId()] = tween;
-          this._tweensAddedDuringUpdate[tween.getId()] = tween;
-      };
-      Group.prototype.remove = function (tween) {
-          delete this._tweens[tween.getId()];
-          delete this._tweensAddedDuringUpdate[tween.getId()];
-      };
-      Group.prototype.update = function (time, preserve) {
-          if (time === void 0) { time = now$1(); }
-          if (preserve === void 0) { preserve = false; }
-          var tweenIds = Object.keys(this._tweens);
-          if (tweenIds.length === 0) {
-              return false;
+      if (preserve === void 0) {
+        preserve = false;
+      }
+      var tweenIds = Object.keys(this._tweens);
+      if (tweenIds.length === 0) {
+        return false;
+      }
+      // Tweens are updated in "batches". If you add a new tween during an
+      // update, then the new tween will be updated in the next batch.
+      // If you remove a tween during an update, it may or may not be updated.
+      // However, if the removed tween was added during the current batch,
+      // then it will not be updated.
+      while (tweenIds.length > 0) {
+        this._tweensAddedDuringUpdate = {};
+        for (var i = 0; i < tweenIds.length; i++) {
+          var tween = this._tweens[tweenIds[i]];
+          var autoStart = !preserve;
+          if (tween && tween.update(time, autoStart) === false && !preserve) {
+            delete this._tweens[tweenIds[i]];
           }
-          // Tweens are updated in "batches". If you add a new tween during an
-          // update, then the new tween will be updated in the next batch.
-          // If you remove a tween during an update, it may or may not be updated.
-          // However, if the removed tween was added during the current batch,
-          // then it will not be updated.
-          while (tweenIds.length > 0) {
-              this._tweensAddedDuringUpdate = {};
-              for (var i = 0; i < tweenIds.length; i++) {
-                  var tween = this._tweens[tweenIds[i]];
-                  var autoStart = !preserve;
-                  if (tween && tween.update(time, autoStart) === false && !preserve) {
-                      delete this._tweens[tweenIds[i]];
-                  }
-              }
-              tweenIds = Object.keys(this._tweensAddedDuringUpdate);
-          }
-          return true;
-      };
-      return Group;
-  }());
+        }
+        tweenIds = Object.keys(this._tweensAddedDuringUpdate);
+      }
+      return true;
+    };
+    return Group;
+  })();
 
   /**
    *
    */
   var Interpolation = {
-      Linear: function (v, k) {
-          var m = v.length - 1;
-          var f = m * k;
-          var i = Math.floor(f);
-          var fn = Interpolation.Utils.Linear;
-          if (k < 0) {
-              return fn(v[0], v[1], f);
-          }
-          if (k > 1) {
-              return fn(v[m], v[m - 1], m - f);
-          }
-          return fn(v[i], v[i + 1 > m ? m : i + 1], f - i);
+    Linear: function (v, k) {
+      var m = v.length - 1;
+      var f = m * k;
+      var i = Math.floor(f);
+      var fn = Interpolation.Utils.Linear;
+      if (k < 0) {
+        return fn(v[0], v[1], f);
+      }
+      if (k > 1) {
+        return fn(v[m], v[m - 1], m - f);
+      }
+      return fn(v[i], v[i + 1 > m ? m : i + 1], f - i);
+    },
+    Bezier: function (v, k) {
+      var b = 0;
+      var n = v.length - 1;
+      var pw = Math.pow;
+      var bn = Interpolation.Utils.Bernstein;
+      for (var i = 0; i <= n; i++) {
+        b += pw(1 - k, n - i) * pw(k, i) * v[i] * bn(n, i);
+      }
+      return b;
+    },
+    CatmullRom: function (v, k) {
+      var m = v.length - 1;
+      var f = m * k;
+      var i = Math.floor(f);
+      var fn = Interpolation.Utils.CatmullRom;
+      if (v[0] === v[m]) {
+        if (k < 0) {
+          i = Math.floor((f = m * (1 + k)));
+        }
+        return fn(
+          v[(i - 1 + m) % m],
+          v[i],
+          v[(i + 1) % m],
+          v[(i + 2) % m],
+          f - i,
+        );
+      } else {
+        if (k < 0) {
+          return v[0] - (fn(v[0], v[0], v[1], v[1], -f) - v[0]);
+        }
+        if (k > 1) {
+          return v[m] - (fn(v[m], v[m], v[m - 1], v[m - 1], f - m) - v[m]);
+        }
+        return fn(
+          v[i ? i - 1 : 0],
+          v[i],
+          v[m < i + 1 ? m : i + 1],
+          v[m < i + 2 ? m : i + 2],
+          f - i,
+        );
+      }
+    },
+    Utils: {
+      Linear: function (p0, p1, t) {
+        return (p1 - p0) * t + p0;
       },
-      Bezier: function (v, k) {
-          var b = 0;
-          var n = v.length - 1;
-          var pw = Math.pow;
-          var bn = Interpolation.Utils.Bernstein;
-          for (var i = 0; i <= n; i++) {
-              b += pw(1 - k, n - i) * pw(k, i) * v[i] * bn(n, i);
-          }
-          return b;
+      Bernstein: function (n, i) {
+        var fc = Interpolation.Utils.Factorial;
+        return fc(n) / fc(i) / fc(n - i);
       },
-      CatmullRom: function (v, k) {
-          var m = v.length - 1;
-          var f = m * k;
-          var i = Math.floor(f);
-          var fn = Interpolation.Utils.CatmullRom;
-          if (v[0] === v[m]) {
-              if (k < 0) {
-                  i = Math.floor((f = m * (1 + k)));
-              }
-              return fn(v[(i - 1 + m) % m], v[i], v[(i + 1) % m], v[(i + 2) % m], f - i);
+      Factorial: (function () {
+        var a = [1];
+        return function (n) {
+          var s = 1;
+          if (a[n]) {
+            return a[n];
           }
-          else {
-              if (k < 0) {
-                  return v[0] - (fn(v[0], v[0], v[1], v[1], -f) - v[0]);
-              }
-              if (k > 1) {
-                  return v[m] - (fn(v[m], v[m], v[m - 1], v[m - 1], f - m) - v[m]);
-              }
-              return fn(v[i ? i - 1 : 0], v[i], v[m < i + 1 ? m : i + 1], v[m < i + 2 ? m : i + 2], f - i);
+          for (var i = n; i > 1; i--) {
+            s *= i;
           }
+          a[n] = s;
+          return s;
+        };
+      })(),
+      CatmullRom: function (p0, p1, p2, p3, t) {
+        var v0 = (p2 - p0) * 0.5;
+        var v1 = (p3 - p1) * 0.5;
+        var t2 = t * t;
+        var t3 = t * t2;
+        return (
+          (2 * p1 - 2 * p2 + v0 + v1) * t3 +
+          (-3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 +
+          v0 * t +
+          p1
+        );
       },
-      Utils: {
-          Linear: function (p0, p1, t) {
-              return (p1 - p0) * t + p0;
-          },
-          Bernstein: function (n, i) {
-              var fc = Interpolation.Utils.Factorial;
-              return fc(n) / fc(i) / fc(n - i);
-          },
-          Factorial: (function () {
-              var a = [1];
-              return function (n) {
-                  var s = 1;
-                  if (a[n]) {
-                      return a[n];
-                  }
-                  for (var i = n; i > 1; i--) {
-                      s *= i;
-                  }
-                  a[n] = s;
-                  return s;
-              };
-          })(),
-          CatmullRom: function (p0, p1, p2, p3, t) {
-              var v0 = (p2 - p0) * 0.5;
-              var v1 = (p3 - p1) * 0.5;
-              var t2 = t * t;
-              var t3 = t * t2;
-              return (2 * p1 - 2 * p2 + v0 + v1) * t3 + (-3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 + v0 * t + p1;
-          },
-      },
+    },
   };
 
   /**
    * Utils
    */
   var Sequence = /** @class */ (function () {
-      function Sequence() {
-      }
-      Sequence.nextId = function () {
-          return Sequence._nextId++;
-      };
-      Sequence._nextId = 0;
-      return Sequence;
-  }());
+    function Sequence() {}
+    Sequence.nextId = function () {
+      return Sequence._nextId++;
+    };
+    Sequence._nextId = 0;
+    return Sequence;
+  })();
 
   var mainGroup = new Group();
 
@@ -4592,386 +5524,434 @@
    * Thank you all, you're awesome!
    */
   var Tween = /** @class */ (function () {
-      function Tween(_object, _group) {
-          if (_group === void 0) { _group = mainGroup; }
-          this._object = _object;
-          this._group = _group;
-          this._isPaused = false;
-          this._pauseStart = 0;
-          this._valuesStart = {};
-          this._valuesEnd = {};
-          this._valuesStartRepeat = {};
-          this._duration = 1000;
-          this._initialRepeat = 0;
-          this._repeat = 0;
-          this._yoyo = false;
-          this._isPlaying = false;
-          this._reversed = false;
-          this._delayTime = 0;
-          this._startTime = 0;
-          this._easingFunction = Easing.Linear.None;
-          this._interpolationFunction = Interpolation.Linear;
-          this._chainedTweens = [];
-          this._onStartCallbackFired = false;
-          this._id = Sequence.nextId();
-          this._isChainStopped = false;
-          this._goToEnd = false;
+    function Tween(_object, _group) {
+      if (_group === void 0) {
+        _group = mainGroup;
       }
-      Tween.prototype.getId = function () {
-          return this._id;
-      };
-      Tween.prototype.isPlaying = function () {
-          return this._isPlaying;
-      };
-      Tween.prototype.isPaused = function () {
-          return this._isPaused;
-      };
-      Tween.prototype.to = function (properties, duration) {
-          // TODO? restore this, then update the 07_dynamic_to example to set fox
-          // tween's to on each update. That way the behavior is opt-in (there's
-          // currently no opt-out).
-          // for (const prop in properties) this._valuesEnd[prop] = properties[prop]
-          this._valuesEnd = Object.create(properties);
-          if (duration !== undefined) {
-              this._duration = duration;
+      this._object = _object;
+      this._group = _group;
+      this._isPaused = false;
+      this._pauseStart = 0;
+      this._valuesStart = {};
+      this._valuesEnd = {};
+      this._valuesStartRepeat = {};
+      this._duration = 1000;
+      this._initialRepeat = 0;
+      this._repeat = 0;
+      this._yoyo = false;
+      this._isPlaying = false;
+      this._reversed = false;
+      this._delayTime = 0;
+      this._startTime = 0;
+      this._easingFunction = Easing.Linear.None;
+      this._interpolationFunction = Interpolation.Linear;
+      this._chainedTweens = [];
+      this._onStartCallbackFired = false;
+      this._id = Sequence.nextId();
+      this._isChainStopped = false;
+      this._goToEnd = false;
+    }
+    Tween.prototype.getId = function () {
+      return this._id;
+    };
+    Tween.prototype.isPlaying = function () {
+      return this._isPlaying;
+    };
+    Tween.prototype.isPaused = function () {
+      return this._isPaused;
+    };
+    Tween.prototype.to = function (properties, duration) {
+      // TODO? restore this, then update the 07_dynamic_to example to set fox
+      // tween's to on each update. That way the behavior is opt-in (there's
+      // currently no opt-out).
+      // for (const prop in properties) this._valuesEnd[prop] = properties[prop]
+      this._valuesEnd = Object.create(properties);
+      if (duration !== undefined) {
+        this._duration = duration;
+      }
+      return this;
+    };
+    Tween.prototype.duration = function (d) {
+      this._duration = d;
+      return this;
+    };
+    Tween.prototype.start = function (time) {
+      if (this._isPlaying) {
+        return this;
+      }
+      // eslint-disable-next-line
+      this._group && this._group.add(this);
+      this._repeat = this._initialRepeat;
+      if (this._reversed) {
+        // If we were reversed (f.e. using the yoyo feature) then we need to
+        // flip the tween direction back to forward.
+        this._reversed = false;
+        for (var property in this._valuesStartRepeat) {
+          this._swapEndStartRepeatValues(property);
+          this._valuesStart[property] = this._valuesStartRepeat[property];
+        }
+      }
+      this._isPlaying = true;
+      this._isPaused = false;
+      this._onStartCallbackFired = false;
+      this._isChainStopped = false;
+      this._startTime =
+        time !== undefined
+          ? typeof time === "string"
+            ? now$1() + parseFloat(time)
+            : time
+          : now$1();
+      this._startTime += this._delayTime;
+      this._setupProperties(
+        this._object,
+        this._valuesStart,
+        this._valuesEnd,
+        this._valuesStartRepeat,
+      );
+      return this;
+    };
+    Tween.prototype._setupProperties = function (
+      _object,
+      _valuesStart,
+      _valuesEnd,
+      _valuesStartRepeat,
+    ) {
+      for (var property in _valuesEnd) {
+        var startValue = _object[property];
+        var startValueIsArray = Array.isArray(startValue);
+        var propType = startValueIsArray ? "array" : typeof startValue;
+        var isInterpolationList =
+          !startValueIsArray && Array.isArray(_valuesEnd[property]);
+        // If `to()` specifies a property that doesn't exist in the source object,
+        // we should not set that property in the object
+        if (propType === "undefined" || propType === "function") {
+          continue;
+        }
+        // Check if an Array was provided as property value
+        if (isInterpolationList) {
+          var endValues = _valuesEnd[property];
+          if (endValues.length === 0) {
+            continue;
           }
-          return this;
-      };
-      Tween.prototype.duration = function (d) {
-          this._duration = d;
-          return this;
-      };
-      Tween.prototype.start = function (time) {
-          if (this._isPlaying) {
-              return this;
-          }
+          // handle an array of relative values
+          endValues = endValues.map(
+            this._handleRelativeValue.bind(this, startValue),
+          );
+          // Create a local copy of the Array with the start value at the front
+          _valuesEnd[property] = [startValue].concat(endValues);
+        }
+        // handle the deepness of the values
+        if (
+          (propType === "object" || startValueIsArray) &&
+          startValue &&
+          !isInterpolationList
+        ) {
+          _valuesStart[property] = startValueIsArray ? [] : {};
           // eslint-disable-next-line
-          this._group && this._group.add(this);
-          this._repeat = this._initialRepeat;
-          if (this._reversed) {
-              // If we were reversed (f.e. using the yoyo feature) then we need to
-              // flip the tween direction back to forward.
-              this._reversed = false;
-              for (var property in this._valuesStartRepeat) {
-                  this._swapEndStartRepeatValues(property);
-                  this._valuesStart[property] = this._valuesStartRepeat[property];
-              }
+          for (var prop in startValue) {
+            // eslint-disable-next-line
+            // @ts-ignore FIXME?
+            _valuesStart[property][prop] = startValue[prop];
           }
-          this._isPlaying = true;
-          this._isPaused = false;
-          this._onStartCallbackFired = false;
-          this._isChainStopped = false;
-          this._startTime = time !== undefined ? (typeof time === 'string' ? now$1() + parseFloat(time) : time) : now$1();
-          this._startTime += this._delayTime;
-          this._setupProperties(this._object, this._valuesStart, this._valuesEnd, this._valuesStartRepeat);
-          return this;
-      };
-      Tween.prototype._setupProperties = function (_object, _valuesStart, _valuesEnd, _valuesStartRepeat) {
-          for (var property in _valuesEnd) {
-              var startValue = _object[property];
-              var startValueIsArray = Array.isArray(startValue);
-              var propType = startValueIsArray ? 'array' : typeof startValue;
-              var isInterpolationList = !startValueIsArray && Array.isArray(_valuesEnd[property]);
-              // If `to()` specifies a property that doesn't exist in the source object,
-              // we should not set that property in the object
-              if (propType === 'undefined' || propType === 'function') {
-                  continue;
-              }
-              // Check if an Array was provided as property value
-              if (isInterpolationList) {
-                  var endValues = _valuesEnd[property];
-                  if (endValues.length === 0) {
-                      continue;
-                  }
-                  // handle an array of relative values
-                  endValues = endValues.map(this._handleRelativeValue.bind(this, startValue));
-                  // Create a local copy of the Array with the start value at the front
-                  _valuesEnd[property] = [startValue].concat(endValues);
-              }
-              // handle the deepness of the values
-              if ((propType === 'object' || startValueIsArray) && startValue && !isInterpolationList) {
-                  _valuesStart[property] = startValueIsArray ? [] : {};
-                  // eslint-disable-next-line
-                  for (var prop in startValue) {
-                      // eslint-disable-next-line
-                      // @ts-ignore FIXME?
-                      _valuesStart[property][prop] = startValue[prop];
-                  }
-                  _valuesStartRepeat[property] = startValueIsArray ? [] : {}; // TODO? repeat nested values? And yoyo? And array values?
-                  // eslint-disable-next-line
-                  // @ts-ignore FIXME?
-                  this._setupProperties(startValue, _valuesStart[property], _valuesEnd[property], _valuesStartRepeat[property]);
-              }
-              else {
-                  // Save the starting value, but only once.
-                  if (typeof _valuesStart[property] === 'undefined') {
-                      _valuesStart[property] = startValue;
-                  }
-                  if (!startValueIsArray) {
-                      // eslint-disable-next-line
-                      // @ts-ignore FIXME?
-                      _valuesStart[property] *= 1.0; // Ensures we're using numbers, not strings
-                  }
-                  if (isInterpolationList) {
-                      // eslint-disable-next-line
-                      // @ts-ignore FIXME?
-                      _valuesStartRepeat[property] = _valuesEnd[property].slice().reverse();
-                  }
-                  else {
-                      _valuesStartRepeat[property] = _valuesStart[property] || 0;
-                  }
-              }
-          }
-      };
-      Tween.prototype.stop = function () {
-          if (!this._isChainStopped) {
-              this._isChainStopped = true;
-              this.stopChainedTweens();
-          }
-          if (!this._isPlaying) {
-              return this;
-          }
+          _valuesStartRepeat[property] = startValueIsArray ? [] : {}; // TODO? repeat nested values? And yoyo? And array values?
           // eslint-disable-next-line
-          this._group && this._group.remove(this);
-          this._isPlaying = false;
-          this._isPaused = false;
-          if (this._onStopCallback) {
-              this._onStopCallback(this._object);
+          // @ts-ignore FIXME?
+          this._setupProperties(
+            startValue,
+            _valuesStart[property],
+            _valuesEnd[property],
+            _valuesStartRepeat[property],
+          );
+        } else {
+          // Save the starting value, but only once.
+          if (typeof _valuesStart[property] === "undefined") {
+            _valuesStart[property] = startValue;
           }
-          return this;
-      };
-      Tween.prototype.end = function () {
-          this._goToEnd = true;
-          this.update(Infinity);
-          return this;
-      };
-      Tween.prototype.pause = function (time) {
-          if (time === void 0) { time = now$1(); }
-          if (this._isPaused || !this._isPlaying) {
-              return this;
+          if (!startValueIsArray) {
+            // eslint-disable-next-line
+            // @ts-ignore FIXME?
+            _valuesStart[property] *= 1.0; // Ensures we're using numbers, not strings
           }
-          this._isPaused = true;
-          this._pauseStart = time;
-          // eslint-disable-next-line
-          this._group && this._group.remove(this);
-          return this;
-      };
-      Tween.prototype.resume = function (time) {
-          if (time === void 0) { time = now$1(); }
-          if (!this._isPaused || !this._isPlaying) {
-              return this;
+          if (isInterpolationList) {
+            // eslint-disable-next-line
+            // @ts-ignore FIXME?
+            _valuesStartRepeat[property] = _valuesEnd[property]
+              .slice()
+              .reverse();
+          } else {
+            _valuesStartRepeat[property] = _valuesStart[property] || 0;
           }
-          this._isPaused = false;
-          this._startTime += time - this._pauseStart;
-          this._pauseStart = 0;
-          // eslint-disable-next-line
-          this._group && this._group.add(this);
-          return this;
-      };
-      Tween.prototype.stopChainedTweens = function () {
-          for (var i = 0, numChainedTweens = this._chainedTweens.length; i < numChainedTweens; i++) {
-              this._chainedTweens[i].stop();
+        }
+      }
+    };
+    Tween.prototype.stop = function () {
+      if (!this._isChainStopped) {
+        this._isChainStopped = true;
+        this.stopChainedTweens();
+      }
+      if (!this._isPlaying) {
+        return this;
+      }
+      // eslint-disable-next-line
+      this._group && this._group.remove(this);
+      this._isPlaying = false;
+      this._isPaused = false;
+      if (this._onStopCallback) {
+        this._onStopCallback(this._object);
+      }
+      return this;
+    };
+    Tween.prototype.end = function () {
+      this._goToEnd = true;
+      this.update(Infinity);
+      return this;
+    };
+    Tween.prototype.pause = function (time) {
+      if (time === void 0) {
+        time = now$1();
+      }
+      if (this._isPaused || !this._isPlaying) {
+        return this;
+      }
+      this._isPaused = true;
+      this._pauseStart = time;
+      // eslint-disable-next-line
+      this._group && this._group.remove(this);
+      return this;
+    };
+    Tween.prototype.resume = function (time) {
+      if (time === void 0) {
+        time = now$1();
+      }
+      if (!this._isPaused || !this._isPlaying) {
+        return this;
+      }
+      this._isPaused = false;
+      this._startTime += time - this._pauseStart;
+      this._pauseStart = 0;
+      // eslint-disable-next-line
+      this._group && this._group.add(this);
+      return this;
+    };
+    Tween.prototype.stopChainedTweens = function () {
+      for (
+        var i = 0, numChainedTweens = this._chainedTweens.length;
+        i < numChainedTweens;
+        i++
+      ) {
+        this._chainedTweens[i].stop();
+      }
+      return this;
+    };
+    Tween.prototype.group = function (group) {
+      this._group = group;
+      return this;
+    };
+    Tween.prototype.delay = function (amount) {
+      this._delayTime = amount;
+      return this;
+    };
+    Tween.prototype.repeat = function (times) {
+      this._initialRepeat = times;
+      this._repeat = times;
+      return this;
+    };
+    Tween.prototype.repeatDelay = function (amount) {
+      this._repeatDelayTime = amount;
+      return this;
+    };
+    Tween.prototype.yoyo = function (yoyo) {
+      this._yoyo = yoyo;
+      return this;
+    };
+    Tween.prototype.easing = function (easingFunction) {
+      this._easingFunction = easingFunction;
+      return this;
+    };
+    Tween.prototype.interpolation = function (interpolationFunction) {
+      this._interpolationFunction = interpolationFunction;
+      return this;
+    };
+    Tween.prototype.chain = function () {
+      var tweens = [];
+      for (var _i = 0; _i < arguments.length; _i++) {
+        tweens[_i] = arguments[_i];
+      }
+      this._chainedTweens = tweens;
+      return this;
+    };
+    Tween.prototype.onStart = function (callback) {
+      this._onStartCallback = callback;
+      return this;
+    };
+    Tween.prototype.onUpdate = function (callback) {
+      this._onUpdateCallback = callback;
+      return this;
+    };
+    Tween.prototype.onRepeat = function (callback) {
+      this._onRepeatCallback = callback;
+      return this;
+    };
+    Tween.prototype.onComplete = function (callback) {
+      this._onCompleteCallback = callback;
+      return this;
+    };
+    Tween.prototype.onStop = function (callback) {
+      this._onStopCallback = callback;
+      return this;
+    };
+    /**
+     * @returns true if the tween is still playing after the update, false
+     * otherwise (calling update on a paused tween still returns true because
+     * it is still playing, just paused).
+     */
+    Tween.prototype.update = function (time, autoStart) {
+      if (time === void 0) {
+        time = now$1();
+      }
+      if (autoStart === void 0) {
+        autoStart = true;
+      }
+      if (this._isPaused) return true;
+      var property;
+      var elapsed;
+      var endTime = this._startTime + this._duration;
+      if (!this._goToEnd && !this._isPlaying) {
+        if (time > endTime) return false;
+        if (autoStart) this.start(time);
+      }
+      this._goToEnd = false;
+      if (time < this._startTime) {
+        return true;
+      }
+      if (this._onStartCallbackFired === false) {
+        if (this._onStartCallback) {
+          this._onStartCallback(this._object);
+        }
+        this._onStartCallbackFired = true;
+      }
+      elapsed = (time - this._startTime) / this._duration;
+      elapsed = this._duration === 0 || elapsed > 1 ? 1 : elapsed;
+      var value = this._easingFunction(elapsed);
+      // properties transformations
+      this._updateProperties(
+        this._object,
+        this._valuesStart,
+        this._valuesEnd,
+        value,
+      );
+      if (this._onUpdateCallback) {
+        this._onUpdateCallback(this._object, elapsed);
+      }
+      if (elapsed === 1) {
+        if (this._repeat > 0) {
+          if (isFinite(this._repeat)) {
+            this._repeat--;
           }
-          return this;
-      };
-      Tween.prototype.group = function (group) {
-          this._group = group;
-          return this;
-      };
-      Tween.prototype.delay = function (amount) {
-          this._delayTime = amount;
-          return this;
-      };
-      Tween.prototype.repeat = function (times) {
-          this._initialRepeat = times;
-          this._repeat = times;
-          return this;
-      };
-      Tween.prototype.repeatDelay = function (amount) {
-          this._repeatDelayTime = amount;
-          return this;
-      };
-      Tween.prototype.yoyo = function (yoyo) {
-          this._yoyo = yoyo;
-          return this;
-      };
-      Tween.prototype.easing = function (easingFunction) {
-          this._easingFunction = easingFunction;
-          return this;
-      };
-      Tween.prototype.interpolation = function (interpolationFunction) {
-          this._interpolationFunction = interpolationFunction;
-          return this;
-      };
-      Tween.prototype.chain = function () {
-          var tweens = [];
-          for (var _i = 0; _i < arguments.length; _i++) {
-              tweens[_i] = arguments[_i];
+          // Reassign starting values, restart by making startTime = now
+          for (property in this._valuesStartRepeat) {
+            if (!this._yoyo && typeof this._valuesEnd[property] === "string") {
+              this._valuesStartRepeat[property] =
+                // eslint-disable-next-line
+                // @ts-ignore FIXME?
+                this._valuesStartRepeat[property] +
+                parseFloat(this._valuesEnd[property]);
+            }
+            if (this._yoyo) {
+              this._swapEndStartRepeatValues(property);
+            }
+            this._valuesStart[property] = this._valuesStartRepeat[property];
           }
-          this._chainedTweens = tweens;
-          return this;
-      };
-      Tween.prototype.onStart = function (callback) {
-          this._onStartCallback = callback;
-          return this;
-      };
-      Tween.prototype.onUpdate = function (callback) {
-          this._onUpdateCallback = callback;
-          return this;
-      };
-      Tween.prototype.onRepeat = function (callback) {
-          this._onRepeatCallback = callback;
-          return this;
-      };
-      Tween.prototype.onComplete = function (callback) {
-          this._onCompleteCallback = callback;
-          return this;
-      };
-      Tween.prototype.onStop = function (callback) {
-          this._onStopCallback = callback;
-          return this;
-      };
-      /**
-       * @returns true if the tween is still playing after the update, false
-       * otherwise (calling update on a paused tween still returns true because
-       * it is still playing, just paused).
-       */
-      Tween.prototype.update = function (time, autoStart) {
-          if (time === void 0) { time = now$1(); }
-          if (autoStart === void 0) { autoStart = true; }
-          if (this._isPaused)
-              return true;
-          var property;
-          var elapsed;
-          var endTime = this._startTime + this._duration;
-          if (!this._goToEnd && !this._isPlaying) {
-              if (time > endTime)
-                  return false;
-              if (autoStart)
-                  this.start(time);
+          if (this._yoyo) {
+            this._reversed = !this._reversed;
           }
-          this._goToEnd = false;
-          if (time < this._startTime) {
-              return true;
+          if (this._repeatDelayTime !== undefined) {
+            this._startTime = time + this._repeatDelayTime;
+          } else {
+            this._startTime = time + this._delayTime;
           }
-          if (this._onStartCallbackFired === false) {
-              if (this._onStartCallback) {
-                  this._onStartCallback(this._object);
-              }
-              this._onStartCallbackFired = true;
-          }
-          elapsed = (time - this._startTime) / this._duration;
-          elapsed = this._duration === 0 || elapsed > 1 ? 1 : elapsed;
-          var value = this._easingFunction(elapsed);
-          // properties transformations
-          this._updateProperties(this._object, this._valuesStart, this._valuesEnd, value);
-          if (this._onUpdateCallback) {
-              this._onUpdateCallback(this._object, elapsed);
-          }
-          if (elapsed === 1) {
-              if (this._repeat > 0) {
-                  if (isFinite(this._repeat)) {
-                      this._repeat--;
-                  }
-                  // Reassign starting values, restart by making startTime = now
-                  for (property in this._valuesStartRepeat) {
-                      if (!this._yoyo && typeof this._valuesEnd[property] === 'string') {
-                          this._valuesStartRepeat[property] =
-                              // eslint-disable-next-line
-                              // @ts-ignore FIXME?
-                              this._valuesStartRepeat[property] + parseFloat(this._valuesEnd[property]);
-                      }
-                      if (this._yoyo) {
-                          this._swapEndStartRepeatValues(property);
-                      }
-                      this._valuesStart[property] = this._valuesStartRepeat[property];
-                  }
-                  if (this._yoyo) {
-                      this._reversed = !this._reversed;
-                  }
-                  if (this._repeatDelayTime !== undefined) {
-                      this._startTime = time + this._repeatDelayTime;
-                  }
-                  else {
-                      this._startTime = time + this._delayTime;
-                  }
-                  if (this._onRepeatCallback) {
-                      this._onRepeatCallback(this._object);
-                  }
-                  return true;
-              }
-              else {
-                  if (this._onCompleteCallback) {
-                      this._onCompleteCallback(this._object);
-                  }
-                  for (var i = 0, numChainedTweens = this._chainedTweens.length; i < numChainedTweens; i++) {
-                      // Make the chained tweens start exactly at the time they should,
-                      // even if the `update()` method was called way past the duration of the tween
-                      this._chainedTweens[i].start(this._startTime + this._duration);
-                  }
-                  this._isPlaying = false;
-                  return false;
-              }
+          if (this._onRepeatCallback) {
+            this._onRepeatCallback(this._object);
           }
           return true;
-      };
-      Tween.prototype._updateProperties = function (_object, _valuesStart, _valuesEnd, value) {
-          for (var property in _valuesEnd) {
-              // Don't update properties that do not exist in the source object
-              if (_valuesStart[property] === undefined) {
-                  continue;
-              }
-              var start = _valuesStart[property] || 0;
-              var end = _valuesEnd[property];
-              var startIsArray = Array.isArray(_object[property]);
-              var endIsArray = Array.isArray(end);
-              var isInterpolationList = !startIsArray && endIsArray;
-              if (isInterpolationList) {
-                  _object[property] = this._interpolationFunction(end, value);
-              }
-              else if (typeof end === 'object' && end) {
-                  // eslint-disable-next-line
-                  // @ts-ignore FIXME?
-                  this._updateProperties(_object[property], start, end, value);
-              }
-              else {
-                  // Parses relative end values with start as base (e.g.: +10, -3)
-                  end = this._handleRelativeValue(start, end);
-                  // Protect against non numeric properties.
-                  if (typeof end === 'number') {
-                      // eslint-disable-next-line
-                      // @ts-ignore FIXME?
-                      _object[property] = start + (end - start) * value;
-                  }
-              }
+        } else {
+          if (this._onCompleteCallback) {
+            this._onCompleteCallback(this._object);
           }
-      };
-      Tween.prototype._handleRelativeValue = function (start, end) {
-          if (typeof end !== 'string') {
-              return end;
+          for (
+            var i = 0, numChainedTweens = this._chainedTweens.length;
+            i < numChainedTweens;
+            i++
+          ) {
+            // Make the chained tweens start exactly at the time they should,
+            // even if the `update()` method was called way past the duration of the tween
+            this._chainedTweens[i].start(this._startTime + this._duration);
           }
-          if (end.charAt(0) === '+' || end.charAt(0) === '-') {
-              return start + parseFloat(end);
+          this._isPlaying = false;
+          return false;
+        }
+      }
+      return true;
+    };
+    Tween.prototype._updateProperties = function (
+      _object,
+      _valuesStart,
+      _valuesEnd,
+      value,
+    ) {
+      for (var property in _valuesEnd) {
+        // Don't update properties that do not exist in the source object
+        if (_valuesStart[property] === undefined) {
+          continue;
+        }
+        var start = _valuesStart[property] || 0;
+        var end = _valuesEnd[property];
+        var startIsArray = Array.isArray(_object[property]);
+        var endIsArray = Array.isArray(end);
+        var isInterpolationList = !startIsArray && endIsArray;
+        if (isInterpolationList) {
+          _object[property] = this._interpolationFunction(end, value);
+        } else if (typeof end === "object" && end) {
+          // eslint-disable-next-line
+          // @ts-ignore FIXME?
+          this._updateProperties(_object[property], start, end, value);
+        } else {
+          // Parses relative end values with start as base (e.g.: +10, -3)
+          end = this._handleRelativeValue(start, end);
+          // Protect against non numeric properties.
+          if (typeof end === "number") {
+            // eslint-disable-next-line
+            // @ts-ignore FIXME?
+            _object[property] = start + (end - start) * value;
           }
-          else {
-              return parseFloat(end);
-          }
-      };
-      Tween.prototype._swapEndStartRepeatValues = function (property) {
-          var tmp = this._valuesStartRepeat[property];
-          var endValue = this._valuesEnd[property];
-          if (typeof endValue === 'string') {
-              this._valuesStartRepeat[property] = this._valuesStartRepeat[property] + parseFloat(endValue);
-          }
-          else {
-              this._valuesStartRepeat[property] = this._valuesEnd[property];
-          }
-          this._valuesEnd[property] = tmp;
-      };
-      return Tween;
-  }());
+        }
+      }
+    };
+    Tween.prototype._handleRelativeValue = function (start, end) {
+      if (typeof end !== "string") {
+        return end;
+      }
+      if (end.charAt(0) === "+" || end.charAt(0) === "-") {
+        return start + parseFloat(end);
+      } else {
+        return parseFloat(end);
+      }
+    };
+    Tween.prototype._swapEndStartRepeatValues = function (property) {
+      var tmp = this._valuesStartRepeat[property];
+      var endValue = this._valuesEnd[property];
+      if (typeof endValue === "string") {
+        this._valuesStartRepeat[property] =
+          this._valuesStartRepeat[property] + parseFloat(endValue);
+      } else {
+        this._valuesStartRepeat[property] = this._valuesEnd[property];
+      }
+      this._valuesEnd[property] = tmp;
+    };
+    return Tween;
+  })();
 
-  var VERSION = '18.6.4';
+  var VERSION = "18.6.4";
 
   /**
    * Tween.js - Licensed under the MIT license
@@ -4999,19 +5979,19 @@
   var remove = TWEEN.remove.bind(TWEEN);
   var update = TWEEN.update.bind(TWEEN);
   var exports$1 = {
-      Easing: Easing,
-      Group: Group,
-      Interpolation: Interpolation,
-      now: now$1,
-      Sequence: Sequence,
-      nextId: nextId,
-      Tween: Tween,
-      VERSION: VERSION,
-      getAll: getAll,
-      removeAll: removeAll$3,
-      add: add$3,
-      remove: remove,
-      update: update,
+    Easing: Easing,
+    Group: Group,
+    Interpolation: Interpolation,
+    now: now$1,
+    Sequence: Sequence,
+    nextId: nextId,
+    Tween: Tween,
+    VERSION: VERSION,
+    getAll: getAll,
+    removeAll: removeAll$3,
+    add: add$3,
+    remove: remove,
+    update: update,
   };
 
   var TWEEN$1 = exports$1;
@@ -5020,8 +6000,8 @@
    * Returns a function, that, as long as it continues to be invoked, will not
    * be triggered. The function will be called after it stops being called for
    * N milliseconds. If `immediate` is passed, trigger the function on the
-   * leading edge, instead of the trailing. The function also has a property 'clear' 
-   * that is a function which will clear the timer to prevent previously scheduled executions. 
+   * leading edge, instead of the trailing. The function also has a property 'clear'
+   * that is a function which will clear the timer to prevent previously scheduled executions.
    *
    * @source underscore.js
    * @see http://unscriptable.com/2009/03/20/debouncing-javascript-methods/
@@ -5031,7 +6011,7 @@
    * @api public
    */
 
-  function debounce(func, wait, immediate){
+  function debounce(func, wait, immediate) {
     var timeout, args, context, timestamp, result;
     if (null == wait) wait = 100;
 
@@ -5048,7 +6028,7 @@
         }
       }
     }
-    var debounced = function(){
+    var debounced = function () {
       context = this;
       args = arguments;
       timestamp = Date.now();
@@ -5062,18 +6042,18 @@
       return result;
     };
 
-    debounced.clear = function() {
+    debounced.clear = function () {
       if (timeout) {
         clearTimeout(timeout);
         timeout = null;
       }
     };
-    
-    debounced.flush = function() {
+
+    debounced.flush = function () {
       if (timeout) {
         result = func.apply(context, args);
         context = args = null;
-        
+
         clearTimeout(timeout);
         timeout = null;
       }
@@ -5106,13 +6086,18 @@
     if (protoProps) _defineProperties$1(Constructor.prototype, protoProps);
     if (staticProps) _defineProperties$1(Constructor, staticProps);
     Object.defineProperty(Constructor, "prototype", {
-      writable: false
+      writable: false,
     });
     return Constructor;
   }
 
   function _slicedToArray$1(arr, i) {
-    return _arrayWithHoles$1(arr) || _iterableToArrayLimit$1(arr, i) || _unsupportedIterableToArray$2(arr, i) || _nonIterableRest$1();
+    return (
+      _arrayWithHoles$1(arr) ||
+      _iterableToArrayLimit$1(arr, i) ||
+      _unsupportedIterableToArray$2(arr, i) ||
+      _nonIterableRest$1()
+    );
   }
 
   function _arrayWithHoles$1(arr) {
@@ -5120,7 +6105,11 @@
   }
 
   function _iterableToArrayLimit$1(arr, i) {
-    var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
+    var _i =
+      arr == null
+        ? null
+        : (typeof Symbol !== "undefined" && arr[Symbol.iterator]) ||
+          arr["@@iterator"];
 
     if (_i == null) return;
     var _arr = [];
@@ -5155,7 +6144,8 @@
     var n = Object.prototype.toString.call(o).slice(8, -1);
     if (n === "Object" && o.constructor) n = o.constructor.name;
     if (n === "Map" || n === "Set") return Array.from(o);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$2(o, minLen);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
+      return _arrayLikeToArray$2(o, minLen);
   }
 
   function _arrayLikeToArray$2(arr, len) {
@@ -5167,16 +6157,19 @@
   }
 
   function _nonIterableRest$1() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    throw new TypeError(
+      "Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.",
+    );
   }
 
-  var Prop = /*#__PURE__*/_createClass$1(function Prop(name, _ref) {
+  var Prop = /*#__PURE__*/ _createClass$1(function Prop(name, _ref) {
     var _ref$default = _ref["default"],
-        defaultVal = _ref$default === void 0 ? null : _ref$default,
-        _ref$triggerUpdate = _ref.triggerUpdate,
-        triggerUpdate = _ref$triggerUpdate === void 0 ? true : _ref$triggerUpdate,
-        _ref$onChange = _ref.onChange,
-        onChange = _ref$onChange === void 0 ? function (newVal, state) {} : _ref$onChange;
+      defaultVal = _ref$default === void 0 ? null : _ref$default,
+      _ref$triggerUpdate = _ref.triggerUpdate,
+      triggerUpdate = _ref$triggerUpdate === void 0 ? true : _ref$triggerUpdate,
+      _ref$onChange = _ref.onChange,
+      onChange =
+        _ref$onChange === void 0 ? function (newVal, state) {} : _ref$onChange;
 
     _classCallCheck$1(this, Prop);
 
@@ -5186,32 +6179,39 @@
     this.onChange = onChange;
   });
 
-  function index$3 (_ref2) {
+  function index$3(_ref2) {
     var _ref2$stateInit = _ref2.stateInit,
-        stateInit = _ref2$stateInit === void 0 ? function () {
-      return {};
-    } : _ref2$stateInit,
-        _ref2$props = _ref2.props,
-        rawProps = _ref2$props === void 0 ? {} : _ref2$props,
-        _ref2$methods = _ref2.methods,
-        methods = _ref2$methods === void 0 ? {} : _ref2$methods,
-        _ref2$aliases = _ref2.aliases,
-        aliases = _ref2$aliases === void 0 ? {} : _ref2$aliases,
-        _ref2$init = _ref2.init,
-        initFn = _ref2$init === void 0 ? function () {} : _ref2$init,
-        _ref2$update = _ref2.update,
-        updateFn = _ref2$update === void 0 ? function () {} : _ref2$update;
+      stateInit =
+        _ref2$stateInit === void 0
+          ? function () {
+              return {};
+            }
+          : _ref2$stateInit,
+      _ref2$props = _ref2.props,
+      rawProps = _ref2$props === void 0 ? {} : _ref2$props,
+      _ref2$methods = _ref2.methods,
+      methods = _ref2$methods === void 0 ? {} : _ref2$methods,
+      _ref2$aliases = _ref2.aliases,
+      aliases = _ref2$aliases === void 0 ? {} : _ref2$aliases,
+      _ref2$init = _ref2.init,
+      initFn = _ref2$init === void 0 ? function () {} : _ref2$init,
+      _ref2$update = _ref2.update,
+      updateFn = _ref2$update === void 0 ? function () {} : _ref2$update;
     // Parse props into Prop instances
     var props = Object.keys(rawProps).map(function (propName) {
       return new Prop(propName, rawProps[propName]);
     });
     return function () {
-      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var options =
+        arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       // Holds component state
-      var state = Object.assign({}, stateInit instanceof Function ? stateInit(options) : stateInit, // Support plain objects for backwards compatibility
-      {
-        initialised: false
-      }); // keeps track of which props triggered an update
+      var state = Object.assign(
+        {},
+        stateInit instanceof Function ? stateInit(options) : stateInit, // Support plain objects for backwards compatibility
+        {
+          initialised: false,
+        },
+      ); // keeps track of which props triggered an update
 
       var changedProps = {}; // Component constructor
 
@@ -5240,19 +6240,22 @@
 
         function getSetProp(_ref3) {
           var prop = _ref3.name,
-              _ref3$triggerUpdate = _ref3.triggerUpdate,
-              redigest = _ref3$triggerUpdate === void 0 ? false : _ref3$triggerUpdate,
-              _ref3$onChange = _ref3.onChange,
-              onChange = _ref3$onChange === void 0 ? function (newVal, state) {} : _ref3$onChange,
-              _ref3$defaultVal = _ref3.defaultVal,
-              defaultVal = _ref3$defaultVal === void 0 ? null : _ref3$defaultVal;
+            _ref3$triggerUpdate = _ref3.triggerUpdate,
+            redigest =
+              _ref3$triggerUpdate === void 0 ? false : _ref3$triggerUpdate,
+            _ref3$onChange = _ref3.onChange,
+            onChange =
+              _ref3$onChange === void 0
+                ? function (newVal, state) {}
+                : _ref3$onChange,
+            _ref3$defaultVal = _ref3.defaultVal,
+            defaultVal = _ref3$defaultVal === void 0 ? null : _ref3$defaultVal;
           return function (_) {
             var curVal = state[prop];
 
             if (!arguments.length) {
               return curVal;
             } // Getter mode
-
 
             var val = _ === undefined ? defaultVal : _; // pick default if value passed is undefined
 
@@ -5274,20 +6277,27 @@
         comp[methodName] = function () {
           var _methods$methodName;
 
-          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+          for (
+            var _len = arguments.length, args = new Array(_len), _key = 0;
+            _key < _len;
+            _key++
+          ) {
             args[_key] = arguments[_key];
           }
 
-          return (_methods$methodName = methods[methodName]).call.apply(_methods$methodName, [comp, state].concat(args));
+          return (_methods$methodName = methods[methodName]).call.apply(
+            _methods$methodName,
+            [comp, state].concat(args),
+          );
         };
       }); // Link aliases
 
       Object.entries(aliases).forEach(function (_ref4) {
         var _ref5 = _slicedToArray$1(_ref4, 2),
-            alias = _ref5[0],
-            target = _ref5[1];
+          alias = _ref5[0],
+          target = _ref5[1];
 
-        return comp[alias] = comp[target];
+        return (comp[alias] = comp[target]);
       }); // Reset all component props to their default value
 
       comp.resetProps = function () {
@@ -5297,7 +6307,6 @@
         return comp;
       }; //
 
-
       comp.resetProps(); // Apply all prop defaults
 
       state._rerender = digest; // Expose digest method
@@ -5306,15 +6315,17 @@
     };
   }
 
-  var index$2 = (function (p) {
-    return p instanceof Function ? p // fn
-    : typeof p === 'string' ? function (obj) {
-      return obj[p];
-    } // property name
-    : function (obj) {
-      return p;
-    };
-  }); // constant
+  var index$2 = function (p) {
+    return p instanceof Function
+      ? p // fn
+      : typeof p === "string"
+        ? function (obj) {
+            return obj[p];
+          } // property name
+        : function (obj) {
+            return p;
+          };
+  }; // constant
 
   var accessorFn = index$2;
 
@@ -5932,7 +6943,10 @@
       hex[3].charAt(0) == hex[3].charAt(1)
     ) {
       return (
-        hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0) + hex[3].charAt(0)
+        hex[0].charAt(0) +
+        hex[1].charAt(0) +
+        hex[2].charAt(0) +
+        hex[3].charAt(0)
       );
     }
 
@@ -6004,9 +7018,18 @@
   function brighten(color, amount) {
     amount = amount === 0 ? 0 : amount || 10;
     var rgb = tinycolor(color).toRgb();
-    rgb.r = Math.max(0, Math.min(255, rgb.r - Math.round(255 * -(amount / 100))));
-    rgb.g = Math.max(0, Math.min(255, rgb.g - Math.round(255 * -(amount / 100))));
-    rgb.b = Math.max(0, Math.min(255, rgb.b - Math.round(255 * -(amount / 100))));
+    rgb.r = Math.max(
+      0,
+      Math.min(255, rgb.r - Math.round(255 * -(amount / 100))),
+    );
+    rgb.g = Math.max(
+      0,
+      Math.min(255, rgb.g - Math.round(255 * -(amount / 100))),
+    );
+    rgb.b = Math.max(
+      0,
+      Math.min(255, rgb.b - Math.round(255 * -(amount / 100))),
+    );
     return tinycolor(rgb);
   }
 
@@ -6046,7 +7069,9 @@
     var result = [tinycolor(color)];
     var step = 360 / number;
     for (var i = 1; i < number; i++) {
-      result.push(tinycolor({ h: (hsl.h + i * step) % 360, s: hsl.s, l: hsl.l }));
+      result.push(
+        tinycolor({ h: (hsl.h + i * step) % 360, s: hsl.s, l: hsl.l }),
+      );
     }
 
     return result;
@@ -6615,13 +7640,18 @@
     if (protoProps) _defineProperties(Constructor.prototype, protoProps);
     if (staticProps) _defineProperties(Constructor, staticProps);
     Object.defineProperty(Constructor, "prototype", {
-      writable: false
+      writable: false,
     });
     return Constructor;
   }
 
   function _toConsumableArray$1(arr) {
-    return _arrayWithoutHoles$1(arr) || _iterableToArray$1(arr) || _unsupportedIterableToArray$1(arr) || _nonIterableSpread$1();
+    return (
+      _arrayWithoutHoles$1(arr) ||
+      _iterableToArray$1(arr) ||
+      _unsupportedIterableToArray$1(arr) ||
+      _nonIterableSpread$1()
+    );
   }
 
   function _arrayWithoutHoles$1(arr) {
@@ -6629,7 +7659,11 @@
   }
 
   function _iterableToArray$1(iter) {
-    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
+    if (
+      (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null) ||
+      iter["@@iterator"] != null
+    )
+      return Array.from(iter);
   }
 
   function _unsupportedIterableToArray$1(o, minLen) {
@@ -6638,7 +7672,8 @@
     var n = Object.prototype.toString.call(o).slice(8, -1);
     if (n === "Object" && o.constructor) n = o.constructor.name;
     if (n === "Map" || n === "Set") return Array.from(o);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$1(o, minLen);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
+      return _arrayLikeToArray$1(o, minLen);
   }
 
   function _arrayLikeToArray$1(arr, len) {
@@ -6650,13 +7685,17 @@
   }
 
   function _nonIterableSpread$1() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    throw new TypeError(
+      "Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.",
+    );
   }
 
   var ENTROPY = 123; // Raise numbers to prevent collisions in lower indexes
 
   var int2HexColor = function int2HexColor(num) {
-    return "#".concat(Math.min(num, Math.pow(2, 24)).toString(16).padStart(6, '0'));
+    return "#".concat(
+      Math.min(num, Math.pow(2, 24)).toString(16).padStart(6, "0"),
+    );
   };
 
   var rgb2Int = function rgb2Int(r, g, b) {
@@ -6665,63 +7704,72 @@
 
   var colorStr2Int = function colorStr2Int(str) {
     var _tinyColor$toRgb = tinycolor(str).toRgb(),
-        r = _tinyColor$toRgb.r,
-        g = _tinyColor$toRgb.g,
-        b = _tinyColor$toRgb.b;
+      r = _tinyColor$toRgb.r,
+      g = _tinyColor$toRgb.g,
+      b = _tinyColor$toRgb.b;
 
     return rgb2Int(r, g, b);
   };
 
   var checksum = function checksum(n, csBits) {
-    return n * ENTROPY % Math.pow(2, csBits);
+    return (n * ENTROPY) % Math.pow(2, csBits);
   };
 
-  var _default = /*#__PURE__*/function () {
+  var _default = /*#__PURE__*/ (function () {
     function _default() {
-      var csBits = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 6;
+      var csBits =
+        arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 6;
 
       _classCallCheck(this, _default);
 
       this.csBits = csBits; // How many bits to reserve for checksum. Will eat away into the usable size of the registry.
 
-      this.registry = ['__reserved for background__']; // indexed objects for rgb lookup;
+      this.registry = ["__reserved for background__"]; // indexed objects for rgb lookup;
     }
 
-    _createClass(_default, [{
-      key: "register",
-      value: function register(obj) {
-        if (this.registry.length >= Math.pow(2, 24 - this.csBits)) {
-          // color has 24 bits (-checksum)
-          return null; // Registry is full
-        }
+    _createClass(_default, [
+      {
+        key: "register",
+        value: function register(obj) {
+          if (this.registry.length >= Math.pow(2, 24 - this.csBits)) {
+            // color has 24 bits (-checksum)
+            return null; // Registry is full
+          }
 
-        var idx = this.registry.length;
-        var cs = checksum(idx, this.csBits);
-        var color = int2HexColor(idx + (cs << 24 - this.csBits));
-        this.registry.push(obj);
-        return color;
-      }
-    }, {
-      key: "lookup",
-      value: function lookup(color) {
-        var n = typeof color === 'string' ? colorStr2Int(color) : rgb2Int.apply(void 0, _toConsumableArray$1(color));
-        if (!n) return null; // 0 index is reserved for background
+          var idx = this.registry.length;
+          var cs = checksum(idx, this.csBits);
+          var color = int2HexColor(idx + (cs << (24 - this.csBits)));
+          this.registry.push(obj);
+          return color;
+        },
+      },
+      {
+        key: "lookup",
+        value: function lookup(color) {
+          var n =
+            typeof color === "string"
+              ? colorStr2Int(color)
+              : rgb2Int.apply(void 0, _toConsumableArray$1(color));
+          if (!n) return null; // 0 index is reserved for background
 
-        var idx = n & Math.pow(2, 24 - this.csBits) - 1; // registry index
+          var idx = n & (Math.pow(2, 24 - this.csBits) - 1); // registry index
 
-        var cs = n >> 24 - this.csBits & Math.pow(2, this.csBits) - 1; // extract bits reserved for checksum
+          var cs = (n >> (24 - this.csBits)) & (Math.pow(2, this.csBits) - 1); // extract bits reserved for checksum
 
-        if (checksum(idx, this.csBits) !== cs || idx >= this.registry.length) return null; // failed checksum or registry out of bounds
+          if (checksum(idx, this.csBits) !== cs || idx >= this.registry.length)
+            return null; // failed checksum or registry out of bounds
 
-        return this.registry[idx];
-      }
-    }]);
+          return this.registry[idx];
+        },
+      },
+    ]);
 
     return _default;
-  }();
+  })();
 
   function d3ForceCenter(x, y, z) {
-    var nodes, strength = 1;
+    var nodes,
+      strength = 1;
 
     if (x == null) x = 0;
     if (y == null) y = 0;
@@ -6729,42 +7777,58 @@
 
     function force() {
       var i,
-          n = nodes.length,
-          node,
-          sx = 0,
-          sy = 0,
-          sz = 0;
+        n = nodes.length,
+        node,
+        sx = 0,
+        sy = 0,
+        sz = 0;
 
       for (i = 0; i < n; ++i) {
-        node = nodes[i], sx += node.x || 0, sy += node.y || 0, sz += node.z || 0;
+        (node = nodes[i]),
+          (sx += node.x || 0),
+          (sy += node.y || 0),
+          (sz += node.z || 0);
       }
 
-      for (sx = (sx / n - x) * strength, sy = (sy / n - y) * strength, sz = (sz / n - z) * strength, i = 0; i < n; ++i) {
+      for (
+        sx = (sx / n - x) * strength,
+          sy = (sy / n - y) * strength,
+          sz = (sz / n - z) * strength,
+          i = 0;
+        i < n;
+        ++i
+      ) {
         node = nodes[i];
-        if (sx) { node.x -= sx; }
-        if (sy) { node.y -= sy; }
-        if (sz) { node.z -= sz; }
+        if (sx) {
+          node.x -= sx;
+        }
+        if (sy) {
+          node.y -= sy;
+        }
+        if (sz) {
+          node.z -= sz;
+        }
       }
     }
 
-    force.initialize = function(_) {
+    force.initialize = function (_) {
       nodes = _;
     };
 
-    force.x = function(_) {
-      return arguments.length ? (x = +_, force) : x;
+    force.x = function (_) {
+      return arguments.length ? ((x = +_), force) : x;
     };
 
-    force.y = function(_) {
-      return arguments.length ? (y = +_, force) : y;
+    force.y = function (_) {
+      return arguments.length ? ((y = +_), force) : y;
     };
 
-    force.z = function(_) {
-      return arguments.length ? (z = +_, force) : z;
+    force.z = function (_) {
+      return arguments.length ? ((z = +_), force) : z;
     };
 
-    force.strength = function(_) {
-      return arguments.length ? (strength = +_, force) : strength;
+    force.strength = function (_) {
+      return arguments.length ? ((strength = +_), force) : strength;
     };
 
     return force;
@@ -6779,47 +7843,58 @@
     if (isNaN(x)) return tree; // ignore invalid points
 
     var parent,
-        node = tree._root,
-        leaf = {data: d},
-        x0 = tree._x0,
-        x1 = tree._x1,
-        xm,
-        xp,
-        right,
-        i,
-        j;
+      node = tree._root,
+      leaf = { data: d },
+      x0 = tree._x0,
+      x1 = tree._x1,
+      xm,
+      xp,
+      right,
+      i,
+      j;
 
     // If the tree is empty, initialize the root as a leaf.
-    if (!node) return tree._root = leaf, tree;
+    if (!node) return (tree._root = leaf), tree;
 
     // Find the existing leaf for the new point, or add it.
     while (node.length) {
-      if (right = x >= (xm = (x0 + x1) / 2)) x0 = xm; else x1 = xm;
-      if (parent = node, !(node = node[i = +right])) return parent[i] = leaf, tree;
+      if ((right = x >= (xm = (x0 + x1) / 2))) x0 = xm;
+      else x1 = xm;
+      if (((parent = node), !(node = node[(i = +right)])))
+        return (parent[i] = leaf), tree;
     }
 
     // Is the new point is exactly coincident with the existing point?
     xp = +tree._x.call(null, node.data);
-    if (x === xp) return leaf.next = node, parent ? parent[i] = leaf : tree._root = leaf, tree;
+    if (x === xp)
+      return (
+        (leaf.next = node),
+        parent ? (parent[i] = leaf) : (tree._root = leaf),
+        tree
+      );
 
     // Otherwise, split the leaf node until the old and new point are separated.
     do {
-      parent = parent ? parent[i] = new Array(2) : tree._root = new Array(2);
-      if (right = x >= (xm = (x0 + x1) / 2)) x0 = xm; else x1 = xm;
+      parent = parent
+        ? (parent[i] = new Array(2))
+        : (tree._root = new Array(2));
+      if ((right = x >= (xm = (x0 + x1) / 2))) x0 = xm;
+      else x1 = xm;
     } while ((i = +right) === (j = +(xp >= xm)));
-    return parent[j] = node, parent[i] = leaf, tree;
+    return (parent[j] = node), (parent[i] = leaf), tree;
   }
 
   function addAll$2(data) {
-    var i, n = data.length,
-        x,
-        xz = new Array(n),
-        x0 = Infinity,
-        x1 = -Infinity;
+    var i,
+      n = data.length,
+      x,
+      xz = new Array(n),
+      x0 = Infinity,
+      x1 = -Infinity;
 
     // Compute the points and their extent.
     for (i = 0; i < n; ++i) {
-      if (isNaN(x = +this._x.call(null, data[i]))) continue;
+      if (isNaN((x = +this._x.call(null, data[i])))) continue;
       xz[i] = x;
       if (x < x0) x0 = x;
       if (x > x1) x1 = x;
@@ -6840,10 +7915,10 @@
   }
 
   function tree_cover$2(x) {
-    if (isNaN(x = +x)) return this; // ignore invalid points
+    if (isNaN((x = +x))) return this; // ignore invalid points
 
     var x0 = this._x0,
-        x1 = this._x1;
+      x1 = this._x1;
 
     // If the binarytree has no extent, initialize them.
     // Integer extent are necessary so that if we later double the extent,
@@ -6855,16 +7930,20 @@
     // Otherwise, double repeatedly to cover.
     else {
       var z = x1 - x0 || 1,
-          node = this._root,
-          parent,
-          i;
+        node = this._root,
+        parent,
+        i;
 
       while (x0 > x || x >= x1) {
         i = +(x < x0);
-        parent = new Array(2), parent[i] = node, node = parent, z *= 2;
+        (parent = new Array(2)), (parent[i] = node), (node = parent), (z *= 2);
         switch (i) {
-          case 0: x1 = x0 + z; break;
-          case 1: x0 = x1 - z; break;
+          case 0:
+            x1 = x0 + z;
+            break;
+          case 1:
+            x0 = x1 - z;
+            break;
         }
       }
 
@@ -6878,16 +7957,20 @@
 
   function tree_data$2() {
     var data = [];
-    this.visit(function(node) {
-      if (!node.length) do data.push(node.data); while (node = node.next)
+    this.visit(function (node) {
+      if (!node.length)
+        do data.push(node.data);
+        while ((node = node.next));
     });
     return data;
   }
 
   function tree_extent$2(_) {
     return arguments.length
-        ? this.cover(+_[0][0]).cover(+_[1][0])
-        : isNaN(this._x0) ? undefined : [[this._x0], [this._x1]];
+      ? this.cover(+_[0][0]).cover(+_[1][0])
+      : isNaN(this._x0)
+        ? undefined
+        : [[this._x0], [this._x1]];
   }
 
   function Half(node, x0, x1) {
@@ -6898,14 +7981,14 @@
 
   function tree_find$2(x, radius) {
     var data,
-        x0 = this._x0,
-        x1,
-        x2,
-        x3 = this._x1,
-        halves = [],
-        node = this._root,
-        q,
-        i;
+      x0 = this._x0,
+      x1,
+      x2,
+      x3 = this._x1,
+      halves = [],
+      node = this._root,
+      q,
+      i;
 
     if (node) halves.push(new Half(node, x0, x3));
     if (radius == null) radius = Infinity;
@@ -6914,24 +7997,18 @@
       x3 = x + radius;
     }
 
-    while (q = halves.pop()) {
-
+    while ((q = halves.pop())) {
       // Stop searching if this half can’t contain a closer node.
-      if (!(node = q.node)
-          || (x1 = q.x0) > x3
-          || (x2 = q.x1) < x0) continue;
+      if (!(node = q.node) || (x1 = q.x0) > x3 || (x2 = q.x1) < x0) continue;
 
       // Bisect the current half.
       if (node.length) {
         var xm = (x1 + x2) / 2;
 
-        halves.push(
-          new Half(node[1], xm, x2),
-          new Half(node[0], x1, xm)
-        );
+        halves.push(new Half(node[1], xm, x2), new Half(node[0], x1, xm));
 
         // Visit the closest half first.
-        if (i = +(x >= xm)) {
+        if ((i = +(x >= xm))) {
           q = halves[halves.length - 1];
           halves[halves.length - 1] = halves[halves.length - 1 - i];
           halves[halves.length - 1 - i] = q;
@@ -6954,50 +8031,56 @@
   }
 
   function tree_remove$2(d) {
-    if (isNaN(x = +this._x.call(null, d))) return this; // ignore invalid points
+    if (isNaN((x = +this._x.call(null, d)))) return this; // ignore invalid points
 
     var parent,
-        node = this._root,
-        retainer,
-        previous,
-        next,
-        x0 = this._x0,
-        x1 = this._x1,
-        x,
-        xm,
-        right,
-        i,
-        j;
+      node = this._root,
+      retainer,
+      previous,
+      next,
+      x0 = this._x0,
+      x1 = this._x1,
+      x,
+      xm,
+      right,
+      i,
+      j;
 
     // If the tree is empty, initialize the root as a leaf.
     if (!node) return this;
 
     // Find the leaf node for the point.
     // While descending, also retain the deepest parent with a non-removed sibling.
-    if (node.length) while (true) {
-      if (right = x >= (xm = (x0 + x1) / 2)) x0 = xm; else x1 = xm;
-      if (!(parent = node, node = node[i = +right])) return this;
-      if (!node.length) break;
-      if (parent[(i + 1) & 1]) retainer = parent, j = i;
-    }
+    if (node.length)
+      while (true) {
+        if ((right = x >= (xm = (x0 + x1) / 2))) x0 = xm;
+        else x1 = xm;
+        if (!((parent = node), (node = node[(i = +right)]))) return this;
+        if (!node.length) break;
+        if (parent[(i + 1) & 1]) (retainer = parent), (j = i);
+      }
 
     // Find the point to remove.
-    while (node.data !== d) if (!(previous = node, node = node.next)) return this;
-    if (next = node.next) delete node.next;
+    while (node.data !== d)
+      if (!((previous = node), (node = node.next))) return this;
+    if ((next = node.next)) delete node.next;
 
     // If there are multiple coincident points, remove just the point.
-    if (previous) return (next ? previous.next = next : delete previous.next), this;
+    if (previous)
+      return next ? (previous.next = next) : delete previous.next, this;
 
     // If this is the root point, remove it.
-    if (!parent) return this._root = next, this;
+    if (!parent) return (this._root = next), this;
 
     // Remove this leaf.
-    next ? parent[i] = next : delete parent[i];
+    next ? (parent[i] = next) : delete parent[i];
 
     // If the parent now contains exactly one leaf, collapse superfluous parents.
-    if ((node = parent[0] || parent[1])
-        && node === (parent[1] || parent[0])
-        && !node.length) {
+    if (
+      (node = parent[0] || parent[1]) &&
+      node === (parent[1] || parent[0]) &&
+      !node.length
+    ) {
       if (retainer) retainer[j] = node;
       else this._root = node;
     }
@@ -7016,38 +8099,50 @@
 
   function tree_size$2() {
     var size = 0;
-    this.visit(function(node) {
-      if (!node.length) do ++size; while (node = node.next)
+    this.visit(function (node) {
+      if (!node.length)
+        do ++size;
+        while ((node = node.next));
     });
     return size;
   }
 
   function tree_visit$2(callback) {
-    var halves = [], q, node = this._root, child, x0, x1;
+    var halves = [],
+      q,
+      node = this._root,
+      child,
+      x0,
+      x1;
     if (node) halves.push(new Half(node, this._x0, this._x1));
-    while (q = halves.pop()) {
-      if (!callback(node = q.node, x0 = q.x0, x1 = q.x1) && node.length) {
+    while ((q = halves.pop())) {
+      if (!callback((node = q.node), (x0 = q.x0), (x1 = q.x1)) && node.length) {
         var xm = (x0 + x1) / 2;
-        if (child = node[1]) halves.push(new Half(child, xm, x1));
-        if (child = node[0]) halves.push(new Half(child, x0, xm));
+        if ((child = node[1])) halves.push(new Half(child, xm, x1));
+        if ((child = node[0])) halves.push(new Half(child, x0, xm));
       }
     }
     return this;
   }
 
   function tree_visitAfter$2(callback) {
-    var halves = [], next = [], q;
+    var halves = [],
+      next = [],
+      q;
     if (this._root) halves.push(new Half(this._root, this._x0, this._x1));
-    while (q = halves.pop()) {
+    while ((q = halves.pop())) {
       var node = q.node;
       if (node.length) {
-        var child, x0 = q.x0, x1 = q.x1, xm = (x0 + x1) / 2;
-        if (child = node[0]) halves.push(new Half(child, x0, xm));
-        if (child = node[1]) halves.push(new Half(child, xm, x1));
+        var child,
+          x0 = q.x0,
+          x1 = q.x1,
+          xm = (x0 + x1) / 2;
+        if ((child = node[0])) halves.push(new Half(child, x0, xm));
+        if ((child = node[1])) halves.push(new Half(child, xm, x1));
       }
       next.push(q);
     }
-    while (q = next.pop()) {
+    while ((q = next.pop())) {
       callback(q.node, q.x0, q.x1);
     }
     return this;
@@ -7058,7 +8153,7 @@
   }
 
   function tree_x$2(_) {
-    return arguments.length ? (this._x = _, this) : this._x;
+    return arguments.length ? ((this._x = _), this) : this._x;
   }
 
   function binarytree(nodes, x) {
@@ -7074,28 +8169,33 @@
   }
 
   function leaf_copy$2(leaf) {
-    var copy = {data: leaf.data}, next = copy;
-    while (leaf = leaf.next) next = next.next = {data: leaf.data};
+    var copy = { data: leaf.data },
+      next = copy;
+    while ((leaf = leaf.next)) next = next.next = { data: leaf.data };
     return copy;
   }
 
-  var treeProto$2 = binarytree.prototype = Binarytree.prototype;
+  var treeProto$2 = (binarytree.prototype = Binarytree.prototype);
 
-  treeProto$2.copy = function() {
+  treeProto$2.copy = function () {
     var copy = new Binarytree(this._x, this._x0, this._x1),
-        node = this._root,
-        nodes,
-        child;
+      node = this._root,
+      nodes,
+      child;
 
     if (!node) return copy;
 
-    if (!node.length) return copy._root = leaf_copy$2(node), copy;
+    if (!node.length) return (copy._root = leaf_copy$2(node)), copy;
 
-    nodes = [{source: node, target: copy._root = new Array(2)}];
-    while (node = nodes.pop()) {
+    nodes = [{ source: node, target: (copy._root = new Array(2)) }];
+    while ((node = nodes.pop())) {
       for (var i = 0; i < 2; ++i) {
-        if (child = node.source[i]) {
-          if (child.length) nodes.push({source: child, target: node.target[i] = new Array(2)});
+        if ((child = node.source[i])) {
+          if (child.length)
+            nodes.push({
+              source: child,
+              target: (node.target[i] = new Array(2)),
+            });
           else node.target[i] = leaf_copy$2(child);
         }
       }
@@ -7120,7 +8220,7 @@
 
   function tree_add$1(d) {
     const x = +this._x.call(null, d),
-        y = +this._y.call(null, d);
+      y = +this._y.call(null, d);
     return add$1(this.cover(x, y), x, y, d);
   }
 
@@ -7128,59 +8228,79 @@
     if (isNaN(x) || isNaN(y)) return tree; // ignore invalid points
 
     var parent,
-        node = tree._root,
-        leaf = {data: d},
-        x0 = tree._x0,
-        y0 = tree._y0,
-        x1 = tree._x1,
-        y1 = tree._y1,
-        xm,
-        ym,
-        xp,
-        yp,
-        right,
-        bottom,
-        i,
-        j;
+      node = tree._root,
+      leaf = { data: d },
+      x0 = tree._x0,
+      y0 = tree._y0,
+      x1 = tree._x1,
+      y1 = tree._y1,
+      xm,
+      ym,
+      xp,
+      yp,
+      right,
+      bottom,
+      i,
+      j;
 
     // If the tree is empty, initialize the root as a leaf.
-    if (!node) return tree._root = leaf, tree;
+    if (!node) return (tree._root = leaf), tree;
 
     // Find the existing leaf for the new point, or add it.
     while (node.length) {
-      if (right = x >= (xm = (x0 + x1) / 2)) x0 = xm; else x1 = xm;
-      if (bottom = y >= (ym = (y0 + y1) / 2)) y0 = ym; else y1 = ym;
-      if (parent = node, !(node = node[i = bottom << 1 | right])) return parent[i] = leaf, tree;
+      if ((right = x >= (xm = (x0 + x1) / 2))) x0 = xm;
+      else x1 = xm;
+      if ((bottom = y >= (ym = (y0 + y1) / 2))) y0 = ym;
+      else y1 = ym;
+      if (((parent = node), !(node = node[(i = (bottom << 1) | right)])))
+        return (parent[i] = leaf), tree;
     }
 
     // Is the new point is exactly coincident with the existing point?
     xp = +tree._x.call(null, node.data);
     yp = +tree._y.call(null, node.data);
-    if (x === xp && y === yp) return leaf.next = node, parent ? parent[i] = leaf : tree._root = leaf, tree;
+    if (x === xp && y === yp)
+      return (
+        (leaf.next = node),
+        parent ? (parent[i] = leaf) : (tree._root = leaf),
+        tree
+      );
 
     // Otherwise, split the leaf node until the old and new point are separated.
     do {
-      parent = parent ? parent[i] = new Array(4) : tree._root = new Array(4);
-      if (right = x >= (xm = (x0 + x1) / 2)) x0 = xm; else x1 = xm;
-      if (bottom = y >= (ym = (y0 + y1) / 2)) y0 = ym; else y1 = ym;
-    } while ((i = bottom << 1 | right) === (j = (yp >= ym) << 1 | (xp >= xm)));
-    return parent[j] = node, parent[i] = leaf, tree;
+      parent = parent
+        ? (parent[i] = new Array(4))
+        : (tree._root = new Array(4));
+      if ((right = x >= (xm = (x0 + x1) / 2))) x0 = xm;
+      else x1 = xm;
+      if ((bottom = y >= (ym = (y0 + y1) / 2))) y0 = ym;
+      else y1 = ym;
+    } while (
+      (i = (bottom << 1) | right) === (j = ((yp >= ym) << 1) | (xp >= xm))
+    );
+    return (parent[j] = node), (parent[i] = leaf), tree;
   }
 
   function addAll$1(data) {
-    var d, i, n = data.length,
-        x,
-        y,
-        xz = new Array(n),
-        yz = new Array(n),
-        x0 = Infinity,
-        y0 = Infinity,
-        x1 = -Infinity,
-        y1 = -Infinity;
+    var d,
+      i,
+      n = data.length,
+      x,
+      y,
+      xz = new Array(n),
+      yz = new Array(n),
+      x0 = Infinity,
+      y0 = Infinity,
+      x1 = -Infinity,
+      y1 = -Infinity;
 
     // Compute the points and their extent.
     for (i = 0; i < n; ++i) {
-      if (isNaN(x = +this._x.call(null, d = data[i])) || isNaN(y = +this._y.call(null, d))) continue;
+      if (
+        isNaN((x = +this._x.call(null, (d = data[i])))) ||
+        isNaN((y = +this._y.call(null, d)))
+      )
+        continue;
       xz[i] = x;
       yz[i] = y;
       if (x < x0) x0 = x;
@@ -7204,12 +8324,12 @@
   }
 
   function tree_cover$1(x, y) {
-    if (isNaN(x = +x) || isNaN(y = +y)) return this; // ignore invalid points
+    if (isNaN((x = +x)) || isNaN((y = +y))) return this; // ignore invalid points
 
     var x0 = this._x0,
-        y0 = this._y0,
-        x1 = this._x1,
-        y1 = this._y1;
+      y0 = this._y0,
+      x1 = this._x1,
+      y1 = this._y1;
 
     // If the quadtree has no extent, initialize them.
     // Integer extent are necessary so that if we later double the extent,
@@ -7222,18 +8342,26 @@
     // Otherwise, double repeatedly to cover.
     else {
       var z = x1 - x0 || 1,
-          node = this._root,
-          parent,
-          i;
+        node = this._root,
+        parent,
+        i;
 
       while (x0 > x || x >= x1 || y0 > y || y >= y1) {
-        i = (y < y0) << 1 | (x < x0);
-        parent = new Array(4), parent[i] = node, node = parent, z *= 2;
+        i = ((y < y0) << 1) | (x < x0);
+        (parent = new Array(4)), (parent[i] = node), (node = parent), (z *= 2);
         switch (i) {
-          case 0: x1 = x0 + z, y1 = y0 + z; break;
-          case 1: x0 = x1 - z, y1 = y0 + z; break;
-          case 2: x1 = x0 + z, y0 = y1 - z; break;
-          case 3: x0 = x1 - z, y0 = y1 - z; break;
+          case 0:
+            (x1 = x0 + z), (y1 = y0 + z);
+            break;
+          case 1:
+            (x0 = x1 - z), (y1 = y0 + z);
+            break;
+          case 2:
+            (x1 = x0 + z), (y0 = y1 - z);
+            break;
+          case 3:
+            (x0 = x1 - z), (y0 = y1 - z);
+            break;
         }
       }
 
@@ -7249,16 +8377,23 @@
 
   function tree_data$1() {
     var data = [];
-    this.visit(function(node) {
-      if (!node.length) do data.push(node.data); while (node = node.next)
+    this.visit(function (node) {
+      if (!node.length)
+        do data.push(node.data);
+        while ((node = node.next));
     });
     return data;
   }
 
   function tree_extent$1(_) {
     return arguments.length
-        ? this.cover(+_[0][0], +_[0][1]).cover(+_[1][0], +_[1][1])
-        : isNaN(this._x0) ? undefined : [[this._x0, this._y0], [this._x1, this._y1]];
+      ? this.cover(+_[0][0], +_[0][1]).cover(+_[1][0], +_[1][1])
+      : isNaN(this._x0)
+        ? undefined
+        : [
+            [this._x0, this._y0],
+            [this._x1, this._y1],
+          ];
   }
 
   function Quad(node, x0, y0, x1, y1) {
@@ -7271,50 +8406,52 @@
 
   function tree_find$1(x, y, radius) {
     var data,
-        x0 = this._x0,
-        y0 = this._y0,
-        x1,
-        y1,
-        x2,
-        y2,
-        x3 = this._x1,
-        y3 = this._y1,
-        quads = [],
-        node = this._root,
-        q,
-        i;
+      x0 = this._x0,
+      y0 = this._y0,
+      x1,
+      y1,
+      x2,
+      y2,
+      x3 = this._x1,
+      y3 = this._y1,
+      quads = [],
+      node = this._root,
+      q,
+      i;
 
     if (node) quads.push(new Quad(node, x0, y0, x3, y3));
     if (radius == null) radius = Infinity;
     else {
-      x0 = x - radius, y0 = y - radius;
-      x3 = x + radius, y3 = y + radius;
+      (x0 = x - radius), (y0 = y - radius);
+      (x3 = x + radius), (y3 = y + radius);
       radius *= radius;
     }
 
-    while (q = quads.pop()) {
-
+    while ((q = quads.pop())) {
       // Stop searching if this quadrant can’t contain a closer node.
-      if (!(node = q.node)
-          || (x1 = q.x0) > x3
-          || (y1 = q.y0) > y3
-          || (x2 = q.x1) < x0
-          || (y2 = q.y1) < y0) continue;
+      if (
+        !(node = q.node) ||
+        (x1 = q.x0) > x3 ||
+        (y1 = q.y0) > y3 ||
+        (x2 = q.x1) < x0 ||
+        (y2 = q.y1) < y0
+      )
+        continue;
 
       // Bisect the current quadrant.
       if (node.length) {
         var xm = (x1 + x2) / 2,
-            ym = (y1 + y2) / 2;
+          ym = (y1 + y2) / 2;
 
         quads.push(
           new Quad(node[3], xm, ym, x2, y2),
           new Quad(node[2], x1, ym, xm, y2),
           new Quad(node[1], xm, y1, x2, ym),
-          new Quad(node[0], x1, y1, xm, ym)
+          new Quad(node[0], x1, y1, xm, ym),
         );
 
         // Visit the closest quadrant first.
-        if (i = (y >= ym) << 1 | (x >= xm)) {
+        if ((i = ((y >= ym) << 1) | (x >= xm))) {
           q = quads[quads.length - 1];
           quads[quads.length - 1] = quads[quads.length - 1 - i];
           quads[quads.length - 1 - i] = q;
@@ -7324,12 +8461,12 @@
       // Visit this point. (Visiting coincident points isn’t necessary!)
       else {
         var dx = x - +this._x.call(null, node.data),
-            dy = y - +this._y.call(null, node.data),
-            d2 = dx * dx + dy * dy;
+          dy = y - +this._y.call(null, node.data),
+          d2 = dx * dx + dy * dy;
         if (d2 < radius) {
-          var d = Math.sqrt(radius = d2);
-          x0 = x - d, y0 = y - d;
-          x3 = x + d, y3 = y + d;
+          var d = Math.sqrt((radius = d2));
+          (x0 = x - d), (y0 = y - d);
+          (x3 = x + d), (y3 = y + d);
           data = node.data;
         }
       }
@@ -7339,56 +8476,69 @@
   }
 
   function tree_remove$1(d) {
-    if (isNaN(x = +this._x.call(null, d)) || isNaN(y = +this._y.call(null, d))) return this; // ignore invalid points
+    if (
+      isNaN((x = +this._x.call(null, d))) ||
+      isNaN((y = +this._y.call(null, d)))
+    )
+      return this; // ignore invalid points
 
     var parent,
-        node = this._root,
-        retainer,
-        previous,
-        next,
-        x0 = this._x0,
-        y0 = this._y0,
-        x1 = this._x1,
-        y1 = this._y1,
-        x,
-        y,
-        xm,
-        ym,
-        right,
-        bottom,
-        i,
-        j;
+      node = this._root,
+      retainer,
+      previous,
+      next,
+      x0 = this._x0,
+      y0 = this._y0,
+      x1 = this._x1,
+      y1 = this._y1,
+      x,
+      y,
+      xm,
+      ym,
+      right,
+      bottom,
+      i,
+      j;
 
     // If the tree is empty, initialize the root as a leaf.
     if (!node) return this;
 
     // Find the leaf node for the point.
     // While descending, also retain the deepest parent with a non-removed sibling.
-    if (node.length) while (true) {
-      if (right = x >= (xm = (x0 + x1) / 2)) x0 = xm; else x1 = xm;
-      if (bottom = y >= (ym = (y0 + y1) / 2)) y0 = ym; else y1 = ym;
-      if (!(parent = node, node = node[i = bottom << 1 | right])) return this;
-      if (!node.length) break;
-      if (parent[(i + 1) & 3] || parent[(i + 2) & 3] || parent[(i + 3) & 3]) retainer = parent, j = i;
-    }
+    if (node.length)
+      while (true) {
+        if ((right = x >= (xm = (x0 + x1) / 2))) x0 = xm;
+        else x1 = xm;
+        if ((bottom = y >= (ym = (y0 + y1) / 2))) y0 = ym;
+        else y1 = ym;
+        if (!((parent = node), (node = node[(i = (bottom << 1) | right)])))
+          return this;
+        if (!node.length) break;
+        if (parent[(i + 1) & 3] || parent[(i + 2) & 3] || parent[(i + 3) & 3])
+          (retainer = parent), (j = i);
+      }
 
     // Find the point to remove.
-    while (node.data !== d) if (!(previous = node, node = node.next)) return this;
-    if (next = node.next) delete node.next;
+    while (node.data !== d)
+      if (!((previous = node), (node = node.next))) return this;
+    if ((next = node.next)) delete node.next;
 
     // If there are multiple coincident points, remove just the point.
-    if (previous) return (next ? previous.next = next : delete previous.next), this;
+    if (previous)
+      return next ? (previous.next = next) : delete previous.next, this;
 
     // If this is the root point, remove it.
-    if (!parent) return this._root = next, this;
+    if (!parent) return (this._root = next), this;
 
     // Remove this leaf.
-    next ? parent[i] = next : delete parent[i];
+    next ? (parent[i] = next) : delete parent[i];
 
     // If the parent now contains exactly one leaf, collapse superfluous parents.
-    if ((node = parent[0] || parent[1] || parent[2] || parent[3])
-        && node === (parent[3] || parent[2] || parent[1] || parent[0])
-        && !node.length) {
+    if (
+      (node = parent[0] || parent[1] || parent[2] || parent[3]) &&
+      node === (parent[3] || parent[2] || parent[1] || parent[0]) &&
+      !node.length
+    ) {
       if (retainer) retainer[j] = node;
       else this._root = node;
     }
@@ -7407,42 +8557,71 @@
 
   function tree_size$1() {
     var size = 0;
-    this.visit(function(node) {
-      if (!node.length) do ++size; while (node = node.next)
+    this.visit(function (node) {
+      if (!node.length)
+        do ++size;
+        while ((node = node.next));
     });
     return size;
   }
 
   function tree_visit$1(callback) {
-    var quads = [], q, node = this._root, child, x0, y0, x1, y1;
-    if (node) quads.push(new Quad(node, this._x0, this._y0, this._x1, this._y1));
-    while (q = quads.pop()) {
-      if (!callback(node = q.node, x0 = q.x0, y0 = q.y0, x1 = q.x1, y1 = q.y1) && node.length) {
-        var xm = (x0 + x1) / 2, ym = (y0 + y1) / 2;
-        if (child = node[3]) quads.push(new Quad(child, xm, ym, x1, y1));
-        if (child = node[2]) quads.push(new Quad(child, x0, ym, xm, y1));
-        if (child = node[1]) quads.push(new Quad(child, xm, y0, x1, ym));
-        if (child = node[0]) quads.push(new Quad(child, x0, y0, xm, ym));
+    var quads = [],
+      q,
+      node = this._root,
+      child,
+      x0,
+      y0,
+      x1,
+      y1;
+    if (node)
+      quads.push(new Quad(node, this._x0, this._y0, this._x1, this._y1));
+    while ((q = quads.pop())) {
+      if (
+        !callback(
+          (node = q.node),
+          (x0 = q.x0),
+          (y0 = q.y0),
+          (x1 = q.x1),
+          (y1 = q.y1),
+        ) &&
+        node.length
+      ) {
+        var xm = (x0 + x1) / 2,
+          ym = (y0 + y1) / 2;
+        if ((child = node[3])) quads.push(new Quad(child, xm, ym, x1, y1));
+        if ((child = node[2])) quads.push(new Quad(child, x0, ym, xm, y1));
+        if ((child = node[1])) quads.push(new Quad(child, xm, y0, x1, ym));
+        if ((child = node[0])) quads.push(new Quad(child, x0, y0, xm, ym));
       }
     }
     return this;
   }
 
   function tree_visitAfter$1(callback) {
-    var quads = [], next = [], q;
-    if (this._root) quads.push(new Quad(this._root, this._x0, this._y0, this._x1, this._y1));
-    while (q = quads.pop()) {
+    var quads = [],
+      next = [],
+      q;
+    if (this._root)
+      quads.push(new Quad(this._root, this._x0, this._y0, this._x1, this._y1));
+    while ((q = quads.pop())) {
       var node = q.node;
       if (node.length) {
-        var child, x0 = q.x0, y0 = q.y0, x1 = q.x1, y1 = q.y1, xm = (x0 + x1) / 2, ym = (y0 + y1) / 2;
-        if (child = node[0]) quads.push(new Quad(child, x0, y0, xm, ym));
-        if (child = node[1]) quads.push(new Quad(child, xm, y0, x1, ym));
-        if (child = node[2]) quads.push(new Quad(child, x0, ym, xm, y1));
-        if (child = node[3]) quads.push(new Quad(child, xm, ym, x1, y1));
+        var child,
+          x0 = q.x0,
+          y0 = q.y0,
+          x1 = q.x1,
+          y1 = q.y1,
+          xm = (x0 + x1) / 2,
+          ym = (y0 + y1) / 2;
+        if ((child = node[0])) quads.push(new Quad(child, x0, y0, xm, ym));
+        if ((child = node[1])) quads.push(new Quad(child, xm, y0, x1, ym));
+        if ((child = node[2])) quads.push(new Quad(child, x0, ym, xm, y1));
+        if ((child = node[3])) quads.push(new Quad(child, xm, ym, x1, y1));
       }
       next.push(q);
     }
-    while (q = next.pop()) {
+    while ((q = next.pop())) {
       callback(q.node, q.x0, q.y0, q.x1, q.y1);
     }
     return this;
@@ -7453,7 +8632,7 @@
   }
 
   function tree_x$1(_) {
-    return arguments.length ? (this._x = _, this) : this._x;
+    return arguments.length ? ((this._x = _), this) : this._x;
   }
 
   function defaultY$1(d) {
@@ -7461,11 +8640,18 @@
   }
 
   function tree_y$1(_) {
-    return arguments.length ? (this._y = _, this) : this._y;
+    return arguments.length ? ((this._y = _), this) : this._y;
   }
 
   function quadtree(nodes, x, y) {
-    var tree = new Quadtree(x == null ? defaultX$1 : x, y == null ? defaultY$1 : y, NaN, NaN, NaN, NaN);
+    var tree = new Quadtree(
+      x == null ? defaultX$1 : x,
+      y == null ? defaultY$1 : y,
+      NaN,
+      NaN,
+      NaN,
+      NaN,
+    );
     return nodes == null ? tree : tree.addAll(nodes);
   }
 
@@ -7480,28 +8666,40 @@
   }
 
   function leaf_copy$1(leaf) {
-    var copy = {data: leaf.data}, next = copy;
-    while (leaf = leaf.next) next = next.next = {data: leaf.data};
+    var copy = { data: leaf.data },
+      next = copy;
+    while ((leaf = leaf.next)) next = next.next = { data: leaf.data };
     return copy;
   }
 
-  var treeProto$1 = quadtree.prototype = Quadtree.prototype;
+  var treeProto$1 = (quadtree.prototype = Quadtree.prototype);
 
-  treeProto$1.copy = function() {
-    var copy = new Quadtree(this._x, this._y, this._x0, this._y0, this._x1, this._y1),
-        node = this._root,
-        nodes,
-        child;
+  treeProto$1.copy = function () {
+    var copy = new Quadtree(
+        this._x,
+        this._y,
+        this._x0,
+        this._y0,
+        this._x1,
+        this._y1,
+      ),
+      node = this._root,
+      nodes,
+      child;
 
     if (!node) return copy;
 
-    if (!node.length) return copy._root = leaf_copy$1(node), copy;
+    if (!node.length) return (copy._root = leaf_copy$1(node)), copy;
 
-    nodes = [{source: node, target: copy._root = new Array(4)}];
-    while (node = nodes.pop()) {
+    nodes = [{ source: node, target: (copy._root = new Array(4)) }];
+    while ((node = nodes.pop())) {
       for (var i = 0; i < 4; ++i) {
-        if (child = node.source[i]) {
-          if (child.length) nodes.push({source: child, target: node.target[i] = new Array(4)});
+        if ((child = node.source[i])) {
+          if (child.length)
+            nodes.push({
+              source: child,
+              target: (node.target[i] = new Array(4)),
+            });
           else node.target[i] = leaf_copy$1(child);
         }
       }
@@ -7527,8 +8725,8 @@
 
   function tree_add(d) {
     var x = +this._x.call(null, d),
-        y = +this._y.call(null, d),
-        z = +this._z.call(null, d);
+      y = +this._y.call(null, d),
+      z = +this._z.call(null, d);
     return add(this.cover(x, y, z), x, y, z, d);
   }
 
@@ -7536,71 +8734,98 @@
     if (isNaN(x) || isNaN(y) || isNaN(z)) return tree; // ignore invalid points
 
     var parent,
-        node = tree._root,
-        leaf = {data: d},
-        x0 = tree._x0,
-        y0 = tree._y0,
-        z0 = tree._z0,
-        x1 = tree._x1,
-        y1 = tree._y1,
-        z1 = tree._z1,
-        xm,
-        ym,
-        zm,
-        xp,
-        yp,
-        zp,
-        right,
-        bottom,
-        deep,
-        i,
-        j;
+      node = tree._root,
+      leaf = { data: d },
+      x0 = tree._x0,
+      y0 = tree._y0,
+      z0 = tree._z0,
+      x1 = tree._x1,
+      y1 = tree._y1,
+      z1 = tree._z1,
+      xm,
+      ym,
+      zm,
+      xp,
+      yp,
+      zp,
+      right,
+      bottom,
+      deep,
+      i,
+      j;
 
     // If the tree is empty, initialize the root as a leaf.
-    if (!node) return tree._root = leaf, tree;
+    if (!node) return (tree._root = leaf), tree;
 
     // Find the existing leaf for the new point, or add it.
     while (node.length) {
-      if (right = x >= (xm = (x0 + x1) / 2)) x0 = xm; else x1 = xm;
-      if (bottom = y >= (ym = (y0 + y1) / 2)) y0 = ym; else y1 = ym;
-      if (deep = z >= (zm = (z0 + z1) / 2)) z0 = zm; else z1 = zm;
-      if (parent = node, !(node = node[i = deep << 2 | bottom << 1 | right])) return parent[i] = leaf, tree;
+      if ((right = x >= (xm = (x0 + x1) / 2))) x0 = xm;
+      else x1 = xm;
+      if ((bottom = y >= (ym = (y0 + y1) / 2))) y0 = ym;
+      else y1 = ym;
+      if ((deep = z >= (zm = (z0 + z1) / 2))) z0 = zm;
+      else z1 = zm;
+      if (
+        ((parent = node),
+        !(node = node[(i = (deep << 2) | (bottom << 1) | right)]))
+      )
+        return (parent[i] = leaf), tree;
     }
 
     // Is the new point is exactly coincident with the existing point?
     xp = +tree._x.call(null, node.data);
     yp = +tree._y.call(null, node.data);
     zp = +tree._z.call(null, node.data);
-    if (x === xp && y === yp && z === zp) return leaf.next = node, parent ? parent[i] = leaf : tree._root = leaf, tree;
+    if (x === xp && y === yp && z === zp)
+      return (
+        (leaf.next = node),
+        parent ? (parent[i] = leaf) : (tree._root = leaf),
+        tree
+      );
 
     // Otherwise, split the leaf node until the old and new point are separated.
     do {
-      parent = parent ? parent[i] = new Array(8) : tree._root = new Array(8);
-      if (right = x >= (xm = (x0 + x1) / 2)) x0 = xm; else x1 = xm;
-      if (bottom = y >= (ym = (y0 + y1) / 2)) y0 = ym; else y1 = ym;
-      if (deep = z >= (zm = (z0 + z1) / 2)) z0 = zm; else z1 = zm;
-    } while ((i = deep << 2 | bottom << 1 | right) === (j = (zp >= zm) << 2 | (yp >= ym) << 1 | (xp >= xm)));
-    return parent[j] = node, parent[i] = leaf, tree;
+      parent = parent
+        ? (parent[i] = new Array(8))
+        : (tree._root = new Array(8));
+      if ((right = x >= (xm = (x0 + x1) / 2))) x0 = xm;
+      else x1 = xm;
+      if ((bottom = y >= (ym = (y0 + y1) / 2))) y0 = ym;
+      else y1 = ym;
+      if ((deep = z >= (zm = (z0 + z1) / 2))) z0 = zm;
+      else z1 = zm;
+    } while (
+      (i = (deep << 2) | (bottom << 1) | right) ===
+      (j = ((zp >= zm) << 2) | ((yp >= ym) << 1) | (xp >= xm))
+    );
+    return (parent[j] = node), (parent[i] = leaf), tree;
   }
 
   function addAll(data) {
-    var d, i, n = data.length,
-        x,
-        y,
-        z,
-        xz = new Array(n),
-        yz = new Array(n),
-        zz = new Array(n),
-        x0 = Infinity,
-        y0 = Infinity,
-        z0 = Infinity,
-        x1 = -Infinity,
-        y1 = -Infinity,
-        z1 = -Infinity;
+    var d,
+      i,
+      n = data.length,
+      x,
+      y,
+      z,
+      xz = new Array(n),
+      yz = new Array(n),
+      zz = new Array(n),
+      x0 = Infinity,
+      y0 = Infinity,
+      z0 = Infinity,
+      x1 = -Infinity,
+      y1 = -Infinity,
+      z1 = -Infinity;
 
     // Compute the points and their extent.
     for (i = 0; i < n; ++i) {
-      if (isNaN(x = +this._x.call(null, d = data[i])) || isNaN(y = +this._y.call(null, d)) || isNaN(z = +this._z.call(null, d))) continue;
+      if (
+        isNaN((x = +this._x.call(null, (d = data[i])))) ||
+        isNaN((y = +this._y.call(null, d))) ||
+        isNaN((z = +this._z.call(null, d)))
+      )
+        continue;
       xz[i] = x;
       yz[i] = y;
       zz[i] = z;
@@ -7627,14 +8852,14 @@
   }
 
   function tree_cover(x, y, z) {
-    if (isNaN(x = +x) || isNaN(y = +y) || isNaN(z = +z)) return this; // ignore invalid points
+    if (isNaN((x = +x)) || isNaN((y = +y)) || isNaN((z = +z))) return this; // ignore invalid points
 
     var x0 = this._x0,
-        y0 = this._y0,
-        z0 = this._z0,
-        x1 = this._x1,
-        y1 = this._y1,
-        z1 = this._z1;
+      y0 = this._y0,
+      z0 = this._z0,
+      x1 = this._x1,
+      y1 = this._y1,
+      z1 = this._z1;
 
     // If the octree has no extent, initialize them.
     // Integer extent are necessary so that if we later double the extent,
@@ -7648,22 +8873,38 @@
     // Otherwise, double repeatedly to cover.
     else {
       var t = x1 - x0 || 1,
-          node = this._root,
-          parent,
-          i;
+        node = this._root,
+        parent,
+        i;
 
       while (x0 > x || x >= x1 || y0 > y || y >= y1 || z0 > z || z >= z1) {
-        i = (z < z0) << 2 | (y < y0) << 1 | (x < x0);
-        parent = new Array(8), parent[i] = node, node = parent, t *= 2;
+        i = ((z < z0) << 2) | ((y < y0) << 1) | (x < x0);
+        (parent = new Array(8)), (parent[i] = node), (node = parent), (t *= 2);
         switch (i) {
-          case 0: x1 = x0 + t, y1 = y0 + t, z1 = z0 + t; break;
-          case 1: x0 = x1 - t, y1 = y0 + t, z1 = z0 + t; break;
-          case 2: x1 = x0 + t, y0 = y1 - t, z1 = z0 + t; break;
-          case 3: x0 = x1 - t, y0 = y1 - t, z1 = z0 + t; break;
-          case 4: x1 = x0 + t, y1 = y0 + t, z0 = z1 - t; break;
-          case 5: x0 = x1 - t, y1 = y0 + t, z0 = z1 - t; break;
-          case 6: x1 = x0 + t, y0 = y1 - t, z0 = z1 - t; break;
-          case 7: x0 = x1 - t, y0 = y1 - t, z0 = z1 - t; break;
+          case 0:
+            (x1 = x0 + t), (y1 = y0 + t), (z1 = z0 + t);
+            break;
+          case 1:
+            (x0 = x1 - t), (y1 = y0 + t), (z1 = z0 + t);
+            break;
+          case 2:
+            (x1 = x0 + t), (y0 = y1 - t), (z1 = z0 + t);
+            break;
+          case 3:
+            (x0 = x1 - t), (y0 = y1 - t), (z1 = z0 + t);
+            break;
+          case 4:
+            (x1 = x0 + t), (y1 = y0 + t), (z0 = z1 - t);
+            break;
+          case 5:
+            (x0 = x1 - t), (y1 = y0 + t), (z0 = z1 - t);
+            break;
+          case 6:
+            (x1 = x0 + t), (y0 = y1 - t), (z0 = z1 - t);
+            break;
+          case 7:
+            (x0 = x1 - t), (y0 = y1 - t), (z0 = z1 - t);
+            break;
         }
       }
 
@@ -7681,16 +8922,27 @@
 
   function tree_data() {
     var data = [];
-    this.visit(function(node) {
-      if (!node.length) do data.push(node.data); while (node = node.next)
+    this.visit(function (node) {
+      if (!node.length)
+        do data.push(node.data);
+        while ((node = node.next));
     });
     return data;
   }
 
   function tree_extent(_) {
     return arguments.length
-        ? this.cover(+_[0][0], +_[0][1], +_[0][2]).cover(+_[1][0], +_[1][1], +_[1][2])
-        : isNaN(this._x0) ? undefined : [[this._x0, this._y0, this._z0], [this._x1, this._y1, this._z1]];
+      ? this.cover(+_[0][0], +_[0][1], +_[0][2]).cover(
+          +_[1][0],
+          +_[1][1],
+          +_[1][2],
+        )
+      : isNaN(this._x0)
+        ? undefined
+        : [
+            [this._x0, this._y0, this._z0],
+            [this._x1, this._y1, this._z1],
+          ];
   }
 
   function Octant(node, x0, y0, z0, x1, y1, z1) {
@@ -7705,47 +8957,49 @@
 
   function tree_find(x, y, z, radius) {
     var data,
-        x0 = this._x0,
-        y0 = this._y0,
-        z0 = this._z0,
-        x1,
-        y1,
-        z1,
-        x2,
-        y2,
-        z2,
-        x3 = this._x1,
-        y3 = this._y1,
-        z3 = this._z1,
-        octs = [],
-        node = this._root,
-        q,
-        i;
+      x0 = this._x0,
+      y0 = this._y0,
+      z0 = this._z0,
+      x1,
+      y1,
+      z1,
+      x2,
+      y2,
+      z2,
+      x3 = this._x1,
+      y3 = this._y1,
+      z3 = this._z1,
+      octs = [],
+      node = this._root,
+      q,
+      i;
 
     if (node) octs.push(new Octant(node, x0, y0, z0, x3, y3, z3));
     if (radius == null) radius = Infinity;
     else {
-      x0 = x - radius, y0 = y - radius, z0 = z - radius;
-      x3 = x + radius, y3 = y + radius, z3 = z + radius;
+      (x0 = x - radius), (y0 = y - radius), (z0 = z - radius);
+      (x3 = x + radius), (y3 = y + radius), (z3 = z + radius);
       radius *= radius;
     }
 
-    while (q = octs.pop()) {
-
+    while ((q = octs.pop())) {
       // Stop searching if this octant can’t contain a closer node.
-      if (!(node = q.node)
-          || (x1 = q.x0) > x3
-          || (y1 = q.y0) > y3
-          || (z1 = q.z0) > z3
-          || (x2 = q.x1) < x0
-          || (y2 = q.y1) < y0
-          || (z2 = q.z1) < z0) continue;
+      if (
+        !(node = q.node) ||
+        (x1 = q.x0) > x3 ||
+        (y1 = q.y0) > y3 ||
+        (z1 = q.z0) > z3 ||
+        (x2 = q.x1) < x0 ||
+        (y2 = q.y1) < y0 ||
+        (z2 = q.z1) < z0
+      )
+        continue;
 
       // Bisect the current octant.
       if (node.length) {
         var xm = (x1 + x2) / 2,
-            ym = (y1 + y2) / 2,
-            zm = (z1 + z2) / 2;
+          ym = (y1 + y2) / 2,
+          zm = (z1 + z2) / 2;
 
         octs.push(
           new Octant(node[7], xm, ym, zm, x2, y2, z2),
@@ -7755,11 +9009,11 @@
           new Octant(node[3], xm, ym, z1, x2, y2, zm),
           new Octant(node[2], x1, ym, z1, xm, y2, zm),
           new Octant(node[1], xm, y1, z1, x2, ym, zm),
-          new Octant(node[0], x1, y1, z1, xm, ym, zm)
+          new Octant(node[0], x1, y1, z1, xm, ym, zm),
         );
 
         // Visit the closest octant first.
-        if (i = (z >= zm) << 2 | (y >= ym) << 1 | (x >= xm)) {
+        if ((i = ((z >= zm) << 2) | ((y >= ym) << 1) | (x >= xm))) {
           q = octs[octs.length - 1];
           octs[octs.length - 1] = octs[octs.length - 1 - i];
           octs[octs.length - 1 - i] = q;
@@ -7769,13 +9023,13 @@
       // Visit this point. (Visiting coincident points isn’t necessary!)
       else {
         var dx = x - +this._x.call(null, node.data),
-            dy = y - +this._y.call(null, node.data),
-            dz = z - +this._z.call(null, node.data),
-            d2 = dx * dx + dy * dy + dz * dz;
+          dy = y - +this._y.call(null, node.data),
+          dz = z - +this._z.call(null, node.data),
+          d2 = dx * dx + dy * dy + dz * dz;
         if (d2 < radius) {
-          var d = Math.sqrt(radius = d2);
-          x0 = x - d, y0 = y - d, z0 = z - d;
-          x3 = x + d, y3 = y + d, z3 = z + d;
+          var d = Math.sqrt((radius = d2));
+          (x0 = x - d), (y0 = y - d), (z0 = z - d);
+          (x3 = x + d), (y3 = y + d), (z3 = z + d);
           data = node.data;
         }
       }
@@ -7785,62 +9039,104 @@
   }
 
   function tree_remove(d) {
-    if (isNaN(x = +this._x.call(null, d)) || isNaN(y = +this._y.call(null, d)) || isNaN(z = +this._z.call(null, d))) return this; // ignore invalid points
+    if (
+      isNaN((x = +this._x.call(null, d))) ||
+      isNaN((y = +this._y.call(null, d))) ||
+      isNaN((z = +this._z.call(null, d)))
+    )
+      return this; // ignore invalid points
 
     var parent,
-        node = this._root,
-        retainer,
-        previous,
-        next,
-        x0 = this._x0,
-        y0 = this._y0,
-        z0 = this._z0,
-        x1 = this._x1,
-        y1 = this._y1,
-        z1 = this._z1,
-        x,
-        y,
-        z,
-        xm,
-        ym,
-        zm,
-        right,
-        bottom,
-        deep,
-        i,
-        j;
+      node = this._root,
+      retainer,
+      previous,
+      next,
+      x0 = this._x0,
+      y0 = this._y0,
+      z0 = this._z0,
+      x1 = this._x1,
+      y1 = this._y1,
+      z1 = this._z1,
+      x,
+      y,
+      z,
+      xm,
+      ym,
+      zm,
+      right,
+      bottom,
+      deep,
+      i,
+      j;
 
     // If the tree is empty, initialize the root as a leaf.
     if (!node) return this;
 
     // Find the leaf node for the point.
     // While descending, also retain the deepest parent with a non-removed sibling.
-    if (node.length) while (true) {
-      if (right = x >= (xm = (x0 + x1) / 2)) x0 = xm; else x1 = xm;
-      if (bottom = y >= (ym = (y0 + y1) / 2)) y0 = ym; else y1 = ym;
-      if (deep = z >= (zm = (z0 + z1) / 2)) z0 = zm; else z1 = zm;
-      if (!(parent = node, node = node[i = deep << 2 | bottom << 1 | right])) return this;
-      if (!node.length) break;
-      if (parent[(i + 1) & 7] || parent[(i + 2) & 7] || parent[(i + 3) & 7] || parent[(i + 4) & 7] || parent[(i + 5) & 7] || parent[(i + 6) & 7] || parent[(i + 7) & 7]) retainer = parent, j = i;
-    }
+    if (node.length)
+      while (true) {
+        if ((right = x >= (xm = (x0 + x1) / 2))) x0 = xm;
+        else x1 = xm;
+        if ((bottom = y >= (ym = (y0 + y1) / 2))) y0 = ym;
+        else y1 = ym;
+        if ((deep = z >= (zm = (z0 + z1) / 2))) z0 = zm;
+        else z1 = zm;
+        if (
+          !((parent = node),
+          (node = node[(i = (deep << 2) | (bottom << 1) | right)]))
+        )
+          return this;
+        if (!node.length) break;
+        if (
+          parent[(i + 1) & 7] ||
+          parent[(i + 2) & 7] ||
+          parent[(i + 3) & 7] ||
+          parent[(i + 4) & 7] ||
+          parent[(i + 5) & 7] ||
+          parent[(i + 6) & 7] ||
+          parent[(i + 7) & 7]
+        )
+          (retainer = parent), (j = i);
+      }
 
     // Find the point to remove.
-    while (node.data !== d) if (!(previous = node, node = node.next)) return this;
-    if (next = node.next) delete node.next;
+    while (node.data !== d)
+      if (!((previous = node), (node = node.next))) return this;
+    if ((next = node.next)) delete node.next;
 
     // If there are multiple coincident points, remove just the point.
-    if (previous) return (next ? previous.next = next : delete previous.next), this;
+    if (previous)
+      return next ? (previous.next = next) : delete previous.next, this;
 
     // If this is the root point, remove it.
-    if (!parent) return this._root = next, this;
+    if (!parent) return (this._root = next), this;
 
     // Remove this leaf.
-    next ? parent[i] = next : delete parent[i];
+    next ? (parent[i] = next) : delete parent[i];
 
     // If the parent now contains exactly one leaf, collapse superfluous parents.
-    if ((node = parent[0] || parent[1] || parent[2] || parent[3] || parent[4] || parent[5] || parent[6] || parent[7])
-        && node === (parent[7] || parent[6] || parent[5] || parent[4] || parent[3] || parent[2] || parent[1] || parent[0])
-        && !node.length) {
+    if (
+      (node =
+        parent[0] ||
+        parent[1] ||
+        parent[2] ||
+        parent[3] ||
+        parent[4] ||
+        parent[5] ||
+        parent[6] ||
+        parent[7]) &&
+      node ===
+        (parent[7] ||
+          parent[6] ||
+          parent[5] ||
+          parent[4] ||
+          parent[3] ||
+          parent[2] ||
+          parent[1] ||
+          parent[0]) &&
+      !node.length
+    ) {
       if (retainer) retainer[j] = node;
       else this._root = node;
     }
@@ -7859,50 +9155,123 @@
 
   function tree_size() {
     var size = 0;
-    this.visit(function(node) {
-      if (!node.length) do ++size; while (node = node.next)
+    this.visit(function (node) {
+      if (!node.length)
+        do ++size;
+        while ((node = node.next));
     });
     return size;
   }
 
   function tree_visit(callback) {
-    var octs = [], q, node = this._root, child, x0, y0, z0, x1, y1, z1;
-    if (node) octs.push(new Octant(node, this._x0, this._y0, this._z0, this._x1, this._y1, this._z1));
-    while (q = octs.pop()) {
-      if (!callback(node = q.node, x0 = q.x0, y0 = q.y0, z0 = q.z0, x1 = q.x1, y1 = q.y1, z1 = q.z1) && node.length) {
-        var xm = (x0 + x1) / 2, ym = (y0 + y1) / 2, zm = (z0 + z1) / 2;
-        if (child = node[7]) octs.push(new Octant(child, xm, ym, zm, x1, y1, z1));
-        if (child = node[6]) octs.push(new Octant(child, x0, ym, zm, xm, y1, z1));
-        if (child = node[5]) octs.push(new Octant(child, xm, y0, zm, x1, ym, z1));
-        if (child = node[4]) octs.push(new Octant(child, x0, y0, zm, xm, ym, z1));
-        if (child = node[3]) octs.push(new Octant(child, xm, ym, z0, x1, y1, zm));
-        if (child = node[2]) octs.push(new Octant(child, x0, ym, z0, xm, y1, zm));
-        if (child = node[1]) octs.push(new Octant(child, xm, y0, z0, x1, ym, zm));
-        if (child = node[0]) octs.push(new Octant(child, x0, y0, z0, xm, ym, zm));
+    var octs = [],
+      q,
+      node = this._root,
+      child,
+      x0,
+      y0,
+      z0,
+      x1,
+      y1,
+      z1;
+    if (node)
+      octs.push(
+        new Octant(
+          node,
+          this._x0,
+          this._y0,
+          this._z0,
+          this._x1,
+          this._y1,
+          this._z1,
+        ),
+      );
+    while ((q = octs.pop())) {
+      if (
+        !callback(
+          (node = q.node),
+          (x0 = q.x0),
+          (y0 = q.y0),
+          (z0 = q.z0),
+          (x1 = q.x1),
+          (y1 = q.y1),
+          (z1 = q.z1),
+        ) &&
+        node.length
+      ) {
+        var xm = (x0 + x1) / 2,
+          ym = (y0 + y1) / 2,
+          zm = (z0 + z1) / 2;
+        if ((child = node[7]))
+          octs.push(new Octant(child, xm, ym, zm, x1, y1, z1));
+        if ((child = node[6]))
+          octs.push(new Octant(child, x0, ym, zm, xm, y1, z1));
+        if ((child = node[5]))
+          octs.push(new Octant(child, xm, y0, zm, x1, ym, z1));
+        if ((child = node[4]))
+          octs.push(new Octant(child, x0, y0, zm, xm, ym, z1));
+        if ((child = node[3]))
+          octs.push(new Octant(child, xm, ym, z0, x1, y1, zm));
+        if ((child = node[2]))
+          octs.push(new Octant(child, x0, ym, z0, xm, y1, zm));
+        if ((child = node[1]))
+          octs.push(new Octant(child, xm, y0, z0, x1, ym, zm));
+        if ((child = node[0]))
+          octs.push(new Octant(child, x0, y0, z0, xm, ym, zm));
       }
     }
     return this;
   }
 
   function tree_visitAfter(callback) {
-    var octs = [], next = [], q;
-    if (this._root) octs.push(new Octant(this._root, this._x0, this._y0, this._z0, this._x1, this._y1, this._z1));
-    while (q = octs.pop()) {
+    var octs = [],
+      next = [],
+      q;
+    if (this._root)
+      octs.push(
+        new Octant(
+          this._root,
+          this._x0,
+          this._y0,
+          this._z0,
+          this._x1,
+          this._y1,
+          this._z1,
+        ),
+      );
+    while ((q = octs.pop())) {
       var node = q.node;
       if (node.length) {
-        var child, x0 = q.x0, y0 = q.y0, z0 = q.z0, x1 = q.x1, y1 = q.y1, z1 = q.z1, xm = (x0 + x1) / 2, ym = (y0 + y1) / 2, zm = (z0 + z1) / 2;
-        if (child = node[0]) octs.push(new Octant(child, x0, y0, z0, xm, ym, zm));
-        if (child = node[1]) octs.push(new Octant(child, xm, y0, z0, x1, ym, zm));
-        if (child = node[2]) octs.push(new Octant(child, x0, ym, z0, xm, y1, zm));
-        if (child = node[3]) octs.push(new Octant(child, xm, ym, z0, x1, y1, zm));
-        if (child = node[4]) octs.push(new Octant(child, x0, y0, zm, xm, ym, z1));
-        if (child = node[5]) octs.push(new Octant(child, xm, y0, zm, x1, ym, z1));
-        if (child = node[6]) octs.push(new Octant(child, x0, ym, zm, xm, y1, z1));
-        if (child = node[7]) octs.push(new Octant(child, xm, ym, zm, x1, y1, z1));
+        var child,
+          x0 = q.x0,
+          y0 = q.y0,
+          z0 = q.z0,
+          x1 = q.x1,
+          y1 = q.y1,
+          z1 = q.z1,
+          xm = (x0 + x1) / 2,
+          ym = (y0 + y1) / 2,
+          zm = (z0 + z1) / 2;
+        if ((child = node[0]))
+          octs.push(new Octant(child, x0, y0, z0, xm, ym, zm));
+        if ((child = node[1]))
+          octs.push(new Octant(child, xm, y0, z0, x1, ym, zm));
+        if ((child = node[2]))
+          octs.push(new Octant(child, x0, ym, z0, xm, y1, zm));
+        if ((child = node[3]))
+          octs.push(new Octant(child, xm, ym, z0, x1, y1, zm));
+        if ((child = node[4]))
+          octs.push(new Octant(child, x0, y0, zm, xm, ym, z1));
+        if ((child = node[5]))
+          octs.push(new Octant(child, xm, y0, zm, x1, ym, z1));
+        if ((child = node[6]))
+          octs.push(new Octant(child, x0, ym, zm, xm, y1, z1));
+        if ((child = node[7]))
+          octs.push(new Octant(child, xm, ym, zm, x1, y1, z1));
       }
       next.push(q);
     }
-    while (q = next.pop()) {
+    while ((q = next.pop())) {
       callback(q.node, q.x0, q.y0, q.z0, q.x1, q.y1, q.z1);
     }
     return this;
@@ -7913,7 +9282,7 @@
   }
 
   function tree_x(_) {
-    return arguments.length ? (this._x = _, this) : this._x;
+    return arguments.length ? ((this._x = _), this) : this._x;
   }
 
   function defaultY(d) {
@@ -7921,7 +9290,7 @@
   }
 
   function tree_y(_) {
-    return arguments.length ? (this._y = _, this) : this._y;
+    return arguments.length ? ((this._y = _), this) : this._y;
   }
 
   function defaultZ(d) {
@@ -7929,11 +9298,21 @@
   }
 
   function tree_z(_) {
-    return arguments.length ? (this._z = _, this) : this._z;
+    return arguments.length ? ((this._z = _), this) : this._z;
   }
 
   function octree(nodes, x, y, z) {
-    var tree = new Octree(x == null ? defaultX : x, y == null ? defaultY : y, z == null ? defaultZ : z, NaN, NaN, NaN, NaN, NaN, NaN);
+    var tree = new Octree(
+      x == null ? defaultX : x,
+      y == null ? defaultY : y,
+      z == null ? defaultZ : z,
+      NaN,
+      NaN,
+      NaN,
+      NaN,
+      NaN,
+      NaN,
+    );
     return nodes == null ? tree : tree.addAll(nodes);
   }
 
@@ -7951,28 +9330,43 @@
   }
 
   function leaf_copy(leaf) {
-    var copy = {data: leaf.data}, next = copy;
-    while (leaf = leaf.next) next = next.next = {data: leaf.data};
+    var copy = { data: leaf.data },
+      next = copy;
+    while ((leaf = leaf.next)) next = next.next = { data: leaf.data };
     return copy;
   }
 
-  var treeProto = octree.prototype = Octree.prototype;
+  var treeProto = (octree.prototype = Octree.prototype);
 
-  treeProto.copy = function() {
-    var copy = new Octree(this._x, this._y, this._z, this._x0, this._y0, this._z0, this._x1, this._y1, this._z1),
-        node = this._root,
-        nodes,
-        child;
+  treeProto.copy = function () {
+    var copy = new Octree(
+        this._x,
+        this._y,
+        this._z,
+        this._x0,
+        this._y0,
+        this._z0,
+        this._x1,
+        this._y1,
+        this._z1,
+      ),
+      node = this._root,
+      nodes,
+      child;
 
     if (!node) return copy;
 
-    if (!node.length) return copy._root = leaf_copy(node), copy;
+    if (!node.length) return (copy._root = leaf_copy(node)), copy;
 
-    nodes = [{source: node, target: copy._root = new Array(8)}];
-    while (node = nodes.pop()) {
+    nodes = [{ source: node, target: (copy._root = new Array(8)) }];
+    while ((node = nodes.pop())) {
       for (var i = 0; i < 8; ++i) {
-        if (child = node.source[i]) {
-          if (child.length) nodes.push({source: child, target: node.target[i] = new Array(8)});
+        if ((child = node.source[i])) {
+          if (child.length)
+            nodes.push({
+              source: child,
+              target: (node.target[i] = new Array(8)),
+            });
           else node.target[i] = leaf_copy(child);
         }
       }
@@ -7998,7 +9392,7 @@
   treeProto.z = tree_z;
 
   function constant(x) {
-    return function() {
+    return function () {
       return x;
     };
   }
@@ -8019,16 +9413,16 @@
 
   function d3ForceLink(links) {
     var id = index$1,
-        strength = defaultStrength,
-        strengths,
-        distance = constant(30),
-        distances,
-        nodes,
-        nDim,
-        count,
-        bias,
-        random,
-        iterations = 1;
+      strength = defaultStrength,
+      strengths,
+      distance = constant(30),
+      distances,
+      nodes,
+      nDim,
+      count,
+      bias,
+      random,
+      iterations = 1;
 
     if (links == null) links = [];
 
@@ -8038,22 +9432,38 @@
 
     function force(alpha) {
       for (var k = 0, n = links.length; k < iterations; ++k) {
-        for (var i = 0, link, source, target, x = 0, y = 0, z = 0, l, b; i < n; ++i) {
-          link = links[i], source = link.source, target = link.target;
+        for (
+          var i = 0, link, source, target, x = 0, y = 0, z = 0, l, b;
+          i < n;
+          ++i
+        ) {
+          (link = links[i]), (source = link.source), (target = link.target);
           x = target.x + target.vx - source.x - source.vx || jiggle(random);
-          if (nDim > 1) { y = target.y + target.vy - source.y - source.vy || jiggle(random); }
-          if (nDim > 2) { z = target.z + target.vz - source.z - source.vz || jiggle(random); }
+          if (nDim > 1) {
+            y = target.y + target.vy - source.y - source.vy || jiggle(random);
+          }
+          if (nDim > 2) {
+            z = target.z + target.vz - source.z - source.vz || jiggle(random);
+          }
           l = Math.sqrt(x * x + y * y + z * z);
-          l = (l - distances[i]) / l * alpha * strengths[i];
-          x *= l, y *= l, z *= l;
+          l = ((l - distances[i]) / l) * alpha * strengths[i];
+          (x *= l), (y *= l), (z *= l);
 
           target.vx -= x * (b = bias[i]);
-          if (nDim > 1) { target.vy -= y * b; }
-          if (nDim > 2) { target.vz -= z * b; }
+          if (nDim > 1) {
+            target.vy -= y * b;
+          }
+          if (nDim > 2) {
+            target.vz -= z * b;
+          }
 
           source.vx += x * (b = 1 - b);
-          if (nDim > 1) { source.vy += y * b; }
-          if (nDim > 2) { source.vz += z * b; }
+          if (nDim > 1) {
+            source.vy += y * b;
+          }
+          if (nDim > 2) {
+            source.vz += z * b;
+          }
         }
       }
     }
@@ -8062,25 +9472,30 @@
       if (!nodes) return;
 
       var i,
-          n = nodes.length,
-          m = links.length,
-          nodeById = new Map(nodes.map((d, i) => [id(d, i, nodes), d])),
-          link;
+        n = nodes.length,
+        m = links.length,
+        nodeById = new Map(nodes.map((d, i) => [id(d, i, nodes), d])),
+        link;
 
       for (i = 0, count = new Array(n); i < m; ++i) {
-        link = links[i], link.index = i;
-        if (typeof link.source !== "object") link.source = find(nodeById, link.source);
-        if (typeof link.target !== "object") link.target = find(nodeById, link.target);
+        (link = links[i]), (link.index = i);
+        if (typeof link.source !== "object")
+          link.source = find(nodeById, link.source);
+        if (typeof link.target !== "object")
+          link.target = find(nodeById, link.target);
         count[link.source.index] = (count[link.source.index] || 0) + 1;
         count[link.target.index] = (count[link.target.index] || 0) + 1;
       }
 
       for (i = 0, bias = new Array(m); i < m; ++i) {
-        link = links[i], bias[i] = count[link.source.index] / (count[link.source.index] + count[link.target.index]);
+        (link = links[i]),
+          (bias[i] =
+            count[link.source.index] /
+            (count[link.source.index] + count[link.target.index]));
       }
 
-      strengths = new Array(m), initializeStrength();
-      distances = new Array(m), initializeDistance();
+      (strengths = new Array(m)), initializeStrength();
+      (distances = new Array(m)), initializeDistance();
     }
 
     function initializeStrength() {
@@ -8099,31 +9514,39 @@
       }
     }
 
-    force.initialize = function(_nodes, ...args) {
+    force.initialize = function (_nodes, ...args) {
       nodes = _nodes;
-      random = args.find(arg => typeof arg === 'function') || Math.random;
-      nDim = args.find(arg => [1, 2, 3].includes(arg)) || 2;
+      random = args.find((arg) => typeof arg === "function") || Math.random;
+      nDim = args.find((arg) => [1, 2, 3].includes(arg)) || 2;
       initialize();
     };
 
-    force.links = function(_) {
-      return arguments.length ? (links = _, initialize(), force) : links;
+    force.links = function (_) {
+      return arguments.length ? ((links = _), initialize(), force) : links;
     };
 
-    force.id = function(_) {
-      return arguments.length ? (id = _, force) : id;
+    force.id = function (_) {
+      return arguments.length ? ((id = _), force) : id;
     };
 
-    force.iterations = function(_) {
-      return arguments.length ? (iterations = +_, force) : iterations;
+    force.iterations = function (_) {
+      return arguments.length ? ((iterations = +_), force) : iterations;
     };
 
-    force.strength = function(_) {
-      return arguments.length ? (strength = typeof _ === "function" ? _ : constant(+_), initializeStrength(), force) : strength;
+    force.strength = function (_) {
+      return arguments.length
+        ? ((strength = typeof _ === "function" ? _ : constant(+_)),
+          initializeStrength(),
+          force)
+        : strength;
     };
 
-    force.distance = function(_) {
-      return arguments.length ? (distance = typeof _ === "function" ? _ : constant(+_), initializeDistance(), force) : distance;
+    force.distance = function (_) {
+      return arguments.length
+        ? ((distance = typeof _ === "function" ? _ : constant(+_)),
+          initializeDistance(),
+          force)
+        : distance;
     };
 
     return force;
@@ -8154,23 +9577,23 @@
   }
 
   var initialRadius = 10,
-      initialAngleRoll = Math.PI * (3 - Math.sqrt(5)), // Golden ratio angle
-      initialAngleYaw = Math.PI * 20 / (9 + Math.sqrt(221)); // Markov irrational number
+    initialAngleRoll = Math.PI * (3 - Math.sqrt(5)), // Golden ratio angle
+    initialAngleYaw = (Math.PI * 20) / (9 + Math.sqrt(221)); // Markov irrational number
 
   function d3ForceSimulation(nodes, numDimensions) {
     numDimensions = numDimensions || 2;
 
     var nDim = Math.min(MAX_DIMENSIONS, Math.max(1, Math.round(numDimensions))),
-        simulation,
-        alpha = 1,
-        alphaMin = 0.001,
-        alphaDecay = 1 - Math.pow(alphaMin, 1 / 300),
-        alphaTarget = 0,
-        velocityDecay = 0.6,
-        forces = new Map(),
-        stepper = timer(step),
-        event = dispatch("tick", "end"),
-        random = lcg();
+      simulation,
+      alpha = 1,
+      alphaMin = 0.001,
+      alphaDecay = 1 - Math.pow(alphaMin, 1 / 300),
+      alphaTarget = 0,
+      velocityDecay = 0.6,
+      forces = new Map(),
+      stepper = timer(step),
+      event = dispatch("tick", "end"),
+      random = lcg();
 
     if (nodes == null) nodes = [];
 
@@ -8184,7 +9607,9 @@
     }
 
     function tick(iterations) {
-      var i, n = nodes.length, node;
+      var i,
+        n = nodes.length,
+        node;
 
       if (iterations === undefined) iterations = 1;
 
@@ -8198,14 +9623,14 @@
         for (i = 0; i < n; ++i) {
           node = nodes[i];
           if (node.fx == null) node.x += node.vx *= velocityDecay;
-          else node.x = node.fx, node.vx = 0;
+          else (node.x = node.fx), (node.vx = 0);
           if (nDim > 1) {
             if (node.fy == null) node.y += node.vy *= velocityDecay;
-            else node.y = node.fy, node.vy = 0;
+            else (node.y = node.fy), (node.vy = 0);
           }
           if (nDim > 2) {
             if (node.fz == null) node.z += node.vz *= velocityDecay;
-            else node.z = node.fz, node.vz = 0;
+            else (node.z = node.fz), (node.vz = 0);
           }
         }
       }
@@ -8215,12 +9640,22 @@
 
     function initializeNodes() {
       for (var i = 0, n = nodes.length, node; i < n; ++i) {
-        node = nodes[i], node.index = i;
+        (node = nodes[i]), (node.index = i);
         if (node.fx != null) node.x = node.fx;
         if (node.fy != null) node.y = node.fy;
         if (node.fz != null) node.z = node.fz;
-        if (isNaN(node.x) || (nDim > 1 && isNaN(node.y)) || (nDim > 2 && isNaN(node.z))) {
-          var radius = initialRadius * (nDim > 2 ? Math.cbrt(0.5 + i) : (nDim > 1 ? Math.sqrt(0.5 + i) : i)),
+        if (
+          isNaN(node.x) ||
+          (nDim > 1 && isNaN(node.y)) ||
+          (nDim > 2 && isNaN(node.z))
+        ) {
+          var radius =
+              initialRadius *
+              (nDim > 2
+                ? Math.cbrt(0.5 + i)
+                : nDim > 1
+                  ? Math.sqrt(0.5 + i)
+                  : i),
             rollAngle = i * initialAngleRoll,
             yawAngle = i * initialAngleYaw;
 
@@ -8229,16 +9664,25 @@
           } else if (nDim === 2) {
             node.x = radius * Math.cos(rollAngle);
             node.y = radius * Math.sin(rollAngle);
-          } else { // 3 dimensions: use spherical distribution along 2 irrational number angles
+          } else {
+            // 3 dimensions: use spherical distribution along 2 irrational number angles
             node.x = radius * Math.sin(rollAngle) * Math.cos(yawAngle);
             node.y = radius * Math.cos(rollAngle);
             node.z = radius * Math.sin(rollAngle) * Math.sin(yawAngle);
           }
         }
-        if (isNaN(node.vx) || (nDim > 1 && isNaN(node.vy)) || (nDim > 2 && isNaN(node.vz))) {
+        if (
+          isNaN(node.vx) ||
+          (nDim > 1 && isNaN(node.vy)) ||
+          (nDim > 2 && isNaN(node.vz))
+        ) {
           node.vx = 0;
-          if (nDim > 1) { node.vy = 0; }
-          if (nDim > 2) { node.vz = 0; }
+          if (nDim > 1) {
+            node.vy = 0;
+          }
+          if (nDim > 2) {
+            node.vz = 0;
+          }
         }
       }
     }
@@ -8250,70 +9694,88 @@
 
     initializeNodes();
 
-    return simulation = {
+    return (simulation = {
       tick: tick,
 
-      restart: function() {
+      restart: function () {
         return stepper.restart(step), simulation;
       },
 
-      stop: function() {
+      stop: function () {
         return stepper.stop(), simulation;
       },
 
-      numDimensions: function(_) {
+      numDimensions: function (_) {
         return arguments.length
-            ? (nDim = Math.min(MAX_DIMENSIONS, Math.max(1, Math.round(_))), forces.forEach(initializeForce), simulation)
-            : nDim;
+          ? ((nDim = Math.min(MAX_DIMENSIONS, Math.max(1, Math.round(_)))),
+            forces.forEach(initializeForce),
+            simulation)
+          : nDim;
       },
 
-      nodes: function(_) {
-        return arguments.length ? (nodes = _, initializeNodes(), forces.forEach(initializeForce), simulation) : nodes;
+      nodes: function (_) {
+        return arguments.length
+          ? ((nodes = _),
+            initializeNodes(),
+            forces.forEach(initializeForce),
+            simulation)
+          : nodes;
       },
 
-      alpha: function(_) {
-        return arguments.length ? (alpha = +_, simulation) : alpha;
+      alpha: function (_) {
+        return arguments.length ? ((alpha = +_), simulation) : alpha;
       },
 
-      alphaMin: function(_) {
-        return arguments.length ? (alphaMin = +_, simulation) : alphaMin;
+      alphaMin: function (_) {
+        return arguments.length ? ((alphaMin = +_), simulation) : alphaMin;
       },
 
-      alphaDecay: function(_) {
-        return arguments.length ? (alphaDecay = +_, simulation) : +alphaDecay;
+      alphaDecay: function (_) {
+        return arguments.length ? ((alphaDecay = +_), simulation) : +alphaDecay;
       },
 
-      alphaTarget: function(_) {
-        return arguments.length ? (alphaTarget = +_, simulation) : alphaTarget;
+      alphaTarget: function (_) {
+        return arguments.length
+          ? ((alphaTarget = +_), simulation)
+          : alphaTarget;
       },
 
-      velocityDecay: function(_) {
-        return arguments.length ? (velocityDecay = 1 - _, simulation) : 1 - velocityDecay;
+      velocityDecay: function (_) {
+        return arguments.length
+          ? ((velocityDecay = 1 - _), simulation)
+          : 1 - velocityDecay;
       },
 
-      randomSource: function(_) {
-        return arguments.length ? (random = _, forces.forEach(initializeForce), simulation) : random;
+      randomSource: function (_) {
+        return arguments.length
+          ? ((random = _), forces.forEach(initializeForce), simulation)
+          : random;
       },
 
-      force: function(name, _) {
-        return arguments.length > 1 ? ((_ == null ? forces.delete(name) : forces.set(name, initializeForce(_))), simulation) : forces.get(name);
+      force: function (name, _) {
+        return arguments.length > 1
+          ? (_ == null
+              ? forces.delete(name)
+              : forces.set(name, initializeForce(_)),
+            simulation)
+          : forces.get(name);
       },
 
-      find: function() {
+      find: function () {
         var args = Array.prototype.slice.call(arguments);
         var x = args.shift() || 0,
-            y = (nDim > 1 ? args.shift() : null) || 0,
-            z = (nDim > 2 ? args.shift() : null) || 0,
-            radius = args.shift() || Infinity;
+          y = (nDim > 1 ? args.shift() : null) || 0,
+          z = (nDim > 2 ? args.shift() : null) || 0,
+          radius = args.shift() || Infinity;
 
         var i = 0,
-            n = nodes.length,
-            dx,
-            dy,
-            dz,
-            d2,
-            node,
-            closest;
+          n = nodes.length,
+          dx,
+          dy,
+          dz,
+          d2,
+          node,
+          closest;
 
         radius *= radius;
 
@@ -8321,78 +9783,105 @@
           node = nodes[i];
           dx = x - node.x;
           dy = y - (node.y || 0);
-          dz = z - (node.z ||0);
+          dz = z - (node.z || 0);
           d2 = dx * dx + dy * dy + dz * dz;
-          if (d2 < radius) closest = node, radius = d2;
+          if (d2 < radius) (closest = node), (radius = d2);
         }
 
         return closest;
       },
 
-      on: function(name, _) {
-        return arguments.length > 1 ? (event.on(name, _), simulation) : event.on(name);
-      }
-    };
+      on: function (name, _) {
+        return arguments.length > 1
+          ? (event.on(name, _), simulation)
+          : event.on(name);
+      },
+    });
   }
 
   function d3ForceManyBody() {
     var nodes,
-        nDim,
-        node,
-        random,
-        alpha,
-        strength = constant(-30),
-        strengths,
-        distanceMin2 = 1,
-        distanceMax2 = Infinity,
-        theta2 = 0.81;
+      nDim,
+      node,
+      random,
+      alpha,
+      strength = constant(-30),
+      strengths,
+      distanceMin2 = 1,
+      distanceMax2 = Infinity,
+      theta2 = 0.81;
 
     function force(_) {
       var i,
-          n = nodes.length,
-          tree =
-              (nDim === 1 ? binarytree(nodes, x)
-              :(nDim === 2 ? quadtree(nodes, x, y)
-              :(nDim === 3 ? octree(nodes, x, y, z)
-              :null
-          ))).visitAfter(accumulate);
+        n = nodes.length,
+        tree = (
+          nDim === 1
+            ? binarytree(nodes, x)
+            : nDim === 2
+              ? quadtree(nodes, x, y)
+              : nDim === 3
+                ? octree(nodes, x, y, z)
+                : null
+        ).visitAfter(accumulate);
 
-      for (alpha = _, i = 0; i < n; ++i) node = nodes[i], tree.visit(apply);
+      for (alpha = _, i = 0; i < n; ++i) (node = nodes[i]), tree.visit(apply);
     }
 
     function initialize() {
       if (!nodes) return;
-      var i, n = nodes.length, node;
+      var i,
+        n = nodes.length,
+        node;
       strengths = new Array(n);
-      for (i = 0; i < n; ++i) node = nodes[i], strengths[node.index] = +strength(node, i, nodes);
+      for (i = 0; i < n; ++i)
+        (node = nodes[i]), (strengths[node.index] = +strength(node, i, nodes));
     }
 
     function accumulate(treeNode) {
-      var strength = 0, q, c, weight = 0, x, y, z, i;
+      var strength = 0,
+        q,
+        c,
+        weight = 0,
+        x,
+        y,
+        z,
+        i;
       var numChildren = treeNode.length;
 
       // For internal nodes, accumulate forces from children.
       if (numChildren) {
         for (x = y = z = i = 0; i < numChildren; ++i) {
           if ((q = treeNode[i]) && (c = Math.abs(q.value))) {
-            strength += q.value, weight += c, x += c * (q.x || 0), y += c * (q.y || 0), z += c * (q.z || 0);
+            (strength += q.value),
+              (weight += c),
+              (x += c * (q.x || 0)),
+              (y += c * (q.y || 0)),
+              (z += c * (q.z || 0));
           }
         }
         strength *= Math.sqrt(4 / numChildren); // scale accumulated strength according to number of dimensions
 
         treeNode.x = x / weight;
-        if (nDim > 1) { treeNode.y = y / weight; }
-        if (nDim > 2) { treeNode.z = z / weight; }
+        if (nDim > 1) {
+          treeNode.y = y / weight;
+        }
+        if (nDim > 2) {
+          treeNode.z = z / weight;
+        }
       }
 
       // For leaf nodes, accumulate forces from coincident nodes.
       else {
         q = treeNode;
         q.x = q.data.x;
-        if (nDim > 1) { q.y = q.data.y; }
-        if (nDim > 2) { q.z = q.data.z; }
+        if (nDim > 1) {
+          q.y = q.data.y;
+        }
+        if (nDim > 2) {
+          q.z = q.data.z;
+        }
         do strength += strengths[q.data.index];
-        while (q = q.next);
+        while ((q = q.next));
       }
 
       treeNode.value = strength;
@@ -8400,25 +9889,29 @@
 
     function apply(treeNode, x1, arg1, arg2, arg3) {
       if (!treeNode.value) return true;
-      var x2 = [arg1, arg2, arg3][nDim-1];
+      var x2 = [arg1, arg2, arg3][nDim - 1];
 
       var x = treeNode.x - node.x,
-          y = (nDim > 1 ? treeNode.y - node.y : 0),
-          z = (nDim > 2 ? treeNode.z - node.z : 0),
-          w = x2 - x1,
-          l = x * x + y * y + z * z;
+        y = nDim > 1 ? treeNode.y - node.y : 0,
+        z = nDim > 2 ? treeNode.z - node.z : 0,
+        w = x2 - x1,
+        l = x * x + y * y + z * z;
 
       // Apply the Barnes-Hut approximation if possible.
       // Limit forces for very close nodes; randomize direction if coincident.
-      if (w * w / theta2 < l) {
+      if ((w * w) / theta2 < l) {
         if (l < distanceMax2) {
-          if (x === 0) x = jiggle(random), l += x * x;
-          if (nDim > 1 && y === 0) y = jiggle(random), l += y * y;
-          if (nDim > 2 && z === 0) z = jiggle(random), l += z * z;
+          if (x === 0) (x = jiggle(random)), (l += x * x);
+          if (nDim > 1 && y === 0) (y = jiggle(random)), (l += y * y);
+          if (nDim > 2 && z === 0) (z = jiggle(random)), (l += z * z);
           if (l < distanceMin2) l = Math.sqrt(distanceMin2 * l);
-          node.vx += x * treeNode.value * alpha / l;
-          if (nDim > 1) { node.vy += y * treeNode.value * alpha / l; }
-          if (nDim > 2) { node.vz += z * treeNode.value * alpha / l; }
+          node.vx += (x * treeNode.value * alpha) / l;
+          if (nDim > 1) {
+            node.vy += (y * treeNode.value * alpha) / l;
+          }
+          if (nDim > 2) {
+            node.vz += (z * treeNode.value * alpha) / l;
+          }
         }
         return true;
       }
@@ -8428,41 +9921,55 @@
 
       // Limit forces for very close nodes; randomize direction if coincident.
       if (treeNode.data !== node || treeNode.next) {
-        if (x === 0) x = jiggle(random), l += x * x;
-        if (nDim > 1 && y === 0) y = jiggle(random), l += y * y;
-        if (nDim > 2 && z === 0) z = jiggle(random), l += z * z;
+        if (x === 0) (x = jiggle(random)), (l += x * x);
+        if (nDim > 1 && y === 0) (y = jiggle(random)), (l += y * y);
+        if (nDim > 2 && z === 0) (z = jiggle(random)), (l += z * z);
         if (l < distanceMin2) l = Math.sqrt(distanceMin2 * l);
       }
 
-      do if (treeNode.data !== node) {
-        w = strengths[treeNode.data.index] * alpha / l;
-        node.vx += x * w;
-        if (nDim > 1) { node.vy += y * w; }
-        if (nDim > 2) { node.vz += z * w; }
-      } while (treeNode = treeNode.next);
+      do
+        if (treeNode.data !== node) {
+          w = (strengths[treeNode.data.index] * alpha) / l;
+          node.vx += x * w;
+          if (nDim > 1) {
+            node.vy += y * w;
+          }
+          if (nDim > 2) {
+            node.vz += z * w;
+          }
+        }
+      while ((treeNode = treeNode.next));
     }
 
-    force.initialize = function(_nodes, ...args) {
+    force.initialize = function (_nodes, ...args) {
       nodes = _nodes;
-      random = args.find(arg => typeof arg === 'function') || Math.random;
-      nDim = args.find(arg => [1, 2, 3].includes(arg)) || 2;
+      random = args.find((arg) => typeof arg === "function") || Math.random;
+      nDim = args.find((arg) => [1, 2, 3].includes(arg)) || 2;
       initialize();
     };
 
-    force.strength = function(_) {
-      return arguments.length ? (strength = typeof _ === "function" ? _ : constant(+_), initialize(), force) : strength;
+    force.strength = function (_) {
+      return arguments.length
+        ? ((strength = typeof _ === "function" ? _ : constant(+_)),
+          initialize(),
+          force)
+        : strength;
     };
 
-    force.distanceMin = function(_) {
-      return arguments.length ? (distanceMin2 = _ * _, force) : Math.sqrt(distanceMin2);
+    force.distanceMin = function (_) {
+      return arguments.length
+        ? ((distanceMin2 = _ * _), force)
+        : Math.sqrt(distanceMin2);
     };
 
-    force.distanceMax = function(_) {
-      return arguments.length ? (distanceMax2 = _ * _, force) : Math.sqrt(distanceMax2);
+    force.distanceMax = function (_) {
+      return arguments.length
+        ? ((distanceMax2 = _ * _), force)
+        : Math.sqrt(distanceMax2);
     };
 
-    force.theta = function(_) {
-      return arguments.length ? (theta2 = _ * _, force) : Math.sqrt(theta2);
+    force.theta = function (_) {
+      return arguments.length ? ((theta2 = _ * _), force) : Math.sqrt(theta2);
     };
 
     return force;
@@ -8470,10 +9977,10 @@
 
   function d3ForceRadial(radius, x, y, z) {
     var nodes,
-        nDim,
-        strength = constant(0.1),
-        strengths,
-        radiuses;
+      nDim,
+      strength = constant(0.1),
+      strengths,
+      radiuses;
 
     if (typeof radius !== "function") radius = constant(+radius);
     if (x == null) x = 0;
@@ -8483,20 +9990,25 @@
     function force(alpha) {
       for (var i = 0, n = nodes.length; i < n; ++i) {
         var node = nodes[i],
-            dx = node.x - x || 1e-6,
-            dy = (node.y || 0) - y || 1e-6,
-            dz = (node.z || 0) - z || 1e-6,
-            r = Math.sqrt(dx * dx + dy * dy + dz * dz),
-            k = (radiuses[i] - r) * strengths[i] * alpha / r;
+          dx = node.x - x || 1e-6,
+          dy = (node.y || 0) - y || 1e-6,
+          dz = (node.z || 0) - z || 1e-6,
+          r = Math.sqrt(dx * dx + dy * dy + dz * dz),
+          k = ((radiuses[i] - r) * strengths[i] * alpha) / r;
         node.vx += dx * k;
-        if (nDim>1) { node.vy += dy * k; }
-        if (nDim>2) { node.vz += dz * k; }
+        if (nDim > 1) {
+          node.vy += dy * k;
+        }
+        if (nDim > 2) {
+          node.vz += dz * k;
+        }
       }
     }
 
     function initialize() {
       if (!nodes) return;
-      var i, n = nodes.length;
+      var i,
+        n = nodes.length;
       strengths = new Array(n);
       radiuses = new Array(n);
       for (i = 0; i < n; ++i) {
@@ -8505,37 +10017,53 @@
       }
     }
 
-    force.initialize = function(initNodes, ...args) {
+    force.initialize = function (initNodes, ...args) {
       nodes = initNodes;
-      nDim = args.find(arg => [1, 2, 3].includes(arg)) || 2;
+      nDim = args.find((arg) => [1, 2, 3].includes(arg)) || 2;
       initialize();
     };
 
-    force.strength = function(_) {
-      return arguments.length ? (strength = typeof _ === "function" ? _ : constant(+_), initialize(), force) : strength;
+    force.strength = function (_) {
+      return arguments.length
+        ? ((strength = typeof _ === "function" ? _ : constant(+_)),
+          initialize(),
+          force)
+        : strength;
     };
 
-    force.radius = function(_) {
-      return arguments.length ? (radius = typeof _ === "function" ? _ : constant(+_), initialize(), force) : radius;
+    force.radius = function (_) {
+      return arguments.length
+        ? ((radius = typeof _ === "function" ? _ : constant(+_)),
+          initialize(),
+          force)
+        : radius;
     };
 
-    force.x = function(_) {
-      return arguments.length ? (x = +_, force) : x;
+    force.x = function (_) {
+      return arguments.length ? ((x = +_), force) : x;
     };
 
-    force.y = function(_) {
-      return arguments.length ? (y = +_, force) : y;
+    force.y = function (_) {
+      return arguments.length ? ((y = +_), force) : y;
     };
 
-    force.z = function(_) {
-      return arguments.length ? (z = +_, force) : z;
+    force.z = function (_) {
+      return arguments.length ? ((z = +_), force) : z;
     };
 
     return force;
   }
 
   // math-inlining.
-  const { abs: abs$1, cos: cos$1, sin: sin$1, acos: acos$1, atan2, sqrt: sqrt$1, pow } = Math;
+  const {
+    abs: abs$1,
+    cos: cos$1,
+    sin: sin$1,
+    acos: acos$1,
+    atan2,
+    sqrt: sqrt$1,
+    pow,
+  } = Math;
 
   // cube root function yielding real roots
   function crt(v) {
@@ -8945,7 +10473,7 @@
         (p1.x + p2.x) / 2,
         (p1.y + p2.y) / 2,
         p2.x,
-        p2.y
+        p2.y,
       );
     },
 
@@ -8972,7 +10500,7 @@
       bbox1,
       s2,
       bbox2,
-      curveIntersectionThreshold
+      curveIntersectionThreshold,
     ) {
       if (!utils.bboxoverlap(bbox1, bbox2)) return [];
       const intersections = [];
@@ -9013,7 +10541,7 @@
           shape.bbox,
           s2,
           s2.bbox,
-          curveIntersectionThreshold
+          curveIntersectionThreshold,
         );
       };
       return shape;
@@ -9214,7 +10742,7 @@
         num = sqrt$1(
           pow(d.y * dd.z - dd.y * d.z, 2) +
             pow(d.z * dd.x - dd.z * d.x, 2) +
-            pow(d.x * dd.y - dd.x * d.y, 2)
+            pow(d.x * dd.y - dd.x * d.y, 2),
         );
         dnm = pow(qdsum + d.z * d.z, 3 / 2);
       } else {
@@ -9363,7 +10891,7 @@
 
       pairs.forEach(function (pair) {
         results = results.concat(
-          utils.pairiteration(pair.left, pair.right, threshold)
+          utils.pairiteration(pair.left, pair.right, threshold),
         );
       });
 
@@ -9550,7 +11078,7 @@
         if (coordlen > 4) {
           if (arguments.length !== 1) {
             throw new Error(
-              "Only new Bezier(point[]) is accepted for 4th and higher order curves"
+              "Only new Bezier(point[]) is accepted for 4th and higher order curves",
             );
           }
           higher = true;
@@ -9559,7 +11087,7 @@
         if (len !== 6 && len !== 8 && len !== 9 && len !== 12) {
           if (arguments.length !== 1) {
             throw new Error(
-              "Only new Bezier(point[]) is accepted for 4th and higher order curves"
+              "Only new Bezier(point[]) is accepted for 4th and higher order curves",
             );
           }
         }
@@ -9589,7 +11117,8 @@
       // is this curve, practically speaking, a straight line?
       const aligned = utils.align(points, { p1: points[0], p2: points[order] });
       const baselength = utils.dist(points[0], points[order]);
-      this._linear = aligned.reduce((t, p) => t + abs(p.y), 0) < baselength / 50;
+      this._linear =
+        aligned.reduce((t, p) => t + abs(p.y), 0) < baselength / 50;
 
       this._lut = [];
       this._t1 = 0;
@@ -9634,7 +11163,10 @@
       const e1 = { x: B.x - bx1, y: B.y - by1 },
         e2 = { x: B.x + bx2, y: B.y + by2 },
         A = abc.A,
-        v1 = { x: A.x + (e1.x - A.x) / (1 - t), y: A.y + (e1.y - A.y) / (1 - t) },
+        v1 = {
+          x: A.x + (e1.x - A.x) / (1 - t),
+          y: A.y + (e1.y - A.y) / (1 - t),
+        },
         v2 = { x: A.x + (e2.x - A.x) / t, y: A.y + (e2.y - A.y) / t },
         nc1 = { x: S.x + (v1.x - S.x) / t, y: S.y + (v1.y - S.y) / t },
         nc2 = {
@@ -9994,7 +11526,7 @@
             return t >= 0 && t <= 1;
           });
           roots = roots.concat(result[dim].sort(utils.numberSort));
-        }.bind(this)
+        }.bind(this),
       );
 
       result.values = roots.sort(utils.numberSort).filter(function (v, idx) {
@@ -10010,7 +11542,7 @@
       this.dims.forEach(
         function (d) {
           result[d] = utils.getminmax(this, d, extrema[d]);
-        }.bind(this)
+        }.bind(this),
       );
       return result;
     }
@@ -10144,7 +11676,7 @@
         this.points.map((p, i) => ({
           x: p.x + v.x * d[i],
           y: p.y + v.y * d[i],
-        }))
+        })),
       );
     }
 
@@ -10167,7 +11699,7 @@
         return this.translate(
           this.normal(0),
           distanceFn ? distanceFn(0) : d,
-          distanceFn ? distanceFn(1) : d
+          distanceFn ? distanceFn(1) : d,
         );
       }
 
@@ -10282,10 +11814,10 @@
         const slen = segment.length();
         if (graduated) {
           fcurves.push(
-            segment.scale(linearDistanceFunction(d1, d3, tlen, alen, slen))
+            segment.scale(linearDistanceFunction(d1, d3, tlen, alen, slen)),
           );
           bcurves.push(
-            segment.scale(linearDistanceFunction(-d2, -d4, tlen, alen, slen))
+            segment.scale(linearDistanceFunction(-d2, -d4, tlen, alen, slen)),
           );
         } else {
           fcurves.push(segment.scale(d1));
@@ -10327,7 +11859,7 @@
         const shape = utils.makeshape(
           outline[i],
           outline[len - i],
-          curveIntersectionThreshold
+          curveIntersectionThreshold,
         );
         shape.startcap.virtual = i > 1;
         shape.endcap.virtual = i < len / 2 - 1;
@@ -10347,7 +11879,7 @@
       return this.curveintersects(
         this.reduce(),
         curve,
-        curveIntersectionThreshold
+        curveIntersectionThreshold,
       );
     }
 
@@ -10396,7 +11928,7 @@
         const result = utils.pairiteration(
           pair.left,
           pair.right,
-          curveIntersectionThreshold
+          curveIntersectionThreshold,
         );
         if (result.length > 0) {
           intersections = intersections.concat(result);
@@ -10547,11 +12079,21 @@
   }
 
   function _slicedToArray(arr, i) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+    return (
+      _arrayWithHoles(arr) ||
+      _iterableToArrayLimit(arr, i) ||
+      _unsupportedIterableToArray(arr, i) ||
+      _nonIterableRest()
+    );
   }
 
   function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+    return (
+      _arrayWithoutHoles(arr) ||
+      _iterableToArray(arr) ||
+      _unsupportedIterableToArray(arr) ||
+      _nonIterableSpread()
+    );
   }
 
   function _arrayWithoutHoles(arr) {
@@ -10563,11 +12105,19 @@
   }
 
   function _iterableToArray(iter) {
-    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
+    if (
+      (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null) ||
+      iter["@@iterator"] != null
+    )
+      return Array.from(iter);
   }
 
   function _iterableToArrayLimit(arr, i) {
-    var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
+    var _i =
+      arr == null
+        ? null
+        : (typeof Symbol !== "undefined" && arr[Symbol.iterator]) ||
+          arr["@@iterator"];
 
     if (_i == null) return;
     var _arr = [];
@@ -10602,7 +12152,8 @@
     var n = Object.prototype.toString.call(o).slice(8, -1);
     if (n === "Object" && o.constructor) n = o.constructor.name;
     if (n === "Map" || n === "Set") return Array.from(o);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n))
+      return _arrayLikeToArray(o, minLen);
   }
 
   function _arrayLikeToArray(arr, len) {
@@ -10614,11 +12165,15 @@
   }
 
   function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    throw new TypeError(
+      "Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.",
+    );
   }
 
   function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    throw new TypeError(
+      "Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.",
+    );
   }
 
   function _toPrimitive(input, hint) {
@@ -10640,15 +12195,25 @@
     return typeof key === "symbol" ? key : String(key);
   }
 
-  var index = (function () {
-    var list = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var keyAccessors = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-    var multiItem = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-    var flattenKeys = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-    var keys = (keyAccessors instanceof Array ? keyAccessors.length ? keyAccessors : [undefined] : [keyAccessors]).map(function (key) {
+  var index = function () {
+    var list =
+      arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var keyAccessors =
+      arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+    var multiItem =
+      arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+    var flattenKeys =
+      arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+    var keys = (
+      keyAccessors instanceof Array
+        ? keyAccessors.length
+          ? keyAccessors
+          : [undefined]
+        : [keyAccessors]
+    ).map(function (key) {
       return {
         keyAccessor: key,
-        isProp: !(key instanceof Function)
+        isProp: !(key instanceof Function),
       };
     });
     var indexedResult = list.reduce(function (res, item) {
@@ -10656,13 +12221,16 @@
       var itemVal = item;
       keys.forEach(function (_ref, idx) {
         var keyAccessor = _ref.keyAccessor,
-            isProp = _ref.isProp;
+          isProp = _ref.isProp;
         var key;
 
         if (isProp) {
           var _itemVal = itemVal,
-              propVal = _itemVal[keyAccessor],
-              rest = _objectWithoutProperties(_itemVal, [keyAccessor].map(_toPropertyKey));
+            propVal = _itemVal[keyAccessor],
+            rest = _objectWithoutProperties(
+              _itemVal,
+              [keyAccessor].map(_toPropertyKey),
+            );
 
           key = propVal;
           itemVal = rest;
@@ -10695,11 +12263,12 @@
     if (multiItem instanceof Function) {
       // Reduce leaf multiple values
       (function reduce(node) {
-        var level = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+        var level =
+          arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
 
         if (level === keys.length) {
           Object.keys(node).forEach(function (k) {
-            return node[k] = multiItem(node[k]);
+            return (node[k] = multiItem(node[k]));
           });
         } else {
           Object.values(node).forEach(function (child) {
@@ -10707,7 +12276,6 @@
           });
         }
       })(indexedResult); // IIFE
-
     }
 
     var result = indexedResult;
@@ -10717,39 +12285,50 @@
       result = [];
 
       (function flatten(node) {
-        var accKeys = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+        var accKeys =
+          arguments.length > 1 && arguments[1] !== undefined
+            ? arguments[1]
+            : [];
 
         if (accKeys.length === keys.length) {
           result.push({
             keys: accKeys,
-            vals: node
+            vals: node,
           });
         } else {
           Object.entries(node).forEach(function (_ref2) {
             var _ref3 = _slicedToArray(_ref2, 2),
-                key = _ref3[0],
-                val = _ref3[1];
+              key = _ref3[0],
+              val = _ref3[1];
 
             return flatten(val, [].concat(_toConsumableArray(accKeys), [key]));
           });
         }
       })(indexedResult); //IIFE
 
-
-      if (keyAccessors instanceof Array && keyAccessors.length === 0 && result.length === 1) {
+      if (
+        keyAccessors instanceof Array &&
+        keyAccessors.length === 0 &&
+        result.length === 1
+      ) {
         // clear keys if there's no key accessors (single result)
         result[0].keys = [];
       }
     }
 
     return result;
-  });
+  };
 
   function initRange(domain, range) {
     switch (arguments.length) {
-      case 0: break;
-      case 1: this.range(domain); break;
-      default: this.range(range).domain(domain); break;
+      case 0:
+        break;
+      case 1:
+        this.range(domain);
+        break;
+      default:
+        this.range(range).domain(domain);
+        break;
     }
     return this;
   }
@@ -10758,22 +12337,22 @@
 
   function ordinal() {
     var index = new InternMap(),
-        domain = [],
-        range = [],
-        unknown = implicit;
+      domain = [],
+      range = [],
+      unknown = implicit;
 
     function scale(d) {
       let i = index.get(d);
       if (i === undefined) {
         if (unknown !== implicit) return unknown;
-        index.set(d, i = domain.push(d) - 1);
+        index.set(d, (i = domain.push(d) - 1));
       }
       return range[i % range.length];
     }
 
-    scale.domain = function(_) {
+    scale.domain = function (_) {
       if (!arguments.length) return domain.slice();
-      domain = [], index = new InternMap();
+      (domain = []), (index = new InternMap());
       for (const value of _) {
         if (index.has(value)) continue;
         index.set(value, domain.push(value) - 1);
@@ -10781,15 +12360,17 @@
       return scale;
     };
 
-    scale.range = function(_) {
-      return arguments.length ? (range = Array.from(_), scale) : range.slice();
+    scale.range = function (_) {
+      return arguments.length
+        ? ((range = Array.from(_)), scale)
+        : range.slice();
     };
 
-    scale.unknown = function(_) {
-      return arguments.length ? (unknown = _, scale) : unknown;
+    scale.unknown = function (_) {
+      return arguments.length ? ((unknown = _), scale) : unknown;
     };
 
-    scale.copy = function() {
+    scale.copy = function () {
       return ordinal(domain, range).unknown(unknown);
     };
 
@@ -10799,12 +12380,16 @@
   }
 
   function colors(specifier) {
-    var n = specifier.length / 6 | 0, colors = new Array(n), i = 0;
+    var n = (specifier.length / 6) | 0,
+      colors = new Array(n),
+      i = 0;
     while (i < n) colors[i] = "#" + specifier.slice(i * 6, ++i * 6);
     return colors;
   }
 
-  var schemePaired = colors("a6cee31f78b4b2df8a33a02cfb9a99e31a1cfdbf6fff7f00cab2d66a3d9affff99b15928");
+  var schemePaired = colors(
+    "a6cee31f78b4b2df8a33a02cfb9a99e31a1cfdbf6fff7f00cab2d66a3d9affff99b15928",
+  );
 
   var autoColorScale = ordinal(schemePaired);
 
@@ -10812,77 +12397,112 @@
   // If an object has already a color, don't set it
   // Objects can be nodes or links
   function autoColorObjects(objects, colorByAccessor, colorField) {
-    if (!colorByAccessor || typeof colorField !== 'string') return;
-    objects.filter(function (obj) {
-      return !obj[colorField];
-    }).forEach(function (obj) {
-      obj[colorField] = autoColorScale(colorByAccessor(obj));
-    });
+    if (!colorByAccessor || typeof colorField !== "string") return;
+    objects
+      .filter(function (obj) {
+        return !obj[colorField];
+      })
+      .forEach(function (obj) {
+        obj[colorField] = autoColorScale(colorByAccessor(obj));
+      });
   }
 
-  function getDagDepths (_ref, idAccessor) {
+  function getDagDepths(_ref, idAccessor) {
     var nodes = _ref.nodes,
       links = _ref.links;
-    var _ref2 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+    var _ref2 =
+        arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
       _ref2$nodeFilter = _ref2.nodeFilter,
-      nodeFilter = _ref2$nodeFilter === void 0 ? function () {
-        return true;
-      } : _ref2$nodeFilter,
+      nodeFilter =
+        _ref2$nodeFilter === void 0
+          ? function () {
+              return true;
+            }
+          : _ref2$nodeFilter,
       _ref2$onLoopError = _ref2.onLoopError,
-      onLoopError = _ref2$onLoopError === void 0 ? function (loopIds) {
-        throw "Invalid DAG structure! Found cycle in node path: ".concat(loopIds.join(' -> '), ".");
-      } : _ref2$onLoopError;
+      onLoopError =
+        _ref2$onLoopError === void 0
+          ? function (loopIds) {
+              throw "Invalid DAG structure! Found cycle in node path: ".concat(
+                loopIds.join(" -> "),
+                ".",
+              );
+            }
+          : _ref2$onLoopError;
     // linked graph
     var graph = {};
     nodes.forEach(function (node) {
-      return graph[idAccessor(node)] = {
+      return (graph[idAccessor(node)] = {
         data: node,
         out: [],
         depth: -1,
-        skip: !nodeFilter(node)
-      };
+        skip: !nodeFilter(node),
+      });
     });
     links.forEach(function (_ref3) {
       var source = _ref3.source,
         target = _ref3.target;
       var sourceId = getNodeId(source);
       var targetId = getNodeId(target);
-      if (!graph.hasOwnProperty(sourceId)) throw "Missing source node with id: ".concat(sourceId);
-      if (!graph.hasOwnProperty(targetId)) throw "Missing target node with id: ".concat(targetId);
+      if (!graph.hasOwnProperty(sourceId))
+        throw "Missing source node with id: ".concat(sourceId);
+      if (!graph.hasOwnProperty(targetId))
+        throw "Missing target node with id: ".concat(targetId);
       var sourceNode = graph[sourceId];
       var targetNode = graph[targetId];
       sourceNode.out.push(targetNode);
       function getNodeId(node) {
-        return _typeof(node) === 'object' ? idAccessor(node) : node;
+        return _typeof(node) === "object" ? idAccessor(node) : node;
       }
     });
     var foundLoops = [];
     traverse(Object.values(graph));
-    var nodeDepths = Object.assign.apply(Object, [{}].concat(_toConsumableArray$2(Object.entries(graph).filter(function (_ref4) {
-      var _ref5 = _slicedToArray$2(_ref4, 2),
-        node = _ref5[1];
-      return !node.skip;
-    }).map(function (_ref6) {
-      var _ref7 = _slicedToArray$2(_ref6, 2),
-        id = _ref7[0],
-        node = _ref7[1];
-      return _defineProperty({}, id, node.depth);
-    }))));
+    var nodeDepths = Object.assign.apply(
+      Object,
+      [{}].concat(
+        _toConsumableArray$2(
+          Object.entries(graph)
+            .filter(function (_ref4) {
+              var _ref5 = _slicedToArray$2(_ref4, 2),
+                node = _ref5[1];
+              return !node.skip;
+            })
+            .map(function (_ref6) {
+              var _ref7 = _slicedToArray$2(_ref6, 2),
+                id = _ref7[0],
+                node = _ref7[1];
+              return _defineProperty({}, id, node.depth);
+            }),
+        ),
+      ),
+    );
     return nodeDepths;
     function traverse(nodes) {
-      var nodeStack = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-      var currentDepth = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+      var nodeStack =
+        arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+      var currentDepth =
+        arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
       var _loop = function _loop() {
         var node = nodes[i];
         if (nodeStack.indexOf(node) !== -1) {
-          var loop = [].concat(_toConsumableArray$2(nodeStack.slice(nodeStack.indexOf(node))), [node]).map(function (d) {
-            return idAccessor(d.data);
-          });
-          if (!foundLoops.some(function (foundLoop) {
-            return foundLoop.length === loop.length && foundLoop.every(function (id, idx) {
-              return id === loop[idx];
+          var loop = []
+            .concat(
+              _toConsumableArray$2(nodeStack.slice(nodeStack.indexOf(node))),
+              [node],
+            )
+            .map(function (d) {
+              return idAccessor(d.data);
             });
-          })) {
+          if (
+            !foundLoops.some(function (foundLoop) {
+              return (
+                foundLoop.length === loop.length &&
+                foundLoop.every(function (id, idx) {
+                  return id === loop[idx];
+                })
+              );
+            })
+          ) {
             foundLoops.push(loop);
             onLoopError(loop);
           }
@@ -10891,7 +12511,11 @@
         if (currentDepth > node.depth) {
           // Don't unnecessarily revisit chunks of the graph
           node.depth = currentDepth;
-          traverse(node.out, [].concat(_toConsumableArray$2(nodeStack), [node]), currentDepth + (node.skip ? 0 : 1));
+          traverse(
+            node.out,
+            [].concat(_toConsumableArray$2(nodeStack), [node]),
+            currentDepth + (node.skip ? 0 : 1),
+          );
         }
       };
       for (var i = 0, l = nodes.length; i < l; i++) {
@@ -10916,9 +12540,11 @@
       state.graphData.links.forEach(function (link) {
         var numPhotons = Math.round(Math.abs(linkParticlesAccessor(link)));
         if (numPhotons) {
-          link.__photons = _toConsumableArray$2(Array(numPhotons)).map(function () {
-            return {};
-          });
+          link.__photons = _toConsumableArray$2(Array(numPhotons)).map(
+            function () {
+              return {};
+            },
+          );
         } else {
           delete link.__photons;
         }
@@ -10928,210 +12554,211 @@
   var CanvasForceGraph = index$3({
     props: {
       graphData: {
-        "default": {
+        default: {
           nodes: [],
-          links: []
+          links: [],
         },
         onChange: function onChange(_, state) {
           state.engineRunning = false; // Pause simulation
           updDataPhotons(_, state);
-        }
+        },
       },
       dagMode: {
         onChange: function onChange(dagMode, state) {
           // td, bu, lr, rl, radialin, radialout
-          !dagMode && (state.graphData.nodes || []).forEach(function (n) {
-            return n.fx = n.fy = undefined;
-          }); // unfix nodes when disabling dag mode
-        }
+          !dagMode &&
+            (state.graphData.nodes || []).forEach(function (n) {
+              return (n.fx = n.fy = undefined);
+            }); // unfix nodes when disabling dag mode
+        },
       },
 
       dagLevelDistance: {},
       dagNodeFilter: {
-        "default": function _default(node) {
+        default: function _default(node) {
           return true;
-        }
+        },
       },
       onDagError: {
-        triggerUpdate: false
+        triggerUpdate: false,
       },
       nodeRelSize: {
-        "default": 4,
+        default: 4,
         triggerUpdate: false,
-        onChange: notifyRedraw
+        onChange: notifyRedraw,
       },
       // area per val unit
       nodeId: {
-        "default": 'id'
+        default: "id",
       },
       nodeVal: {
-        "default": 'val',
+        default: "val",
         triggerUpdate: false,
-        onChange: notifyRedraw
+        onChange: notifyRedraw,
       },
       nodeColor: {
-        "default": 'color',
+        default: "color",
         triggerUpdate: false,
-        onChange: notifyRedraw
+        onChange: notifyRedraw,
       },
       nodeAutoColorBy: {},
       nodeCanvasObject: {
         triggerUpdate: false,
-        onChange: notifyRedraw
+        onChange: notifyRedraw,
       },
       nodeCanvasObjectMode: {
-        "default": function _default() {
-          return 'replace';
+        default: function _default() {
+          return "replace";
         },
         triggerUpdate: false,
-        onChange: notifyRedraw
+        onChange: notifyRedraw,
       },
       nodeVisibility: {
-        "default": true,
+        default: true,
         triggerUpdate: false,
-        onChange: notifyRedraw
+        onChange: notifyRedraw,
       },
       linkSource: {
-        "default": 'source'
+        default: "source",
       },
       linkTarget: {
-        "default": 'target'
+        default: "target",
       },
       linkVisibility: {
-        "default": true,
+        default: true,
         triggerUpdate: false,
-        onChange: notifyRedraw
+        onChange: notifyRedraw,
       },
       linkColor: {
-        "default": 'color',
+        default: "color",
         triggerUpdate: false,
-        onChange: notifyRedraw
+        onChange: notifyRedraw,
       },
       linkAutoColorBy: {},
       linkLineDash: {
         triggerUpdate: false,
-        onChange: notifyRedraw
+        onChange: notifyRedraw,
       },
       linkWidth: {
-        "default": 1,
+        default: 1,
         triggerUpdate: false,
-        onChange: notifyRedraw
+        onChange: notifyRedraw,
       },
       linkCurvature: {
-        "default": 0,
+        default: 0,
         triggerUpdate: false,
-        onChange: notifyRedraw
+        onChange: notifyRedraw,
       },
       linkCanvasObject: {
         triggerUpdate: false,
-        onChange: notifyRedraw
+        onChange: notifyRedraw,
       },
       linkCanvasObjectMode: {
-        "default": function _default() {
-          return 'replace';
+        default: function _default() {
+          return "replace";
         },
         triggerUpdate: false,
-        onChange: notifyRedraw
+        onChange: notifyRedraw,
       },
       linkDirectionalArrowLength: {
-        "default": 0,
+        default: 0,
         triggerUpdate: false,
-        onChange: notifyRedraw
+        onChange: notifyRedraw,
       },
       linkDirectionalArrowColor: {
         triggerUpdate: false,
-        onChange: notifyRedraw
+        onChange: notifyRedraw,
       },
       linkDirectionalArrowRelPos: {
-        "default": 0.5,
+        default: 0.5,
         triggerUpdate: false,
-        onChange: notifyRedraw
+        onChange: notifyRedraw,
       },
       // value between 0<>1 indicating the relative pos along the (exposed) line
       linkDirectionalParticles: {
-        "default": 0,
+        default: 0,
         triggerUpdate: false,
-        onChange: updDataPhotons
+        onChange: updDataPhotons,
       },
       // animate photons travelling in the link direction
       linkDirectionalParticleSpeed: {
-        "default": 0.01,
-        triggerUpdate: false
+        default: 0.01,
+        triggerUpdate: false,
       },
       // in link length ratio per frame
       linkDirectionalParticleWidth: {
-        "default": 4,
-        triggerUpdate: false
+        default: 4,
+        triggerUpdate: false,
       },
       linkDirectionalParticleColor: {
-        triggerUpdate: false
+        triggerUpdate: false,
       },
       globalScale: {
-        "default": 1,
-        triggerUpdate: false
+        default: 1,
+        triggerUpdate: false,
       },
       d3AlphaMin: {
-        "default": 0,
-        triggerUpdate: false
+        default: 0,
+        triggerUpdate: false,
       },
       d3AlphaDecay: {
-        "default": 0.0228,
+        default: 0.0228,
         triggerUpdate: false,
         onChange: function onChange(alphaDecay, state) {
           state.forceLayout.alphaDecay(alphaDecay);
-        }
+        },
       },
       d3AlphaTarget: {
-        "default": 0,
+        default: 0,
         triggerUpdate: false,
         onChange: function onChange(alphaTarget, state) {
           state.forceLayout.alphaTarget(alphaTarget);
-        }
+        },
       },
       d3VelocityDecay: {
-        "default": 0.4,
+        default: 0.4,
         triggerUpdate: false,
         onChange: function onChange(velocityDecay, state) {
           state.forceLayout.velocityDecay(velocityDecay);
-        }
+        },
       },
       warmupTicks: {
-        "default": 0,
-        triggerUpdate: false
+        default: 0,
+        triggerUpdate: false,
       },
       // how many times to tick the force engine at init before starting to render
       cooldownTicks: {
-        "default": Infinity,
-        triggerUpdate: false
+        default: Infinity,
+        triggerUpdate: false,
       },
       cooldownTime: {
-        "default": 15000,
-        triggerUpdate: false
+        default: 15000,
+        triggerUpdate: false,
       },
       // ms
       onUpdate: {
-        "default": function _default() {},
-        triggerUpdate: false
+        default: function _default() {},
+        triggerUpdate: false,
       },
       onFinishUpdate: {
-        "default": function _default() {},
-        triggerUpdate: false
+        default: function _default() {},
+        triggerUpdate: false,
       },
       onEngineTick: {
-        "default": function _default() {},
-        triggerUpdate: false
+        default: function _default() {},
+        triggerUpdate: false,
       },
       onEngineStop: {
-        "default": function _default() {},
-        triggerUpdate: false
+        default: function _default() {},
+        triggerUpdate: false,
       },
       onNeedsRedraw: {
-        triggerUpdate: false
+        triggerUpdate: false,
       },
       isShadow: {
-        "default": false,
-        triggerUpdate: false
-      }
+        default: false,
+        triggerUpdate: false,
+      },
     },
     methods: {
       // Expose d3 forces for external manipulation
@@ -11170,7 +12797,12 @@
 
         function layoutTick() {
           if (state.engineRunning) {
-            if (++state.cntTicks > state.cooldownTicks || new Date() - state.startTickTime > state.cooldownTime || state.d3AlphaMin > 0 && state.forceLayout.alpha() < state.d3AlphaMin) {
+            if (
+              ++state.cntTicks > state.cooldownTicks ||
+              new Date() - state.startTickTime > state.cooldownTime ||
+              (state.d3AlphaMin > 0 &&
+                state.forceLayout.alpha() < state.d3AlphaMin)
+            ) {
               state.engineRunning = false; // Stop ticking graph
               state.onEngineStop();
             } else {
@@ -11192,22 +12824,28 @@
           ctx.save();
           visibleNodes.forEach(function (node) {
             var nodeCanvasObjectMode = getNodeCanvasObjectMode(node);
-            if (state.nodeCanvasObject && (nodeCanvasObjectMode === 'before' || nodeCanvasObjectMode === 'replace')) {
+            if (
+              state.nodeCanvasObject &&
+              (nodeCanvasObjectMode === "before" ||
+                nodeCanvasObjectMode === "replace")
+            ) {
               // Custom node before/replace paint
               state.nodeCanvasObject(node, ctx, state.globalScale);
-              if (nodeCanvasObjectMode === 'replace') {
+              if (nodeCanvasObjectMode === "replace") {
                 ctx.restore();
                 return;
               }
             }
 
             // Draw wider nodes by 1px on shadow canvas for more precise hovering (due to boundary anti-aliasing)
-            var r = Math.sqrt(Math.max(0, getVal(node) || 1)) * state.nodeRelSize + padAmount;
+            var r =
+              Math.sqrt(Math.max(0, getVal(node) || 1)) * state.nodeRelSize +
+              padAmount;
             ctx.beginPath();
             ctx.arc(node.x, node.y, r, 0, 2 * Math.PI, false);
-            ctx.fillStyle = getColor(node) || 'rgba(31, 120, 180, 0.92)';
+            ctx.fillStyle = getColor(node) || "rgba(31, 120, 180, 0.92)";
             ctx.fill();
-            if (state.nodeCanvasObject && nodeCanvasObjectMode === 'after') {
+            if (state.nodeCanvasObject && nodeCanvasObjectMode === "after") {
               // Custom node after paint
               state.nodeCanvasObject(node, state.ctx, state.globalScale);
             }
@@ -11235,13 +12873,19 @@
             var replaceCustomLinks = [],
               otherCustomLinks = [];
             visibleLinks.forEach(function (d) {
-              return ({
-                before: beforeCustomLinks,
-                after: afterCustomLinks,
-                replace: replaceCustomLinks
-              }[getLinkCanvasObjectMode(d)] || otherCustomLinks).push(d);
+              return (
+                {
+                  before: beforeCustomLinks,
+                  after: afterCustomLinks,
+                  replace: replaceCustomLinks,
+                }[getLinkCanvasObjectMode(d)] || otherCustomLinks
+              ).push(d);
             });
-            defaultPaintLinks = [].concat(_toConsumableArray$2(beforeCustomLinks), afterCustomLinks, otherCustomLinks);
+            defaultPaintLinks = [].concat(
+              _toConsumableArray$2(beforeCustomLinks),
+              afterCustomLinks,
+              otherCustomLinks,
+            );
             beforeCustomLinks = beforeCustomLinks.concat(replaceCustomLinks);
           }
 
@@ -11253,13 +12897,18 @@
           ctx.restore();
 
           // Bundle strokes per unique color/width/dash for performance optimization
-          var linksPerColor = index(defaultPaintLinks, [getColor, getWidth, getLineDash]);
+          var linksPerColor = index(defaultPaintLinks, [
+            getColor,
+            getWidth,
+            getLineDash,
+          ]);
           ctx.save();
           Object.entries(linksPerColor).forEach(function (_ref) {
             var _ref2 = _slicedToArray$2(_ref, 2),
               color = _ref2[0],
               linksPerWidth = _ref2[1];
-            var lineColor = !color || color === 'undefined' ? 'rgba(0,0,0,0.15)' : color;
+            var lineColor =
+              !color || color === "undefined" ? "rgba(0,0,0,0.15)" : color;
             Object.entries(linksPerWidth).forEach(function (_ref3) {
               var _ref4 = _slicedToArray$2(_ref3, 2),
                 width = _ref4[0],
@@ -11267,14 +12916,20 @@
               var lineWidth = (width || 1) / state.globalScale + padAmount;
               Object.entries(linesPerLineDash).forEach(function (_ref5) {
                 var _ref6 = _slicedToArray$2(_ref5, 2);
-                  _ref6[0];
-                  var links = _ref6[1];
+                _ref6[0];
+                var links = _ref6[1];
                 var lineDashSegments = getLineDash(links[0]);
                 ctx.beginPath();
                 links.forEach(function (link) {
                   var start = link.source;
                   var end = link.target;
-                  if (!start || !end || !start.hasOwnProperty('x') || !end.hasOwnProperty('x')) return; // skip invalid link
+                  if (
+                    !start ||
+                    !end ||
+                    !start.hasOwnProperty("x") ||
+                    !end.hasOwnProperty("x")
+                  )
+                    return; // skip invalid link
 
                   ctx.moveTo(start.x, start.y);
                   var controlPoints = link.__controlPoints;
@@ -11283,7 +12938,17 @@
                     ctx.lineTo(end.x, end.y);
                   } else {
                     // Use quadratic curves for regular lines and bezier for loops
-                    ctx[controlPoints.length === 2 ? 'quadraticCurveTo' : 'bezierCurveTo'].apply(ctx, _toConsumableArray$2(controlPoints).concat([end.x, end.y]));
+                    ctx[
+                      controlPoints.length === 2
+                        ? "quadraticCurveTo"
+                        : "bezierCurveTo"
+                    ].apply(
+                      ctx,
+                      _toConsumableArray$2(controlPoints).concat([
+                        end.x,
+                        end.y,
+                      ]),
+                    );
                   }
                 });
                 ctx.strokeStyle = lineColor;
@@ -11313,9 +12978,17 @@
             }
             var start = link.source;
             var end = link.target;
-            if (!start || !end || !start.hasOwnProperty('x') || !end.hasOwnProperty('x')) return; // skip invalid link
+            if (
+              !start ||
+              !end ||
+              !start.hasOwnProperty("x") ||
+              !end.hasOwnProperty("x")
+            )
+              return; // skip invalid link
 
-            var l = Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2)); // line length
+            var l = Math.sqrt(
+              Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2),
+            ); // line length
 
             if (l > 0) {
               var a = Math.atan2(end.y - start.y, end.x - start.x); // line angle
@@ -11324,7 +12997,7 @@
               var cp = {
                 // control point
                 x: (start.x + end.x) / 2 + d * Math.cos(a - Math.PI / 2),
-                y: (start.y + end.y) / 2 + d * Math.sin(a - Math.PI / 2)
+                y: (start.y + end.y) / 2 + d * Math.sin(a - Math.PI / 2),
               };
               link.__controlPoints = [cp.x, cp.y];
             } else {
@@ -11340,7 +13013,9 @@
           var getLength = accessorFn(state.linkDirectionalArrowLength);
           var getRelPos = accessorFn(state.linkDirectionalArrowRelPos);
           var getVisibility = accessorFn(state.linkVisibility);
-          var getColor = accessorFn(state.linkDirectionalArrowColor || state.linkColor);
+          var getColor = accessorFn(
+            state.linkDirectionalArrowColor || state.linkColor,
+          );
           var getNodeVal = accessorFn(state.nodeVal);
           var ctx = state.ctx;
           ctx.save();
@@ -11349,37 +13024,74 @@
             if (!arrowLength || arrowLength < 0) return;
             var start = link.source;
             var end = link.target;
-            if (!start || !end || !start.hasOwnProperty('x') || !end.hasOwnProperty('x')) return; // skip invalid link
+            if (
+              !start ||
+              !end ||
+              !start.hasOwnProperty("x") ||
+              !end.hasOwnProperty("x")
+            )
+              return; // skip invalid link
 
-            var startR = Math.sqrt(Math.max(0, getNodeVal(start) || 1)) * state.nodeRelSize;
-            var endR = Math.sqrt(Math.max(0, getNodeVal(end) || 1)) * state.nodeRelSize;
+            var startR =
+              Math.sqrt(Math.max(0, getNodeVal(start) || 1)) *
+              state.nodeRelSize;
+            var endR =
+              Math.sqrt(Math.max(0, getNodeVal(end) || 1)) * state.nodeRelSize;
             var arrowRelPos = Math.min(1, Math.max(0, getRelPos(link)));
-            var arrowColor = getColor(link) || 'rgba(0,0,0,0.28)';
+            var arrowColor = getColor(link) || "rgba(0,0,0,0.28)";
             var arrowHalfWidth = arrowLength / ARROW_WH_RATIO / 2;
 
             // Construct bezier for curved lines
-            var bzLine = link.__controlPoints && _construct(Bezier, [start.x, start.y].concat(_toConsumableArray$2(link.__controlPoints), [end.x, end.y]));
-            var getCoordsAlongLine = bzLine ? function (t) {
-              return bzLine.get(t);
-            } // get position along bezier line
-            : function (t) {
-              return {
-                // straight line: interpolate linearly
-                x: start.x + (end.x - start.x) * t || 0,
-                y: start.y + (end.y - start.y) * t || 0
-              };
-            };
-            var lineLen = bzLine ? bzLine.length() : Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2));
-            var posAlongLine = startR + arrowLength + (lineLen - startR - endR - arrowLength) * arrowRelPos;
+            var bzLine =
+              link.__controlPoints &&
+              _construct(
+                Bezier,
+                [start.x, start.y].concat(
+                  _toConsumableArray$2(link.__controlPoints),
+                  [end.x, end.y],
+                ),
+              );
+            var getCoordsAlongLine = bzLine
+              ? function (t) {
+                  return bzLine.get(t);
+                } // get position along bezier line
+              : function (t) {
+                  return {
+                    // straight line: interpolate linearly
+                    x: start.x + (end.x - start.x) * t || 0,
+                    y: start.y + (end.y - start.y) * t || 0,
+                  };
+                };
+            var lineLen = bzLine
+              ? bzLine.length()
+              : Math.sqrt(
+                  Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2),
+                );
+            var posAlongLine =
+              startR +
+              arrowLength +
+              (lineLen - startR - endR - arrowLength) * arrowRelPos;
             var arrowHead = getCoordsAlongLine(posAlongLine / lineLen);
-            var arrowTail = getCoordsAlongLine((posAlongLine - arrowLength) / lineLen);
-            var arrowTailVertex = getCoordsAlongLine((posAlongLine - arrowLength * (1 - ARROW_VLEN_RATIO)) / lineLen);
-            var arrowTailAngle = Math.atan2(arrowHead.y - arrowTail.y, arrowHead.x - arrowTail.x) - Math.PI / 2;
+            var arrowTail = getCoordsAlongLine(
+              (posAlongLine - arrowLength) / lineLen,
+            );
+            var arrowTailVertex = getCoordsAlongLine(
+              (posAlongLine - arrowLength * (1 - ARROW_VLEN_RATIO)) / lineLen,
+            );
+            var arrowTailAngle =
+              Math.atan2(arrowHead.y - arrowTail.y, arrowHead.x - arrowTail.x) -
+              Math.PI / 2;
             ctx.beginPath();
             ctx.moveTo(arrowHead.x, arrowHead.y);
-            ctx.lineTo(arrowTail.x + arrowHalfWidth * Math.cos(arrowTailAngle), arrowTail.y + arrowHalfWidth * Math.sin(arrowTailAngle));
+            ctx.lineTo(
+              arrowTail.x + arrowHalfWidth * Math.cos(arrowTailAngle),
+              arrowTail.y + arrowHalfWidth * Math.sin(arrowTailAngle),
+            );
             ctx.lineTo(arrowTailVertex.x, arrowTailVertex.y);
-            ctx.lineTo(arrowTail.x - arrowHalfWidth * Math.cos(arrowTailAngle), arrowTail.y - arrowHalfWidth * Math.sin(arrowTailAngle));
+            ctx.lineTo(
+              arrowTail.x - arrowHalfWidth * Math.cos(arrowTailAngle),
+              arrowTail.y - arrowHalfWidth * Math.sin(arrowTailAngle),
+            );
             ctx.fillStyle = arrowColor;
             ctx.fill();
           });
@@ -11390,30 +13102,50 @@
           var getSpeed = accessorFn(state.linkDirectionalParticleSpeed);
           var getDiameter = accessorFn(state.linkDirectionalParticleWidth);
           var getVisibility = accessorFn(state.linkVisibility);
-          var getColor = accessorFn(state.linkDirectionalParticleColor || state.linkColor);
+          var getColor = accessorFn(
+            state.linkDirectionalParticleColor || state.linkColor,
+          );
           var ctx = state.ctx;
           ctx.save();
           state.graphData.links.filter(getVisibility).forEach(function (link) {
             var numCyclePhotons = getNumPhotons(link);
-            if (!link.hasOwnProperty('__photons') || !link.__photons.length) return;
+            if (!link.hasOwnProperty("__photons") || !link.__photons.length)
+              return;
             var start = link.source;
             var end = link.target;
-            if (!start || !end || !start.hasOwnProperty('x') || !end.hasOwnProperty('x')) return; // skip invalid link
+            if (
+              !start ||
+              !end ||
+              !start.hasOwnProperty("x") ||
+              !end.hasOwnProperty("x")
+            )
+              return; // skip invalid link
 
             var particleSpeed = getSpeed(link);
             var photons = link.__photons || [];
-            var photonR = Math.max(0, getDiameter(link) / 2) / Math.sqrt(state.globalScale);
-            var photonColor = getColor(link) || 'rgba(0,0,0,0.28)';
+            var photonR =
+              Math.max(0, getDiameter(link) / 2) / Math.sqrt(state.globalScale);
+            var photonColor = getColor(link) || "rgba(0,0,0,0.28)";
             ctx.fillStyle = photonColor;
 
             // Construct bezier for curved lines
-            var bzLine = link.__controlPoints ? _construct(Bezier, [start.x, start.y].concat(_toConsumableArray$2(link.__controlPoints), [end.x, end.y])) : null;
+            var bzLine = link.__controlPoints
+              ? _construct(
+                  Bezier,
+                  [start.x, start.y].concat(
+                    _toConsumableArray$2(link.__controlPoints),
+                    [end.x, end.y],
+                  ),
+                )
+              : null;
             var cyclePhotonIdx = 0;
             var needsCleanup = false; // whether some photons need to be removed from list
             photons.forEach(function (photon) {
               var singleHop = !!photon.__singleHop;
-              if (!photon.hasOwnProperty('__progressRatio')) {
-                photon.__progressRatio = singleHop ? 0 : cyclePhotonIdx / numCyclePhotons;
+              if (!photon.hasOwnProperty("__progressRatio")) {
+                photon.__progressRatio = singleHop
+                  ? 0
+                  : cyclePhotonIdx / numCyclePhotons;
               }
               !singleHop && cyclePhotonIdx++; // increase regular photon index
 
@@ -11427,12 +13159,13 @@
                 }
               }
               var photonPosRatio = photon.__progressRatio;
-              var coords = bzLine ? bzLine.get(photonPosRatio) // get position along bezier line
-              : {
-                // straight line: interpolate linearly
-                x: start.x + (end.x - start.x) * photonPosRatio || 0,
-                y: start.y + (end.y - start.y) * photonPosRatio || 0
-              };
+              var coords = bzLine
+                ? bzLine.get(photonPosRatio) // get position along bezier line
+                : {
+                    // straight line: interpolate linearly
+                    x: start.x + (end.x - start.x) * photonPosRatio || 0,
+                    y: start.y + (end.y - start.y) * photonPosRatio || 0,
+                  };
               ctx.beginPath();
               ctx.arc(coords.x, coords.y, photonR, 0, 2 * Math.PI, false);
               ctx.fill();
@@ -11451,17 +13184,22 @@
         if (link) {
           !link.__photons && (link.__photons = []);
           link.__photons.push({
-            __singleHop: true
+            __singleHop: true,
           }); // add a single hop particle
         }
 
         return this;
-      }
+      },
     },
     stateInit: function stateInit() {
       return {
-        forceLayout: d3ForceSimulation().force('link', d3ForceLink()).force('charge', d3ForceManyBody()).force('center', d3ForceCenter()).force('dagRadial', null).stop(),
-        engineRunning: false
+        forceLayout: d3ForceSimulation()
+          .force("link", d3ForceLink())
+          .force("charge", d3ForceManyBody())
+          .force("center", d3ForceCenter())
+          .force("dagRadial", null)
+          .stop(),
+        engineRunning: false,
       };
     },
     init: function init(canvasCtx, state) {
@@ -11473,11 +13211,19 @@
       state.onUpdate();
       if (state.nodeAutoColorBy !== null) {
         // Auto add color to uncolored nodes
-        autoColorObjects(state.graphData.nodes, accessorFn(state.nodeAutoColorBy), state.nodeColor);
+        autoColorObjects(
+          state.graphData.nodes,
+          accessorFn(state.nodeAutoColorBy),
+          state.nodeColor,
+        );
       }
       if (state.linkAutoColorBy !== null) {
         // Auto add color to uncolored links
-        autoColorObjects(state.graphData.links, accessorFn(state.linkAutoColorBy), state.linkColor);
+        autoColorObjects(
+          state.graphData.links,
+          accessorFn(state.linkAutoColorBy),
+          state.linkColor,
+        );
       }
 
       // parse links
@@ -11487,92 +13233,145 @@
       });
 
       // Feed data to force-directed layout
-      state.forceLayout.stop().alpha(1) // re-heat the simulation
-      .nodes(state.graphData.nodes);
+      state.forceLayout
+        .stop()
+        .alpha(1) // re-heat the simulation
+        .nodes(state.graphData.nodes);
 
       // add links (if link force is still active)
-      var linkForce = state.forceLayout.force('link');
+      var linkForce = state.forceLayout.force("link");
       if (linkForce) {
-        linkForce.id(function (d) {
-          return d[state.nodeId];
-        }).links(state.graphData.links);
+        linkForce
+          .id(function (d) {
+            return d[state.nodeId];
+          })
+          .links(state.graphData.links);
       }
 
       // setup dag force constraints
-      var nodeDepths = state.dagMode && getDagDepths(state.graphData, function (node) {
-        return node[state.nodeId];
-      }, {
-        nodeFilter: state.dagNodeFilter,
-        onLoopError: state.onDagError || undefined
-      });
-      var maxDepth = Math.max.apply(Math, _toConsumableArray$2(Object.values(nodeDepths || [])));
-      var dagLevelDistance = state.dagLevelDistance || state.graphData.nodes.length / (maxDepth || 1) * DAG_LEVEL_NODE_RATIO * (['radialin', 'radialout'].indexOf(state.dagMode) !== -1 ? 0.7 : 1);
+      var nodeDepths =
+        state.dagMode &&
+        getDagDepths(
+          state.graphData,
+          function (node) {
+            return node[state.nodeId];
+          },
+          {
+            nodeFilter: state.dagNodeFilter,
+            onLoopError: state.onDagError || undefined,
+          },
+        );
+      var maxDepth = Math.max.apply(
+        Math,
+        _toConsumableArray$2(Object.values(nodeDepths || [])),
+      );
+      var dagLevelDistance =
+        state.dagLevelDistance ||
+        (state.graphData.nodes.length / (maxDepth || 1)) *
+          DAG_LEVEL_NODE_RATIO *
+          (["radialin", "radialout"].indexOf(state.dagMode) !== -1 ? 0.7 : 1);
 
       // Fix nodes to x,y for dag mode
       if (state.dagMode) {
         var getFFn = function getFFn(fix, invert) {
           return function (node) {
-            return !fix ? undefined : (nodeDepths[node[state.nodeId]] - maxDepth / 2) * dagLevelDistance * (invert ? -1 : 1);
+            return !fix
+              ? undefined
+              : (nodeDepths[node[state.nodeId]] - maxDepth / 2) *
+                  dagLevelDistance *
+                  (invert ? -1 : 1);
           };
         };
-        var fxFn = getFFn(['lr', 'rl'].indexOf(state.dagMode) !== -1, state.dagMode === 'rl');
-        var fyFn = getFFn(['td', 'bu'].indexOf(state.dagMode) !== -1, state.dagMode === 'bu');
-        state.graphData.nodes.filter(state.dagNodeFilter).forEach(function (node) {
-          node.fx = fxFn(node);
-          node.fy = fyFn(node);
-        });
+        var fxFn = getFFn(
+          ["lr", "rl"].indexOf(state.dagMode) !== -1,
+          state.dagMode === "rl",
+        );
+        var fyFn = getFFn(
+          ["td", "bu"].indexOf(state.dagMode) !== -1,
+          state.dagMode === "bu",
+        );
+        state.graphData.nodes
+          .filter(state.dagNodeFilter)
+          .forEach(function (node) {
+            node.fx = fxFn(node);
+            node.fy = fyFn(node);
+          });
       }
 
       // Use radial force for radial dags
-      state.forceLayout.force('dagRadial', ['radialin', 'radialout'].indexOf(state.dagMode) !== -1 ? d3ForceRadial(function (node) {
-        var nodeDepth = nodeDepths[node[state.nodeId]] || -1;
-        return (state.dagMode === 'radialin' ? maxDepth - nodeDepth : nodeDepth) * dagLevelDistance;
-      }).strength(function (node) {
-        return state.dagNodeFilter(node) ? 1 : 0;
-      }) : null);
-      for (var i = 0; i < state.warmupTicks && !(state.d3AlphaMin > 0 && state.forceLayout.alpha() < state.d3AlphaMin); i++) {
+      state.forceLayout.force(
+        "dagRadial",
+        ["radialin", "radialout"].indexOf(state.dagMode) !== -1
+          ? d3ForceRadial(function (node) {
+              var nodeDepth = nodeDepths[node[state.nodeId]] || -1;
+              return (
+                (state.dagMode === "radialin"
+                  ? maxDepth - nodeDepth
+                  : nodeDepth) * dagLevelDistance
+              );
+            }).strength(function (node) {
+              return state.dagNodeFilter(node) ? 1 : 0;
+            })
+          : null,
+      );
+      for (
+        var i = 0;
+        i < state.warmupTicks &&
+        !(state.d3AlphaMin > 0 && state.forceLayout.alpha() < state.d3AlphaMin);
+        i++
+      ) {
         state.forceLayout.tick();
       } // Initial ticks before starting to render
 
       this.resetCountdown();
       state.onFinishUpdate();
-    }
+    },
   });
 
-  function linkKapsule (kapsulePropNames, kapsuleType) {
-    var propNames = kapsulePropNames instanceof Array ? kapsulePropNames : [kapsulePropNames];
+  function linkKapsule(kapsulePropNames, kapsuleType) {
+    var propNames =
+      kapsulePropNames instanceof Array ? kapsulePropNames : [kapsulePropNames];
     var dummyK = new kapsuleType(); // To extract defaults
 
     return {
       linkProp: function linkProp(prop) {
         // link property config
         return {
-          "default": dummyK[prop](),
+          default: dummyK[prop](),
           onChange: function onChange(v, state) {
             propNames.forEach(function (propName) {
               return state[propName][prop](v);
             });
           },
-          triggerUpdate: false
+          triggerUpdate: false,
         };
       },
       linkMethod: function linkMethod(method) {
         // link method pass-through
         return function (state) {
-          for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+          for (
+            var _len = arguments.length,
+              args = new Array(_len > 1 ? _len - 1 : 0),
+              _key = 1;
+            _key < _len;
+            _key++
+          ) {
             args[_key - 1] = arguments[_key];
           }
           var returnVals = [];
           propNames.forEach(function (propName) {
             var kapsuleInstance = state[propName];
-            var returnVal = kapsuleInstance[method].apply(kapsuleInstance, args);
+            var returnVal = kapsuleInstance[method].apply(
+              kapsuleInstance,
+              args,
+            );
             if (returnVal !== kapsuleInstance) {
               returnVals.push(returnVal);
             }
           });
           return returnVals.length ? returnVals[0] : this; // chain based on the parent object, not the inner kapsule
         };
-      }
+      },
     };
   }
 
@@ -11580,16 +13379,69 @@
   var ZOOM2NODES_FACTOR = 4;
 
   // Expose config from forceGraph
-  var bindFG = linkKapsule('forceGraph', CanvasForceGraph);
-  var bindBoth = linkKapsule(['forceGraph', 'shadowGraph'], CanvasForceGraph);
-  var linkedProps = Object.assign.apply(Object, _toConsumableArray$2(['nodeColor', 'nodeAutoColorBy', 'nodeCanvasObject', 'nodeCanvasObjectMode', 'linkColor', 'linkAutoColorBy', 'linkLineDash', 'linkWidth', 'linkCanvasObject', 'linkCanvasObjectMode', 'linkDirectionalArrowLength', 'linkDirectionalArrowColor', 'linkDirectionalArrowRelPos', 'linkDirectionalParticles', 'linkDirectionalParticleSpeed', 'linkDirectionalParticleWidth', 'linkDirectionalParticleColor', 'dagMode', 'dagLevelDistance', 'dagNodeFilter', 'onDagError', 'd3AlphaMin', 'd3AlphaDecay', 'd3VelocityDecay', 'warmupTicks', 'cooldownTicks', 'cooldownTime', 'onEngineTick', 'onEngineStop'].map(function (p) {
-    return _defineProperty({}, p, bindFG.linkProp(p));
-  })).concat(_toConsumableArray$2(['nodeRelSize', 'nodeId', 'nodeVal', 'nodeVisibility', 'linkSource', 'linkTarget', 'linkVisibility', 'linkCurvature'].map(function (p) {
-    return _defineProperty({}, p, bindBoth.linkProp(p));
-  }))));
-  var linkedMethods = Object.assign.apply(Object, _toConsumableArray$2(['d3Force', 'd3ReheatSimulation', 'emitParticle'].map(function (p) {
-    return _defineProperty({}, p, bindFG.linkMethod(p));
-  })));
+  var bindFG = linkKapsule("forceGraph", CanvasForceGraph);
+  var bindBoth = linkKapsule(["forceGraph", "shadowGraph"], CanvasForceGraph);
+  var linkedProps = Object.assign.apply(
+    Object,
+    _toConsumableArray$2(
+      [
+        "nodeColor",
+        "nodeAutoColorBy",
+        "nodeCanvasObject",
+        "nodeCanvasObjectMode",
+        "linkColor",
+        "linkAutoColorBy",
+        "linkLineDash",
+        "linkWidth",
+        "linkCanvasObject",
+        "linkCanvasObjectMode",
+        "linkDirectionalArrowLength",
+        "linkDirectionalArrowColor",
+        "linkDirectionalArrowRelPos",
+        "linkDirectionalParticles",
+        "linkDirectionalParticleSpeed",
+        "linkDirectionalParticleWidth",
+        "linkDirectionalParticleColor",
+        "dagMode",
+        "dagLevelDistance",
+        "dagNodeFilter",
+        "onDagError",
+        "d3AlphaMin",
+        "d3AlphaDecay",
+        "d3VelocityDecay",
+        "warmupTicks",
+        "cooldownTicks",
+        "cooldownTime",
+        "onEngineTick",
+        "onEngineStop",
+      ].map(function (p) {
+        return _defineProperty({}, p, bindFG.linkProp(p));
+      }),
+    ).concat(
+      _toConsumableArray$2(
+        [
+          "nodeRelSize",
+          "nodeId",
+          "nodeVal",
+          "nodeVisibility",
+          "linkSource",
+          "linkTarget",
+          "linkVisibility",
+          "linkCurvature",
+        ].map(function (p) {
+          return _defineProperty({}, p, bindBoth.linkProp(p));
+        }),
+      ),
+    ),
+  );
+  var linkedMethods = Object.assign.apply(
+    Object,
+    _toConsumableArray$2(
+      ["d3Force", "d3ReheatSimulation", "emitParticle"].map(function (p) {
+        return _defineProperty({}, p, bindFG.linkMethod(p));
+      }),
+    ),
+  );
   function adjustCanvasSize(state) {
     if (state.canvas) {
       var curWidth = state.canvas.width;
@@ -11614,13 +13466,17 @@
 
         // Normalize coordinate system to use css pixels (on init only)
         if (!curWidth && !curHeight) {
-          canvas.getContext('2d').scale(pxScale, pxScale);
+          canvas.getContext("2d").scale(pxScale, pxScale);
         }
       });
 
       // Relative center panning based on 0,0
       var k = transform(state.canvas).k;
-      state.zoom.translateBy(state.zoom.__baseElem, (state.width - curWidth) / 2 / k, (state.height - curHeight) / 2 / k);
+      state.zoom.translateBy(
+        state.zoom.__baseElem,
+        (state.width - curWidth) / 2 / k,
+        (state.height - curHeight) / 2 / k,
+      );
       state.needsRedraw = true;
     }
   }
@@ -11638,359 +13494,440 @@
   //
 
   var forceGraph = index$3({
-    props: _objectSpread2({
-      width: {
-        "default": window.innerWidth,
-        onChange: function onChange(_, state) {
-          return adjustCanvasSize(state);
+    props: _objectSpread2(
+      {
+        width: {
+          default: window.innerWidth,
+          onChange: function onChange(_, state) {
+            return adjustCanvasSize(state);
+          },
+          triggerUpdate: false,
         },
-        triggerUpdate: false
-      },
-      height: {
-        "default": window.innerHeight,
-        onChange: function onChange(_, state) {
-          return adjustCanvasSize(state);
+        height: {
+          default: window.innerHeight,
+          onChange: function onChange(_, state) {
+            return adjustCanvasSize(state);
+          },
+          triggerUpdate: false,
         },
-        triggerUpdate: false
-      },
-      graphData: {
-        "default": {
-          nodes: [],
-          links: []
+        graphData: {
+          default: {
+            nodes: [],
+            links: [],
+          },
+          onChange: function onChange(d, state) {
+            [
+              {
+                type: "Node",
+                objs: d.nodes,
+              },
+              {
+                type: "Link",
+                objs: d.links,
+              },
+            ].forEach(hexIndex);
+            state.forceGraph.graphData(d);
+            state.shadowGraph.graphData(d);
+            function hexIndex(_ref4) {
+              var type = _ref4.type,
+                objs = _ref4.objs;
+              objs
+                .filter(function (d) {
+                  if (!d.hasOwnProperty("__indexColor")) return true;
+                  var cur = state.colorTracker.lookup(d.__indexColor);
+                  return !cur || !cur.hasOwnProperty("d") || cur.d !== d;
+                })
+                .forEach(function (d) {
+                  // store object lookup color
+                  d.__indexColor = state.colorTracker.register({
+                    type: type,
+                    d: d,
+                  });
+                });
+            }
+          },
+          triggerUpdate: false,
         },
-        onChange: function onChange(d, state) {
-          [{
-            type: 'Node',
-            objs: d.nodes
-          }, {
-            type: 'Link',
-            objs: d.links
-          }].forEach(hexIndex);
-          state.forceGraph.graphData(d);
-          state.shadowGraph.graphData(d);
-          function hexIndex(_ref4) {
-            var type = _ref4.type,
-              objs = _ref4.objs;
-            objs.filter(function (d) {
-              if (!d.hasOwnProperty('__indexColor')) return true;
-              var cur = state.colorTracker.lookup(d.__indexColor);
-              return !cur || !cur.hasOwnProperty('d') || cur.d !== d;
-            }).forEach(function (d) {
-              // store object lookup color
-              d.__indexColor = state.colorTracker.register({
-                type: type,
-                d: d
-              });
-            });
-          }
+        backgroundColor: {
+          onChange: function onChange(color, state) {
+            state.canvas && color && (state.canvas.style.background = color);
+          },
+          triggerUpdate: false,
         },
-        triggerUpdate: false
-      },
-      backgroundColor: {
-        onChange: function onChange(color, state) {
-          state.canvas && color && (state.canvas.style.background = color);
+        nodeLabel: {
+          default: "name",
+          triggerUpdate: false,
         },
-        triggerUpdate: false
-      },
-      nodeLabel: {
-        "default": 'name',
-        triggerUpdate: false
-      },
-      nodePointerAreaPaint: {
-        onChange: function onChange(paintFn, state) {
-          state.shadowGraph.nodeCanvasObject(!paintFn ? null : function (node, ctx, globalScale) {
-            return paintFn(node, node.__indexColor, ctx, globalScale);
-          });
-          state.flushShadowCanvas && state.flushShadowCanvas();
+        nodePointerAreaPaint: {
+          onChange: function onChange(paintFn, state) {
+            state.shadowGraph.nodeCanvasObject(
+              !paintFn
+                ? null
+                : function (node, ctx, globalScale) {
+                    return paintFn(node, node.__indexColor, ctx, globalScale);
+                  },
+            );
+            state.flushShadowCanvas && state.flushShadowCanvas();
+          },
+          triggerUpdate: false,
         },
-        triggerUpdate: false
-      },
-      linkPointerAreaPaint: {
-        onChange: function onChange(paintFn, state) {
-          state.shadowGraph.linkCanvasObject(!paintFn ? null : function (link, ctx, globalScale) {
-            return paintFn(link, link.__indexColor, ctx, globalScale);
-          });
-          state.flushShadowCanvas && state.flushShadowCanvas();
+        linkPointerAreaPaint: {
+          onChange: function onChange(paintFn, state) {
+            state.shadowGraph.linkCanvasObject(
+              !paintFn
+                ? null
+                : function (link, ctx, globalScale) {
+                    return paintFn(link, link.__indexColor, ctx, globalScale);
+                  },
+            );
+            state.flushShadowCanvas && state.flushShadowCanvas();
+          },
+          triggerUpdate: false,
         },
-        triggerUpdate: false
-      },
-      linkLabel: {
-        "default": 'name',
-        triggerUpdate: false
-      },
-      linkHoverPrecision: {
-        "default": 4,
-        triggerUpdate: false
-      },
-      minZoom: {
-        "default": 0.01,
-        onChange: function onChange(minZoom, state) {
-          state.zoom.scaleExtent([minZoom, state.zoom.scaleExtent()[1]]);
+        linkLabel: {
+          default: "name",
+          triggerUpdate: false,
         },
-        triggerUpdate: false
-      },
-      maxZoom: {
-        "default": 1000,
-        onChange: function onChange(maxZoom, state) {
-          state.zoom.scaleExtent([state.zoom.scaleExtent()[0], maxZoom]);
+        linkHoverPrecision: {
+          default: 4,
+          triggerUpdate: false,
         },
-        triggerUpdate: false
-      },
-      enableNodeDrag: {
-        "default": true,
-        triggerUpdate: false
-      },
-      enableZoomInteraction: {
-        "default": true,
-        triggerUpdate: false
-      },
-      enablePanInteraction: {
-        "default": true,
-        triggerUpdate: false
-      },
-      enableZoomPanInteraction: {
-        "default": true,
-        triggerUpdate: false
-      },
-      // to be deprecated
-      enablePointerInteraction: {
-        "default": true,
-        onChange: function onChange(_, state) {
-          state.hoverObj = null;
+        minZoom: {
+          default: 0.01,
+          onChange: function onChange(minZoom, state) {
+            state.zoom.scaleExtent([minZoom, state.zoom.scaleExtent()[1]]);
+          },
+          triggerUpdate: false,
         },
-        triggerUpdate: false
+        maxZoom: {
+          default: 1000,
+          onChange: function onChange(maxZoom, state) {
+            state.zoom.scaleExtent([state.zoom.scaleExtent()[0], maxZoom]);
+          },
+          triggerUpdate: false,
+        },
+        enableNodeDrag: {
+          default: true,
+          triggerUpdate: false,
+        },
+        enableZoomInteraction: {
+          default: true,
+          triggerUpdate: false,
+        },
+        enablePanInteraction: {
+          default: true,
+          triggerUpdate: false,
+        },
+        enableZoomPanInteraction: {
+          default: true,
+          triggerUpdate: false,
+        },
+        // to be deprecated
+        enablePointerInteraction: {
+          default: true,
+          onChange: function onChange(_, state) {
+            state.hoverObj = null;
+          },
+          triggerUpdate: false,
+        },
+        autoPauseRedraw: {
+          default: true,
+          triggerUpdate: false,
+        },
+        onNodeDrag: {
+          default: function _default() {},
+          triggerUpdate: false,
+        },
+        onNodeDragEnd: {
+          default: function _default() {},
+          triggerUpdate: false,
+        },
+        onNodeClick: {
+          triggerUpdate: false,
+        },
+        onNodeRightClick: {
+          triggerUpdate: false,
+        },
+        onNodeHover: {
+          triggerUpdate: false,
+        },
+        onLinkClick: {
+          triggerUpdate: false,
+        },
+        onLinkRightClick: {
+          triggerUpdate: false,
+        },
+        onLinkHover: {
+          triggerUpdate: false,
+        },
+        onBackgroundClick: {
+          triggerUpdate: false,
+        },
+        onBackgroundRightClick: {
+          triggerUpdate: false,
+        },
+        onZoom: {
+          triggerUpdate: false,
+        },
+        onZoomEnd: {
+          triggerUpdate: false,
+        },
+        onRenderFramePre: {
+          triggerUpdate: false,
+        },
+        onRenderFramePost: {
+          triggerUpdate: false,
+        },
       },
-      autoPauseRedraw: {
-        "default": true,
-        triggerUpdate: false
-      },
-      onNodeDrag: {
-        "default": function _default() {},
-        triggerUpdate: false
-      },
-      onNodeDragEnd: {
-        "default": function _default() {},
-        triggerUpdate: false
-      },
-      onNodeClick: {
-        triggerUpdate: false
-      },
-      onNodeRightClick: {
-        triggerUpdate: false
-      },
-      onNodeHover: {
-        triggerUpdate: false
-      },
-      onLinkClick: {
-        triggerUpdate: false
-      },
-      onLinkRightClick: {
-        triggerUpdate: false
-      },
-      onLinkHover: {
-        triggerUpdate: false
-      },
-      onBackgroundClick: {
-        triggerUpdate: false
-      },
-      onBackgroundRightClick: {
-        triggerUpdate: false
-      },
-      onZoom: {
-        triggerUpdate: false
-      },
-      onZoomEnd: {
-        triggerUpdate: false
-      },
-      onRenderFramePre: {
-        triggerUpdate: false
-      },
-      onRenderFramePost: {
-        triggerUpdate: false
-      }
-    }, linkedProps),
+      linkedProps,
+    ),
     aliases: {
       // Prop names supported for backwards compatibility
-      stopAnimation: 'pauseAnimation'
+      stopAnimation: "pauseAnimation",
     },
-    methods: _objectSpread2({
-      graph2ScreenCoords: function graph2ScreenCoords(state, x, y) {
-        var t = transform(state.canvas);
-        return {
-          x: x * t.k + t.x,
-          y: y * t.k + t.y
-        };
-      },
-      screen2GraphCoords: function screen2GraphCoords(state, x, y) {
-        var t = transform(state.canvas);
-        return {
-          x: (x - t.x) / t.k,
-          y: (y - t.y) / t.k
-        };
-      },
-      centerAt: function centerAt(state, x, y, transitionDuration) {
-        if (!state.canvas) return null; // no canvas yet
-
-        // setter
-        if (x !== undefined || y !== undefined) {
-          var finalPos = Object.assign({}, x !== undefined ? {
-            x: x
-          } : {}, y !== undefined ? {
-            y: y
-          } : {});
-          if (!transitionDuration) {
-            // no animation
-            setCenter(finalPos);
-          } else {
-            new TWEEN$1.Tween(getCenter()).to(finalPos, transitionDuration).easing(TWEEN$1.Easing.Quadratic.Out).onUpdate(setCenter).start();
-          }
-          return this;
-        }
-
-        // getter
-        return getCenter();
-
-        //
-
-        function getCenter() {
+    methods: _objectSpread2(
+      {
+        graph2ScreenCoords: function graph2ScreenCoords(state, x, y) {
           var t = transform(state.canvas);
           return {
-            x: (state.width / 2 - t.x) / t.k,
-            y: (state.height / 2 - t.y) / t.k
+            x: x * t.k + t.x,
+            y: y * t.k + t.y,
           };
-        }
-        function setCenter(_ref5) {
-          var x = _ref5.x,
-            y = _ref5.y;
-          state.zoom.translateTo(state.zoom.__baseElem, x === undefined ? getCenter().x : x, y === undefined ? getCenter().y : y);
-          state.needsRedraw = true;
-        }
-      },
-      zoom: function zoom(state, k, transitionDuration) {
-        if (!state.canvas) return null; // no canvas yet
+        },
+        screen2GraphCoords: function screen2GraphCoords(state, x, y) {
+          var t = transform(state.canvas);
+          return {
+            x: (x - t.x) / t.k,
+            y: (y - t.y) / t.k,
+          };
+        },
+        centerAt: function centerAt(state, x, y, transitionDuration) {
+          if (!state.canvas) return null; // no canvas yet
 
-        // setter
-        if (k !== undefined) {
-          if (!transitionDuration) {
-            // no animation
-            setZoom(k);
-          } else {
-            new TWEEN$1.Tween({
-              k: getZoom()
-            }).to({
-              k: k
-            }, transitionDuration).easing(TWEEN$1.Easing.Quadratic.Out).onUpdate(function (_ref6) {
-              var k = _ref6.k;
-              return setZoom(k);
-            }).start();
+          // setter
+          if (x !== undefined || y !== undefined) {
+            var finalPos = Object.assign(
+              {},
+              x !== undefined
+                ? {
+                    x: x,
+                  }
+                : {},
+              y !== undefined
+                ? {
+                    y: y,
+                  }
+                : {},
+            );
+            if (!transitionDuration) {
+              // no animation
+              setCenter(finalPos);
+            } else {
+              new TWEEN$1.Tween(getCenter())
+                .to(finalPos, transitionDuration)
+                .easing(TWEEN$1.Easing.Quadratic.Out)
+                .onUpdate(setCenter)
+                .start();
+            }
+            return this;
+          }
+
+          // getter
+          return getCenter();
+
+          //
+
+          function getCenter() {
+            var t = transform(state.canvas);
+            return {
+              x: (state.width / 2 - t.x) / t.k,
+              y: (state.height / 2 - t.y) / t.k,
+            };
+          }
+          function setCenter(_ref5) {
+            var x = _ref5.x,
+              y = _ref5.y;
+            state.zoom.translateTo(
+              state.zoom.__baseElem,
+              x === undefined ? getCenter().x : x,
+              y === undefined ? getCenter().y : y,
+            );
+            state.needsRedraw = true;
+          }
+        },
+        zoom: function zoom(state, k, transitionDuration) {
+          if (!state.canvas) return null; // no canvas yet
+
+          // setter
+          if (k !== undefined) {
+            if (!transitionDuration) {
+              // no animation
+              setZoom(k);
+            } else {
+              new TWEEN$1.Tween({
+                k: getZoom(),
+              })
+                .to(
+                  {
+                    k: k,
+                  },
+                  transitionDuration,
+                )
+                .easing(TWEEN$1.Easing.Quadratic.Out)
+                .onUpdate(function (_ref6) {
+                  var k = _ref6.k;
+                  return setZoom(k);
+                })
+                .start();
+            }
+            return this;
+          }
+
+          // getter
+          return getZoom();
+
+          //
+
+          function getZoom() {
+            return transform(state.canvas).k;
+          }
+          function setZoom(k) {
+            state.zoom.scaleTo(state.zoom.__baseElem, k);
+            state.needsRedraw = true;
+          }
+        },
+        zoomToFit: function zoomToFit(state) {
+          var transitionDuration =
+            arguments.length > 1 && arguments[1] !== undefined
+              ? arguments[1]
+              : 0;
+          var padding =
+            arguments.length > 2 && arguments[2] !== undefined
+              ? arguments[2]
+              : 10;
+          for (
+            var _len = arguments.length,
+              bboxArgs = new Array(_len > 3 ? _len - 3 : 0),
+              _key = 3;
+            _key < _len;
+            _key++
+          ) {
+            bboxArgs[_key - 3] = arguments[_key];
+          }
+          var bbox = this.getGraphBbox.apply(this, bboxArgs);
+          if (bbox) {
+            var center = {
+              x: (bbox.x[0] + bbox.x[1]) / 2,
+              y: (bbox.y[0] + bbox.y[1]) / 2,
+            };
+            var zoomK = Math.max(
+              1e-12,
+              Math.min(
+                1e12,
+                (state.width - padding * 2) / (bbox.x[1] - bbox.x[0]),
+                (state.height - padding * 2) / (bbox.y[1] - bbox.y[0]),
+              ),
+            );
+            this.centerAt(center.x, center.y, transitionDuration);
+            this.zoom(zoomK, transitionDuration);
           }
           return this;
-        }
-
-        // getter
-        return getZoom();
-
-        //
-
-        function getZoom() {
-          return transform(state.canvas).k;
-        }
-        function setZoom(k) {
-          state.zoom.scaleTo(state.zoom.__baseElem, k);
-          state.needsRedraw = true;
-        }
-      },
-      zoomToFit: function zoomToFit(state) {
-        var transitionDuration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-        var padding = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 10;
-        for (var _len = arguments.length, bboxArgs = new Array(_len > 3 ? _len - 3 : 0), _key = 3; _key < _len; _key++) {
-          bboxArgs[_key - 3] = arguments[_key];
-        }
-        var bbox = this.getGraphBbox.apply(this, bboxArgs);
-        if (bbox) {
-          var center = {
-            x: (bbox.x[0] + bbox.x[1]) / 2,
-            y: (bbox.y[0] + bbox.y[1]) / 2
+        },
+        getGraphBbox: function getGraphBbox(state) {
+          var nodeFilter =
+            arguments.length > 1 && arguments[1] !== undefined
+              ? arguments[1]
+              : function () {
+                  return true;
+                };
+          var getVal = accessorFn(state.nodeVal);
+          var getR = function getR(node) {
+            return (
+              Math.sqrt(Math.max(0, getVal(node) || 1)) * state.nodeRelSize
+            );
           };
-          var zoomK = Math.max(1e-12, Math.min(1e12, (state.width - padding * 2) / (bbox.x[1] - bbox.x[0]), (state.height - padding * 2) / (bbox.y[1] - bbox.y[0])));
-          this.centerAt(center.x, center.y, transitionDuration);
-          this.zoom(zoomK, transitionDuration);
-        }
-        return this;
+          var nodesPos = state.graphData.nodes
+            .filter(nodeFilter)
+            .map(function (node) {
+              return {
+                x: node.x,
+                y: node.y,
+                r: getR(node),
+              };
+            });
+          return !nodesPos.length
+            ? null
+            : {
+                x: [
+                  min$1(nodesPos, function (node) {
+                    return node.x - node.r;
+                  }),
+                  max$1(nodesPos, function (node) {
+                    return node.x + node.r;
+                  }),
+                ],
+                y: [
+                  min$1(nodesPos, function (node) {
+                    return node.y - node.r;
+                  }),
+                  max$1(nodesPos, function (node) {
+                    return node.y + node.r;
+                  }),
+                ],
+              };
+        },
+        pauseAnimation: function pauseAnimation(state) {
+          if (state.animationFrameRequestId) {
+            cancelAnimationFrame(state.animationFrameRequestId);
+            state.animationFrameRequestId = null;
+          }
+          return this;
+        },
+        resumeAnimation: function resumeAnimation(state) {
+          if (!state.animationFrameRequestId) {
+            this._animationCycle();
+          }
+          return this;
+        },
+        _destructor: function _destructor() {
+          this.pauseAnimation();
+          this.graphData({
+            nodes: [],
+            links: [],
+          });
+        },
       },
-      getGraphBbox: function getGraphBbox(state) {
-        var nodeFilter = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {
-          return true;
-        };
-        var getVal = accessorFn(state.nodeVal);
-        var getR = function getR(node) {
-          return Math.sqrt(Math.max(0, getVal(node) || 1)) * state.nodeRelSize;
-        };
-        var nodesPos = state.graphData.nodes.filter(nodeFilter).map(function (node) {
-          return {
-            x: node.x,
-            y: node.y,
-            r: getR(node)
-          };
-        });
-        return !nodesPos.length ? null : {
-          x: [min$1(nodesPos, function (node) {
-            return node.x - node.r;
-          }), max$1(nodesPos, function (node) {
-            return node.x + node.r;
-          })],
-          y: [min$1(nodesPos, function (node) {
-            return node.y - node.r;
-          }), max$1(nodesPos, function (node) {
-            return node.y + node.r;
-          })]
-        };
-      },
-      pauseAnimation: function pauseAnimation(state) {
-        if (state.animationFrameRequestId) {
-          cancelAnimationFrame(state.animationFrameRequestId);
-          state.animationFrameRequestId = null;
-        }
-        return this;
-      },
-      resumeAnimation: function resumeAnimation(state) {
-        if (!state.animationFrameRequestId) {
-          this._animationCycle();
-        }
-        return this;
-      },
-      _destructor: function _destructor() {
-        this.pauseAnimation();
-        this.graphData({
-          nodes: [],
-          links: []
-        });
-      }
-    }, linkedMethods),
+      linkedMethods,
+    ),
     stateInit: function stateInit() {
       return {
         lastSetZoom: 1,
         zoom: d3Zoom(),
         forceGraph: new CanvasForceGraph(),
-        shadowGraph: new CanvasForceGraph().cooldownTicks(0).nodeColor('__indexColor').linkColor('__indexColor').isShadow(true),
-        colorTracker: new _default() // indexed objects for rgb lookup
+        shadowGraph: new CanvasForceGraph()
+          .cooldownTicks(0)
+          .nodeColor("__indexColor")
+          .linkColor("__indexColor")
+          .isShadow(true),
+        colorTracker: new _default(), // indexed objects for rgb lookup
       };
     },
 
     init: function init(domNode, state) {
       var _this = this;
       // Wipe DOM
-      domNode.innerHTML = '';
+      domNode.innerHTML = "";
 
       // Container anchor for canvas and tooltip
-      var container = document.createElement('div');
-      container.classList.add('force-graph-container');
-      container.style.position = 'relative';
+      var container = document.createElement("div");
+      container.classList.add("force-graph-container");
+      container.style.position = "relative";
       domNode.appendChild(container);
-      state.canvas = document.createElement('canvas');
-      if (state.backgroundColor) state.canvas.style.background = state.backgroundColor;
+      state.canvas = document.createElement("canvas");
+      if (state.backgroundColor)
+        state.canvas.style.background = state.backgroundColor;
       container.appendChild(state.canvas);
-      state.shadowCanvas = document.createElement('canvas');
+      state.shadowCanvas = document.createElement("canvas");
 
       // Show shadow canvas
       //state.shadowCanvas.style.position = 'absolute';
@@ -11998,216 +13935,286 @@
       //state.shadowCanvas.style.left = '0';
       //container.appendChild(state.shadowCanvas);
 
-      var ctx = state.canvas.getContext('2d');
-      var shadowCtx = state.shadowCanvas.getContext('2d', {
-        willReadFrequently: true
+      var ctx = state.canvas.getContext("2d");
+      var shadowCtx = state.shadowCanvas.getContext("2d", {
+        willReadFrequently: true,
       });
       var pointerPos = {
         x: -1e12,
-        y: -1e12
+        y: -1e12,
       };
       var getObjUnderPointer = function getObjUnderPointer() {
         var obj = null;
         var pxScale = window.devicePixelRatio;
-        var px = pointerPos.x > 0 && pointerPos.y > 0 ? shadowCtx.getImageData(pointerPos.x * pxScale, pointerPos.y * pxScale, 1, 1) : null;
+        var px =
+          pointerPos.x > 0 && pointerPos.y > 0
+            ? shadowCtx.getImageData(
+                pointerPos.x * pxScale,
+                pointerPos.y * pxScale,
+                1,
+                1,
+              )
+            : null;
         // Lookup object per pixel color
         px && (obj = state.colorTracker.lookup(px.data));
         return obj;
       };
 
       // Setup node drag interaction
-      d3Select(state.canvas).call(d3Drag().subject(function () {
-        if (!state.enableNodeDrag) {
-          return null;
-        }
-        var obj = getObjUnderPointer();
-        return obj && obj.type === 'Node' ? obj.d : null; // Only drag nodes
-      }).on('start', function (ev) {
-        var obj = ev.subject;
-        obj.__initialDragPos = {
-          x: obj.x,
-          y: obj.y,
-          fx: obj.fx,
-          fy: obj.fy
-        };
+      d3Select(state.canvas).call(
+        d3Drag()
+          .subject(function () {
+            if (!state.enableNodeDrag) {
+              return null;
+            }
+            var obj = getObjUnderPointer();
+            return obj && obj.type === "Node" ? obj.d : null; // Only drag nodes
+          })
+          .on("start", function (ev) {
+            var obj = ev.subject;
+            obj.__initialDragPos = {
+              x: obj.x,
+              y: obj.y,
+              fx: obj.fx,
+              fy: obj.fy,
+            };
 
-        // keep engine running at low intensity throughout drag
-        if (!ev.active) {
-          obj.fx = obj.x;
-          obj.fy = obj.y; // Fix points
-        }
+            // keep engine running at low intensity throughout drag
+            if (!ev.active) {
+              obj.fx = obj.x;
+              obj.fy = obj.y; // Fix points
+            }
 
-        // drag cursor
-        state.canvas.classList.add('grabbable');
-      }).on('drag', function (ev) {
-        var obj = ev.subject;
-        var initPos = obj.__initialDragPos;
-        var dragPos = ev;
-        var k = transform(state.canvas).k;
-        var translate = {
-          x: initPos.x + (dragPos.x - initPos.x) / k - obj.x,
-          y: initPos.y + (dragPos.y - initPos.y) / k - obj.y
-        };
+            // drag cursor
+            state.canvas.classList.add("grabbable");
+          })
+          .on("drag", function (ev) {
+            var obj = ev.subject;
+            var initPos = obj.__initialDragPos;
+            var dragPos = ev;
+            var k = transform(state.canvas).k;
+            var translate = {
+              x: initPos.x + (dragPos.x - initPos.x) / k - obj.x,
+              y: initPos.y + (dragPos.y - initPos.y) / k - obj.y,
+            };
 
-        // Move fx/fy (and x/y) of nodes based on the scaled drag distance since the drag start
-        ['x', 'y'].forEach(function (c) {
-          return obj["f".concat(c)] = obj[c] = initPos[c] + (dragPos[c] - initPos[c]) / k;
-        });
+            // Move fx/fy (and x/y) of nodes based on the scaled drag distance since the drag start
+            ["x", "y"].forEach(function (c) {
+              return (obj["f".concat(c)] = obj[c] =
+                initPos[c] + (dragPos[c] - initPos[c]) / k);
+            });
 
-        // prevent freeze while dragging
-        state.forceGraph.d3AlphaTarget(0.3) // keep engine running at low intensity throughout drag
-        .resetCountdown(); // prevent freeze while dragging
+            // prevent freeze while dragging
+            state.forceGraph
+              .d3AlphaTarget(0.3) // keep engine running at low intensity throughout drag
+              .resetCountdown(); // prevent freeze while dragging
 
-        state.isPointerDragging = true;
-        obj.__dragged = true;
-        state.onNodeDrag(obj, translate);
-      }).on('end', function (ev) {
-        var obj = ev.subject;
-        var initPos = obj.__initialDragPos;
-        var translate = {
-          x: obj.x - initPos.x,
-          y: obj.y - initPos.y
-        };
-        if (initPos.fx === undefined) {
-          obj.fx = undefined;
-        }
-        if (initPos.fy === undefined) {
-          obj.fy = undefined;
-        }
-        delete obj.__initialDragPos;
-        if (state.forceGraph.d3AlphaTarget()) {
-          state.forceGraph.d3AlphaTarget(0) // release engine low intensity
-          .resetCountdown(); // let the engine readjust after releasing fixed nodes
-        }
+            state.isPointerDragging = true;
+            obj.__dragged = true;
+            state.onNodeDrag(obj, translate);
+          })
+          .on("end", function (ev) {
+            var obj = ev.subject;
+            var initPos = obj.__initialDragPos;
+            var translate = {
+              x: obj.x - initPos.x,
+              y: obj.y - initPos.y,
+            };
+            if (initPos.fx === undefined) {
+              obj.fx = undefined;
+            }
+            if (initPos.fy === undefined) {
+              obj.fy = undefined;
+            }
+            delete obj.__initialDragPos;
+            if (state.forceGraph.d3AlphaTarget()) {
+              state.forceGraph
+                .d3AlphaTarget(0) // release engine low intensity
+                .resetCountdown(); // let the engine readjust after releasing fixed nodes
+            }
 
-        // drag cursor
-        state.canvas.classList.remove('grabbable');
-        state.isPointerDragging = false;
-        if (obj.__dragged) {
-          delete obj.__dragged;
-          state.onNodeDragEnd(obj, translate);
-        }
-      }));
+            // drag cursor
+            state.canvas.classList.remove("grabbable");
+            state.isPointerDragging = false;
+            if (obj.__dragged) {
+              delete obj.__dragged;
+              state.onNodeDragEnd(obj, translate);
+            }
+          }),
+      );
 
       // Setup zoom / pan interaction
-      state.zoom(state.zoom.__baseElem = d3Select(state.canvas)); // Attach controlling elem for easy access
+      state.zoom((state.zoom.__baseElem = d3Select(state.canvas))); // Attach controlling elem for easy access
 
-      state.zoom.__baseElem.on('dblclick.zoom', null); // Disable double-click to zoom
+      state.zoom.__baseElem.on("dblclick.zoom", null); // Disable double-click to zoom
 
-      state.zoom.filter(function (ev) {
-        return (
-          // disable zoom interaction
-          !ev.button && state.enableZoomPanInteraction && (state.enableZoomInteraction || ev.type !== 'wheel') && (state.enablePanInteraction || ev.type === 'wheel')
-        );
-      }).on('zoom', function (ev) {
-        var t = ev.transform;
-        [ctx, shadowCtx].forEach(function (c) {
-          resetTransform(c);
-          c.translate(t.x, t.y);
-          c.scale(t.k, t.k);
-        });
-        state.onZoom && state.onZoom(_objectSpread2(_objectSpread2({}, t), _this.centerAt())); // report x,y coordinates relative to canvas center
-        state.needsRedraw = true;
-      }).on('end', function (ev) {
-        return state.onZoomEnd && state.onZoomEnd(_objectSpread2(_objectSpread2({}, ev.transform), _this.centerAt()));
-      });
-      adjustCanvasSize(state);
-      state.forceGraph.onNeedsRedraw(function () {
-        return state.needsRedraw = true;
-      }).onFinishUpdate(function () {
-        // re-zoom, if still in default position (not user modified)
-        if (transform(state.canvas).k === state.lastSetZoom && state.graphData.nodes.length) {
-          state.zoom.scaleTo(state.zoom.__baseElem, state.lastSetZoom = ZOOM2NODES_FACTOR / Math.cbrt(state.graphData.nodes.length));
+      state.zoom
+        .filter(function (ev) {
+          return (
+            // disable zoom interaction
+            !ev.button &&
+            state.enableZoomPanInteraction &&
+            (state.enableZoomInteraction || ev.type !== "wheel") &&
+            (state.enablePanInteraction || ev.type === "wheel")
+          );
+        })
+        .on("zoom", function (ev) {
+          var t = ev.transform;
+          [ctx, shadowCtx].forEach(function (c) {
+            resetTransform(c);
+            c.translate(t.x, t.y);
+            c.scale(t.k, t.k);
+          });
+          state.onZoom &&
+            state.onZoom(
+              _objectSpread2(_objectSpread2({}, t), _this.centerAt()),
+            ); // report x,y coordinates relative to canvas center
           state.needsRedraw = true;
-        }
-      });
+        })
+        .on("end", function (ev) {
+          return (
+            state.onZoomEnd &&
+            state.onZoomEnd(
+              _objectSpread2(
+                _objectSpread2({}, ev.transform),
+                _this.centerAt(),
+              ),
+            )
+          );
+        });
+      adjustCanvasSize(state);
+      state.forceGraph
+        .onNeedsRedraw(function () {
+          return (state.needsRedraw = true);
+        })
+        .onFinishUpdate(function () {
+          // re-zoom, if still in default position (not user modified)
+          if (
+            transform(state.canvas).k === state.lastSetZoom &&
+            state.graphData.nodes.length
+          ) {
+            state.zoom.scaleTo(
+              state.zoom.__baseElem,
+              (state.lastSetZoom =
+                ZOOM2NODES_FACTOR / Math.cbrt(state.graphData.nodes.length)),
+            );
+            state.needsRedraw = true;
+          }
+        });
 
       // Setup tooltip
-      var toolTipElem = document.createElement('div');
-      toolTipElem.classList.add('graph-tooltip');
+      var toolTipElem = document.createElement("div");
+      toolTipElem.classList.add("graph-tooltip");
       container.appendChild(toolTipElem);
 
       // Capture pointer coords on move or touchstart
-      ['pointermove', 'pointerdown'].forEach(function (evType) {
-        return container.addEventListener(evType, function (ev) {
-          if (evType === 'pointerdown') {
-            state.isPointerPressed = true; // track click state
-            state.pointerDownEvent = ev;
-          }
+      ["pointermove", "pointerdown"].forEach(function (evType) {
+        return container.addEventListener(
+          evType,
+          function (ev) {
+            if (evType === "pointerdown") {
+              state.isPointerPressed = true; // track click state
+              state.pointerDownEvent = ev;
+            }
 
-          // detect pointer drag on canvas pan
-          !state.isPointerDragging && ev.type === 'pointermove' && state.onBackgroundClick // only bother detecting drags this way if background clicks are enabled (so they don't trigger accidentally on canvas panning)
-          && (ev.pressure > 0 || state.isPointerPressed) // ev.pressure always 0 on Safari, so we use the isPointerPressed tracker
-          && (ev.pointerType !== 'touch' || ev.movementX === undefined || [ev.movementX, ev.movementY].some(function (m) {
-            return Math.abs(m) > 1;
-          })) // relax drag trigger sensitivity on touch events
-          && (state.isPointerDragging = true);
+            // detect pointer drag on canvas pan
+            !state.isPointerDragging &&
+              ev.type === "pointermove" &&
+              state.onBackgroundClick && // only bother detecting drags this way if background clicks are enabled (so they don't trigger accidentally on canvas panning)
+              (ev.pressure > 0 || state.isPointerPressed) && // ev.pressure always 0 on Safari, so we use the isPointerPressed tracker
+              (ev.pointerType !== "touch" ||
+                ev.movementX === undefined ||
+                [ev.movementX, ev.movementY].some(function (m) {
+                  return Math.abs(m) > 1;
+                })) && // relax drag trigger sensitivity on touch events
+              (state.isPointerDragging = true);
 
-          // update the pointer pos
-          var offset = getOffset(container);
-          pointerPos.x = ev.pageX - offset.left;
-          pointerPos.y = ev.pageY - offset.top;
+            // update the pointer pos
+            var offset = getOffset(container);
+            pointerPos.x = ev.pageX - offset.left;
+            pointerPos.y = ev.pageY - offset.top;
 
-          // Move tooltip
-          toolTipElem.style.top = "".concat(pointerPos.y, "px");
-          toolTipElem.style.left = "".concat(pointerPos.x, "px");
+            // Move tooltip
+            toolTipElem.style.top = "".concat(pointerPos.y, "px");
+            toolTipElem.style.left = "".concat(pointerPos.x, "px");
 
-          // adjust horizontal position to not exceed canvas boundaries
-          toolTipElem.style.transform = "translate(-".concat(pointerPos.x / state.width * 100, "%, ").concat(
-          // flip to above if near bottom
-          state.height - pointerPos.y < 100 ? 'calc(-100% - 8px)' : '21px', ")");
+            // adjust horizontal position to not exceed canvas boundaries
+            toolTipElem.style.transform = "translate(-"
+              .concat((pointerPos.x / state.width) * 100, "%, ")
+              .concat(
+                // flip to above if near bottom
+                state.height - pointerPos.y < 100
+                  ? "calc(-100% - 8px)"
+                  : "21px",
+                ")",
+              );
 
-          //
+            //
 
-          function getOffset(el) {
-            var rect = el.getBoundingClientRect(),
-              scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
-              scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            return {
-              top: rect.top + scrollTop,
-              left: rect.left + scrollLeft
-            };
-          }
-        }, {
-          passive: true
-        });
+            function getOffset(el) {
+              var rect = el.getBoundingClientRect(),
+                scrollLeft =
+                  window.pageXOffset || document.documentElement.scrollLeft,
+                scrollTop =
+                  window.pageYOffset || document.documentElement.scrollTop;
+              return {
+                top: rect.top + scrollTop,
+                left: rect.left + scrollLeft,
+              };
+            }
+          },
+          {
+            passive: true,
+          },
+        );
       });
 
       // Handle click/touch events on nodes/links
-      container.addEventListener('pointerup', function (ev) {
-        state.isPointerPressed = false;
-        if (state.isPointerDragging) {
-          state.isPointerDragging = false;
-          return; // don't trigger click events after pointer drag (pan / node drag functionality)
-        }
+      container.addEventListener(
+        "pointerup",
+        function (ev) {
+          state.isPointerPressed = false;
+          if (state.isPointerDragging) {
+            state.isPointerDragging = false;
+            return; // don't trigger click events after pointer drag (pan / node drag functionality)
+          }
 
-        var cbEvents = [ev, state.pointerDownEvent];
-        requestAnimationFrame(function () {
-          // trigger click events asynchronously, to allow hoverObj to be set (on frame)
-          if (ev.button === 0) {
-            // mouse left-click or touch
-            if (state.hoverObj) {
-              var fn = state["on".concat(state.hoverObj.type, "Click")];
-              fn && fn.apply(void 0, [state.hoverObj.d].concat(cbEvents));
-            } else {
-              state.onBackgroundClick && state.onBackgroundClick.apply(state, cbEvents);
+          var cbEvents = [ev, state.pointerDownEvent];
+          requestAnimationFrame(function () {
+            // trigger click events asynchronously, to allow hoverObj to be set (on frame)
+            if (ev.button === 0) {
+              // mouse left-click or touch
+              if (state.hoverObj) {
+                var fn = state["on".concat(state.hoverObj.type, "Click")];
+                fn && fn.apply(void 0, [state.hoverObj.d].concat(cbEvents));
+              } else {
+                state.onBackgroundClick &&
+                  state.onBackgroundClick.apply(state, cbEvents);
+              }
             }
-          }
-          if (ev.button === 2) {
-            // mouse right-click
-            if (state.hoverObj) {
-              var _fn = state["on".concat(state.hoverObj.type, "RightClick")];
-              _fn && _fn.apply(void 0, [state.hoverObj.d].concat(cbEvents));
-            } else {
-              state.onBackgroundRightClick && state.onBackgroundRightClick.apply(state, cbEvents);
+            if (ev.button === 2) {
+              // mouse right-click
+              if (state.hoverObj) {
+                var _fn = state["on".concat(state.hoverObj.type, "RightClick")];
+                _fn && _fn.apply(void 0, [state.hoverObj.d].concat(cbEvents));
+              } else {
+                state.onBackgroundRightClick &&
+                  state.onBackgroundRightClick.apply(state, cbEvents);
+              }
             }
-          }
-        });
-      }, {
-        passive: true
-      });
-      container.addEventListener('contextmenu', function (ev) {
-        if (!state.onBackgroundRightClick && !state.onNodeRightClick && !state.onLinkRightClick) return true; // default contextmenu behavior
+          });
+        },
+        {
+          passive: true,
+        },
+      );
+      container.addEventListener("contextmenu", function (ev) {
+        if (
+          !state.onBackgroundRightClick &&
+          !state.onNodeRightClick &&
+          !state.onLinkRightClick
+        )
+          return true; // default contextmenu behavior
         ev.preventDefault();
         return false;
       });
@@ -12234,9 +14241,13 @@
       // Kick-off renderer
       (this._animationCycle = function animate() {
         // IIFE
-        var doRedraw = !state.autoPauseRedraw || !!state.needsRedraw || state.forceGraph.isEngineRunning() || state.graphData.links.some(function (d) {
-          return d.__photons && d.__photons.length;
-        });
+        var doRedraw =
+          !state.autoPauseRedraw ||
+          !!state.needsRedraw ||
+          state.forceGraph.isEngineRunning() ||
+          state.graphData.links.some(function (d) {
+            return d.__photons && d.__photons.length;
+          });
         state.needsRedraw = false;
         if (state.enablePointerInteraction) {
           // Update tooltip and trigger onHover events
@@ -12255,12 +14266,23 @@
               var _fn2 = state["on".concat(objType, "Hover")];
               _fn2 && _fn2(obj.d, prevObjType === objType ? prevObj.d : null);
             }
-            var tooltipContent = obj ? accessorFn(state["".concat(obj.type.toLowerCase(), "Label")])(obj.d) || '' : '';
-            toolTipElem.style.visibility = tooltipContent ? 'visible' : 'hidden';
+            var tooltipContent = obj
+              ? accessorFn(state["".concat(obj.type.toLowerCase(), "Label")])(
+                  obj.d,
+                ) || ""
+              : "";
+            toolTipElem.style.visibility = tooltipContent
+              ? "visible"
+              : "hidden";
             toolTipElem.innerHTML = tooltipContent;
 
             // set pointer if hovered object is clickable
-            state.canvas.classList[obj && state["on".concat(objType, "Click")] || !obj && state.onBackgroundClick ? 'add' : 'remove']('clickable');
+            state.canvas.classList[
+              (obj && state["on".concat(objType, "Click")]) ||
+              (!obj && state.onBackgroundClick)
+                ? "add"
+                : "remove"
+            ]("clickable");
             state.hoverObj = obj;
           }
           doRedraw && refreshShadowCanvas();
@@ -12280,10 +14302,9 @@
         state.animationFrameRequestId = requestAnimationFrame(animate);
       })();
     },
-    update: function updateFn(state) {}
+    update: function updateFn(state) {},
   });
 
   return forceGraph;
-
-}));
+});
 //# sourceMappingURL=force-graph.js.map

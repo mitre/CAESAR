@@ -5,6 +5,7 @@ from flask import Flask, render_template, current_app, request
 from flask_security import current_user
 from flask_login import user_logged_in, user_logged_out
 from flask_security import Security, SQLAlchemyUserDatastore
+from flask_migrate import Migrate
 
 import enferno.commands as commands
 from enferno.admin.models import Bulletin, Label, Source, Location, Event, Eventtype, Media, Btob, Actor, Atoa, Atob, \
@@ -18,7 +19,9 @@ from enferno.settings import Config
 from enferno.user.forms import ExtendedRegisterForm
 from enferno.user.models import User, Role
 from enferno.user.views import bp_user
-
+from apiflask import APIFlask
+from flask_swagger_ui import get_swaggerui_blueprint
+from enferno.utils.ldap import LdapLoginForm
 
 def get_locale():
     """
@@ -48,7 +51,13 @@ def get_locale():
     return session.get('lang', default)
 
 def create_app(config_object=Config):
-    app = Flask(__name__)
+    if config_object.ENV == 'dev':
+        # Use APIFlask instead of `Flask` so it generates an Open API spec
+        app = APIFlask(__name__, spec_path='/openapi.yaml')
+        register_openapi_docs(app)
+    else:
+        app = Flask(__name__)
+    
     app.config.from_object(config_object)
     register_blueprints(app)
     register_extensions(app)
@@ -59,13 +68,15 @@ def create_app(config_object=Config):
     register_signals(app)
     return app
 
-
 def register_extensions(app):
     cache.init_app(app)
     db.init_app(app)
+    Migrate(app, db)
     user_datastore = SQLAlchemyUserDatastore(db, User, Role,webauthn_model=WebAuthn)
     security = Security(app, user_datastore,
-                        register_form=ExtendedRegisterForm)
+                        register_form=ExtendedRegisterForm,
+                        login_form=LdapLoginForm,
+    )
     session.init_app(app)
     bouncer.init_app(app)
     babel.init_app(app, locale_selector=get_locale, default_domain='messages', default_locale='en')
@@ -169,3 +180,16 @@ def register_commands(app):
     app.cli.add_command(commands.add_role)
     app.cli.add_command(commands.reset)
     app.cli.add_command(commands.i18n_cli)
+
+def register_openapi_docs(app):
+    # Setup Swagger UI to display OpenAPI spec
+    swaggerui_blueprint = get_swaggerui_blueprint(
+        '/api/docs', 
+        '/openapi.yaml',
+        config={
+            'app_name': "CAESAR"
+        },
+    )
+
+    app.register_blueprint(swaggerui_blueprint)
+    app.config['SPEC_FORMAT'] = 'yaml'

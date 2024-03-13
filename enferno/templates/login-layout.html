@@ -1,101 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <title>CAESAR </title>
-    <meta name="description" content="CAESAR | Crowd-sourced Atrocities Evidence Synthesis and Analysis Repository (Powered by Bayanat)"/>
-    <meta name="author" content="The MITRE Corporation"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-
-    <link rel="stylesheet" href="/static/css/vuetify.min.css"/>
-    <link rel="stylesheet" href="/static/css/app.css"/>
-    <link rel="stylesheet" href="/static/font/mdi/css/materialdesignicons.css"/>
-    <link rel="stylesheet" href="/static/js/croppr/croppr.min.css"/>
-
-    <!-- favicon -->
-
-    <link rel="apple-touch-icon" sizes="57x57" href="/static/img/favicon/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/static/img/favicon/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/static/img/favicon/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/static/img/favicon/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/static/img/favicon/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/static/img/favicon/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/static/img/favicon/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/static/img/favicon/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/static/img/favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/static/img/favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicon/favicon-16x16.png">
-    <link rel="manifest" crossorigin="use-credentials" href="/static/img/favicon/manifest.json">
-    <meta name="msapplication-TileImage" content="/static/img/favicon/ms-icon-144x144.png">
-
-    {% block css %}{% endblock %}
-    {% block head_js %} {% endblock %}
-</head>
-
-<body>
-
-
-<v-app id="app" v-cloak>
-{% block navbar %}
-    {% include 'nav-bar.html' %}
-{% endblock %}
-    <v-main>
-        <v-container
-                class="fill-height"
-                fluid
-                align-start
-        >
-            <v-row>
-                <v-col class="pa-10">
-                    {% block content %} {% endblock %}
-                </v-col>
-            </v-row>
-        </v-container>
-
-
-    </v-main>
-</v-app>
-{% if current_user.is_authenticated %}
-<div class="d-none" data-settings='{{ current_user.settings|tojson if current_user.settings else '{}' }}'></div>
-    {% else %}
-    <div class="d-none" data-settings='{}'></div>
-{% endif %}
-<div class="d-none" data-lang='{{session.get('lang','en')}}'></div>
-<script>
-    window.__settings__ = JSON.parse(document.querySelector('[data-settings]').dataset.settings);
-    window.__lang__ =  document.querySelector('[data-lang]').dataset.lang;
-</script>
-
-
-<script src="/static/js/vue.min.js"></script>
-<script src="/static/js/vuetify.min.js"></script>
-<script src="/static/js/vue-router.min.js"></script>
-<script src="/static/js/axios.min.js"></script>
-<script src="/static/js/vue-tippy.min.js"></script>
-<script src="/static/js/vee-validate.full.min.js"></script>
-<script>
-    {%  include 'admin/jsapi.jinja2' %}
-</script>
-<script src="/static/js/common/config.js"></script>
-
-
-
-{% block js %}
-    <script>
-        const app = new Vue({
-            vuetify: vuetify,
-            el: '#app',
-            data: {
-                activeTab: null
-            }
-        })
-    </script>
-{% endblock %}
-
-
-<script type="text/javascript" src="/static/js/app.js"></script>
-
-</body>
+    <head>
+        <meta charset="utf-8" />
+        <title>C.O. Bayanat</title>
+        <meta name="description" content="Conflict Observatory Bayanat" />
+        <meta name="author" content="The MITRE Corporation" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="/static/css/vuetify.min.css" />
+        <link rel="stylesheet" href="/static/css/app.css" />
+        <link rel="stylesheet" href="/static/font/mdi/css/materialdesignicons.css" />
+        <link rel="stylesheet" href="/static/js/croppr/croppr.min.css" />
+        <!-- favicon -->
+        <link rel="apple-touch-icon"
+              sizes="57x57"
+              href="/static/img/favicon/apple-icon-57x57.png">
+        <link rel="apple-touch-icon"
+              sizes="60x60"
+              href="/static/img/favicon/apple-icon-60x60.png">
+        <link rel="apple-touch-icon"
+              sizes="72x72"
+              href="/static/img/favicon/apple-icon-72x72.png">
+        <link rel="apple-touch-icon"
+              sizes="76x76"
+              href="/static/img/favicon/apple-icon-76x76.png">
+        <link rel="apple-touch-icon"
+              sizes="114x114"
+              href="/static/img/favicon/apple-icon-114x114.png">
+        <link rel="apple-touch-icon"
+              sizes="120x120"
+              href="/static/img/favicon/apple-icon-120x120.png">
+        <link rel="apple-touch-icon"
+              sizes="144x144"
+              href="/static/img/favicon/apple-icon-144x144.png">
+        <link rel="apple-touch-icon"
+              sizes="152x152"
+              href="/static/img/favicon/apple-icon-152x152.png">
+        <link rel="apple-touch-icon"
+              sizes="180x180"
+              href="/static/img/favicon/apple-icon-180x180.png">
+        <link rel="icon"
+              type="image/png"
+              sizes="192x192"
+              href="/static/img/favicon/android-icon-192x192.png">
+        <link rel="icon"
+              type="image/png"
+              sizes="32x32"
+              href="/static/img/favicon/favicon-32x32.png">
+        <link rel="icon"
+              type="image/png"
+              sizes="96x96"
+              href="/static/img/favicon/favicon-96x96.png">
+        <link rel="icon"
+              type="image/png"
+              sizes="16x16"
+              href="/static/img/favicon/favicon-16x16.png">
+        <link rel="manifest"
+              crossorigin="use-credentials"
+              href="/static/img/favicon/manifest.json">
+        <meta name="msapplication-TileImage"
+              content="/static/img/favicon/ms-icon-144x144.png">
+        {% block css %}{% endblock %}
+        {% block head_js %}{% endblock %}
+    </head>
+    <body>
+        <v-app id="app" v-cloak>
+            {% block navbar %}
+                {% include 'nav-bar.html' %}
+            {% endblock %}
+            <v-main>
+                <v-container class="fill-height" fluid align-start color="primary">
+                    <v-row>
+                        <v-col class="pa-10">
+                            {% block content %}{% endblock %}
+                        </v-col>
+                    </v-row>
+                </v-container>
+            </v-main>
+        </v-app>
+        {% if current_user.is_authenticated %}
+            <div class="d-none"
+                 data-settings='{{ current_user.settings|tojson if current_user.settings else ' {}' }}'></div>
+        {% else %}
+            <div class="d-none" data-settings='{}'></div>
+        {% endif %}
+        <div class="d-none" data-lang='{{ session.get(' lang', 'en') }}'></div>
+        <script>
+            window.__settings__ = JSON.parse(document.querySelector('[data-settings]').dataset.settings);
+            window.__lang__ = document.querySelector('[data-lang]').dataset.lang;
+        </script>
+        <script src="/static/js/vue.min.js"></script>
+        <script src="/static/js/vuetify.min.js"></script>
+        <script src="/static/js/vue-router.min.js"></script>
+        <script src="/static/js/axios.min.js"></script>
+        <script src="/static/js/vue-tippy.min.js"></script>
+        <script src="/static/js/vee-validate.full.min.js"></script>
+        <script>
+            {% include 'admin/jsapi.jinja2' %}
+        </script>
+        <script src="/static/js/common/config.js"></script>
+        {% block js %}
+            <script>
+                const app = new Vue({
+                    vuetify: vuetify,
+                    el: '#app',
+                    data: {
+                        activeTab: null
+                    }
+                })
+            </script>
+        {% endblock %}
+        <script type="text/javascript" src="/static/js/app.js"></script>
+    </body>
 </html>

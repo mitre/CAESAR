@@ -57,11 +57,7 @@
   "GOOGLE_CLIENT_SECRET": "",
   "GOOGLE_DISCOVERY_URL": "https://accounts.google.com/.well-known/openid-configuration",
   "GOOGLE_MAPS_API_KEY": "",
-  "LANGUAGES": [
-    "en",
-    "ar",
-    "uk"
-  ],
+  "LANGUAGES": ["en", "ar", "uk"],
   "MAPS_API_ENDPOINT": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
   "MEDIA_ALLOWED_EXTENSIONS": [
     ".mp4",
@@ -75,27 +71,14 @@
   ],
   "MISSING_PERSONS": false,
   "OCR_ENABLED": false,
-  "OCR_EXT": [
-    "png",
-    "jpeg",
-    "tiff",
-    "jpg",
-    "gif",
-    "webp",
-    "bmp",
-    "pnm"
-  ],
+  "OCR_EXT": ["png", "jpeg", "tiff", "jpg", "gif", "webp", "bmp", "pnm"],
   "RECAPTCHA_ENABLED": "False",
   "RECAPTCHA_PRIVATE_KEY": "",
   "RECAPTCHA_PUBLIC_KEY": "",
   "S3_BUCKET": "",
   "SECURITY_FRESHNESS": 21600,
   "SECURITY_FRESHNESS_GRACE_PERIOD": 1800,
-  "SHEETS_ALLOWED_EXTENSIONS": [
-    ".csv",
-    ".xls",
-    ".xlsx"
-  ],
+  "SHEETS_ALLOWED_EXTENSIONS": [".csv", ".xls", ".xlsx"],
   "SHEET_IMPORT": true,
   "TESSERACT_CMD": "/opt/homebrew/bin/tesseract"
 }

@@ -21,3 +21,4 @@ enferno/media/*
 .aws
 config.json
 .venv/
+db/

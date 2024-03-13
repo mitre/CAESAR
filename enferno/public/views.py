@@ -1,6 +1,7 @@
-from flask import request, redirect, Blueprint, send_from_directory
+from flask import request, redirect, send_from_directory
+from apiflask import APIBlueprint
 
-bp_public = Blueprint('public', __name__, static_folder='../static')
+bp_public = APIBlueprint('public', __name__, static_folder='../static')
 
 
 @bp_public.after_request
