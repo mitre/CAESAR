@@ -107,18 +107,18 @@ if [ -z "$quiet" ]; then
 fi
 
 # Check if template file exists
-if [ ! -f "$template_file" ]; then
-    echo "Template file not found: $template_file. $output_file not written so don't forget to create one manually."
-else
-    cp "$template_file" "$output_file"
-    # Replace the {{SECRET}} placeholder with the generated passphrase
-    sed -i "s:{{SECRET}}:$encoded_passphrase:g" "$output_file"
-    # Replace the {{PASSWORD}} placeholder with the password
-    sed -i "s:{{PASSWORD}}:$password:g" "$output_file"  
-    echo "Passwords and secrets replaced successfully. Output written to $output_file."
-fi
+# if [ ! -f "$template_file" ]; then
+#     echo "Template file not found: $template_file. $output_file not written so don't forget to create one manually."
+# else
+#     cp "$template_file" "$output_file"
+#     # Replace the {{SECRET}} placeholder with the generated passphrase
+#     sed -i "s:{{SECRET}}:$encoded_passphrase:g" "$output_file"
+#     # Replace the {{PASSWORD}} placeholder with the password
+#     sed -i "s:{{PASSWORD}}:$password:g" "$output_file"  
+#     echo "Passwords and secrets replaced successfully. Output written to $output_file."
+# fi
 
-# If -quiet option is not specified, prompt the user for secret option
+# If -quiet option is not specified, prompt the user to start docker containers
 if [ -z "$quiet" ]; then
     read -t 30 -p "Do you want to start the CAESAR docker containers? (y/N): " start
     if [[ $start == "y" || $start == "Y" ]]; then
