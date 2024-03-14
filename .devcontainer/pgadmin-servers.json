@@ -3,7 +3,7 @@
         "1": {
             "Name": "caesar",
             "Group": "Servers",
-            "Host": "caesar-postgres-1",
+            "Host": "postgres",
             "Port": 5432,
             "MaintenanceDB": "postgres",
             "Username": "postgres",
