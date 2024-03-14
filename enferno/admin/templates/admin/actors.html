@@ -443,7 +443,7 @@
                     // related incidents
                     incident_relations: [],
                     publish_date: '',
-                    documentation_date: ''
+                    documentation_date: new Date().toISOString().substr(0, 16),
                 },
                 //events
                 editedEventIndex: -1,
