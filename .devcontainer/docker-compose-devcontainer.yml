@@ -2,13 +2,9 @@ version: '3'
 
 services:  
   bayanat:
-    # env_file: ${LOCAL_WORKSPACE_FOLDER}/.env
     volumes:
-      - ${BAYANAT_IMPORT_PATH:-${LOCAL_WORKSPACE_FOLDER}/enferno/imports}:/app/enferno/imports:rw
-      - ${BAYANAT_LOGS_PATH:-${LOCAL_WORKSPACE_FOLDER}/logs}:/app/logs:rw
-      - ${BAYANAT_MEDIA_PATH:-${LOCAL_WORKSPACE_FOLDER}/enferno/media}:/app/enferno/media:rw
-      - ${ENV_FILE:-${LOCAL_WORKSPACE_FOLDER}/.env}:/app/.env
-      - ${LOCAL_WORKSPACE_FOLDER}:/app/
+      - ${ENV_FILE:-${CAESAR_ROOT}/.env}:/app/.env
+      - ${CAESAR_ROOT}:/app/
     depends_on:
       postgres:
         condition: service_healthy
@@ -17,11 +13,8 @@ services:
 
   celery:  
     volumes:
-      - ${BAYANAT_IMPORT_PATH:-${LOCAL_WORKSPACE_FOLDER}/enferno/imports}:/app/enferno/imports:rw
-      - ${BAYANAT_LOGS_PATH:-${LOCAL_WORKSPACE_FOLDER}/logs}:/app/logs:rw
-      - ${BAYANAT_MEDIA_PATH:-${LOCAL_WORKSPACE_FOLDER}/enferno/media}:/app/enferno/media:rw
-      - ${ENV_FILE:-${LOCAL_WORKSPACE_FOLDER}/.env}:/app/.env
-      - ${LOCAL_WORKSPACE_FOLDER}:/app/
+      - ${ENV_FILE:-${CAESAR_ROOT}/.env}:/app/.env
+      - ${CAESAR_ROOT}:/app/
     depends_on:
       postgres:
         condition: service_healthy
@@ -33,7 +26,7 @@ services:
     ports:
       - "5050:80"
     volumes:
-      - ${LOCAL_WORKSPACE_FOLDER}/.devcontainer/pgadmin-servers.json:/pgadmin4/servers.json
+      - ${CAESAR_ROOT}/.devcontainer/pgadmin-servers.json:/pgadmin4/servers.json
     environment:
       PGADMIN_DEFAULT_EMAIL: caesar@localhost.net
       PGADMIN_DEFAULT_PASSWORD: change-me
@@ -50,11 +43,11 @@ services:
     profiles:
       - nginx
     volumes:
-      - ${NGINX_STATIC_PATH:-${LOCAL_WORKSPACE_FOLDER}/enferno/static/}:/app/static/:ro
-      - ${NGINX_CONF_PATH:-${LOCAL_WORKSPACE_FOLDER}/nginx/nginx.conf}:/opt/bitnami/nginx/conf/nginx.conf:ro
-      - ${NGINX_BAYANAT_CONF_PATH:-${LOCAL_WORKSPACE_FOLDER}/nginx/bayanat.conf}:/opt/bitnami/nginx/conf/server_blocks/bayanat.conf:ro
+      - ${NGINX_STATIC_PATH:-./enferno/static/}:/app/static/:ro
+      - ${NGINX_CONF_PATH:-./nginx/nginx.conf}:/opt/bitnami/nginx/conf/nginx.conf:ro
+      - ${NGINX_BAYANAT_CONF_PATH:-./nginx/bayanat.conf}:/opt/bitnami/nginx/conf/server_blocks/bayanat.conf:ro
 
 configs:
   dotenv:
-    file: ${LOCAL_WORKSPACE_FOLDER}/.env
+    file: ${CAESAR_ROOT}/.env
     name: "dotenv_${DEPLOY_ENV:-dev}_${SETTINGS_TIMESTAMP:-1111111111}"
