@@ -32,7 +32,7 @@ echo "Installing MITRE Certificates"
 sudo wget -q -O - --no-check-certificate https://gitlab.mitre.org/mitre-scripts/mitre-pki/raw/master/os_scripts/install_certs.sh | sudo sh
 
 echo "Updating Packages..."
-sudo apt-get update && sudo apt-get upgrade
+sudo apt-get update && sudo apt-get upgrade -y
 
 # Check if psql is installed
 if ! command -v psql &> /dev/null
@@ -42,6 +42,11 @@ then
 else
     echo "psql is already installed."
 fi
+
+# Add the psqlc alias to the user's bash configuration file
+echo "alias psqlc='psql -U postgres -h localhost bayanat'" >> ~/.bashrc
+# Apply the changes immediately
+source ~/.bashrc
 
 # sudo apt-get install -y \
 #                 exiftool \
@@ -67,60 +72,30 @@ fi
 #                 ffmpeg \
 #                 tesseract-ocr
 
-# Add the psqlc alias to the user's bash configuration file
-echo "alias psqlc='psql -U postgres -h localhost bayanat'" >> ~/.bashrc
-# Apply the changes immediately
-source ~/.bashrc
+env_file="./.env"
+dev_env_file="./.devcontainer/.env-devcontainer"
+dc_override="./docker-compose.override.yml"
+dev_dc_override="./.devcontainer/docker-compose-devcontainer.yml"
+current_datetime=$(date +"%Y%m%d_%H%M%S")
 
-# Define the template file and output file and default vars
-template_file=".devcontainer/.env-template"
-output_file=".devcontainer/.env-devcontainer"
-password="change-me"
-encoded_passphrase="oITuL697Y25v9vT9F362LjWk"
-
-# If -quiet option is not specified, prompt the user for password
-if [ -z "$quiet" ]; then
-    # Prompt the user for the option with a timeout of 10 seconds
-    read -t 10 -p "Do you want to enter a password manually? (y/N): " option
-    if [[ $option == "y" || $option == "Y" ]]; then
-        # If user chooses to enter a password manually
-        read -s -p "Enter your password: " passphrase
-        echo
-        password=$passphrase
-    elif [ -z "$option" ]; then 
-        echo
-    fi
-fi 
-
-# If -quiet option is not specified, prompt the user for secret option
-if [ -z "$quiet" ]; then
-    read -t 10 -p "Generate a base64 encoded random secret? (y/N): " gen
-    if [[ $gen == "y" || $gen == "Y" ]]; then
-        # randomly generate a passphrase/secret
-        encoded_passphrase=$(openssl rand -base64 32)
-        echo "generated base64 encoded random secret"
-    elif [ -z "$gen" ]; then 
-        echo
-    fi
+# replace the dotenv file with the one for the devcontanier (backup the original)
+if [ -f "$env_file" ]; then
+    mv "$env_file" "${env_file}_${current_datetime}.backup"
 fi
+cp "$dev_env_file" "$env_file"
 
-# Check if template file exists
-# if [ ! -f "$template_file" ]; then
-#     echo "Template file not found: $template_file. $output_file not written so don't forget to create one manually."
-# else
-#     cp "$template_file" "$output_file"
-#     # Replace the {{SECRET}} placeholder with the generated passphrase
-#     sed -i "s:{{SECRET}}:$encoded_passphrase:g" "$output_file"
-#     # Replace the {{PASSWORD}} placeholder with the password
-#     sed -i "s:{{PASSWORD}}:$password:g" "$output_file"  
-#     echo "Passwords and secrets replaced successfully. Output written to $output_file."
-# fi
+# replace the docker compose override file with the one for the devcontanier (backup the original)
+if [ -f "$dc_override" ]; then
+    mv "$dc_override" "${dc_override}_${current_datetime}.backup"
+fi
+cp "$dev_dc_override" "$dc_override"
+
 
 # If -quiet option is not specified, prompt the user to start docker containers
 if [ -z "$quiet" ]; then
     read -t 30 -p "Do you want to start the CAESAR docker containers? (y/N): " start
     if [[ $start == "y" || $start == "Y" ]]; then
-        docker compose --env-file .devcontainer/.env-devcontainer -f docker-compose.yml -f .devcontainer/docker-compose-devcontainer.yml up -d --build
+        docker compose up -d --build
         echo
     elif [ -z "$start" ]; then
         echo 
@@ -128,5 +103,5 @@ if [ -z "$quiet" ]; then
     fi
 else
     # bring up docker containers here...
-    docker compose --env-file .devcontainer/.env-devcontainer -f docker-compose.yml -f .devcontainer/docker-compose-devcontainer.yml up -d --build
+    docker compose up -d --build
 fi

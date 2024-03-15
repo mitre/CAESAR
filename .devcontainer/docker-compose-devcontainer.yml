@@ -42,6 +42,18 @@ services:
     depends_on:
       - postgres
 
+  nginx:
+    restart: always
+    image: "bitnami/nginx:latest"
+    ports:
+      - ${NGINX_EXTERNAL_PORT:-80}:80
+    profiles:
+      - nginx
+    volumes:
+      - ${NGINX_STATIC_PATH:-${LOCAL_WORKSPACE_FOLDER}/enferno/static/}:/app/static/:ro
+      - ${NGINX_CONF_PATH:-${LOCAL_WORKSPACE_FOLDER}/nginx/nginx.conf}:/opt/bitnami/nginx/conf/nginx.conf:ro
+      - ${NGINX_BAYANAT_CONF_PATH:-${LOCAL_WORKSPACE_FOLDER}/nginx/bayanat.conf}:/opt/bitnami/nginx/conf/server_blocks/bayanat.conf:ro
+
 configs:
   dotenv:
     file: ${LOCAL_WORKSPACE_FOLDER}/.env
