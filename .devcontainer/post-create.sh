@@ -72,6 +72,8 @@ source ~/.bashrc
 #                 ffmpeg \
 #                 tesseract-ocr
 
+npm install --save-dev --save-exact prettier
+
 env_file="./.env"
 dev_env_file="./.devcontainer/.env-devcontainer"
 dc_override="./docker-compose.override.yml"

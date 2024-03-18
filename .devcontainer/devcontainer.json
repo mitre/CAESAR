@@ -33,7 +33,11 @@
 		},
 		"ghcr.io/devcontainers-contrib/features/corepack:1": {
 			"version": "latest"
-		}
+		},
+		"ghcr.io/devcontainers/features/node:1": {
+            "version": "20.10.0",
+            "nvmVersion": "latest"
+        }
 	},
 	
 	"remoteEnv": { 
@@ -54,9 +58,6 @@
 	// "postCreateCommand": "docker --version",
 	"postCreateCommand": "chmod +x .devcontainer/post-create.sh && ./.devcontainer/post-create.sh -q",
 
-	// Configure tool-specific properties.
-	// "customizations": {},
-
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
 
@@ -76,7 +77,12 @@
 				"ms-toolsai.jupyter",
 				"esbenp.prettier-vscode",
 				"eamodio.gitlens"
-			]
+			],
+			"settings": {
+				"editor.detectIndentation": false,
+				"editor.defaultFormatter": "esbenp.prettier-vscode",
+				"editor.formatOnSave": true
+			}
 		}
 	}
 }
