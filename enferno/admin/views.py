@@ -19,6 +19,7 @@ from sqlalchemy import and_, desc, or_, cast, String
 from werkzeug.utils import safe_join
 from werkzeug.utils import secure_filename
 
+from enferno.schemas import BulletinSchema, UserSchema
 from enferno.admin.models import (Bulletin, Label, Source, Location, Eventtype, Media, Actor, Incident,
                                   IncidentHistory, BulletinHistory, ActorHistory, LocationHistory, PotentialViolation,
                                   ClaimedViolation,
@@ -89,6 +90,18 @@ def define_authorization(user, ability):
     #         return bulletin.assigned_to_id == user.id
 
     #     ability.can('edit', Bulletin, if_assigned)
+
+
+@admin.route('/dumpschema')
+def dumpschema():
+    bulletin = Bulletin()
+    bulletin_schema = BulletinSchema()
+    object_methods = [method_name for method_name in dir(bulletin_schema) if callable(getattr(bulletin_schema, method_name))]
+    print(object_methods)
+    print(bulletin_schema.Meta)
+    dump_data = bulletin_schema.dump(bulletin)
+    print(dump_data)
+    return "Hooray", 200
 
 
 @admin.route('/dashboard')
@@ -165,7 +178,7 @@ def api_labels():
     sort_desc = request.args.get('sort_desc', 'false').lower() == 'true'
     if sort_by == '':
         sort_by = 'id'
-    
+
     #Adjust query for sorting by a field in a related model if needed
     if sort_by == 'parent.title':
         parent_alias = aliased(Label)
@@ -564,7 +577,7 @@ def api_sources():
     sort_desc = request.args.get('sort_desc', 'false').lower() == 'true'
     if sort_by == '':
         sort_by = 'id'
-    
+
     #Adjust query for sorting by a field in a related model if needed
     if sort_by == "parent.title":
         parent_alias = aliased(Source)
@@ -954,7 +967,7 @@ def api_ethnographies():
                     Ethnography.title_tr.ilike(f'%{q}%'))).order_by(-Ethnography.id).paginate(page=page, per_page=per_page, count=True)
     else:
         result = Ethnography.query.order_by(-Ethnography.id).paginate(page=page, per_page=per_page, count=True)
-        
+
     response = {'items': [item.to_dict() for item in result.items], 'perPage': per_page, 'total': result.total}
     return Response(json.dumps(response),
                     content_type='application/json'), 200
@@ -1489,7 +1502,7 @@ def api_bulletins():
         sort_by = 'id'
     elif sort_by == '_status':
         sort_by = 'status'
-    
+
     #Adjust query for sorting by a field in a related model if needed
     if sort_by == "assigned_to.name":
         result = result.outerjoin(User, Bulletin.assigned_to_id == User.id)
@@ -1519,13 +1532,14 @@ def api_bulletins():
 
 @admin.post('/api/bulletin/')
 @roles_accepted('Admin', 'DA')
-def api_bulletin_create():
+@admin.input(BulletinSchema)
+def api_bulletin_create(json_data):
     """Creates a new bulletin."""
     bulletin = Bulletin()
     # assign automatically to the creator user
     bulletin.assigned_to_id = current_user.id
     # assignment will be overwritten if it is specified in the creation request
-    bulletin.from_json(request.json['item'])
+    bulletin.from_json(request.json)
     bulletin.save()
 
     # the below will create the first revision by default
@@ -1537,6 +1551,7 @@ def api_bulletin_create():
 
 @admin.put('/api/bulletin/<int:id>')
 @roles_accepted('Admin', 'DA')
+@admin.input(BulletinSchema)
 def api_bulletin_update(id):
     """Updates a bulletin."""
     bulletin = Bulletin.query.get(id)
@@ -1645,6 +1660,7 @@ def api_bulletin_bulk_update():
 
 # get one bulletin
 @admin.get('/api/bulletin/<int:id>')
+@admin.output(BulletinSchema)
 def api_bulletin_get(id):
     """
     Endpoint to get a single bulletin
@@ -1803,7 +1819,7 @@ def api_actor_assign(id):
 
     if not current_user.can_access(actor):
         return 'Restricted Access', 403
-    
+
     if actor:
         a = request.json.get('actor')
         if not a or not a.get('assigned_to_id'):
@@ -1871,7 +1887,7 @@ def api_incident_assign(id):
 
     if not current_user.can_access(incident):
         return 'Restricted Access', 403
-    
+
     if incident:
         i = request.json.get('incident')
         if not i or not i.get('assigned_to_id'):
@@ -2000,7 +2016,7 @@ def api_medias_chunk():
         # validate etag here // if it exists // reject the upload and send an error code
         if Media.query.filter(Media.etag == etag).first():
             return 'Error, file already exists', 409
-        
+
         # Make sure the hash from the client matches the hash from the server
         if etag != request.form.get('etagClient'):
             return 'Error, the hash of the image from the client does not match the hash on the server', 409
@@ -2246,7 +2262,7 @@ def api_actors():
         sort_by = 'id'
     elif sort_by == '_status':
         sort_by = 'status'
-    
+
     #Adjust query for sorting by a field in a related model if needed
     if sort_by == "assigned_to.name":
         result = result.outerjoin(User, Actor.assigned_to_id == User.id)
@@ -2590,6 +2606,7 @@ def users():
 
 
 @admin.post('/api/user/')
+@admin.input(UserSchema)
 @roles_required('Admin')
 def api_user_create():
     """
@@ -2644,6 +2661,7 @@ def api_user_check():
 
 
 @admin.put('/api/user/<int:uid>')
+@admin.input(UserSchema)
 @roles_required('Admin')
 def api_user_update(uid):
     """Endpoint to update a user."""
@@ -2770,7 +2788,7 @@ def api_roles(page):
     sort_desc = request.args.get('sort_desc', 'false').lower() == 'true'
     if sort_by == '':
         sort_by = 'id'
-    
+
     if hasattr(Role, sort_by):
         result = result.order_by(getattr(Role, sort_by).desc() if sort_desc else getattr(Role, sort_by))
     else:
@@ -2903,7 +2921,7 @@ def api_incidents():
     sort_desc = request.args.get('sort_desc', 'false').lower() == 'true'
     if sort_by == '':
         sort_by = 'id'
-    
+
     #Adjust query for sorting by a field in a related model if needed
     if sort_by == 'assigned_to.name':
         result = result.outerjoin(User, Incident.assigned_to_id == User.id)

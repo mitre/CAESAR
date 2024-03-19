@@ -1105,9 +1105,7 @@
                     } else {
                         this.items.push(this.editedItem);
                         //create new record
-                        axios.post("/admin/api/bulletin/", {
-                            item: this.editedItem
-                        }).then(response => {
+                        axios.post("/admin/api/bulletin/", this.editedItem).then(response => {
                             this.showSnack(response.data);
                             this.refresh(this.options);
                         }).catch(err => {
