@@ -76,7 +76,8 @@
 			"extensions": [
 				"ms-toolsai.jupyter",
 				"esbenp.prettier-vscode",
-				"eamodio.gitlens"
+				"eamodio.gitlens",
+				"mechatroner.rainbow-csv"
 			],
 			"settings": {
 				"editor.detectIndentation": false,
