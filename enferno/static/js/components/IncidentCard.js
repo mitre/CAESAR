@@ -132,6 +132,15 @@ Vue.component("incident-card", {
       return this.$root.editAllowed(this.incident) && this.showEdit;
     },
 
+    deleteAllowed() {
+      return this.$root.has_role(this.$root.currentUser, "Admin") && this.showEdit;
+    },
+
+    deleteIncident() {
+      this.$emit("delete", this.incident);
+      this.$emit("close")
+    },
+
     loadRevisions() {
       this.hloading = true;
       axios
@@ -207,7 +216,10 @@ Vue.component("incident-card", {
           {{ i18n.id_ }} {{ incident.id }}</v-chip>
         <v-btn v-if="editAllowed()" class="ml-2" @click="$emit('edit',incident)" small outlined><v-icon color="primary" left>mdi-pencil</v-icon> {{ i18n.edit_ }}</v-btn>
         <v-btn @click.stop="$root.$refs.viz.visualize(incident)" class="ml-2" outlined small elevation="0"><v-icon color="primary" left>mdi-graph-outline</v-icon> {{ i18n.visualize_ }}</v-btn>
-
+        <v-btn v-if="deleteAllowed()" class="ml-2 red darken-3" @click="deleteIncident" small outlined>
+          <v-icon color="white" left>mdi-delete-sweep</v-icon>
+          <span class="white--text">{{ i18n.delete_ }}</span>
+        </v-btn>
       </v-card-text>
       
       <v-chip color="white lighten-3" small label class="pa-2 mx-2 my-2" v-if="incident.assigned_to" ><v-icon left>mdi-account-circle-outline</v-icon>
