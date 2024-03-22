@@ -2227,7 +2227,7 @@ def api_actors():
     """Returns actors in JSON format, allows search and paging."""
     su = SearchUtils(request.json, cls='Actor')
     queries, ops = su.get_query()
-    result = Actor.query.filter(*queries.pop(0))
+    result = Actor.query.filter(or_(Actor.deleted == False, Actor.deleted.is_(None))).filter(*queries.pop(0))
 
     # nested queries
     if len(queries) > 0:
@@ -2326,6 +2326,24 @@ def api_actor_update(id):
             return F'Error saving Actor #{id}', 417
     else:
         return HTTPResponse.NOT_FOUND
+
+
+@admin.delete('/api/actor/<int:id>')
+@roles_required('Admin')
+def api_actor_delete(id):
+    """
+    Endpoint to delete an actor
+    :param id: id of the actor to delete
+    :return: success/error based on operation's result
+    """
+    actor = Actor.query.get(id)
+    if actor is None:
+        return HTTPResponse.NOT_FOUND
+    # Record Activity
+    Activity.create(current_user, Activity.ACTION_DELETE, actor.to_mini(), 'actor')
+    actor.deleted = True
+    actor.create_revision()
+    return F'Deleted Actor #{actor.id}', 200
 
 
 # Add/Update review actor endpoint
