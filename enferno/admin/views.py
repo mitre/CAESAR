@@ -2896,7 +2896,7 @@ def api_incidents():
     su = SearchUtils(request.json, cls='Incident')
 
     query = su.get_query()
-    result = Incident.query.filter(*query)
+    result = Incident.query.filter(or_(Incident.deleted == False, Incident.deleted.is_(None))).filter(*query)
 
     #Sort by request property
     sort_by = request.args.get('sort_by', 'id')
@@ -2972,6 +2972,24 @@ def api_incident_update(id):
             return F'Error saving Incident {id}', 417
     else:
         return HTTPResponse.NOT_FOUND
+
+
+@admin.delete('/api/incident/<int:id>')
+@roles_required('Admin')
+def api_incidnet_delete(id):
+    """
+    Endpoint to delete an incident
+    :param id: id of the incident to delete
+    :return: success/error based on operation's result
+    """
+    incident = Incident.query.get(id)
+    if incident is None:
+        return HTTPResponse.NOT_FOUND
+    # Record Activity
+    Activity.create(current_user, Activity.ACTION_DELETE, incident.to_mini(), 'incident')
+    incident.deleted = True
+    incident.create_revision()
+    return F'Deleted Incident #{incident.id}', 200
 
 
 # Add/Update review incident endpoint
