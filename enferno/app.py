@@ -4,8 +4,10 @@ import pandas as pd
 from flask import Flask, render_template, current_app, request
 from flask_security import current_user
 from flask_login import user_logged_in, user_logged_out
-from flask_security import Security, SQLAlchemyUserDatastore
+from flask_security import Security, SQLAlchemyUserDatastore, UsernameUtil
 from flask_migrate import Migrate
+import re
+import unicodedata
 
 import enferno.commands as commands
 from enferno.admin.models import Bulletin, Label, Source, Location, Event, Eventtype, Media, Btob, Actor, Atoa, Atob, \
@@ -22,6 +24,23 @@ from enferno.user.views import bp_user
 from apiflask import APIFlask
 from flask_swagger_ui import get_swaggerui_blueprint
 from enferno.utils.ldap import LdapLoginForm
+
+
+class CustomUsernameUtil(UsernameUtil):
+    def check_username(self, username: str) -> str | None:
+        
+        # validate disallowed charachters
+        cats = [unicodedata.category(c)[0] for c in username]
+        if any(cat not in ["L", "N"] and c != "." and c != "-" for cat, c in zip(cats, username)):
+            return 'Disallowed characters detected'
+        
+        if (username.startswith('.') or username.startswith('-')):
+            return 'Illegal character detected at beginning of username'
+        
+        if (username.endswith('.') or username.endswith('-')):
+            return 'Illegal characted detected at end of username'
+        
+        return None
 
 def get_locale():
     """
@@ -76,6 +95,7 @@ def register_extensions(app):
     security = Security(app, user_datastore,
                         register_form=ExtendedRegisterForm,
                         login_form=LdapLoginForm,
+                        username_util_cls=CustomUsernameUtil
     )
     session.init_app(app)
     bouncer.init_app(app)

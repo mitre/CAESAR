@@ -10,6 +10,7 @@ import bleach
 import boto3
 import passlib
 import shortuuid
+import re
 from flask import request, abort, Response, current_app, json, g, send_from_directory
 from flask.templating import render_template
 from flask_babel import gettext
@@ -2617,6 +2618,10 @@ def api_user_create():
     # validate existing
     u = request.json.get('item')
     username = u.get('username')
+    
+    username_error = check_username_errors(username)
+    if username_error is not None:
+        return username_error
 
     exists = User.query.filter(User.username == username).first()
     if len(username) < 4:
@@ -2637,6 +2642,26 @@ def api_user_create():
         return 'Error creating user', 417
 
 
+def check_username_errors(data):
+    # validate illegal charachters
+    uclean = bleach.clean(data.strip(), strip=True)
+    if uclean != data:
+        return 'Illegal characters detected'
+
+    # validate disallowed charachters
+    cats = [unicodedata.category(c)[0] for c in data]
+    if any(cat not in ["L", "N"] and c != "." and c != "-" for cat, c in zip(cats, data)):
+        return 'Disallowed characters detected'
+    
+    if (data.startswith('.') or data.startswith('-')):
+        return 'Illegal character detected at beginning of username'
+    
+    if (data.endswith('.') or data.endswith('-')):
+        return 'Illegal characted detected at end of username'
+    
+    return None
+
+
 @admin.route('/api/checkuser/', methods=['POST'])
 @roles_required('Admin')
 def api_user_check():
@@ -2644,16 +2669,10 @@ def api_user_check():
     if not data:
         return 'Please select a username', 417
 
-    # validate illegal charachters
-    uclean = bleach.clean(data.strip(), strip=True)
-    if uclean != data:
-        return 'Illegal characters detected', 417
-
-    # validate disallowed charachters
-    cats = [unicodedata.category(c)[0] for c in data]
-    if any([cat not in ["L", "N"] for cat in cats]):
-        return 'Disallowed characters detected', 417
-
+    username_error = check_username_errors(data)
+    if username_error is not None:
+        return username_error, 417
+    
     u = User.query.filter(User.username == data).first()
     if u:
         return 'Username already exists', 417
