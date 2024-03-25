@@ -35,6 +35,7 @@ Vue.component("incident-card", {
           } else {
             this.mapLocations = aggregateIncidentLocations(this.incident);
             this.geoMapOn = true;
+            this.geoMapLoading = false;
           }
         })
         .catch((err) => {})
