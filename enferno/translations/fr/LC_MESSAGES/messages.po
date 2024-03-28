@@ -3150,11 +3150,11 @@ msgstr "Nouveau mot de passe"
 msgid "Confirm Password"
 msgstr "Confirmer le mot de passe"
 
-#: enferno/templates/dashboard.html:21
+#: enferno/templates/views/dashboard.html:21
 msgid "Welcome"
 msgstr "Bienvenue"
 
-#: enferno/templates/dashboard.html:25
+#: enferno/templates/views/dashboard.html:25
 msgid "Last login"
 msgstr "Dernière connexion"
 

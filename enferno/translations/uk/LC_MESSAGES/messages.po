@@ -3151,11 +3151,11 @@ msgstr "Новий пароль"
 msgid "Confirm Password"
 msgstr "Підтвердити пароль"
 
-#: enferno/templates/dashboard.html:21
+#: enferno/templates/views/dashboard.html:21
 msgid "Welcome"
 msgstr "Ласкаво просимо"
 
-#: enferno/templates/dashboard.html:25
+#: enferno/templates/views/dashboard.html:25
 msgid "Last login"
 msgstr "Останній вхід"
 

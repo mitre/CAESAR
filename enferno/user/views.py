@@ -145,7 +145,7 @@ def account():
     """
     Main dashboard endpoint.
     """
-    return render_template('dashboard.html')
+    return render_template('views/dashboard.html')
 
 
 @bp_user.route('/settings/')

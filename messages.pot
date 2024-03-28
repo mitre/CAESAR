@@ -2980,11 +2980,11 @@ msgstr ""
 msgid "Confirm Password"
 msgstr ""
 
-#: enferno/templates/dashboard.html:21
+#: enferno/templates/views/dashboard.html:21
 msgid "Welcome"
 msgstr ""
 
-#: enferno/templates/dashboard.html:25
+#: enferno/templates/views/dashboard.html:25
 msgid "Last login"
 msgstr ""
 

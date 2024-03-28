@@ -3110,11 +3110,11 @@ msgstr "كلمة المرور الجديدة"
 msgid "Confirm Password"
 msgstr "تأكيد كلمة المرور"
 
-#: enferno/templates/dashboard.html:21
+#: enferno/templates/views/dashboard.html:21
 msgid "Welcome"
 msgstr "مرحباً"
 
-#: enferno/templates/dashboard.html:25
+#: enferno/templates/views/dashboard.html:25
 msgid "Last login"
 msgstr "آخر دخول"
 
