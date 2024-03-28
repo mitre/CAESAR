@@ -539,6 +539,10 @@ class Media(db.Model, BaseMixin):
     actor = db.relationship("Actor", backref="medias", foreign_keys=[actor_id])
 
     main = db.Column(db.Boolean, default=False)
+    
+    # Not used by Bayanat, used by the data pipeline to indicate the record has been
+    # synced to the Gold database
+    ingested = db.Column(db.Boolean, default=False)
 
     # custom serialization method
     @check_roles
