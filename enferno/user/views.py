@@ -152,7 +152,7 @@ def account():
 @auth_required('session')
 def settings():
     """Endpoint for user settings."""
-    return render_template('settings.html')
+    return render_template('views/settings.html')
 
 @bp_user.route('/settings/save',methods=['PUT'])
 @auth_required('session')

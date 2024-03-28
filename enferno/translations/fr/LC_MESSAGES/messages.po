@@ -1753,7 +1753,7 @@ msgid "Storage"
 msgstr "Lisses"
 
 #: enferno/admin/templates/admin/system-administration.html:23
-#: enferno/templates/settings.html:46
+#: enferno/templates/views/settings.html:46
 msgid "Security"
 msgstr "Sécurité"
 
@@ -3208,39 +3208,39 @@ msgstr "Tableau de bord de déduplication"
 msgid "System Settings"
 msgstr "Utilisateurs du système"
 
-#: enferno/templates/settings.html:16
+#: enferno/templates/views/settings.html:16
 msgid "Settings"
 msgstr "Paramètres"
 
-#: enferno/templates/settings.html:21
+#: enferno/templates/views/settings.html:21
 msgid "User Interface"
 msgstr "Interface utilisateur"
 
-#: enferno/templates/settings.html:24
+#: enferno/templates/views/settings.html:24
 msgid "Dark Mode"
 msgstr "Mode sombre"
 
-#: enferno/templates/settings.html:29
+#: enferno/templates/views/settings.html:29
 msgid "Interface Language"
 msgstr "Langue de l'interface"
 
-#: enferno/templates/settings.html:38
+#: enferno/templates/views/settings.html:38
 msgid "Profile Settings"
 msgstr "Paramètres du profil"
 
-#: enferno/templates/settings.html:40
+#: enferno/templates/views/settings.html:40
 msgid "Change Password"
 msgstr "Modifier le mot de passe"
 
-#: enferno/templates/settings.html:48
+#: enferno/templates/views/settings.html:48
 msgid "Setup Two-Factor Auth"
 msgstr "Configurer l'authentification à double facteur"
 
-#: enferno/templates/settings.html:51
+#: enferno/templates/views/settings.html:51
 msgid "Recovery Codes"
 msgstr ""
 
-#: enferno/templates/settings.html:56
+#: enferno/templates/views/settings.html:56
 msgid "Setup a Security Key"
 msgstr ""
 

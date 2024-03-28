@@ -1765,7 +1765,7 @@ msgid "Storage"
 msgstr "Пряме"
 
 #: enferno/admin/templates/admin/system-administration.html:23
-#: enferno/templates/settings.html:46
+#: enferno/templates/views/settings.html:46
 msgid "Security"
 msgstr "Безпека"
 
@@ -3209,39 +3209,39 @@ msgstr "Панель керування дедуплікацією"
 msgid "System Settings"
 msgstr "Системні користувачі"
 
-#: enferno/templates/settings.html:16
+#: enferno/templates/views/settings.html:16
 msgid "Settings"
 msgstr "Налаштування"
 
-#: enferno/templates/settings.html:21
+#: enferno/templates/views/settings.html:21
 msgid "User Interface"
 msgstr "Інтерфейс користувача"
 
-#: enferno/templates/settings.html:24
+#: enferno/templates/views/settings.html:24
 msgid "Dark Mode"
 msgstr "Темний режим"
 
-#: enferno/templates/settings.html:29
+#: enferno/templates/views/settings.html:29
 msgid "Interface Language"
 msgstr ""
 
-#: enferno/templates/settings.html:38
+#: enferno/templates/views/settings.html:38
 msgid "Profile Settings"
 msgstr "Налаштування облікового запису"
 
-#: enferno/templates/settings.html:40
+#: enferno/templates/views/settings.html:40
 msgid "Change Password"
 msgstr "Змінити пароль"
 
-#: enferno/templates/settings.html:48
+#: enferno/templates/views/settings.html:48
 msgid "Setup Two-Factor Auth"
 msgstr "Налаштувати двофакторну аутентифікацію"
 
-#: enferno/templates/settings.html:51
+#: enferno/templates/views/settings.html:51
 msgid "Recovery Codes"
 msgstr ""
 
-#: enferno/templates/settings.html:56
+#: enferno/templates/views/settings.html:56
 msgid "Setup a Security Key"
 msgstr ""
 

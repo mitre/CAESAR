@@ -1752,7 +1752,7 @@ msgid "Storage"
 msgstr "أملس"
 
 #: enferno/admin/templates/admin/system-administration.html:23
-#: enferno/templates/settings.html:46
+#: enferno/templates/views/settings.html:46
 msgid "Security"
 msgstr "الأمان"
 
@@ -3168,39 +3168,39 @@ msgstr "لوحة تحكم أداة المطابقة"
 msgid "System Settings"
 msgstr "مستخدمي النظام"
 
-#: enferno/templates/settings.html:16
+#: enferno/templates/views/settings.html:16
 msgid "Settings"
 msgstr "الإعدادت"
 
-#: enferno/templates/settings.html:21
+#: enferno/templates/views/settings.html:21
 msgid "User Interface"
 msgstr "واجهة المستخدم"
 
-#: enferno/templates/settings.html:24
+#: enferno/templates/views/settings.html:24
 msgid "Dark Mode"
 msgstr "الوضع الليلي"
 
-#: enferno/templates/settings.html:29
+#: enferno/templates/views/settings.html:29
 msgid "Interface Language"
 msgstr "لغة واجهة المستخدم"
 
-#: enferno/templates/settings.html:38
+#: enferno/templates/views/settings.html:38
 msgid "Profile Settings"
 msgstr "اعدادات الحساب"
 
-#: enferno/templates/settings.html:40
+#: enferno/templates/views/settings.html:40
 msgid "Change Password"
 msgstr "تغيير كلمة المرور"
 
-#: enferno/templates/settings.html:48
+#: enferno/templates/views/settings.html:48
 msgid "Setup Two-Factor Auth"
 msgstr "اعداد المصادقة الثنائية"
 
-#: enferno/templates/settings.html:51
+#: enferno/templates/views/settings.html:51
 msgid "Recovery Codes"
 msgstr ""
 
-#: enferno/templates/settings.html:56
+#: enferno/templates/views/settings.html:56
 msgid "Setup a Security Key"
 msgstr ""
 
