@@ -1,8 +1,8 @@
 {% extends "layouts/login-layout.html" %}
-{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% from "views/security/_macros.html" import render_field_with_errors, render_field %}
 {% block navbar %}{% endblock %}
 {% block content %}
-{% include "security/_messages.html" %}
+{% include "views/security/_messages.html" %}
 <v-card style="width:min(90%,500px)" class="ma-auto mt-12">
     <v-toolbar color="primary" dark text>
         <v-toolbar-title>{{ _("Two-factor Authentication") }}</v-toolbar-title>

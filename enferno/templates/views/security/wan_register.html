@@ -2,7 +2,7 @@
 This template receives the following pieces of context in addition to the form:
 #}
 {% extends "layouts/login-layout.html" %}
-{% from "security/_macros.html" import render_field_with_errors, render_field, render_field_errors %}
+{% from "views/security/_macros.html" import render_field_with_errors, render_field, render_field_errors %}
 {% block css %}
 <style>
     .fs-div {
@@ -24,7 +24,7 @@ This template receives the following pieces of context in addition to the form:
 {% block content %}
 <v-card style="width:min(600px, 100%)" class="ma-auto mt-5">
     <v-card-title color="primary">{{ _fsdomain("Setup New WebAuthn Security Keys") }}</v-card-title>
-    {% include "security/_messages.html" %}
+    {% include "views/security/_messages.html" %}
     {% if not credential_options %}
     {# Initial form to get CreateOptions #}
     <v-card-text>
