@@ -9,13 +9,13 @@
         {% include 'components/nav-drawer.html' %}
         {% include "components/nav-bar.html" %}
         {% include
-        'admin/partials/bulletin_drawer.html' %}
+        'views/admin/partials/bulletin_drawer.html' %}
         {% include
-        'admin/partials/bulk_bulletin_drawer.html' %}
+        'views/admin/partials/bulk_bulletin_drawer.html' %}
         {% include
-        'admin/partials/export_drawer.html' %}
+        'views/admin/partials/export_drawer.html' %}
         <v-main>
-            {% include 'admin/partials/bulletin_advsearch.html' %}
+            {% include 'views/admin/partials/bulletin_advsearch.html' %}
             <v-container class="container--fluid">
                 <div>
                     <v-data-table fixed-header height="calc(100vh - 355px)" id="bulletins-dt" v-model="selected"
@@ -50,9 +50,9 @@
                                     }}</v-btn>
                                 {% endif %}
                                 {% include
-                                'admin/partials/bulletin_dialog.html' %}
+                                'views/admin/partials/bulletin_dialog.html' %}
                                 {% include
-                                'admin/partials/review_dialog.html' %}
+                                'views/admin/partials/review_dialog.html' %}
                             </v-toolbar>
                             <v-toolbar v-if="bulkAllowed() || exportAllowed()" dense color="white" flat>
                                 <template v-if="bulkIcons">
@@ -173,7 +173,7 @@
                         ref="relateActors"></relate-actors>
                     <relate-incidents :i18n="translations" @relate="relateIncident" :exids="exIncidents"
                         ref="relateIncidents"></relate-incidents>
-                    {% include 'admin/partials/video_player_dialog.html' %}
+                    {% include 'views/admin/partials/video_player_dialog.html' %}
                     <v-dialog width="600" v-model="selfAssignDialog">
                         <v-card class="pa-3">
                             <v-card-title>Self Assign Bulletin #${assignBulletin.id}</v-card-title>

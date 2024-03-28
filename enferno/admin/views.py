@@ -109,7 +109,7 @@ def labels():
     Endpoint to render the labels backend page.
     :return: html template for labels management.
     """
-    return render_template('admin/labels.html')
+    return render_template('views/admin/labels.html')
 
 
 @admin.route('/api/labels/')
@@ -252,7 +252,7 @@ def eventtypes():
     Endpoint to render event types backend
     :return: html template of the event types backend
     """
-    return render_template('admin/eventtypes.html')
+    return render_template('views/admin/eventtypes.html')
 
 
 @admin.route('/api/eventtypes/')
@@ -524,7 +524,7 @@ def sources():
     Endpoint to render sources backend page
     :return: html of the sources page
     """
-    return render_template('admin/sources.html')
+    return render_template('views/admin/sources.html')
 
 
 @admin.route('/api/sources/')
@@ -651,7 +651,7 @@ def api_source_import():
 @roles_accepted('Admin', 'Mod', 'DA')
 def locations(id):
     """Endpoint for locations management."""
-    return render_template('admin/locations.html')
+    return render_template('views/admin/locations.html')
 
 
 @admin.route('/api/locations/', methods=['POST', 'GET'])
@@ -783,7 +783,7 @@ def api_location_get(id):
 @roles_required('Admin')
 def locations_config(id):
     """Endpoint for locations configurations."""
-    return render_template('admin/component-data.html')
+    return render_template('views/admin/component-data.html')
 
 
 # location admin level endpoints
@@ -1449,7 +1449,7 @@ def bulletins(id):
     itoaInfo = [item.to_dict() for item in ItoaInfo.query.all()]
     itoiInfo = [item.to_dict() for item in ItoiInfo.query.all()]
     statuses = [item.to_dict() for item in WorkflowStatus.query.all()]
-    return render_template('admin/bulletins.html',
+    return render_template('views/admin/bulletins.html',
                            atoaInfo=atoaInfo,
                            itoaInfo=itoaInfo,
                            itoiInfo=itoiInfo,
@@ -2214,7 +2214,7 @@ def actors(id):
     itoiInfo = [item.to_dict() for item in ItoiInfo.query.all()]
 
     statuses = [item.to_dict() for item in WorkflowStatus.query.all()]
-    return render_template('admin/actors.html',
+    return render_template('views/admin/actors.html',
                            btobInfo=btobInfo,
                            itobInfo=itobInfo,
                            itoiInfo=itoiInfo,
@@ -2605,7 +2605,7 @@ def users():
     Endpoint to render the users backend page
     :return: html page of the users backend.
     """
-    return render_template('admin/users.html')
+    return render_template('views/admin/users.html')
 
 
 @admin.post('/api/user/')
@@ -2782,7 +2782,7 @@ def roles():
     Endpoint to redner roles backend page
     :return: html of the page
     """
-    return render_template('admin/roles.html')
+    return render_template('views/admin/roles.html')
 
 
 @admin.route('/api/roles/', defaults={'page': 1})
@@ -2915,7 +2915,7 @@ def incidents(id):
     itoaInfo = [item.to_dict() for item in ItoaInfo.query.all()]
     itoiInfo = [item.to_dict() for item in ItoiInfo.query.all()]
     statuses = [item.to_dict() for item in WorkflowStatus.query.all()]
-    return render_template('admin/incidents.html',
+    return render_template('views/admin/incidents.html',
                            atobInfo=atobInfo,
                            btobInfo=btobInfo,
                            atoaInfo=atoaInfo,
@@ -3181,7 +3181,7 @@ def activity():
     Endpoint to render activity backend page
     :return: html of the page
     """
-    return render_template('admin/activity.html')
+    return render_template('views/admin/activity.html')
 
 
 @admin.route('/api/activity', methods=['POST', 'GET'])
@@ -3381,7 +3381,7 @@ def relation_info():
 @roles_accepted('Admin')
 def system_admin():
     """Endpoint for system administration."""
-    return render_template('admin/system-administration.html')
+    return render_template('views/admin/system-administration.html')
 
 
 @admin.get('/api/appconfig/')

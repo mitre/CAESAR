@@ -5,7 +5,7 @@
         {% include 'components/nav-drawer.html' %}
         {% include "components/nav-bar.html" %}
         {% include
-        'admin/partials/location_drawer.html' %}
+        'views/admin/partials/location_drawer.html' %}
         <v-main>
             <v-container class="container--fluid">
                 <v-row>
@@ -31,7 +31,7 @@
                                             :disabled="!editAllowed()">
                                             {{ _("New Location") }}
                                         </v-btn>
-                                        {% include 'admin/partials/location_dialog.html' %}
+                                        {% include 'views/admin/partials/location_dialog.html' %}
                                         <v-dialog v-model="imDialog" width="500">
                                             <template v-slot:activator="{ on }">
                                                 {% if current_user.roles_in(['Admin']) %}
@@ -87,7 +87,7 @@
                                 </template>
                                 <template v-slot:no-data></template>
                             </v-data-table>
-                            {% include 'admin/partials/location_advsearch.html' %}
+                            {% include 'views/admin/partials/location_advsearch.html' %}
                             <v-snackbar v-model="snackbar" class="d-flex">
                                 ${snackMessage}
                                 <v-btn text @click="confirmClose">

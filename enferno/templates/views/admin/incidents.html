@@ -1,34 +1,27 @@
 {% extends "layouts/layout.html" %}
-{% block css %}
-<link rel="stylesheet" href="/static/js/dropzone/vue2Dropzone.min.css" />
-<link rel="stylesheet" href="/static/js/dropzone/basic.css" />
-{% endblock %}
+{% block css %}{% endblock %}
 {% block content %}
 <div id="app">
-    <v-app id="actors" v-cloak>
+    <v-app id="incidents" v-cloak>
         {% include 'components/nav-drawer.html' %}
         {% include "components/nav-bar.html" %}
-        {% include
-        'admin/partials/actor_drawer.html' %}
-        {% include
-        'admin/partials/bulk_actor_drawer.html' %}
-        {% include
-        'admin/partials/export_drawer.html' %}
+        {% include 'views/admin/partials/incident_drawer.html' %}
+        {% include 'views/admin/partials/bulk_incident_drawer.html' %}
+        {% include 'views/admin/partials/export_drawer.html' %}
         <v-main>
-            {% include 'admin/partials/actor_advsearch.html' %}
             <v-container class="container--fluid">
                 <div>
-                    <v-data-table fixed-header height="calc(100vh - 355px)" id="actors-dt" v-model="selected"
-                        :headers="headers" @click:row="rowClick" :item-class="rowClass" show-select :items="items"
-                        :options.sync="options" :footer-props.sync="footerProps" :loading="loading"
-                        :server-items-length="itemsLength" class="" @toggle-select-all="selectAllRestrict">
+                    <v-data-table fixed-header height="calc(100vh - 355px)" id="incidents-dt" v-model="selected"
+                        :headers="headers" @click:row="rowClick" show-select :items="items" :options.sync="options"
+                        :footer-props.sync="footerProps" :loading="loading" :server-items-length="itemsLength" class=""
+                        :item-class="rowClass" @toggle-select-all="selectAllRestrict">
                         <template v-slot:item.data-table-select="{ item, isSelected, select }">
-                            <v-simple-checkbox :value="isSelected" :readonly="item.restricted"
-                                :disabled="item.restricted" @input="select($event)"></v-simple-checkbox>
+                            <v-simple-checkbox :value="isSelected" :readonly="item.restricted" v-if="!item.restricted"
+                                @input="select($event)"></v-simple-checkbox>
                         </template>
                         <template v-slot:top>
                             <v-toolbar flat color="white">
-                                <v-btn class="hidden-sm-and-down" small @click="allActors" text>{{ _("All Actors")
+                                <v-btn class="hidden-sm-and-down" small @click="allIncidents" text>{{ _("All Incidents")
                                     }}</v-btn>
                                 <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
                                 <v-btn class="hidden-sm-and-down" small @click="myAssigned" text>{{ _("Assigned to me")
@@ -36,27 +29,31 @@
                                 <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
                                 <v-btn small @click="myReview" class="mr-2 hidden-sm-and-down" text>{{ _('My Review
                                     List') }}</v-btn>
-                                <v-text-field flat dense outlined small v-model.trim="search[0].tsv"
-                                    @keydown.enter="doSearch" hide-details append-outer-icon="mdi-ballot"
+                                <v-text-field flat dense outlined small v-model="search.tsv"
+                                    @keydown.enter="searchIncidents" hide-details append-outer-icon="mdi-ballot"
                                     append-icon="mdi-close" @click:append-outer="toggleAdvSearch"
                                     @click:append="resetSearch" prepend-inner-icon="mdi-magnify" label="{{ _(" Search")
                                     }}"></v-text-field>
-                                <v-btn @click="searchActors(false)" icon>
+                                <v-btn @click="searchIncidents(false)" icon>
                                     <v-icon>mdi-refresh</v-icon>
                                 </v-btn>
                                 <v-spacer></v-spacer>
                                 {% if current_user.roles_in(['Admin','DA']) %}
-                                <v-btn @click="editItem" color="accent" dark class="ma-2">{{ _("New Actor") }}</v-btn>
+                                <v-btn @click="editItem" color="accent" dark class="ma-2">{{ _("New Incident")
+                                    }}</v-btn>
                                 {% endif %}
-                                {% include 'admin/partials/actor_dialog.html' %}
-                                {% include 'admin/partials/review_dialog.html' %}
+                                {% include 'views/admin/partials/incident_dialog.html' %}
+                                {% include 'views/admin/partials/review_dialog.html' %}
                             </v-toolbar>
+                            <v-expand-transition>
+                                {% include 'views/admin/partials/incident_advsearch.html' %}
+                            </v-expand-transition>
                             <v-toolbar v-if="bulkAllowed() || exportAllowed()" dense color="white" flat>
                                 <template v-if="bulkIcons">
                                     <v-btn @click="selected=[]" x-small fab class="mr-3" elevation="0" color="white">
                                         <v-icon>mdi-checkbox-blank-outline</v-icon>
                                     </v-btn>
-                                    <v-btn @click="bulkActorDrawer=true" small color="primary" depressed
+                                    <v-btn @click="bulkIncidentDrawer=true" small color="fifth" depressed
                                         v-if="bulkAllowed()">
                                         <v-icon small left>mdi-circle-edit-outline</v-icon>
                                         {{ _("Bulk update") }}</v-btn>
@@ -79,8 +76,8 @@
                                     <v-tooltip top>
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-chip v-on="on" label small close color="yellow lighten-4"
-                                                class="grey--text text--darken-2" @click:close="allActors">{{ _("About")
-                                                }} ${itemsLength} {{ _("results") }}
+                                                class="grey--text text--darken-2" @click:close="allIncidents">{{
+                                                _("About") }} ${itemsLength} {{ _("results") }}
                                                 (${searchTime} {{ _("seconds") }})
                                             </v-chip>
                                         </template>
@@ -135,12 +132,12 @@
                                         mdi-account-box-outline
                                     </v-icon>
                                 </template>
-                                <span>Assign Actor</span>
+                                <span>Assign Incident</span>
                             </v-tooltip>
                             <v-tooltip top>
                                 <template v-slot:activator="{ on }">
                                     <v-icon v-on="on" v-if="reviewAllowed(item)" @click.stop="addReview(item)"
-                                        color="gv darken-1" class="mr-2">mdi-message-draw
+                                        color="primary lighten-1" class="mr-2">mdi-message-draw
                                     </v-icon>
                                 </template>
                                 <span>Add Review</span>
@@ -152,7 +149,7 @@
                                         class="mr-2">mdi-delete-sweep
                                     </v-icon>
                                 </template>
-                                <span>Delete Actor</span>
+                                <span>Delete Incident</span>
                             </v-tooltip>
                         </template>
                         <template v-slot:no-data></template>
@@ -166,15 +163,14 @@
                         ref="relateActors"></relate-actors>
                     <relate-incidents :i18n="translations" @relate="relateIncident" :exids="exIncidents"
                         ref="relateIncidents"></relate-incidents>
-                    {% include 'admin/partials/video_player_dialog.html' %}
                     <v-dialog width="600" v-model="selfAssignDialog">
                         <v-card class="pa-3">
-                            <v-card-title>Self Assign Actor #${assignActor.id}</v-card-title>
+                            <v-card-title>Self Assign Incidnet #${assignIncident.id}</v-card-title>
                             <v-card-text>
-                                <v-textarea v-model="assignActor.comments" label="Comments"></v-textarea>
+                                <v-textarea v-model="assignIncident.comments" label="Comments"></v-textarea>
                             </v-card-text>
                             <v-card-actions>
-                                <v-btn :disabled="!assignActor.comments" class="ma-auto" @click="selfAssign"
+                                <v-btn :disabled="!assignIncident.comments" class="ma-auto" @click="selfAssign"
                                     color="primary">Assign to self
                                 </v-btn>
                             </v-card-actions>
@@ -182,22 +178,22 @@
                     </v-dialog>
                     <v-dialog width="600" v-model="assignDialog">
                         <v-card class="pa-3">
-                            <v-card-title>Assign Actor #${assignActor.id}</v-card-title>
+                            <v-card-title>Assign Incident #${assignIncident.id}</v-card-title>
                             <v-card-text>
                                 <validation-provider name="Assigned To" rules="required" v-slot="{ errors }">
-                                    <search-field-single v-model="assignActor.assigned_to_id" api="/admin/api/users/"
+                                    <search-field-single v-model="assignIncident.assigned_to_id" api="/admin/api/users/"
                                         item-text="name" item-value="id" :return-object="false" :multiple="false"
                                         label="{{ _(" Assigned To") }}"></search-field-single>
                                     <span class="red--text">${errors[0]}</span>
                                 </validation-provider>
                                 <validation-provider name="Comments" rules="required" v-slot="{ errors }">
-                                    <v-textarea v-model="assignActor.comments" label="Comments"></v-textarea>
+                                    <v-textarea v-model="assignIncident.comments" label="Comments"></v-textarea>
                                     <span class="red--text">${errors[0]}</span>
                                 </validation-provider>
                             </v-card-text>
                             <v-card-actions>
-                                <v-btn :disabled="!assignActor.comments || !assignActor.assigned_to_id" class="ma-auto"
-                                    @click="assignOther()" color="primary">Assign Actor
+                                <v-btn :disabled="!assignIncident.comments || !assignIncident.assigned_to_id"
+                                    class="ma-auto" @click="assignOther()" color="primary">Assign Incident
                                 </v-btn>
                             </v-card-actions>
                         </v-card>
@@ -223,43 +219,24 @@
 <div class="d-none" data-btob='{{ btobInfo|tojson }}'></div>
 <div class="d-none" data-itoi='{{ itoiInfo|tojson }}'></div>
 <div class="d-none" data-statuses='{{ statuses|tojson }}'></div>
-<div class="d-none" data-allowed-media-types='{{ ", ".join(config.MEDIA_ALLOWED_EXTENSIONS) }}'></div>
 {% endblock %}
 {% block js %}
 <script src="/static/js/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
 <script src="/static/js/tinymce-vue.min.js"></script>
-<script src="/static/js/dropzone/vue2Dropzone.js"></script>
-<script src="/static/js/components/ActorResult.js"></script>
-<script src="/static/js/components/BulletinResult.js"></script>
 <script src="/static/js/components/IncidentResult.js"></script>
+<script src="/static/js/components/BulletinResult.js"></script>
+<script src="/static/js/components/ActorResult.js"></script>
 <script src="/static/js/components/MediaCard.js"></script>
 <script src="/static/js/components/UniField.js"></script>
 <script src="/static/js/components/Visualization.js"></script>
 <script src="/static/js/element-resize-detector.min.js"></script>
 <script src="/static/js/force-graph.min.js"></script>
+<script src="/static/js/actorConfig.js"></script>
 <script src="/static/js/components/GlobalMap.js"></script>
 <script src="/static/js/Leaflet.GoogleMutant.js"></script>
-{#Missing Persons Components#}
-<script src="/static/js/components/Address.js"></script>
-<script src="/static/js/components/MixI.js"></script>
-<script src="/static/js/components/MixII.js"></script>
-<script src="/static/js/components/MixIII.js"></script>
-<script src="/static/js/components/MPCard.js"></script>
-<script src="/static/js/components/MPField.js"></script>
-<script src="/static/js/mixins/media-mixin.js"></script>
-<script src="/static/js/components/PdfViewer.js"></script>
 <script>
     window.__GOOGLE_MAPS_API_KEY__ = '{{ config.GOOGLE_MAPS_API_KEY }}';
     window.__EXPORT_TOOL__ = ('{{ config.EXPORT_TOOL }}' === 'True');
-    VeeValidate.extend('oneisnull', {
-        computesRequired: true,
-        validate: (value, param) => {
-            if (['', null, undefined].indexOf(value) !== -1 && ['', null, undefined].indexOf(param[0]) !== -1) {
-                return 'Either Name or Name(ar) should not be empty'
-            }
-            return true
-        },
-    });
     VeeValidate.extend("uniqueQueryName", {
         validate: async (str) => {
             try {
@@ -276,11 +253,10 @@
         delimiters: delimiters,
         router,
         components: {
-            "tinymce-editor": Editor,
-            vueDropzone: vue2Dropzone
+            "tinymce-editor": Editor, // <- Important part,
         },
-        mixins: [mediaMixin],
         data: () => ({
+            // i18n
             translations: translations,
             itobInfo: JSON.parse(document.querySelector('[data-itob]').dataset.itob),
             itoaInfo: JSON.parse(document.querySelector('[data-itoa]').dataset.itoa),
@@ -288,40 +264,17 @@
             atobInfo: JSON.parse(document.querySelector('[data-atob]').dataset.atob),
             btobInfo: JSON.parse(document.querySelector('[data-btob]').dataset.btob),
             atoaInfo: JSON.parse(document.querySelector('[data-atoa]').dataset.atoa),
-            assignActor: {},
+            assignIncident: {},
             selfAssignDialog: false,
             assignDialog: false,
-            // missing person toggle
-            profile: false,
-            dzOpts: {
-                url: '/admin/api/media/chunk',
-                acceptedFiles: document.querySelector('[data-allowed-media-types]').dataset.allowedMediaTypes,
-                addRemoveLinks: true,
-                chunking: true,
-                forceChunking: true,
-                chunkSize: 500000, // Bytes
-                thumbnailWidth: 80, // px
-                thumbnailHeight: 80,
-                parallelUploads: 1,
-                maxFilesize: mediaUploadMaxFileSize,
-                accept: async function (file, done) {
-                    // Create a hash of the file
-                    const fileArrayBuffer = await file.arrayBuffer();
-                    const hash = await crypto.subtle.digest("SHA-256", fileArrayBuffer);
-                    const hashArray = Array.from(new Uint8Array(hash))
-                    var hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
-                    file.etagClient = hashHex;
-                    done();
-                }
-            },
+            //global preview dialog
+            preview: false,
+            pitem: null,
             currentUser: JSON.parse(`{{ current_user.to_dict()|tojson }}`),
             users: JSON.parse(`{{users|tojson}}`),
             // advanced search
             advSearchExpand: false,
-            //global preview dialog
-            preview: false,
-            pitem: null,
-            search: [{}],
+            search: {},
             queryName: null,
             saveQueryDialog: false,
             searchPanels: 0,
@@ -330,25 +283,22 @@
             savedSearchSelection: null,
             roles: [],
             fsloading: true,
-            // Load actor config
-            drawer: drawer,
-            sideNav: sideNav,
+            // flags for lazy loaded relations state
+            br_loaded: false,
+            ar_loaded: false,
+            ir_loaded: false,
+            br_loading: false,
+            ar_loading: false,
+            ir_loading: false,
             dialog: dialog,
-            //load advsearch constants
             eventDialog: false,
-            eventParams: {
-                typ: 'for_actor'
-            },
             reviewDialog: false,
+            eventParams: {
+                typ: 'for_bulletin'
+            },
             reviewKey: 0,
             videoDialog: false,
             playerOptions: {},
-            // search and relate actor dialog vars
-            relateActorDialog: false,
-            relateActorLoader: true,
-            relateActorTerm: "",
-            relateActorResults: [],
-            selectedRelatedActors: [],
             // search and relate bulletin dialog vars
             relateBulletinDialog: false,
             relateBulletinLoader: true,
@@ -361,15 +311,28 @@
             relateIncidentTerm: "",
             relateIncidentResults: [],
             selectedRelatedIncidents: [],
-            actorDrawer: false,
-            bulkActorDrawer: false,
+            // search and relate actor dialog vars
+            relateActorDialog: false,
+            relateActorLoader: true,
+            relateActorTerm: "",
+            relateActorResults: [],
+            selectedRelatedActors: [],
+            drawer: drawer,
+            sideNav: sideNav,
+            incidentDrawer: false,
+            bulkIncidentDrawer: false,
             exportDrawer: false,
-            exportConfig: {},
+            exportConfig: {
+                hideCSV: true,
+                hideMedia: true
+            },
             sources: [],
             locations: [],
             labels: [],
             verLabels: [],
             eventtypes: [],
+            potentialViolations: [],
+            claimedViolations: [],
             statuses: JSON.parse(document.querySelector('[data-statuses]').dataset.statuses).map(s => ({
                 en: s.title,
                 tr: s.title_tr
@@ -380,16 +343,8 @@
             })),
             statusDisabled: false,
             //field language switchers
-            name__: true,
-            nickname__: true,
-            first_name__: true,
-            middle_name__: true,
-            mother_name__: true,
-            last_name__: true,
-            occupation__: true,
-            position__: true,
-            dialects__: true,
-            family_status__: true,
+            title__: true,
+            sjac_title__: true,
             //events fields
             eventTitle__: true,
             eventComments__: true,
@@ -418,7 +373,7 @@
             //event dates popups
             eventFromMenu: false,
             eventToMenu: false,
-            //actor dates popups
+            //incident dates popups
             publishDateMenu: false,
             documentationDateMenu: false,
             footerProps: {
@@ -428,30 +383,35 @@
             headers: [{
                 text: "{{_('ID')}}",
                 value: "id",
-                width: 12
+                width: 12,
+                sortable: true
             }, {
-                text: "{{_('Name')}}",
-                value: "name",
-                width: 300
+                text: "{{_('Title')}}",
+                value: "title",
+                width: 300,
+                sortable: true
             },
             {% if(current_user.has_role('Admin') or current_user.has_role('DA')) %} {
         text: "{{_('Assigned To')}}",
         value: "assigned_to.name",
-        width: 130
+        width: 130,
+        sortable: true
     }, {
         text: "{{_('Roles')}}",
         value: "roles",
-        width: 130
+        width: 130,
+        sortable: true
     },
         {% endif %} {
         text: "{{_('Status')}}",
-            value: "_status",
-                width: 150
+            value: "status",
+                width: 150,
+                    sortable: true
     }, {
         text: "{{_('Actions')}}",
             value: "action",
-                width: 100,
-                    sortable: false
+                sortable: false,
+                    width: 100
     }
                 ],
     items: [],
@@ -459,46 +419,44 @@
             itemsLength: 10,
                 editedIndex: -1,
                     editedItem: {
-        events: [],
-            medias: [],
-                actor_relations: [],
+        title: "",
+            events: [],
+                incident_relations: [],
                     bulletin_relations: [],
-                        incident_relations: []
+                        actor_relations: []
     },
     defaultItem: {
-        description: "",
+        title: "",
             status: "",
-                // related events
-                events: [],
-                    // related media
-                    medias: [],
-                        // related actors
-                        actor_relations: [],
+                description: "",
+                    // related events
+                    events: [],
+                        // related incidents
+                        incident_relations: [],
                             // related bulletins
                             bulletin_relations: [],
-                                // related incidents
-                                incident_relations: [],
+                                // related actors
+                                actor_relations: [],
                                     publish_date: '',
                                         documentation_date: new Date().toISOString().substr(0, 16),
                 },
-    //events
-    editedEventIndex: -1,
-        editedEvent: {
-        title: ""
-    },
-    defaultEvent: {
-        title: "",
-            from_date: '',
-                to_date: ''
-    },
     reviewItem: { },
+    // bulk actions
     // bulk actions
     bulk: { },
     bulkIcons: false,
         jobs: [],
             bulkTimer: 0,
-                actor: { },
-    actorLoader: false
+                //events
+                editedEventIndex: -1,
+                    editedEvent: {
+        title: ""
+    },
+    defaultEvent: {
+        title: ""
+    },
+    incident: { },
+    incidentLoader: false
             }),
     computed: {
         statusForbidsAssignment() {
@@ -513,9 +471,6 @@
             statusesRequiringAssignment = ["Assigned", "Second Peer Review", "Peer Review Assigned"];
             return statusesRequiringAssignment.includes(this.editedItem.status);
         },
-        compLocations() {
-            return aggregateActorLocations(this.editedItem);
-        },
         exBulletins() {
             let ids = [];
             if (this.editedItem.bulletin_relations) {
@@ -524,49 +479,37 @@
             return ids;
         },
         exActors() {
-            let ids = [this.editedItem.id];
+            let ids = [];
             if (this.editedItem.actor_relations) {
                 ids = ids.concat(this.editedItem.actor_relations.map(x => x.actor.id))
             }
             return ids;
         },
         exIncidents() {
-            let ids = [];
+            let ids = [this.editedItem.id];
             if (this.editedItem.incident_relations) {
                 ids = ids.concat(this.editedItem.incident_relations.map(x => x.incident.id))
             }
             return ids;
         },
         formTitle() {
-            return this.editedItem.id ? this.translations.editActor_ : this.translations.newActr_;
+            return this.editedIndex === -1 ? "{{_('New Incident')}}" : "{{_('Edit Incident')}}";
         },
         videoPlayer() {
             return document.querySelector("#player");
         }
     },
     watch: {
-        actorDrawer: function(val) {
+        incidentDrawer: function(val) {
             if (val == false) {
-                if (this.$route.path != '/admin/actors/') this.$router.push('/admin/actors/')
+                if (this.$route.path != '/admin/incidents/') this.$router.push('/admin/incidents/')
             }
         },
         selected: function(val) {
             this.bulkIcons = val.length ? true : false;
         },
-        source_alt: function(val) {
-            if (val) {
-                this.editedItem.source_link = 'NA';
-                this.source_disabled = true;
-            } else {
-                //this.editedItem.source_link = '';
-                this.source_disabled = false;
-            }
-        },
         eventDialog(val) {
             val || this.closeEvent();
-        },
-        mediaDialog(val) {
-            val || this.closeMedia();
         },
         options: {
             handler: "refresh"
@@ -593,7 +536,7 @@
             }
         });
         if (this.$route.params.id) {
-            this.showActor(this.$route.params.id);
+            this.showIncident(this.$route.params.id);
         }
         if (this.$route.query.reltob) {
             this.filter_related_to_bulletin(this.$route.query.reltob);
@@ -615,7 +558,7 @@
                 this.filter_related_to_incident(this.$route.query.reltoi);
             }
             if (this.$route.params.id) {
-                this.showActor(this.$route.params.id);
+                this.showIncident(this.$route.params.id);
             }
         })
     },
@@ -632,7 +575,7 @@
         exportRequest() {
             let ids = this.selected.map(x => x.id);
             this.loading = true;
-            axios.post(`/export/api/actor/export`, {
+            axios.post(`/export/api/incident/export`, {
                 items: ids,
                 config: this.exportConfig
             }).then(response => {
@@ -648,13 +591,14 @@
             });
         },
         selectAllRestrict(props) {
-            if (this.selected.length > 0) {
+            if (props.value === false) {
                 // untoggle on next tick
                 this.$nextTick(() => {
                     this.selected = [];
                 })
             }
-            this.selected = props.items.filter(x => !x.restricted);
+            console.log(props.items);
+            this.selected = this.selected.concat(props.items.filter(x => !x.restricted))
         },
         rowClass(item) {
             if (item.restricted) {
@@ -662,64 +606,64 @@
             }
             return ''
         },
-        openSelfAssign(actor) {
-            this.assignActor = {
-                id: actor.id
+        openSelfAssign(incident) {
+            this.assignIncident = {
+                id: incident.id
             };
             this.selfAssignDialog = true;
         },
-        openAssignOther(actor) {
-            this.assignActor = {
-                id: actor.id
+        openAssignOther(incident) {
+            this.assignIncident = {
+                id: incident.id
             };
             this.assignDialog = true;
         },
         assignOther() {
-            axios.put(`/admin/api/actor/assignother/${this.assignActor.id}`, {
-                actor: this.assignActor
+            axios.put(`/admin/api/incident/assignother/${this.assignIncident.id}`, {
+                incident: this.assignIncident
             }).then(res => {
-                this.showSnack('Actor assigned successfully.')
-                this.searchActors(true)
+                this.showSnack('Incident assigned successfully.')
+                this.searchIncidents(true)
             }).catch(err => {
                 this.showSnack(err.response.data);
             }).finally(() => {
                 this.assignDialog = false;
-                this.assignActor = {};
+                this.assignIncident = {};
             });
         },
         selfAssign() {
-            axios.put(`/admin/api/actor/assign/${this.assignActor.id}`, {
-                actor: this.assignActor
+            axios.put(`/admin/api/incident/assign/${this.assignIncident.id}`, {
+                incident: this.assignIncident
             }).then(res => {
-                this.showSnack('Actor assigned successfully.')
-                this.searchActors(true)
+                this.showSnack('Incident assigned successfully.')
+                this.searchIncidents()
             }).catch(err => {
                 this.showSnack(err.response.data);
             }).finally(() => {
                 this.selfAssignDialog = false;
-                this.assignActor = {};
+                this.assignIncident = {};
             });
         },
         filter_related_to_bulletin(id) {
             this.bulletinDrawer = false;
-            this.search = [{
+            this.search = {
                 rel_to_bulletin: id
-            }];
-            this.searchActors();
+            };
+            this.searchIncidents();
         },
         filter_related_to_actor(id) {
             this.bulletinDrawer = false;
-            this.search = [{
+            this.search = {
                 rel_to_actor: id
-            }];
-            this.searchActors();
+            };
+            this.searchIncidents();
         },
         filter_related_to_incident(id) {
             this.bulletinDrawer = false;
-            this.search = [{
+            this.search = {
                 rel_to_incident: id
-            }];
-            this.searchActors();
+            };
+            this.searchIncidents();
         },
         previewItem(endpoint) {
             axios.get(endpoint).then(res => {
@@ -728,10 +672,11 @@
             })
         },
         bulkStatus() {
-            axios.get('/admin/api/bulk/status/?type=actor').then(res => {
+            axios.get('/admin/api/bulk/status/?type=incident').then(res => {
                 this.jobs = res.data;
                 if (!this.jobs.length) {
                     clearInterval(this.bulkTimer);
+                    //reset search pager
                     this.options.page = 1;
                     this.refresh();
                     this.showSnack('Bulk Update is finished!')
@@ -742,7 +687,7 @@
         bulk_update() {
             let ids = this.selected.map(x => x.id);
             this.loading = true;
-            axios.put(`/admin/api/actor/bulk/`, {
+            axios.put(`/admin/api/incident/bulk/`, {
                 items: ids,
                 bulk: this.bulk
             }).then(response => {
@@ -750,7 +695,7 @@
                 this.showSnack(response.data);
                 this.refresh(this.options);
                 //reset bulk drawer, and bulk data
-                this.bulkActorDrawer = false;
+                this.bulkIncidentDrawer = false;
                 this.selected = [];
                 this.bulk = {};
                 clearInterval(this.bulkTimer);
@@ -758,12 +703,13 @@
                 this.bulkTimer = setInterval(this.bulkStatus, 3000);
             });
         },
-        // ---------------- advanced search -----------------------
+        // - ------------------ incidents search methods  ---------------------------------
         toggleAdvSearch() {
             this.advSearchExpand = !this.advSearchExpand
             this.advSearchMenu = !this.advSearchMenu;
             this.$nextTick(() => {
                 // trick to just invoke the binding
+                //this.search = {tsv:this.search.tsv}
             })
         },
         doSearch() {
@@ -774,32 +720,25 @@
             } else {
                 //this.search = Object.assign({},{tsv:this.search.tsv})
             }
-            this.searchActors();
+            this.searchIncidents();
         },
-        searchActors() {
+        resetSearch() {
+            this.savedSearchSelection = null;
+            this.search = {};
+            this.doSearch();
+        },
+        searchIncidents() {
             this.loading = true;
             const startTime = new Date();
-            axios.post(`/admin/api/actors/?page=${this.options.page}&per_page=${this.options.itemsPerPage}&sort_by=${this.options.sortBy}&sort_desc=${this.options.sortDesc}`, {
+            axios.post(`/admin/api/incidents/?page=${this.options.page}&per_page=${this.options.itemsPerPage}&sort_by=${this.options.sortBy}&sort_desc=${this.options.sortDesc}`, {
                 q: this.search
             }).then(response => {
-                this.loading = false;
                 const endTime = new Date();
+                this.loading = false;
                 this.searchTime = (endTime - startTime) / 1000;
                 this.itemsLength = response.data.total;
                 this.items = response.data.items;
             });
-        },
-        removeQueryAt(i) {
-            this.search.splice(i, 1);
-        },
-        addQuery() {
-            this.search.push({})
-            this.searchPanels = this.search.length - 1;
-        },
-        resetSearch() {
-            this.savedSearchSelection = null;
-            this.search = [{}];
-            this.doSearch();
         },
         openSaveQueryDialog() {
             // Separate method to include auto-focus on input
@@ -813,14 +752,14 @@
         loadSearch(item) {
             if (item) {
                 this.savedSearchSelection = Object.assign([], item);
-                this.search = Object.assign([], item.data);
+                this.search = item.data;
             }
             this.$refs.savedSearchDropdown.blur()
         },
         loadSearchesFromAPI(selectLast = false) {
             axios.get('/admin/api/queries/', {
                 params: {
-                    type: 'actor'
+                    type: 'incident'
                 }
             }).then(res => {
                 this.searches = res.data;
@@ -835,7 +774,7 @@
             const newSearch = {
                 q: this.search,
                 name: this.queryName,
-                type: 'actor'
+                type: 'incident'
             };
             axios.post('/admin/api/query/', newSearch).then(res => {
                 this.showSnack(res.data);
@@ -865,70 +804,58 @@
                 this.showSnack(handleRequestError(error));
             });
         },
-        // ---------------- end advanced search -----------------------
-        /* Actors Custom Lists */
-        allActors() {
-            this.search = [{}];
+        // - ------------------ end incidents search methods  ---------------------------------
+        /* Incidents Custom Lists */
+        allIncidents() {
+            this.search = {};
             this.doSearch();
         },
         myAssigned() {
-            q = {};
+            this.search = {};
             this.options.page = 1;
-            q.assigned = [this.currentUser.id];
-            q.statuses = ["Assigned"];
-            this.search = [q];
-            this.searchActors();
+            this.search.assigned = [this.currentUser.id];
+            this.search.statuses = ["Assigned"];
+            this.searchIncidents();
         },
         myReview() {
-            q = {};
+            this.search = {};
             this.options.page = 1;
-            q.reviewer = [this.currentUser.id];
-            q.statuses = ["Peer Review Assigned"];
-            this.search = [q]
-            this.searchActors();
+            this.search.reviewer = [this.currentUser.id];
+            this.search.statuses = ["Peer Review Assigned"];
+            this.searchIncidents();
         },
         removeEvent: function(evt, index) {
-            if (confirm('Confirm deleting this event?')) {
-                this.editedItem.events.splice(index, 1);
-            }
+            this.editedItem.events.splice(index, 1);
         },
         //reset initial visible fields to english language
         resetSwitchers: function() {
-            this.name__ = true;
-            this.nickname__ = true;
-            this.first_name__ = true;
-            this.middle_name__ = true;
-            this.mother_name__ = true;
-            this.last_name__ = true;
-            this.occupation__ = true;
-            this.position__ = true;
-            this.dialects__ = true;
-            this.family_status__ = true;
+            this.title__ = true;
+            this.sjac_title__ = true;
         },
         refresh(options) {
-            this.searchActors();
+            this.searchIncidents()
         },
         rowClick(item) {
             if (item.restricted) {
                 this.showSnack('This item is restricted.')
                 return
             }
-            path = `/admin/actors/${item.id}`;
+            path = `/admin/incidents/${item.id}`;
             if (this.$route.path !== path) this.$router.push(path);
         },
-        showActor(id) {
-            this.actorLoader = true;
-            this.actorDrawer = true;
-            axios.get(`/admin/api/actor/${id}?mode=3`).then(response => {
-                this.actor = response.data;
+        showIncident(id) {
+            this.incidentLoader = true;
+            this.incidentDrawer = true;
+            axios.get(`/admin/api/incident/${id}?mode=3`).then(response => {
+                this.incident = response.data;
             }).catch(error => {
-                this.actorDrawer = false;
+                this.incidentDrawer = false;
                 if (error.response) {
                     this.showSnack(error.response.data)
                     this.snackbar = true;
                 }
             }).finally(() => {
-                this.actorLoader = false;
+                this.incidentLoader = false;
             });
         },
         searchUsers: debounce(function (evt) {
@@ -938,7 +865,7 @@
                 this.searchLoading[evt.target.dataset.loader] = false;
             });
         }, 350),
-            handleStatus(actor) {
+            handleStatus(incident) {
             if (!this.editedItem.id) {
                 // new bulletin mode
                 this.editedItem.status = this.statusItems[1].en;
@@ -966,7 +893,13 @@
             return false;
         },
         bulkAllowed() {
-            return this.has_role(this.currentUser, 'Admin') || this.has_role(this.currentUser, 'Mod');
+            if (this.has_role(this.currentUser, 'Admin')) {
+                return true;
+            }
+            if (this.has_role(this.currentUser, 'Mod')) {
+                return true;
+            }
+            return false;
         },
         exportAllowed() {
             if (__EXPORT_TOOL__) {
@@ -979,8 +912,8 @@
             }
             return false;
         },
-        editAllowed(actor) {
-            if (actor.restricted) {
+        editAllowed(incident) {
+            if (incident.restricted) {
                 return false;
             }
             if (this.has_role(this.currentUser, 'Admin')) {
@@ -990,30 +923,30 @@
                 return false;
             }
             const statuses = ['Human Created', 'Assigned', 'Updated', 'Peer Reviewed', 'Revisited'];
-            if (actor.assigned_to && actor.assigned_to.id == this.currentUser.id && statuses.includes(actor.status)) {
+            if (incident.assigned_to && incident.assigned_to.id == this.currentUser.id && statuses.includes(incident.status)) {
                 return true
             }
             return false;
         },
-        reviewAllowed(actor) {
-            if (actor.restricted) {
+        reviewAllowed(incident) {
+            if (incident.restricted) {
                 return false;
             }
             if (!this.currentUser.roles.length) {
                 return false;
             }
             const statuses = ['Peer Review Assigned', 'Peer Reviewed'];
-            if (actor.first_peer_reviewer && actor.first_peer_reviewer.id == this.currentUser.id && statuses.includes(actor.status)) {
+            if (incident.first_peer_reviewer && incident.first_peer_reviewer.id == this.currentUser.id && statuses.includes(incident.status)) {
                 return true
             }
             return false;
         },
-        selfAssignAllowed(actor) {
-            if (actor.restricted) {
+        selfAssignAllowed(incident) {
+            if (incident.restricted) {
                 return false;
             }
             if (this.currentUser.can_self_assign) {
-                if ((!actor.assigned_to) || (actor.assigned_to && !actor.assigned_to.active)) {
+                if ((!incident.assigned_to) || (incident.assigned_to && !incident.assigned_to.active)) {
                     return true
                 }
             }
@@ -1022,7 +955,7 @@
         addReview(item) {
             this.loading = true;
             this.reviewDialog = true;
-            axios.get(`/admin/api/actor/${item.id}`).then(response => {
+            axios.get(`/admin/api/incident/${item.id}`).then(response => {
                 this.loading = false;
                 this.$nextTick(() => {
                     this.reviewItem = response.data;
@@ -1034,7 +967,7 @@
             })
         },
         saveReview() {
-            axios.put(`/admin/api/actor/review/${this.reviewItem.id}`, {
+            axios.put(`/admin/api/incident/review/${this.reviewItem.id}`, {
                 item: this.reviewItem
             }).then(response => {
                 this.reviewDialog = false;
@@ -1042,26 +975,74 @@
                 this.refresh(this.options);
             });
         },
+        loadBulletinRelations() {
+            // UI feedback
+            this.br_loading = true;
+            // pass page=0 to load all relations
+            axios.get(`/admin/api/incident/relations/${this.editedItem.id}?class=bulletin&page=0`).then(res => {
+                this.editedItem.bulletin_relations = res.data.items;
+                // update UI state / show related items
+                this.br_loaded = true;
+                // smart trick to pass relation update flag : attach a variable to the payload itself
+                this.editedItem.check_br = true;
+            }).catch(err => {
+                console.log(err.toJSON());
+            }).finally(() => {
+                this.br_loading = false;
+            });
+        },
+        loadActorRelations() {
+            //UI feedback
+            this.ar_loading = true;
+            // pass page=0 to load all relations
+            axios.get(`/admin/api/incident/relations/${this.editedItem.id}?class=actor&page=0`).then(res => {
+                this.editedItem.actor_relations = res.data.items;
+                // update UI state / show related items
+                this.ar_loaded = true;
+                // smart trick to pass relation update flag : attach a variable to the payload itself
+                this.editedItem.check_ar = true;
+            }).catch(err => {
+                console.log(err.toJSON());
+            }).finally(() => {
+                this.ar_loading = false;
+            });
+        },
+        loadIncidentRelations() {
+            //UI Feedback
+            this.ir_loading = true;
+            // pass page=0 to load all relations
+            axios.get(`/admin/api/incident/relations/${this.editedItem.id}?class=incident&page=0`).then(res => {
+                this.editedItem.incident_relations = res.data.items;
+                // update UI state / show related items
+                this.ir_loaded = true;
+                // smart trick to pass relation update flag : attach a variable to the payload itself
+                this.editedItem.check_ir = true;
+            }).catch(err => {
+                console.log(err.toJSON());
+            }).finally(() => {
+                this.ir_loading = false;
+            });
+        },
         editItem(item) {
-            this.actorDrawer = false;
             if (!item.id) {
+                // new incident
                 this.editedItem = JSON.parse(JSON.stringify(this.defaultItem));
+                this.editedItem.check_br = true;
+                this.br_loaded = true;
+                this.editedItem.check_ir = true;
+                this.ir_loaded = true;
+                this.editedItem.check_ar = true;
+                this.ar_loaded = true;
                 this.source_alt = null;
                 this.dialog = true;
                 this.handleStatus(item);
             } else {
                 this.loading = true;
-                axios.get(`/admin/api/actor/${item.id}`).then(response => {
+                axios.get(`/admin/api/incident/${item.id}?mode=3`).then(response => {
                     this.dialog = true;
                     this.$nextTick(() => {
-                        this.loading = false;
-                        if (this.editedItem.source_link == 'NA') {
-                            this.source_alt = true;
-                        } else {
-                            this.source_alt = false;
-                        }
+                        this.loading = false
                         this.editedItem = response.data;
-                        this.editedItem.comments = '';
                         this.editedItem.comments = '';
                         this.resetSwitchers();
                         this.handleStatus(item);
@@ -1076,7 +1057,7 @@
             const index = this.items.indexOf(item);
             const cfm = confirm("Are you sure you want to delete this item?") && this.items.splice(index, 1);
             if (cfm) {
-                axios.delete(`/admin/api/actor/${item.id}`).then(response => {
+                axios.delete(`/admin/api/incident/${item.id}`).then(response => {
                     this.showSnack(response.data);
                     this.refresh(this.options);
                 });
@@ -1084,11 +1065,7 @@
         },
         confirmClose() {
             if (confirm('Are you sure?')) {
-                this.dialog = false;
-                setTimeout(() => {
-                    this.editedItem = Object.assign({}, this.defaultItem);
-                    this.editedIndex = -1;
-                }, 300);
+                this.close();
             }
         },
         close() {
@@ -1096,36 +1073,32 @@
             setTimeout(() => {
                 this.editedItem = Object.assign({}, this.defaultItem);
                 this.editedIndex = -1;
+                this.br_loaded = false;
+                this.ir_loaded = false;
+                this.ar_loaded = false;
             }, 300);
         },
         save() {
             if (this.editedItem.id) {
                 //update record
-                this.loading = true;
-                axios.put(`/admin/api/actor/${this.editedItem.id}`, {
+                axios.put(`/admin/api/incident/${this.editedItem.id}`, {
                     item: this.editedItem
                 }).then(response => {
                     this.showSnack(response.data);
                     this.refresh(this.options);
-                }).catch(err => {
-                    console.log(err.response.data);
-                    this.showSnack(err.response.data)
                 }).finally(() => {
-                    this.loading = false;
+                    this.br_loaded = false;
+                    this.ir_loaded = false;
+                    this.ar_loaded = false;
                 });
             } else {
+                this.items.push(this.editedItem);
                 //create new record
-                this.loading = true;
-                axios.post("/admin/api/actor/", {
+                axios.post("/admin/api/incident/", {
                     item: this.editedItem
                 }).then(response => {
                     this.showSnack(response.data);
                     this.refresh(this.options);
-                }).catch(err => {
-                    console.log(err.response.data);
-                    this.showSnack(err.response.data)
-                }).finally(() => {
-                    this.loading = false;
                 });
             }
             this.close();
@@ -1157,18 +1130,64 @@
             }
             this.closeEvent();
         },
-        // related actors functions --------------------
-        detectDirection(editedItem, actor) {
-            // Since relationships always enforced to flow from smaller id to bigger id
-            // this can be used to determine the relationship label displayed
-            // one special case needs handling is when a new actor is created (id is null) in this case
-            // new actor id will be definitely larger than any id in the system
-            if (!editedItem.id) {
-                return false;
-            } else {
-                return editedItem.id < actor.id
+        // related incidents functions --------------------
+        searchRelatedIncidents() {
+            this.$refs.relateIncidents.open();
+            this.$nextTick(() => {
+                this.$refs.relateIncidents.q = {
+                    tsv: this.relateIncidentTerm
+                };
+                this.$refs.relateIncidents.reSearch();
+            });
+        },
+        relateIncident(incident) {
+            // get list of existing attached incidents
+            let ex = this.editedItem.incident_relations.map(x => x.incident.id);
+            if (!ex.includes(incident.id)) {
+                relation = {
+                    incident: incident
+                };
+                this.editedItem.incident_relations.push(relation);
+                this.relateIncidentResults.removeById(incident.id);
             }
         },
+        removeIncident: function(evt, index) {
+            if (confirm("Are you sure?")) {
+                this.editedItem.incident_relations.splice(index, 1);
+            }
+        },
+        // handles preview buttons when relating incidents (launches dialog)
+        viewIncident: function(evt, incident) {
+            this.previewIncident = incident;
+            this.previewIncidentDialog = true;
+        },
+        // -------------------------------------------------
+        // related bulletins functions --------------------
+        searchRelatedBulletins() {
+            this.$refs.relateBulletins.open();
+            this.$nextTick(() => {
+                this.$refs.relateBulletins.q = {
+                    tsv: this.relateBulletinTerm
+                };
+                this.$refs.relateBulletins.reSearch();
+            });
+        },
+        relateBulletin(bulletin) {
+            // get list of existing attached incidents
+            let ex = this.editedItem.bulletin_relations.map(x => x.bulletin.id);
+            if (!ex.includes(bulletin.id)) {
+                const relation = {
+                    bulletin: bulletin
+                };
+                this.editedItem.bulletin_relations.push(relation);
+            }
+        },
+        removeBulletin: function(evt, index) {
+            if (confirm("Are you sure?")) {
+                this.editedItem.bulletin_relations.splice(index, 1);
+            }
+        },
+        // related actors functions ------------------------
         searchRelatedActors() {
             this.$refs.relateActors.open();
             this.$nextTick(() => {
@@ -1192,58 +1211,6 @@
         removeActor: function(evt, index) {
             if (confirm("Are you sure?")) {
                 this.editedItem.actor_relations.splice(index, 1);
-            }
-        },
-        // related bulletins functions --------------------
-        searchRelatedBulletins() {
-            this.$refs.relateBulletins.open();
-            this.$nextTick(() => {
-                this.$refs.relateBulletins.q = {
-                    tsv: this.relateBulletinTerm
-                };
-                this.$refs.relateBulletins.reSearch();
-            });
-        },
-        relateBulletin(bulletin) {
-            // get list of existing attached bulletins
-            let ex = this.editedItem.bulletin_relations.map(x => x.bulletin.id);
-            if (!ex.includes(bulletin.id)) {
-                relation = {
-                    bulletin: bulletin
-                };
-                this.editedItem.bulletin_relations.push(relation);
-                this.relateBulletinResults.removeById(bulletin.id);
-            }
-        },
-        removeBulletin: function(evt, index) {
-            if (confirm("Are you sure?")) {
-                this.editedItem.bulletin_relations.splice(index, 1);
-            }
-        },
-        // related incidents functions ------------------------
-        searchRelatedIncidents() {
-            this.$refs.relateIncidents.open();
-            this.$nextTick(() => {
-                this.$refs.relateIncidents.q = {
-                    tsv: this.relateIncidentTerm
-                };
-                this.$refs.relateIncidents.reSearch();
-            });
-        },
-        relateIncident(incident) {
-            // get list of existing attached actors
-            let ex = this.editedItem.incident_relations.map(x => x.incident.id);
-            if (!ex.includes(incident.id)) {
-                relation = {
-                    incident: incident
-                };
-                this.editedItem.incident_relations.push(relation);
-                this.relateIncidentResults.removeById(incident.id);
-            }
-        },
-        removeIncident: function(evt, index) {
-            if (confirm("Are you sure?")) {
-                this.editedItem.incident_relations.splice(index, 1);
             }
         },
     }
