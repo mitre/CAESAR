@@ -19,7 +19,6 @@ from sqlalchemy import and_, desc, or_, cast, String
 from werkzeug.utils import safe_join
 from werkzeug.utils import secure_filename
 
-from enferno.schemas import BulletinSchema, UserSchema
 from enferno.admin.models import (Bulletin, Label, Source, Location, Eventtype, Media, Actor, Incident,
                                   IncidentHistory, BulletinHistory, ActorHistory, LocationHistory, PotentialViolation,
                                   ClaimedViolation,
@@ -90,18 +89,6 @@ def define_authorization(user, ability):
     #         return bulletin.assigned_to_id == user.id
 
     #     ability.can('edit', Bulletin, if_assigned)
-
-
-@admin.route('/dumpschema')
-def dumpschema():
-    bulletin = Bulletin()
-    bulletin_schema = BulletinSchema()
-    object_methods = [method_name for method_name in dir(bulletin_schema) if callable(getattr(bulletin_schema, method_name))]
-    print(object_methods)
-    print(bulletin_schema.Meta)
-    dump_data = bulletin_schema.dump(bulletin)
-    print(dump_data)
-    return "Hooray", 200
 
 
 @admin.route('/dashboard')
@@ -1532,7 +1519,6 @@ def api_bulletins():
 
 @admin.post('/api/bulletin/')
 @roles_accepted('Admin', 'DA')
-@admin.input(BulletinSchema)
 def api_bulletin_create(json_data):
     """Creates a new bulletin."""
     bulletin = Bulletin()
@@ -1551,7 +1537,6 @@ def api_bulletin_create(json_data):
 
 @admin.put('/api/bulletin/<int:id>')
 @roles_accepted('Admin', 'DA')
-@admin.input(BulletinSchema)
 def api_bulletin_update(id):
     """Updates a bulletin."""
     bulletin = Bulletin.query.get(id)
@@ -1660,7 +1645,6 @@ def api_bulletin_bulk_update():
 
 # get one bulletin
 @admin.get('/api/bulletin/<int:id>')
-@admin.output(BulletinSchema)
 def api_bulletin_get(id):
     """
     Endpoint to get a single bulletin
@@ -2606,7 +2590,6 @@ def users():
 
 
 @admin.post('/api/user/')
-@admin.input(UserSchema)
 @roles_required('Admin')
 def api_user_create():
     """
@@ -2661,7 +2644,6 @@ def api_user_check():
 
 
 @admin.put('/api/user/<int:uid>')
-@admin.input(UserSchema)
 @roles_required('Admin')
 def api_user_update(uid):
     """Endpoint to update a user."""
