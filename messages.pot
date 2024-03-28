@@ -1732,7 +1732,7 @@ msgid "Storage"
 msgstr ""
 
 #: enferno/admin/templates/admin/system-administration.html:23
-#: enferno/templates/views/settings.html:46
+#: enferno/templates/views/user/settings.html:46
 msgid "Security"
 msgstr ""
 
@@ -2968,15 +2968,15 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: enferno/templates/change-password.html:13
+#: enferno/templates/views/user/change-password.html:13
 msgid "Old Password"
 msgstr ""
 
-#: enferno/templates/change-password.html:16
+#: enferno/templates/views/user/change-password.html:16
 msgid "New Password"
 msgstr ""
 
-#: enferno/templates/change-password.html:20
+#: enferno/templates/views/user/change-password.html:20
 msgid "Confirm Password"
 msgstr ""
 
@@ -3032,39 +3032,39 @@ msgstr ""
 msgid "System Settings"
 msgstr ""
 
-#: enferno/templates/views/settings.html:16
+#: enferno/templates/views/user/settings.html:16
 msgid "Settings"
 msgstr ""
 
-#: enferno/templates/views/settings.html:21
+#: enferno/templates/views/user/settings.html:21
 msgid "User Interface"
 msgstr ""
 
-#: enferno/templates/views/settings.html:24
+#: enferno/templates/views/user/settings.html:24
 msgid "Dark Mode"
 msgstr ""
 
-#: enferno/templates/views/settings.html:29
+#: enferno/templates/views/user/settings.html:29
 msgid "Interface Language"
 msgstr ""
 
-#: enferno/templates/views/settings.html:38
+#: enferno/templates/views/user/settings.html:38
 msgid "Profile Settings"
 msgstr ""
 
-#: enferno/templates/views/settings.html:40
+#: enferno/templates/views/user/settings.html:40
 msgid "Change Password"
 msgstr ""
 
-#: enferno/templates/views/settings.html:48
+#: enferno/templates/views/user/settings.html:48
 msgid "Setup Two-Factor Auth"
 msgstr ""
 
-#: enferno/templates/views/settings.html:51
+#: enferno/templates/views/user/settings.html:51
 msgid "Recovery Codes"
 msgstr ""
 
-#: enferno/templates/views/settings.html:56
+#: enferno/templates/views/user/settings.html:56
 msgid "Setup a Security Key"
 msgstr ""
 

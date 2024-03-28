@@ -1752,7 +1752,7 @@ msgid "Storage"
 msgstr "أملس"
 
 #: enferno/admin/templates/admin/system-administration.html:23
-#: enferno/templates/views/settings.html:46
+#: enferno/templates/views/user/settings.html:46
 msgid "Security"
 msgstr "الأمان"
 
@@ -3098,15 +3098,15 @@ msgstr "نحيل جداً"
 msgid "Download"
 msgstr ""
 
-#: enferno/templates/change-password.html:13
+#: enferno/templates/views/user/change-password.html:13
 msgid "Old Password"
 msgstr "كلمة المرور القديمة"
 
-#: enferno/templates/change-password.html:16
+#: enferno/templates/views/user/change-password.html:16
 msgid "New Password"
 msgstr "كلمة المرور الجديدة"
 
-#: enferno/templates/change-password.html:20
+#: enferno/templates/views/user/change-password.html:20
 msgid "Confirm Password"
 msgstr "تأكيد كلمة المرور"
 
@@ -3168,39 +3168,39 @@ msgstr "لوحة تحكم أداة المطابقة"
 msgid "System Settings"
 msgstr "مستخدمي النظام"
 
-#: enferno/templates/views/settings.html:16
+#: enferno/templates/views/user/settings.html:16
 msgid "Settings"
 msgstr "الإعدادت"
 
-#: enferno/templates/views/settings.html:21
+#: enferno/templates/views/user/settings.html:21
 msgid "User Interface"
 msgstr "واجهة المستخدم"
 
-#: enferno/templates/views/settings.html:24
+#: enferno/templates/views/user/settings.html:24
 msgid "Dark Mode"
 msgstr "الوضع الليلي"
 
-#: enferno/templates/views/settings.html:29
+#: enferno/templates/views/user/settings.html:29
 msgid "Interface Language"
 msgstr "لغة واجهة المستخدم"
 
-#: enferno/templates/views/settings.html:38
+#: enferno/templates/views/user/settings.html:38
 msgid "Profile Settings"
 msgstr "اعدادات الحساب"
 
-#: enferno/templates/views/settings.html:40
+#: enferno/templates/views/user/settings.html:40
 msgid "Change Password"
 msgstr "تغيير كلمة المرور"
 
-#: enferno/templates/views/settings.html:48
+#: enferno/templates/views/user/settings.html:48
 msgid "Setup Two-Factor Auth"
 msgstr "اعداد المصادقة الثنائية"
 
-#: enferno/templates/views/settings.html:51
+#: enferno/templates/views/user/settings.html:51
 msgid "Recovery Codes"
 msgstr ""
 
-#: enferno/templates/views/settings.html:56
+#: enferno/templates/views/user/settings.html:56
 msgid "Setup a Security Key"
 msgstr ""
 
