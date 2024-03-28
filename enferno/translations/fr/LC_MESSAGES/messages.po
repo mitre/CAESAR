@@ -14,11 +14,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.14.0\n"
 
-#: enferno/admin/templates/nav-bar.html:50
+#: enferno/templates/components/nav-bar.html:50
 msgid "Account Settings"
 msgstr "Paramètres du compte"
 
-#: enferno/admin/templates/nav-bar.html:73
+#: enferno/templates/components/nav-bar.html:73
 msgid "Logout"
 msgstr "Déconnexion"
 
