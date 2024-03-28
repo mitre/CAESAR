@@ -354,7 +354,7 @@ msgid "Reverse Title (tr)"
 msgstr "Назва (ДР)"
 
 #: enferno/admin/templates/admin/eventtypes.html:30
-#: enferno/templates/nav-drawer.html:92
+#: enferno/templates/components/nav-drawer.html:92
 msgid "Event Types"
 msgstr "Типи подій"
 
@@ -916,7 +916,7 @@ msgstr "Оригінальна назва"
 #: enferno/admin/templates/admin/sources.html:29
 #: enferno/data_import/templates/media-import.html:213
 #: enferno/data_import/templates/sheets-import.html:333
-#: enferno/templates/nav-drawer.html:70
+#: enferno/templates/components/nav-drawer.html:70
 msgid "Sources"
 msgstr "Джерела"
 
@@ -927,7 +927,7 @@ msgstr "Джерела"
 #: enferno/admin/templates/admin/partials/incident_dialog.html:187
 #: enferno/data_import/templates/media-import.html:179
 #: enferno/data_import/templates/sheets-import.html:335
-#: enferno/templates/nav-drawer.html:81
+#: enferno/templates/components/nav-drawer.html:81
 msgid "Labels"
 msgstr "Ярлики"
 
@@ -972,7 +972,7 @@ msgstr "Медіа"
 #: enferno/admin/templates/admin/partials/bulletin_dialog.html:228
 #: enferno/admin/templates/admin/partials/incident_dialog.html:205
 #: enferno/data_import/templates/media-import.html:202
-#: enferno/templates/nav-drawer.html:55
+#: enferno/templates/components/nav-drawer.html:55
 msgid "Locations"
 msgstr "Місцезнаходження"
 
@@ -1393,17 +1393,17 @@ msgid "Time"
 msgstr "Час"
 
 #: enferno/admin/templates/admin/jsapi.jinja2:227
-#: enferno/templates/nav-drawer.html:29
+#: enferno/templates/components/nav-drawer.html:29
 msgid "Actors"
 msgstr "Виконваці"
 
 #: enferno/admin/templates/admin/jsapi.jinja2:228
-#: enferno/templates/nav-drawer.html:18
+#: enferno/templates/components/nav-drawer.html:18
 msgid "Bulletins"
 msgstr "Бюлетені"
 
 #: enferno/admin/templates/admin/jsapi.jinja2:229
-#: enferno/templates/nav-drawer.html:40
+#: enferno/templates/components/nav-drawer.html:40
 msgid "Incidents"
 msgstr "Випадки"
 
@@ -2863,7 +2863,7 @@ msgid "No Review Needed"
 msgstr "Не потрібно перевіряти"
 
 #: enferno/data_import/templates/import-log.html:35
-#: enferno/templates/nav-drawer.html:173
+#: enferno/templates/components/nav-drawer.html:173
 #, fuzzy
 msgid "Import Log"
 msgstr "Імпортувати CSV"
@@ -3112,7 +3112,7 @@ msgid "Data"
 msgstr "Дані"
 
 #: enferno/export/templates/export-dashboard.html:35
-#: enferno/templates/nav-drawer.html:236
+#: enferno/templates/components/nav-drawer.html:236
 #, fuzzy
 msgid "Exports"
 msgstr "Звітовики"
@@ -3163,48 +3163,48 @@ msgstr "Останній вхід"
 msgid "All rights reserved."
 msgstr "Всі права захищені."
 
-#: enferno/templates/nav-drawer.html:108
+#: enferno/templates/components/nav-drawer.html:108
 #, fuzzy
 msgid "Component Data"
 msgstr "Вибіркові дані"
 
-#: enferno/templates/nav-drawer.html:119
+#: enferno/templates/components/nav-drawer.html:119
 msgid "Activity"
 msgstr "Діяльність"
 
-#: enferno/templates/nav-drawer.html:128
+#: enferno/templates/components/nav-drawer.html:128
 #, fuzzy
 msgid "Users & Groups"
 msgstr "Групи ролей"
 
-#: enferno/templates/nav-drawer.html:140
+#: enferno/templates/components/nav-drawer.html:140
 #, fuzzy
 msgid "Users"
 msgstr "Бакенбарди"
 
-#: enferno/templates/nav-drawer.html:152
+#: enferno/templates/components/nav-drawer.html:152
 #, fuzzy
 msgid "Groups"
 msgstr "Група"
 
-#: enferno/templates/nav-drawer.html:162
+#: enferno/templates/components/nav-drawer.html:162
 #, fuzzy
 msgid "Data Import"
 msgstr "Імпорт медіа"
 
-#: enferno/templates/nav-drawer.html:187
+#: enferno/templates/components/nav-drawer.html:187
 msgid "Media Import"
 msgstr "Імпорт медіа"
 
-#: enferno/templates/nav-drawer.html:202
+#: enferno/templates/components/nav-drawer.html:202
 msgid "Sheets Import"
 msgstr "Імпорт листів"
 
-#: enferno/templates/nav-drawer.html:219
+#: enferno/templates/components/nav-drawer.html:219
 msgid "Deduplication Dashbaord"
 msgstr "Панель керування дедуплікацією"
 
-#: enferno/templates/nav-drawer.html:253
+#: enferno/templates/components/nav-drawer.html:253
 #, fuzzy
 msgid "System Settings"
 msgstr "Системні користувачі"

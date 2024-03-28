@@ -349,7 +349,7 @@ msgid "Reverse Title (tr)"
 msgstr "العنوان (عربي)"
 
 #: enferno/admin/templates/admin/eventtypes.html:30
-#: enferno/templates/nav-drawer.html:92
+#: enferno/templates/components/nav-drawer.html:92
 msgid "Event Types"
 msgstr "أنواع الحوادث"
 
@@ -909,7 +909,7 @@ msgstr "العنوان الأصلي"
 #: enferno/admin/templates/admin/sources.html:29
 #: enferno/data_import/templates/media-import.html:213
 #: enferno/data_import/templates/sheets-import.html:333
-#: enferno/templates/nav-drawer.html:70
+#: enferno/templates/components/nav-drawer.html:70
 msgid "Sources"
 msgstr "المصادر"
 
@@ -920,7 +920,7 @@ msgstr "المصادر"
 #: enferno/admin/templates/admin/partials/incident_dialog.html:187
 #: enferno/data_import/templates/media-import.html:179
 #: enferno/data_import/templates/sheets-import.html:335
-#: enferno/templates/nav-drawer.html:81
+#: enferno/templates/components/nav-drawer.html:81
 msgid "Labels"
 msgstr "الوسوم"
 
@@ -965,7 +965,7 @@ msgstr "وسائط"
 #: enferno/admin/templates/admin/partials/bulletin_dialog.html:228
 #: enferno/admin/templates/admin/partials/incident_dialog.html:205
 #: enferno/data_import/templates/media-import.html:202
-#: enferno/templates/nav-drawer.html:55
+#: enferno/templates/components/nav-drawer.html:55
 msgid "Locations"
 msgstr "الأماكن"
 
@@ -1385,17 +1385,17 @@ msgid "Time"
 msgstr "الوقت"
 
 #: enferno/admin/templates/admin/jsapi.jinja2:227
-#: enferno/templates/nav-drawer.html:29
+#: enferno/templates/components/nav-drawer.html:29
 msgid "Actors"
 msgstr "الكيانات"
 
 #: enferno/admin/templates/admin/jsapi.jinja2:228
-#: enferno/templates/nav-drawer.html:18
+#: enferno/templates/components/nav-drawer.html:18
 msgid "Bulletins"
 msgstr "المواد"
 
 #: enferno/admin/templates/admin/jsapi.jinja2:229
-#: enferno/templates/nav-drawer.html:40
+#: enferno/templates/components/nav-drawer.html:40
 msgid "Incidents"
 msgstr "الوقائع"
 
@@ -2823,7 +2823,7 @@ msgid "No Review Needed"
 msgstr "لا تحتاج مراجعة"
 
 #: enferno/data_import/templates/import-log.html:35
-#: enferno/templates/nav-drawer.html:173
+#: enferno/templates/components/nav-drawer.html:173
 #, fuzzy
 msgid "Import Log"
 msgstr "استيراد ملف CSV"
@@ -3071,7 +3071,7 @@ msgid "Data"
 msgstr "بيانات"
 
 #: enferno/export/templates/export-dashboard.html:35
-#: enferno/templates/nav-drawer.html:236
+#: enferno/templates/components/nav-drawer.html:236
 #, fuzzy
 msgid "Exports"
 msgstr "الإبلاغ عن الأشخاص"
@@ -3122,48 +3122,48 @@ msgstr "آخر دخول"
 msgid "All rights reserved."
 msgstr "جميع الحقوق محفوظة/"
 
-#: enferno/templates/nav-drawer.html:108
+#: enferno/templates/components/nav-drawer.html:108
 #, fuzzy
 msgid "Component Data"
 msgstr "عينة من البيانات"
 
-#: enferno/templates/nav-drawer.html:119
+#: enferno/templates/components/nav-drawer.html:119
 msgid "Activity"
 msgstr "سجل النشاطات"
 
-#: enferno/templates/nav-drawer.html:128
+#: enferno/templates/components/nav-drawer.html:128
 #, fuzzy
 msgid "Users & Groups"
 msgstr "مجموعات المستخدمين"
 
-#: enferno/templates/nav-drawer.html:140
+#: enferno/templates/components/nav-drawer.html:140
 #, fuzzy
 msgid "Users"
 msgstr "سوالف"
 
-#: enferno/templates/nav-drawer.html:152
+#: enferno/templates/components/nav-drawer.html:152
 #, fuzzy
 msgid "Groups"
 msgstr "مجموعة"
 
-#: enferno/templates/nav-drawer.html:162
+#: enferno/templates/components/nav-drawer.html:162
 #, fuzzy
 msgid "Data Import"
 msgstr "استيراد الوسائط"
 
-#: enferno/templates/nav-drawer.html:187
+#: enferno/templates/components/nav-drawer.html:187
 msgid "Media Import"
 msgstr "استيراد الوسائط"
 
-#: enferno/templates/nav-drawer.html:202
+#: enferno/templates/components/nav-drawer.html:202
 msgid "Sheets Import"
 msgstr "استيراد جداول البيانات"
 
-#: enferno/templates/nav-drawer.html:219
+#: enferno/templates/components/nav-drawer.html:219
 msgid "Deduplication Dashbaord"
 msgstr "لوحة تحكم أداة المطابقة"
 
-#: enferno/templates/nav-drawer.html:253
+#: enferno/templates/components/nav-drawer.html:253
 #, fuzzy
 msgid "System Settings"
 msgstr "مستخدمي النظام"

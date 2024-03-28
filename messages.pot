@@ -340,7 +340,7 @@ msgid "Reverse Title (tr)"
 msgstr ""
 
 #: enferno/admin/templates/admin/eventtypes.html:30
-#: enferno/templates/nav-drawer.html:92
+#: enferno/templates/components/nav-drawer.html:92
 msgid "Event Types"
 msgstr ""
 
@@ -894,7 +894,7 @@ msgstr ""
 #: enferno/admin/templates/admin/sources.html:29
 #: enferno/data_import/templates/media-import.html:213
 #: enferno/data_import/templates/sheets-import.html:333
-#: enferno/templates/nav-drawer.html:70
+#: enferno/templates/components/nav-drawer.html:70
 msgid "Sources"
 msgstr ""
 
@@ -905,7 +905,7 @@ msgstr ""
 #: enferno/admin/templates/admin/partials/incident_dialog.html:187
 #: enferno/data_import/templates/media-import.html:179
 #: enferno/data_import/templates/sheets-import.html:335
-#: enferno/templates/nav-drawer.html:81
+#: enferno/templates/components/nav-drawer.html:81
 msgid "Labels"
 msgstr ""
 
@@ -950,7 +950,7 @@ msgstr ""
 #: enferno/admin/templates/admin/partials/bulletin_dialog.html:228
 #: enferno/admin/templates/admin/partials/incident_dialog.html:205
 #: enferno/data_import/templates/media-import.html:202
-#: enferno/templates/nav-drawer.html:55
+#: enferno/templates/components/nav-drawer.html:55
 msgid "Locations"
 msgstr ""
 
@@ -1370,17 +1370,17 @@ msgid "Time"
 msgstr ""
 
 #: enferno/admin/templates/admin/jsapi.jinja2:227
-#: enferno/templates/nav-drawer.html:29
+#: enferno/templates/components/nav-drawer.html:29
 msgid "Actors"
 msgstr ""
 
 #: enferno/admin/templates/admin/jsapi.jinja2:228
-#: enferno/templates/nav-drawer.html:18
+#: enferno/templates/components/nav-drawer.html:18
 msgid "Bulletins"
 msgstr ""
 
 #: enferno/admin/templates/admin/jsapi.jinja2:229
-#: enferno/templates/nav-drawer.html:40
+#: enferno/templates/components/nav-drawer.html:40
 msgid "Incidents"
 msgstr ""
 
@@ -2707,7 +2707,7 @@ msgid "No Review Needed"
 msgstr ""
 
 #: enferno/data_import/templates/import-log.html:35
-#: enferno/templates/nav-drawer.html:173
+#: enferno/templates/components/nav-drawer.html:173
 msgid "Import Log"
 msgstr ""
 
@@ -2944,7 +2944,7 @@ msgid "Data"
 msgstr ""
 
 #: enferno/export/templates/export-dashboard.html:35
-#: enferno/templates/nav-drawer.html:236
+#: enferno/templates/components/nav-drawer.html:236
 msgid "Exports"
 msgstr ""
 
@@ -2992,43 +2992,43 @@ msgstr ""
 msgid "All rights reserved."
 msgstr ""
 
-#: enferno/templates/nav-drawer.html:108
+#: enferno/templates/components/nav-drawer.html:108
 msgid "Component Data"
 msgstr ""
 
-#: enferno/templates/nav-drawer.html:119
+#: enferno/templates/components/nav-drawer.html:119
 msgid "Activity"
 msgstr ""
 
-#: enferno/templates/nav-drawer.html:128
+#: enferno/templates/components/nav-drawer.html:128
 msgid "Users & Groups"
 msgstr ""
 
-#: enferno/templates/nav-drawer.html:140
+#: enferno/templates/components/nav-drawer.html:140
 msgid "Users"
 msgstr ""
 
-#: enferno/templates/nav-drawer.html:152
+#: enferno/templates/components/nav-drawer.html:152
 msgid "Groups"
 msgstr ""
 
-#: enferno/templates/nav-drawer.html:162
+#: enferno/templates/components/nav-drawer.html:162
 msgid "Data Import"
 msgstr ""
 
-#: enferno/templates/nav-drawer.html:187
+#: enferno/templates/components/nav-drawer.html:187
 msgid "Media Import"
 msgstr ""
 
-#: enferno/templates/nav-drawer.html:202
+#: enferno/templates/components/nav-drawer.html:202
 msgid "Sheets Import"
 msgstr ""
 
-#: enferno/templates/nav-drawer.html:219
+#: enferno/templates/components/nav-drawer.html:219
 msgid "Deduplication Dashbaord"
 msgstr ""
 
-#: enferno/templates/nav-drawer.html:253
+#: enferno/templates/components/nav-drawer.html:253
 msgid "System Settings"
 msgstr ""
 
