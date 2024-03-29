@@ -2,7 +2,7 @@
 This template receives the following pieces of context in addition to the form:
 #}
 {% extends "layouts/login-layout.html" %}
-{% from "views/security/_macros.html" import render_field_with_errors, render_field, render_field_errors %}
+{% from "security/_macros.html" import render_field_with_errors, render_field, render_field_errors %}
 {% block css %}
 <style>
     .fs-div {
@@ -24,12 +24,12 @@ This template receives the following pieces of context in addition to the form:
 {% block content %}
 <v-card style="width:min(600px, 100%)" class="ma-auto mt-5">
     <v-card-title color="primary">{{ _fsdomain("Setup New WebAuthn Security Keys") }}</v-card-title>
-    {% include "views/security/_messages.html" %}
+    {% include "security/_messages.html" %}
     {% if not credential_options %}
     {# Initial form to get CreateOptions #}
     <v-card-text>
         <div>{{ _fsdomain("Start by providing a unique name for your new security key:") }}</div>
-        <form action="{{ url_for_security(" wan_register") }}" method="post" name="wan_register_form"
+        <form action="{{ url_for_security('wan_register') }}" method="post" name="wan_register_form"
             id="wan-register-form">
             {{ wan_register_form.hidden_tag() }}
             <v-text-field name="name" label="Device Name"></v-text-field>
@@ -119,7 +119,7 @@ This template receives the following pieces of context in addition to the form:
     <v-divider class="my-4"></v-divider>
     <v-card-title>{{ _fsdomain("Delete Existing WebAuthn Security Key") }}</v-card-title>
     <v-card-text>
-        <form action="{{ url_for_security(" wan_delete") }}" method="post" name="wan_delete_form">
+        <form action="{{ url_for_security('wan_delete') }}" method="post" name="wan_delete_form">
             {{ wan_delete_form.hidden_tag() }}
             <v-text-field name="name" label="Nickname"></v-text-field>
             <v-btn type="submit" class="error" dark depressed small>Delete</v-btn>
@@ -131,7 +131,7 @@ This template receives the following pieces of context in addition to the form:
     <v-card-title>{{ _fsdomain("Recovery Codes") }}</v-card-title>
     <v-card-text>
         {{ _fsdomain("This application supports setting up recovery codes.") }}
-        <a href="{{ url_for_security(" mf_recovery_codes") }}">{{ _fsdomain("You can set them up here.") }}</a>
+        <a href="{{ url_for_security('mf_recovery_codes') }}">{{ _fsdomain("You can set them up here.") }}</a>
     </v-card-text>
     {% endif %}
 </v-card>

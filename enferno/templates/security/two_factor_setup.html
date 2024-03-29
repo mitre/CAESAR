@@ -1,5 +1,5 @@
 {% extends "layouts/login-layout.html" %}
-{% from "views/security/_macros.html" import render_field_with_errors, render_field, render_field_no_label,
+{% from "security/_macros.html" import render_field_with_errors, render_field, render_field_no_label,
 render_field_errors %}
 {% block metas %}
 <link rel="stylesheet" href="/static/css/vuetify.min.css">{% endblock %}
@@ -27,7 +27,7 @@ render_field_errors %}
                         </v-toolbar>
                         <v-card class="ma-4  pa-4" outlined>
                             <v-card-text>
-                                {% include "views/security/_messages.html" %}
+                                {% include "security/_messages.html" %}
                             </v-card-text>
                             <v-card-title>
                                 {{ _("Two-factor authentication adds an extra layer of security to your account") }}
@@ -37,7 +37,7 @@ render_field_errors %}
                                 phone will generate") }}
                             </v-card-text>
                             <v-card-text>
-                                <form action="{{ url_for_security(" two_factor_setup") }}" method="POST"
+                                <form action="{{ url_for_security('two_factor_setup') }}" method="POST"
                                     name="two_factor_setup_form">
                                     {{ two_factor_setup_form.hidden_tag() }}
                                     {% for subfield in two_factor_setup_form.setup %}
@@ -74,7 +74,7 @@ render_field_errors %}
                         </v-card>
                         <v-card class="ma-4  pa-4" outlined>
                             <v-card-text>
-                                <form action="{{ url_for_security(" two_factor_token_validation") }}" method="POST"
+                                <form action="{{ url_for_security('two_factor_token_validation') }}" method="POST"
                                     name="two_factor_verify_code_form">
                                     {{ two_factor_verify_code_form.hidden_tag() }}
                                     <v-text-field dense name="code" label="Code"></v-text-field>

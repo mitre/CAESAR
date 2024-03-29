@@ -3068,97 +3068,97 @@ msgstr ""
 msgid "Setup a Security Key"
 msgstr ""
 
-#: enferno/templates/views/security/two_factor_select.html:30
+#: enferno/templates/security/two_factor_select.html:30
 msgid "Available Second Factor Methods:"
 msgstr ""
 
-#: enferno/templates/views/security/two_factor_setup.html:38
+#: enferno/templates/security/two_factor_setup.html:38
 msgid "Two-factor authentication adds an extra layer of security to your account"
 msgstr ""
 
-#: enferno/templates/views/security/two_factor_setup.html:41
+#: enferno/templates/security/two_factor_setup.html:41
 msgid ""
 "In addition to your username and password, you'll need to use a code that"
 " your phone will generate"
 msgstr ""
 
-#: enferno/templates/views/security/two_factor_setup.html:58
+#: enferno/templates/security/two_factor_setup.html:58
 msgid "To complete logging in, please enter the code sent to your mail"
 msgstr ""
 
-#: enferno/templates/views/security/two_factor_setup.html:64
+#: enferno/templates/security/two_factor_setup.html:64
 msgid ""
 "Open an authenticator app on your device and scan the following QRcode, "
 "or enter the code below manually:"
 msgstr ""
 
-#: enferno/templates/views/security/two_factor_setup.html:67
+#: enferno/templates/security/two_factor_setup.html:67
 msgid "Two factor authentication code"
 msgstr ""
 
-#: enferno/templates/views/security/two_factor_setup.html:76
+#: enferno/templates/security/two_factor_setup.html:76
 msgid "To Which Phone Number Should We Send Code To?"
 msgstr ""
 
-#: enferno/templates/views/security/two_factor_verify_code.html:9
+#: enferno/templates/security/two_factor_verify_code.html:9
 msgid "Two-factor Authentication"
 msgstr ""
 
-#: enferno/templates/views/security/two_factor_verify_code.html:12
+#: enferno/templates/security/two_factor_verify_code.html:12
 msgid "Please enter your authentication code"
 msgstr ""
 
-#: enferno/templates/views/security/two_factor_verify_code.html:50
+#: enferno/templates/security/two_factor_verify_code.html:50
 msgid "The code for authentication was sent to your email address"
 msgstr ""
 
-#: enferno/templates/views/security/two_factor_verify_code.html:53
+#: enferno/templates/security/two_factor_verify_code.html:53
 msgid "A mail was sent to us in order to reset your application account"
 msgstr ""
 
-#: enferno/templates/views/security/two_factor_verify_password.html:7
-#: enferno/templates/views/security/verify.html:12
+#: enferno/templates/security/two_factor_verify_password.html:7
+#: enferno/templates/security/verify.html:12
 msgid "Please Enter Your Password"
 msgstr ""
 
-#: enferno/templates/views/security/us_setup.html:6
+#: enferno/templates/security/us_setup.html:6
 msgid "Setup Unified Sign In options"
 msgstr ""
 
-#: enferno/templates/views/security/us_setup.html:28
+#: enferno/templates/security/us_setup.html:28
 msgid ""
 "Open your authenticator app on your device and scan the following qrcode "
 "to start receiving codes:"
 msgstr ""
 
-#: enferno/templates/views/security/us_setup.html:29
+#: enferno/templates/security/us_setup.html:29
 msgid "Passwordless QRCode"
 msgstr ""
 
-#: enferno/templates/views/security/us_setup.html:32
-#: enferno/templates/views/security/us_signin.html:23
-#: enferno/templates/views/security/us_verify.html:22
+#: enferno/templates/security/us_setup.html:32
+#: enferno/templates/security/us_signin.html:23
+#: enferno/templates/security/us_verify.html:22
 msgid "Code has been sent"
 msgstr ""
 
-#: enferno/templates/views/security/us_setup.html:36
+#: enferno/templates/security/us_setup.html:36
 msgid "No methods have been enabled - nothing to setup"
 msgstr ""
 
-#: enferno/templates/views/security/us_signin.html:6
+#: enferno/templates/security/us_signin.html:6
 msgid "Sign In"
 msgstr ""
 
-#: enferno/templates/views/security/us_signin.html:15
-#: enferno/templates/views/security/us_verify.html:14
+#: enferno/templates/security/us_signin.html:15
+#: enferno/templates/security/us_verify.html:14
 msgid "Request one-time code be sent"
 msgstr ""
 
-#: enferno/templates/views/security/us_verify.html:7
+#: enferno/templates/security/us_verify.html:7
 msgid "Please re-authenticate"
 msgstr ""
 
-#: enferno/templates/views/security/wan_signin.html:21
+#: enferno/templates/security/wan_signin.html:21
 msgid "Sign In Using your Security Key"
 msgstr ""
 
