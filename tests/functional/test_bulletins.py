@@ -1,46 +1,59 @@
 import json
+import uuid
+from random import randint
+import datetime
 
-# POST, GET /api/bulletins/ (gets bulletin list with searching and paging enabled)
-# happy path
-# def test_login_pass(test_client):
-#   return
+initial_title = 'title'
 
-# POST /api/bulletin
-def test_create_bulletin(auth_session):
+def new_bulletin():
   bulletin = {
-        "title": "asdgasd",
+        "title": str(uuid.uuid4()),
         "status": "Human Created",
-        "description": "",
+        "description": str(uuid.uuid4()),
         "events": [],
         "medias": [],
         "bulletin_relations": [],
         "actor_relations": [],
         "incident_relations": [],
-        "publish_date": "",
-        "documentation_date": "2024-03-20T14:54",
-        "sjac_title": "asdga",
-        "comments": "asdgasd"
+        "publish_date": datetime.date(randint(2005,2025), randint(1,12),randint(1,28)).strftime("%Y-%m-%dT%H:%M"),
+        "documentation_date": datetime.date(randint(2005,2025), randint(1,12),randint(1,28)).strftime("%Y-%m-%dT%H:%M"),
+        "sjac_title": str(uuid.uuid4()),
+        "comments": str(uuid.uuid4())
     }
+  return bulletin
+
+# POST /api/bulletin
+def create_bulletin(auth_session, bulletin):
   payload = json.dumps({"item": bulletin})
   response = auth_session.post('/admin/api/bulletin/',
                                data = payload,
                                headers={"Content-Type": "application/json"})
-  print(response.data)
+  bulletin_id = str(response.data).split('#')[1].strip("'") #'Created Bulletin #4' -> 4
   assert response.status_code == 200
+  return bulletin_id
 
 # PUT /api/bulletin/{id}
-def update_bulletin():
+def update_bulletin(auth_session, new_bulletin, bulletin_id):
+  payload = json.dumps({"item": new_bulletin})
+  url = '/admin/api/bulletin/' + str(bulletin_id)
+  response = auth_session.put(url,
+                               data = payload,
+                               headers={"Content-Type": "application/json"})
+  assert response.status_code == 200
   return
 
 # GET /api/bulletin/{id}
-def get_bulletin():
-  return
+def get_bulletin(auth_session, bulletin_id):
+  url = '/admin/api/bulletin/' + str(bulletin_id)
+  response = auth_session.get(url, headers={"Content-Type": "application/json"})
+  assert response.status_code == 200
+  return json.loads(response.data)
 
 # GET /bulletins/{id} (webpage)
-def test_get_many_bulletins(auth_session):
+def get_many_bulletins(auth_session, bulletin_id_list):
   query = {
     "q": [
-        {}
+        {"ids": bulletin_id_list}
     ],
     "options": {
         "page": 1,
@@ -56,30 +69,56 @@ def test_get_many_bulletins(auth_session):
     }
   }
   payload = json.dumps(query)
-  url = "/admin/api/bulletins/?page=1&per_page=10&sort_by=&sort_desc=false&cache=1"
+  url = "/admin/api/bulletins/?page=1&per_page=10&sort_by=&sort_desc=false&cache=0"
   response = auth_session.get(url,
                               data = payload,
                               headers = {"Content-Type": "application/json"})
   assert response.status_code == 200
+  bulletins = json.loads(response.data)["items"]
+  return bulletins
 
 # DELETE /api/bulletin/{id}
-def test_delete_bulletin(auth_session):
-  url = "/admin/api/bulletin/10"
+def delete_bulletin(auth_session, bulletin_id):
+  url = "/admin/api/bulletin/" + str(bulletin_id)
   response = auth_session.delete(url)
   assert response.status_code == 200
+  
+def assert_bulletins_match(first, second):
+  assert first["title"] == second["title"]
+  assert first["status"] == second["status"]
+  assert first["description"] == second["description"]
+  assert first["publish_date"] == second["publish_date"]
+  assert first["documentation_date"] == second["documentation_date"]
+  assert first["sjac_title"] == second["sjac_title"]
+  assert first["comments"] == second["comments"]
 
 # Maybe run a test scenario that calls methods in a sequence to test all the bulletin endpoints
-def test_bulletin_crud_sequence(test_client):
-  return
-#   create_bulletin(test_client)
-#   update_bulletin()
-#   get_bulletin()
-#   get_many_bulletins(test_client)
-#   delete_bulletin()
+def test_bulletin_crud_sequence(auth_session):
+  first_bulletin = new_bulletin()
+  first_id = create_bulletin(auth_session, first_bulletin)
 
-# PUT /api/bulletin/review/{id}
-# PUT /api/bulletin/bulk
-# GET /api/bulletin/relations/{id}
-# POST /api/bulletin/import/
-# PUT /api/bulletin/assignother/{id}
-# PUT api/bulletin/assign/{id}
+  second_bulletin = new_bulletin()
+  second_id = create_bulletin(auth_session, second_bulletin)
+
+  read_first_bulletin = get_bulletin(auth_session, first_id)
+  assert_bulletins_match(first_bulletin, read_first_bulletin)
+
+  updated_bulletin = new_bulletin()
+  update_bulletin(auth_session, updated_bulletin, first_id)
+  read_updated_bulletin = get_bulletin(auth_session, first_id)
+  assert_bulletins_match(updated_bulletin, read_updated_bulletin)
+
+  bulletins = get_many_bulletins(auth_session, [first_id, second_id])
+  assert len(bulletins) == 2
+
+  read_first_bulletin = get_bulletin(auth_session, first_id)
+  print("asdf" + json.dumps(read_first_bulletin))
+  delete_bulletin(auth_session, first_id)
+  read_first_bulletin = get_bulletin(auth_session, first_id)
+  print("jkl;" + json.dumps(read_first_bulletin))
+
+  # print(first_id)
+  # bulletins = get_many_bulletins(auth_session, [first_id, second_id])
+  # print(bulletins)
+  # assert len(bulletins) == 1
+  
