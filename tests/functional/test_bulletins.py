@@ -112,10 +112,10 @@ def test_bulletin_crud_sequence(auth_session):
   assert len(bulletins) == 2
 
   read_first_bulletin = get_bulletin(auth_session, first_id)
-  print("asdf" + json.dumps(read_first_bulletin))
+  #print("asdf" + json.dumps(read_first_bulletin))
   delete_bulletin(auth_session, first_id)
   read_first_bulletin = get_bulletin(auth_session, first_id)
-  print("jkl;" + json.dumps(read_first_bulletin))
+  #print("jkl;" + json.dumps(read_first_bulletin))
 
   # print(first_id)
   # bulletins = get_many_bulletins(auth_session, [first_id, second_id])
