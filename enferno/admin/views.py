@@ -1519,13 +1519,13 @@ def api_bulletins():
 
 @admin.post('/api/bulletin/')
 @roles_accepted('Admin', 'DA')
-def api_bulletin_create(json_data):
+def api_bulletin_create():
     """Creates a new bulletin."""
     bulletin = Bulletin()
     # assign automatically to the creator user
     bulletin.assigned_to_id = current_user.id
     # assignment will be overwritten if it is specified in the creation request
-    bulletin.from_json(request.json)
+    bulletin.from_json(request.json['item'])
     bulletin.save()
 
     # the below will create the first revision by default
