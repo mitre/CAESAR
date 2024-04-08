@@ -145,14 +145,14 @@ def account():
     """
     Main dashboard endpoint.
     """
-    return render_template('dashboard.html')
+    return render_template('views/dashboard.html')
 
 
 @bp_user.route('/settings/')
 @auth_required('session')
 def settings():
     """Endpoint for user settings."""
-    return render_template('settings.html')
+    return render_template('views/user/settings.html')
 
 @bp_user.route('/settings/save',methods=['PUT'])
 @auth_required('session')

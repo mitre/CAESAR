@@ -7,11 +7,11 @@ class PDFUtil:
 
     def generate_pdf(self, output=None):
         if self.model.__tablename__ == 'bulletin':
-            html = render_template('pdf/bulletin.html', bulletin=self.model)
+            html = render_template('views/pdf/bulletin.html', bulletin=self.model)
         elif self.model.__tablename__ == 'actor':
-            html = render_template('pdf/actor.html', actor=self.model)
+            html = render_template('views/pdf/actor.html', actor=self.model)
         elif self.model.__tablename__ == 'incident':
-            html = render_template('pdf/incident.html', incident=self.model)
+            html = render_template('views/pdf/incident.html', incident=self.model)
 
         if output:
             pdf = HTML(string=html).write_pdf(output)

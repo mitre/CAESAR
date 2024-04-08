@@ -147,7 +147,7 @@ def register_blueprints(app):
 def register_errorhandlers(app):
     def render_error(error):
         error_code = getattr(error, 'code', 500)
-        return render_template("{0}.html".format(error_code)), error_code
+        return render_template("views/errors/{0}.html".format(error_code)), error_code
 
     for errcode in [401, 404, 500]:
         app.errorhandler(errcode)(render_error)

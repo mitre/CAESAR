@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="utf-8" />
+      <title>C.O. Bayanat</title>
+      <meta name="description" content="Conflict Observatory Bayanat" />
+      <meta name="author" content="The MITRE Corporation" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="stylesheet" href="/static/css/vuetify.min.css" />
+      <link rel="stylesheet" href="/static/js/videojs/video-js.min.css" />
+      <link rel="stylesheet" href="/static/js/videojs/video.css" />
+      <link rel="stylesheet" href="/static/js/jsondiffpatch/formatters-styles/html.css">
+      <link rel="stylesheet" href="/static/css/app.css" />
+      <link rel="stylesheet" href="/static/font/mdi/css/materialdesignicons.css" />
+      <link rel="stylesheet" href="/static/js/croppr/croppr.min.css" />
+      <link rel="stylesheet" href="/static/css/leaflet.css">
+      <link rel="stylesheet" href="/static/css/MarkerCluster.css">
+      <link rel="stylesheet" href="/static/css/MarkerCluster.Default.css">
+      <link rel="stylesheet" href="/static/css/Leaflet.PolylineMeasure.css">
+      <link rel="stylesheet" href="/static/leaflet-fullscreen/leaflet.fullscreen.css">
+      <link rel="stylesheet" href="/static/js/photoswipe/photoswipe.css" />
+      <!-- favicon -->
+      <link rel="apple-touch-icon" sizes="57x57" href="/static/img/favicon/apple-icon-57x57.png">
+      <link rel="apple-touch-icon" sizes="60x60" href="/static/img/favicon/apple-icon-60x60.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="/static/img/favicon/apple-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="76x76" href="/static/img/favicon/apple-icon-76x76.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="/static/img/favicon/apple-icon-114x114.png">
+      <link rel="apple-touch-icon" sizes="120x120" href="/static/img/favicon/apple-icon-120x120.png">
+      <link rel="apple-touch-icon" sizes="144x144" href="/static/img/favicon/apple-icon-144x144.png">
+      <link rel="apple-touch-icon" sizes="152x152" href="/static/img/favicon/apple-icon-152x152.png">
+      <link rel="apple-touch-icon" sizes="180x180" href="/static/img/favicon/apple-icon-180x180.png">
+      <link rel="icon" type="image/png" sizes="192x192" href="/static/img/favicon/android-icon-192x192.png">
+      <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicon/favicon-32x32.png">
+      <link rel="icon" type="image/png" sizes="96x96" href="/static/img/favicon/favicon-96x96.png">
+      <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicon/favicon-16x16.png">
+      <link rel="manifest" crossorigin="use-credentials" href="/static/img/favicon/manifest.json">
+      <meta name="msapplication-TileImage" content="/static/img/favicon/ms-icon-144x144.png">
+      {% block css %}{% endblock %}
+</head>
+
+<body>
+      {% block content %}{% endblock %}
+      {% set messages = get_flashed_messages() %}
+      {% if current_user.is_authenticated %}
+      <div class="d-none" data-settings='{{ current_user.settings|tojson if current_user.settings else ' {}' }}'></div>
+      {% else %}
+      <div class="d-none" data-settings='{}'></div>
+      {% endif %}
+      <div class="d-none" data-lang='{{ session.get(' lang', 'en' ) }}'></div>
+      <div class="d-none" data-maps-api-endpoint='{{ config.MAPS_API_ENDPOINT }}'></div>
+      <script>
+            window.__settings__ = JSON.parse(document.querySelector('[data-settings]').dataset.settings);
+            window.__lang__ = document.querySelector('[data-lang]').dataset.lang;
+            window.__MAPS_API_ENDPOINT__ = document.querySelector('[data-maps-api-endpoint]').dataset.mapsApiEndpoint;
+            // Set whether the LDAP server integration is enabled so we can shut off the 'change password' functionality
+            window.__LDAP_ENABLE__ = '{{config.LDAP_ENABLE}}'?.toLowerCase() === 'true';
+      </script>
+      <script src="/static/js/vue.min.js"></script>
+      <script src="/static/js/vuetify.min.js"></script>
+      <script src="/static/js/vue-router.min.js"></script>
+      <script src="/static/js/axios.min.js"></script>
+      <script src="/static/js/vee-validate.full.min.js"></script>
+      <script src="/static/js/photoswipe/photoswipe.umd.min.js"></script>
+      <script src="/static/js/photoswipe/photoswipe-lightbox.umd.min.js"></script>
+      <script src="/static/js/leaflet.js"></script>
+      <script src="/static/js/vue2-leaflet.min.js"></script>
+      <script src="/static/leaflet-fullscreen/leaflet.fullscreen.min.js"></script>
+      <script src="/static/js/vue-tippy.min.js"></script>
+      <script>
+            {% include 'views/admin/jsapi.jinja2' %}
+      </script>
+      <script src="/static/js/common/config.js"></script>
+      {% if current_user.is_authenticated %}
+      <script src="/static/js/videojs/video.min.js"></script>
+      <script src="/static/js/croppr/croppr.min.js"></script>
+      <script src="/static/js/date_fns.min.js"></script>
+      <script src="/static/js/jsondiffpatch/jsondiffpatch.umd.slim.js"></script>
+      <script src="/static/js/components/SearchField.js"></script>
+      <script src="/static/js/components/SearchFieldSingle.js"></script>
+      <script src="/static/js/components/PopDateField.js"></script>
+      <script src="/static/js/components/PopDateRangeField.js"></script>
+      <script src="/static/js/components/PopDateTimeField.js"></script>
+      <script src="/static/js/components/EventCard.js"></script>
+      <script src="/static/js/components/ActorCard.js"></script>
+      <script src="/static/js/components/BulletinCard.js"></script>
+      <script src="/static/js/components/IncidentCard.js"></script>
+      <script src="/static/js/components/RelateBulletins.js"></script>
+      <script src="/static/js/components/RelateActors.js"></script>
+      <script src="/static/js/components/RelateIncidents.js"></script>
+      <script src="/static/js/components/BulletinSearchBox.js"></script>
+      <script src="/static/js/components/ActorSearchBox.js"></script>
+      <script src="/static/js/components/IncidentSearchBox.js"></script>
+      <script src="/static/js/components/PreviewCard.js"></script>
+      <script src="/static/js/components/GeoMap.js"></script>
+      <script src="/static/js/leaflet.geometryutil.js"></script>
+      <script src="/static/js/leaflet.markercluster.js"></script>
+      <script src="/static/js/leaflet.curve.min.js"></script>
+      <script src="/static/js/leaflet.rotatedmarker.min.js"></script>
+      <script src="/static/js/Leaflet.PolylineMeasure.js"></script>
+      {% endif %}
+      {% block js %}{% endblock %}
+      <script type="text/javascript" src="/static/js/app.js"></script>
+</body>
+
+</html>

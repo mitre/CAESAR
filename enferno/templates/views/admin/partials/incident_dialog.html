@@ -1,0 +1,449 @@
+<validation-observer v-slot="{invalid}">
+    <v-dialog :retain-focus="false" no-click-animation persistent v-model="dialog" ref="editDialog" fullscreen>
+        <v-card v-if="dialog" class="overflow-hidden">
+            <v-app-bar absolute color="primary" dark class="card-header">
+                <v-toolbar-title>${formTitle} <span class="gv--text" v-if="editedItem.id">${editedItem.id}</span>
+                </v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn @click="save" :disabled="invalid" dark color="accent" small class="mx-2" depressed>{{ _("Save
+                    Incident") }}
+                </v-btn>
+                <v-btn @click="confirmClose" icon>
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+            </v-app-bar>
+            <v-sheet id="card-content" max-height="100vh" class="overflow-y-auto pt-11">
+                <v-card-text>
+                    <v-container>
+                        <v-row>
+                            <v-col cols="2" class="anchor-col">
+                                <v-list shaped class="anchor-menu">
+                                    <v-subheader>Incident</v-subheader>
+                                    <v-list-item-group color="primary">
+                                        <v-list-item>
+                                            <v-list-item-content @click="anchorScroll('general')">
+                                                <v-list-item-title>{{ _("General") }}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                        <v-list-item>
+                                            <v-list-item-content @click="anchorScroll('tags')">
+                                                <v-list-item-title>{{ _("Tags") }}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                        <v-list-item>
+                                            <v-list-item-content @click="anchorScroll('events')">
+                                                <v-list-item-title>{{ _("Events") }}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                        <v-list-item>
+                                            <v-list-item-content @click="anchorScroll('data-relationships')">
+                                                <v-list-item-title>{{ _("Data Relationships") }}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                        <v-list-item>
+                                            <v-list-item-content @click="anchorScroll('data-details')">
+                                                <v-list-item-title>{{ _("Data Details") }}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-list-item-group>
+                                </v-list>
+                            </v-col>
+                            <v-col>
+                                <!-- General -->
+                                <span class="anchor" id="general"></span>
+                                <h2 class="form-section-header">{{ _("General") }}</h2>
+                                <v-row>
+                                    <v-col cols="12" md="6">
+                                        <v-card class="d-flex" flat>
+                                            <v-text-field v-if="title__" v-model="editedItem.title" label="{{ _("
+                                                Title") }}"></v-text-field>
+                                            <v-text-field v-else v-model="editedItem.title_ar" label="{{ _(" Title
+                                                (AR)") }}" background-color="lime lighten-5"></v-text-field>
+                                            <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline"
+                                                @click="title__=!title__">
+                                                <v-icon>mdi-web</v-icon>
+                                            </v-btn>
+                                        </v-card>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="12" md="11">
+                                        <div>
+                                            <tinymce-editor :init="tinyConfig"
+                                                v-model="editedItem.description"></tinymce-editor>
+                                        </div>
+                                    </v-col>
+                                    <v-col cols="12" md="1">
+                                        <v-tooltip left max-width=500 open-delay=500>
+                                            <template v-slot:activator="{ on }">
+                                                <div v-on="on">
+                                                    <v-icon>mdi-information-outline</v-icon>
+                                            </template>
+                                            <span>{{ _('The incident description is a full description of the Incident
+                                                and the evidence contained in the related Bulletins and Actors, as well
+                                                as notes and additional resources.') }}</span>
+                                        </v-tooltip>
+                                    </v-col>
+                                </v-row>
+                                <!-- Tags -->
+                                <span class="anchor" id="tags"></span>
+                                <h2 class="form-section-header">{{ _("Tags") }}</h2>
+                                <v-row>
+                                    <v-col cols="12" md="6">
+                                        <v-tooltip top max-width=500 open-delay=1500>
+                                            <template v-slot:activator="{ on }">
+                                                <div v-on="on">
+                                                    <search-field v-model="editedItem.potential_violations"
+                                                        api="/admin/api/potentialviolation/" item-text="title"
+                                                        item-value="id" :multiple="true" label="{{ _(" Potential
+                                                        violation categories") }}"></search-field>
+                                                </div>
+                                            </template>
+                                            <span>{{ _('List that is used to determine the category under which the
+                                                violations related to the incident can be described.') }}</span>
+                                        </v-tooltip>
+                                    </v-col>
+                                    <v-col cols="12" md="6">
+                                        <v-tooltip top max-width=500 open-delay=1500>
+                                            <template v-slot:activator="{ on }">
+                                                <div v-on="on">
+                                                    <search-field v-model="editedItem.claimed_violations"
+                                                        api="/admin/api/claimedviolation/" item-text="title"
+                                                        item-value="id" :multiple="true" label="{{ _(" Claimed
+                                                        Violations Categories") }}"></search-field>
+                                                </div>
+                                            </template>
+                                            <span>{{ _('List of violations that have been committed during the course of
+                                                the event related to the incident.') }}</span>
+                                        </v-tooltip>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="12" md="6">
+                                        <v-tooltip top max-width=500 open-delay=1500>
+                                            <template v-slot:activator="{ on }">
+                                                <div v-on="on">
+                                                    <search-field v-model="editedItem.labels" api="/admin/api/labels/"
+                                                        :query-params="{ typ: 'for_incident' }" item-text="title"
+                                                        item-value="id" :multiple="true" label="{{ _(" Labels")
+                                                        }}"></search-field>
+                                                </div>
+                                            </template>
+                                            <span>{{ _('Labels allow for easy search and filter of the database. Labels
+                                                can be created by an admin to tag the content or metadata of an item.
+                                                Additionally, labels can be used for references or workflow control.')
+                                                }}</span>
+                                        </v-tooltip>
+                                    </v-col>
+                                    <v-col cols="12" md="6">
+                                        <v-tooltip top max-width=500 open-delay=1500>
+                                            <template v-slot:activator="{ on }">
+                                                <div v-on="on">
+                                                    <location-search-field v-model="editedItem.locations"
+                                                        api="/admin/api/locations/" item-text="full_string"
+                                                        item-value="id" :multiple="true" label="{{ _(" Locations")
+                                                        }}"></location-search-field>
+                                                </div>
+                                            </template>
+                                            <span>{{ _('Locations is a central list of entries for the adminstrative
+                                                centers (cities, towns, villages, etc).') }}</span>
+                                        </v-tooltip>
+                                    </v-col>
+                                </v-row>
+                                <!-- events  -->
+                                <span class="anchor" id="events"></span>
+                                <h2 class="form-section-header">{{ _("Events") }}</h2>
+                                <v-row>
+                                    <v-col col="12">
+                                        {% include 'views/admin/partials/event_dialog.html' %}
+                                    </v-col>
+                                </v-row>
+                                <!-- relationships -->
+                                <span class="anchor" id="data-relationships"></span>
+                                <h2 class="form-section-header">{{ _("Data Relationships") }}</h2>
+                                <v-row>
+                                    <v-col col="12">
+                                        <!-- Relate Actors Base Card -->
+                                        <v-card outlined class="my-5">
+                                            <v-card-title class="handle">
+                                                <v-icon left>mdi-account-multiple</v-icon>
+                                                <!-- <v-btn :loading="ar_loading" :disabled="ar_loaded" @click.stop="loadActorRelations" outlined>{{ _('Related Actors') }}</v-btn> -->
+                                                {{ _("Related Actors") }}
+                                                <v-spacer></v-spacer>
+                                                <v-tooltip top max-width=500 open-delay=1500>
+                                                    <template v-slot:activator="{ on }">
+                                                        <v-text-field v-on="on" v-if="ar_loaded" class="mx-5"
+                                                            v-model="relateActorTerm" label="{{ _(" Search & Relate
+                                                            Actors") }}" @keydown.enter="searchRelatedActors"
+                                                            @click:append="searchRelatedActors"
+                                                            append-icon="mdi-magnify"></v-text-field>
+                                                    </template>
+                                                    <span>{{ _('Actors are items of documentation about persons or
+                                                        bodies of interest that can be related to other Actors,
+                                                        Bulletins, or Incidents, usually coming from a single source.
+                                                        The Actor profile contains fields to identify the person or
+                                                        body, relate the Actor to other items in the database, add
+                                                        labels and create Events.') }}</span>
+                                                </v-tooltip>
+                                            </v-card-title>
+                                            <!--  Grid of Actors Items -->
+                                            <v-card-text>
+                                                <v-layout wrap>
+                                                    <v-flex class="pa-1" md6
+                                                        v-for="(item,index) in editedItem.actor_relations" :key="index">
+                                                        <!--  Related Actor  Card -->
+                                                        <actor-result :i18n="translations" :actor="item.actor">
+                                                            <!--  attach relationship form -->
+                                                            <template v-slot:header>
+                                                                <v-card outlined color="lime lighten-5">
+                                                                    <v-card-title class="subtitle-2">
+                                                                        <v-icon left>mdi-link</v-icon>
+                                                                        {{ _("Relationship Information") }}
+                                                                    </v-card-title>
+                                                                    <v-card-text>
+                                                                        <div>
+                                                                            <div class="caption">{{ _("Probability") }}
+                                                                            </div>
+                                                                            <v-chip-group
+                                                                                v-model="editedItem.actor_relations[index].probability"
+                                                                                column active-class="primary dark">
+                                                                                <v-chip v-for="r in translations.probs"
+                                                                                    small> ${r.tr}
+                                                                                </v-chip>
+                                                                            </v-chip-group>
+                                                                            <div class="caption">{{ _("Related As") }}
+                                                                            </div>
+                                                                            <v-chip-group
+                                                                                v-model="editedItem.actor_relations[index].related_as"
+                                                                                column multiple
+                                                                                active-class="primary dark">
+                                                                                <v-chip v-for="rel in itoaInfo"
+                                                                                    :value="rel.id" :key="rel.id" small>
+                                                                                    ${rel.title}
+                                                                                </v-chip>
+                                                                            </v-chip-group>
+                                                                        </div>
+                                                                        <v-text-field class="mt-2"
+                                                                            v-model="editedItem.actor_relations[index].comment"
+                                                                            dense outlined label="{{ _(" Comments")
+                                                                            }}"></v-text-field>
+                                                                    </v-card-text>
+                                                                </v-card>
+                                                            </template>
+                                                            <template v-slot:actions>
+                                                                <v-btn class="mx-auto"
+                                                                    @click="removeActor($event,index)" x-small fab
+                                                                    outlined color="red lighten-3">
+                                                                    <v-icon>mdi-delete-sweep</v-icon>
+                                                                </v-btn>
+                                                            </template>
+                                                        </actor-result>
+                                                    </v-flex>
+                                                </v-layout>
+                                            </v-card-text>
+                                        </v-card>
+                                        <!-- End Relate Actor Base Card-->
+                                        <!-- Relate Bulletins Base Card -->
+                                        <v-card outlined class="my-5">
+                                            <v-card-title class="handle">
+                                                <v-icon left>mdi-file-document-multiple</v-icon>
+                                                <!-- <v-btn :loading="br_loading" :disabled="br_loaded" @click.stop="loadBulletinRelations" outlined>{{ _('Related Bulletins') }}</v-btn> -->
+                                                {{ _("Related Bulletins") }}
+                                                <v-spacer></v-spacer>
+                                                <v-tooltip top max-width=500 open-delay=1500>
+                                                    <template v-slot:activator="{ on }">
+                                                        <v-text-field v-on="on" v-if="br_loaded" class="mx-5"
+                                                            v-model="relateBulletinTerm" label="{{ _(" Search & Relate
+                                                            Bulletins") }}" @keydown.enter="searchRelatedBulletins"
+                                                            @click:append="searchRelatedBulletins"
+                                                            append-icon="mdi-magnify"></v-text-field>
+                                                    </template>
+                                                    <span>{{ _('A Bulletin is one piece of documentation that provides
+                                                        information about a specific event. Bulletins could be from
+                                                        almost any type of content, such as videos, audio, pictures,
+                                                        documents, interviews, reports, text files, etc.') }}</span>
+                                                </v-tooltip>
+                                            </v-card-title>
+                                            <!--  Grid of Bulletins Items -->
+                                            <v-card-text>
+                                                <v-layout wrap>
+                                                    <v-flex class="pa-1" md6
+                                                        v-for="(item,index) in editedItem.bulletin_relations"
+                                                        :key="index">
+                                                        <!--  Related Bulletin  Card -->
+                                                        <bulletin-result :i18n="translations" :bulletin="item.bulletin"
+                                                            :show-hide="false">
+                                                            <!--  attach relationship form -->
+                                                            <template v-slot:header>
+                                                                <v-card outlined color="lime lighten-5">
+                                                                    <v-card-title class="subtitle-2">
+                                                                        <v-icon left>mdi-link</v-icon>
+                                                                        {{ _("Relationship Information") }}
+                                                                    </v-card-title>
+                                                                    <v-card-text>
+                                                                        <div>
+                                                                            <div class="caption">Probability</div>
+                                                                            <v-chip-group
+                                                                                v-model="editedItem.bulletin_relations[index].probability"
+                                                                                column active-class="primary dark">
+                                                                                <v-chip v-for="r in translations.probs"
+                                                                                    small> ${r.tr}
+                                                                                </v-chip>
+                                                                            </v-chip-group>
+                                                                            <div class="caption">Related As</div>
+                                                                            <v-chip-group
+                                                                                v-model="editedItem.bulletin_relations[index].related_as"
+                                                                                column active-class="primary dark">
+                                                                                <v-chip v-for="rel in itobInfo"
+                                                                                    :value="rel.id" :key="rel.id" small>
+                                                                                    ${rel.title}
+                                                                                </v-chip>
+                                                                            </v-chip-group>
+                                                                        </div>
+                                                                        <v-text-field class="mt-2"
+                                                                            v-model="editedItem.bulletin_relations[index].comment"
+                                                                            dense outlined label="{{ _(" Comments")
+                                                                            }}"></v-text-field>
+                                                                    </v-card-text>
+                                                                </v-card>
+                                                            </template>
+                                                            <template v-slot:actions>
+                                                                <v-btn class="mx-auto"
+                                                                    @click="removeBulletin($event,index)" x-small fab
+                                                                    outlined color="red lighten-3">
+                                                                    <v-icon>mdi-delete-sweep</v-icon>
+                                                                </v-btn>
+                                                            </template>
+                                                        </bulletin-result>
+                                                    </v-flex>
+                                                </v-layout>
+                                            </v-card-text>
+                                        </v-card>
+                                        <!---     End Relate bulletin base card   ---->
+                                        <!-- Relate Incidents Base Card -->
+                                        <v-card outlined class="my-5">
+                                            <v-card-title class="handle">
+                                                <v-icon left>mdi-hazard-lights</v-icon>
+                                                <!-- <v-btn :loading="ir_loading" :disabled="ir_loaded" @click.stop="loadIncidentRelations" outlined>{{ _('Related Incidents') }}</v-btn> -->
+                                                {{ _("Related Incidents") }}
+                                                <v-spacer></v-spacer>
+                                                <v-tooltip top max-width=500 open-delay=1500>
+                                                    <template v-slot:activator="{ on }">
+                                                        <v-text-field v-on="on" v-if="ir_loaded" class="mx-5"
+                                                            v-model="relateIncidentTerm" label="{{ _(" Search & Relate
+                                                            Incidents") }}" @keydown.enter="searchRelatedIncidents"
+                                                            @click:append="searchRelatedIncidents"
+                                                            append-icon="mdi-magnify"></v-text-field>
+                                                    </template>
+                                                    <span>{{ _('Analysis of Actors and Bulletins is intended to follow a
+                                                        "closed universe" approach, where the only focus of the analysis
+                                                        is the evidence contained in each item individually and without
+                                                        looking for additional information outside. This approach allows
+                                                        for speedy initial analysis of Actors and Bulletins and prevents
+                                                        adding any unreliable outside information or opinions. Incidents
+                                                        allow for the evidence contained in individual Actors and
+                                                        Bulletins to be linked together and analyzed as a group.')
+                                                        }}</span>
+                                                </v-tooltip>
+                                            </v-card-title>
+                                            <!--  Grid of Incident Items -->
+                                            <v-card-text>
+                                                <v-layout wrap>
+                                                    <v-flex class="pa-1" md6
+                                                        v-for="(item,index) in editedItem.incident_relations"
+                                                        :key="index">
+                                                        <!--  Related inciddnt  Card -->
+                                                        <incident-result :i18n="translations" :incident="item.incident">
+                                                            <!--  attach relationship form -->
+                                                            <template v-slot:header>
+                                                                <v-card outlined color="lime lighten-5">
+                                                                    <v-card-title class="subtitle-2">
+                                                                        <v-icon left>mdi-link</v-icon>
+                                                                        {{ _("Relationship Information") }}
+                                                                    </v-card-title>
+                                                                    <v-card-text>
+                                                                        <div class="caption">Probability</div>
+                                                                        <v-chip-group
+                                                                            v-model="editedItem.incident_relations[index].probability"
+                                                                            column active-class="primary dark">
+                                                                            <v-chip v-for="r in translations.probs"
+                                                                                small> ${r.tr}
+                                                                            </v-chip>
+                                                                        </v-chip-group>
+                                                                        <div class="caption">Related As</div>
+                                                                        <v-chip-group
+                                                                            v-model="editedItem.incident_relations[index].related_as"
+                                                                            column active-class="primary dark">
+                                                                            <v-chip v-for="rel in itoiInfo"
+                                                                                :value="rel.id" :key="rel.id" small>
+                                                                                ${rel.title}
+                                                                            </v-chip>
+                                                                        </v-chip-group>
+                                                                        <v-text-field class="mt-2"
+                                                                            v-model="editedItem.incident_relations[index].comment"
+                                                                            dense outlined label="{{ _(" Comments")
+                                                                            }}"></v-text-field>
+                                                                    </v-card-text>
+                                                                </v-card>
+                                                            </template>
+                                                            <template v-slot:actions>
+                                                                <v-btn class="mx-auto"
+                                                                    @click="removeIncident($event,index)" x-small fab
+                                                                    outlined color="red lighten-3">
+                                                                    <v-icon>mdi-delete-sweep</v-icon>
+                                                                </v-btn>
+                                                            </template>
+                                                        </incident-result>
+                                                    </v-flex>
+                                                </v-layout>
+                                            </v-card-text>
+                                        </v-card>
+                                        <!-- End Relate Incident Base Card-->
+                                    </v-col>
+                                </v-row>
+                                <!-- Details -->
+                                <span class="anchor" id="data-details"></span>
+                                <h2 class="form-section-header">{{ _("Data Details") }}</h2>
+                                <v-row>
+                                    <v-col cols="12" md="8">
+                                        <validation-provider name="Comments" rules="required" v-slot="{ errors }">
+                                            <v-textarea v-model="editedItem.comments" outlined>
+                                                <template #label>
+                                                    {{ _("Comments") }} <span
+                                                        class="red--text"><strong>*</strong></span>
+                                                </template>
+                                            </v-textarea>
+                                            <span class="red--text">${errors[0]}</span>
+                                        </validation-provider>
+                                    </v-col>
+                                    <v-col cols="12" md="4">
+                                        <v-select :disabled="statusDisabled" item-text="tr" item-value="en"
+                                            :items="statusItems" v-model="editedItem.status" label="{{ _(" Status")
+                                            }}"></v-select>
+                                        <v-autocomplete v-if="statusForbidsAssignment" label="{{ _(" Assigned To") }}"
+                                            :disabled="true" prepend-inner-icon="mdi-magnify"
+                                            item-color="secondary"></v-autocomplete>
+                                        <validation-provider v-else-if="statusRequiresAssignment" name="Assigned To"
+                                            rules="required" v-slot="{ errors }">
+                                            <v-autocomplete :value="editedItem.assigned_to" @input="assignItemByUserId"
+                                                label="{{ _(" Assigned To") }}" :items="users" item-text="name"
+                                                item-value="id" :disabled="false" prepend-inner-icon="mdi-magnify"
+                                                hide-no-data no-filter small-chips clearable :return-object="false"
+                                                item-color="secondary"></v-autocomplete>
+                                            <span class="red--text">${errors[0]}</span>
+                                        </validation-provider>
+                                        <v-autocomplete v-else :value="editedItem.assigned_to"
+                                            @input="assignItemByUserId" label="{{ _(" Assigned To") }}" :items="users"
+                                            item-text="name" item-value="id" :disabled="false"
+                                            prepend-inner-icon="mdi-magnify" hide-no-data no-filter small-chips
+                                            clearable :return-object="false" item-color="secondary"></v-autocomplete>
+                                    </v-col>
+                                </v-row>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-card-text>
+            </v-sheet>
+        </v-card>
+    </v-dialog>
+</validation-observer>
