@@ -15,17 +15,17 @@
 		// DooD Notes: run docker cli in the context of the devcontainer host 
 		// 		there are known limitations/issues bind mounting from the devcontainer to any child conatainers since the paths are relative to the host.
 		// 		to get around this special environment variables can be used to reference paths outside the devcontainer.
-		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
-			"enableNonRootDocker": "true",
-			"moby": "true"
-		},
-		// DiD Notes: run isolated docker inside the devcontainer
-		// 		will be completely separate from the host docker including cache, so poetentially uses more space. 
-		// "ghcr.io/devcontainers/features/docker-in-docker:2": {
-		// 	"version": "latest",
+		// "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
 		// 	"enableNonRootDocker": "true",
 		// 	"moby": "true"
 		// },
+		// DiD Notes: run isolated docker inside the devcontainer
+		// 		will be completely separate from the host docker including cache, so poetentially uses more space. 
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {
+			"version": "latest",
+			"enableNonRootDocker": "true",
+			"moby": "true"
+		},
 		"ghcr.io/devcontainers/features/python:1": {
 			"installTools": true,
 			"installJupyterlab": true,
@@ -48,11 +48,12 @@
 	"containerEnv": {
 		"CURLOPT_CAPATH": "/etc/ssl/certs/",
 		"NODE_EXTRA_CA_CERTS": "/etc/ssl/certs/custom-root-ca.bundle.pem",
- 		"SSL_CERT_FILE": "/etc/ssl/certs/custom-root-ca.bundle.pem"
+ 		"SSL_CERT_FILE": "/etc/ssl/certs/custom-root-ca.bundle.pem",
+		"COMPOSE_PROFILES": "pgadmin"
 	},	
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [],
+	"forwardPorts": [5000, 5050],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "docker --version",

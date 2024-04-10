@@ -90,7 +90,7 @@ cp "$dev_env_file" "$env_file"
 if [ -f "$dc_override" ]; then
     mv "$dc_override" "${dc_override}_${current_datetime}.backup"
 fi
-cp "$dev_dc_override" "$dc_override"
+# cp "$dev_dc_override" "$dc_override"
 
 
 # If -quiet option is not specified, prompt the user to start docker containers
