@@ -78,7 +78,8 @@
 				"ms-toolsai.jupyter",
 				"esbenp.prettier-vscode",
 				"eamodio.gitlens",
-				"mechatroner.rainbow-csv"
+				"mechatroner.rainbow-csv",
+        "fabiospampinato.vscode-diff"
 			],
 			"settings": {
 				"editor.detectIndentation": false,
