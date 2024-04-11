@@ -36,3 +36,7 @@ services:
       PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
     depends_on:
       - postgres
+
+  postgres:
+    volumes:
+      - ${DB_DATA:-./pgdata}:/var/lib/postgresql/data

@@ -77,12 +77,15 @@ npm install --save-dev --save-exact prettier
 env_file="./.env"
 dev_env_file="./.devcontainer/.env-devcontainer"
 current_datetime=$(date +"%Y%m%d_%H%M%S")
+pgdata="./pgdata"
 
 # replace the dotenv file with the one for the devcontanier (backup the original)
 if [ -f "$env_file" ]; then
     mv "$env_file" "${env_file}_${current_datetime}.backup"
 fi
 cp "$dev_env_file" "$env_file"
+
+mkdir -p $pgdata
 
 # If -quiet option is not specified, prompt the user to start docker containers
 if [ -z "$quiet" ]; then
