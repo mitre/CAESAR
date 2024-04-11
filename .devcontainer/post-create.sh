@@ -76,8 +76,6 @@ npm install --save-dev --save-exact prettier
 
 env_file="./.env"
 dev_env_file="./.devcontainer/.env-devcontainer"
-dc_override="./docker-compose.override.yml"
-dev_dc_override="./.devcontainer/docker-compose-devcontainer.yml"
 current_datetime=$(date +"%Y%m%d_%H%M%S")
 
 # replace the dotenv file with the one for the devcontanier (backup the original)
@@ -85,13 +83,6 @@ if [ -f "$env_file" ]; then
     mv "$env_file" "${env_file}_${current_datetime}.backup"
 fi
 cp "$dev_env_file" "$env_file"
-
-# replace the docker compose override file with the one for the devcontanier (backup the original)
-if [ -f "$dc_override" ]; then
-    mv "$dc_override" "${dc_override}_${current_datetime}.backup"
-fi
-# cp "$dev_dc_override" "$dc_override"
-
 
 # If -quiet option is not specified, prompt the user to start docker containers
 if [ -z "$quiet" ]; then
