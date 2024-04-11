@@ -1,89 +1,93 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/docker-in-docker
 {
-	"name": "CAESAR Dev Container",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	// "image": "mcr.microsoft.com/devcontainers/base:ubuntu-20.04",
-	"image": "mcr.microsoft.com/devcontainers/base:bullseye",
-	
-	"features": {
-		"ghcr.io/bdsoha/devcontainers/custom-root-ca:1": {
-			"source": "http://pki.mitre.org/MITRE%20BA%20ROOT.crt, http://pki.mitre.org/MITRE%20BA%20NPE%20CA-1.crt, http://pki.mitre.org/MITRE%20BA%20NPE%20CA-3(1).crt, http://pki.mitre.org/MITRE%20BA%20NPE%20CA-4.crt, http://pki.mitre.org/ZScaler_Root.crt"
-			//"source": "http://pki.mitre.org/MITRE-chain.txt"
-		},
+  "name": "CAESAR Dev Container",
+  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+  // "image": "mcr.microsoft.com/devcontainers/base:ubuntu-20.04",
+  "image": "mcr.microsoft.com/devcontainers/base:bullseye",
 
-		// DooD Notes: run docker cli in the context of the devcontainer host 
-		// 		there are known limitations/issues bind mounting from the devcontainer to any child conatainers since the paths are relative to the host.
-		// 		to get around this special environment variables can be used to reference paths outside the devcontainer.
-		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
-			"enableNonRootDocker": "true",
-			"moby": "true"
-		},
-		// DiD Notes: run isolated docker inside the devcontainer
-		// 		will be completely separate from the host docker including cache, so poetentially uses more space. 
-		// "ghcr.io/devcontainers/features/docker-in-docker:2": {
-		// 	"version": "latest",
-		// 	"enableNonRootDocker": "true",
-		// 	"moby": "true"
-		// },
-		"ghcr.io/devcontainers/features/python:1": {
-			"installTools": true,
-			"installJupyterlab": true,
-			"version": "3.11"
-		},
-		"ghcr.io/devcontainers-contrib/features/corepack:1": {
-			"version": "latest"
-		},
-		"ghcr.io/devcontainers/features/node:1": {
-            "version": "20.10.0",
-            "nvmVersion": "latest"
-        }
-	},
-	
-	"remoteEnv": { 
-		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
-		"REMOTE_WORKSPACE_FOLDER": "${containerWorkspaceFolder}"
-	},
+  "features": {
+    "ghcr.io/bdsoha/devcontainers/custom-root-ca:1": {
+      "source": "http://pki.mitre.org/MITRE%20BA%20ROOT.crt, http://pki.mitre.org/MITRE%20BA%20NPE%20CA-1.crt, http://pki.mitre.org/MITRE%20BA%20NPE%20CA-3(1).crt, http://pki.mitre.org/MITRE%20BA%20NPE%20CA-4.crt, http://pki.mitre.org/ZScaler_Root.crt"
+      //"source": "http://pki.mitre.org/MITRE-chain.txt"
+    },
 
-	"containerEnv": {
-		"CURLOPT_CAPATH": "/etc/ssl/certs/",
-		"NODE_EXTRA_CA_CERTS": "/etc/ssl/certs/custom-root-ca.bundle.pem",
- 		"SSL_CERT_FILE": "/etc/ssl/certs/custom-root-ca.bundle.pem"
-	},	
+    // DooD Notes: run docker cli in the context of the devcontainer host
+    // 		there are known limitations/issues bind mounting from the devcontainer to any child conatainers since the paths are relative to the host.
+    // 		to get around this special environment variables can be used to reference paths outside the devcontainer.
+    // "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+    // 	"enableNonRootDocker": "true",
+    // 	"moby": "true"
+    // },
+    // DiD Notes: run isolated docker inside the devcontainer
+    // 		will be completely separate from the host docker including cache, so poetentially uses more space.
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "enableNonRootDocker": "true",
+      "moby": "true"
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "installTools": true,
+      "installJupyterlab": true,
+      "version": "3.11"
+    },
+    "ghcr.io/devcontainers-contrib/features/corepack:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20.10.0",
+      "nvmVersion": "latest"
+    }
+  },
 
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [],
+  "remoteEnv": {
+    "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
+    "REMOTE_WORKSPACE_FOLDER": "${containerWorkspaceFolder}"
+  },
 
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "docker --version",
-	"postCreateCommand": "chmod +x .devcontainer/post-create.sh && ./.devcontainer/post-create.sh -q",
+  "containerEnv": {
+    "CURLOPT_CAPATH": "/etc/ssl/certs/",
+    "NODE_EXTRA_CA_CERTS": "/etc/ssl/certs/custom-root-ca.bundle.pem",
+    "SSL_CERT_FILE": "/etc/ssl/certs/custom-root-ca.bundle.pem",
+    "COMPOSE_PROFILES": "pgadmin"
+  },
 
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [5000, 5050],
 
-	// "initializeCommand": "docker network inspect caesar --format \"network {{.Name}} already exists\" || docker network create --driver bridge caesar",
+  // Use 'postCreateCommand' to run commands after the container is created.
+  // "postCreateCommand": "docker --version",
+  "postCreateCommand": "chmod +x .devcontainer/post-create.sh && ./.devcontainer/post-create.sh -q",
 
-	"mounts": ["source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind"],
+  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+  // "remoteUser": "root"
 
-	"runArgs": [
-		// "--network=caesar", 
-		"--name=caesar-dev",
-		"--add-host=host.docker.internal:host-gateway",
-		"--add-host=localhost:host-gateway"
-	],
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"ms-toolsai.jupyter",
-				"esbenp.prettier-vscode",
-				"eamodio.gitlens",
-				"mechatroner.rainbow-csv"
-			],
-			"settings": {
-				"editor.detectIndentation": false,
-				"editor.defaultFormatter": "esbenp.prettier-vscode",
-				"editor.formatOnSave": true
-			}
-		}
-	}
+  // "initializeCommand": "docker network inspect caesar --format \"network {{.Name}} already exists\" || docker network create --driver bridge caesar",
+
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind"
+  ],
+
+  "runArgs": [
+    // "--network=caesar",
+    "--name=caesar-dev",
+    "--add-host=host.docker.internal:host-gateway",
+    "--add-host=localhost:host-gateway"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-toolsai.jupyter",
+        "esbenp.prettier-vscode",
+        "eamodio.gitlens",
+        "mechatroner.rainbow-csv",
+        "fabiospampinato.vscode-diff"
+      ],
+      "settings": {
+        "editor.detectIndentation": false,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+      }
+    }
+  }
 }
