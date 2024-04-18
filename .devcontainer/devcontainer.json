@@ -56,7 +56,6 @@
   "forwardPorts": [5000, 5050],
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  // "postCreateCommand": "docker --version",
   "postCreateCommand": "chmod +x .devcontainer/post-create.sh && ./.devcontainer/post-create.sh -q",
 
   // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
@@ -65,18 +64,20 @@
   // "initializeCommand": "docker network inspect caesar --format \"network {{.Name}} already exists\" || docker network create --driver bridge caesar",
 
   "mounts": [
-    "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind"
+    // "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind"
   ],
 
   "runArgs": [
-    // "--network=caesar",
-    "--name=caesar-dev",
-    "--add-host=host.docker.internal:host-gateway",
-    "--add-host=localhost:host-gateway"
+    "--name=caesar-dev"
+    //"--network=host"
+    // "--add-host=host.docker.internal:host-gateway",
+    // "--add-host=localhost:host-gateway"
   ],
   "customizations": {
     "vscode": {
       "extensions": [
+        "ms-azuretools.vscode-docker",
+        "eamodio.gitlens",
         "ms-toolsai.jupyter",
         "esbenp.prettier-vscode",
         "eamodio.gitlens",
