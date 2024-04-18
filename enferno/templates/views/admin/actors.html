@@ -463,6 +463,7 @@
             medias: [],
                 actor_relations: [],
                     bulletin_relations: [],
+                    social_media_handles: [],
                         incident_relations: []
     },
     defaultItem: {
@@ -478,9 +479,11 @@
                             bulletin_relations: [],
                                 // related incidents
                                 incident_relations: [],
+                                social_media_handles: [],
                                     publish_date: '',
                                         documentation_date: new Date().toISOString().substr(0, 16),
                 },
+    socialMediaPlatforms: [],
     //events
     editedEventIndex: -1,
         editedEvent: {
@@ -574,6 +577,7 @@
     },
     mounted: function() {
         this.statusDisabled = !this.has_role(this.currentUser, 'Admin')
+        this.getSocialMediaPlatforms();
         // populate roles for advanced search for admins
         {% if current_user.has_role('Admin') %}
         axios.get('/admin/api/roles/').then(res => {
@@ -622,6 +626,14 @@
     methods: {
         assignItemByUserId(userId) {
             this.editedItem.assigned_to = this.users.find(x => x.id == userId);
+        },
+        getSocialMediaPlatforms() {
+          axios.get('/admin/api/socialmediaplatforms/').then(res => {
+            this.socialMediaPlatforms = res.data.items;
+          }).catch(e => {
+              this.socialMediaPlatforms = [];
+              console.log(e.message);
+            });
         },
         // form anchors for scrolling
         anchorScroll(id) {
@@ -1099,6 +1111,8 @@
             }, 300);
         },
         save() {
+          // Remove empty social media handles
+          this.editedItem.social_media_handles = this.editedItem.social_media_handles.filter(x => x.handle_name && (x.platform_id || x.platform?.id));
             if (this.editedItem.id) {
                 //update record
                 this.loading = true;
@@ -1245,6 +1259,20 @@
             if (confirm("Are you sure?")) {
                 this.editedItem.incident_relations.splice(index, 1);
             }
+        },
+        addSocialMediaHandle() {
+          this.editedItem.social_media_handles.push({
+            handle_name: '',
+            platform_id: null
+          });
+        },
+        isLastSocialMediaHandleEmpty() {
+          if (this.editedItem.social_media_handles.length) {
+            return this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].handle_name === '' ||
+              ((this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform_id === null || !this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform_id) &&
+                (!this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform || this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform === null));
+          }
+          return false;
         },
     }
         });

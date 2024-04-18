@@ -33,13 +33,17 @@ Vue.component("EditableTable", {
       type: Array,
       default: () => ["title"],
     },
+    extraDeleteMessage: {
+      type: String,
+      default: "",
+    }
   },
   template: `
       <div>
         <v-card-title>
           {{ title }}
           <v-spacer></v-spacer>
-          <v-btn v-if="allowAdd" @click="itemAdd" class="mx-3" elevation="0" color="primary" fab x-small>
+          <v-btn v-if="allowAdd" @click="itemAdd" :disabled="addDisabled" class="mx-3" elevation="0" color="primary" fab x-small>
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </v-card-title>
@@ -81,14 +85,15 @@ Vue.component("EditableTable", {
                 <v-icon color="primary lighten-1" class="mr-3" @click="itemCancel">
                   mdi-window-close
                 </v-icon>
-                <v-icon color="primary lighten-1" @click="itemSave(item)">mdi-content-save
+                <v-icon color="primary lighten-1" @click="itemSave(item)" :disabled="!editableItem.title">
+                  mdi-content-save
                 </v-icon>
               </div>
               <div v-else>
                 <v-icon color="primary lighten-1" class="mr-3" @click="itemEdit(item)">
                   mdi-pencil
                 </v-icon>
-                <v-icon v-if="deleteEndpoint" color="primary lighten-1" @click="itemDelete(item)">mdi-delete
+                <v-icon v-if="deleteEndpoint" color="primary lighten-1" @click="itemDelete(item, extraDeleteMessage)">mdi-delete
                 </v-icon>
 
               </div>
@@ -113,6 +118,12 @@ Vue.component("EditableTable", {
   },
   mounted() {
     this.loadItems();
+  },
+  computed: {
+    addDisabled() {
+      if (this.itemList.every((item) => item.id)) return false;
+      return true;
+    }
   },
   methods: {
     loadItems() {
@@ -150,6 +161,10 @@ Vue.component("EditableTable", {
     },
 
     itemCancel() {
+      const itemIndex = this.itemList.findIndex(
+        (item) => item.id === this.editableItem.id
+      );
+      this.itemList.splice(itemIndex, 1);
       this.editableItem = {};
     },
 
@@ -157,8 +172,8 @@ Vue.component("EditableTable", {
       this.itemList.unshift({});
     },
 
-    itemDelete(item) {
-      if (confirm(`Are you sure you want to delete: "${item.title}"`)) {
+    itemDelete(item, extraMessage = "") {
+      if (confirm(`Are you sure you want to delete: "${item.title}". ${extraMessage}`)) {
         axios
           .delete(`${this.deleteEndpoint}/${item.id}`)
           .then((res) => {

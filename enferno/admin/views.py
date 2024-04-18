@@ -25,7 +25,7 @@ from enferno.admin.models import (Bulletin, Label, Source, Location, Eventtype, 
                                   ClaimedViolation,
                                   Activity, Query, LocationAdminLevel, LocationType, AppConfig,
                                   AtobInfo, AtoaInfo, BtobInfo, ItoiInfo, ItoaInfo, ItobInfo, Country, Ethnography,
-                                  MediaCategory, GeoLocationType, WorkflowStatus)
+                                  MediaCategory, GeoLocationType, WorkflowStatus, SocialMediaPlatform, SocialMediaHandle)
 from enferno.extensions import bouncer, rds
 from enferno.extensions import cache
 from enferno.tasks import bulk_update_bulletins, bulk_update_actors, bulk_update_incidents
@@ -2469,6 +2469,165 @@ def actor_relations(id):
             data = [item.to_dict() for item in data]
 
     return json.dumps({'items': data, 'more': load_more}), 200
+
+
+@admin.route('/api/socialmediaplatforms/', methods=['GET', 'POST'])
+def api_social_media_platforms():
+    """
+    Endpoint to get all social media platforms
+    :return: social media platforms in json format + success or error in case of failure
+    """
+    result = SocialMediaPlatform.query.all()
+    response = {'items': [item.to_dict() for item in result]}
+    return Response(json.dumps(response),
+                    content_type='application/json'), 200
+
+
+@admin.post('/api/socialmediaplatform/')
+def api_social_media_platform_create():
+    """
+    Endpoint to create a social media platform
+    :return: success/error based on operation's result
+    """
+    platform = SocialMediaPlatform()
+    platform.from_json(request.json['item'])
+    result = platform.save()
+    if result:
+        return Response(json.dumps(result.to_dict()), content_type='application/json'), 200
+    else:
+        return 'Error creating social media platform', 417
+
+
+@admin.get('/api/socialmediaplatform/<int:id>')
+def api_social_media_platform_get(id):
+    """
+    Endpoint to get a single social media platform
+    :param id: id of the social media platform
+    :return: social media platform data in json format + success or error in case of failure
+    """
+    platform = SocialMediaPlatform.query.get(id)
+    if not platform:
+        return 'Not found', 404
+    else:
+        return Response(json.dumps(platform.to_dict()),
+                    content_type='application/json'), 200
+
+
+@admin.put('/api/socialmediaplatform/<int:id>')
+def api_social_media_platform_update(id):
+    """
+    Endpoint to update a social media platform
+    :param id: id of the social media platform to be updated
+    :return: social media platform data in json format + success or error in case of failure
+    """
+    platform = SocialMediaPlatform.query.get(id)
+    if platform is not None:
+        platform = platform.from_json(request.json['item'])
+        result = platform.save()
+        if result:
+            return json.dumps(result.to_dict()), 200
+        else:
+            return 'Error saving social media platform', 417
+    else:
+        return HTTPResponse.NOT_FOUND
+
+@admin.delete('/api/socialmediaplatform/<int:id>')
+def api_social_media_platform_delete(id):
+    """
+    Endpoint to delete a social media platform
+    :param id: id of the social media platform to be deleted
+    :return: success/error based on operation's result
+    """
+    platform = SocialMediaPlatform.query.get(id)
+    if platform is not None:
+        result = platform.delete()
+        Activity.create(current_user, Activity.ACTION_DELETE, platform.to_mini(), 'social media platform')
+        if result:
+            return 'Deleted!', 200
+        else:
+            return 'Error deleting social media platform', 417
+    else:
+        return HTTPResponse.NOT_FOUND
+
+
+@admin.route('/api/socialmediahandles/', methods=['GET', 'POST'])
+def api_social_media_handles():
+    """
+    Endpoint to get all social media handles
+    :return: social media handles in json format + success or error in case of failure
+    """
+    result = SocialMediaHandle.query.all()
+    response = {'items': [item.to_dict() for item in result]}
+    return Response(json.dumps(response),
+                    content_type='application/json'), 200
+
+
+@admin.post('/api/socialmediahandle/')
+def api_social_media_handle_create():
+    """
+    Endpoint to create a social media handle
+    :return: success/error based on operation's result
+    """
+    handle = SocialMediaHandle()
+    handle.from_json(request.json['item'])
+    result = handle.save()
+    if result:
+        return Response(json.dumps(result.to_dict()),
+                        content_type='application/json'), 200
+    else:
+        return 'Error creating social media handle', 417
+
+
+@admin.get('/api/socialmediahandle/<int:id>')
+def api_social_media_handle_get(id):
+    """
+    Endpoint to get a single social media handle
+    :param id: id of the social media handle
+    :return: social media handle data in json format + success or error in case of failure
+    """
+    handle = SocialMediaHandle.query.get(id)
+    if not handle:
+        return 'Not found', 404
+    else:
+        return Response(json.dumps(handle.to_dict()),
+                    content_type='application/json'), 200
+
+
+@admin.put('/api/socialmediahandle/<int:id>')
+def api_social_media_handle_update(id):
+    """
+    Endpoint to update a social media handle
+    :param id: id of the social media handle to be updated
+    :return: social media handle data in json format + success or error in case of failure
+    """
+    handle = SocialMediaHandle.query.get(id)
+    if handle is not None:
+        handle = handle.from_json(request.json['item'])
+        result = handle.save()
+        if result:
+            return json.dumps(result.to_dict()), 200
+        else:
+            return 'Error saving social media handle', 417
+    else:
+        return HTTPResponse.NOT_FOUND
+
+@admin.delete('/api/socialmediahandle/<int:id>')
+def api_social_media_handle_delete(id):
+    """
+    Endpoint to delete a social media handle
+    :param id: id of the social media handle to be deleted
+    :return: success/error based on operation's result
+    """
+    handle = SocialMediaHandle.query.get(id)
+    if handle is not None:
+        result = handle.delete()
+        Activity.create(current_user, Activity.ACTION_DELETE, handle.to_mini(), 'social media handle')
+        if result:
+            return 'Deleted!', 200
+        else:
+            return 'Error deleting social media handle', 417
+    else:
+        return HTTPResponse.NOT_FOUND
 
 
 @admin.route('/api/actormp/<int:id>', methods=['GET'])
