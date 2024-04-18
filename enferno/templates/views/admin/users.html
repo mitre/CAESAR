@@ -20,7 +20,7 @@
                                             <v-icon>mdi-refresh</v-icon>
                                         </v-btn>
                                         <v-spacer></v-spacer>
-                                        <v-btn @click="createItem" color="accent" v-if="!ldapEnabled">{{ _("New User")
+                                        <v-btn @click="createItem" color="accent">{{ _("New User")
                                             }}
                                         </v-btn>
                                     </v-toolbar>
@@ -80,7 +80,7 @@
                                                         </div>
                                                     </v-col>
                                                     <v-col cols="12" md="4">
-                                                        <div class="d-flex align-center" v-if="!ldapEnabled">
+                                                        <div class="d-flex align-center">
                                                             <validation-provider name="Password" style="flex:1"
                                                                 :debounce="250" :rules="passwordRules()"
                                                                 v-slot="{ errors }">
@@ -233,8 +233,8 @@
                 text: "{{_('Name')}}",
                 value: "name"
             }, {
-                text: "{{_('Google ID')}}",
-                value: "google_id"
+                text: "{{_('OAuth ID')}}",
+                value: "oauth_id"
             }, {
                 text: "{{_('Roles')}}",
                 value: "roles"
@@ -254,8 +254,7 @@
             },
             disableUsername: true,
             disablePassword: true,
-            disableEmail: true,
-            ldapEnabled: window.__LDAP_ENABLE__
+            disableEmail: true
         }),
         mixins: [globalMixin],
         computed: {

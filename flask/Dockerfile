@@ -1,5 +1,5 @@
 # ---- use a base image to compile requirements / save image size -----
-FROM ubuntu as base
+FROM ubuntu:jammy-20240227 as base
 
 # Install MITRE CA Certs if on the MII
 RUN apt update && apt install -yq curl && if curl -ksSL https://gitlab.mitre.org/mitre-scripts/mitre-pki/raw/master/os_scripts/install_certs.sh > /tmp/install_certs.sh 2>/dev/null; then sh /tmp/install_certs.sh && rm -f /tmp/install_certs.sh; else echo "Not on the MII, skipping certificate install"; fi
@@ -45,10 +45,10 @@ RUN ls -la /opt/venv/bin/
 
 # ----------------- main container -------------------------
 
-FROM ubuntu
+FROM ubuntu:jammy-20240227
 
 # Install MITRE CA Certs if on the MII
-RUN if curl -ksSL https://gitlab.mitre.org/mitre-scripts/mitre-pki/raw/master/os_scripts/install_certs.sh > /tmp/install_certs.sh 2>/dev/null; then sh /tmp/install_certs.sh && rm -f /tmp/install_certs.sh; else echo "Not on the MII, skipping certificate install"; fi
+RUN apt update && apt install -yq curl && if curl -ksSL https://gitlab.mitre.org/mitre-scripts/mitre-pki/raw/master/os_scripts/install_certs.sh > /tmp/install_certs.sh 2>/dev/null; then sh /tmp/install_certs.sh && rm -f /tmp/install_certs.sh; else echo "Not on the MII, skipping certificate install"; fi
 
 ENV DEBIAN_FRONTEND=noninteractive
 ARG ROLE
@@ -93,6 +93,9 @@ ENV PATH="/opt/venv/bin:$PATH"
 # Credentials for adding an admin user if one does not already exist
 ENV ADMIN_USERNAME=admin
 ENV ADMIN_PASSWORD=change_this_password
+
+# Install MITRE tool certs if on the MII
+RUN if curl -ksSL https://gitlab.mitre.org/mitre-scripts/mitre-pki/raw/master/tool_scripts/install_certs.sh > /tmp/install_tool_certs.sh 2>/dev/null; then MODE=python sh /tmp/install_tool_certs.sh && rm -f /tmp/install_tool_certs.sh; else echo "Not on the MII, skipping tool certificate install"; fi
 
 USER bayanat
 

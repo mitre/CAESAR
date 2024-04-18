@@ -9,10 +9,10 @@ if [ "$ROLE" = "flask" ]; then
   flask create-db --create-exts
   echo ":: Trying to import default data ::"
   flask import-data
-  echo ":: Trying to Create Admin User ::"
-  flask install --username ${ADMIN_USERNAME:-postgres} --password ${ADMIN_PASSWORD:-change_this_password}
   echo ":: Running Available Database Migrations ::"
   flask db upgrade
+  echo ":: Trying to Create Admin User ::"
+  flask install --username ${ADMIN_USERNAME:-postgres} --password ${ADMIN_PASSWORD:-change_this_password}
   echo ":: Starting Bayanat ::"
   exec uwsgi --http 0.0.0.0:5000 --protocol uwsgi --master --enable-threads --threads 2  --processes 1 --wsgi run:app
 

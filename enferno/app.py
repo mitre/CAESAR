@@ -23,13 +23,11 @@ from enferno.user.models import User, Role
 from enferno.user.views import bp_user
 from apiflask import APIFlask
 from flask_swagger_ui import get_swaggerui_blueprint
-from enferno.utils.ldap import LdapLoginForm
-
 
 class CustomUsernameUtil(UsernameUtil):
     def check_username(self, username: str) -> str | None:
         
-        # validate disallowed charachters
+        # validate disallowed characters
         cats = [unicodedata.category(c)[0] for c in username]
         if any(cat not in ["L", "N"] and c != "." and c != "-" for cat, c in zip(cats, username)):
             return 'Disallowed characters detected'
@@ -94,7 +92,6 @@ def register_extensions(app):
     user_datastore = SQLAlchemyUserDatastore(db, User, Role,webauthn_model=WebAuthn)
     security = Security(app, user_datastore,
                         register_form=ExtendedRegisterForm,
-                        login_form=LdapLoginForm,
                         username_util_cls=CustomUsernameUtil
     )
     session.init_app(app)

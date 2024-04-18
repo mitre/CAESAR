@@ -203,30 +203,30 @@
                                                         </validation-provider>
                                                     </v-sheet>
                                                 </v-slide-y-transition>
-                                                <v-switch class="mb-9" label="{{ _(" Enable Google OAuth") }}"
-                                                    persistent-hint hint="{{ _(" Allow users to login using their Google
-                                                    account.") }}" v-model="eitem.GOOGLE_OAUTH"></v-switch>
+                                                <v-switch class="mb-9" label="{{ _(" Enable OAuth") }}"
+                                                    persistent-hint hint="{{ _(" Allow users to login using their OAuth account.") }}" 
+                                                    v-model="eitem.OAUTH_ENABLE"></v-switch>
                                                 <v-slide-y-transition>
-                                                    <v-sheet v-show="eitem.GOOGLE_OAUTH" class="pa-4 grey lighten-4">
-                                                        <validation-provider name="Google Client ID"
-                                                            :rules="eitem.GOOGLE_OAUTH ? 'required' : ''"
+                                                    <v-sheet v-show="eitem.OAUTH_ENABLE" class="pa-4 grey lighten-4">
+                                                        <validation-provider name="OAuth Client ID"
+                                                            :rules="eitem.OAUTH_ENABLE ? 'required' : ''"
                                                             v-slot="{ errors }">
-                                                            <v-text-field label="{{ _(" Google Client ID") }}"
-                                                                v-model="eitem.GOOGLE_CLIENT_ID"></v-text-field>
+                                                            <v-text-field label="{{ _(" OAuth Client ID") }}"
+                                                                v-model="eitem.OAUTH_CLIENT_ID"></v-text-field>
                                                             <span class="red--text">${errors[0]}</span>
                                                         </validation-provider>
-                                                        <validation-provider name="Google Client Secret"
-                                                            :rules="eitem.GOOGLE_OAUTH ? 'required' : ''"
+                                                        <validation-provider name="OAuth Client Secret"
+                                                            :rules="eitem.OAUTH_ENABLE ? 'required' : ''"
                                                             v-slot="{ errors }">
-                                                            <v-text-field label="{{ _(" Google Client Secret") }}"
-                                                                v-model="eitem.GOOGLE_CLIENT_SECRET"></v-text-field>
+                                                            <v-text-field label="{{ _(" OAuth Client Secret") }}"
+                                                                v-model="eitem.OAUTH_CLIENT_SECRET"></v-text-field>
                                                             <span class="red--text">${errors[0]}</span>
                                                         </validation-provider>
-                                                        <validation-provider name="Google Discovery URL"
-                                                            :rules="eitem.GOOGLE_OAUTH ? 'required' : ''"
+                                                        <validation-provider name="OAuth Discovery URL"
+                                                            :rules="eitem.OAUTH_ENABLE ? 'required' : ''"
                                                             v-slot="{ errors }">
-                                                            <v-text-field label="{{ _(" Google Discovery URL") }}"
-                                                                v-model="eitem.GOOGLE_DISCOVERY_URL"></v-text-field>
+                                                            <v-text-field label="{{ _(" OAuth Discovery URL") }}"
+                                                                v-model="eitem.OAUTH_DISCOVERY_URL"></v-text-field>
                                                             <span class="red--text">${errors[0]}</span>
                                                         </validation-provider>
                                                     </v-sheet>
@@ -245,7 +245,7 @@
                                             <v-card-text>
                                                 <v-text-field class="mb-9" type="number" label="Password Minimum Length"
                                                     persistent-hint hint="Minimum required length for passwords"
-                                                    suffix="charachters"
+                                                    suffix="characters"
                                                     v-model.number="eitem.SECURITY_PASSWORD_LENGTH_MIN"></v-text-field>
                                             </v-card-text>
                                             <v-card-title>Password Strength</v-card-title>
