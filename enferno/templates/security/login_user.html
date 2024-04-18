@@ -9,32 +9,44 @@
                         <div class="login-msg">
                             <img src="/static/img/co-logo.png" height="40" alt="" contain>
                             </img>
-                            <h1>Conflict Observatory Bayanat</h1>
+                            <h1 class="mb-4">Conflict Observatory Bayanat</h1>
                         </div>
                         <v-card>
                             <v-toolbar color="primary" dark text>
-                                <v-toolbar-title>Login</v-toolbar-title>
+                                <v-toolbar-title>Login <span v-if="showAdminPanel">as admin
+                                        user</span></v-toolbar-title>
                                 <v-spacer></v-spacer>
                             </v-toolbar>
                             <v-card-text>
-                                <v-form action="{{ url_for_security('login') }}" method="post" id="loginForm"
-                                    ref="form">
-                                    {{ login_user_form.hidden_tag() }}
-                                    <validation-provider name="Username" vid="username" rules="required"
-                                        v-slot="{ errors }">
-                                        <v-text-field v-model="username" autocomplete="chrome-off" label="Login"
-                                            name="username" prepend-icon="mdi-account" type="text">
-                                        </v-text-field>
-                                        <span class="red--text">${errors[0]}</span>
-                                    </validation-provider>
-                                    <validation-provider name="Password" rules="required|min:6" v-slot="{ errors }">
-                                        <v-text-field id="password" autocomplete="chrome-off" v-model="password"
-                                            label="Password" name="password" prepend-icon="mdi-lock-question"
-                                            type="password" @keyup.enter="!invalid && submit()"></v-text-field>
-                                        <span class="red--text">${errors[0]}</span>
-                                    </validation-provider>
-                                    {% if login_user_form.recaptcha %}{{ login_user_form.recaptcha }}{% endif %}
-                                </v-form>
+                                <div class="login-wrapper">
+                                    <div class="login-block" v-if="!showAdminPanel && oauthEnable">
+                                        <v-btn v-if="oauthEnable " block class="mt-4">
+                                            <a href="/auth">Single Sign-On (SSO)</a>
+                                        </v-btn>
+                                    </div>
+                                    <div class="login-block" v-else>
+                                        <v-form v-if="showAdminPanel || !oauthEnable"
+                                            action="{{ url_for_security('login') }}" method="post" id="loginForm"
+                                            ref="form">
+                                            {{ login_user_form.hidden_tag() }}
+                                            <validation-provider name="Username" vid="username" rules="required"
+                                                v-slot="{ errors }">
+                                                <v-text-field v-model="username" autocomplete="chrome-off" label="Login"
+                                                    name="username" prepend-icon="mdi-account" type="text">
+                                                </v-text-field>
+                                                <span class="red--text">${errors[0]}</span>
+                                            </validation-provider>
+                                            <validation-provider name="Password" rules="required|min:6"
+                                                v-slot="{ errors }">
+                                                <v-text-field id="password" autocomplete="chrome-off" v-model="password"
+                                                    label="Password" name="password" prepend-icon="mdi-lock-question"
+                                                    type="password" @keyup.enter="!invalid && submit()"></v-text-field>
+                                                <span class="red--text">${errors[0]}</span>
+                                            </validation-provider>
+                                            {% if login_user_form.recaptcha %}{{ login_user_form.recaptcha }}{% endif %}
+                                        </v-form>
+                                    </div>
+                                </div>
                             </v-card-text>
                             {% if login_user_form.username.errors or login_user_form.password.errors %}
                             <v-card-text>
@@ -42,22 +54,21 @@
                                 </v-alert>
                             </v-card-text>
                             {% endif %}
-                            <v-card-actions>
-                                <v-spacer></v-spacer>
+                            <v-card-actions v-if="showAdminPanel || !oauthEnable">
                                 <v-btn :disabled="invalid || lock" block @click.prevent="submit" color="accent"
                                     type="submit" form="loginForm">
-                                    Login test
+                                    Login
                                 </v-btn>
                             </v-card-actions>
-                        </v-card>
-                        <v-card>
-                            <v-card-text class="text-center d-none">
-                                <a href="/auth">
-                                    <img width="191"
-                                        src="/static/img/google-login/2x/btn_google_signin_light_normal_web@2x.png"
-                                        alt="">
-                                </a>
-                            </v-card-text>
+                            <div class="v-card__text" v-if="oauthEnable">
+                                <hr>
+                                <div class="login-block help">
+                                    <h3 v-if="!showAdminPanel">Admin user? Click for <button @click="showAdmin()">admin
+                                            login</button></h3>
+                                    <h3 v-else>Not an admin user? Click for <button @click="hideAdmin()"> Single
+                                            Sign-on (SSO)</button></h3>
+                                </div>
+                            </div>
                         </v-card>
                         <v-snackbar absolute button v-model="snackBar">
                             ${snackMessage}
@@ -84,7 +95,9 @@
             email: "",
             password: "",
             username: "",
-            lock: false
+            lock: false,
+            oauthEnable: __OAUTH_ENABLE__,
+            showAdminPanel: false,
         }),
         mounted() {
             //this.showSnack(this.errors);
@@ -97,6 +110,12 @@
             submit() {
                 this.lock = true;
                 loginForm.submit();
+            },
+            showAdmin() {
+                this.showAdminPanel = true;
+            },
+            hideAdmin() {
+                this.showAdminPanel = false;
             }
         }
     });

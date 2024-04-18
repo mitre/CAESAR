@@ -100,15 +100,6 @@ class Config(object):
 
     SECURITY_ZXCVBN_MINIMUM_SCORE = manager.get_config('SECURITY_ZXCVBN_MINIMUM_SCORE')
 
-    # LDAP
-    ## Enable LDAP integration
-    LDAP_DOMAIN = manager.get_config('LDAP_DOMAIN')
-    LDAP_ENABLE = manager.get_config('LDAP_ENABLE')
-    LDAP_FIELD_UID = manager.get_config('LDAP_FIELD_UID')
-    LDAP_SEARCH_BASE = manager.get_config('LDAP_SEARCH_BASE')
-    LDAP_SEC_PROTOTCOL = manager.get_config('LDAP_SEC_PROTOTCOL')
-    LDAP_SERVER = manager.get_config('LDAP_SERVER')
-
     ADMIN_USERNAME = manager.get_config('ADMIN_USERNAME')
 
     # Strong session protection
@@ -124,6 +115,9 @@ class Config(object):
     SECURITY_WAN_ALLOW_AS_VERIFY = ["first", "secondary"]
     SECURITY_WAN_ALLOW_USER_HINTS = True
 
+    # Redirect users that are not logged in to this path ('/login' or '/auth')
+    SECURITY_LOGIN_URL = os.environ.get('SECURITY_LOGIN_URL', '/login')
+
     # Recaptcha
     RECAPTCHA_ENABLED = manager.get_config('RECAPTCHA_ENABLED')
     RECAPTCHA_PUBLIC_KEY = manager.get_config('RECAPTCHA_PUBLIC_KEY')
@@ -134,12 +128,12 @@ class Config(object):
     SESSION_REDIS = redis.from_url(F'redis://:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}/1')
     PERMANENT_SESSION_LIFETIME = 3600
 
-    # Google 0Auth
-    GOOGLE_CLIENT_ID = manager.get_config('GOOGLE_CLIENT_ID')
-    GOOGLE_CLIENT_SECRET = manager.get_config('GOOGLE_CLIENT_SECRET')
-    GOOGLE_DISCOVERY_URL = manager.get_config('GOOGLE_DISCOVERY_URL')
-
-    GOOGLE_CLIENT_ALLOWED_DOMAIN = os.environ.get('GOOGLE_CLIENT_ALLOWED_DOMAIN', 'gmail.com')
+    # OAuth
+    OAUTH_ENABLE = manager.get_config('OAUTH_ENABLE')
+    OAUTH_CLIENT_ID = manager.get_config('OAUTH_CLIENT_ID')
+    OAUTH_CLIENT_SECRET = manager.get_config('OAUTH_CLIENT_SECRET')
+    OAUTH_DISCOVERY_URL = manager.get_config('OAUTH_DISCOVERY_URL')
+    OAUTHLIB_INSECURE_TRANSPORT = manager.get_config('OAUTHLIB_INSECURE_TRANSPORT')
 
     # File Upload Settings: switch to True to store files privately within the enferno/media directory
     FILESYSTEM_LOCAL = manager.get_config('FILESYSTEM_LOCAL')

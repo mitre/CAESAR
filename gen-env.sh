@@ -168,8 +168,11 @@ echo "MAPS_API_ENDPOINT='https://{s}.tile.osm.org/{z}/{x}/{y}.png'" >> ./.env
 echo "GOOGLE_MAPS_API_KEY=''" >> ./.env
 echo "" >> ./.env
 
-echo "GOOGLE_CLIENT_ID=''" >> ./.env
-echo "GOOGLE_CLIENT_SECRET=''" >> ./.env
+echo "OAUTH_ENABLE=False" >> ./.env
+echo "OAUTH_CLIENT_ID=''" >> ./.env
+echo "OAUTH_CLIENT_SECRET=''" >> ./.env
+echo "OAUTH_DISCOVERY_URL=''" >> ./.env
+echo "OAUTHLIB_INSECURE_TRANSPORT=False" >> ./.env
 
 echo "" >> ./.env
 echo "DEDUP_TOOL=False" >> ./.env

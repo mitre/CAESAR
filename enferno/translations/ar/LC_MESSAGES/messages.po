@@ -1960,24 +1960,24 @@ msgid "Recaptcha Private Key"
 msgstr ""
 
 #: enferno/templates/views/admin/system-administration.html:248
-msgid "Enable Google OAuth"
+msgid "Enable OAuth"
 msgstr ""
 
 #: enferno/templates/views/admin/system-administration.html:250
-msgid "Allow users to login using their Google account."
+msgid "Allow users to login using their OAuth account."
 msgstr ""
 
 #: enferno/templates/views/admin/system-administration.html:259
 #, fuzzy
-msgid "Google Client ID"
+msgid "OAuth Client ID"
 msgstr "المعرِّف الخاص بـGoogle"
 
 #: enferno/templates/views/admin/system-administration.html:267
-msgid "Google Client Secret"
+msgid "OAuth Client Secret"
 msgstr ""
 
 #: enferno/templates/views/admin/system-administration.html:275
-msgid "Google Discovery URL"
+msgid "OAuth Discovery URL"
 msgstr ""
 
 #: enferno/templates/views/admin/system-administration.html:349
@@ -2192,7 +2192,7 @@ msgid "Username"
 msgstr "إمكانية عرض أسماء المستخدمين"
 
 #: enferno/templates/views/admin/users.html:314
-msgid "Google ID"
+msgid "OAuth ID"
 msgstr "المعرِّف الخاص بـGoogle"
 
 #: enferno/templates/views/views/admin/partials/actor_advsearch.html:111

@@ -2643,12 +2643,12 @@ def api_user_create():
 
 
 def check_username_errors(data):
-    # validate illegal charachters
+    # validate illegal characters
     uclean = bleach.clean(data.strip(), strip=True)
     if uclean != data:
         return 'Illegal characters detected'
 
-    # validate disallowed charachters
+    # validate disallowed characters
     cats = [unicodedata.category(c)[0] for c in data]
     if any(cat not in ["L", "N"] and c != "." and c != "-" for cat, c in zip(cats, data)):
         return 'Disallowed characters detected'

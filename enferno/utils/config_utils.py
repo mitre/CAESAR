@@ -13,16 +13,6 @@ def defList(cfg, default):
     value = os.environ.get(cfg, default)
     return value.split(',')
 
-def whitelist(cfg, allowed, default):
-    value = os.environ.get(cfg)
-    if not value:
-        return default
-    
-    if value in allowed:
-        return value
-    
-    raise ValueError(f'The value ({value}) for config {cfg} is not in the list of allowed values. Allowed values: {allowed}')
-
 class ConfigManager:
     CONFIG_FILE_PATH = 'config.json'
     MASK_STRING = '**********'
@@ -38,13 +28,6 @@ class ConfigManager:
 
         'SECURITY_ZXCVBN_MINIMUM_SCORE': int(os.environ.get('SECURITY_ZXCVBN_MINIMUM_SCORE', 3)),
 
-        'LDAP_DOMAIN': os.environ.get('LDAP_USERNAME_PREFIX', 'Domain'),
-        'LDAP_ENABLE': defBool('LDAP_ENABLE', 'False'),
-        'LDAP_FIELD_UID': os.environ.get('LDAP_FIELD_UID', 'sAMAccountName'),
-        'LDAP_SEARCH_BASE': os.environ.get('LDAP_SEARCH_BASE'),
-        'LDAP_SEC_PROTOTCOL': whitelist('LDAP_SEC_PROTOTCOL', ['SIMPLE', 'SASL', 'NTLM'], 'NTLM'),
-        'LDAP_SERVER': os.environ.get('LDAP_SERVER'),
-
         'ADMIN_USERNAME': os.environ.get('ADMIN_USERNAME', 'admin'),
 
         'SECURITY_WEBAUTHN': defBool('SECURITY_WEBAUTHN'),
@@ -53,9 +36,11 @@ class ConfigManager:
         'RECAPTCHA_PUBLIC_KEY': os.environ.get('RECAPTCHA_PUBLIC_KEY', ''),
         'RECAPTCHA_PRIVATE_KEY': os.environ.get('RECAPTCHA_PRIVATE_KEY', ''),
 
-        'GOOGLE_CLIENT_ID': os.environ.get('GOOGLE_CLIENT_ID', ''),
-        'GOOGLE_CLIENT_SECRET': os.environ.get('GOOGLE_CLIENT_SECRET', ''),
-        'GOOGLE_DISCOVERY_URL': os.environ.get('GOOGLE_DISCOVERY_URL', 'https://accounts.google.com/.well-known/openid-configuration'),
+        'OAUTH_ENABLE': defBool('OAUTH_ENABLE'),
+        'OAUTH_CLIENT_ID': os.environ.get('OAUTH_CLIENT_ID', ''),
+        'OAUTH_CLIENT_SECRET': os.environ.get('OAUTH_CLIENT_SECRET', ''),
+        'OAUTH_DISCOVERY_URL': os.environ.get('OAUTH_DISCOVERY_URL', 'https://accounts.google.com/.well-known/openid-configuration'),
+        'OAUTHLIB_INSECURE_TRANSPORT': os.environ.get('OAUTHLIB_INSECURE_TRANSPORT'),
 
         'FILESYSTEM_LOCAL': defBool('FILESYSTEM_LOCAL', True),
 
@@ -117,21 +102,17 @@ class ConfigManager:
         'SECURITY_TWO_FACTOR_REQUIRED': 'Enforce 2FA User Enrollment',
         'SECURITY_PASSWORD_LENGTH_MIN': 'Minimum Password Length',
         'SECURITY_ZXCVBN_MINIMUM_SCORE': 'Password Strength Score',
-        'LDAP_DOMAIN': 'When using NTLM, this is added to the username as `Domain\\username`',
-        'LDAP_ENABLE': 'Turn on LDAP authentication',
-        'LDAP_FIELD_UID': 'Field to search for the UID / username',
-        'LDAP_SEARCH_BASE': 'LDAP search base',
-        'LDAP_SEC_PROTOTCOL': 'LDAP Protocol to use (SIMPLE, SASL or NTLM)',
-        'LDAP_SERVER': 'LDAP Server to use',
         'ADMIN_USERNAME': 'Username for the initial admin user',
         'SECURITY_WEBAUTHN': '2FA with Hardware/FIDO Device',
         'RECAPTCHA_ENABLED': 'Recaptcha Enabled',
         'RECAPTCHA_PUBLIC_KEY': 'Recaptcha Public Key',
         'RECAPTCHA_PRIVATE_KEY': 'Recaptcha Private Key',
 
-        'GOOGLE_CLIENT_ID': 'Google Client Id',
-        'GOOGLE_CLIENT_SECRET': 'Google Client Secret',
-        'GOOGLE_DISCOVERY_URL': 'Google Discovery Url',
+        'OAUTH_ENABLE': 'Enable OAuth Authentication',
+        'OAUTH_CLIENT_ID': 'OAuth Client Id',
+        'OAUTH_CLIENT_SECRET': 'OAuth Client Secret',
+        'OAUTH_DISCOVERY_URL': 'OAuth Discovery Url',
+        'OAUTHLIB_INSECURE_TRANSPORT': 'Allow Insecure OAuth connections',
 
         'FILESYSTEM_LOCAL': 'Filesystem Local',
 
@@ -216,9 +197,11 @@ class ConfigManager:
             'RECAPTCHA_PUBLIC_KEY': cfg.RECAPTCHA_PUBLIC_KEY,
             'RECAPTCHA_PRIVATE_KEY': cfg.RECAPTCHA_PRIVATE_KEY,
 
-            'GOOGLE_CLIENT_ID': cfg.GOOGLE_CLIENT_ID,
-            'GOOGLE_CLIENT_SECRET': cfg.GOOGLE_CLIENT_SECRET,
-            'GOOGLE_DISCOVERY_URL': cfg.GOOGLE_DISCOVERY_URL,
+            'OAUTH_ENABLE': cfg.OAUTH_ENABLE,
+            'OAUTH_CLIENT_ID': cfg.OAUTH_CLIENT_ID,
+            'OAUTH_CLIENT_SECRET': cfg.OAUTH_CLIENT_SECRET,
+            'OAUTH_DISCOVERY_URL': cfg.OAUTH_DISCOVERY_URL,
+            'OAUTHLIB_INSECURE_TRANSPORT': cfg.OAUTHLIB_INSECURE_TRANSPORT,
 
             'FILESYSTEM_LOCAL': cfg.FILESYSTEM_LOCAL,
 
