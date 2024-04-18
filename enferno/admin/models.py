@@ -70,6 +70,65 @@ def check_relation_roles(method):
 
 ######  -----  ######
 
+class SocialMediaPlatform(db.Model, BaseMixin):
+    """
+    SQL Alchemy model for social media platforms
+    """
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    handles = db.relationship("SocialMediaHandle", foreign_keys="SocialMediaHandle.platform_id", cascade="all, delete-orphan")
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+        }
+
+    def from_json(self, jsn):
+        self.title = jsn.get('title')
+        self.description = jsn.get('description')
+        return self
+
+
+class SocialMediaHandle(db.Model, BaseMixin):
+    """
+    SQL Alchemy model for social media handles
+    """
+
+    id = db.Column(db.Integer, primary_key=True)
+    handle_name = db.Column(db.String, nullable=False)
+    platform_id = db.Column(db.Integer, db.ForeignKey('social_media_platform.id'))
+    platform = db.relationship("SocialMediaPlatform", foreign_keys=[platform_id])
+    actor_id = db.Column(db.Integer, db.ForeignKey('actor.id'), nullable=True)
+    actor = db.relationship("Actor", back_populates="social_media_handles", foreign_keys=[actor_id])
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'handle_name': self.handle_name,
+            'platform': self.platform.to_dict() if self.platform else None,
+            'actor': self.actor.to_dict() if self.actor else None
+        }
+
+    def to_dict_actor(self):
+        return {
+            'id': self.id,
+            'handle_name': self.handle_name,
+            'platform': self.platform.to_dict() if self.platform else None
+        }
+    
+    def from_json(self, jsn):
+        self.handle_name = jsn.get('handle_name')
+        if jsn.get('platform_id'):
+            self.platform_id = jsn.get('platform_id')
+        elif jsn.get('platform'):
+            self.platform_id = jsn.get('platform').get('id')
+        if jsn.get('actor_id'):
+            self.actor_id = jsn.get('actor_id')
+        return self
+
+
 class Source(db.Model, BaseMixin):
     """
     SQL Alchemy model for sources
@@ -2191,6 +2250,8 @@ class Actor(db.Model, BaseMixin):
         "User", backref="second_rev_actors", foreign_keys=[second_peer_reviewer_id]
     )
 
+    social_media_handles = db.relationship('SocialMediaHandle', back_populates='actor')
+
     sources = db.relationship(
         "Source", secondary=actor_sources, backref=db.backref("actors", lazy="dynamic")
     )
@@ -2534,6 +2595,24 @@ class Actor(db.Model, BaseMixin):
                     e.save()
                 new_events.append(e)
             self.events = new_events
+
+        # Social Media Handles
+        if "social_media_handles" in json:
+            new_handles = []
+            handles = json["social_media_handles"]
+            for handle in handles:
+                if "id" not in handle:
+                    # new handle
+                    h = SocialMediaHandle()
+                    h = h.from_json(handle)
+                    h.save()
+                else:
+                    # handle already exists, get a db instance and update it with new data
+                    h = SocialMediaHandle.query.get(handle["id"])
+                    h.from_json(handle)
+                    h.save()
+                new_handles.append(h)
+            self.social_media_handles = new_handles
 
         # Related Media
         if "medias" in json:
@@ -2974,6 +3053,12 @@ class Actor(db.Model, BaseMixin):
             for event in self.events:
                 events_json.append(event.to_dict())
 
+        # Social media handles json 
+        handles_json = []
+        if self.social_media_handles and len(self.social_media_handles):
+            for handle in self.social_media_handles:
+                handles_json.append(handle.to_dict_actor())
+
         # medias json
         medias_json = []
         if self.medias and len(self.medias):
@@ -3048,6 +3133,7 @@ class Actor(db.Model, BaseMixin):
             "labels": labels_json,
             "verLabels": ver_labels_json,
             "events": events_json,
+            "social_media_handles": handles_json,
             "medias": medias_json,
             "actor_relations": actor_relations_dict,
             "bulletin_relations": bulletin_relations_dict,

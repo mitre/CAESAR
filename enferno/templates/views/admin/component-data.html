@@ -51,6 +51,9 @@
                                         <v-tab class="justify-start">
                                             {{ _("Geo Location Types") }}
                                         </v-tab>
+                                        <v-tab class="justify-start">
+                                          {{ _("Social Media Platforms") }}
+                                        </v-tab>
                                     </v-card>
                                     <v-tab-item class="pa-1">
                                         <v-card class="pa-3">
@@ -204,6 +207,14 @@
                                             </v-card-text>
                                         </v-card>
                                     </v-tab-item>
+                                    <v-tab-item class="pa-1">
+                                      <v-card class="pa-3">
+                                        <v-card-text>
+                                          <editable-table title="{{ _("Social Media Platforms") }}" :item-headers="platformHeaders" :editable-columns="['title','title_tr']" delete-endpoint="/admin/api/socialmediaplatform" save-endpoint="/admin/api/socialmediaplatform" load-endpoint="/admin/api/socialmediaplatforms/" extra-delete-message="This will delete all related social media handles.">
+                                          </editable-table>
+                                        </v-card-text>
+                                      </v-card>
+                                    </v-tab-item>
                                 </v-tabs>
                             </v-container>
                         </div>
@@ -338,6 +349,16 @@
                 text: "{{_('Actions')}}",
                 value: "actions"
             },],
+            platformHeaders: [{
+                text: "{{_('ID')}}",
+                value: "id"
+            }, {
+                text: "{{_('Title')}}",
+                value: "title"
+            }, {
+                text: "{{_('Actions')}}",
+                value: "actions"
+            }, ],
         }),
         mounted() { },
         methods: {}
