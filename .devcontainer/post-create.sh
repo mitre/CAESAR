@@ -85,7 +85,8 @@ if [ -f "$env_file" ]; then
 fi
 cp "$dev_env_file" "$env_file"
 
-mkdir -p $pgdata
+sudo mkdir -p $pgdata
+sudo chown -R vscode $pgdata
 
 # If -quiet option is not specified, prompt the user to start docker containers
 if [ -z "$quiet" ]; then
