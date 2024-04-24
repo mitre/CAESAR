@@ -1038,7 +1038,7 @@
                 this.handleStatus(item);
             } else {
                 this.loading = true;
-                axios.get(`/admin/api/incident/${item.id}?mode=3`).then(response => {
+                axios.get(`/admin/api/incident/${item.id}`).then(response => {
                     this.dialog = true;
                     this.$nextTick(() => {
                         this.loading = false

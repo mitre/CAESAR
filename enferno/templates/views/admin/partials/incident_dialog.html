@@ -172,7 +172,7 @@
                                                 <v-spacer></v-spacer>
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
-                                                        <v-text-field v-on="on" v-if="ar_loaded" class="mx-5"
+                                                        <v-text-field v-on="on" class="mx-5"
                                                             v-model="relateActorTerm" label="{{ _(" Search & Relate
                                                             Actors") }}" @keydown.enter="searchRelatedActors"
                                                             @click:append="searchRelatedActors"
@@ -252,7 +252,7 @@
                                                 <v-spacer></v-spacer>
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
-                                                        <v-text-field v-on="on" v-if="br_loaded" class="mx-5"
+                                                        <v-text-field v-on="on"  class="mx-5"
                                                             v-model="relateBulletinTerm" label="{{ _(" Search & Relate
                                                             Bulletins") }}" @keydown.enter="searchRelatedBulletins"
                                                             @click:append="searchRelatedBulletins"
@@ -329,7 +329,7 @@
                                                 <v-spacer></v-spacer>
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
-                                                        <v-text-field v-on="on" v-if="ir_loaded" class="mx-5"
+                                                        <v-text-field v-on="on" class="mx-5"
                                                             v-model="relateIncidentTerm" label="{{ _(" Search & Relate
                                                             Incidents") }}" @keydown.enter="searchRelatedIncidents"
                                                             @click:append="searchRelatedIncidents"
