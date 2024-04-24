@@ -31,7 +31,7 @@ def roles_by_role_name(auth_session):
 
   # api roles GET uses a default query with 30 results
   # this will cause test failures, posibly system failures in situations with more than 30 roles   
-  res = auth_session.get('/admin/api/roles/')
+  res = auth_session.get('/admin/api/roles/?per_page=500')
   assert res.status_code == 200
   roles = res.json.get('items')
   roles_by_role_name = {}
@@ -44,11 +44,6 @@ def roles_by_role_name(auth_session):
       roles_by_role_name[role['name']] = role
 
   yield roles_by_role_name
-
-  for custom_role_id in custom_role_ids:
-    url = f'/admin/api/role/{custom_role_id}'
-    res = auth_session.delete(url)
-    assert res.status_code == 200
 
 def create_user_with_roles(auth_session, roles):
   username = str(uuid.uuid4())[:32]
@@ -64,33 +59,7 @@ def create_user_with_roles(auth_session, roles):
                           data=json.dumps({'item': user}),
                           headers={"Content-Type": "application/json"})
   assert res.status_code == 200
-  return {
-    "name": user_name,
-    "username": username
-  }
-
-
-def deactivate_user(auth_session, user_id):
-  user = {
-    "active": False,
-    "id": user_id,
-    "roles": []
-  }
-  res = auth_session.put(f'/admin/api/user/{user_id}',
-                            data=json.dumps({'item': user}),
-                            headers={"Content-Type": "application/json"})
-  assert res.status_code == 200
-
-def delete_user(auth_session, user_id):
-  deactivate_user(auth_session, user_id)
-  url = "/admin/api/user/" + str(user_id)
-  response = auth_session.delete(url)
-  assert response.status_code == 200
-
-def delete_user_by_name(auth_session, name):
-  url = f"/admin/api/users/?q={name}"
-  response = auth_session.get(url)
-  print(response.data)
+  return username
 
 def create_user_session(test_flask_app, username):
   test_client = test_flask_app.test_client()
