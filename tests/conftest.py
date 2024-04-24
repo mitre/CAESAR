@@ -13,13 +13,16 @@ assert TEST_USERNAME, 'The `TEST_USERNAME` environment variable must be set and 
 assert TEST_PASSWORD, 'The `TEST_PASSWORD` environment variable must be set and is blank'
 
 @pytest.fixture(scope='session')
-def test_client():
+def test_flask_app():
   os.environ['CONFIG_TYPE'] = 'config.TestingConfig'
   flask_app = create_app()
   flask_app.testing = True
+  yield flask_app
 
-  testing_client = flask_app.test_client()
-  flask_app.app_context()
+@pytest.fixture(scope='session')
+def test_client(test_flask_app):
+  testing_client = test_flask_app.test_client()
+  test_flask_app.app_context()
   yield testing_client
 
 @pytest.fixture(scope='session')
