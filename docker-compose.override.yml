@@ -21,25 +21,22 @@ services:
       redis:
         condition: service_healthy
 
-  nginx:
-    restart: always
-    image: "bitnami/nginx:latest"
+  pgadmin:
+    image: dpage/pgadmin4
     ports:
-      - ${NGINX_EXTERNAL_PORT:-80}:80
+      - "${PGADMIN_EXTERNAL_PORT:-5050}:80"
     profiles:
-      - nginx
+      - pgadmin
     volumes:
-      - ${NGINX_STATIC_PATH:-./enferno/static/}:/app/static/:ro
-      - ${NGINX_CONF_PATH:-./nginx/nginx.conf}:/opt/bitnami/nginx/conf/nginx.conf:ro
-      - ${NGINX_BAYANAT_CONF_PATH:-./nginx/bayanat.conf}:/opt/bitnami/nginx/conf/server_blocks/bayanat.conf:ro
+      - ${PWD}/.devcontainer/pgadmin-servers.json:/pgadmin4/servers.json
+    environment:
+      PGADMIN_DEFAULT_EMAIL: caesar@localhost.net
+      PGADMIN_DEFAULT_PASSWORD: change-me
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
     depends_on:
-      - bayanat
-    read_only: true
-    security_opt:
-      - no-new-privileges:true
-    tmpfs:
-      - /opt/bitnami/nginx/tmp/
-    healthcheck:
-      test: ["CMD", "service", "nginx", "status"]
-      interval: 3s
-      retries: 10
+      - postgres
+
+  postgres:
+    volumes:
+      - ${DB_DATA:-./pgdata}:/var/lib/postgresql/data
