@@ -39,8 +39,9 @@
                                             <validation-provider name="Password" rules="required|min:6"
                                                 v-slot="{ errors }">
                                                 <v-text-field id="password" autocomplete="chrome-off" v-model="password"
-                                                    label="Password" name="password" prepend-icon="mdi-lock-question"
-                                                    type="password" @keyup.enter="!invalid && submit()"></v-text-field>
+                                                    label="Password" name="password" prepend-icon="mdi-lock-question" :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                                                    :type="showPassword ? 'text' : 'password'" @keyup.enter="!invalid && submit()"
+                                                    @click:append="showPassword = !showPassword"></v-text-field>
                                                 <span class="red--text">${errors[0]}</span>
                                             </validation-provider>
                                             {% if login_user_form.recaptcha %}{{ login_user_form.recaptcha }}{% endif %}
@@ -98,6 +99,7 @@
             lock: false,
             oauthEnable: __OAUTH_ENABLE__,
             showAdminPanel: false,
+            showPassword: false,
         }),
         mounted() {
             //this.showSnack(this.errors);
