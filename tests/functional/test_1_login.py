@@ -4,8 +4,8 @@ import os
 
 from enferno.app import create_app
 
-TEST_USERNAME = os.getenv('ADMIN_USERNAME')
-TEST_PASSWORD = os.getenv('ADMIN_PASSWORD')
+TEST_USERNAME = os.getenv('TEST_USERNAME')
+TEST_PASSWORD = os.getenv('TEST_PASSWORD')
 
 assert TEST_USERNAME, 'The `TEST_USERNAME` environment variable must be set and is blank'
 assert TEST_PASSWORD, 'The `TEST_PASSWORD` environment variable must be set and is blank'

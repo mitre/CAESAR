@@ -29,7 +29,8 @@ def create_incident(auth_session, incident):
   response = auth_session.post('/admin/api/incident/',
                                data = payload,
                                headers={"Content-Type": "application/json"})
-  incident_id = str(response.data).split('#')[1].strip("'") #'Created incident #4' -> 4  assert response.status_code == 200
+  incident_id = response.data.decode("utf-8").split('#')[1] #'Created incident #4' -> 4  
+  assert response.status_code == 200
   return incident_id
 
 # PUT /api/incident/{id}
@@ -87,7 +88,6 @@ def assert_incidents_match(first, second):
   assert first["title"] == second["title"]
   assert first["status"] == second["status"]
 
-# Maybe run a test scenario that calls methods in a sequence to test all the incident endpoints
 def test_incident_crud_sequence(auth_session):
   common_description = str(uuid.uuid4())
   first_incident = new_incident()

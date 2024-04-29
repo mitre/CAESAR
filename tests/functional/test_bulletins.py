@@ -28,7 +28,7 @@ def create_bulletin(auth_session, bulletin):
   response = auth_session.post('/admin/api/bulletin/',
                                data = payload,
                                headers={"Content-Type": "application/json"})
-  bulletin_id = str(response.data).split('#')[1].strip("'") #'Created Bulletin #4' -> 4
+  bulletin_id = response.data.decode("utf-8").split('#')[1] #'Created Bulletin #4' -> 4
   assert response.status_code == 200
   return bulletin_id
 
@@ -92,7 +92,6 @@ def assert_bulletins_match(first, second):
   assert first["sjac_title"] == second["sjac_title"]
   assert first["comments"] == second["comments"]
 
-# Maybe run a test scenario that calls methods in a sequence to test all the bulletin endpoints
 def test_bulletin_crud_sequence(auth_session):
   first_bulletin = new_bulletin()
   first_id = create_bulletin(auth_session, first_bulletin)
@@ -112,13 +111,6 @@ def test_bulletin_crud_sequence(auth_session):
   assert len(bulletins) == 2
 
   read_first_bulletin = get_bulletin(auth_session, first_id)
-  #print("asdf" + json.dumps(read_first_bulletin))
   delete_bulletin(auth_session, first_id)
   read_first_bulletin = get_bulletin(auth_session, first_id)
-  #print("jkl;" + json.dumps(read_first_bulletin))
-
-  # print(first_id)
-  # bulletins = get_many_bulletins(auth_session, [first_id, second_id])
-  # print(bulletins)
-  # assert len(bulletins) == 1
   

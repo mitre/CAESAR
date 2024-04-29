@@ -86,7 +86,6 @@ def assert_actors_match(first, second):
   assert first["name"] == second["name"]
   assert first["status"] == second["status"]
 
-# Maybe run a test scenario that calls methods in a sequence to test all the actor endpoints
 def test_actor_crud_sequence(auth_session):
   common_description = str(uuid.uuid4())
   first_actor = new_actor()
