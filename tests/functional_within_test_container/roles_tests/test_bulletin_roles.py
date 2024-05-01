@@ -1,6 +1,7 @@
 import pytest
 import json
 import uuid
+import time
 from conftest import (ADMIN_ROLE_NAME, DA_ROLE_NAME, MOD_ROLE_NAME, CUSTOM_ROLE_NAME, SECOND_CUSTOM_ROLE_NAME, 
                       create_user_with_roles, create_user_session)
 
@@ -33,14 +34,17 @@ def create_bulletin_requiring_roles(auth_session, roles_by_role_name, required_r
       }
     }
   )
+  # this bulk update call completes asynchronously and provides no callback information to see if the update has completed
   response = auth_session.put('/admin/api/bulletin/bulk/',
                                data = payload,
                                headers={"Content-Type": "application/json"})
   assert response.status_code == 200
+  # adds a small delay to increase the chance that the bulk update completes
+  time.sleep(1)
   return bulletin_id
 
 # check if roles restrict access to URLs properly
-@pytest.mark.parametrize("required_roles, assigned_roles, expected_api_response_code", [
+@pytest.mark.parametrize("roles_required_to_access_bulletin, roles_assigned_to_user, expected_api_response_code", [
   # BELOW IS A LIST OF TEST CASE INPUTS. ABOVE IS THE FORMAT OF TEST CASE INPUTS
   ([ADMIN_ROLE_NAME], [], 403),
   ([ADMIN_ROLE_NAME], [MOD_ROLE_NAME], 403),
@@ -56,10 +60,10 @@ def create_bulletin_requiring_roles(auth_session, roles_by_role_name, required_r
   ([CUSTOM_ROLE_NAME], [ADMIN_ROLE_NAME], 200),
   ([CUSTOM_ROLE_NAME], [CUSTOM_ROLE_NAME], 200),
 ])
-def test_getBulletin_withAssignedUserRolesAndRequiredBulletinAccessRestrictions(test_flask_app, auth_session, roles_by_role_name, required_roles, assigned_roles, expected_api_response_code):
-  bulletin_id = create_bulletin_requiring_roles(auth_session, roles_by_role_name, required_roles)
+def test_getBulletin_withAssignedUserRolesAndRequiredBulletinAccessRestrictions(test_flask_app, auth_session, roles_by_role_name, roles_required_to_access_bulletin, roles_assigned_to_user, expected_api_response_code):
+  bulletin_id = create_bulletin_requiring_roles(auth_session, roles_by_role_name, roles_required_to_access_bulletin)
   user_roles = []
-  for role_name in assigned_roles:
+  for role_name in roles_assigned_to_user:
     user_roles.append(roles_by_role_name[role_name])
   username = create_user_with_roles(auth_session, user_roles)
   user_session = create_user_session(test_flask_app, username)
@@ -67,24 +71,24 @@ def test_getBulletin_withAssignedUserRolesAndRequiredBulletinAccessRestrictions(
                                headers={"Content-Type": "application/json"})
   assert response.status_code == expected_api_response_code
 
-@pytest.mark.parametrize("assigned_roles, expected_api_response_code", [
+@pytest.mark.parametrize("roles_assigned_to_user, expected_api_response_code", [
   ([ADMIN_ROLE_NAME], 200),
   ([MOD_ROLE_NAME], 403),
   ([DA_ROLE_NAME], 403),
   ([CUSTOM_ROLE_NAME], 403),
   ([], 403)
 ])
-def test_deleteBulletin_withAssignedUserRoles(test_flask_app, auth_session, roles_by_role_name, assigned_roles, expected_api_response_code):
+def test_deleteBulletin_withAssignedUserRoles(test_flask_app, auth_session, roles_by_role_name, roles_assigned_to_user, expected_api_response_code):
   bulletin_id = create_bulletin_requiring_roles(auth_session, {}, [])
   user_roles = []
-  for role_name in assigned_roles:
+  for role_name in roles_assigned_to_user:
     user_roles.append(roles_by_role_name[role_name])
   username = create_user_with_roles(auth_session, user_roles)
   user_session = create_user_session(test_flask_app, username)
   response = user_session.delete(F'/admin/api/bulletin/{bulletin_id}')
   assert response.status_code == expected_api_response_code
 
-@pytest.mark.parametrize("required_roles, assigned_roles, expected_api_response_code", [
+@pytest.mark.parametrize("roles_required_to_access_bulletin, roles_assigned_to_user, expected_api_response_code", [
   # BELOW IS A LIST OF TEST CASE INPUTS. ABOVE IS THE FORMAT OF TEST CASE INPUTS
   ([ADMIN_ROLE_NAME], [], 403),
   ([ADMIN_ROLE_NAME], [MOD_ROLE_NAME], 403),
@@ -100,10 +104,10 @@ def test_deleteBulletin_withAssignedUserRoles(test_flask_app, auth_session, role
   ([CUSTOM_ROLE_NAME], [ADMIN_ROLE_NAME], 200),
   ([CUSTOM_ROLE_NAME], [CUSTOM_ROLE_NAME], 403), # read only users do not have write permisisons
 ])
-def test_updateBulletin_withAssignedUserRolesAndRequiredBulletinAccessRestrictions(test_flask_app, auth_session, roles_by_role_name, required_roles, assigned_roles, expected_api_response_code):
-  bulletin_id = create_bulletin_requiring_roles(auth_session, roles_by_role_name, required_roles)
+def test_updateBulletin_withAssignedUserRolesAndRequiredBulletinAccessRestrictions(test_flask_app, auth_session, roles_by_role_name, roles_required_to_access_bulletin, roles_assigned_to_user, expected_api_response_code):
+  bulletin_id = create_bulletin_requiring_roles(auth_session, roles_by_role_name, roles_required_to_access_bulletin)
   user_roles = []
-  for role_name in assigned_roles:
+  for role_name in roles_assigned_to_user:
     user_roles.append(roles_by_role_name[role_name])
   username = create_user_with_roles(auth_session, user_roles)
   user_session = create_user_session(test_flask_app, username)
@@ -124,9 +128,9 @@ def test_bulletinQuery_bulletinsAreRestrictedByRoles(test_flask_app, auth_sessio
   bulletin_3_id = create_bulletin_requiring_roles(auth_session, roles_by_role_name, [DA_ROLE_NAME, CUSTOM_ROLE_NAME])
   bulletin_4_id = create_bulletin_requiring_roles(auth_session, roles_by_role_name, [DA_ROLE_NAME, SECOND_CUSTOM_ROLE_NAME])
 
-  assigned_roles = [DA_ROLE_NAME, CUSTOM_ROLE_NAME]
+  roles_assigned_to_user = [DA_ROLE_NAME, CUSTOM_ROLE_NAME]
   user_roles = []
-  for role_name in assigned_roles:
+  for role_name in roles_assigned_to_user:
     user_roles.append(roles_by_role_name[role_name])
   username = create_user_with_roles(auth_session, user_roles)
   user_session = create_user_session(test_flask_app, username)
