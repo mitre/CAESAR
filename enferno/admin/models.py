@@ -18,6 +18,7 @@ from werkzeug.utils import secure_filename
 
 from enferno.extensions import db
 from enferno.settings import Config as cfg
+from enferno.user.models import Role
 from enferno.utils.base import BaseMixin
 from enferno.utils.csv_utils import convert_simple_relation, convert_complex_relation
 from enferno.utils.date_helper import DateHelper
@@ -1692,6 +1693,11 @@ class Bulletin(db.Model, BaseMixin):
                 new_events.append(e)
             self.events = new_events
 
+        if "roles" in json:
+            ids = [role["id"] for role in json["roles"]]
+            roles = Role.query.filter(Role.id.in_(ids)).all()
+            self.roles = roles
+
         # Related Media
         if "medias" in json:
             # untouchable main medias
@@ -2613,6 +2619,11 @@ class Actor(db.Model, BaseMixin):
                     h.save()
                 new_handles.append(h)
             self.social_media_handles = new_handles
+
+        if "roles" in json:
+            ids = [role["id"] for role in json["roles"]]
+            roles = Role.query.filter(Role.id.in_(ids)).all()
+            self.roles = roles
 
         # Related Media
         if "medias" in json:
@@ -3891,6 +3902,11 @@ class Incident(db.Model, BaseMixin):
                     e.save()
                 new_events.append(e)
             self.events = new_events
+
+        if "roles" in json:
+            ids = [role["id"] for role in json["roles"]]
+            roles = Role.query.filter(Role.id.in_(ids)).all()
+            self.roles = roles
 
         # Related Actors (actor_relations)
         if "actor_relations" in json and "check_ar" in json:
