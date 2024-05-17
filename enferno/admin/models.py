@@ -391,6 +391,27 @@ class Label(db.Model, BaseMixin):
         dfi = df.copy()
         del dfi['parent_label_id']
 
+        #Make sure the id is unique and skip if title already exists
+        current_id = db.session.execute("select max(id) from label").scalar()
+        # if no labels exist then start from 1
+        if current_id is None:
+            current_id = 1
+        else:
+            current_id += 1
+        added_labels = set()
+        for i in range(len(dfi)):
+            if dfi.loc[i]['title'] in added_labels:
+                print("Label with title {} already added, skipping.".format(dfi.loc[i]['title']))
+                dfi.drop(i, inplace=True)
+                df.drop(i, inplace=True)
+            elif Label.query.filter_by(title=dfi.loc[i]['title']).first():
+                print("Label with title {} already exists, skipping.".format(dfi.loc[i]['title']))
+                dfi.drop(i, inplace=True)
+                df.drop(i, inplace=True)
+            else:
+                dfi.loc[i, 'id'] = current_id + i
+                df.loc[i, 'id'] = current_id + i
+                added_labels.add(dfi.loc[i]['title'])
         # first insert
         db.session.bulk_insert_mappings(Label, dfi.to_dict(orient="records"))
 
