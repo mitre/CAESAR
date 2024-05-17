@@ -1,0 +1,13 @@
+id,title,parent_label_id,order,verified,for_bulletin,for_actor,for_incident,for_offline
+,"Admiralty, Reliability, A - Completely reliable",,201419,1,1,1,1,0
+,"Admiralty, Reliability, B - Usually reliable",,201419,1,1,1,1,0
+,"Admiralty, Reliability, C - Fairly reliable",,201419,1,1,1,1,0
+,"Admiralty, Reliability, D - Not usually reliable",,201419,1,1,1,1,0
+,"Admiralty, Reliability, E - Unreliable",,201419,1,1,1,1,0
+,"Admiralty, Reliability, F - Reliability cannot be judged",,201419,1,1,1,1,0
+,"Admiralty, Credibility, 1 - Confirmed by other sources",,201419,1,1,1,1,0
+,"Admiralty, Credibility, 2 - Probably True",,201419,1,1,1,1,0
+,"Admiralty, Credibility, 3 - Possibly True",,201419,1,1,1,1,0
+,"Admiralty, Credibility, 4 - Doubtful",,201419,1,1,1,1,0
+,"Admiralty, Credibility, 5 - Improbable",,201419,1,1,1,1,0
+,"Admiralty, Credibility, 6 - Truth cannot be judged",,201419,1,1,1,1,0
