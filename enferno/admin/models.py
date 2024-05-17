@@ -2224,8 +2224,7 @@ class Actor(db.Model, BaseMixin):
 
     description = db.Column(db.Text)
 
-    nickname = db.Column(db.String(255))
-    nickname_ar = db.Column(db.String(255))
+    aliases = db.relationship('Alias', back_populates='actor', cascade='all, delete-orphan')
 
     first_name = db.Column(db.String(255))
     first_name_ar = db.Column(db.String(255))
@@ -2488,9 +2487,6 @@ class Actor(db.Model, BaseMixin):
         self.name = json["name"] if "name" in json else None
         self.name_ar = json["name_ar"] if "name_ar" in json else None
 
-        self.nickname = json["nickname"] if "nickname" in json else None
-        self.nickname_ar = json["nickname_ar"] if "nickname_ar" in json else None
-
         self.first_name = json["first_name"] if "first_name" in json else None
         self.first_name_ar = json["first_name_ar"] if "first_name_ar" in json else None
 
@@ -2601,6 +2597,23 @@ class Actor(db.Model, BaseMixin):
                     e.save()
                 new_events.append(e)
             self.events = new_events
+
+        if "aliases" in json:
+            new_aliases = []
+            aliases = json["aliases"]
+            for alias in aliases:
+                if "id" not in alias:
+                    # new alias
+                    a = Alias()
+                    a = a.from_json(alias)
+                    a.save()
+                else:
+                    # alias already exists, get a db instance and update it with new data
+                    a = Alias.query.get(alias["id"])
+                    a.from_json(alias)
+                    a.save()
+                new_aliases.append(a)
+            self.aliases = new_aliases
 
         # Social Media Handles
         if "social_media_handles" in json:
@@ -2910,8 +2923,6 @@ class Actor(db.Model, BaseMixin):
             'id': self.id,
             'name': self.serialize_column('name'),
             'name_ar': self.serialize_column('name_ar'),
-            'nickname': self.serialize_column('nickname'),
-            'nickname_ar': self.serialize_column('nickname_ar'),
             'middle_name': self.serialize_column('middle_name'),
             'middle_name_ar': self.serialize_column('middle_name_ar'),
             'last_name': self.serialize_column('last_name'),
@@ -2932,6 +2943,7 @@ class Actor(db.Model, BaseMixin):
             'publish_date': self.serialize_column('publish_date'),
             'documentation_date': self.serialize_column('documentation_date'),
 
+            'aliases': convert_simple_relation(self.aliases),
             'labels': convert_simple_relation(self.labels),
             'verified_labels': convert_simple_relation(self.ver_labels),
             'sources': convert_simple_relation(self.sources),
@@ -3077,6 +3089,11 @@ class Actor(db.Model, BaseMixin):
             for media in self.medias:
                 medias_json.append(media.to_dict())
 
+        aliases_json = []
+        if self.aliases and len(self.aliases):
+            for alias in self.aliases:
+                aliases_json.append(alias.to_dict())
+
         bulletin_relations_dict = []
         actor_relations_dict = []
         incident_relations_dict = []
@@ -3099,8 +3116,6 @@ class Actor(db.Model, BaseMixin):
             "name": self.name or None,
             "name_ar": getattr(self, 'name_ar'),
             "description": self.description or None,
-            "nickname": self.nickname or None,
-            "nickname_ar": getattr(self, 'nickname_ar'),
             "first_name": self.first_name or None,
             "first_name_ar": self.first_name_ar or None,
             "middle_name": self.middle_name or None,
@@ -3145,6 +3160,7 @@ class Actor(db.Model, BaseMixin):
             "verLabels": ver_labels_json,
             "events": events_json,
             "social_media_handles": handles_json,
+            "aliases": aliases_json,
             "medias": medias_json,
             "actor_relations": actor_relations_dict,
             "bulletin_relations": bulletin_relations_dict,
@@ -3258,6 +3274,36 @@ class Actor(db.Model, BaseMixin):
         if not self.name:
             return False
         return True
+
+
+class Alias(db.Model, BaseMixin):
+    """
+    Alias for actors
+    """
+    extend_existing = True
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    name_ar = db.Column(db.String, nullable=True)
+    actor_id = db.Column(db.Integer, db.ForeignKey('actor.id'), nullable=False)
+    actor = db.relationship('Actor', back_populates='aliases')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "name_ar": self.name_ar,
+            "actor_id": self.actor_id
+        }
+
+    def from_json(self, jsn):
+        self.name = jsn.get('name', self.name)
+        self.name_ar = jsn.get('name_ar', self.name_ar)
+        if 'actor_id' in jsn:
+            self.actor_id = jsn['actor_id']
+        elif 'actor' in jsn:
+            self.actor_id = jsn['actor']['id']
+        return self
 
 
 # Incident to bulletin uni-direction relation

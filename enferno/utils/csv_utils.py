@@ -20,7 +20,10 @@ def convert_simple_relation(relation):
     output = {}
     if relation:
         for i, v in enumerate(relation):
-            output[f'{v.__tablename__}-{i + 1}'] = f'{v.id}-{v.title}'
+            if 'title' in v.__dict__:
+                output[f'{v.__tablename__}-{i + 1}'] = f'{v.id}-{v.title}'
+            elif 'name' in v.__dict__:
+                output[f'{v.__tablename__}-{i + 1}'] = f'{v.id}-{v.name}'
         return output
     return None
 
