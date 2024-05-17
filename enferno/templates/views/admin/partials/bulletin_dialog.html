@@ -576,7 +576,20 @@
                                             item-text="name" item-value="id" :disabled="false"
                                             prepend-inner-icon="mdi-magnify" hide-no-data no-filter small-chips
                                             clearable :return-object="false" item-color="secondary"></v-autocomplete>
-                                        <search-field v-if="has_role(currentUser,'Admin')" api="/admin/api/roles/" item-text="name" item-value="id" :multiple="true" label="{{ _("Access Roles") }}" v-model="editedItem.roles"></search-field>
+                                        <search-field
+                                            v-if="has_role(currentUser, 'Mod') || has_role(currentUser, 'DA')"
+                                            api="/admin/api/roles/?custom=true&my_roles_only=true"
+                                            item-text="name"
+                                            item-value="id"
+                                            :multiple="true" label="{{ _("Access Roles") }}" v-model="editedItem.roles">
+                                        </search-field>
+                                        <search-field
+                                            v-else-if="has_role(currentUser, 'Admin')"
+                                            api="/admin/api/roles/?custom=true"
+                                            item-text="name"
+                                            item-value="id"
+                                            :multiple="true" label="{{ _("Access Roles") }}" v-model="editedItem.roles">
+                                        </search-field>
                                     </v-col>
                                 </v-row>
                                 <v-row v-if="editedItem.review">
