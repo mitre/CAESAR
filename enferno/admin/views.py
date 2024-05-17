@@ -1628,7 +1628,7 @@ def api_bulletin_bulk_update():
     bulk = request.json['bulk']
 
     # non-intrusive hard validation for access roles based on user
-    if not current_user.has_role('Admin'):
+    if not current_user.has_role('Admin') and not current_user.has_role('Mod'):
         # silently discard access roles
         bulk.pop('roles', None)
 
@@ -2394,7 +2394,7 @@ def api_actor_bulk_update():
     bulk = request.json['bulk']
 
     # non-intrusive hard validation for access roles based on user
-    if not current_user.has_role('Admin'):
+    if not current_user.has_role('Admin') and not current_user.has_role('Mod'):
         # silently discard access roles
         bulk.pop('roles', None)
 
@@ -2946,7 +2946,6 @@ def roles():
 
 @admin.route('/api/roles/', defaults={'page': 1})
 @admin.route('/api/roles/<int:page>/')
-@roles_required('Admin')
 def api_roles(page):
     """
     API endpoint to feed roles items in josn format - supports paging and search
@@ -2958,6 +2957,18 @@ def api_roles(page):
     if q is not None:
         query.append(
             Role.name.ilike('%' + q + '%')
+        )
+    # if custom is set, exclude system roles
+    is_custom = request.args.get('custom', False)
+    if is_custom:
+        query.append(
+            Role.name.notin_(['Admin', 'Mod', 'DA'])
+        )
+    # if my_roles_only is set, only show roles assigned to the current user
+    my_roles_only = request.args.get('my_roles_only', False)
+    if my_roles_only and current_user.roles:
+        query.append(
+            Role.id.in_([r.id for r in current_user.roles])
         )
     result = Role.query.filter(*query)
 
@@ -3233,8 +3244,9 @@ def api_incident_bulk_update():
     # non-intrusive hard validation for access roles based on user
     if not current_user.has_role('Admin'):
         # silently discard access roles
-        bulk.pop('roles', None)
-        bulk.pop('rolesReplace', None)
+        if not current_user.has_role('Mod'):
+            bulk.pop('rolesReplace', None)
+            bulk.pop('roles', None)
         bulk.pop('restrictRelated', None)
 
     if ids and len(bulk):

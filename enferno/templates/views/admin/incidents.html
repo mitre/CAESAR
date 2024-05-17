@@ -128,7 +128,7 @@
                             <v-tooltip top>
                                 <template v-slot:activator="{ on }">
                                     <v-icon v-on="on" color="primary lighten-1" class="mr-2"
-                                        @click.stop="openAssignOther(item)" v-if="bulkAllowed()">
+                                        @click.stop="openAssignOther(item)" v-if="bulkAllowed() && !item.restricted">
                                         mdi-account-box-outline
                                     </v-icon>
                                 </template>
