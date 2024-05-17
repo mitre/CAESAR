@@ -381,7 +381,6 @@
             statusDisabled: false,
             //field language switchers
             name__: true,
-            nickname__: true,
             first_name__: true,
             middle_name__: true,
             mother_name__: true,
@@ -464,7 +463,8 @@
                 actor_relations: [],
                     bulletin_relations: [],
                     social_media_handles: [],
-                        incident_relations: []
+                        incident_relations: [],
+          aliases: []
     },
     defaultItem: {
         description: "",
@@ -480,6 +480,7 @@
                                 // related incidents
                                 incident_relations: [],
                                 social_media_handles: [],
+                                aliases: [],
                                     publish_date: '',
                                         documentation_date: new Date().toISOString().substr(0, 16),
                 },
@@ -907,7 +908,6 @@
         //reset initial visible fields to english language
         resetSwitchers: function() {
             this.name__ = true;
-            this.nickname__ = true;
             this.first_name__ = true;
             this.middle_name__ = true;
             this.mother_name__ = true;
@@ -1271,6 +1271,19 @@
             return this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].handle_name === '' ||
               ((this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform_id === null || !this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform_id) &&
                 (!this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform || this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform === null));
+          }
+          return false;
+        },
+        addAlias() {
+          this.editedItem.aliases.push({
+            name: '',
+            actor_id: this.editedItem.id
+          });
+        },
+        isLastAliasEmpty() {
+          if (this.editedItem.aliases.length) {
+            const lastIndex = this.editedItem.aliases.length - 1;
+            return this.editedItem.aliases[lastIndex].name === '';
           }
           return false;
         },
