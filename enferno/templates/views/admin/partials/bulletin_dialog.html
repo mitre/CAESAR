@@ -133,24 +133,23 @@
                                     </v-col>
                                 </v-row>
                                 <v-row>
-                                    <v-col cols="12" md="11">
-                                        <div>
+                                    <v-col cols="12">
+                                            <div class="d-flex align-center">
+                                              <h3>{{ _("Description") }}</h3>
+                                              <v-tooltip top max-width=500 open-delay=500>
+                                                  <template v-slot:activator="{ on }">
+                                                      <div v-on="on" class="ml-2 mb-1">
+                                                          <v-icon>mdi-information-outline</v-icon>
+                                                  </template>
+                                                  <span>{{ _('The Bulletin Description should describe, in details, what
+                                                      happens, and what the content shows. Describe the people involved, the
+                                                      surrounding area, information about time and day. Be critical and only
+                                                      use (describe) the facts actually shown in the documentation.')
+                                                      }}</span>
+                                              </v-tooltip>
+                                            </div>
                                             <tinymce-editor :init="tinyConfig" :key="descKey"
                                                 v-model="editedItem.description"></tinymce-editor>
-                                        </div>
-                                    </v-col>
-                                    <v-col cols="12" md="1">
-                                        <v-tooltip left max-width=500 open-delay=500>
-                                            <template v-slot:activator="{ on }">
-                                                <div v-on="on">
-                                                    <v-icon>mdi-information-outline</v-icon>
-                                            </template>
-                                            <span>{{ _('The Bulletin Description should describe, in details, what
-                                                happens, and what the content shows. Describe the people involved, the
-                                                surrounding area, information about time and day. Be critical and only
-                                                use (describe) the facts actually shown in the documentation.')
-                                                }}</span>
-                                        </v-tooltip>
                                     </v-col>
                                 </v-row>
                                 <!-- Tags -->
