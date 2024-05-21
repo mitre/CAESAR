@@ -2287,7 +2287,10 @@ def api_actor_create():
     # assign actor to creator by default
     actor.assigned_to_id = current_user.id
     # assignment will be overwritten if it is specified in the creation request
-    actor.from_json(request.json['item'])
+    try:
+        actor.from_json(request.json['item'])
+    except Exception as e:
+        return f'Error creating actor: {e}', 400
     result = actor.save()
     if result:
         # the below will create the first revision by default
@@ -2314,7 +2317,10 @@ def api_actor_update(id):
         if not current_user.can_access(actor):
             return 'Restricted Access', 403
 
-        actor = actor.from_json(request.json['item'])
+        try:
+            actor = actor.from_json(request.json['item'])
+        except Exception as e:
+            return f'Error updating actor: {e}', 400
         # Create a revision using latest values
         # this method automatically commits
         # actor changes (referenced)
