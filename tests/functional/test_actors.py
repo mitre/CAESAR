@@ -5,7 +5,7 @@ import datetime
 
 initial_title = 'title'
 
-def new_actor():
+def new_actor(sex=None):
   actor = {
       "description": str(uuid.uuid4()),
       "status": "Human Created",
@@ -19,6 +19,8 @@ def new_actor():
       "name": str(uuid.uuid4()),
       "comments": str(uuid.uuid4())
     }
+  if sex:
+    actor["sex"] = sex
   return actor
 
 # POST /api/actor
@@ -108,3 +110,37 @@ def test_actor_crud_sequence(auth_session):
   assert_actors_match(updated_actor, read_updated_actor)
 
   delete_actor(auth_session, first_id)
+
+def test_actor_with_invalid_sex_returns_400(auth_session):
+  payload = json.dumps({"item": new_actor(sex="invalid_sex")})
+  response = auth_session.post('/admin/api/actor/',
+                               data = payload,
+                               headers={"Content-Type": "application/json"})
+  assert response.status_code == 400
+
+def test_actor_with_valid_sex_returns_200(auth_session):
+  payload = json.dumps({"item": new_actor(sex="Man")})
+  response = auth_session.post('/admin/api/actor/',
+                               data = payload,
+                               headers={"Content-Type": "application/json"})
+  assert response.status_code == 200
+
+def test_update_actor_with_invalid_sex_returns_400(auth_session):
+  actor_id = create_actor(auth_session, new_actor())
+  updated_actor = new_actor(sex="invalid_sex")
+  payload = json.dumps({"item": updated_actor})
+  url = '/admin/api/actor/' + str(actor_id)
+  response = auth_session.put(url,
+                               data = payload,
+                               headers={"Content-Type": "application/json"})
+  assert response.status_code == 400
+
+def test_update_actor_with_valid_sex_returns_200(auth_session):
+  actor_id = create_actor(auth_session, new_actor())
+  updated_actor = new_actor(sex="Man")
+  payload = json.dumps({"item": updated_actor})
+  url = '/admin/api/actor/' + str(actor_id)
+  response = auth_session.put(url,
+                               data = payload,
+                               headers={"Content-Type": "application/json"})
+  assert response.status_code == 200

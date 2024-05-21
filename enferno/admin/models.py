@@ -11,10 +11,11 @@ from flask_babel import gettext
 from flask_login import current_user
 from geoalchemy2 import Geometry, Geography
 from geoalchemy2.shape import to_shape
-from sqlalchemy import JSON, ARRAY, text, and_, or_, func
+from sqlalchemy import JSON, ARRAY, text, and_, or_, func, Enum
 from sqlalchemy.dialects.postgresql import TSVECTOR, JSONB
 from sqlalchemy.orm.attributes import flag_modified
 from werkzeug.utils import secure_filename
+from enferno.admin.choices import Sex
 
 from enferno.extensions import db
 from enferno.settings import Config as cfg
@@ -2324,7 +2325,7 @@ class Actor(db.Model, BaseMixin):
     )
 
     actor_type = db.Column(db.String(255))
-    sex = db.Column(db.String(255))
+    sex = db.Column(Enum(Sex))
     age = db.Column(db.String(255))
     civilian = db.Column(db.String(255))
     birth_date = db.Column(db.DateTime)
@@ -2576,7 +2577,12 @@ class Actor(db.Model, BaseMixin):
             ver_labels = Label.query.filter(Label.id.in_(ids)).all()
             self.ver_labels = ver_labels
 
-        self.sex = json["sex"] if "sex" in json else None
+        if "sex" in json:
+            if Sex.is_valid(json["sex"]):
+                self.sex = Sex.get_name(json["sex"])
+            else:
+                raise ValueError(f"{json['sex']} is not a valid option for an actor's sex")
+
         self.age = json["age"] if "age" in json else None
         self.civilian = json["civilian"] if "civilian" in json else None
         self.actor_type = json["actor_type"] if "actor_type" in json else None
@@ -3145,8 +3151,8 @@ class Actor(db.Model, BaseMixin):
             "last_name_ar": self.last_name_ar or None,
             "mother_name": self.mother_name or None,
             "mother_name_ar": self.mother_name_ar or None,
-            "sex": self.sex,
-            "_sex": gettext(self.sex),
+            "sex": self.sex.__str__() if self.sex else None,
+            "_sex": gettext(self.sex.__str__()) if self.sex else None,
             "age": self.age,
             "_age": gettext(self.age),
             "civilian": self.civilian or None,
