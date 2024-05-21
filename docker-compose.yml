@@ -11,8 +11,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
     volumes:
-      - ${DB_DATA:-postgres_data}:/var/lib/postgresql/data
-      - ${DB_BACKUP:-postgres_backup}:/opt/backup
+      - postgres_data:/var/lib/postgresql/data
+      - postgres_backup:/opt/backup
     ports:
       - ${POSTGRES_EXTERNAL_PORT:-5432}:5432
     security_opt:
