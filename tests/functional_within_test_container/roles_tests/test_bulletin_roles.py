@@ -122,11 +122,15 @@ def test_updateBulletin_withAssignedUserRolesAndRequiredBulletinAccessRestrictio
                                headers={"Content-Type": "application/json"})
   assert response.status_code == expected_api_response_code
 
+def bulletin_has_min_json(bulletin):
+  return all(key in bulletin for key in ['id', 'title', 'name', 'assigned_to', 'first_peer_reviewer', 'status', "roles"])
+
 def test_bulletinQuery_bulletinsAreRestrictedByRoles(test_flask_app, auth_session, roles_by_role_name):
   bulletin_1_id = create_bulletin_requiring_roles(auth_session, roles_by_role_name, [])
   bulletin_2_id = create_bulletin_requiring_roles(auth_session, roles_by_role_name, [DA_ROLE_NAME])
   bulletin_3_id = create_bulletin_requiring_roles(auth_session, roles_by_role_name, [DA_ROLE_NAME, CUSTOM_ROLE_NAME])
-  bulletin_4_id = create_bulletin_requiring_roles(auth_session, roles_by_role_name, [DA_ROLE_NAME, SECOND_CUSTOM_ROLE_NAME])
+  bulletin_4_id = create_bulletin_requiring_roles(auth_session, roles_by_role_name, [DA_ROLE_NAME, SECOND_CUSTOM_ROLE_NAME]) # IMPORTANT! Assigning a bulletin the Data Analyst role means that ALL data analysts will be able to view the bulletin
+  bulletin_5_id = create_bulletin_requiring_roles(auth_session, roles_by_role_name, [SECOND_CUSTOM_ROLE_NAME])
 
   roles_assigned_to_user = [DA_ROLE_NAME, CUSTOM_ROLE_NAME]
   user_roles = []
@@ -163,20 +167,24 @@ def test_bulletinQuery_bulletinsAreRestrictedByRoles(test_flask_app, auth_sessio
   bulletin_2_found = False
   bulletin_3_found = False
   bulletin_4_found = False
+  bulletin_5_is_restricted = False
   for bulletin in bulletins:
     if int(bulletin['id']) == int(bulletin_1_id):
-      bulletin_1_found = True
+      bulletin_1_found = bulletin_has_min_json(bulletin)
     if int(bulletin['id']) == int(bulletin_2_id):
-      bulletin_2_found= True
+      bulletin_2_found = bulletin_has_min_json(bulletin)
     if int(bulletin['id']) == int(bulletin_3_id):
-      bulletin_3_found = True
+      bulletin_3_found = bulletin_has_min_json(bulletin)
     if int(bulletin['id']) == int(bulletin_4_id):
-      bulletin_4_found = True
+      bulletin_4_found = bulletin_has_min_json(bulletin)
+    if int(bulletin['id']) == int(bulletin_5_id):
+      bulletin_5_is_restricted = bulletin['restricted']
   
   assert bulletin_1_found
   assert bulletin_2_found
   assert bulletin_3_found
-  assert bulletin_4_found == False
+  assert bulletin_4_found
+  assert bulletin_5_is_restricted
 
 # check role CRUD operations
 # test role assignment
