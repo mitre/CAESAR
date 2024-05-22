@@ -37,3 +37,6 @@ services:
     depends_on:
       - postgres
 
+  postgres:
+    volumes:
+      - ${DB_DATA:-./pgdata}:/var/lib/postgresql/data
