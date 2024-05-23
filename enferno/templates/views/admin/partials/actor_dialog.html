@@ -478,7 +478,9 @@
                                 <h2 class="form-section-header">{{ _("Media") }}</h2>
                                 <v-row>
                                     <v-col col="12">
+                                        {% with media_scope='actor' %}
                                         {% include 'views/admin/partials/media_dialog.html' %}
+                                        {% endwith %}
                                         {% if config.MISSING_PERSONS %}
                                         <v-card color="yellow lighten-5" class="my-6">
                                             <v-card-title>
