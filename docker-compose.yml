@@ -71,6 +71,7 @@ services:
       POSTGRES_HOST: ${POSTGRES_HOST:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      FLASK_DEBUG: ${FLASK_DEBUG:-0}
       USER_ID: ${USER_ID:-1000}
     volumes:
       - ${BAYANAT_IMPORT_PATH:-./enferno/imports}:/app/enferno/imports:rw
