@@ -77,7 +77,7 @@ class SocialMediaPlatform(db.Model, BaseMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
-    handles = db.relationship("SocialMediaHandle", foreign_keys="SocialMediaHandle.platform_id", cascade="all, delete-orphan")
+    handles = db.relationship("SocialMediaHandle", back_populates="platform", cascade="all, delete-orphan")
 
     def to_dict(self):
         return {
@@ -99,7 +99,7 @@ class SocialMediaHandle(db.Model, BaseMixin):
     id = db.Column(db.Integer, primary_key=True)
     handle_name = db.Column(db.String, nullable=False)
     platform_id = db.Column(db.Integer, db.ForeignKey('social_media_platform.id'))
-    platform = db.relationship("SocialMediaPlatform", foreign_keys=[platform_id])
+    platform = db.relationship("SocialMediaPlatform", back_populates="handles", foreign_keys=[platform_id])
     actor_id = db.Column(db.Integer, db.ForeignKey('actor.id'), nullable=True)
     actor = db.relationship("Actor", back_populates="social_media_handles", foreign_keys=[actor_id])
 
