@@ -1,3 +1,5 @@
+// const maplibreGl = require("../maplibre-gl");
+
 Vue.component("geo-map", {
   props: {
     title: String,
@@ -25,13 +27,15 @@ Vue.component("geo-map", {
   },
 
   computed: {
-    map() {
-      return this.$refs.map.mapObject;
-    },
+    // map() {
+    //    //return this.$refs.map.mapObject;
+    //   //  return this.$refs.mapContainer.map;
+    //    return this.map;
+    // },
 
     mapCenter() {
       if (this.lat && this.lng) {
-        return [this.lat, this.lng];
+        return {lat: this.lat, lng: this.lng};
       }
       return geoMapDefaultCenter;
     },
@@ -42,7 +46,7 @@ Vue.component("geo-map", {
         // console.log(this.others.filter(x=> x.lat!=this.value.lat && x.lng != this.value.lng));
         return this.others.filter(
           (x) => x.lat != this.value.lat && x.lng != this.value.lng,
-        );
+        )
       }
       return [];
     },
@@ -105,22 +109,59 @@ Vue.component("geo-map", {
     },
   },
 
+  unmounted() {
+    mlMap.value?.remove();
+  },
+
   mounted() {
     window.addEventListener("resize", this.fixMap);
 
     this.fixMap();
     this.broadcast();
-    this.map.addControl(
-      new L.Control.Fullscreen({
-        title: {
-          false: "View Fullscreen",
-          true: "Exit Fullscreen",
-        },
-      }),
-    );
-    this.satellite = L.gridLayer.googleMutant({
-      type: "satellite", // valid values are 'roadmap', 'satellite', 'terrain' and 'hybrid'
+
+    let mlMapContainer = this.$refs.mapContainer
+    let mlMap = {};
+    mlMap.value = new maplibregl.Map({
+      container: mlMapContainer,
+      style: `https://tileserver.apps.epic-osc.mitre.org/styles/bright/style.json`,
+      center: [this.mapCenter.lng, this.mapCenter.lat],
+      zoom: this.mapZoom,
     });
+    mlMap.value.addControl(new maplibregl.FullscreenControl());
+    this.map = mlMap.value;
+    this.map.on('click', (e) => {this.updateMarker(e)});
+
+    if (this.value) {
+      this.$nextTick(() => {this.updateMarker()});
+    }
+
+    if (this.others) {
+      this.others.filter(
+        (x) => !this.value || (x.lat != this.value.lat && x.lng != this.value.lng),
+      ).forEach((marker)=>{
+        new maplibregl.Marker({color: "#DDDDDD"})
+          .setLngLat([marker.lng, marker.lat])
+          .addTo(this.map);
+      });
+    }
+
+    // create a DOM element for the marker
+    // const el = document.createElement('div');
+    // el.className = 'marker';
+    // el.style.background = 'red';
+    // el.style.width = `50px`;
+    // el.style.height = `50px`;
+    // el.style.borborderRadius = `25px`;
+
+    // // add marker to map
+    // new maplibregl.Marker({element: el})
+    //   .setLngLat([this.mapCenter.lng, this.mapCenter.lat])
+    //   .addTo(mlMap.value);
+
+   
+    // this.satellite = L.gridLayer.googleMutant({
+    //   type: "satellite", // valid values are 'roadmap', 'satellite', 'terrain' and 'hybrid'
+    // });
   },
 
   // clean up resize event listener
@@ -132,15 +173,15 @@ Vue.component("geo-map", {
     fixMap() {
       this.$nextTick(() => {
         if (this.map) {
-          this.map.invalidateSize();
+          this.map.resize();
         }
 
         // Add error handling for the tile layer
-        L.tileLayer(this.mapsApiEndpoint)
-          .on("error", function (error) {
-            console.error("Tile layer error:", error);
-          })
-          .addTo(this.map);
+        // L.tileLayer(this.mapsApiEndpoint)
+        //   .on("error", function (error) {
+        //     console.error("Tile layer error:", error);
+        //   })
+        //   .addTo(this.map);
       });
     },
 
@@ -159,19 +200,53 @@ Vue.component("geo-map", {
 
     clearMarker(evt) {
       this.lat = this.lng = null;
-      this.map.removeLayer(this.radiusCircle);
-    },
-
-    setMarker(evt) {
-      if (this.editMode) {
-        this.lat = evt.latlng.lat;
-        this.lng = evt.latlng.lng;
+      if(this.marker) {
+        this.marker.remove();
+        this.marker = null;
+      }
+      if (this.map.getSource('radius')) {
+        this.map.removeLayer('circle-line');
+        this.map.removeLayer('circle-fill');
+        this.map.removeSource('radius');
       }
     },
 
-    updateLocation(point) {
-      this.lat = point.lat;
-      this.lng = point.lng;
+    updateMarker(evt) {
+      let loc = [this.mapCenter.lng, this.mapCenter.lat];
+      if (evt && evt.lngLat) {
+        loc = [evt.lngLat.lng, evt.lngLat.lat];
+      } else if (this.lat && this.lng) {
+        loc = [this.lng, this.lat];
+      }
+
+      if(!this.marker) {
+        this.marker = new maplibregl.Marker({
+          id: 'editing-geolocation',
+          draggable: true
+        })
+        .setLngLat(loc)
+        .on('dragend', (evt) => {
+          const lngLat = evt.target._lngLat;
+          if (this.editMode) {
+            this.lat = lngLat.lat;
+            this.lng = lngLat.lng;
+            this.map.flyTo({
+              center: [this.lng, this.lat]
+            });
+          }
+        })
+        .addTo(this.map);
+      } else {
+        this.marker.setLngLat(loc);
+      }
+
+      if (this.editMode) {
+        this.map.flyTo({
+          center: loc
+        });
+        this.lat = loc[1];
+        this.lng = loc[0];
+      }
     },
 
     clearAddRadiusCircle() {
@@ -180,8 +255,10 @@ Vue.component("geo-map", {
       }
 
       // Remove existing radius circle if it exists
-      if (this.radiusCircle) {
-        this.map.removeLayer(this.radiusCircle);
+      if (this.map.getSource('radius')) {
+        this.map.removeLayer('circle-line');
+        this.map.removeLayer('circle-fill');
+        this.map.removeSource('radius');
       }
 
       // If radius is not provided, return
@@ -192,14 +269,37 @@ Vue.component("geo-map", {
       if (!this.lat || !this.lng) {
         return;
       }
-      this.radiusCircle = L.circle([this.lat, this.lng], {
-        radius: this.radius,
+      
+      var center = [this.lng, this.lat];
+      var options = { steps: 90, units: "meters", properties: { foo: "bar" } };
+      var circle = turf.circle(center, this.radius, options);
+      this.map.addSource('radius', {
+        'type': 'geojson',
+        'data': circle
       });
-      this.radiusCircle.addTo(this.map);
+      this.map.addLayer({
+        'id': 'circle-fill',
+        'type': 'fill',
+        'source': 'radius',
+        'paint': {
+          "fill-color": "rgb(51, 136, 255)",
+          "fill-opacity": 0.2
+        }
+      });
+      this.map.addLayer({
+        'id': 'circle-line',
+        'type': 'line',
+        'source': 'radius',
+        'paint': {
+          "line-color": "rgb(51, 136, 255)",
+          "line-opacity": 1.0,
+          "line-width": 3
+        }
+      });
 
       debounce(() => {
-        const bounds = this.radiusCircle.getBounds();
-        this.map.fitBounds(bounds);
+        const bbox = turf.bbox(circle);
+        this.map.fitBounds(bbox, {padding: 20, duration: 100});
       }, 250)();
     },
 
@@ -218,83 +318,56 @@ Vue.component("geo-map", {
     },
   },
   template: `
-          <v-card class="pa-1" elevation="0">
+        <v-card class="pa-1" elevation="0">
 
           <v-card-text>
             <h3 v-if="title" class=" mb-5">{{ title }}</h3>
             <div v-if="editMode" class="d-flex" style="column-gap: 20px;">
-              <v-text-field dense type="number" min="-90" max="90"
-                            v-model.number="lat">
-                                <template #label>
-                                    {{ translations.latitude_ }} <span class="red--text" v-if="required"><strong>* </strong></span>
-                                </template>
-                            </v-text-field>
-              <v-text-field dense type="number" min="-180" max="180" :label="translations.longitude_"
-                            v-model.number="lng">
-                                <template #label>
-                                    {{ translations.longitude_ }} <span class="red--text" v-if="required"><strong>* </strong></span>
-                                </template>            
-                </v-text-field>
+              <v-text-field dense type="number" min="-90" max="90" v-model.number="lat">
+                <template #label>
+                    {{ translations.latitude_ }} <span class="red--text" v-if="required"><strong>* </strong></span>
+                </template>
+              </v-text-field>
+              <v-text-field dense type="number" min="-180" max="180" :label="translations.longitude_" v-model.number="lng">
+                <template #label>
+                    {{ translations.longitude_ }} <span class="red--text" v-if="required"><strong>* </strong></span>
+                </template>            
+              </v-text-field>
               <v-btn v-if="lat&&lng" small @click="clearMarker" text fab>
                 <v-icon>mdi-close</v-icon>
               </v-btn>
             </div>
 
             <div v-if="editMode && radiusControls">
-                 
-            
-                <v-slider
-                    v-if="editMode && radiusControls"
-                    class="mt-1 align-center"
-                    :min="100"
-                    :max="100000"
-                    :step="100"
-                    thumb-label
-                    track-color="gray lighten-2"
-                    v-model.number="radius"
-                    :label="translations.radius_"
-                >
-                    <template v-slot:append>  
-                        <v-text-field 
-                            readonly
-                            style="max-width:200px" 
-                            v-model.number="radius"
-                            :suffix="translations.meters_" 
-                            outlined 
-                            dense 
-                        >
-                        </v-text-field>
-                    </template>
-                  
-                </v-slider>
-              </div>
+              <v-slider
+                  v-if="editMode && radiusControls"
+                  class="mt-1 align-center"
+                  :min="100"
+                  :max="100000"
+                  :step="100"
+                  thumb-label
+                  track-color="gray lighten-2"
+                  v-model.number="radius"
+                  :label="translations.radius_"
+              >
+                <template v-slot:append>  
+                    <v-text-field 
+                        readonly
+                        style="max-width:200px" 
+                        v-model.number="radius"
+                        :suffix="translations.meters_" 
+                        outlined 
+                        dense 
+                    >
+                    </v-text-field>
+                </template>
+              </v-slider>
+            </div>
 
-            <l-map @click="setMarker" class="mt-2" ref="map" :zoom="mapZoom"
-                   :style="'border-radius: 8px;resize: vertical;height:'+ mapHeight + 'px'"
-                   :center="mapCenter"
-                   :options="{scrollWheelZoom:false}">
-              <l-tile-layer :key="mapKey" v-if="defaultTile" :attribution="attribution" :url="mapsApiEndpoint"
-                            :subdomains="subdomains"></l-tile-layer>
-              <l-control class="example-custom-control">
-                <v-btn v-if="__GOOGLE_MAPS_API_KEY__" @click="toggleSatellite" small fab>
-                  <img src="/static/img/satellite-icon.png" width="18">
-                </v-btn>
-              </l-control>
-              <l-marker
-                  v-if="lat && lng"
-                  @update:latLng="updateLocation"
-                  :lat-lng="[lat,lng]"
-                  :draggable="editMode"/>
-              <l-marker
-                  :draggable="false"
-                  opacity="0.4"
-                  v-for="marker in extra"
-                  :lat-lng="[marker.lat,marker.lng]"/>
-            </l-map>
+            <l-map @click="updateMarker" id="mlMapContainer" ref="mapContainer" :style="'position: relative; display: inline-block; height: '+ mapHeight + 'px; width: 100%; resize: vertical'"></l-map>
 
           </v-card-text>
 
-          </v-card>
-
+        </v-card>
         `,
 });

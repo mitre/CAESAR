@@ -156,16 +156,6 @@ const debounce = (fn, time) => {
 Vue.component("validation-provider", VeeValidate.ValidationProvider);
 Vue.component("validation-observer", VeeValidate.ValidationObserver);
 
-//register leaflet map components
-if (window.Vue2Leaflet) {
-  Vue.component("l-map", window.Vue2Leaflet.LMap);
-  Vue.component("l-tile-layer", window.Vue2Leaflet.LTileLayer);
-  Vue.component("l-marker", window.Vue2Leaflet.LMarker);
-  Vue.component("l-circle-marker", window.Vue2Leaflet.LCircleMarker);
-  Vue.component("l-popup", window.Vue2Leaflet.LPopup);
-  Vue.component("l-icon", window.Vue2Leaflet.LIcon);
-  Vue.component("l-control", window.Vue2Leaflet.LControl);
-}
 if (window.VueTippy) {
   Vue.use(VueTippy);
 }
@@ -278,6 +268,7 @@ var tinyConfig = {
     { title: "Paragraph", format: "p" },
   ],
   cleanup: true,
+  license_key: 'gpl'
 };
 
 // adjust rich text editor theme based on mode
