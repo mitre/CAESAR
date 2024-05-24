@@ -348,7 +348,7 @@ Vue.component("actor-card", {
       </v-card>
 
 
-      <uni-field :caption="i18n.nationalIDCard_" :english="actor.national_id_card"></uni-field>
+      <uni-field :caption="i18n.taxIdNumber_" :english="actor.national_id_card"></uni-field>
 
 
       <v-card outlined class="ma-2" color="grey lighten-5" v-if="actor.sources && actor.sources.length">

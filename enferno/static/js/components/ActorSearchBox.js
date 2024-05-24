@@ -635,7 +635,7 @@ Vue.component("actor-search-box", {
               <pop-date-field :label="i18n.birthDate_" v-model="q.birth_date"></pop-date-field>
             </v-col>
             <v-col md="6">
-              <v-text-field dense :label="i18n.nationalIdCard_" v-model="q.national_id_card"></v-text-field>
+              <v-text-field dense :label="i18n.taxIdNumber_" v-model="q.national_id_card"></v-text-field>
 
             </v-col>
           </v-row>
