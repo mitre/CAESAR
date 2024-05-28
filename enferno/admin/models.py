@@ -502,7 +502,7 @@ class Event(db.Model, BaseMixin):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, index=True)
     title_ar = db.Column(db.String, index=True)
-    comments = db.Column(db.String)
+    comments = db.Column(db.Text)
     comments_ar = db.Column(db.String)
 
     location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
