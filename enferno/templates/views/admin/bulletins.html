@@ -46,8 +46,7 @@
                                 </v-btn>
                                 <v-spacer></v-spacer>
                                 {% if current_user.roles_in(['Admin','DA']) %}
-                                <v-btn @click="editItem" color="accent" dark class="ma-2">{{ _("New Bulletin")
-                                    }}</v-btn>
+                                <v-btn @click="editItem" color="accent" dark class="ma-2">{{ _("New Bulletin") }}</v-btn>
                                 {% endif %}
                                 {% include
                                 'views/admin/partials/bulletin_dialog.html' %}
@@ -178,7 +177,7 @@
                         <v-card class="pa-3">
                             <v-card-title>Self Assign Bulletin #${assignBulletin.id}</v-card-title>
                             <v-card-text>
-                                <v-combobox small-chips multiple v-model="assignBulletin.ref" label="{{ _(" Ref") }}"
+                                <v-combobox small-chips multiple v-model="assignBulletin.ref" label="{{ _("Ref") }}"
                                     class="mr-2"></v-combobox>
                                 <v-textarea v-model="assignBulletin.comments" label="Comments"></v-textarea>
                             </v-card-text>
@@ -196,11 +195,10 @@
                                 <validation-provider name="Assigned To" rules="required" v-slot="{ errors }">
                                     <search-field-single v-model="assignBulletin.assigned_to_id" api="/admin/api/users/"
                                         item-text="name" item-value="id" :return-object="false" :multiple="false"
-                                        label="{{ _(" Assigned To") }}"></search-field-single>
+                                        label="{{ _("Assigned To") }}"></search-field-single>
                                     <span class="red--text">${errors[0]}</span>
                                 </validation-provider>
-                                <v-combobox small-chips multiple v-model="assignBulletin.ref" label="{{ _(" Ref")
-                                    }}"></v-combobox>
+                                <v-combobox small-chips multiple v-model="assignBulletin.ref" label="{{ _("Ref") }}"></v-combobox>
                                 <validation-provider name="Comments" rules="required" v-slot="{ errors }">
                                     <v-textarea v-model="assignBulletin.comments" label="Comments"></v-textarea>
                                     <span class="red--text">${errors[0]}</span>

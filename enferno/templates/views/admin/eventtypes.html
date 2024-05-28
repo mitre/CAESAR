@@ -24,8 +24,7 @@
                                         <v-dialog v-model="dialog" max-width="500px">
                                             {% if current_user.roles_in(['Admin','Mod']) %}
                                             <template v-slot:activator="{ on }">
-                                                <v-btn color="accent" dark class="ma-2" v-on="on">{{ _("New Item")
-                                                    }}</v-btn>
+                                                <v-btn color="accent" dark class="ma-2" v-on="on">{{ _("New Item") }}</v-btn>
                                             </template>
                                             {% endif %}
                                             <v-card>
@@ -41,24 +40,24 @@
                                                             </v-col>
                                                             <v-col cols="12" md="6">
                                                                 <v-text-field v-model="editedItem.title_ar"
-                                                                    label="{{ _(" Title (AR)") }}"></v-text-field>
+                                                                    label="{{ _("Title (AR)") }}"></v-text-field>
                                                             </v-col>
                                                         </v-row>
                                                         <v-row>
                                                             <v-col cols="12" md="6">
-                                                                <v-checkbox label="{{ _(" For Actors") }}"
+                                                                <v-checkbox label="{{ _("For Actors") }}"
                                                                     v-model="editedItem.for_actor">
                                                                 </v-checkbox>
                                                             </v-col>
                                                             <v-col cols="12" md="6">
-                                                                <v-checkbox label="{{ _(" For Bulletins") }}"
+                                                                <v-checkbox label="{{ _("For Bulletins") }}"
                                                                     v-model="editedItem.for_bulletin">
                                                                 </v-checkbox>
                                                             </v-col>
                                                             <v-row>
                                                                 <v-col>
                                                                     <v-textarea v-model="editedItem.comments"
-                                                                        label="{{ _(" Comments") }}">
+                                                                        label="{{ _("Comments") }}">
                                                                     </v-textarea>
                                                                 </v-col>
                                                             </v-row>
@@ -88,7 +87,7 @@
                                                         <v-row>
                                                             <v-col cols="12" md="12">
                                                                 <v-file-input v-model="csvFile" show-size accept=".csv"
-                                                                    label="{{ _(" Select CSV File") }}"></v-file-input>
+                                                                    label="{{ _("Select CSV File") }}"></v-file-input>
                                                             </v-col>
                                                         </v-row>
                                                     </v-container>

@@ -16,7 +16,7 @@
                                     <v-toolbar-title>{{ _("Labels") }}</v-toolbar-title>
                                     <v-divider class="mx-4" inset vertical></v-divider>
                                     <v-text-field outlined dense class="mt-6" v-model="q" @keydown.enter="refresh()"
-                                        label="{{ _(" Search") }}">
+                                        label="{{ _("Search") }}">
                                     </v-text-field>
                                     <v-btn @click="refresh()" icon>
                                         <v-icon>mdi-refresh</v-icon>
@@ -25,8 +25,7 @@
                                     <v-dialog v-model="dialog" max-width="900px">
                                         {% if current_user.roles_in(['Admin','Mod']) %}
                                         <template v-slot:activator="{ on }">
-                                            <v-btn color="accent" dark class="ma-2" v-on="on">{{ _("New Item")
-                                                }}</v-btn>
+                                            <v-btn color="accent" dark class="ma-2" v-on="on">{{ _("New Item") }}</v-btn>
                                         </template>
                                         {% endif %}
                                         <v-card>
@@ -58,7 +57,7 @@
                                                     <v-row>
                                                         <v-col cols="12" md="6">
                                                             <search-field api="/admin/api/labels/" item-text="title"
-                                                                label="{{ _(" Parent") }}" v-model="editedItem.parent"
+                                                                label="{{ _("Parent") }}" v-model="editedItem.parent"
                                                                 item-value="id" :multiple="false" label="Labels"
                                                                 :query-params="{ fltr: 'all' }"></search-field>
                                                         </v-col>
@@ -112,7 +111,7 @@
                                                     <v-row>
                                                         <v-col cols="12" md="12">
                                                             <v-file-input v-model="csvFile" show-size accept=".csv"
-                                                                label="{{ _(" Select CSV File") }}"></v-file-input>
+                                                                label="{{ _("Select CSV File") }}"></v-file-input>
                                                         </v-col>
                                                     </v-row>
                                                 </v-container>
