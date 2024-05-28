@@ -57,7 +57,7 @@
                                         <v-card class="d-flex" flat>
                                             <v-text-field v-if="title__" v-model="editedItem.title" label="{{ _("
                                                 Title") }}"></v-text-field>
-                                            <v-text-field v-else v-model="editedItem.title_ar" label="{{ _(" Title
+                                            <v-text-field v-else v-model="editedItem.title_ar" label="{{ _("Title
                                                 (AR)") }}" background-color="lime lighten-5"></v-text-field>
                                             <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline"
                                                 @click="title__=!title__">
@@ -92,7 +92,7 @@
                                                 <div v-on="on">
                                                     <search-field v-model="editedItem.potential_violations"
                                                         api="/admin/api/potentialviolation/" item-text="title"
-                                                        item-value="id" :multiple="true" label="{{ _(" Potential
+                                                        item-value="id" :multiple="true" label="{{ _("Potential
                                                         violation categories") }}"></search-field>
                                                 </div>
                                             </template>
@@ -106,7 +106,7 @@
                                                 <div v-on="on">
                                                     <search-field v-model="editedItem.claimed_violations"
                                                         api="/admin/api/claimedviolation/" item-text="title"
-                                                        item-value="id" :multiple="true" label="{{ _(" Claimed
+                                                        item-value="id" :multiple="true" label="{{ _("Claimed
                                                         Violations Categories") }}"></search-field>
                                                 </div>
                                             </template>
@@ -122,14 +122,10 @@
                                                 <div v-on="on">
                                                     <search-field v-model="editedItem.labels" api="/admin/api/labels/"
                                                         :query-params="{ typ: 'for_incident' }" item-text="title"
-                                                        item-value="id" :multiple="true" label="{{ _(" Labels")
-                                                        }}"></search-field>
+                                                        item-value="id" :multiple="true" label="{{ _("Labels") }}"></search-field>
                                                 </div>
                                             </template>
-                                            <span>{{ _('Labels allow for easy search and filter of the database. Labels
-                                                can be created by an admin to tag the content or metadata of an item.
-                                                Additionally, labels can be used for references or workflow control.')
-                                                }}</span>
+                                            <span>{{ _('Labels allow for easy search and filter of the database. Labels can be created by an admin to tag the content or metadata of an item. Additionally, labels can be used for references or workflow control.') }}</span>
                                         </v-tooltip>
                                     </v-col>
                                     <v-col cols="12" md="6">
@@ -138,8 +134,7 @@
                                                 <div v-on="on">
                                                     <location-search-field v-model="editedItem.locations"
                                                         api="/admin/api/locations/" item-text="full_string"
-                                                        item-value="id" :multiple="true" label="{{ _(" Locations")
-                                                        }}"></location-search-field>
+                                                        item-value="id" :multiple="true" label="{{ _("Locations") }}"></location-search-field>
                                                 </div>
                                             </template>
                                             <span>{{ _('Locations is a central list of entries for the adminstrative
@@ -170,7 +165,7 @@
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
                                                         <v-text-field v-on="on" class="mx-5"
-                                                            v-model="relateActorTerm" label="{{ _(" Search & Relate
+                                                            v-model="relateActorTerm" label="{{ _("Search & Relate
                                                             Actors") }}" @keydown.enter="searchRelatedActors"
                                                             @click:append="searchRelatedActors"
                                                             append-icon="mdi-magnify"></v-text-field>
@@ -222,8 +217,7 @@
                                                                         </div>
                                                                         <v-text-field class="mt-2"
                                                                             v-model="editedItem.actor_relations[index].comment"
-                                                                            dense outlined label="{{ _(" Comments")
-                                                                            }}"></v-text-field>
+                                                                            dense outlined label="{{ _("Comments") }}"></v-text-field>
                                                                     </v-card-text>
                                                                 </v-card>
                                                             </template>
@@ -250,7 +244,7 @@
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
                                                         <v-text-field v-on="on"  class="mx-5"
-                                                            v-model="relateBulletinTerm" label="{{ _(" Search & Relate
+                                                            v-model="relateBulletinTerm" label="{{ _("Search & Relate
                                                             Bulletins") }}" @keydown.enter="searchRelatedBulletins"
                                                             @click:append="searchRelatedBulletins"
                                                             append-icon="mdi-magnify"></v-text-field>
@@ -299,8 +293,7 @@
                                                                         </div>
                                                                         <v-text-field class="mt-2"
                                                                             v-model="editedItem.bulletin_relations[index].comment"
-                                                                            dense outlined label="{{ _(" Comments")
-                                                                            }}"></v-text-field>
+                                                                            dense outlined label="{{ _("Comments") }}"></v-text-field>
                                                                     </v-card-text>
                                                                 </v-card>
                                                             </template>
@@ -327,7 +320,7 @@
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
                                                         <v-text-field v-on="on" class="mx-5"
-                                                            v-model="relateIncidentTerm" label="{{ _(" Search & Relate
+                                                            v-model="relateIncidentTerm" label="{{ _("Search & Relate
                                                             Incidents") }}" @keydown.enter="searchRelatedIncidents"
                                                             @click:append="searchRelatedIncidents"
                                                             append-icon="mdi-magnify"></v-text-field>
@@ -378,8 +371,7 @@
                                                                         </v-chip-group>
                                                                         <v-text-field class="mt-2"
                                                                             v-model="editedItem.incident_relations[index].comment"
-                                                                            dense outlined label="{{ _(" Comments")
-                                                                            }}"></v-text-field>
+                                                                            dense outlined label="{{ _("Comments") }}"></v-text-field>
                                                                     </v-card-text>
                                                                 </v-card>
                                                             </template>
@@ -415,22 +407,22 @@
                                     </v-col>
                                     <v-col cols="12" md="4">
                                         <v-select :disabled="statusDisabled" item-text="tr" item-value="en"
-                                            :items="statusItems" v-model="editedItem.status" label="{{ _(" Status")
-                                            }}"></v-select>
-                                        <v-autocomplete v-if="statusForbidsAssignment" label="{{ _(" Assigned To") }}"
+                                            :items="statusItems" v-model="editedItem.status" label="{{ _("Status") }}">
+                                        </v-select>
+                                        <v-autocomplete v-if="statusForbidsAssignment" label="{{ _("Assigned To") }}"
                                             :disabled="true" prepend-inner-icon="mdi-magnify"
                                             item-color="secondary"></v-autocomplete>
                                         <validation-provider v-else-if="statusRequiresAssignment" name="Assigned To"
                                             rules="required" v-slot="{ errors }">
                                             <v-autocomplete :value="editedItem.assigned_to" @input="assignItemByUserId"
-                                                label="{{ _(" Assigned To") }}" :items="users" item-text="name"
+                                                label="{{ _("Assigned To") }}" :items="users" item-text="name"
                                                 item-value="id" :disabled="false" prepend-inner-icon="mdi-magnify"
                                                 hide-no-data no-filter small-chips clearable :return-object="false"
                                                 item-color="secondary"></v-autocomplete>
                                             <span class="red--text">${errors[0]}</span>
                                         </validation-provider>
                                         <v-autocomplete v-else :value="editedItem.assigned_to"
-                                            @input="assignItemByUserId" label="{{ _(" Assigned To") }}" :items="users"
+                                            @input="assignItemByUserId" label="{{ _("Assigned To") }}" :items="users"
                                             item-text="name" item-value="id" :disabled="false"
                                             prepend-inner-icon="mdi-magnify" hide-no-data no-filter small-chips
                                             clearable :return-object="false" item-color="secondary"></v-autocomplete>

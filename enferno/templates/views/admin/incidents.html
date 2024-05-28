@@ -21,26 +21,22 @@
                         </template>
                         <template v-slot:top>
                             <v-toolbar flat color="white">
-                                <v-btn class="hidden-sm-and-down" small @click="allIncidents" text>{{ _("All Incidents")
-                                    }}</v-btn>
+                                <v-btn class="hidden-sm-and-down" small @click="allIncidents" text>{{ _("All Incidents") }}</v-btn>
                                 <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
-                                <v-btn class="hidden-sm-and-down" small @click="myAssigned" text>{{ _("Assigned to me")
-                                    }}</v-btn>
+                                <v-btn class="hidden-sm-and-down" small @click="myAssigned" text>{{ _("Assigned to me") }}</v-btn>
                                 <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
                                 <v-btn small @click="myReview" class="mr-2 hidden-sm-and-down" text>{{ _('My Review
                                     List') }}</v-btn>
                                 <v-text-field flat dense outlined small v-model="search.tsv"
                                     @keydown.enter="searchIncidents" hide-details append-outer-icon="mdi-ballot"
                                     append-icon="mdi-close" @click:append-outer="toggleAdvSearch"
-                                    @click:append="resetSearch" prepend-inner-icon="mdi-magnify" label="{{ _(" Search")
-                                    }}"></v-text-field>
+                                    @click:append="resetSearch" prepend-inner-icon="mdi-magnify" label="{{ _("Search") }}"></v-text-field>
                                 <v-btn @click="searchIncidents(false)" icon>
                                     <v-icon>mdi-refresh</v-icon>
                                 </v-btn>
                                 <v-spacer></v-spacer>
                                 {% if current_user.roles_in(['Admin','DA']) %}
-                                <v-btn @click="editItem" color="accent" dark class="ma-2">{{ _("New Incident")
-                                    }}</v-btn>
+                                <v-btn @click="editItem" color="accent" dark class="ma-2">{{ _("New Incident") }}</v-btn>
                                 {% endif %}
                                 {% include 'views/admin/partials/incident_dialog.html' %}
                                 {% include 'views/admin/partials/review_dialog.html' %}
@@ -183,7 +179,7 @@
                                 <validation-provider name="Assigned To" rules="required" v-slot="{ errors }">
                                     <search-field-single v-model="assignIncident.assigned_to_id" api="/admin/api/users/"
                                         item-text="name" item-value="id" :return-object="false" :multiple="false"
-                                        label="{{ _(" Assigned To") }}"></search-field-single>
+                                        label="{{ _("Assigned To") }}"></search-field-single>
                                     <span class="red--text">${errors[0]}</span>
                                 </validation-provider>
                                 <validation-provider name="Comments" rules="required" v-slot="{ errors }">
