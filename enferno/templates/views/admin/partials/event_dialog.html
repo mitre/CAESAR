@@ -1,4 +1,4 @@
-<v-dialog v-model="eventDialog" max-width="780px">
+<v-dialog v-model="eventDialog" max-width="850px">
     <template v-slot:activator="{ on }">
         <v-card outlined>
             <v-card-title>
@@ -39,18 +39,11 @@
     <v-card-text>
         <v-container>
             <v-row>
-                <v-col cols="12" md="6">
+                <v-col cols="12" md="12">
                     <v-card class="d-flex" flat>
                         <v-text-field v-if="eventTitle__" v-model="editedEvent.title" label="{{ _("Title") }}"></v-text-field>
                         <v-text-field v-else v-model="editedEvent.title_ar" label="{{ _("Title (AR)") }}" background-color="lime lighten-5"></v-text-field>
                         <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline" @click="eventTitle__=!eventTitle__"><v-icon>mdi-web</v-icon></v-btn>
-                    </v-card>
-                </v-col>
-                <v-col cols="12" md="6">
-                    <v-card class="d-flex" flat>
-                        <v-text-field v-if="eventComments__" v-model="editedEvent.comments" label="{{ _("Comments") }}"></v-text-field>
-                        <v-text-field v-else v-model="editedEvent.comments_ar" label="{{ _("Comments (AR)") }}" background-color="lime lighten-5"></v-text-field>
-                        <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline" @click="eventComments__=!eventComments__"><v-icon>mdi-web</v-icon></v-btn>
                     </v-card>
                 </v-col>
             </v-row>
@@ -63,14 +56,23 @@
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="12" md="5" class="text-center">
+                <v-col cols="12" md="4" class="text-center">
                     <pop-date-time-field time-label="{{ _("Time") }}" label="{{ _("From") }}" v-model="editedEvent.from_date"></pop-date-time-field>
                 </v-col>
                 <v-col cols="12" md="5">
                     <pop-date-time-field time-label="{{ _("Time") }}" label="{{ _("To") }}" v-model="editedEvent.to_date"></pop-date-time-field>
                 </v-col>
-                <v-col md="2">
+                <v-col md="3">
                     <v-switch label="{{ _("Estimated Time") }}" v-model="editedEvent.estimated"></v-switch>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="12" md="12">
+                    <v-textarea outlined rows="7" v-model="editedEvent.comments">
+                      <template #label>
+                        {{ _("Description of Event") }}
+                      </template>
+                    </v-textarea>
                 </v-col>
             </v-row>
         </v-container>
