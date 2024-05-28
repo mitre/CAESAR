@@ -127,9 +127,12 @@ Vue.component("geo-map", {
       center: [this.mapCenter.lng, this.mapCenter.lat],
       zoom: this.mapZoom,
     });
-    mlMap.value.addControl(new maplibregl.FullscreenControl());
+    
     this.map = mlMap.value;
-    this.map.on('click', (e) => {this.updateMarker(e)});
+
+    this.map.addControl(new maplibregl.NavigationControl());
+    this.map.addControl(new maplibregl.FullscreenControl());
+    //this.map.on('click', (e) => {this.updateMarker(e)});
 
     if (this.value) {
       this.$nextTick(() => {this.updateMarker()});
@@ -241,9 +244,9 @@ Vue.component("geo-map", {
       }
 
       if (this.editMode) {
-        this.map.flyTo({
-          center: loc
-        });
+        // this.map.flyTo({
+        //   center: loc
+        // });
         this.lat = loc[1];
         this.lng = loc[0];
       }
