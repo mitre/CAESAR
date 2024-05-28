@@ -10,6 +10,7 @@ import bleach
 import boto3
 import passlib
 import shortuuid
+import re
 from flask import request, abort, Response, current_app, json, g, send_from_directory
 from flask.templating import render_template
 from flask_babel import gettext
@@ -24,7 +25,7 @@ from enferno.admin.models import (Bulletin, Label, Source, Location, Eventtype, 
                                   ClaimedViolation,
                                   Activity, Query, LocationAdminLevel, LocationType, AppConfig,
                                   AtobInfo, AtoaInfo, BtobInfo, ItoiInfo, ItoaInfo, ItobInfo, Country, Ethnography,
-                                  MediaCategory, GeoLocationType, WorkflowStatus)
+                                  MediaCategory, GeoLocationType, WorkflowStatus, SocialMediaPlatform, SocialMediaHandle)
 from enferno.extensions import bouncer, rds
 from enferno.extensions import cache
 from enferno.tasks import bulk_update_bulletins, bulk_update_actors, bulk_update_incidents
@@ -108,7 +109,7 @@ def labels():
     Endpoint to render the labels backend page.
     :return: html template for labels management.
     """
-    return render_template('admin/labels.html')
+    return render_template('views/admin/labels.html')
 
 
 @admin.route('/api/labels/')
@@ -165,7 +166,7 @@ def api_labels():
     sort_desc = request.args.get('sort_desc', 'false').lower() == 'true'
     if sort_by == '':
         sort_by = 'id'
-    
+
     #Adjust query for sorting by a field in a related model if needed
     if sort_by == 'parent.title':
         parent_alias = aliased(Label)
@@ -251,7 +252,7 @@ def eventtypes():
     Endpoint to render event types backend
     :return: html template of the event types backend
     """
-    return render_template('admin/eventtypes.html')
+    return render_template('views/admin/eventtypes.html')
 
 
 @admin.route('/api/eventtypes/')
@@ -523,7 +524,7 @@ def sources():
     Endpoint to render sources backend page
     :return: html of the sources page
     """
-    return render_template('admin/sources.html')
+    return render_template('views/admin/sources.html')
 
 
 @admin.route('/api/sources/')
@@ -564,7 +565,7 @@ def api_sources():
     sort_desc = request.args.get('sort_desc', 'false').lower() == 'true'
     if sort_by == '':
         sort_by = 'id'
-    
+
     #Adjust query for sorting by a field in a related model if needed
     if sort_by == "parent.title":
         parent_alias = aliased(Source)
@@ -650,7 +651,7 @@ def api_source_import():
 @roles_accepted('Admin', 'Mod', 'DA')
 def locations(id):
     """Endpoint for locations management."""
-    return render_template('admin/locations.html')
+    return render_template('views/admin/locations.html')
 
 
 @admin.route('/api/locations/', methods=['POST', 'GET'])
@@ -782,7 +783,7 @@ def api_location_get(id):
 @roles_required('Admin')
 def locations_config(id):
     """Endpoint for locations configurations."""
-    return render_template('admin/component-data.html')
+    return render_template('views/admin/component-data.html')
 
 
 # location admin level endpoints
@@ -954,7 +955,7 @@ def api_ethnographies():
                     Ethnography.title_tr.ilike(f'%{q}%'))).order_by(-Ethnography.id).paginate(page=page, per_page=per_page, count=True)
     else:
         result = Ethnography.query.order_by(-Ethnography.id).paginate(page=page, per_page=per_page, count=True)
-        
+
     response = {'items': [item.to_dict() for item in result.items], 'perPage': per_page, 'total': result.total}
     return Response(json.dumps(response),
                     content_type='application/json'), 200
@@ -1448,7 +1449,7 @@ def bulletins(id):
     itoaInfo = [item.to_dict() for item in ItoaInfo.query.all()]
     itoiInfo = [item.to_dict() for item in ItoiInfo.query.all()]
     statuses = [item.to_dict() for item in WorkflowStatus.query.all()]
-    return render_template('admin/bulletins.html',
+    return render_template('views/admin/bulletins.html',
                            atoaInfo=atoaInfo,
                            itoaInfo=itoaInfo,
                            itoiInfo=itoiInfo,
@@ -1489,7 +1490,7 @@ def api_bulletins():
         sort_by = 'id'
     elif sort_by == '_status':
         sort_by = 'status'
-    
+
     #Adjust query for sorting by a field in a related model if needed
     if sort_by == "assigned_to.name":
         result = result.outerjoin(User, Bulletin.assigned_to_id == User.id)
@@ -1627,7 +1628,7 @@ def api_bulletin_bulk_update():
     bulk = request.json['bulk']
 
     # non-intrusive hard validation for access roles based on user
-    if not current_user.has_role('Admin'):
+    if not current_user.has_role('Admin') and not current_user.has_role('Mod'):
         # silently discard access roles
         bulk.pop('roles', None)
 
@@ -1803,7 +1804,7 @@ def api_actor_assign(id):
 
     if not current_user.can_access(actor):
         return 'Restricted Access', 403
-    
+
     if actor:
         a = request.json.get('actor')
         if not a or not a.get('assigned_to_id'):
@@ -1871,7 +1872,7 @@ def api_incident_assign(id):
 
     if not current_user.can_access(incident):
         return 'Restricted Access', 403
-    
+
     if incident:
         i = request.json.get('incident')
         if not i or not i.get('assigned_to_id'):
@@ -2000,7 +2001,7 @@ def api_medias_chunk():
         # validate etag here // if it exists // reject the upload and send an error code
         if Media.query.filter(Media.etag == etag).first():
             return 'Error, file already exists', 409
-        
+
         # Make sure the hash from the client matches the hash from the server
         if etag != request.form.get('etagClient'):
             return 'Error, the hash of the image from the client does not match the hash on the server', 409
@@ -2213,7 +2214,7 @@ def actors(id):
     itoiInfo = [item.to_dict() for item in ItoiInfo.query.all()]
 
     statuses = [item.to_dict() for item in WorkflowStatus.query.all()]
-    return render_template('admin/actors.html',
+    return render_template('views/admin/actors.html',
                            btobInfo=btobInfo,
                            itobInfo=itobInfo,
                            itoiInfo=itoiInfo,
@@ -2227,7 +2228,7 @@ def api_actors():
     """Returns actors in JSON format, allows search and paging."""
     su = SearchUtils(request.json, cls='Actor')
     queries, ops = su.get_query()
-    result = Actor.query.filter(*queries.pop(0))
+    result = Actor.query.filter(or_(Actor.deleted == False, Actor.deleted.is_(None))).filter(*queries.pop(0))
 
     # nested queries
     if len(queries) > 0:
@@ -2246,7 +2247,7 @@ def api_actors():
         sort_by = 'id'
     elif sort_by == '_status':
         sort_by = 'status'
-    
+
     #Adjust query for sorting by a field in a related model if needed
     if sort_by == "assigned_to.name":
         result = result.outerjoin(User, Actor.assigned_to_id == User.id)
@@ -2286,7 +2287,10 @@ def api_actor_create():
     # assign actor to creator by default
     actor.assigned_to_id = current_user.id
     # assignment will be overwritten if it is specified in the creation request
-    actor.from_json(request.json['item'])
+    try:
+        actor.from_json(request.json['item'])
+    except Exception as e:
+        return f'Error creating actor: {e}', 400
     result = actor.save()
     if result:
         # the below will create the first revision by default
@@ -2313,7 +2317,10 @@ def api_actor_update(id):
         if not current_user.can_access(actor):
             return 'Restricted Access', 403
 
-        actor = actor.from_json(request.json['item'])
+        try:
+            actor = actor.from_json(request.json['item'])
+        except Exception as e:
+            return f'Error updating actor: {e}', 400
         # Create a revision using latest values
         # this method automatically commits
         # actor changes (referenced)
@@ -2326,6 +2333,24 @@ def api_actor_update(id):
             return F'Error saving Actor #{id}', 417
     else:
         return HTTPResponse.NOT_FOUND
+
+
+@admin.delete('/api/actor/<int:id>')
+@roles_required('Admin')
+def api_actor_delete(id):
+    """
+    Endpoint to delete an actor
+    :param id: id of the actor to delete
+    :return: success/error based on operation's result
+    """
+    actor = Actor.query.get(id)
+    if actor is None:
+        return HTTPResponse.NOT_FOUND
+    # Record Activity
+    Activity.create(current_user, Activity.ACTION_DELETE, actor.to_mini(), 'actor')
+    actor.deleted = True
+    actor.create_revision()
+    return F'Deleted Actor #{actor.id}', 200
 
 
 # Add/Update review actor endpoint
@@ -2375,7 +2400,7 @@ def api_actor_bulk_update():
     bulk = request.json['bulk']
 
     # non-intrusive hard validation for access roles based on user
-    if not current_user.has_role('Admin'):
+    if not current_user.has_role('Admin') and not current_user.has_role('Mod'):
         # silently discard access roles
         bulk.pop('roles', None)
 
@@ -2450,6 +2475,165 @@ def actor_relations(id):
             data = [item.to_dict() for item in data]
 
     return json.dumps({'items': data, 'more': load_more}), 200
+
+
+@admin.route('/api/socialmediaplatforms/', methods=['GET', 'POST'])
+def api_social_media_platforms():
+    """
+    Endpoint to get all social media platforms
+    :return: social media platforms in json format + success or error in case of failure
+    """
+    result = SocialMediaPlatform.query.all()
+    response = {'items': [item.to_dict() for item in result]}
+    return Response(json.dumps(response),
+                    content_type='application/json'), 200
+
+
+@admin.post('/api/socialmediaplatform/')
+def api_social_media_platform_create():
+    """
+    Endpoint to create a social media platform
+    :return: success/error based on operation's result
+    """
+    platform = SocialMediaPlatform()
+    platform.from_json(request.json['item'])
+    result = platform.save()
+    if result:
+        return Response(json.dumps(result.to_dict()), content_type='application/json'), 200
+    else:
+        return 'Error creating social media platform', 417
+
+
+@admin.get('/api/socialmediaplatform/<int:id>')
+def api_social_media_platform_get(id):
+    """
+    Endpoint to get a single social media platform
+    :param id: id of the social media platform
+    :return: social media platform data in json format + success or error in case of failure
+    """
+    platform = SocialMediaPlatform.query.get(id)
+    if not platform:
+        return 'Not found', 404
+    else:
+        return Response(json.dumps(platform.to_dict()),
+                    content_type='application/json'), 200
+
+
+@admin.put('/api/socialmediaplatform/<int:id>')
+def api_social_media_platform_update(id):
+    """
+    Endpoint to update a social media platform
+    :param id: id of the social media platform to be updated
+    :return: social media platform data in json format + success or error in case of failure
+    """
+    platform = SocialMediaPlatform.query.get(id)
+    if platform is not None:
+        platform = platform.from_json(request.json['item'])
+        result = platform.save()
+        if result:
+            return json.dumps(result.to_dict()), 200
+        else:
+            return 'Error saving social media platform', 417
+    else:
+        return HTTPResponse.NOT_FOUND
+
+@admin.delete('/api/socialmediaplatform/<int:id>')
+def api_social_media_platform_delete(id):
+    """
+    Endpoint to delete a social media platform
+    :param id: id of the social media platform to be deleted
+    :return: success/error based on operation's result
+    """
+    platform = SocialMediaPlatform.query.get(id)
+    if platform is not None:
+        result = platform.delete()
+        Activity.create(current_user, Activity.ACTION_DELETE, platform.to_mini(), 'social media platform')
+        if result:
+            return 'Deleted!', 200
+        else:
+            return 'Error deleting social media platform', 417
+    else:
+        return HTTPResponse.NOT_FOUND
+
+
+@admin.route('/api/socialmediahandles/', methods=['GET', 'POST'])
+def api_social_media_handles():
+    """
+    Endpoint to get all social media handles
+    :return: social media handles in json format + success or error in case of failure
+    """
+    result = SocialMediaHandle.query.all()
+    response = {'items': [item.to_dict() for item in result]}
+    return Response(json.dumps(response),
+                    content_type='application/json'), 200
+
+
+@admin.post('/api/socialmediahandle/')
+def api_social_media_handle_create():
+    """
+    Endpoint to create a social media handle
+    :return: success/error based on operation's result
+    """
+    handle = SocialMediaHandle()
+    handle.from_json(request.json['item'])
+    result = handle.save()
+    if result:
+        return Response(json.dumps(result.to_dict()),
+                        content_type='application/json'), 200
+    else:
+        return 'Error creating social media handle', 417
+
+
+@admin.get('/api/socialmediahandle/<int:id>')
+def api_social_media_handle_get(id):
+    """
+    Endpoint to get a single social media handle
+    :param id: id of the social media handle
+    :return: social media handle data in json format + success or error in case of failure
+    """
+    handle = SocialMediaHandle.query.get(id)
+    if not handle:
+        return 'Not found', 404
+    else:
+        return Response(json.dumps(handle.to_dict()),
+                    content_type='application/json'), 200
+
+
+@admin.put('/api/socialmediahandle/<int:id>')
+def api_social_media_handle_update(id):
+    """
+    Endpoint to update a social media handle
+    :param id: id of the social media handle to be updated
+    :return: social media handle data in json format + success or error in case of failure
+    """
+    handle = SocialMediaHandle.query.get(id)
+    if handle is not None:
+        handle = handle.from_json(request.json['item'])
+        result = handle.save()
+        if result:
+            return json.dumps(result.to_dict()), 200
+        else:
+            return 'Error saving social media handle', 417
+    else:
+        return HTTPResponse.NOT_FOUND
+
+@admin.delete('/api/socialmediahandle/<int:id>')
+def api_social_media_handle_delete(id):
+    """
+    Endpoint to delete a social media handle
+    :param id: id of the social media handle to be deleted
+    :return: success/error based on operation's result
+    """
+    handle = SocialMediaHandle.query.get(id)
+    if handle is not None:
+        result = handle.delete()
+        Activity.create(current_user, Activity.ACTION_DELETE, handle.to_mini(), 'social media handle')
+        if result:
+            return 'Deleted!', 200
+        else:
+            return 'Error deleting social media handle', 417
+    else:
+        return HTTPResponse.NOT_FOUND
 
 
 @admin.route('/api/actormp/<int:id>', methods=['GET'])
@@ -2586,7 +2770,7 @@ def users():
     Endpoint to render the users backend page
     :return: html page of the users backend.
     """
-    return render_template('admin/users.html')
+    return render_template('views/admin/users.html')
 
 
 @admin.post('/api/user/')
@@ -2599,6 +2783,10 @@ def api_user_create():
     # validate existing
     u = request.json.get('item')
     username = u.get('username')
+    
+    username_error = check_username_errors(username)
+    if username_error is not None:
+        return username_error
 
     exists = User.query.filter(User.username == username).first()
     if len(username) < 4:
@@ -2619,6 +2807,26 @@ def api_user_create():
         return 'Error creating user', 417
 
 
+def check_username_errors(data):
+    # validate illegal characters
+    uclean = bleach.clean(data.strip(), strip=True)
+    if uclean != data:
+        return 'Illegal characters detected'
+
+    # validate disallowed characters
+    cats = [unicodedata.category(c)[0] for c in data]
+    if any(cat not in ["L", "N"] and c != "." and c != "-" for cat, c in zip(cats, data)):
+        return 'Disallowed characters detected'
+    
+    if (data.startswith('.') or data.startswith('-')):
+        return 'Illegal character detected at beginning of username'
+    
+    if (data.endswith('.') or data.endswith('-')):
+        return 'Illegal characted detected at end of username'
+    
+    return None
+
+
 @admin.route('/api/checkuser/', methods=['POST'])
 @roles_required('Admin')
 def api_user_check():
@@ -2626,16 +2834,10 @@ def api_user_check():
     if not data:
         return 'Please select a username', 417
 
-    # validate illegal charachters
-    uclean = bleach.clean(data.strip(), strip=True)
-    if uclean != data:
-        return 'Illegal characters detected', 417
-
-    # validate disallowed charachters
-    cats = [unicodedata.category(c)[0] for c in data]
-    if any([cat not in ["L", "N"] for cat in cats]):
-        return 'Disallowed characters detected', 417
-
+    username_error = check_username_errors(data)
+    if username_error is not None:
+        return username_error, 417
+    
     u = User.query.filter(User.username == data).first()
     if u:
         return 'Username already exists', 417
@@ -2745,12 +2947,11 @@ def roles():
     Endpoint to redner roles backend page
     :return: html of the page
     """
-    return render_template('admin/roles.html')
+    return render_template('views/admin/roles.html')
 
 
 @admin.route('/api/roles/', defaults={'page': 1})
 @admin.route('/api/roles/<int:page>/')
-@roles_required('Admin')
 def api_roles(page):
     """
     API endpoint to feed roles items in josn format - supports paging and search
@@ -2763,6 +2964,18 @@ def api_roles(page):
         query.append(
             Role.name.ilike('%' + q + '%')
         )
+    # if custom is set, exclude system roles
+    is_custom = request.args.get('custom', False)
+    if is_custom:
+        query.append(
+            Role.name.notin_(['Admin', 'Mod', 'DA'])
+        )
+    # if my_roles_only is set, only show roles assigned to the current user
+    my_roles_only = request.args.get('my_roles_only', False)
+    if my_roles_only and current_user.roles:
+        query.append(
+            Role.id.in_([r.id for r in current_user.roles])
+        )
     result = Role.query.filter(*query)
 
     #Sort by request
@@ -2770,7 +2983,7 @@ def api_roles(page):
     sort_desc = request.args.get('sort_desc', 'false').lower() == 'true'
     if sort_by == '':
         sort_by = 'id'
-    
+
     if hasattr(Role, sort_by):
         result = result.order_by(getattr(Role, sort_by).desc() if sort_desc else getattr(Role, sort_by))
     else:
@@ -2878,7 +3091,7 @@ def incidents(id):
     itoaInfo = [item.to_dict() for item in ItoaInfo.query.all()]
     itoiInfo = [item.to_dict() for item in ItoiInfo.query.all()]
     statuses = [item.to_dict() for item in WorkflowStatus.query.all()]
-    return render_template('admin/incidents.html',
+    return render_template('views/admin/incidents.html',
                            atobInfo=atobInfo,
                            btobInfo=btobInfo,
                            atoaInfo=atoaInfo,
@@ -2896,14 +3109,14 @@ def api_incidents():
     su = SearchUtils(request.json, cls='Incident')
 
     query = su.get_query()
-    result = Incident.query.filter(*query)
+    result = Incident.query.filter(or_(Incident.deleted == False, Incident.deleted.is_(None))).filter(*query)
 
     #Sort by request property
     sort_by = request.args.get('sort_by', 'id')
     sort_desc = request.args.get('sort_desc', 'false').lower() == 'true'
     if sort_by == '':
         sort_by = 'id'
-    
+
     #Adjust query for sorting by a field in a related model if needed
     if sort_by == 'assigned_to.name':
         result = result.outerjoin(User, Incident.assigned_to_id == User.id)
@@ -2974,6 +3187,24 @@ def api_incident_update(id):
         return HTTPResponse.NOT_FOUND
 
 
+@admin.delete('/api/incident/<int:id>')
+@roles_required('Admin')
+def api_incidnet_delete(id):
+    """
+    Endpoint to delete an incident
+    :param id: id of the incident to delete
+    :return: success/error based on operation's result
+    """
+    incident = Incident.query.get(id)
+    if incident is None:
+        return HTTPResponse.NOT_FOUND
+    # Record Activity
+    Activity.create(current_user, Activity.ACTION_DELETE, incident.to_mini(), 'incident')
+    incident.deleted = True
+    incident.create_revision()
+    return F'Deleted Incident #{incident.id}', 200
+
+
 # Add/Update review incident endpoint
 @admin.put('/api/incident/review/<int:id>')
 @roles_accepted('Admin', 'DA')
@@ -3019,8 +3250,9 @@ def api_incident_bulk_update():
     # non-intrusive hard validation for access roles based on user
     if not current_user.has_role('Admin'):
         # silently discard access roles
-        bulk.pop('roles', None)
-        bulk.pop('rolesReplace', None)
+        if not current_user.has_role('Mod'):
+            bulk.pop('rolesReplace', None)
+            bulk.pop('roles', None)
         bulk.pop('restrictRelated', None)
 
     if ids and len(bulk):
@@ -3126,7 +3358,7 @@ def activity():
     Endpoint to render activity backend page
     :return: html of the page
     """
-    return render_template('admin/activity.html')
+    return render_template('views/admin/activity.html')
 
 
 @admin.route('/api/activity', methods=['POST', 'GET'])
@@ -3326,7 +3558,7 @@ def relation_info():
 @roles_accepted('Admin')
 def system_admin():
     """Endpoint for system administration."""
-    return render_template('admin/system-administration.html')
+    return render_template('views/admin/system-administration.html')
 
 
 @admin.get('/api/appconfig/')

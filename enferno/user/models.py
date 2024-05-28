@@ -157,7 +157,7 @@ class User(UserMixin, db.Model, BaseMixin):
     can_export = db.Column(db.Boolean, default=False)
 
     # oauth
-    google_id = db.Column(db.String(255))
+    oauth_id = db.Column(db.String(255))
 
     settings = db.Column(JSON)
 
@@ -299,7 +299,7 @@ class User(UserMixin, db.Model, BaseMixin):
         return {
                 'id': self.id,
                 'name': self.secure_name,
-                'google_id': self.google_id,
+                'oauth_id': self.oauth_id,
                 'email': self.secure_email,
                 'username': self.secure_username,
                 'active': self.active,

@@ -11,13 +11,15 @@ from flask_babel import gettext
 from flask_login import current_user
 from geoalchemy2 import Geometry, Geography
 from geoalchemy2.shape import to_shape
-from sqlalchemy import JSON, ARRAY, text, and_, or_, func
+from sqlalchemy import JSON, ARRAY, text, and_, or_, func, Enum
 from sqlalchemy.dialects.postgresql import TSVECTOR, JSONB
 from sqlalchemy.orm.attributes import flag_modified
 from werkzeug.utils import secure_filename
+from enferno.admin.choices import Sex
 
 from enferno.extensions import db
 from enferno.settings import Config as cfg
+from enferno.user.models import Role
 from enferno.utils.base import BaseMixin
 from enferno.utils.csv_utils import convert_simple_relation, convert_complex_relation
 from enferno.utils.date_helper import DateHelper
@@ -69,6 +71,65 @@ def check_relation_roles(method):
 
 
 ######  -----  ######
+
+class SocialMediaPlatform(db.Model, BaseMixin):
+    """
+    SQL Alchemy model for social media platforms
+    """
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    handles = db.relationship("SocialMediaHandle", back_populates="platform", cascade="all, delete-orphan")
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+        }
+
+    def from_json(self, jsn):
+        self.title = jsn.get('title')
+        self.description = jsn.get('description')
+        return self
+
+
+class SocialMediaHandle(db.Model, BaseMixin):
+    """
+    SQL Alchemy model for social media handles
+    """
+
+    id = db.Column(db.Integer, primary_key=True)
+    handle_name = db.Column(db.String, nullable=False)
+    platform_id = db.Column(db.Integer, db.ForeignKey('social_media_platform.id'))
+    platform = db.relationship("SocialMediaPlatform", back_populates="handles", foreign_keys=[platform_id])
+    actor_id = db.Column(db.Integer, db.ForeignKey('actor.id'), nullable=True)
+    actor = db.relationship("Actor", back_populates="social_media_handles", foreign_keys=[actor_id])
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'handle_name': self.handle_name,
+            'platform': self.platform.to_dict() if self.platform else None,
+            'actor': self.actor.to_dict() if self.actor else None
+        }
+
+    def to_dict_actor(self):
+        return {
+            'id': self.id,
+            'handle_name': self.handle_name,
+            'platform': self.platform.to_dict() if self.platform else None
+        }
+    
+    def from_json(self, jsn):
+        self.handle_name = jsn.get('handle_name')
+        if jsn.get('platform_id'):
+            self.platform_id = jsn.get('platform_id')
+        elif jsn.get('platform'):
+            self.platform_id = jsn.get('platform').get('id')
+        if jsn.get('actor_id'):
+            self.actor_id = jsn.get('actor_id')
+        return self
+
 
 class Source(db.Model, BaseMixin):
     """
@@ -331,6 +392,27 @@ class Label(db.Model, BaseMixin):
         dfi = df.copy()
         del dfi['parent_label_id']
 
+        #Make sure the id is unique and skip if title already exists
+        current_id = db.session.execute("select max(id) from label").scalar()
+        # if no labels exist then start from 1
+        if current_id is None:
+            current_id = 1
+        else:
+            current_id += 1
+        added_labels = set()
+        for i in range(len(dfi)):
+            if dfi.loc[i]['title'] in added_labels:
+                print("Label with title {} already added, skipping.".format(dfi.loc[i]['title']))
+                dfi.drop(i, inplace=True)
+                df.drop(i, inplace=True)
+            elif Label.query.filter_by(title=dfi.loc[i]['title']).first():
+                print("Label with title {} already exists, skipping.".format(dfi.loc[i]['title']))
+                dfi.drop(i, inplace=True)
+                df.drop(i, inplace=True)
+            else:
+                dfi.loc[i, 'id'] = current_id + i
+                df.loc[i, 'id'] = current_id + i
+                added_labels.add(dfi.loc[i]['title'])
         # first insert
         db.session.bulk_insert_mappings(Label, dfi.to_dict(orient="records"))
 
@@ -420,7 +502,7 @@ class Event(db.Model, BaseMixin):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, index=True)
     title_ar = db.Column(db.String, index=True)
-    comments = db.Column(db.String)
+    comments = db.Column(db.Text)
     comments_ar = db.Column(db.String)
 
     location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
@@ -539,6 +621,10 @@ class Media(db.Model, BaseMixin):
     actor = db.relationship("Actor", backref="medias", foreign_keys=[actor_id])
 
     main = db.Column(db.Boolean, default=False)
+    
+    # Not used by Bayanat, used by the data pipeline to indicate the record has been
+    # synced to the Gold database
+    ingested = db.Column(db.Boolean, default=False)
 
     # custom serialization method
     @check_roles
@@ -1629,6 +1715,11 @@ class Bulletin(db.Model, BaseMixin):
                 new_events.append(e)
             self.events = new_events
 
+        if "roles" in json:
+            ids = [role["id"] for role in json["roles"]]
+            roles = Role.query.filter(Role.id.in_(ids)).all()
+            self.roles = roles
+
         # Related Media
         if "medias" in json:
             # untouchable main medias
@@ -2155,8 +2246,7 @@ class Actor(db.Model, BaseMixin):
 
     description = db.Column(db.Text)
 
-    nickname = db.Column(db.String(255))
-    nickname_ar = db.Column(db.String(255))
+    aliases = db.relationship('Alias', back_populates='actor', cascade='all, delete-orphan')
 
     first_name = db.Column(db.String(255))
     first_name_ar = db.Column(db.String(255))
@@ -2186,6 +2276,8 @@ class Actor(db.Model, BaseMixin):
     second_peer_reviewer = db.relationship(
         "User", backref="second_rev_actors", foreign_keys=[second_peer_reviewer_id]
     )
+
+    social_media_handles = db.relationship('SocialMediaHandle', back_populates='actor')
 
     sources = db.relationship(
         "Source", secondary=actor_sources, backref=db.backref("actors", lazy="dynamic")
@@ -2233,7 +2325,7 @@ class Actor(db.Model, BaseMixin):
     )
 
     actor_type = db.Column(db.String(255))
-    sex = db.Column(db.String(255))
+    sex = db.Column(Enum(Sex))
     age = db.Column(db.String(255))
     civilian = db.Column(db.String(255))
     birth_date = db.Column(db.DateTime)
@@ -2417,9 +2509,6 @@ class Actor(db.Model, BaseMixin):
         self.name = json["name"] if "name" in json else None
         self.name_ar = json["name_ar"] if "name_ar" in json else None
 
-        self.nickname = json["nickname"] if "nickname" in json else None
-        self.nickname_ar = json["nickname_ar"] if "nickname_ar" in json else None
-
         self.first_name = json["first_name"] if "first_name" in json else None
         self.first_name_ar = json["first_name_ar"] if "first_name_ar" in json else None
 
@@ -2488,7 +2577,12 @@ class Actor(db.Model, BaseMixin):
             ver_labels = Label.query.filter(Label.id.in_(ids)).all()
             self.ver_labels = ver_labels
 
-        self.sex = json["sex"] if "sex" in json else None
+        if "sex" in json:
+            if Sex.is_valid(json["sex"]):
+                self.sex = Sex.get_name(json["sex"])
+            else:
+                raise ValueError(f"{json['sex']} is not a valid option for an actor's sex")
+
         self.age = json["age"] if "age" in json else None
         self.civilian = json["civilian"] if "civilian" in json else None
         self.actor_type = json["actor_type"] if "actor_type" in json else None
@@ -2530,6 +2624,46 @@ class Actor(db.Model, BaseMixin):
                     e.save()
                 new_events.append(e)
             self.events = new_events
+
+        if "aliases" in json:
+            new_aliases = []
+            aliases = json["aliases"]
+            for alias in aliases:
+                if "id" not in alias:
+                    # new alias
+                    a = Alias()
+                    a = a.from_json(alias)
+                    a.save()
+                else:
+                    # alias already exists, get a db instance and update it with new data
+                    a = Alias.query.get(alias["id"])
+                    a.from_json(alias)
+                    a.save()
+                new_aliases.append(a)
+            self.aliases = new_aliases
+
+        # Social Media Handles
+        if "social_media_handles" in json:
+            new_handles = []
+            handles = json["social_media_handles"]
+            for handle in handles:
+                if "id" not in handle:
+                    # new handle
+                    h = SocialMediaHandle()
+                    h = h.from_json(handle)
+                    h.save()
+                else:
+                    # handle already exists, get a db instance and update it with new data
+                    h = SocialMediaHandle.query.get(handle["id"])
+                    h.from_json(handle)
+                    h.save()
+                new_handles.append(h)
+            self.social_media_handles = new_handles
+
+        if "roles" in json:
+            ids = [role["id"] for role in json["roles"]]
+            roles = Role.query.filter(Role.id.in_(ids)).all()
+            self.roles = roles
 
         # Related Media
         if "medias" in json:
@@ -2816,8 +2950,6 @@ class Actor(db.Model, BaseMixin):
             'id': self.id,
             'name': self.serialize_column('name'),
             'name_ar': self.serialize_column('name_ar'),
-            'nickname': self.serialize_column('nickname'),
-            'nickname_ar': self.serialize_column('nickname_ar'),
             'middle_name': self.serialize_column('middle_name'),
             'middle_name_ar': self.serialize_column('middle_name_ar'),
             'last_name': self.serialize_column('last_name'),
@@ -2838,6 +2970,7 @@ class Actor(db.Model, BaseMixin):
             'publish_date': self.serialize_column('publish_date'),
             'documentation_date': self.serialize_column('documentation_date'),
 
+            'aliases': convert_simple_relation(self.aliases),
             'labels': convert_simple_relation(self.labels),
             'verified_labels': convert_simple_relation(self.ver_labels),
             'sources': convert_simple_relation(self.sources),
@@ -2970,12 +3103,23 @@ class Actor(db.Model, BaseMixin):
             for event in self.events:
                 events_json.append(event.to_dict())
 
+        # Social media handles json 
+        handles_json = []
+        if self.social_media_handles and len(self.social_media_handles):
+            for handle in self.social_media_handles:
+                handles_json.append(handle.to_dict_actor())
+
         # medias json
         medias_json = []
         if self.medias and len(self.medias):
 
             for media in self.medias:
                 medias_json.append(media.to_dict())
+
+        aliases_json = []
+        if self.aliases and len(self.aliases):
+            for alias in self.aliases:
+                aliases_json.append(alias.to_dict())
 
         bulletin_relations_dict = []
         actor_relations_dict = []
@@ -2999,8 +3143,6 @@ class Actor(db.Model, BaseMixin):
             "name": self.name or None,
             "name_ar": getattr(self, 'name_ar'),
             "description": self.description or None,
-            "nickname": self.nickname or None,
-            "nickname_ar": getattr(self, 'nickname_ar'),
             "first_name": self.first_name or None,
             "first_name_ar": self.first_name_ar or None,
             "middle_name": self.middle_name or None,
@@ -3009,8 +3151,8 @@ class Actor(db.Model, BaseMixin):
             "last_name_ar": self.last_name_ar or None,
             "mother_name": self.mother_name or None,
             "mother_name_ar": self.mother_name_ar or None,
-            "sex": self.sex,
-            "_sex": gettext(self.sex),
+            "sex": self.sex.__str__() if self.sex else None,
+            "_sex": gettext(self.sex.__str__()) if self.sex else None,
             "age": self.age,
             "_age": gettext(self.age),
             "civilian": self.civilian or None,
@@ -3044,6 +3186,8 @@ class Actor(db.Model, BaseMixin):
             "labels": labels_json,
             "verLabels": ver_labels_json,
             "events": events_json,
+            "social_media_handles": handles_json,
+            "aliases": aliases_json,
             "medias": medias_json,
             "actor_relations": actor_relations_dict,
             "bulletin_relations": bulletin_relations_dict,
@@ -3157,6 +3301,36 @@ class Actor(db.Model, BaseMixin):
         if not self.name:
             return False
         return True
+
+
+class Alias(db.Model, BaseMixin):
+    """
+    Alias for actors
+    """
+    extend_existing = True
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    name_ar = db.Column(db.String, nullable=True)
+    actor_id = db.Column(db.Integer, db.ForeignKey('actor.id'), nullable=False)
+    actor = db.relationship('Actor', back_populates='aliases')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "name_ar": self.name_ar,
+            "actor_id": self.actor_id
+        }
+
+    def from_json(self, jsn):
+        self.name = jsn.get('name', self.name)
+        self.name_ar = jsn.get('name_ar', self.name_ar)
+        if 'actor_id' in jsn:
+            self.actor_id = jsn['actor_id']
+        elif 'actor' in jsn:
+            self.actor_id = jsn['actor']['id']
+        return self
 
 
 # Incident to bulletin uni-direction relation
@@ -3801,6 +3975,11 @@ class Incident(db.Model, BaseMixin):
                     e.save()
                 new_events.append(e)
             self.events = new_events
+
+        if "roles" in json:
+            ids = [role["id"] for role in json["roles"]]
+            roles = Role.query.filter(Role.id.in_(ids)).all()
+            self.roles = roles
 
         # Related Actors (actor_relations)
         if "actor_relations" in json and "check_ar" in json:

@@ -78,6 +78,8 @@ env_file="./.env"
 dev_env_file="./.devcontainer/.env-devcontainer"
 current_datetime=$(date +"%Y%m%d_%H%M%S")
 pgdata="./pgdata"
+venv=".venv"
+vscode_launch="./.vscode/launch.json"
 
 # replace the dotenv file with the one for the devcontanier (backup the original)
 if [ -f "$env_file" ]; then
@@ -102,3 +104,24 @@ else
     # bring up docker containers here...
     docker compose up -d --build
 fi
+
+# Add prereqs for running locally
+sudo apt update
+sudo apt install -y libpq-dev libimage-exiftool-perl weasyprint
+
+# Create a new virtual environment
+if [ -f "$venv" ]; then
+    rm -rf venv;
+fi
+python -m venv $venv
+source $venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Setup VSCode Launch file
+mkdir -p .vscode
+if [ -f "$vscode_launch" ]; then
+  cp $vscode_launch "${vscode_launch}_${current_datetime}.backup"
+fi
+cp .devcontainer/launch.json $vscode_launch

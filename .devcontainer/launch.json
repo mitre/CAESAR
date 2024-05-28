@@ -1,0 +1,44 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Bayanat",
+      "type": "python",
+      "request": "launch",
+      "module": "flask",
+      "env": {
+        "FLASK_APP": "enferno/app.py",
+        "FLASK_ENV": "development",
+        "REQUESTS_CA_BUNDLE": "/opt/mitre/MITRE-chain.pem"
+      },
+      "envFile": "${workspaceFolder}/.env.local",
+      "args": [
+        "run",
+        "--no-debugger",
+        "--reload"
+      ],
+      "jinja": true,
+      "justMyCode": true,
+      "console": "internalConsole",
+      "python": "${workspaceFolder}/.venv/bin/python"
+    },
+    {
+      "name":"pytest",
+      "type":"debugpy",
+      "request":"launch",
+      "module":"pytest",
+      "envFile": "${workspaceFolder}/.env.local",
+      "console": "internalConsole",
+      "python": "/Users/sfpurdy/git/caesar/caesar/.venv/bin/python"
+    },
+    {
+      "name":"pytest current file",
+      "type":"debugpy",
+      "request":"launch",
+      "module":"pytest",
+      "envFile": "${workspaceFolder}/.env.local",
+      "console": "internalConsole",
+      "args": ["${file}"]
+    }
+  ]
+}

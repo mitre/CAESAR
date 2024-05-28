@@ -157,6 +157,15 @@ Vue.component("actor-card", {
       return this.$root.editAllowed(this.actor) && this.showEdit;
     },
 
+    deleteAllowed() {
+      return this.$root.has_role(this.$root.currentUser, "Admin") && this.showEdit;
+    },
+
+    deleteActor() {
+      this.$emit("delete", this.actor);
+      this.$emit("close")
+    },
+
     removeVideo() {
       let video = this.$el.querySelector("#iplayer video");
       if (video) {
@@ -259,6 +268,11 @@ Vue.component("actor-card", {
         <v-btn @click.stop="$root.$refs.viz.visualize(actor)" class="ml-2" outlined small elevation="0"><v-icon color="primary" left>mdi-graph-outline</v-icon> {{ i18n.visualize_ }}</v-btn>
       </v-card-text>
 
+      <v-btn v-if="deleteAllowed()" class="ml-2 red darken-3" @click="deleteActor" small outlined>
+        <v-icon color="white" left>mdi-delete-sweep</v-icon>
+        <span class="white--text">{{ i18n.delete_ }}</span>
+      </v-btn>
+
       <v-chip color="blue-grey lighten-5" label small class="pa-2 mx-2 my-2" v-if="actor.assigned_to" ><v-icon left>mdi-account-circle-outline</v-icon>
           {{ i18n.assignedUser_ }} {{actor.assigned_to['name']}}</v-chip>
         <v-chip color="blue-grey lighten-5" small label class="mx-2 my-2" v-if="actor.status" > <v-icon left>mdi-delta</v-icon> {{ actor.status }}</v-chip>
@@ -334,7 +348,7 @@ Vue.component("actor-card", {
       </v-card>
 
 
-      <uni-field :caption="i18n.nationalIDCard_" :english="actor.national_id_card"></uni-field>
+      <uni-field :caption="i18n.taxIdNumber_" :english="actor.national_id_card"></uni-field>
 
 
       <v-card outlined class="ma-2" color="grey lighten-5" v-if="actor.sources && actor.sources.length">
