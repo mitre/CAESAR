@@ -554,64 +554,6 @@ Vue.component("global-map", {
 
       // potential method for animating feature layer: https://docs.mapbox.com/mapbox-gl-js/example/animate-ant-path/
     },
-
-    addEventRouteLinks(eventLocations) {
-      const map = this.$refs.map.mapObject;
-
-      // Remove existing eventRoute linestrings
-      if (this.eventLinks) {
-        map.removeLayer(this.eventLinks);
-      }
-      this.eventLinks = L.layerGroup({}).addTo(map);
-
-      for (let i = 0; i < eventLocations.length - 1; i++) {
-        const startCoord = [eventLocations[i].lat, eventLocations[i].lng];
-        const endCoord = [eventLocations[i + 1].lat, eventLocations[i + 1].lng];
-
-        // If the next eventLocation has the zombie attribute, do not draw the curve
-        if (eventLocations[i + 1].zombie) {
-          // Add a circle marker for the zombie event location
-          L.circleMarker(endCoord, {
-            radius: 5,
-            fillColor: "#ff7800",
-            color: "#000",
-            weight: 1,
-            opacity: 1,
-            fillOpacity: 0.8,
-          }).addTo(this.eventLinks);
-          continue; // Skip to the next iteration
-        }
-
-        // const midpointCoord = this.getCurveMidpointFromCoords(
-        //   startCoord,
-        //   endCoord,
-        // );
-
-        // // Create bezier curve path between events
-        // const curve = L.curve(["M", startCoord, "Q", midpointCoord, endCoord], {
-        //   color: "#00f166",
-        //   weight: 4,
-        //   opacity: 0.4,
-        //   dashArray: "5",
-        //   animate: { duration: 15000, iterations: Infinity },
-        // }).addTo(this.eventLinks);
-
-        // const curveMidPoints = curve.trace([0.8]);
-        // const arrowIcon = L.icon({
-        //   iconUrl: "/static/img/direction-arrow.svg",
-        //   iconSize: [12, 12],
-        //   iconAnchor: [6, 6],
-        // });
-
-        // curveMidPoints.forEach((point) => {
-        //   const rotationAngle = this.getVectorDegrees(startCoord, endCoord);
-        //   L.marker(point, {
-        //     icon: arrowIcon,
-        //     rotationAngle: rotationAngle,
-        //   }).addTo(this.eventLinks);
-        // });
-      }
-    },
   },
 
   template: `
