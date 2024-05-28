@@ -316,8 +316,8 @@ export default class MeasuresControl {
     btn.innerHTML = `<h2>mi</h1>`;
     btn.addEventListener("click", () => {
       if(this.options.units && this.options.units === "metric") {
-        btn.innerHTML = `<h2>nm</h1>`;
-        this.options.units = "nautical"
+        btn.innerHTML = `<h2>mi</h1>`;
+        this.options.units = "imperial"
         this._updateLabels();
       // } else if(this.options.units && this.options.units === "nautical") {
       //   btn.innerHTML = `<h2>mi</h1>`;
