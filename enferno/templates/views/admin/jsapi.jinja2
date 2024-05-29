@@ -7,12 +7,12 @@ var VIDEO_RATES = JSON.parse(`{{ config.VIDEO_RATES }}`);
 var mediaUploadMaxFileSize = JSON.parse(`{{ config.MEDIA_UPLOAD_MAX_FILE_SIZE }}`);
 var translations = {
 
-bulletin_: "{{ _('Bulletin') }}",
+thisfile_bulletin_: "{{ _('Primary Record') }}",
 actor_: "{{ _('Actor') }}",
 incident_: "{{ _('Incident') }}",
 
-newBulletin_: "{{ _('New Bulletin') }}",
-editBulletin_: "{{ _('Edit Bulletin') }}",
+newBulletin_: "{{ _('New Primary Record') }}",
+editBulletin_: "{{ _('Edit Primary Record') }}",
 newActor_: "{{ _('New Actor') }}",
 editActor_: "{{ _('Edit Actor') }}",
 
@@ -113,7 +113,7 @@ verifiedLabels_: "{{ _('Verified Labels') }}",
 events_: "{{ _('Events') }}",
 media_: "{{ _('Media') }}",
 locations_: "{{ _('Locations') }}",
-relatedBulletins_: "{{ _('Related Bulletins') }}",
+relatedBulletins_: "{{ _('Related Primary Records') }}",
 relatedActors_: "{{ _('Related Actors') }}",
 relatedIncidents_: "{{ _('Related Incidents') }}",
 relationshipInfo_: "{{ _('Relationship Info') }}",
@@ -225,7 +225,7 @@ time_ : "{{ _('Time') }}",
 
 // visualization
 actors_ : "{{ _('Actors') }}",
-bulletins_ : "{{ _('Bulletins') }}",
+bulletins_ : "{{ _('Primary Records') }}",
 incidents_ : "{{ _('Incidents') }}",
 visInfo_ : "{{ _('Double click on a node to expand graph, click and hold CTRL to view') }}",
 

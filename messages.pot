@@ -741,7 +741,7 @@ msgstr ""
 
 #: enferno/templates/components/nav-drawer.html:9
 #: enferno/templates/views/admin/jsapi.jinja2:228
-msgid "Bulletins"
+msgid "Primary Records"
 msgstr ""
 
 #: enferno/templates/components/nav-drawer.html:19
@@ -1018,32 +1018,24 @@ msgid "Actions"
 msgstr ""
 
 #: enferno/templates/views/admin/bulletins.html:31
-msgid ""
-"All\n"
-"                                    Bulletins"
+msgid "All Primary Records"
 msgstr ""
 
 #: enferno/templates/views/admin/bulletins.html:34
-msgid ""
-"Assigned to\n"
-"                                    me"
+msgid "Assigned to me"
 msgstr ""
 
 #: enferno/templates/views/admin/bulletins.html:42
-msgid ""
-"\n"
-"                                    Search"
+msgid "Search"
 msgstr ""
 
 #: enferno/templates/views/admin/bulletins.html:49
 #: enferno/templates/views/admin/jsapi.jinja2:14
-msgid "New Bulletin"
+msgid "New Primary Record"
 msgstr ""
 
 #: enferno/templates/views/admin/bulletins.html:97
-msgid ""
-"Selected\n"
-"                                    items"
+msgid "Selected items"
 msgstr ""
 
 #: enferno/templates/views/admin/bulletins.html:180
@@ -1151,9 +1143,7 @@ msgstr ""
 
 #: enferno/templates/views/admin/eventtypes.html:38
 #: enferno/templates/views/admin/sources.html:40
-msgid ""
-"\n"
-"                                                                    Title"
+msgid "Title"
 msgstr ""
 
 #: enferno/templates/views/admin/eventtypes.html:43
@@ -1169,7 +1159,7 @@ msgstr ""
 
 #: enferno/templates/views/admin/eventtypes.html:53
 #: enferno/templates/views/admin/eventtypes.html:162
-msgid "For Bulletins"
+msgid "For Primary Records"
 msgstr ""
 
 #: enferno/templates/views/admin/eventtypes.html:70
@@ -1236,7 +1226,7 @@ msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:10
 #: enferno/templates/views/admin/labels.html:191
-msgid "Bulletin"
+msgid "Primary Record"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:11
@@ -1250,7 +1240,7 @@ msgid "Incident"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:15
-msgid "Edit Bulletin"
+msgid "Edit Primary Record"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:17
@@ -1576,7 +1566,7 @@ msgstr ""
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:340
 #: enferno/templates/views/admin/partials/incident_dialog.html:241
 #: enferno/templates/views/admin/partials/incident_dialog.html:242
-msgid "Related Bulletins"
+msgid "Related Primary Records"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:117
@@ -2188,64 +2178,43 @@ msgid "Identified"
 msgstr ""
 
 #: enferno/templates/views/admin/labels.html:39
-msgid ""
-"\n"
-"                                                                Title"
+msgid "Title"
 msgstr ""
 
 #: enferno/templates/views/admin/labels.html:43
-msgid ""
-"\n"
-"                                                                Title (AR)"
+msgid "Title (AR)"
 msgstr ""
 
 #: enferno/templates/views/admin/labels.html:49
-msgid ""
-"\n"
-"                                                                Comments"
+msgid "Comments"
 msgstr ""
 
 #: enferno/templates/views/admin/labels.html:53
-msgid ""
-"\n"
-"                                                                Comments "
-"(AR)"
+msgid "Comments (AR)"
 msgstr ""
 
 #: enferno/templates/views/admin/labels.html:69
-msgid ""
-"\n"
-"                                                                Verified"
+msgid "Verified"
 msgstr ""
 
 #: enferno/templates/views/admin/labels.html:73
-msgid ""
-"\n"
-"                                                                Bulletin"
+msgid "Bulletin"
 msgstr ""
 
 #: enferno/templates/views/admin/labels.html:77
-msgid ""
-"\n"
-"                                                                Actor"
+msgid "Actor"
 msgstr ""
 
 #: enferno/templates/views/admin/labels.html:81
-msgid ""
-"\n"
-"                                                                Incident"
+msgid "Incident"
 msgstr ""
 
 #: enferno/templates/views/admin/labels.html:85
-msgid ""
-"\n"
-"                                                                Offline"
+msgid "Offline"
 msgstr ""
 
 #: enferno/templates/views/admin/labels.html:101
-msgid ""
-"Import\n"
-"                                                CSV"
+msgid "Import CSV"
 msgstr ""
 
 #: enferno/templates/views/admin/labels.html:188
@@ -2290,10 +2259,7 @@ msgid "New Group"
 msgstr ""
 
 #: enferno/templates/views/admin/roles.html:33
-msgid ""
-"\n"
-"                                                                    Group"
-" Name"
+msgid "Group Name"
 msgstr ""
 
 #: enferno/templates/views/admin/roles.html:163
@@ -2585,10 +2551,7 @@ msgid "Media Import Tool"
 msgstr ""
 
 #: enferno/templates/views/admin/system-administration.html:270
-msgid ""
-"Enable importing and parsing media\n"
-"                                                    items in bulk "
-"directly into bulletins."
+msgid "Enable importing and parsing media items in bulk directly into Primary Records."
 msgstr ""
 
 #: enferno/templates/views/admin/system-administration.html:275
@@ -2919,11 +2882,7 @@ msgid "Handle"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:378
-msgid ""
-"Sources are profiles of the original creators and publishers of the "
-"content of Actors and Bulletins in the database. This structure also "
-"provides easy search and filtering and prevents data entry mistakes by "
-"users."
+msgid "Sources are profiles of the original creators and publishers of the content of Actors and Primary Records in the database. This structure also provides easy search and filtering and prevents data entry mistakes by users."
 msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:393
@@ -2935,13 +2894,7 @@ msgid ""
 msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:410
-msgid ""
-"The Verified labels are a set of neutral labels added by the data analyst"
-" based on observation and evidence found in the content. Allegations made"
-" by the source or person(s) in the content must not influence adding or "
-"not adding these labels. SJAC utilises this list of Labels to tag the "
-"reliability, priority, metadata or the verified content. The latter is "
-"utilized mainly in items with verifiable evidence like video Bulletins."
+msgid "The Verified labels are a set of neutral labels added by the data analyst based on observation and evidence found in the content. Allegations made by the source or person(s) in the content must not influence adding or not adding these labels. SJAC utilises this list of Labels to tag the reliability, priority, metadata or the verified content. The latter is utilized mainly in items with verifiable evidence like video Primary Records."
 msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:429
@@ -3060,12 +3013,7 @@ msgid "Search & Relate Actors"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:800
-msgid ""
-"Actors are items of documentation about persons or bodies of interest "
-"that can be related to other Actors, Bulletins, or Incidents, usually "
-"coming from a single source. The Actor profile contains fields to "
-"identify the person or body, relate the Actor to other items in the "
-"database, add labels and create Events."
+msgid "Actors are items of documentation about persons or bodies of interest that can be related to other Actors, Primary Records, or Incidents, usually coming from a single source. The Actor profile contains fields to identify the person or body, relate the Actor to other items in the database, add labels and create Events."
 msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:815
@@ -3098,15 +3046,12 @@ msgid "Related As"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:870
-msgid "Search & Relate Bulletins"
+msgid "Search & Relate Primary Records"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:874
 msgid ""
-"A Bulletin is one piece of documentation that provides information about "
-"a specific event. Bulletins could be from almost any type of content, "
-"such as videos, audio, pictures, documents, interviews, reports, text "
-"files, etc."
+"A Primary Record is one piece of documentation that provides information about a specific event. Primary Records could be from almost any type of content, such as videos, audio, pictures, documents, interviews, reports, text files, etc."
 msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:888
@@ -3114,15 +3059,7 @@ msgid "Search & Relate Incidents"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:892
-msgid ""
-"_(\"Analysis of Actors and Bulletins is intended to follow a \"closed "
-"universe\" approach, where the only focus of the analysis is the evidence"
-" contained in each item individually and without looking for additional "
-"information outside. This approach allows for speedy initial analysis of "
-"Actors and Bulletins and prevents adding any unreliable outside "
-"information or opinions. Incidents allow for the evidence contained in "
-"individual Actors and Bulletins to be linked together and analyzed as a "
-"group.\")"
+msgid "_(\"Analysis of Actors and Primary Records is intended to follow a \"closed universe\" approach, where the only focus of the analysis is the evidence contained in each item individually and without looking for additional information outside. This approach allows for speedy initial analysis of Actors and Primary Records and prevents adding any unreliable outside information or opinions. Incidents allow for the evidence contained in individual Actors and Primary Records to be linked together and analyzed as a group.\")"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:974
@@ -3173,7 +3110,7 @@ msgid "Bulk Update Actors"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:46
-msgid "Bulk Update Bulletins"
+msgid "Bulk Update Primary Records"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulk_incident_drawer.html:34
@@ -3189,24 +3126,20 @@ msgid "Bulk Update Incidents"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulletin_advsearch.html:4
-msgid "Bulletin Advanced Search"
+msgid "Primary Record Advanced Search"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulletin_advsearch.html:44
-msgid ""
-"Save\n"
-"                Search"
+msgid "Save Search"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulletin_advsearch.html:47
 #: enferno/templates/views/admin/partials/incident_advsearch.html:34
-msgid ""
-"Save As\n"
-"                New"
+msgid "Save As New"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:13
-msgid "Save Bulletin"
+msgid "Save Primary Record"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:78
@@ -3214,89 +3147,44 @@ msgid "Original Title (AR)"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:81
-msgid ""
-"Titles from sources might be edited for clarity, but the\n"
-"                                                        “Original Title” "
-"is retained."
+msgid "Titles from sources might be edited for clarity, but the "Original Title" is retained."
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:103
-msgid ""
-"Titles from sources might be edited for clarity, but the\n"
-"                                                    “Original Title” is "
-"retained."
+msgid "Titles from sources might be edited for clarity, but the “Original Title” is retained."
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:123
-msgid ""
-"\n"
-"                                                        Sources"
+msgid "Sources"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:127
-msgid ""
-"Sources are profiles of the original creators and publishers of\n"
-"                                                the content of Actors and"
-" Bulletins in the database. This structure also\n"
-"                                                provides easy search and "
-"filtering and prevents data entry mistakes by\n"
-"                                                users."
+msgid "Sources are profiles of the original creators and publishers of the content of Actors and Primary Records in the database. This structure also provides easy search and filtering and prevents data entry mistakes by users."
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:143
-msgid ""
-"The Bulletin Description should describe, in details, what\n"
-"                                                      happens, and what "
-"the content shows. Describe the people involved, the\n"
-"                                                      surrounding area, "
-"information about time and day. Be critical and only\n"
-"                                                      use (describe) the "
-"facts actually shown in the documentation."
+msgid "The Primary Record description should describe, in details, what happens, and what the content shows. Describe the people involved, the surrounding area, information about time and day. Be critical and only use (describe) the facts actually shown in the documentation."
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:168
-msgid ""
-"Labels allow for easy search and filter of the database. Labels\n"
-"                                                can be created by an "
-"admin to tag the content or metadata of an item.\n"
-"                                                Additionally, labels can "
-"be used for references or workflow control."
+msgid "Labels allow for easy search and filter of the database. Labels can be created by an admin to tag the content or metadata of an item. Additionally, labels can be used for references or workflow control."
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:183
-msgid ""
-"\n"
-"                                                        Verified Labels"
+msgid "Verified Labels"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:187
-msgid ""
-"The Verified labels are a set of neutral labels added by the\n"
-"                                                data analyst based on "
-"observation and evidence found in the content.\n"
-"                                                Allegations made by the "
-"source or person(s) in the content must not\n"
-"                                                influence adding or not "
-"adding these labels. SJAC utilises this list of\n"
-"                                                Labels to tag the "
-"reliability, priority, metadata or the verified\n"
-"                                                content. The latter is "
-"utilized mainly in items with verifiable evidence\n"
-"                                                like video Bulletins."
+msgid "The Verified labels are a set of neutral labels added by the data analyst based on observation and evidence found in the content. Allegations made by the source or person(s) in the content must not influence adding or not adding these labels. SJAC utilises this list of Labels to tag the reliability, priority, metadata or the verified content. The latter is utilized mainly in items with verifiable evidence like video Primary Records."
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:211
 #: enferno/templates/views/admin/partials/incident_dialog.html:140
-msgid ""
-"Locations is a central list of entries for the adminstrative\n"
-"                                                centers (cities, towns, "
-"villages, etc)."
+msgid "Locations is a central list of entries for the adminstrative centers (cities, towns, villages, etc)."
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:234
-msgid ""
-"Geo Markers are geographical markers or landmarks that help\n"
-"                                                describe the bulletin."
+msgid "Geo Markers are geographical markers or landmarks that help describe the Primary Record."
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:274

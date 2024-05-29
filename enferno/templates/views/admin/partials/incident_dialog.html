@@ -55,10 +55,11 @@
                                 <v-row>
                                     <v-col cols="12" md="6">
                                         <v-card class="d-flex" flat>
-                                            <v-text-field v-if="title__" v-model="editedItem.title" label="{{ _("
-                                                Title") }}"></v-text-field>
-                                            <v-text-field v-else v-model="editedItem.title_ar" label="{{ _("Title
-                                                (AR)") }}" background-color="lime lighten-5"></v-text-field>
+                                            <v-text-field v-if="title__" v-model="editedItem.title"
+                                                label="{{ _("Title") }}"></v-text-field>
+                                            <v-text-field v-else v-model="editedItem.title_ar"
+                                                label="{{ _("Title (AR)") }}" background-color="lime lighten-5">
+                                            </v-text-field>
                                             <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline"
                                                 @click="title__=!title__">
                                                 <v-icon>mdi-web</v-icon>
@@ -106,12 +107,12 @@
                                                 <div v-on="on">
                                                     <search-field v-model="editedItem.claimed_violations"
                                                         api="/admin/api/claimedviolation/" item-text="title"
-                                                        item-value="id" :multiple="true" label="{{ _("Claimed
-                                                        Violations Categories") }}"></search-field>
+                                                        item-value="id" :multiple="true"
+                                                        label="{{ _("Claimed Violations Categories") }}">
+                                                    </search-field>
                                                 </div>
                                             </template>
-                                            <span>{{ _('List of violations that have been committed during the course of
-                                                the event related to the incident.') }}</span>
+                                            <span>{{ _('List of violations that have been committed during the course of the event related to the incident.') }}</span>
                                         </v-tooltip>
                                     </v-col>
                                 </v-row>
@@ -137,8 +138,7 @@
                                                         item-value="id" :multiple="true" label="{{ _("Locations") }}"></location-search-field>
                                                 </div>
                                             </template>
-                                            <span>{{ _('Locations is a central list of entries for the adminstrative
-                                                centers (cities, towns, villages, etc).') }}</span>
+                                            <span>{{ _('Locations is a central list of entries for the adminstrative centers (cities, towns, villages, etc).') }}</span>
                                         </v-tooltip>
                                     </v-col>
                                 </v-row>
@@ -165,17 +165,13 @@
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
                                                         <v-text-field v-on="on" class="mx-5"
-                                                            v-model="relateActorTerm" label="{{ _("Search & Relate
-                                                            Actors") }}" @keydown.enter="searchRelatedActors"
+                                                            v-model="relateActorTerm"
+                                                            label="{{ _("Search & Relate Actors") }}"
+                                                            @keydown.enter="searchRelatedActors"
                                                             @click:append="searchRelatedActors"
                                                             append-icon="mdi-magnify"></v-text-field>
                                                     </template>
-                                                    <span>{{ _('Actors are items of documentation about persons or
-                                                        bodies of interest that can be related to other Actors,
-                                                        Bulletins, or Incidents, usually coming from a single source.
-                                                        The Actor profile contains fields to identify the person or
-                                                        body, relate the Actor to other items in the database, add
-                                                        labels and create Events.') }}</span>
+                                                    <span>{{ _('Actors are items of documentation about persons or bodies of interest that can be related to other Actors, Primary Records, or Incidents, usually coming from a single source. The Actor profile contains fields to identify the person or body, relate the Actor to other items in the database, add labels and create Events.') }}</span>
                                                 </v-tooltip>
                                             </v-card-title>
                                             <!--  Grid of Actors Items -->
@@ -238,21 +234,19 @@
                                         <v-card outlined class="my-5">
                                             <v-card-title class="handle">
                                                 <v-icon left>mdi-file-document-multiple</v-icon>
-                                                <!-- <v-btn :loading="br_loading" :disabled="br_loaded" @click.stop="loadBulletinRelations" outlined>{{ _('Related Bulletins') }}</v-btn> -->
-                                                {{ _("Related Bulletins") }}
+                                                <!-- <v-btn :loading="br_loading" :disabled="br_loaded" @click.stop="loadBulletinRelations" outlined>{{ _('Related Primary Records') }}</v-btn> -->
+                                                {{ _("Related Primary Records") }}
                                                 <v-spacer></v-spacer>
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
                                                         <v-text-field v-on="on"  class="mx-5"
-                                                            v-model="relateBulletinTerm" label="{{ _("Search & Relate
-                                                            Bulletins") }}" @keydown.enter="searchRelatedBulletins"
+                                                            v-model="relateBulletinTerm"
+                                                            label="{{ _("Search & Relate Primary Records") }}"
+                                                            @keydown.enter="searchRelatedBulletins"
                                                             @click:append="searchRelatedBulletins"
                                                             append-icon="mdi-magnify"></v-text-field>
                                                     </template>
-                                                    <span>{{ _('A Bulletin is one piece of documentation that provides
-                                                        information about a specific event. Bulletins could be from
-                                                        almost any type of content, such as videos, audio, pictures,
-                                                        documents, interviews, reports, text files, etc.') }}</span>
+                                                    <span>{{ _('A Primary Record is one piece of documentation that provides information about a specific event. Primary Records could be from almost any type of content, such as videos, audio, pictures, documents, interviews, reports, text files, etc.') }}</span>
                                                 </v-tooltip>
                                             </v-card-title>
                                             <!--  Grid of Bulletins Items -->
@@ -320,20 +314,13 @@
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
                                                         <v-text-field v-on="on" class="mx-5"
-                                                            v-model="relateIncidentTerm" label="{{ _("Search & Relate
-                                                            Incidents") }}" @keydown.enter="searchRelatedIncidents"
+                                                            v-model="relateIncidentTerm"
+                                                            label="{{ _("Search & Relate Incidents") }}"
+                                                            @keydown.enter="searchRelatedIncidents"
                                                             @click:append="searchRelatedIncidents"
                                                             append-icon="mdi-magnify"></v-text-field>
                                                     </template>
-                                                    <span>{{ _('Analysis of Actors and Bulletins is intended to follow a
-                                                        "closed universe" approach, where the only focus of the analysis
-                                                        is the evidence contained in each item individually and without
-                                                        looking for additional information outside. This approach allows
-                                                        for speedy initial analysis of Actors and Bulletins and prevents
-                                                        adding any unreliable outside information or opinions. Incidents
-                                                        allow for the evidence contained in individual Actors and
-                                                        Bulletins to be linked together and analyzed as a group.')
-                                                        }}</span>
+                                                    <span>{{ _('Analysis of Actors and Primary Records is intended to follow a "closed universe" approach, where the only focus of the analysis is the evidence contained in each item individually and without looking for additional information outside. This approach allows for speedy initial analysis of Actors and Bulletins and prevents adding any unreliable outside information or opinions. Incidents allow for the evidence contained in individual Actors and Bulletins to be linked together and analyzed as a group.')}}</span>
                                                 </v-tooltip>
                                             </v-card-title>
                                             <!--  Grid of Incident Items -->

@@ -35,8 +35,8 @@
                                                     <v-container>
                                                         <v-row>
                                                             <v-col cols="12" md="6">
-                                                                <v-text-field v-model="editedItem.title" label="{{ _("
-                                                                    Title") }}"></v-text-field>
+                                                                <v-text-field v-model="editedItem.title"
+                                                                label="{{ _("Title") }}"></v-text-field>
                                                             </v-col>
                                                             <v-col cols="12" md="6">
                                                                 <v-text-field v-model="editedItem.title_ar"
@@ -50,7 +50,7 @@
                                                                 </v-checkbox>
                                                             </v-col>
                                                             <v-col cols="12" md="6">
-                                                                <v-checkbox label="{{ _("For Bulletins") }}"
+                                                                <v-checkbox label="{{ _("For Primary Records") }}"
                                                                     v-model="editedItem.for_bulletin">
                                                                 </v-checkbox>
                                                             </v-col>
@@ -159,7 +159,7 @@
                 text: "{{_('For Actors')}}",
                 value: "for_actor"
             }, {
-                text: "{{_('For Bulletins')}}",
+                text: "{{_('For Primary Records')}}",
                 value: "for_bulletin"
             }, {
                 text: "{{_('Comments')}}",

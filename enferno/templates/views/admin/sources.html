@@ -37,18 +37,18 @@
                                                     <v-container>
                                                         <v-row>
                                                             <v-col cols="12" md="4">
-                                                                <v-text-field v-model="editedItem.title" label="{{ _("
-                                                                    Title") }}"></v-text-field>
+                                                                <v-text-field v-model="editedItem.title"
+                                                                label="{{ _("Title") }}"></v-text-field>
                                                             </v-col>
                                                             <v-col cols="12" md="6">
                                                                 <search-field v-model="editedItem.parent"
                                                                     api="/admin/api/sources/" item-text="title"
-                                                                    item-value="id" :multiple="false" label="{{ _("
-                                                                    Parent") }}"></search-field>
+                                                                    item-value="id" :multiple="false"
+                                                                    label="{{ _("Parent") }}"></search-field>
                                                             </v-col>
                                                             <v-col cols="12" md="2">
-                                                                <v-text-field v-model="editedItem.etl_id" label="{{ _("
-                                                                    ETL ID") }}" disabled></v-text-field>
+                                                                <v-text-field v-model="editedItem.etl_id"
+                                                                    label="{{ _("ETL ID") }}" disabled></v-text-field>
                                                             </v-col>
                                                         </v-row>
                                                         <v-row>

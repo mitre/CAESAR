@@ -36,22 +36,22 @@
                                                 <v-container>
                                                     <v-row>
                                                         <v-col cols="12" md="6">
-                                                            <v-text-field v-model="editedItem.title" label="{{ _("
-                                                                Title") }}"></v-text-field>
+                                                            <v-text-field v-model="editedItem.title"
+                                                                label="{{ _("Title") }}"></v-text-field>
                                                         </v-col>
                                                         <v-col cols="12" md="6">
-                                                            <v-text-field v-model="editedItem.title_ar" label="{{ _("
-                                                                Title (AR)") }}"></v-text-field>
+                                                            <v-text-field v-model="editedItem.title_ar"
+                                                                label="{{ _("Title (AR)") }}"></v-text-field>
                                                         </v-col>
                                                     </v-row>
                                                     <v-row>
                                                         <v-col cols="12" md="6">
-                                                            <v-text-field v-model="editedItem.comments" label="{{ _("
-                                                                Comments") }}"></v-text-field>
+                                                            <v-text-field v-model="editedItem.comments"
+                                                                label="{{ _("Comments") }}"></v-text-field>
                                                         </v-col>
                                                         <v-col cols="12" md="6">
-                                                            <v-text-field v-model="editedItem.comments_ar" label="{{ _("
-                                                                Comments (AR)") }}"></v-text-field>
+                                                            <v-text-field v-model="editedItem.comments_ar"
+                                                                label="{{ _("Comments (AR)") }}"></v-text-field>
                                                         </v-col>
                                                     </v-row>
                                                     <v-row>
@@ -66,24 +66,24 @@
                                                     </v-row>
                                                     <v-row>
                                                         <v-col cols="12" md="2">
-                                                            <v-checkbox v-model="editedItem.verified" label="{{ _("
-                                                                Verified") }}"></v-checkbox>
+                                                            <v-checkbox v-model="editedItem.verified"
+                                                                label="{{ _("Verified") }}"></v-checkbox>
                                                         </v-col>
                                                         <v-col cols="12" md="2">
-                                                            <v-checkbox v-model="editedItem.for_bulletin" label="{{ _("
-                                                                Bulletin") }}"></v-checkbox>
+                                                            <v-checkbox v-model="editedItem.for_bulletin"
+                                                                label="{{ _("Primary Record") }}"></v-checkbox>
                                                         </v-col>
                                                         <v-col cols="12" md="2">
-                                                            <v-checkbox v-model="editedItem.for_actor" label="{{ _("
-                                                                Actor") }}"></v-checkbox>
+                                                            <v-checkbox v-model="editedItem.for_actor"
+                                                                label="{{ _("Actor") }}"></v-checkbox>
                                                         </v-col>
                                                         <v-col cols="12" md="2">
-                                                            <v-checkbox v-model="editedItem.for_incident" label="{{ _("
-                                                                Incident") }}"></v-checkbox>
+                                                            <v-checkbox v-model="editedItem.for_incident"
+                                                                label="{{ _("Incident") }}"></v-checkbox>
                                                         </v-col>
                                                         <v-col cols="12" md="2">
-                                                            <v-checkbox v-model="editedItem.for_offline" label="{{ _("
-                                                                Offline") }}"></v-checkbox>
+                                                            <v-checkbox v-model="editedItem.for_offline"
+                                                                label="{{ _("Offline") }}"></v-checkbox>
                                                         </v-col>
                                                     </v-row>
                                                 </v-container>
@@ -98,8 +98,8 @@
                                     <v-dialog v-model="imDialog" width="500">
                                         {% if current_user.has_role('Admin') %}
                                         <template v-slot:activator="{ on }">
-                                            <v-btn color="accent" outlined dark class="ma-2" v-on="on">{{ _("Import
-                                                CSV") }}</v-btn>
+                                            <v-btn color="accent" outlined dark class="ma-2" v-on="on">
+                                                {{ _("Import CSV") }}</v-btn>
                                         </template>
                                         {% endif %}
                                         <v-card>
@@ -188,7 +188,7 @@
                 text: "{{_('Verified')}}",
                 value: "verified"
             }, {
-                text: "{{_('Bulletin')}}",
+                text: "{{_('Primary Record')}}",
                 value: "for_bulletin"
             }, {
                 text: "{{_('Actor')}}",
