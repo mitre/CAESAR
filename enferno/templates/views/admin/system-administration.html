@@ -49,17 +49,11 @@
                                                     </v-btn>
                                                 </v-btn-toggle>
                                                 <p class="caption">
-                                                    {{ _('Changes default interface language for all users. Users can
-                                                    still
-                                                    choose their own interface language.')
-                                                    }}
+                                                    {{ _('Changes default interface language for all users. Users can still choose their own interface language.')}}
                                                 </p>
-                                                <v-switch class="mb-9" persistent-hint label="{{ _("Missing Persons
-                                                    Extension") }}" hint="{{ _("Enables the Missing Persons extension
-                                                    to Actor component. Ideally this setting should be enabled when
-                                                    first setting up the system and not afterwards. Enabling this
-                                                    setting later involves database migrations. This feature can be
-                                                    disabled after being enabled without deleting the data.") }}"
+                                                <v-switch class="mb-9" persistent-hint
+                                                    label="{{ _("Missing Persons Extension") }}"
+                                                    hint="{{ _("Enables the Missing Persons extension to Actor component. Ideally this setting should be enabled when first setting up the system and not afterwards. Enabling this setting later involves database migrations. This feature can be disabled after being enabled without deleting the data.") }}"
                                                     v-model="eitem.MISSING_PERSONS"></v-switch>
                                                 <v-switch label="{{ _("Deduplication Tool") }}"
                                                     v-model="eitem.DEDUP_TOOL" persistent-hint
@@ -112,10 +106,7 @@
                                             <v-card-text>
                                                 <h4 class="mt-3 subtitle-2 mb-2">{{ _('Media Storage') }}</h4>
                                                 <p class="caption">
-                                                    {{
-                                                    _('Storage options for media files uploaded to Bayanat. It\'s
-                                                    possible to store these files locally on the host or in S3 bucket.')
-                                                    }}
+                                                    {{_('Storage options for media files uploaded to Bayanat. It\'s possible to store these files locally on the host or in S3 bucket.')}}
                                                 </p>
                                                 <v-btn-toggle v-model="eitem.FILESYSTEM_LOCAL" mandatory
                                                     class="my-3 mb-9">
@@ -157,10 +148,10 @@
                                                 </v-slide-y-transition>
                                                 <v-combobox class="mb-9" multiple small-chips
                                                     :items="eitem.MEDIA_ALLOWED_EXTENSIONS"
-                                                    v-model="eitem.MEDIA_ALLOWED_EXTENSIONS" label="{{ _("Allowed Media
-                                                    Extensions") }}" persistent-hint hint="{{ _("The system will only
-                                                    allow files uploaded whose extensions are included in this list and
-                                                    reject all other extensions.") }}"></v-combobox>
+                                                    v-model="eitem.MEDIA_ALLOWED_EXTENSIONS"
+                                                    label="{{ _("Allowed Media Extensions") }}" persistent-hint
+                                                    hint="{{ _("The system will only allow files uploaded whose extensions are included in this list and reject all other extensions.") }}">
+                                                </v-combobox>
                                                 <v-text-field class="mb-9" v-model="eitem.MEDIA_UPLOAD_MAX_FILE_SIZE"
                                                     label="{{ _("Media Max Upload Size") }}" persistent-hint
                                                     hint="{{ _("Sets the maximum allowed file size for media uploads.") }}"></v-text-field>

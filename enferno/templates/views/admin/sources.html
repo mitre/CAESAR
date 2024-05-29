@@ -71,8 +71,8 @@
                                         <v-dialog v-model="imDialog" width="500">
                                             {% if current_user.has_role('Admin') %}
                                             <template v-slot:activator="{ on }">
-                                                <v-btn color="accent" outlined dark class="ma-2" v-on="on">{{ _('Import
-                                                    CSV') }}</v-btn>
+                                                <v-btn color="accent" outlined dark class="ma-2" v-on="on">
+                                                    {{ _('Import CSV') }}</v-btn>
                                             </template>
                                             {% endif %}
                                             <v-card>

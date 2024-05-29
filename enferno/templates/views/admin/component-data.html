@@ -31,13 +31,13 @@
                                             {{ _("Actor to Actor Relations") }}
                                         </v-tab>
                                         <v-tab class="justify-start">
-                                            {{ _("Actor to Bulletin Relations") }}
+                                            {{ _("Actor to Primary Record Relations") }}
                                         </v-tab>
                                         <v-tab class="justify-start">
-                                            {{ _("Bulletin to Bulletin Relations") }}
+                                            {{ _("Primary Record to Primary Record Relations") }}
                                         </v-tab>
                                         <v-tab class="justify-start">
-                                            {{ _("Incident to Bulletin Relations") }}
+                                            {{ _("Incident to Primary Record Relations") }}
                                         </v-tab>
                                         <v-tab class="justify-start">
                                             {{ _("Incident to Actor Relations") }}
@@ -120,7 +120,7 @@
                                     <v-tab-item class="pa-1">
                                         <v-card class="pa-3">
                                             <v-card-text>
-                                                <editable-table title="{{ _("Actor to Bulletin Relations") }}"
+                                                <editable-table title="{{ _("Actor to Primary Record Relations") }}"
                                                     :item-headers="relationHeaders"
                                                     :editable-columns="['title','title_tr']"
                                                     delete-endpoint="/admin/api/atobinfo"
@@ -133,7 +133,7 @@
                                     <v-tab-item class="pa-1">
                                         <v-card class="pa-3">
                                             <v-card-text>
-                                                <editable-table title="{{ _("Bulletin to Bulletin Relations") }}"
+                                                <editable-table title="{{ _("Primary Record to Primary Record Relations") }}"
                                                     :item-headers="relationHeaders"
                                                     :editable-columns="['title','title_tr']"
                                                     delete-endpoint="/admin/api/btobinfo"
@@ -146,7 +146,7 @@
                                     <v-tab-item class="pa-1">
                                         <v-card class="pa-3">
                                             <v-card-text>
-                                                <editable-table title="{{ _("Incident to Bulletin Relations") }}"
+                                                <editable-table title="{{ _("Incident to Primary Record Relations") }}"
                                                     :item-headers="relationHeaders"
                                                     :editable-columns="['title','title_tr']"
                                                     delete-endpoint="/admin/api/itobinfo"
