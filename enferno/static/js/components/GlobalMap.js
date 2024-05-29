@@ -120,6 +120,10 @@ Vue.component("global-map", {
     this.map.on('render', () => {
       this.updateMarkers();
     });
+
+    this.map.on('resize', () => {
+      this.fitMarkers();
+    });
     
     this.map.on('styleimagemissing', (e) => {
       let img = document.createElement('img');
@@ -134,7 +138,6 @@ Vue.component("global-map", {
     value(val, old) {
       if ((val && val.length) || val !== old) {
         this.locations = val;
-        //this.fitMarkers();
         this.addMarkers();
       }
       if (val.length === 0) {
@@ -321,12 +324,13 @@ Vue.component("global-map", {
             }
         });
       }
+      this.fitMarkers();
     },
 
     updateMarkers() {
       const newMarkers = {};
       const features = this.map.querySourceFeatures('markers');
-
+      
       // for every cluster on the screen, create an HTML marker for it (if we didn't yet),
       // and add it to the map if it's not there already
       for (const feature of features) {
@@ -353,7 +357,9 @@ Vue.component("global-map", {
       }
       // for every marker we've added previously, remove those that are no longer visible
       for (const id in this.markersOnScreen) {
-          if (!newMarkers[id]) this.markersOnScreen[id].remove();
+          if (!newMarkers[id]) {
+            this.markersOnScreen[id].remove();
+          }
       }
       this.markersOnScreen = newMarkers;
     },
@@ -421,67 +427,19 @@ Vue.component("global-map", {
         }" fill="${color}" />`;
     },
 
-    // TODO: remove this old leaflet method. 
-    //   remaining items...
-    //   - measuring tool
-    //   - fit markers 
     fitMarkers() {
-      // construct a list of markers to build a feature group
-
-      // const map = this.$refs.map.mapObject;
-
-      // if (this.markerGroup) {
-      //   map.removeLayer(this.markerGroup);
-      // }
-
-      // this.markerGroup = L.markerClusterGroup({
-      //   maxClusterRadius: 20,
-      // });
-
       if (this.locations.length) {
-        let eventLocations = [];
 
-        // Add event linestring links if any available
-        if (eventLocations.length > 1) {
-          // this.addEventRouteLinks(eventLocations);
-          this.addEventRoutes(eventLocations);
-        }
+        var coordinates = this.locations;
 
-        if (!this.measureControls) {
-          this.measureControls = L.control.polylineMeasure({
-            position: "topleft",
-            unit: "kilometres",
-            fixedLine: {
-              // Styling for the solid line
-              color: "rgba(67,157,146,0.77)", // Solid line color
-              weight: 2, // Solid line weight
-            },
-
-            arrow: {
-              // Styling of the midway arrow
-              color: "rgba(67,157,146,0.77)", // Color of the arrow
-            },
-            showBearings: false,
-            clearMeasurementsOnStop: false,
-            showClearControl: true,
-            showUnitControl: true,
-          });
-
-          // this.measureControls.addTo(map);
-        }
-
-        // Fit map of bounds of clusterLayer
-        // let bounds = this.markerGroup.getBounds();
-        // this.markerGroup.addTo(map);
-        // map.fitBounds(bounds, { padding: [20, 20] });
-
-        if (map.getZoom() > 14) {
-        //   // flyout of center when map is zoomed in too much (single marker or many dense markers)
-          map.flyTo(map.getCenter(), 10, { duration: 1 });
-        }
+        var bounds = coordinates.reduce(function(bounds, coord) {
+          return bounds.extend(coord);
+        }, new maplibregl.LngLatBounds(coordinates[0], coordinates[0]));
+        
+        this.map.fitBounds(bounds, {
+          padding: 50
+        });
       }
-
-      map.invalidateSize();
     },
 
     getBSplineCurve(eventLocations) {

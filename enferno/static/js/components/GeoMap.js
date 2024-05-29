@@ -132,7 +132,7 @@ Vue.component("geo-map", {
 
     this.map.addControl(new maplibregl.NavigationControl());
     this.map.addControl(new maplibregl.FullscreenControl());
-    //this.map.on('click', (e) => {this.updateMarker(e)});
+    this.map.on('click', (e) => {this.updateMarker(e)});
 
     if (this.value) {
       this.$nextTick(() => {this.updateMarker()});
@@ -367,7 +367,7 @@ Vue.component("geo-map", {
               </v-slider>
             </div>
 
-            <l-map @click="updateMarker" id="mlMapContainer" ref="mapContainer" :style="'position: relative; display: inline-block; height: '+ mapHeight + 'px; width: 100%; resize: vertical'"></l-map>
+            <l-map id="mlMapContainer" ref="mapContainer" :style="'position: relative; display: inline-block; height: '+ mapHeight + 'px; width: 100%; resize: vertical'"></l-map>
 
           </v-card-text>
 
