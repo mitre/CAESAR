@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-29 12:25-0400\n"
+"POT-Creation-Date: 2024-05-29 13:03-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,7 +36,7 @@ msgstr ""
 #: enferno/templates/views/admin/locations.html:151
 #: enferno/templates/views/admin/roles.html:154
 #: enferno/templates/views/admin/sources.html:151
-#: enferno/templates/views/admin/system-administration.html:481
+#: enferno/templates/views/admin/system-administration.html:482
 #: enferno/templates/views/admin/users.html:220
 msgid "Rows per page"
 msgstr ""
@@ -61,8 +61,8 @@ msgstr ""
 #: enferno/templates/views/admin/labels.html:176
 #: enferno/templates/views/admin/locations.html:154
 #: enferno/templates/views/admin/roles.html:157
-#: enferno/templates/views/admin/system-administration.html:484
-#: enferno/templates/views/admin/system-administration.html:498
+#: enferno/templates/views/admin/system-administration.html:485
+#: enferno/templates/views/admin/system-administration.html:499
 #: enferno/templates/views/admin/users.html:223
 msgid "ID"
 msgstr ""
@@ -256,7 +256,7 @@ msgstr ""
 #: enferno/templates/views/admin/partials/bulletin_advsearch.html:61
 #: enferno/templates/views/admin/partials/incident_advsearch.html:49
 #: enferno/templates/views/admin/roles.html:95
-#: enferno/templates/views/admin/system-administration.html:431
+#: enferno/templates/views/admin/system-administration.html:432
 msgid "Cancel"
 msgstr ""
 
@@ -508,8 +508,8 @@ msgstr ""
 #: enferno/templates/views/admin/partials/location_dialog.html:50
 #: enferno/templates/views/admin/sources.html:41
 #: enferno/templates/views/admin/sources.html:157
-#: enferno/templates/views/admin/system-administration.html:490
-#: enferno/templates/views/admin/system-administration.html:501
+#: enferno/templates/views/admin/system-administration.html:491
+#: enferno/templates/views/admin/system-administration.html:502
 msgid "Title"
 msgstr ""
 
@@ -1021,8 +1021,8 @@ msgstr ""
 #: enferno/templates/views/admin/locations.html:173
 #: enferno/templates/views/admin/roles.html:169
 #: enferno/templates/views/admin/sources.html:170
-#: enferno/templates/views/admin/system-administration.html:493
-#: enferno/templates/views/admin/system-administration.html:504
+#: enferno/templates/views/admin/system-administration.html:494
+#: enferno/templates/views/admin/system-administration.html:505
 #: enferno/templates/views/admin/users.html:241
 msgid "Actions"
 msgstr ""
@@ -1108,7 +1108,7 @@ msgid "Social Media Platforms"
 msgstr ""
 
 #: enferno/templates/views/admin/component-data.html:249
-#: enferno/templates/views/admin/system-administration.html:487
+#: enferno/templates/views/admin/system-administration.html:488
 msgid "Code"
 msgstr ""
 
@@ -1166,7 +1166,7 @@ msgstr ""
 #: enferno/templates/views/admin/partials/event_dialog.html:82
 #: enferno/templates/views/admin/partials/incident_advsearch.html:50
 #: enferno/templates/views/admin/roles.html:96
-#: enferno/templates/views/admin/system-administration.html:359
+#: enferno/templates/views/admin/system-administration.html:360
 #: enferno/templates/views/admin/users.html:164
 msgid "Save"
 msgstr ""
@@ -1294,7 +1294,7 @@ msgid "Event date"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:34
-msgid "Search in a signle event"
+msgid "Search in a single event"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:35
@@ -2276,48 +2276,44 @@ msgid "Maps"
 msgstr ""
 
 #: enferno/templates/views/admin/system-administration.html:32
-msgid ""
-"Allows to load different set of items in pages that has\n"
-"                                                    data tables"
+msgid "Allows to load different set of items in pages that has data tables"
 msgstr ""
 
 #: enferno/templates/views/admin/system-administration.html:34
 msgid "Items Per Page Options"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:37
-msgid ""
-"Allows to play videos at different\n"
-"                                                    speed rates"
+#: enferno/templates/views/admin/system-administration.html:38
+msgid "Allows to play videos at different speed rates"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:38
+#: enferno/templates/views/admin/system-administration.html:39
 msgid "Video Player Playback Rates"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:42
+#: enferno/templates/views/admin/system-administration.html:43
 msgid "System Interface Languages"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:43
+#: enferno/templates/views/admin/system-administration.html:44
 msgid "LANGUAGES"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:44
+#: enferno/templates/views/admin/system-administration.html:45
 msgid "Default Language"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:52
+#: enferno/templates/views/admin/system-administration.html:53
 msgid ""
 "Changes default interface language for all users. Users can still choose "
 "their own interface language."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:55
+#: enferno/templates/views/admin/system-administration.html:56
 msgid "Missing Persons Extension"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:56
+#: enferno/templates/views/admin/system-administration.html:57
 msgid ""
 "Enables the Missing Persons extension to Actor component. Ideally this "
 "setting should be enabled when first setting up the system and not "
@@ -2326,169 +2322,169 @@ msgid ""
 "data."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:58
+#: enferno/templates/views/admin/system-administration.html:59
 msgid "Deduplication Tool"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:60
+#: enferno/templates/views/admin/system-administration.html:61
 msgid "Enables integration with Benetech's Deduplication tool."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:67
+#: enferno/templates/views/admin/system-administration.html:68
 msgid "Lowest value of distance to process."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:68
+#: enferno/templates/views/admin/system-administration.html:69
 msgid "Deduplication Low Distance"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:76
+#: enferno/templates/views/admin/system-administration.html:77
 msgid "Highest value of distance to process."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:77
+#: enferno/templates/views/admin/system-administration.html:78
 msgid "Deduplication Max Distance"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:85
+#: enferno/templates/views/admin/system-administration.html:86
 msgid ""
 "Number of matches to send for processing in every batch. Affects speed of"
 " processing and performance of the server."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:86
+#: enferno/templates/views/admin/system-administration.html:87
 msgid "Deduplication Batch Size"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:94
+#: enferno/templates/views/admin/system-administration.html:95
 msgid ""
 "Interval of batches sent for processing. Affects speed of processing and "
 "performance of the server."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:95
+#: enferno/templates/views/admin/system-administration.html:96
 msgid "Deduplication Interval"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:107
+#: enferno/templates/views/admin/system-administration.html:108
 msgid "Media Storage"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:109
+#: enferno/templates/views/admin/system-administration.html:110
 msgid ""
 "Storage options for media files uploaded to Bayanat. It's possible to "
 "store these files locally on the host or in S3 bucket."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:113
+#: enferno/templates/views/admin/system-administration.html:114
 msgid "Local Filesystem"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:114
+#: enferno/templates/views/admin/system-administration.html:115
 msgid "S3 Storage"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:122
+#: enferno/templates/views/admin/system-administration.html:123
 msgid "AWS Access Key ID"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:129
+#: enferno/templates/views/admin/system-administration.html:130
 msgid "AWS Access Key Secret"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:136
+#: enferno/templates/views/admin/system-administration.html:137
 msgid "S3 Bucket Name"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:143
+#: enferno/templates/views/admin/system-administration.html:144
 msgid "S3 Region"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:152
+#: enferno/templates/views/admin/system-administration.html:153
 msgid "Allowed Media Extensions"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:153
+#: enferno/templates/views/admin/system-administration.html:154
 msgid ""
 "The system will only allow files uploaded whose extensions are included "
 "in this list and reject all other extensions."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:156
+#: enferno/templates/views/admin/system-administration.html:157
 msgid "Media Max Upload Size"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:157
+#: enferno/templates/views/admin/system-administration.html:158
 msgid "Sets the maximum allowed file size for media uploads."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:165
+#: enferno/templates/views/admin/system-administration.html:166
 msgid "Security Freshness"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:167
+#: enferno/templates/views/admin/system-administration.html:168
 msgid "Secure pages will require re-authentication after this time expires."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:170
+#: enferno/templates/views/admin/system-administration.html:171
 msgid "Security Freshness Grace Period"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:172
+#: enferno/templates/views/admin/system-administration.html:173
 msgid "Re-authentication will require a second factor after this period."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:175
+#: enferno/templates/views/admin/system-administration.html:176
 msgid "Recaptcha Enabled"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:177
+#: enferno/templates/views/admin/system-administration.html:178
 msgid "Require Google Recaptcha on the login form."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:185
+#: enferno/templates/views/admin/system-administration.html:186
 msgid "Recaptcha Public Key"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:192
+#: enferno/templates/views/admin/system-administration.html:193
 msgid "Recaptcha Private Key"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:198
+#: enferno/templates/views/admin/system-administration.html:199
 msgid "Enable OAuth"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:199
+#: enferno/templates/views/admin/system-administration.html:200
 msgid "Allow users to login using their OAuth account."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:206
+#: enferno/templates/views/admin/system-administration.html:207
 msgid "OAuth Client ID"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:213
+#: enferno/templates/views/admin/system-administration.html:214
 msgid "OAuth Client Secret"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:220
+#: enferno/templates/views/admin/system-administration.html:221
 msgid "OAuth Discovery URL"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:262
+#: enferno/templates/views/admin/system-administration.html:263
 msgid "Media Import Tool"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:263
+#: enferno/templates/views/admin/system-administration.html:264
 msgid ""
 "Enable importing and parsing media items in bulk directly into Primary "
 "Records."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:267
+#: enferno/templates/views/admin/system-administration.html:268
 msgid "Media Import Path Scanning"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:269
+#: enferno/templates/views/admin/system-administration.html:270
 msgid ""
 "Allow scanning of the import path for files in the Media Import Tool. The"
 " path needs to be set in the .env file for this setting to work. This is "
@@ -2497,133 +2493,133 @@ msgid ""
 "should be turned on only when it's needed."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:276
+#: enferno/templates/views/admin/system-administration.html:277
 msgid "Allowed file extensions for the Media Import Tool."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:278
+#: enferno/templates/views/admin/system-administration.html:279
 msgid "ETL Video Extensions"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:283
+#: enferno/templates/views/admin/system-administration.html:284
 msgid ""
 "Enable parsing and extracting text from images and scanned PDF files "
 "(requires and external Tesseract library)."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:284
+#: enferno/templates/views/admin/system-administration.html:285
 msgid "Enable OCR"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:293
+#: enferno/templates/views/admin/system-administration.html:294
 msgid "File extensions which will be scanned using Tesseract OCR."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:294
+#: enferno/templates/views/admin/system-administration.html:295
 msgid "OCR Extensions"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:301
+#: enferno/templates/views/admin/system-administration.html:302
 msgid "Path to Tesseract executable."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:307
+#: enferno/templates/views/admin/system-administration.html:308
 msgid "Sheet Import"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:308
+#: enferno/templates/views/admin/system-administration.html:309
 msgid "Enable importing spreadsheets and mapping them to Actors."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:317
+#: enferno/templates/views/admin/system-administration.html:318
 msgid "Allowed spreadsheet extensions for Sheets Import Tool."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:318
+#: enferno/templates/views/admin/system-administration.html:319
 msgid "Allowed Sheets Extensions"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:333
+#: enferno/templates/views/admin/system-administration.html:334
 msgid "Export System"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:334
+#: enferno/templates/views/admin/system-administration.html:335
 msgid "Enables Export System."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:341
+#: enferno/templates/views/admin/system-administration.html:342
 msgid "Maps API Endpoint"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:342
+#: enferno/templates/views/admin/system-administration.html:343
 msgid "API provider for Open Street Maps tiles."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:344
+#: enferno/templates/views/admin/system-administration.html:345
 msgid "Google Maps API Key"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:346
+#: enferno/templates/views/admin/system-administration.html:347
 msgid ""
 "API key for Google Maps. Adding a key enables satalite imagery in "
 "Bayanat's maps."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:348
+#: enferno/templates/views/admin/system-administration.html:349
 msgid "Default Map Position"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:350
+#: enferno/templates/views/admin/system-administration.html:351
 msgid "Changes default position for all maps in all components."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:370
+#: enferno/templates/views/admin/system-administration.html:371
 msgid "Revision History"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:374
+#: enferno/templates/views/admin/system-administration.html:375
 msgid "Version"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:376
+#: enferno/templates/views/admin/system-administration.html:377
 msgid "by"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:378
+#: enferno/templates/views/admin/system-administration.html:379
 msgid "Revert to this version"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:382
+#: enferno/templates/views/admin/system-administration.html:383
 msgid "Current"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/event_dialog.html:81
-#: enferno/templates/views/admin/system-administration.html:393
+#: enferno/templates/views/admin/system-administration.html:394
 #: enferno/templates/views/admin/users.html:162
 msgid "Close"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:398
+#: enferno/templates/views/admin/system-administration.html:399
 msgid "Review and Confirm Changes"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:408
+#: enferno/templates/views/admin/system-administration.html:409
 msgid "Removed"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:412
+#: enferno/templates/views/admin/system-administration.html:413
 msgid "Added"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:425
+#: enferno/templates/views/admin/system-administration.html:426
 msgid "No changes detected"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:435
+#: enferno/templates/views/admin/system-administration.html:436
 msgid "Confirm"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:443
+#: enferno/templates/views/admin/system-administration.html:444
 msgid "Restarting Bayanat, please wait..."
 msgstr ""
 

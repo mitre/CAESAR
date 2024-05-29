@@ -29,13 +29,14 @@
                                         <v-card :disabled="loading" :loading="loading">
                                             <v-card-text>
                                                 <v-combobox class="mb-9" multiple small-chips persistent-hint
-                                                    hint="{{ _("Allows to load different set of items in pages that has
-                                                    data tables") }}" :items="eitem.ITEMS_PER_PAGE_OPTIONS"
+                                                    hint="{{ _("Allows to load different set of items in pages that has data tables") }}"
+                                                    :items="eitem.ITEMS_PER_PAGE_OPTIONS"
                                                     label="{{ _("Items Per Page Options") }}"
                                                     v-model="eitem.ITEMS_PER_PAGE_OPTIONS"></v-combobox>
                                                 <v-combobox class="mb-9" multiple small-chips :items="eitem.VIDEO_RATES"
-                                                    persistent-hint hint="{{ _("Allows to play videos at different
-                                                    speed rates") }}" label="{{ _("Video Player Playback Rates") }}"
+                                                    persistent-hint
+                                                    hint="{{ _("Allows to play videos at different speed rates") }}"
+                                                    label="{{ _("Video Player Playback Rates") }}"
                                                     v-model="eitem.VIDEO_RATES"></v-combobox>
                                                 <v-combobox class="mb-9" multiple small-chips disabled
                                                     :value="eitem.LANGUAGES" :items="eitem.LANGUAGES" persistent-hint
