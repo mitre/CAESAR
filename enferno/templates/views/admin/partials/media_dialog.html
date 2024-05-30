@@ -3,7 +3,11 @@
         <v-card outlined>
             <v-card-title class="handle">
                 <v-icon left>mdi-folder-multiple-image</v-icon>
+                {% if media_scope == "actor" %}
+                {{ _("Photos or Videos of Actor") }}
+                {% else %}
                 {{ _("Media") }}
+                {% endif %}
                 <v-spacer></v-spacer>
                 <v-btn class="mx-2 white--text" x-small fab dark depressed color="accent lighten-2" @click="addMedia">
                     <v-icon dark>mdi-plus-circle</v-icon></v-btn>
@@ -27,7 +31,13 @@
     </template>
     <v-card>
         <v-card-title>
-            <span class="headline">Media File</span>
+            <span class="headline">
+                {% if media_scope == "actor" %}
+                {{ _("Photo or Video of Actor") }}
+                {% else %}
+                {{ _("Media File") }}
+                {% endif %}
+            </span>
         </v-card-title>
         <v-card-text>
             <v-container>
