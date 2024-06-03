@@ -1471,6 +1471,8 @@ class Bulletin(db.Model, BaseMixin):
     )
     description = db.Column(db.Text)
 
+    discovery_file_name = db.Column(db.String(255))
+
     reliability_score = db.Column(db.Integer, default=0)
 
     first_peer_reviewer_id = db.Column(db.Integer, db.ForeignKey("user.id"))
@@ -1652,6 +1654,7 @@ class Bulletin(db.Model, BaseMixin):
         self.comments = json["comments"] if "comments" in json else None
         self.source_link = json["source_link"] if "source_link" in json else None
         self.source_link_type = json.get('source_link_type', False)
+        self.discovery_file_name = json["discovery_file_name"] if "discovery_file_name" in json else None
         self.ref = json["ref"] if "ref" in json else []
 
         # Locations
@@ -1862,6 +1865,7 @@ class Bulletin(db.Model, BaseMixin):
             "description": self.description or None,
             "source_link": self.source_link or None,
             "source_link_type": getattr(self, 'source_link_type', False),
+            "discovery_file_name": self.discovery_file_name or None,
             "publish_date": DateHelper.serialize_datetime(self.publish_date),
             "documentation_date": DateHelper.serialize_datetime(self.documentation_date),
             "comments": self.comments or "",
@@ -1875,6 +1879,7 @@ class Bulletin(db.Model, BaseMixin):
             'title_ar': self.serialize_column('title_ar'),
             'origin_id': self.serialize_column('originid'),
             'source_link': self.serialize_column('source_link'),
+            'discovery_file_name': self.serialize_column('discovery_file_name'),
             'sjac_title': self.serialize_column('sjac_title'),
             'sjac_title_ar': self.serialize_column('sjac_title_ar'),
             'description': self.serialize_column('description'),
@@ -2080,6 +2085,7 @@ class Bulletin(db.Model, BaseMixin):
             "comments": self.comments or None,
             "source_link": self.source_link or None,
             "source_link_type": self.source_link_type or None,
+            "discovery_file_name": self.discovery_file_name or None,
             "ref": self.ref or None,
             "publish_date": DateHelper.serialize_datetime(self.publish_date),
             "documentation_date": DateHelper.serialize_datetime(self.documentation_date),
@@ -2118,6 +2124,7 @@ class Bulletin(db.Model, BaseMixin):
             "description": self.description or None,
             "comments": self.comments or None,
             "source_link": self.source_link or None,
+            "discovery_file_name": self.discovery_file_name or None,
             "publish_date": DateHelper.serialize_datetime(self.publish_date),
             "documentation_date": DateHelper.serialize_datetime(self.documentation_date),
 
