@@ -451,23 +451,25 @@
                         actor_relations: [],
                             incident_relations: []
     },
-    defaultItem: {
-        title: "",
+        defaultItem: {
+            title: "",
             status: "",
-                description: "",
-                    // related events
-                    events: [],
-                        // related media
-                        medias: [],
-                            // related bulletins
-                            bulletin_relations: [],
-                                // related actors
-                                actor_relations: [],
-                                    // related incidents
-                                    incident_relations: [],
-                                        publish_date: '',
-                                            documentation_date: new Date().toISOString().substr(0, 16),
-                },
+            description: "",
+            // related events
+            events: [],
+            // related media
+            medias: [],
+            // related bulletins
+            bulletin_relations: [],
+            // related actors
+            actor_relations: [],
+            // related incidents
+            incident_relations: [],
+
+            publish_date: '',
+            documentation_date: new Date().toISOString().substr(0, 16),
+            discovery_file_name: "",
+        },
     reviewItem: { },
     // bulk actions
     bulk: { },

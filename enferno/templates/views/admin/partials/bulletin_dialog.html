@@ -530,6 +530,15 @@
                                                 v-model="editedItem.source_link_type" small>
                                             </v-switch>
                                         </v-sheet>
+                                        <v-sheet class="d-flex align-center mb-4">
+                                          <v-tooltip top max-width=500 open-delay=1500>
+                                            <template v-slot:activator="{ on }">
+                                              <v-text-field v-on="on" v-model="editedItem.discovery_file_name" class="mx-2"
+                                                label="{{ _("Discovery File name") }}"></v-text-field>
+                                            </template>
+                                            <span>{{ _('Name of the Hunchly/WebRecorder/RecRoom file from which data item was extracted') }}</span>
+                                          </v-tooltip>
+                                        </v-sheet>
                                     </v-col>
                                     <v-col cols="12" md="3">
                                         <pop-date-time-field time-label="{{ _("Time (UTC)") }}" label="{{ _("Publish
