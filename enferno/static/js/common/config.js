@@ -71,7 +71,7 @@ const delimiters = ["${", "}"];
 const sideNav = [
   {
     icon: "mdi-library-books",
-    text: "Bulletins",
+    text: "Primary Records",
     href: "/admin/bulletins/",
   },
 

@@ -1,0 +1,1 @@
+See the CAESAR README for instructions on updating translation files.

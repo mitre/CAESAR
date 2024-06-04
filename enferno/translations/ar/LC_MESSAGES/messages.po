@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Bayanat\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-28 14:06-0400\n"
+"POT-Creation-Date: 2024-05-29 13:03-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ar\n"
@@ -27,24 +27,24 @@ msgstr "استيراد ملف CSV"
 #: enferno/deduplication/templates/deduplication.html:125
 #: enferno/export/templates/export-dashboard.html:110
 #: enferno/templates/views/admin/activity.html:72
-#: enferno/templates/views/admin/actors.html:421
-#: enferno/templates/views/admin/bulletins.html:406
+#: enferno/templates/views/admin/actors.html:420
+#: enferno/templates/views/admin/bulletins.html:402
 #: enferno/templates/views/admin/eventtypes.html:147
-#: enferno/templates/views/admin/incidents.html:377
+#: enferno/templates/views/admin/incidents.html:376
 #: enferno/templates/views/admin/labels.html:173
 #: enferno/templates/views/admin/locations.html:151
 #: enferno/templates/views/admin/roles.html:154
 #: enferno/templates/views/admin/sources.html:151
-#: enferno/templates/views/admin/system-administration.html:495
-#: enferno/templates/views/admin/users.html:219
+#: enferno/templates/views/admin/system-administration.html:482
+#: enferno/templates/views/admin/users.html:220
 msgid "Rows per page"
 msgstr "نتائج في الصفحة"
 
 #: enferno/data_import/templates/import-log.html:128
 #: enferno/deduplication/templates/deduplication.html:91
 #: enferno/export/templates/export-dashboard.html:113
-#: enferno/templates/views/admin/actors.html:424
-#: enferno/templates/views/admin/bulletins.html:409
+#: enferno/templates/views/admin/actors.html:423
+#: enferno/templates/views/admin/bulletins.html:405
 #: enferno/templates/views/admin/component-data.html:246
 #: enferno/templates/views/admin/component-data.html:259
 #: enferno/templates/views/admin/component-data.html:269
@@ -55,14 +55,14 @@ msgstr "نتائج في الصفحة"
 #: enferno/templates/views/admin/component-data.html:340
 #: enferno/templates/views/admin/component-data.html:353
 #: enferno/templates/views/admin/eventtypes.html:150
-#: enferno/templates/views/admin/incidents.html:380
+#: enferno/templates/views/admin/incidents.html:379
 #: enferno/templates/views/admin/jsapi.jinja2:102
 #: enferno/templates/views/admin/labels.html:176
 #: enferno/templates/views/admin/locations.html:154
 #: enferno/templates/views/admin/roles.html:157
-#: enferno/templates/views/admin/system-administration.html:498
-#: enferno/templates/views/admin/system-administration.html:512
-#: enferno/templates/views/admin/users.html:222
+#: enferno/templates/views/admin/system-administration.html:485
+#: enferno/templates/views/admin/system-administration.html:499
+#: enferno/templates/views/admin/users.html:223
 msgid "ID"
 msgstr "الرقم التعريفي"
 
@@ -86,15 +86,15 @@ msgstr "العنوان"
 #: enferno/data_import/templates/sheets-import.html:23
 #: enferno/deduplication/templates/deduplication.html:111
 #: enferno/export/templates/export-dashboard.html:145
-#: enferno/templates/views/admin/actors.html:442
-#: enferno/templates/views/admin/bulletins.html:431
-#: enferno/templates/views/admin/incidents.html:402
+#: enferno/templates/views/admin/actors.html:441
+#: enferno/templates/views/admin/bulletins.html:427
+#: enferno/templates/views/admin/incidents.html:401
 #: enferno/templates/views/admin/partials/actor_dialog.html:1012
 #: enferno/templates/views/admin/partials/bulk_actor_drawer.html:19
 #: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:17
 #: enferno/templates/views/admin/partials/bulk_incident_drawer.html:19
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:558
-#: enferno/templates/views/admin/partials/incident_dialog.html:410
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:536
+#: enferno/templates/views/admin/partials/incident_dialog.html:396
 msgid "Status"
 msgstr "الحالة"
 
@@ -181,12 +181,12 @@ msgstr "أضف بيانات للملفات"
 #: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:33
 #: enferno/templates/views/admin/partials/bulk_incident_drawer.html:23
 #: enferno/templates/views/admin/partials/bulk_incident_drawer.html:29
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:582
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:589
-#: enferno/templates/views/admin/partials/incident_dialog.html:434
-#: enferno/templates/views/admin/partials/incident_dialog.html:441
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:560
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:567
+#: enferno/templates/views/admin/partials/incident_dialog.html:420
+#: enferno/templates/views/admin/partials/incident_dialog.html:427
 msgid "Access Roles"
-msgstr ""
+msgstr "أدوار الوصول"
 
 #: enferno/data_import/templates/media-import.html:104
 #: enferno/data_import/templates/sheets-import.html:227
@@ -194,7 +194,7 @@ msgstr ""
 #: enferno/templates/views/admin/jsapi.jinja2:111
 #: enferno/templates/views/admin/labels.html:16
 #: enferno/templates/views/admin/partials/actor_dialog.html:389
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:164
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:157
 #: enferno/templates/views/admin/partials/incident_dialog.html:125
 msgid "Labels"
 msgstr "الوسوم"
@@ -203,6 +203,7 @@ msgstr "الوسوم"
 #: enferno/data_import/templates/sheets-import.html:230
 #: enferno/templates/views/admin/jsapi.jinja2:112
 #: enferno/templates/views/admin/partials/actor_dialog.html:406
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:176
 msgid "Verified Labels"
 msgstr "الوسوم المُثبتة"
 
@@ -214,8 +215,8 @@ msgstr "الوسوم المُثبتة"
 #: enferno/templates/views/admin/partials/actor_dialog.html:49
 #: enferno/templates/views/admin/partials/actor_dialog.html:416
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:39
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:199
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:207
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:188
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:196
 #: enferno/templates/views/admin/partials/incident_dialog.html:137
 msgid "Locations"
 msgstr "الأماكن"
@@ -225,6 +226,7 @@ msgstr "الأماكن"
 #: enferno/templates/components/nav-drawer.html:53
 #: enferno/templates/views/admin/jsapi.jinja2:110
 #: enferno/templates/views/admin/partials/actor_dialog.html:374
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:122
 #: enferno/templates/views/admin/sources.html:17
 msgid "Sources"
 msgstr "المصادر"
@@ -253,7 +255,7 @@ msgstr "بحث عن نصوص في الصور"
 #: enferno/data_import/templates/media-import.html:153
 #: enferno/data_import/templates/sheets-import.html:560
 msgid "Check Import Progress"
-msgstr ""
+msgstr "تحقق من تقدم الاستيراد"
 
 #: enferno/data_import/templates/media-import.html:179
 #: enferno/templates/views/admin/eventtypes.html:69
@@ -261,10 +263,10 @@ msgstr ""
 #: enferno/templates/views/admin/labels.html:93
 #: enferno/templates/views/admin/locations.html:61
 #: enferno/templates/views/admin/partials/actor_advsearch.html:69
-#: enferno/templates/views/admin/partials/bulletin_advsearch.html:63
-#: enferno/templates/views/admin/partials/incident_advsearch.html:50
+#: enferno/templates/views/admin/partials/bulletin_advsearch.html:61
+#: enferno/templates/views/admin/partials/incident_advsearch.html:49
 #: enferno/templates/views/admin/roles.html:95
-#: enferno/templates/views/admin/system-administration.html:445
+#: enferno/templates/views/admin/system-administration.html:432
 msgid "Cancel"
 msgstr "إلغاء"
 
@@ -275,13 +277,13 @@ msgstr "فحص"
 #: enferno/data_import/templates/media-import.html:280
 #: enferno/data_import/templates/sheets-import.html:148
 #: enferno/data_import/templates/sheets-import.html:664
-#: enferno/templates/views/admin/actors.html:428
+#: enferno/templates/views/admin/actors.html:427
 #: enferno/templates/views/admin/jsapi.jinja2:88
 #: enferno/templates/views/admin/jsapi.jinja2:171
 #: enferno/templates/views/admin/partials/actor_dialog.html:87
 #: enferno/templates/views/admin/partials/actor_dialog.html:530
 #: enferno/templates/views/admin/roles.html:160
-#: enferno/templates/views/admin/users.html:231
+#: enferno/templates/views/admin/users.html:232
 msgid "Name"
 msgstr "الاسم"
 
@@ -293,7 +295,7 @@ msgstr "تم إضافة الملفات إلى قائمة الإنتظار وسي
 #: enferno/data_import/templates/media-import.html:434
 #: enferno/data_import/templates/sheets-import.html:824
 msgid "Error importing rows. Check logs for more information."
-msgstr ""
+msgstr "حدث خطأ أثناء استيراد الصفوف. تحقق من السجلات لمزيد من المعلومات."
 
 #: enferno/data_import/templates/sheets-import.html:17
 msgid "Upload Sheet / Select Map"
@@ -432,7 +434,7 @@ msgstr "اسم الأم (عربي)"
 #: enferno/data_import/templates/sheets-import.html:210
 #: enferno/templates/views/admin/jsapi.jinja2:107
 #: enferno/templates/views/admin/partials/actor_dialog.html:313
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:137
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:132
 #: enferno/templates/views/admin/partials/incident_dialog.html:72
 #: enferno/templates/views/admin/roles.html:60
 #: enferno/templates/views/admin/roles.html:166
@@ -495,15 +497,15 @@ msgstr "مكان الولادة"
 #: enferno/templates/views/admin/partials/actor_dialog.html:54
 #: enferno/templates/views/admin/partials/actor_dialog.html:460
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:44
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:241
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:231
 #: enferno/templates/views/admin/partials/event_dialog.html:9
-#: enferno/templates/views/admin/partials/incident_dialog.html:35
-#: enferno/templates/views/admin/partials/incident_dialog.html:147
+#: enferno/templates/views/admin/partials/incident_dialog.html:34
+#: enferno/templates/views/admin/partials/incident_dialog.html:146
 msgid "Events"
 msgstr "الحوادث"
 
 #: enferno/data_import/templates/sheets-import.html:267
-#: enferno/templates/views/admin/bulletins.html:414
+#: enferno/templates/views/admin/bulletins.html:410
 #: enferno/templates/views/admin/component-data.html:252
 #: enferno/templates/views/admin/component-data.html:262
 #: enferno/templates/views/admin/component-data.html:272
@@ -513,23 +515,27 @@ msgstr "الحوادث"
 #: enferno/templates/views/admin/component-data.html:330
 #: enferno/templates/views/admin/component-data.html:343
 #: enferno/templates/views/admin/component-data.html:356
+#: enferno/templates/views/admin/eventtypes.html:39
 #: enferno/templates/views/admin/eventtypes.html:153
-#: enferno/templates/views/admin/incidents.html:385
+#: enferno/templates/views/admin/incidents.html:384
 #: enferno/templates/views/admin/jsapi.jinja2:108
+#: enferno/templates/views/admin/labels.html:40
 #: enferno/templates/views/admin/labels.html:179
 #: enferno/templates/views/admin/locations.html:157
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:97
-#: enferno/templates/views/admin/partials/event_dialog.html:44
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:96
+#: enferno/templates/views/admin/partials/event_dialog.html:43
+#: enferno/templates/views/admin/partials/incident_dialog.html:58
 #: enferno/templates/views/admin/partials/location_dialog.html:50
+#: enferno/templates/views/admin/sources.html:41
 #: enferno/templates/views/admin/sources.html:157
-#: enferno/templates/views/admin/system-administration.html:504
-#: enferno/templates/views/admin/system-administration.html:515
+#: enferno/templates/views/admin/system-administration.html:491
+#: enferno/templates/views/admin/system-administration.html:502
 msgid "Title"
 msgstr "العنوان"
 
 #: enferno/data_import/templates/sheets-import.html:271
 #: enferno/data_import/templates/sheets-import.html:276
-#: enferno/templates/views/admin/partials/event_dialog.html:62
+#: enferno/templates/views/admin/partials/event_dialog.html:54
 msgid "Event Type"
 msgstr "نوع الحادثة"
 
@@ -537,6 +543,7 @@ msgstr "نوع الحادثة"
 #: enferno/templates/views/admin/eventtypes.html:60
 #: enferno/templates/views/admin/eventtypes.html:165
 #: enferno/templates/views/admin/jsapi.jinja2:123
+#: enferno/templates/views/admin/labels.html:50
 #: enferno/templates/views/admin/labels.html:182
 #: enferno/templates/views/admin/partials/actor_dialog.html:845
 #: enferno/templates/views/admin/partials/actor_dialog.html:936
@@ -544,38 +551,37 @@ msgstr "نوع الحادثة"
 #: enferno/templates/views/admin/partials/bulk_actor_drawer.html:35
 #: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:39
 #: enferno/templates/views/admin/partials/bulk_incident_drawer.html:39
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:319
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:395
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:477
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:549
-#: enferno/templates/views/admin/partials/event_dialog.html:51
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:306
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:382
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:458
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:527
 #: enferno/templates/views/admin/partials/export_drawer.html:23
-#: enferno/templates/views/admin/partials/incident_dialog.html:220
-#: enferno/templates/views/admin/partials/incident_dialog.html:296
-#: enferno/templates/views/admin/partials/incident_dialog.html:374
-#: enferno/templates/views/admin/partials/incident_dialog.html:401
+#: enferno/templates/views/admin/partials/incident_dialog.html:215
+#: enferno/templates/views/admin/partials/incident_dialog.html:289
+#: enferno/templates/views/admin/partials/incident_dialog.html:360
+#: enferno/templates/views/admin/partials/incident_dialog.html:387
 #: enferno/templates/views/admin/sources.html:57
 #: enferno/templates/views/admin/sources.html:163
 msgid "Comments"
 msgstr "تعليقات"
 
 #: enferno/data_import/templates/sheets-import.html:284
-#: enferno/templates/views/admin/partials/event_dialog.html:59
+#: enferno/templates/views/admin/partials/event_dialog.html:51
 msgid "Location"
 msgstr "المكان"
 
 #: enferno/data_import/templates/sheets-import.html:286
-#: enferno/templates/views/admin/partials/event_dialog.html:67
+#: enferno/templates/views/admin/partials/event_dialog.html:59
 msgid "From"
 msgstr "من"
 
 #: enferno/data_import/templates/sheets-import.html:288
-#: enferno/templates/views/admin/partials/event_dialog.html:70
+#: enferno/templates/views/admin/partials/event_dialog.html:62
 msgid "To"
 msgstr "إلى"
 
 #: enferno/data_import/templates/sheets-import.html:290
-#: enferno/templates/views/admin/partials/event_dialog.html:73
+#: enferno/templates/views/admin/partials/event_dialog.html:65
 msgid "Estimated Time"
 msgstr "الوقت التقديري"
 
@@ -646,18 +652,19 @@ msgstr "الجنسية"
 #: enferno/templates/views/admin/jsapi.jinja2:150
 #: enferno/templates/views/admin/partials/actor_dialog.html:225
 msgid "Tax ID Number"
-msgstr ""
+msgstr "رقم التعريف الضريبي"
 
 #: enferno/data_import/templates/sheets-import.html:321
 #: enferno/templates/views/admin/jsapi.jinja2:122
 #: enferno/templates/views/admin/partials/actor_dialog.html:969
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:511
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:489
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:491
 msgid "Source Link"
 msgstr "رابط المصدر"
 
 #: enferno/data_import/templates/sheets-import.html:332
 #: enferno/templates/views/admin/partials/actor_dialog.html:981
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:529
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:505
 #, fuzzy
 msgid "Private"
 msgstr "خاص"
@@ -665,14 +672,16 @@ msgstr "خاص"
 #: enferno/data_import/templates/sheets-import.html:333
 #: enferno/templates/views/admin/jsapi.jinja2:120
 #: enferno/templates/views/admin/partials/actor_dialog.html:988
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:512
 msgid "Publish Date"
 msgstr "تاريخ النشر"
 
 #: enferno/data_import/templates/sheets-import.html:334
 #: enferno/templates/views/admin/jsapi.jinja2:121
 #: enferno/templates/views/admin/partials/actor_dialog.html:993
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:517
 msgid "Date Created"
-msgstr ""
+msgstr "تاريخ الإنشاء"
 
 #: enferno/data_import/templates/sheets-import.html:515
 msgid "Sheet file:"
@@ -735,11 +744,11 @@ msgstr "الإبلاغ عن الأشخاص"
 
 #: enferno/export/templates/export-dashboard.html:117
 msgid "Requester"
-msgstr ""
+msgstr "الطالب"
 
 #: enferno/export/templates/export-dashboard.html:125
 msgid "# of items"
-msgstr ""
+msgstr "عدد العناصر"
 
 #: enferno/export/templates/export-dashboard.html:133
 #, fuzzy
@@ -753,7 +762,7 @@ msgstr "نحيل جداً"
 
 #: enferno/export/templates/export-dashboard.html:149
 msgid "Download"
-msgstr ""
+msgstr "تحميل"
 
 #: enferno/templates/components/footer.html:8
 msgid "All rights reserved."
@@ -769,7 +778,8 @@ msgstr "تسجيل خروج"
 
 #: enferno/templates/components/nav-drawer.html:9
 #: enferno/templates/views/admin/jsapi.jinja2:228
-msgid "Bulletins"
+#, fuzzy
+msgid "Primary Records"
 msgstr "المواد"
 
 #: enferno/templates/components/nav-drawer.html:19
@@ -835,7 +845,7 @@ msgstr "مستخدمي النظام"
 
 #: enferno/templates/security/two_factor_select.html:27
 msgid "Available Second Factor Methods:"
-msgstr ""
+msgstr "طرق العامل الثاني المتاحة:"
 
 #: enferno/templates/security/two_factor_setup.html:33
 msgid "Two-factor authentication adds an extra layer of security to your account"
@@ -944,101 +954,102 @@ msgid "All Actors"
 msgstr "جميع الكيانات"
 
 #: enferno/templates/views/admin/actors.html:33
+#: enferno/templates/views/admin/bulletins.html:33
 #: enferno/templates/views/admin/incidents.html:26
 msgid "Assigned to me"
 msgstr "المخصصة لي"
 
 #: enferno/templates/views/admin/actors.html:35
-#: enferno/templates/views/admin/bulletins.html:37
+#: enferno/templates/views/admin/bulletins.html:35
 #: enferno/templates/views/admin/incidents.html:28
-msgid ""
-"My Review\n"
-"                                    List"
-msgstr ""
+msgid "My Review List"
+msgstr "قائمة المراجعة الخاصة بي"
 
-#: enferno/templates/views/admin/actors.html:40
-#: enferno/templates/views/admin/incidents.html:33
+#: enferno/templates/views/admin/actors.html:39
+#: enferno/templates/views/admin/bulletins.html:40
+#: enferno/templates/views/admin/incidents.html:32
 #: enferno/templates/views/admin/jsapi.jinja2:63
 #: enferno/templates/views/admin/labels.html:19
 #: enferno/templates/views/admin/locations.html:24
 #: enferno/templates/views/admin/partials/actor_advsearch.html:55
-#: enferno/templates/views/admin/partials/bulletin_advsearch.html:49
-#: enferno/templates/views/admin/partials/incident_advsearch.html:36
+#: enferno/templates/views/admin/partials/bulletin_advsearch.html:47
+#: enferno/templates/views/admin/partials/incident_advsearch.html:35
 msgid "Search"
 msgstr "بحث"
 
-#: enferno/templates/views/admin/actors.html:46
+#: enferno/templates/views/admin/actors.html:45
 #: enferno/templates/views/admin/jsapi.jinja2:16
 msgid "New Actor"
 msgstr "كيان جديد"
 
-#: enferno/templates/views/admin/actors.html:59
-#: enferno/templates/views/admin/bulletins.html:65
-#: enferno/templates/views/admin/incidents.html:55
+#: enferno/templates/views/admin/actors.html:58
+#: enferno/templates/views/admin/bulletins.html:62
+#: enferno/templates/views/admin/incidents.html:54
 msgid "Bulk update"
 msgstr "تحديث بالجملة"
 
-#: enferno/templates/views/admin/actors.html:64
-#: enferno/templates/views/admin/bulletins.html:72
-#: enferno/templates/views/admin/incidents.html:60
+#: enferno/templates/views/admin/actors.html:63
+#: enferno/templates/views/admin/bulletins.html:69
+#: enferno/templates/views/admin/incidents.html:59
 #, fuzzy
 msgid "Export"
 msgstr "الإبلاغ عن الأشخاص"
 
-#: enferno/templates/views/admin/actors.html:79
-#: enferno/templates/views/admin/bulletins.html:89
-#: enferno/templates/views/admin/incidents.html:76
+#: enferno/templates/views/admin/actors.html:78
+#: enferno/templates/views/admin/bulletins.html:86
+#: enferno/templates/views/admin/incidents.html:75
 msgid "About"
 msgstr "تقريبا"
 
-#: enferno/templates/views/admin/actors.html:79
-#: enferno/templates/views/admin/bulletins.html:89
-#: enferno/templates/views/admin/incidents.html:76
+#: enferno/templates/views/admin/actors.html:78
+#: enferno/templates/views/admin/bulletins.html:86
+#: enferno/templates/views/admin/incidents.html:75
 msgid "results"
 msgstr "نتائج"
 
-#: enferno/templates/views/admin/actors.html:80
-#: enferno/templates/views/admin/bulletins.html:90
-#: enferno/templates/views/admin/incidents.html:77
+#: enferno/templates/views/admin/actors.html:79
+#: enferno/templates/views/admin/bulletins.html:87
+#: enferno/templates/views/admin/incidents.html:76
 msgid "seconds"
 msgstr "ثواني"
 
-#: enferno/templates/views/admin/actors.html:88
-#: enferno/templates/views/admin/incidents.html:85
+#: enferno/templates/views/admin/actors.html:87
+#: enferno/templates/views/admin/bulletins.html:94
+#: enferno/templates/views/admin/incidents.html:84
 msgid "Selected items"
 msgstr "المواد المختارة"
 
-#: enferno/templates/views/admin/actors.html:186
-#: enferno/templates/views/admin/actors.html:433
-#: enferno/templates/views/admin/bulletins.html:198
-#: enferno/templates/views/admin/bulletins.html:420
-#: enferno/templates/views/admin/incidents.html:182
-#: enferno/templates/views/admin/incidents.html:391
+#: enferno/templates/views/admin/actors.html:185
+#: enferno/templates/views/admin/actors.html:432
+#: enferno/templates/views/admin/bulletins.html:194
+#: enferno/templates/views/admin/bulletins.html:416
+#: enferno/templates/views/admin/incidents.html:181
+#: enferno/templates/views/admin/incidents.html:390
 #: enferno/templates/views/admin/partials/actor_dialog.html:1014
 #: enferno/templates/views/admin/partials/actor_dialog.html:1020
 #: enferno/templates/views/admin/partials/actor_dialog.html:1027
 #: enferno/templates/views/admin/partials/bulk_actor_drawer.html:11
 #: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:11
 #: enferno/templates/views/admin/partials/bulk_incident_drawer.html:11
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:560
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:566
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:573
-#: enferno/templates/views/admin/partials/incident_dialog.html:412
-#: enferno/templates/views/admin/partials/incident_dialog.html:418
-#: enferno/templates/views/admin/partials/incident_dialog.html:425
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:538
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:544
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:551
+#: enferno/templates/views/admin/partials/incident_dialog.html:398
+#: enferno/templates/views/admin/partials/incident_dialog.html:404
+#: enferno/templates/views/admin/partials/incident_dialog.html:411
 msgid "Assigned To"
 msgstr "موكل إلى"
 
-#: enferno/templates/views/admin/actors.html:437
-#: enferno/templates/views/admin/bulletins.html:425
-#: enferno/templates/views/admin/incidents.html:396
-#: enferno/templates/views/admin/users.html:123
-#: enferno/templates/views/admin/users.html:237
+#: enferno/templates/views/admin/actors.html:436
+#: enferno/templates/views/admin/bulletins.html:421
+#: enferno/templates/views/admin/incidents.html:395
+#: enferno/templates/views/admin/users.html:124
+#: enferno/templates/views/admin/users.html:238
 msgid "Roles"
 msgstr "الأدوار"
 
-#: enferno/templates/views/admin/actors.html:446
-#: enferno/templates/views/admin/bulletins.html:436
+#: enferno/templates/views/admin/actors.html:445
+#: enferno/templates/views/admin/bulletins.html:432
 #: enferno/templates/views/admin/component-data.html:255
 #: enferno/templates/views/admin/component-data.html:265
 #: enferno/templates/views/admin/component-data.html:278
@@ -1049,51 +1060,32 @@ msgstr "الأدوار"
 #: enferno/templates/views/admin/component-data.html:349
 #: enferno/templates/views/admin/component-data.html:359
 #: enferno/templates/views/admin/eventtypes.html:169
-#: enferno/templates/views/admin/incidents.html:407
+#: enferno/templates/views/admin/incidents.html:406
 #: enferno/templates/views/admin/labels.html:204
 #: enferno/templates/views/admin/locations.html:173
 #: enferno/templates/views/admin/roles.html:169
 #: enferno/templates/views/admin/sources.html:170
-#: enferno/templates/views/admin/system-administration.html:507
-#: enferno/templates/views/admin/system-administration.html:518
-#: enferno/templates/views/admin/users.html:240
+#: enferno/templates/views/admin/system-administration.html:494
+#: enferno/templates/views/admin/system-administration.html:505
+#: enferno/templates/views/admin/users.html:241
 msgid "Actions"
 msgstr "العمليات"
 
 #: enferno/templates/views/admin/bulletins.html:31
-msgid ""
-"All\n"
-"                                    Bulletins"
-msgstr ""
-
-#: enferno/templates/views/admin/bulletins.html:34
-msgid ""
-"Assigned to\n"
-"                                    me"
-msgstr ""
-
-#: enferno/templates/views/admin/bulletins.html:42
 #, fuzzy
-msgid ""
-"\n"
-"                                    Search"
-msgstr "بحث"
+msgid "All Primary Records"
+msgstr "المواد"
 
-#: enferno/templates/views/admin/bulletins.html:49
+#: enferno/templates/views/admin/bulletins.html:46
 #: enferno/templates/views/admin/jsapi.jinja2:14
-msgid "New Bulletin"
-msgstr "مادة جديدة"
+#, fuzzy
+msgid "New Primary Record"
+msgstr "كلمة المرور الجديدة"
 
-#: enferno/templates/views/admin/bulletins.html:97
-msgid ""
-"Selected\n"
-"                                    items"
-msgstr ""
-
-#: enferno/templates/views/admin/bulletins.html:180
-#: enferno/templates/views/admin/bulletins.html:201
+#: enferno/templates/views/admin/bulletins.html:176
+#: enferno/templates/views/admin/bulletins.html:197
 #: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:21
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:113
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:111
 msgid "Ref"
 msgstr "مرجع"
 
@@ -1105,7 +1097,7 @@ msgstr "إدارة المجموعات"
 #: enferno/templates/views/admin/component-data.html:19
 #: enferno/templates/views/admin/component-data.html:61
 msgid "Location Administrative Levels"
-msgstr ""
+msgstr "المستويات الإدارية للموقع"
 
 #: enferno/templates/views/admin/component-data.html:22
 #: enferno/templates/views/admin/component-data.html:72
@@ -1122,23 +1114,23 @@ msgstr "الدولة"
 #: enferno/templates/views/admin/component-data.html:31
 #: enferno/templates/views/admin/component-data.html:110
 msgid "Actor to Actor Relations"
-msgstr ""
+msgstr "علاقات الممثل بالممثل"
 
 #: enferno/templates/views/admin/component-data.html:34
 #: enferno/templates/views/admin/component-data.html:123
 #, fuzzy
-msgid "Actor to Bulletin Relations"
+msgid "Actor to Primary Record Relations"
 msgstr "المواد"
 
 #: enferno/templates/views/admin/component-data.html:37
 #: enferno/templates/views/admin/component-data.html:136
-msgid "Bulletin to Bulletin Relations"
-msgstr ""
+msgid "Primary Record to Primary Record Relations"
+msgstr "السجل الأساسي إلى علاقات السجل الأساسي"
 
 #: enferno/templates/views/admin/component-data.html:40
 #: enferno/templates/views/admin/component-data.html:149
-msgid "Incident to Bulletin Relations"
-msgstr ""
+msgid "Incident to Primary Record Relations"
+msgstr "حادثة علاقات السجلات الأولية"
 
 #: enferno/templates/views/admin/component-data.html:43
 #: enferno/templates/views/admin/component-data.html:162
@@ -1149,7 +1141,7 @@ msgstr "أضف مواقع الحوادث"
 #: enferno/templates/views/admin/component-data.html:46
 #: enferno/templates/views/admin/component-data.html:175
 msgid "Incident to Incident Relations"
-msgstr ""
+msgstr "العلاقات بين الحوادث والحوادث"
 
 #: enferno/templates/views/admin/component-data.html:49
 #: enferno/templates/views/admin/component-data.html:188
@@ -1170,7 +1162,7 @@ msgid "Social Media Platforms"
 msgstr "تعديل المواقع"
 
 #: enferno/templates/views/admin/component-data.html:249
-#: enferno/templates/views/admin/system-administration.html:501
+#: enferno/templates/views/admin/system-administration.html:488
 msgid "Code"
 msgstr "رمز"
 
@@ -1200,21 +1192,15 @@ msgstr "العنوان (عربي)"
 #: enferno/templates/views/admin/labels.html:225
 #: enferno/templates/views/admin/sources.html:29
 #: enferno/templates/views/admin/sources.html:193
-#: enferno/templates/views/admin/users.html:260
+#: enferno/templates/views/admin/users.html:261
 msgid "New Item"
 msgstr "عنصر جديد"
 
-#: enferno/templates/views/admin/eventtypes.html:38
-#: enferno/templates/views/admin/sources.html:40
-#, fuzzy
-msgid ""
-"\n"
-"                                                                    Title"
-msgstr "العنوان"
-
 #: enferno/templates/views/admin/eventtypes.html:43
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:100
-#: enferno/templates/views/admin/partials/event_dialog.html:45
+#: enferno/templates/views/admin/labels.html:44
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:99
+#: enferno/templates/views/admin/partials/event_dialog.html:44
+#: enferno/templates/views/admin/partials/incident_dialog.html:60
 msgid "Title (AR)"
 msgstr "عنوان المصدر (عربي)"
 
@@ -1225,7 +1211,8 @@ msgstr "للكيانات"
 
 #: enferno/templates/views/admin/eventtypes.html:53
 #: enferno/templates/views/admin/eventtypes.html:162
-msgid "For Bulletins"
+#, fuzzy
+msgid "For Primary Records"
 msgstr "المواد"
 
 #: enferno/templates/views/admin/eventtypes.html:70
@@ -1233,27 +1220,23 @@ msgstr "المواد"
 #: enferno/templates/views/admin/labels.html:94
 #: enferno/templates/views/admin/locations.html:64
 #: enferno/templates/views/admin/partials/actor_advsearch.html:70
-#: enferno/templates/views/admin/partials/bulletin_advsearch.html:64
-#: enferno/templates/views/admin/partials/event_dialog.html:81
-#: enferno/templates/views/admin/partials/incident_advsearch.html:51
+#: enferno/templates/views/admin/partials/bulletin_advsearch.html:62
+#: enferno/templates/views/admin/partials/event_dialog.html:82
+#: enferno/templates/views/admin/partials/incident_advsearch.html:50
 #: enferno/templates/views/admin/roles.html:96
-#: enferno/templates/views/admin/system-administration.html:373
-#: enferno/templates/views/admin/users.html:163
+#: enferno/templates/views/admin/system-administration.html:360
+#: enferno/templates/views/admin/users.html:164
 msgid "Save"
 msgstr "حفظ"
 
-#: enferno/templates/views/admin/eventtypes.html:77
-#: enferno/templates/views/admin/roles.html:76
-#: enferno/templates/views/admin/sources.html:74
-msgid ""
-"Import\n"
-"                                                    CSV"
-msgstr ""
-
+#: enferno/templates/views/admin/eventtypes.html:78
 #: enferno/templates/views/admin/eventtypes.html:83
+#: enferno/templates/views/admin/labels.html:102
 #: enferno/templates/views/admin/labels.html:107
 #: enferno/templates/views/admin/locations.html:39
 #: enferno/templates/views/admin/locations.html:45
+#: enferno/templates/views/admin/roles.html:77
+#: enferno/templates/views/admin/sources.html:75
 #: enferno/templates/views/admin/sources.html:80
 msgid "Import CSV"
 msgstr "استيراد ملف CSV"
@@ -1274,7 +1257,7 @@ msgstr "العنوان (عربي)"
 #: enferno/templates/views/admin/eventtypes.html:187
 #: enferno/templates/views/admin/labels.html:225
 #: enferno/templates/views/admin/sources.html:193
-#: enferno/templates/views/admin/users.html:260
+#: enferno/templates/views/admin/users.html:261
 msgid "Edit Item"
 msgstr "تعديل العنصر"
 
@@ -1282,33 +1265,37 @@ msgstr "تعديل العنصر"
 msgid "All Incidents"
 msgstr "جميع الوقائع"
 
-#: enferno/templates/views/admin/incidents.html:39
-#: enferno/templates/views/admin/incidents.html:492
+#: enferno/templates/views/admin/incidents.html:38
+#: enferno/templates/views/admin/incidents.html:491
 msgid "New Incident"
 msgstr "واقعة جديدة"
 
-#: enferno/templates/views/admin/incidents.html:492
+#: enferno/templates/views/admin/incidents.html:491
 msgid "Edit Incident"
 msgstr "تحرير الواقعة"
 
 #: enferno/templates/views/admin/jsapi.jinja2:10
+#: enferno/templates/views/admin/labels.html:74
 #: enferno/templates/views/admin/labels.html:191
-msgid "Bulletin"
-msgstr "مادة"
+msgid "Primary Record"
+msgstr "السجل الابتدائي"
 
 #: enferno/templates/views/admin/jsapi.jinja2:11
+#: enferno/templates/views/admin/labels.html:78
 #: enferno/templates/views/admin/labels.html:194
 msgid "Actor"
 msgstr "كيان"
 
 #: enferno/templates/views/admin/jsapi.jinja2:12
+#: enferno/templates/views/admin/labels.html:82
 #: enferno/templates/views/admin/labels.html:197
 msgid "Incident"
 msgstr "واقعة"
 
 #: enferno/templates/views/admin/jsapi.jinja2:15
-msgid "Edit Bulletin"
-msgstr "تعديل المادة"
+#, fuzzy
+msgid "Edit Primary Record"
+msgstr "تعديل الكيان"
 
 #: enferno/templates/views/admin/jsapi.jinja2:17
 msgid "Edit Actor"
@@ -1353,7 +1340,7 @@ msgstr "تاريخ النشر"
 
 #: enferno/templates/views/admin/jsapi.jinja2:30
 msgid "Date created"
-msgstr ""
+msgstr "تاريخ الإنشاء"
 
 #: enferno/templates/views/admin/jsapi.jinja2:31
 msgid "Creation date"
@@ -1368,8 +1355,8 @@ msgid "Event date"
 msgstr "تاريخ الحدث"
 
 #: enferno/templates/views/admin/jsapi.jinja2:34
-msgid "Search in a signle event"
-msgstr ""
+msgid "Search in a single event"
+msgstr "البحث في حدث واحد"
 
 #: enferno/templates/views/admin/jsapi.jinja2:35
 msgid "Assigned user"
@@ -1441,7 +1428,7 @@ msgstr "أضف مواقع"
 
 #: enferno/templates/views/admin/jsapi.jinja2:52
 msgid "Radius"
-msgstr ""
+msgstr "نصف القطر"
 
 #: enferno/templates/views/admin/jsapi.jinja2:53
 #, fuzzy
@@ -1478,7 +1465,7 @@ msgstr "نوع الحدث"
 
 #: enferno/templates/views/admin/jsapi.jinja2:61
 msgid "Geospatial"
-msgstr ""
+msgstr "الجغرافية المكانية"
 
 #: enferno/templates/views/admin/jsapi.jinja2:62
 #: enferno/templates/views/admin/partials/actor_advsearch.html:45
@@ -1489,12 +1476,15 @@ msgstr "مسح البحث"
 
 #: enferno/templates/views/admin/jsapi.jinja2:64
 #: enferno/templates/views/admin/partials/actor_advsearch.html:47
+#: enferno/templates/views/admin/partials/bulletin_advsearch.html:44
 #: enferno/templates/views/admin/partials/incident_advsearch.html:32
 msgid "Save Search"
 msgstr "حفظ البحث"
 
 #: enferno/templates/views/admin/jsapi.jinja2:65
 #: enferno/templates/views/admin/partials/actor_advsearch.html:53
+#: enferno/templates/views/admin/partials/bulletin_advsearch.html:46
+#: enferno/templates/views/admin/partials/incident_advsearch.html:34
 #, fuzzy
 msgid "Save As New"
 msgstr "حفظ البحث"
@@ -1509,7 +1499,7 @@ msgstr "مسح البحث"
 
 #: enferno/templates/views/admin/jsapi.jinja2:67
 #: enferno/templates/views/admin/partials/actor_advsearch.html:50
-#: enferno/templates/views/admin/partials/bulletin_advsearch.html:46
+#: enferno/templates/views/admin/partials/bulletin_advsearch.html:45
 #: enferno/templates/views/admin/partials/incident_advsearch.html:33
 #, fuzzy
 msgid "Update Search"
@@ -1594,6 +1584,7 @@ msgstr "خط الطول"
 #: enferno/templates/views/admin/labels.html:60
 #: enferno/templates/views/admin/labels.html:185
 #: enferno/templates/views/admin/locations.html:163
+#: enferno/templates/views/admin/sources.html:47
 #: enferno/templates/views/admin/sources.html:166
 msgid "Parent"
 msgstr "أب"
@@ -1629,32 +1620,33 @@ msgstr "العنوان الأصلي"
 #: enferno/templates/views/admin/partials/actor_dialog.html:59
 #: enferno/templates/views/admin/partials/actor_dialog.html:468
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:49
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:249
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:239
 #: enferno/templates/views/admin/partials/media_dialog.html:6
 msgid "Media"
 msgstr "وسائط"
 
 #: enferno/templates/views/admin/jsapi.jinja2:116
 #: enferno/templates/views/admin/partials/actor_dialog.html:865
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:340
-#: enferno/templates/views/admin/partials/incident_dialog.html:241
-#: enferno/templates/views/admin/partials/incident_dialog.html:242
-msgid "Related Bulletins"
-msgstr "المواد المرتبطة"
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:327
+#: enferno/templates/views/admin/partials/incident_dialog.html:236
+#: enferno/templates/views/admin/partials/incident_dialog.html:237
+#, fuzzy
+msgid "Related Primary Records"
+msgstr "الكيانات المرتبطة"
 
 #: enferno/templates/views/admin/jsapi.jinja2:117
 #: enferno/templates/views/admin/partials/actor_dialog.html:790
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:264
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:254
+#: enferno/templates/views/admin/partials/incident_dialog.html:161
 #: enferno/templates/views/admin/partials/incident_dialog.html:162
-#: enferno/templates/views/admin/partials/incident_dialog.html:163
 msgid "Related Actors"
 msgstr "الكيانات المرتبطة"
 
 #: enferno/templates/views/admin/jsapi.jinja2:118
 #: enferno/templates/views/admin/partials/actor_dialog.html:883
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:416
-#: enferno/templates/views/admin/partials/incident_dialog.html:317
-#: enferno/templates/views/admin/partials/incident_dialog.html:318
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:403
+#: enferno/templates/views/admin/partials/incident_dialog.html:310
+#: enferno/templates/views/admin/partials/incident_dialog.html:311
 msgid "Related Incidents"
 msgstr "الوقائع المرتبطة"
 
@@ -1667,6 +1659,7 @@ msgid "Log History"
 msgstr "سجل التغييرات"
 
 #: enferno/templates/views/admin/jsapi.jinja2:127
+#: enferno/templates/views/admin/users.html:64
 msgid "Full Name"
 msgstr "الاسم الكامل"
 
@@ -1702,10 +1695,12 @@ msgid "Overview"
 msgstr "ملخص"
 
 #: enferno/templates/views/admin/jsapi.jinja2:155
+#: enferno/templates/views/admin/partials/incident_dialog.html:110
 msgid "Claimed Violations Categories"
 msgstr "فئات الانتهاكات المزعومة"
 
 #: enferno/templates/views/admin/jsapi.jinja2:156
+#: enferno/templates/views/admin/partials/incident_dialog.html:96
 msgid "Potential violation categories"
 msgstr "فئات الانتهاكات المحتملة"
 
@@ -1763,8 +1758,8 @@ msgstr "رقم الهاتف"
 
 #: enferno/templates/views/admin/jsapi.jinja2:174
 #: enferno/templates/views/admin/partials/actor_dialog.html:538
-#: enferno/templates/views/admin/users.html:70
-#: enferno/templates/views/admin/users.html:228
+#: enferno/templates/views/admin/users.html:71
+#: enferno/templates/views/admin/users.html:229
 msgid "Email"
 msgstr "البريد الالكتروني"
 
@@ -1967,8 +1962,8 @@ msgid "Contact"
 msgstr "معلومات الاتصال"
 
 #: enferno/templates/views/admin/jsapi.jinja2:224
-#: enferno/templates/views/admin/partials/event_dialog.html:67
-#: enferno/templates/views/admin/partials/event_dialog.html:70
+#: enferno/templates/views/admin/partials/event_dialog.html:59
+#: enferno/templates/views/admin/partials/event_dialog.html:62
 msgid "Time"
 msgstr "الوقت"
 
@@ -2021,19 +2016,19 @@ msgstr "أي خيار"
 
 #: enferno/templates/views/admin/jsapi.jinja2:265
 msgid "Woman"
-msgstr ""
+msgstr "امرأة"
 
 #: enferno/templates/views/admin/jsapi.jinja2:266
 msgid "Non-Binary"
-msgstr ""
+msgstr "غير ثنائي"
 
 #: enferno/templates/views/admin/jsapi.jinja2:267
 msgid "Transgender Man"
-msgstr ""
+msgstr "رجل المتحولين جنسيا"
 
 #: enferno/templates/views/admin/jsapi.jinja2:268
 msgid "Transgender Woman"
-msgstr ""
+msgstr "امرأة متحولة جنسيا"
 
 #: enferno/templates/views/admin/jsapi.jinja2:273
 msgid "Minor"
@@ -2254,80 +2249,16 @@ msgstr "مفقود"
 msgid "Identified"
 msgstr "محدد / معرَّف"
 
-#: enferno/templates/views/admin/labels.html:39
-#, fuzzy
-msgid ""
-"\n"
-"                                                                Title"
-msgstr "العنوان"
-
-#: enferno/templates/views/admin/labels.html:43
-#, fuzzy
-msgid ""
-"\n"
-"                                                                Title (AR)"
-msgstr "العنوان (عربي)"
-
-#: enferno/templates/views/admin/labels.html:49
-#, fuzzy
-msgid ""
-"\n"
-"                                                                Comments"
-msgstr "تعليقات"
-
-#: enferno/templates/views/admin/labels.html:53
-#, fuzzy
-msgid ""
-"\n"
-"                                                                Comments "
-"(AR)"
+#: enferno/templates/views/admin/labels.html:54
+msgid "Comments (AR)"
 msgstr "التعليقات (عربي)"
 
-#: enferno/templates/views/admin/labels.html:69
-#, fuzzy
-msgid ""
-"\n"
-"                                                                Verified"
-msgstr "مثبت"
-
-#: enferno/templates/views/admin/labels.html:73
-#, fuzzy
-msgid ""
-"\n"
-"                                                                Bulletin"
-msgstr "مادة"
-
-#: enferno/templates/views/admin/labels.html:77
-#, fuzzy
-msgid ""
-"\n"
-"                                                                Actor"
-msgstr "كيان"
-
-#: enferno/templates/views/admin/labels.html:81
-#, fuzzy
-msgid ""
-"\n"
-"                                                                Incident"
-msgstr "واقعة"
-
-#: enferno/templates/views/admin/labels.html:85
-#, fuzzy
-msgid ""
-"\n"
-"                                                                Offline"
-msgstr "غير متصل (بالشبكة)"
-
-#: enferno/templates/views/admin/labels.html:101
-msgid ""
-"Import\n"
-"                                                CSV"
-msgstr ""
-
+#: enferno/templates/views/admin/labels.html:70
 #: enferno/templates/views/admin/labels.html:188
 msgid "Verified"
 msgstr "مثبت"
 
+#: enferno/templates/views/admin/labels.html:86
 #: enferno/templates/views/admin/labels.html:200
 msgid "Offline"
 msgstr "غير متصل (بالشبكة)"
@@ -2365,12 +2296,9 @@ msgstr "مجموعات المستخدمين"
 msgid "New Group"
 msgstr "مجموعة جديدة"
 
-#: enferno/templates/views/admin/roles.html:33
+#: enferno/templates/views/admin/roles.html:34
 #, fuzzy
-msgid ""
-"\n"
-"                                                                    Group"
-" Name"
+msgid "Group Name"
 msgstr "اسم المجموعة"
 
 #: enferno/templates/views/admin/roles.html:163
@@ -2381,20 +2309,7 @@ msgstr "لون"
 msgid "Edit Group"
 msgstr "تعديل المجموعة"
 
-#: enferno/templates/views/admin/sources.html:46
-#, fuzzy
-msgid ""
-"\n"
-"                                                                    Parent"
-msgstr "أب"
-
-#: enferno/templates/views/admin/sources.html:50
-#, fuzzy
-msgid ""
-"\n"
-"                                                                    ETL ID"
-msgstr "عنوان الETL"
-
+#: enferno/templates/views/admin/sources.html:51
 #: enferno/templates/views/admin/sources.html:160
 msgid "ETL ID"
 msgstr "عنوان الETL"
@@ -2403,8 +2318,8 @@ msgstr "عنوان الETL"
 #: enferno/templates/views/admin/partials/actor_dialog.html:78
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:29
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:68
-#: enferno/templates/views/admin/partials/incident_dialog.html:25
-#: enferno/templates/views/admin/partials/incident_dialog.html:54
+#: enferno/templates/views/admin/partials/incident_dialog.html:24
+#: enferno/templates/views/admin/partials/incident_dialog.html:53
 #: enferno/templates/views/admin/partials/location_dialog.html:25
 #: enferno/templates/views/admin/partials/location_dialog.html:44
 #: enferno/templates/views/admin/system-administration.html:20
@@ -2438,272 +2353,251 @@ msgid "Maps"
 msgstr "خريطة:"
 
 #: enferno/templates/views/admin/system-administration.html:32
-msgid ""
-"Allows to load different set of items in pages that has\n"
-"                                                    data tables"
+msgid "Allows to load different set of items in pages that has data tables"
 msgstr ""
+"يسمح بتحميل مجموعة مختلفة من العناصر في الصفحات التي تحتوي على جداول "
+"البيانات"
 
 #: enferno/templates/views/admin/system-administration.html:34
 msgid "Items Per Page Options"
-msgstr ""
-
-#: enferno/templates/views/admin/system-administration.html:37
-msgid ""
-"Allows to play videos at different\n"
-"                                                    speed rates"
-msgstr ""
+msgstr "خيارات العناصر لكل صفحة"
 
 #: enferno/templates/views/admin/system-administration.html:38
-msgid "Video Player Playback Rates"
-msgstr ""
+msgid "Allows to play videos at different speed rates"
+msgstr "يسمح بتشغيل مقاطع الفيديو بمعدلات سرعة مختلفة"
 
-#: enferno/templates/views/admin/system-administration.html:42
+#: enferno/templates/views/admin/system-administration.html:39
+msgid "Video Player Playback Rates"
+msgstr "معدلات تشغيل مشغل الفيديو"
+
+#: enferno/templates/views/admin/system-administration.html:43
 #, fuzzy
 msgid "System Interface Languages"
 msgstr "لغة واجهة المستخدم"
 
-#: enferno/templates/views/admin/system-administration.html:42
+#: enferno/templates/views/admin/system-administration.html:44
 #, fuzzy
-msgid ""
-"\n"
-"                                                    LANGUAGES"
+msgid "LANGUAGES"
 msgstr "بنغلاديش"
 
-#: enferno/templates/views/admin/system-administration.html:44
+#: enferno/templates/views/admin/system-administration.html:45
 #, fuzzy
 msgid "Default Language"
 msgstr "لغة واجهة المستخدم"
 
-#: enferno/templates/views/admin/system-administration.html:52
+#: enferno/templates/views/admin/system-administration.html:53
 msgid ""
-"Changes default interface language for all users. Users can\n"
-"                                                    still\n"
-"                                                    choose their own "
-"interface language."
+"Changes default interface language for all users. Users can still choose "
+"their own interface language."
 msgstr ""
+"تغيير لغة الواجهة الافتراضية لجميع المستخدمين. لا يزال بإمكان المستخدمين "
+"اختيار لغة الواجهة الخاصة بهم."
+
+#: enferno/templates/views/admin/system-administration.html:56
+#, fuzzy
+msgid "Missing Persons Extension"
+msgstr "ملف الشخص المفقود"
 
 #: enferno/templates/views/admin/system-administration.html:57
 msgid ""
-"Missing Persons\n"
-"                                                    Extension"
+"Enables the Missing Persons extension to Actor component. Ideally this "
+"setting should be enabled when first setting up the system and not "
+"afterwards. Enabling this setting later involves database migrations. "
+"This feature can be disabled after being enabled without deleting the "
+"data."
 msgstr ""
+"تمكين ملحق الأشخاص المفقودين إلى مكون الممثل. من الناحية المثالية، ينبغي "
+"تمكين هذا الإعداد عند إعداد النظام لأول مرة وليس بعد ذلك. يتضمن تمكين هذا"
+" الإعداد لاحقًا عمليات ترحيل قاعدة البيانات. يمكن تعطيل هذه الميزة بعد "
+"تفعيلها دون حذف البيانات."
 
-#: enferno/templates/views/admin/system-administration.html:58
-msgid ""
-"Enables the Missing Persons extension\n"
-"                                                    to Actor component. "
-"Ideally this setting should be enabled when\n"
-"                                                    first setting up the "
-"system and not afterwards. Enabling this\n"
-"                                                    setting later "
-"involves database migrations. This feature can be\n"
-"                                                    disabled after being "
-"enabled without deleting the data."
-msgstr ""
-
-#: enferno/templates/views/admin/system-administration.html:64
+#: enferno/templates/views/admin/system-administration.html:59
 #, fuzzy
 msgid "Deduplication Tool"
 msgstr "لوحة تحكم أداة المطابقة"
 
-#: enferno/templates/views/admin/system-administration.html:66
+#: enferno/templates/views/admin/system-administration.html:61
 msgid "Enables integration with Benetech's Deduplication tool."
-msgstr ""
+msgstr "تمكين التكامل مع أداة إلغاء البيانات المكررة الخاصة بـ Benetech."
 
-#: enferno/templates/views/admin/system-administration.html:73
+#: enferno/templates/views/admin/system-administration.html:68
 msgid "Lowest value of distance to process."
-msgstr ""
+msgstr "أدنى قيمة للمسافة إلى المعالجة."
 
-#: enferno/templates/views/admin/system-administration.html:74
+#: enferno/templates/views/admin/system-administration.html:69
 #, fuzzy
 msgid "Deduplication Low Distance"
 msgstr "لوحة تحكم أداة المطابقة"
 
-#: enferno/templates/views/admin/system-administration.html:82
+#: enferno/templates/views/admin/system-administration.html:77
 msgid "Highest value of distance to process."
-msgstr ""
+msgstr "أعلى قيمة للمسافة إلى المعالجة."
 
-#: enferno/templates/views/admin/system-administration.html:83
+#: enferno/templates/views/admin/system-administration.html:78
 #, fuzzy
 msgid "Deduplication Max Distance"
 msgstr "لوحة تحكم أداة المطابقة"
 
-#: enferno/templates/views/admin/system-administration.html:91
+#: enferno/templates/views/admin/system-administration.html:86
 msgid ""
 "Number of matches to send for processing in every batch. Affects speed of"
 " processing and performance of the server."
 msgstr ""
+"عدد المطابقات التي سيتم إرسالها للمعالجة في كل دفعة. يؤثر على سرعة "
+"المعالجة وأداء الخادم."
 
-#: enferno/templates/views/admin/system-administration.html:92
+#: enferno/templates/views/admin/system-administration.html:87
 #, fuzzy
 msgid "Deduplication Batch Size"
 msgstr "لوحة تحكم أداة المطابقة"
 
-#: enferno/templates/views/admin/system-administration.html:100
+#: enferno/templates/views/admin/system-administration.html:95
 msgid ""
 "Interval of batches sent for processing. Affects speed of processing and "
 "performance of the server."
 msgstr ""
+"الفاصل الزمني للدفعات المرسلة للمعالجة. يؤثر على سرعة المعالجة وأداء "
+"الخادم."
 
-#: enferno/templates/views/admin/system-administration.html:101
+#: enferno/templates/views/admin/system-administration.html:96
 #, fuzzy
 msgid "Deduplication Interval"
 msgstr "لوحة تحكم أداة المطابقة"
 
-#: enferno/templates/views/admin/system-administration.html:113
+#: enferno/templates/views/admin/system-administration.html:108
 #, fuzzy
 msgid "Media Storage"
 msgstr "مبنى طبي"
 
-#: enferno/templates/views/admin/system-administration.html:116
+#: enferno/templates/views/admin/system-administration.html:110
 msgid ""
-"Storage options for media files uploaded to Bayanat. It's\n"
-"                                                    possible to store "
-"these files locally on the host or in S3 bucket."
+"Storage options for media files uploaded to Bayanat. It's possible to "
+"store these files locally on the host or in S3 bucket."
 msgstr ""
+"خيارات التخزين لملفات الوسائط التي تم تحميلها على بيانات. من الممكن تخزين"
+" هذه الملفات محليًا على المضيف أو في حاوية S3."
 
-#: enferno/templates/views/admin/system-administration.html:122
+#: enferno/templates/views/admin/system-administration.html:114
 #, fuzzy
 msgid "Local Filesystem"
 msgstr "تحميل ملفات"
 
-#: enferno/templates/views/admin/system-administration.html:123
+#: enferno/templates/views/admin/system-administration.html:115
 msgid "S3 Storage"
-msgstr ""
+msgstr "تخزين S3"
 
-#: enferno/templates/views/admin/system-administration.html:131
+#: enferno/templates/views/admin/system-administration.html:123
 msgid "AWS Access Key ID"
-msgstr ""
+msgstr "معرف مفتاح الوصول إلى AWS"
 
-#: enferno/templates/views/admin/system-administration.html:138
+#: enferno/templates/views/admin/system-administration.html:130
 msgid "AWS Access Key Secret"
-msgstr ""
+msgstr "سر مفتاح الوصول إلى AWS"
 
-#: enferno/templates/views/admin/system-administration.html:145
+#: enferno/templates/views/admin/system-administration.html:137
 #, fuzzy
 msgid "S3 Bucket Name"
 msgstr "اللقب"
 
-#: enferno/templates/views/admin/system-administration.html:152
+#: enferno/templates/views/admin/system-administration.html:144
 msgid "S3 Region"
-msgstr ""
+msgstr "المنطقة S3"
 
-#: enferno/templates/views/admin/system-administration.html:160
+#: enferno/templates/views/admin/system-administration.html:153
+#, fuzzy
+msgid "Allowed Media Extensions"
+msgstr "الأماكن"
+
+#: enferno/templates/views/admin/system-administration.html:154
 msgid ""
-"Allowed Media\n"
-"                                                    Extensions"
+"The system will only allow files uploaded whose extensions are included "
+"in this list and reject all other extensions."
 msgstr ""
+"سيسمح النظام فقط بالملفات التي تم تحميلها والتي تم تضمين امتداداتها في "
+"هذه القائمة وسيرفض جميع الامتدادات الأخرى."
 
-#: enferno/templates/views/admin/system-administration.html:161
-msgid ""
-"The system will only\n"
-"                                                    allow files uploaded "
-"whose extensions are included in this list and\n"
-"                                                    reject all other "
-"extensions."
-msgstr ""
-
-#: enferno/templates/views/admin/system-administration.html:165
+#: enferno/templates/views/admin/system-administration.html:157
 msgid "Media Max Upload Size"
-msgstr ""
+msgstr "الحد الأقصى لحجم تحميل الوسائط"
+
+#: enferno/templates/views/admin/system-administration.html:158
+msgid "Sets the maximum allowed file size for media uploads."
+msgstr "يضبط الحد الأقصى لحجم الملف المسموح به لتحميلات الوسائط."
 
 #: enferno/templates/views/admin/system-administration.html:166
-msgid "Sets the maximum allowed file size for media uploads."
-msgstr ""
+#, fuzzy
+msgid "Security Freshness"
+msgstr "قوات أمنية أخرى"
+
+#: enferno/templates/views/admin/system-administration.html:168
+msgid "Secure pages will require re-authentication after this time expires."
+msgstr "ستتطلب الصفحات الآمنة إعادة المصادقة بعد انتهاء هذه المدة."
+
+#: enferno/templates/views/admin/system-administration.html:171
+msgid "Security Freshness Grace Period"
+msgstr "فترة سماح حداثة الأمان"
 
 #: enferno/templates/views/admin/system-administration.html:173
-#, fuzzy
-msgid ""
-"Security\n"
-"                                                    Freshness"
-msgstr ""
-"قد يتم تحرير العناوين من المصادر من أجل الوضوح، ولكن يتم الاحتفاظ بـ "
-"\"العنوان الأصلي\""
+msgid "Re-authentication will require a second factor after this period."
+msgstr "ستتطلب إعادة المصادقة عاملاً ثانيًا بعد هذه الفترة."
 
-#: enferno/templates/views/admin/system-administration.html:174
-msgid ""
-"Secure pages will\n"
-"                                                    require re-"
-"authentication after this time expires."
-msgstr ""
+#: enferno/templates/views/admin/system-administration.html:176
+msgid "Recaptcha Enabled"
+msgstr "تم تمكين Recaptcha"
 
 #: enferno/templates/views/admin/system-administration.html:178
-msgid ""
-"Security\n"
-"                                                    Freshness Grace Period"
-msgstr ""
-
-#: enferno/templates/views/admin/system-administration.html:179
-msgid ""
-"\n"
-"                                                    Re-authentication "
-"will require a second factor after this period."
-msgstr ""
-
-#: enferno/templates/views/admin/system-administration.html:183
-msgid "Recaptcha Enabled"
-msgstr ""
-
-#: enferno/templates/views/admin/system-administration.html:184
 #, fuzzy
-msgid ""
-"Require Google Recaptcha on the login\n"
-"                                                    form."
+msgid "Require Google Recaptcha on the login form."
 msgstr "العلامات الجغرافية هي علامات جغرافية أو معالم تساعد في وصف النشرة"
 
-#: enferno/templates/views/admin/system-administration.html:192
+#: enferno/templates/views/admin/system-administration.html:186
 msgid "Recaptcha Public Key"
-msgstr ""
+msgstr "تم تمكين Recaptcha"
+
+#: enferno/templates/views/admin/system-administration.html:193
+msgid "Recaptcha Private Key"
+msgstr "مفتاح Recaptcha الخاص"
 
 #: enferno/templates/views/admin/system-administration.html:199
-msgid "Recaptcha Private Key"
-msgstr ""
-
-#: enferno/templates/views/admin/system-administration.html:205
 msgid "Enable OAuth"
-msgstr ""
+msgstr "تمكين OAuth"
 
-#: enferno/templates/views/admin/system-administration.html:206
+#: enferno/templates/views/admin/system-administration.html:200
 msgid "Allow users to login using their OAuth account."
-msgstr ""
+msgstr "السماح للمستخدمين بتسجيل الدخول باستخدام حساب OAuth الخاص بهم."
 
-#: enferno/templates/views/admin/system-administration.html:213
+#: enferno/templates/views/admin/system-administration.html:207
 #, fuzzy
 msgid "OAuth Client ID"
 msgstr "المعرِّف الخاص بـGoogle"
 
-#: enferno/templates/views/admin/system-administration.html:220
+#: enferno/templates/views/admin/system-administration.html:214
 #, fuzzy
 msgid "OAuth Client Secret"
 msgstr "المعرِّف الخاص بـGoogle"
 
-#: enferno/templates/views/admin/system-administration.html:227
+#: enferno/templates/views/admin/system-administration.html:221
 msgid "OAuth Discovery URL"
-msgstr ""
+msgstr "عنوان URL لاكتشاف OAuth"
 
-#: enferno/templates/views/admin/system-administration.html:269
+#: enferno/templates/views/admin/system-administration.html:263
 #, fuzzy
 msgid "Media Import Tool"
 msgstr "استيراد الوسائط"
 
-#: enferno/templates/views/admin/system-administration.html:270
+#: enferno/templates/views/admin/system-administration.html:264
 #, fuzzy
 msgid ""
-"Enable importing and parsing media\n"
-"                                                    items in bulk "
-"directly into bulletins."
+"Enable importing and parsing media items in bulk directly into Primary "
+"Records."
 msgstr "العلامات الجغرافية هي علامات جغرافية أو معالم تساعد في وصف النشرة"
 
-#: enferno/templates/views/admin/system-administration.html:275
+#: enferno/templates/views/admin/system-administration.html:268
 #, fuzzy
-msgid ""
-"Media Import Path\n"
-"                                                            Scanning"
-msgstr ""
-"قد يتم تحرير العناوين من المصادر من أجل الوضوح، ولكن يتم الاحتفاظ بـ "
-"\"العنوان الأصلي\""
+msgid "Media Import Path Scanning"
+msgstr "استيراد الوسائط"
 
-#: enferno/templates/views/admin/system-administration.html:277
+#: enferno/templates/views/admin/system-administration.html:270
 msgid ""
 "Allow scanning of the import path for files in the Media Import Tool. The"
 " path needs to be set in the .env file for this setting to work. This is "
@@ -2711,164 +2605,153 @@ msgid ""
 "should only be enabled on installation that can utilise this feature. It "
 "should be turned on only when it's needed."
 msgstr ""
+"السماح بفحص مسار الاستيراد للملفات في أداة استيراد الوسائط. يجب تعيين "
+"المسار في ملف .env حتى يعمل هذا الإعداد. ويتم ذلك لأغراض أمنية. تحذير: "
+"يعد هذا الإعداد خطيرًا ويجب تمكينه فقط عند التثبيت الذي يمكنه الاستفادة "
+"من هذه الميزة. ويجب تشغيله فقط عند الحاجة إليه."
+
+#: enferno/templates/views/admin/system-administration.html:277
+msgid "Allowed file extensions for the Media Import Tool."
+msgstr "امتدادات الملفات المسموح بها لأداة استيراد الوسائط."
+
+#: enferno/templates/views/admin/system-administration.html:279
+msgid "ETL Video Extensions"
+msgstr "ملحقات الفيديو ETL"
 
 #: enferno/templates/views/admin/system-administration.html:284
-msgid "Allowed file extensions for the Media Import Tool."
-msgstr ""
-
-#: enferno/templates/views/admin/system-administration.html:286
-msgid "ETL Video Extensions"
-msgstr ""
-
-#: enferno/templates/views/admin/system-administration.html:291
 msgid ""
 "Enable parsing and extracting text from images and scanned PDF files "
 "(requires and external Tesseract library)."
 msgstr ""
+"تمكين تحليل واستخراج النص من الصور وملفات PDF الممسوحة ضوئيًا (يتطلب "
+"مكتبة Tesseract الخارجية)."
 
-#: enferno/templates/views/admin/system-administration.html:292
+#: enferno/templates/views/admin/system-administration.html:285
 msgid "Enable OCR"
-msgstr ""
+msgstr "تمكين OCR"
 
-#: enferno/templates/views/admin/system-administration.html:301
-msgid ""
-"File extensions\n"
-"                                                                        "
-"which will be scanned using Tesseract OCR."
-msgstr ""
+#: enferno/templates/views/admin/system-administration.html:294
+msgid "File extensions which will be scanned using Tesseract OCR."
+msgstr "امتدادات الملفات التي سيتم فحصها باستخدام Tesseract OCR."
 
-#: enferno/templates/views/admin/system-administration.html:303
-msgid ""
-"OCR\n"
-"                                                                        "
-"Extensions"
-msgstr ""
+#: enferno/templates/views/admin/system-administration.html:295
+#, fuzzy
+msgid "OCR Extensions"
+msgstr "ملحقات OCR"
 
-#: enferno/templates/views/admin/system-administration.html:311
-msgid ""
-"Path to Tesseract\n"
-"                                                                        "
-"executable."
-msgstr ""
+#: enferno/templates/views/admin/system-administration.html:302
+msgid "Path to Tesseract executable."
+msgstr "المسار إلى Tesseract القابل للتنفيذ."
 
-#: enferno/templates/views/admin/system-administration.html:318
+#: enferno/templates/views/admin/system-administration.html:308
 #, fuzzy
 msgid "Sheet Import"
 msgstr "استيراد جداول البيانات"
 
+#: enferno/templates/views/admin/system-administration.html:309
+msgid "Enable importing spreadsheets and mapping them to Actors."
+msgstr "تمكين استيراد جداول البيانات وتعيينها للممثلين."
+
+#: enferno/templates/views/admin/system-administration.html:318
+#, fuzzy
+msgid "Allowed spreadsheet extensions for Sheets Import Tool."
+msgstr "الأماكن"
+
 #: enferno/templates/views/admin/system-administration.html:319
-msgid ""
-"Enable importing spreadsheets\n"
-"                                                            and mapping "
-"them to Actors."
-msgstr ""
-
-#: enferno/templates/views/admin/system-administration.html:329
-msgid ""
-"Allowed spreadsheet\n"
-"                                                                        "
-"extensions for Sheets Import Tool."
-msgstr ""
-
-#: enferno/templates/views/admin/system-administration.html:331
 #, fuzzy
 msgid "Allowed Sheets Extensions"
 msgstr "الأماكن"
 
-#: enferno/templates/views/admin/system-administration.html:346
+#: enferno/templates/views/admin/system-administration.html:334
 #, fuzzy
 msgid "Export System"
 msgstr "الإبلاغ عن الأشخاص"
 
-#: enferno/templates/views/admin/system-administration.html:347
+#: enferno/templates/views/admin/system-administration.html:335
 #, fuzzy
 msgid "Enables Export System."
 msgstr "الإبلاغ عن الأشخاص"
 
-#: enferno/templates/views/admin/system-administration.html:354
+#: enferno/templates/views/admin/system-administration.html:342
 msgid "Maps API Endpoint"
-msgstr ""
+msgstr "نقطة نهاية واجهة برمجة تطبيقات الخرائط"
 
-#: enferno/templates/views/admin/system-administration.html:355
+#: enferno/templates/views/admin/system-administration.html:343
 #, fuzzy
-msgid ""
-"API provider for Open Street Maps\n"
-"                                                    tiles."
-msgstr ""
-"قد يتم تحرير العناوين من المصادر من أجل الوضوح، ولكن يتم الاحتفاظ بـ "
-"\"العنوان الأصلي\""
+msgid "API provider for Open Street Maps tiles."
+msgstr "مزود واجهة برمجة التطبيقات (API) لمربعات خرائط الشوارع المفتوحة."
 
-#: enferno/templates/views/admin/system-administration.html:357
+#: enferno/templates/views/admin/system-administration.html:345
 msgid "Google Maps API Key"
-msgstr ""
+msgstr "مفتاح API لخرائط Google"
 
-#: enferno/templates/views/admin/system-administration.html:359
+#: enferno/templates/views/admin/system-administration.html:347
 msgid ""
 "API key for Google Maps. Adding a key enables satalite imagery in "
 "Bayanat's maps."
-msgstr ""
+msgstr "مفتاح API لخرائط جوجل. تؤدي إضافة مفتاح إلى تمكين الصور عبر الأقمار الصناعية في خرائط بيانات."
 
-#: enferno/templates/views/admin/system-administration.html:361
+#: enferno/templates/views/admin/system-administration.html:349
 msgid "Default Map Position"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:363
+#: enferno/templates/views/admin/system-administration.html:351
 msgid "Changes default position for all maps in all components."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:384
+#: enferno/templates/views/admin/system-administration.html:371
 #, fuzzy
 msgid "Revision History"
 msgstr "سجل التغييرات"
 
-#: enferno/templates/views/admin/system-administration.html:388
+#: enferno/templates/views/admin/system-administration.html:375
 #, fuzzy
 msgid "Version"
 msgstr "شخص"
 
-#: enferno/templates/views/admin/system-administration.html:390
+#: enferno/templates/views/admin/system-administration.html:377
 msgid "by"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:392
+#: enferno/templates/views/admin/system-administration.html:379
 msgid "Revert to this version"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:396
+#: enferno/templates/views/admin/system-administration.html:383
 #, fuzzy
 msgid "Current"
 msgstr "أب"
 
-#: enferno/templates/views/admin/partials/event_dialog.html:80
-#: enferno/templates/views/admin/system-administration.html:407
-#: enferno/templates/views/admin/users.html:161
+#: enferno/templates/views/admin/partials/event_dialog.html:81
+#: enferno/templates/views/admin/system-administration.html:394
+#: enferno/templates/views/admin/users.html:162
 msgid "Close"
 msgstr "اغلاق"
 
-#: enferno/templates/views/admin/system-administration.html:412
+#: enferno/templates/views/admin/system-administration.html:399
 msgid "Review and Confirm Changes"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:422
+#: enferno/templates/views/admin/system-administration.html:409
 #, fuzzy
 msgid "Removed"
 msgstr "مُراجعة"
 
-#: enferno/templates/views/admin/system-administration.html:426
+#: enferno/templates/views/admin/system-administration.html:413
 #, fuzzy
 msgid "Added"
 msgstr "العنوان"
 
-#: enferno/templates/views/admin/system-administration.html:439
+#: enferno/templates/views/admin/system-administration.html:426
 msgid "No changes detected"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:449
+#: enferno/templates/views/admin/system-administration.html:436
 #, fuzzy
 msgid "Confirm"
 msgstr "تأكيد كلمة المرور"
 
-#: enferno/templates/views/admin/system-administration.html:457
+#: enferno/templates/views/admin/system-administration.html:444
 msgid "Restarting Bayanat, please wait..."
 msgstr ""
 
@@ -2880,61 +2763,55 @@ msgstr "مستخدمي النظام"
 msgid "New User"
 msgstr "مستخدم جديد"
 
-#: enferno/templates/views/admin/users.html:63
-msgid ""
-"Full\n"
-"                                                            Name"
-msgstr ""
-
-#: enferno/templates/views/admin/users.html:86
+#: enferno/templates/views/admin/users.html:87
 #, fuzzy
 msgid "Password"
 msgstr "كلمة المرور"
 
-#: enferno/templates/views/admin/users.html:94
+#: enferno/templates/views/admin/users.html:95
 #, fuzzy
 msgid "Strong Password"
 msgstr "كلمة المرور القديمة"
 
-#: enferno/templates/views/admin/users.html:127
+#: enferno/templates/views/admin/users.html:128
 #, fuzzy
 msgid "Active"
 msgstr "نشط"
 
-#: enferno/templates/views/admin/users.html:133
+#: enferno/templates/views/admin/users.html:134
 #, fuzzy
 msgid "Can view usernames"
 msgstr "إمكانبة عرض أسماء المستخدمين"
 
-#: enferno/templates/views/admin/users.html:137
+#: enferno/templates/views/admin/users.html:138
 #, fuzzy
 msgid "Can view simple history"
 msgstr "إمكانبة عرض تاريخ (نشاط) مبسط"
 
-#: enferno/templates/views/admin/users.html:141
+#: enferno/templates/views/admin/users.html:142
 #, fuzzy
 msgid "Can view Full History"
 msgstr "إمكانبة عرض تاريخ (نشاط) كامل"
 
-#: enferno/templates/views/admin/users.html:145
+#: enferno/templates/views/admin/users.html:146
 #, fuzzy
 msgid "Can self assign"
 msgstr "الاسناد للذات"
 
-#: enferno/templates/views/admin/users.html:149
+#: enferno/templates/views/admin/users.html:150
 #, fuzzy
 msgid "Can edit Locations"
 msgstr "تعديل المواقع"
 
-#: enferno/templates/views/admin/users.html:153
+#: enferno/templates/views/admin/users.html:154
 msgid "Can Request Exports"
 msgstr ""
 
-#: enferno/templates/views/admin/users.html:225
+#: enferno/templates/views/admin/users.html:226
 msgid "Username"
 msgstr "إمكانية عرض أسماء المستخدمين"
 
-#: enferno/templates/views/admin/users.html:234
+#: enferno/templates/views/admin/users.html:235
 msgid "OAuth ID"
 msgstr "المعرِّف الخاص بـGoogle"
 
@@ -2944,8 +2821,8 @@ msgid "Actor Advanced Search"
 msgstr "البحث المتقدم"
 
 #: enferno/templates/views/admin/partials/actor_advsearch.html:63
-#: enferno/templates/views/admin/partials/bulletin_advsearch.html:57
-#: enferno/templates/views/admin/partials/incident_advsearch.html:44
+#: enferno/templates/views/admin/partials/bulletin_advsearch.html:55
+#: enferno/templates/views/admin/partials/incident_advsearch.html:43
 msgid "Name this search"
 msgstr "عيّن اسم للبحث"
 
@@ -2968,8 +2845,8 @@ msgstr "أضف مراجع"
 #: enferno/templates/views/admin/partials/actor_dialog.html:44
 #: enferno/templates/views/admin/partials/actor_dialog.html:366
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:34
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:156
-#: enferno/templates/views/admin/partials/incident_dialog.html:30
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:149
+#: enferno/templates/views/admin/partials/incident_dialog.html:29
 #: enferno/templates/views/admin/partials/incident_dialog.html:87
 #: enferno/templates/views/admin/partials/location_dialog.html:35
 #: enferno/templates/views/admin/partials/location_dialog.html:112
@@ -2980,9 +2857,9 @@ msgstr "الوسوم"
 #: enferno/templates/views/admin/partials/actor_dialog.html:64
 #: enferno/templates/views/admin/partials/actor_dialog.html:783
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:54
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:257
-#: enferno/templates/views/admin/partials/incident_dialog.html:40
-#: enferno/templates/views/admin/partials/incident_dialog.html:155
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:247
+#: enferno/templates/views/admin/partials/incident_dialog.html:39
+#: enferno/templates/views/admin/partials/incident_dialog.html:154
 #, fuzzy
 msgid "Data Relationships"
 msgstr "العلاقة"
@@ -2990,9 +2867,9 @@ msgstr "العلاقة"
 #: enferno/templates/views/admin/partials/actor_dialog.html:69
 #: enferno/templates/views/admin/partials/actor_dialog.html:957
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:59
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:498
-#: enferno/templates/views/admin/partials/incident_dialog.html:45
-#: enferno/templates/views/admin/partials/incident_dialog.html:395
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:479
+#: enferno/templates/views/admin/partials/incident_dialog.html:44
+#: enferno/templates/views/admin/partials/incident_dialog.html:381
 #, fuzzy
 msgid "Data Details"
 msgstr "تفاصيل"
@@ -3060,17 +2937,20 @@ msgid "Handle"
 msgstr "أيمن/أعسر"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:378
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:125
+#, fuzzy
 msgid ""
 "Sources are profiles of the original creators and publishers of the "
-"content of Actors and Bulletins in the database. This structure also "
-"provides easy search and filtering and prevents data entry mistakes by "
-"users."
+"content of Actors and Primary Records in the database. This structure "
+"also provides easy search and filtering and prevents data entry mistakes "
+"by users."
 msgstr ""
 "المصادر هي ملفات تعريف للمبدعين والناشرين الأصليين لمحتوى الممثلين "
 "والنشرات في قاعدة البيانات. توفر هذه البنية أيضًا سهولة البحث والتصفية "
 "وتمنع أخطاء إدخال البيانات من قبل المستخدمين"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:393
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:162
 #: enferno/templates/views/admin/partials/incident_dialog.html:128
 msgid ""
 "Labels allow for easy search and filter of the database. Labels can be "
@@ -3082,13 +2962,16 @@ msgstr ""
 " إلى ذلك، يمكن استخدام التسميات للمراجع أو التحكم في سير العمل"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:410
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:181
+#, fuzzy
 msgid ""
 "The Verified labels are a set of neutral labels added by the data analyst"
 " based on observation and evidence found in the content. Allegations made"
 " by the source or person(s) in the content must not influence adding or "
 "not adding these labels. SJAC utilises this list of Labels to tag the "
 "reliability, priority, metadata or the verified content. The latter is "
-"utilized mainly in items with verifiable evidence like video Bulletins."
+"utilized mainly in items with verifiable evidence like video Primary "
+"Records."
 msgstr ""
 "التصنيفات التي تم التحقق منها هي مجموعة من التصنيفات المحايدة التي يضيفها"
 " محلل البيانات بناءً على الملاحظة والأدلة الموجودة في المحتوى. يجب ألا "
@@ -3235,17 +3118,20 @@ msgid "Location of reburial (full address)"
 msgstr "مكان إعادة الدفن (العنوان كاملا)"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:795
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:269
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:259
+#: enferno/templates/views/admin/partials/incident_dialog.html:168
 #, fuzzy
 msgid "Search & Relate Actors"
 msgstr "البحث عن الكيانات المرتبطة"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:800
+#: enferno/templates/views/admin/partials/incident_dialog.html:173
+#, fuzzy
 msgid ""
 "Actors are items of documentation about persons or bodies of interest "
-"that can be related to other Actors, Bulletins, or Incidents, usually "
-"coming from a single source. The Actor profile contains fields to "
-"identify the person or body, relate the Actor to other items in the "
+"that can be related to other Actors, Primary Records, or Incidents, "
+"usually coming from a single source. The Actor profile contains fields to"
+" identify the person or body, relate the Actor to other items in the "
 "database, add labels and create Events."
 msgstr ""
 "الممثلون عبارة عن وثائق حول أشخاص أو هيئات ذات أهمية يمكن أن تكون مرتبطة "
@@ -3255,50 +3141,56 @@ msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:815
 #: enferno/templates/views/admin/partials/actor_dialog.html:908
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:291
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:368
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:449
-#: enferno/templates/views/admin/partials/incident_dialog.html:193
-#: enferno/templates/views/admin/partials/incident_dialog.html:272
-#: enferno/templates/views/admin/partials/incident_dialog.html:352
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:278
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:355
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:430
+#: enferno/templates/views/admin/partials/incident_dialog.html:188
+#: enferno/templates/views/admin/partials/incident_dialog.html:265
+#: enferno/templates/views/admin/partials/incident_dialog.html:338
 msgid "Relationship Information"
 msgstr "معلومات الارتباط"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:820
 #: enferno/templates/views/admin/partials/actor_dialog.html:912
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:295
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:372
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:453
-#: enferno/templates/views/admin/partials/incident_dialog.html:197
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:282
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:359
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:434
+#: enferno/templates/views/admin/partials/incident_dialog.html:192
 msgid "Probability"
 msgstr "الاحتمالية"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:829
 #: enferno/templates/views/admin/partials/actor_dialog.html:921
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:305
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:381
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:462
-#: enferno/templates/views/admin/partials/incident_dialog.html:206
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:292
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:368
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:443
+#: enferno/templates/views/admin/partials/incident_dialog.html:201
 msgid "Related As"
 msgstr "نوع الارتباط"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:870
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:333
+#: enferno/templates/views/admin/partials/incident_dialog.html:243
 #, fuzzy
-msgid "Search & Relate Bulletins"
-msgstr "البحث عن المواد المرتبطة"
+msgid "Search & Relate Primary Records"
+msgstr "البحث عن الكيانات المرتبطة"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:874
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:339
+#: enferno/templates/views/admin/partials/incident_dialog.html:248
+#, fuzzy
 msgid ""
-"A Bulletin is one piece of documentation that provides information about "
-"a specific event. Bulletins could be from almost any type of content, "
-"such as videos, audio, pictures, documents, interviews, reports, text "
-"files, etc."
+"A Primary Record is one piece of documentation that provides information "
+"about a specific event. Primary Records could be from almost any type of "
+"content, such as videos, audio, pictures, documents, interviews, reports,"
+" text files, etc."
 msgstr ""
 "النشرة هي قطعة واحدة من الوثائق التي توفر معلومات حول حدث معين. يمكن أن "
 "تكون النشرات من أي نوع من المحتوى تقريبًا، مثل مقاطع الفيديو والصوت "
 "والصور والمستندات والمقابلات والتقارير والملفات النصية وما إلى ذلك"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:888
+#: enferno/templates/views/admin/partials/incident_dialog.html:317
 #, fuzzy
 msgid "Search & Relate Incidents"
 msgstr "البحث عن الوقائع المرتبطة"
@@ -3306,14 +3198,14 @@ msgstr "البحث عن الوقائع المرتبطة"
 #: enferno/templates/views/admin/partials/actor_dialog.html:892
 #, fuzzy
 msgid ""
-"_(\"Analysis of Actors and Bulletins is intended to follow a \"closed "
-"universe\" approach, where the only focus of the analysis is the evidence"
-" contained in each item individually and without looking for additional "
-"information outside. This approach allows for speedy initial analysis of "
-"Actors and Bulletins and prevents adding any unreliable outside "
-"information or opinions. Incidents allow for the evidence contained in "
-"individual Actors and Bulletins to be linked together and analyzed as a "
-"group.\")"
+"_(\"Analysis of Actors and Primary Records is intended to follow a "
+"\"closed universe\" approach, where the only focus of the analysis is the"
+" evidence contained in each item individually and without looking for "
+"additional information outside. This approach allows for speedy initial "
+"analysis of Actors and Primary Records and prevents adding any unreliable"
+" outside information or opinions. Incidents allow for the evidence "
+"contained in individual Actors and Primary Records to be linked together "
+"and analyzed as a group.\")"
 msgstr ""
 "يهدف تحليل الممثلين والنشرات إلى اتباع نهج \"العالم المغلق\"، حيث يكون "
 "التركيز الوحيد للتحليل هو الأدلة الواردة في كل عنصر على حدة ودون البحث عن"
@@ -3323,6 +3215,7 @@ msgstr ""
 "وتحليلها كمجموعة"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:974
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:497
 msgid ""
 "The URL to the original source from which the information was obtained. "
 "‘Not Available’ checkbox can be selected if the source link is no "
@@ -3337,15 +3230,15 @@ msgstr ""
 " يتحقق الحقل من صحة الإدخال ولن يقبل عنوان URL غير صالح"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:978
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:526
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:502
 #, fuzzy
 msgid "Not Available"
 msgstr "غير متوفر"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:987
 #: enferno/templates/views/admin/partials/actor_dialog.html:992
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:535
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:539
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:511
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:516
 #, fuzzy
 msgid "Time (UTC)"
 msgstr "العنوان (عربي)"
@@ -3377,8 +3270,9 @@ msgid "Bulk Update Actors"
 msgstr "تحديث كيانات بالجملة"
 
 #: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:46
-msgid "Bulk Update Bulletins"
-msgstr "تحديث مواد بالجملة"
+#, fuzzy
+msgid "Bulk Update Primary Records"
+msgstr "تحديث كيانات بالجملة"
 
 #: enferno/templates/views/admin/partials/bulk_incident_drawer.html:34
 msgid "Assign Related Items"
@@ -3394,25 +3288,13 @@ msgstr "تحديث وقائع بالجملة"
 
 #: enferno/templates/views/admin/partials/bulletin_advsearch.html:4
 #, fuzzy
-msgid "Bulletin Advanced Search"
+msgid "Primary Record Advanced Search"
 msgstr "البحث المتقدم"
 
-#: enferno/templates/views/admin/partials/bulletin_advsearch.html:44
-msgid ""
-"Save\n"
-"                Search"
-msgstr ""
-
-#: enferno/templates/views/admin/partials/bulletin_advsearch.html:47
-#: enferno/templates/views/admin/partials/incident_advsearch.html:34
-msgid ""
-"Save As\n"
-"                New"
-msgstr ""
-
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:13
-msgid "Save Bulletin"
-msgstr "حفظ المادة"
+#, fuzzy
+msgid "Save Primary Record"
+msgstr "حفظ الكيان"
 
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:78
 #, fuzzy
@@ -3420,169 +3302,59 @@ msgid "Original Title (AR)"
 msgstr "العنوان الأصلي (عربي)"
 
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:81
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:102
 #, fuzzy
 msgid ""
-"Titles from sources might be edited for clarity, but the\n"
-"                                                        “Original Title” "
-"is retained."
+"Titles from sources might be edited for clarity, but the “Original Title”"
+" is retained."
 msgstr ""
 "قد يتم تحرير العناوين من المصادر من أجل الوضوح، ولكن يتم الاحتفاظ بـ "
 "\"العنوان الأصلي\""
 
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:103
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:139
 #, fuzzy
 msgid ""
-"Titles from sources might be edited for clarity, but the\n"
-"                                                    “Original Title” is "
-"retained."
-msgstr ""
-"قد يتم تحرير العناوين من المصادر من أجل الوضوح، ولكن يتم الاحتفاظ بـ "
-"\"العنوان الأصلي\""
-
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:123
-#, fuzzy
-msgid ""
-"\n"
-"                                                        Sources"
-msgstr "المصادر"
-
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:127
-#, fuzzy
-msgid ""
-"Sources are profiles of the original creators and publishers of\n"
-"                                                the content of Actors and"
-" Bulletins in the database. This structure also\n"
-"                                                provides easy search and "
-"filtering and prevents data entry mistakes by\n"
-"                                                users."
-msgstr ""
-"المصادر هي ملفات تعريف للمبدعين والناشرين الأصليين لمحتوى الممثلين "
-"والنشرات في قاعدة البيانات. توفر هذه البنية أيضًا سهولة البحث والتصفية "
-"وتمنع أخطاء إدخال البيانات من قبل المستخدمين"
-
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:143
-#, fuzzy
-msgid ""
-"The Bulletin Description should describe, in details, what\n"
-"                                                      happens, and what "
-"the content shows. Describe the people involved, the\n"
-"                                                      surrounding area, "
-"information about time and day. Be critical and only\n"
-"                                                      use (describe) the "
-"facts actually shown in the documentation."
+"The Primary Record description should describe, in details, what happens,"
+" and what the content shows. Describe the people involved, the "
+"surrounding area, information about time and day. Be critical and only "
+"use (describe) the facts actually shown in the documentation."
 msgstr ""
 "يجب أن يصف وصف النشرة بالتفصيل ما يحدث وما يظهره المحتوى. قم بوصف الأشخاص"
 " المعنيين، والمنطقة المحيطة، ومعلومات عن الوقت واليوم. كن نقديًا واستخدم "
 "(وصف) فقط الحقائق الموضحة بالفعل في الوثائق"
 
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:168
-#, fuzzy
-msgid ""
-"Labels allow for easy search and filter of the database. Labels\n"
-"                                                can be created by an "
-"admin to tag the content or metadata of an item.\n"
-"                                                Additionally, labels can "
-"be used for references or workflow control."
-msgstr ""
-"تسمح التسميات بالبحث السهل وتصفية قاعدة البيانات. يمكن للمسؤول إنشاء "
-"التصنيفات لوضع علامة على المحتوى أو البيانات التعريفية لعنصر ما. بالإضافة"
-" إلى ذلك، يمكن استخدام التسميات للمراجع أو التحكم في سير العمل"
-
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:183
-#, fuzzy
-msgid ""
-"\n"
-"                                                        Verified Labels"
-msgstr "الوسوم المُثبتة"
-
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:187
-#, fuzzy
-msgid ""
-"The Verified labels are a set of neutral labels added by the\n"
-"                                                data analyst based on "
-"observation and evidence found in the content.\n"
-"                                                Allegations made by the "
-"source or person(s) in the content must not\n"
-"                                                influence adding or not "
-"adding these labels. SJAC utilises this list of\n"
-"                                                Labels to tag the "
-"reliability, priority, metadata or the verified\n"
-"                                                content. The latter is "
-"utilized mainly in items with verifiable evidence\n"
-"                                                like video Bulletins."
-msgstr ""
-"التصنيفات التي تم التحقق منها هي مجموعة من التصنيفات المحايدة التي يضيفها"
-" محلل البيانات بناءً على الملاحظة والأدلة الموجودة في المحتوى. يجب ألا "
-"تؤثر الادعاءات التي يقدمها المصدر أو الشخص (الأشخاص) في المحتوى على إضافة"
-" هذه التصنيفات أو عدم إضافتها. يستخدم المركز السوري للعدالة والمساءلة "
-"قائمة التصنيفات هذه لوضع علامة على الموثوقية أو الأولوية أو البيانات "
-"الوصفية أو المحتوى الذي تم التحقق منه. يتم استخدام الأخير بشكل أساسي في "
-"العناصر التي تحتوي على أدلة يمكن التحقق منها مثل نشرات الفيديو"
-
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:211
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:201
 #: enferno/templates/views/admin/partials/incident_dialog.html:140
 #, fuzzy
 msgid ""
-"Locations is a central list of entries for the adminstrative\n"
-"                                                centers (cities, towns, "
-"villages, etc)."
+"Locations is a central list of entries for the adminstrative centers "
+"(cities, towns, villages, etc)."
 msgstr ""
 "المواقع هي قائمة مركزية لإدخالات المراكز الإدارية (المدن والبلدات والقرى "
 "وغيرها)"
 
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:234
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:224
 #, fuzzy
 msgid ""
-"Geo Markers are geographical markers or landmarks that help\n"
-"                                                describe the bulletin."
+"Geo Markers are geographical markers or landmarks that help describe the "
+"Primary Record."
 msgstr "العلامات الجغرافية هي علامات جغرافية أو معالم تساعد في وصف النشرة"
 
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:274
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:265
 #, fuzzy
 msgid ""
-"Actors are items of documentation about persons or\n"
-"                                                        bodies of "
-"interest that can be related to otherActors,\n"
-"                                                        Bulletins, or "
-"Incidents, usually coming from a single source.\n"
-"                                                        The Actor profile"
-" contains fields to identify the person or\n"
-"                                                        body, relate the "
-"Actor to other items in the database, add\n"
-"                                                        labels and create"
-" Events."
+"Actors are items of documentation about persons or bodies of interest "
+"that can be related to otherActors, Primary Records, or Incidents, "
+"usually coming from a single source. The Actor profile contains fields to"
+" identify the person or body, relate the Actor to other items in the "
+"database, add labels and create Events."
 msgstr ""
 "الممثلون عبارة عن وثائق حول أشخاص أو هيئات ذات أهمية يمكن أن تكون مرتبطة "
 "بممثلين آخرين أو نشرات أو حوادث، وعادة ما تأتي من مصدر واحد. يحتوي ملف "
 "تعريف الممثل على حقول لتحديد الشخص أو الجسم، وربط الممثل بالعناصر الأخرى "
 "في قاعدة البيانات، وإضافة تسميات وإنشاء الأحداث"
 
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:345
-#: enferno/templates/views/admin/partials/incident_dialog.html:247
-#, fuzzy
-msgid ""
-"Search & Relate\n"
-"                                                            Bulletins"
-msgstr "العلامات الجغرافية هي علامات جغرافية أو معالم تساعد في وصف النشرة"
-
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:350
-#: enferno/templates/views/admin/partials/incident_dialog.html:252
-#, fuzzy
-msgid ""
-"A Bulletin is one piece of documentation that provides\n"
-"                                                        information about"
-" a specific event. Bulletins could be from\n"
-"                                                        almost any type "
-"of content, such as videos, audio, pictures,\n"
-"                                                        documents, "
-"interviews, reports, text files, etc."
-msgstr ""
-"النشرة هي قطعة واحدة من الوثائق التي توفر معلومات حول حدث معين. يمكن أن "
-"تكون النشرات من أي نوع من المحتوى تقريبًا، مثل مقاطع الفيديو والصوت "
-"والصور والمستندات والمقابلات والتقارير والملفات النصية وما إلى ذلك"
-
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:421
-#: enferno/templates/views/admin/partials/incident_dialog.html:323
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:408
 #, fuzzy
 msgid ""
 "Search & Relate\n"
@@ -3591,25 +3363,18 @@ msgstr ""
 "قد يتم تحرير العناوين من المصادر من أجل الوضوح، ولكن يتم الاحتفاظ بـ "
 "\"العنوان الأصلي\""
 
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:426
-#: enferno/templates/views/admin/partials/incident_dialog.html:328
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:414
+#: enferno/templates/views/admin/partials/incident_dialog.html:322
 #, fuzzy
 msgid ""
-"Analysis of Actors and Bulletins is intended to follow a\n"
-"                                                        \"closed "
-"universe\" approach, where the only focus of the analysis\n"
-"                                                        is the evidence "
-"contained in each item individually and without\n"
-"                                                        looking for "
-"additional information outside. This approach allows\n"
-"                                                        for speedy "
-"initial analysis of Actors and Bulletins and prevents\n"
-"                                                        adding any "
-"unreliable outside information or opinions. Incidents\n"
-"                                                        allow for the "
-"evidence contained in individual Actors and\n"
-"                                                        Bulletins to be "
-"linked together and analyzed as a group."
+"Analysis of Actors and Primary Records is intended to follow a \"closed "
+"universe\" approach, where the only focus of the analysis is the evidence"
+" contained in each item individually and without looking for additional "
+"information outside. This approach allows for speedy initial analysis of "
+"Actors and Primary Records and prevents adding any unreliable outside "
+"information or opinions. Incidents allow for the evidence contained in "
+"individual Actors and Primary Records to be linked together and analyzed "
+"as a group."
 msgstr ""
 "يهدف تحليل الممثلين والنشرات إلى اتباع نهج \"العالم المغلق\"، حيث يكون "
 "التركيز الوحيد للتحليل هو الأدلة الواردة في كل عنصر على حدة ودون البحث عن"
@@ -3618,62 +3383,24 @@ msgstr ""
 "الحوادث بربط الأدلة الواردة في الجهات الفاعلة والنشرات الفردية معًا "
 "وتحليلها كمجموعة"
 
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:508
-msgid ""
-"Source\n"
-"                                                                Link"
-msgstr ""
-
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:516
-#, fuzzy
-msgid ""
-"The URL to the original source from which the\n"
-"                                                        information was "
-"obtained. ‘Not Available’ checkbox can be\n"
-"                                                        selected if the "
-"source link is no applicable, for example if the\n"
-"                                                        information was "
-"obtained from an offline source. ‘Private’\n"
-"                                                        slider can be "
-"used if the URL is not reachable anymore. The\n"
-"                                                        field validates "
-"the entry and will not accept an invalid URL."
-msgstr ""
-"عنوان URL للمصدر الأصلي الذي تم الحصول على المعلومات منه. يمكن تحديد خانة"
-" الاختيار \"غير متوفر\" إذا كان رابط المصدر غير قابل للتطبيق، على سبيل "
-"المثال، إذا تم الحصول على المعلومات من مصدر غير متصل بالإنترنت. يمكن "
-"استخدام شريط التمرير \"الخاص\" إذا لم يعد من الممكن الوصول إلى عنوان URL."
-" يتحقق الحقل من صحة الإدخال ولن يقبل عنوان URL غير صالح"
-
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:535
-msgid ""
-"Publish\n"
-"                                            Date"
-msgstr ""
-
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:539
-msgid ""
-"\n"
-"                                            Date Created"
-msgstr ""
-
 #: enferno/templates/views/admin/partials/event_dialog.html:12
 #, fuzzy
 msgid ""
 "Events are data forms to store time and location information related to "
-"Actors, Bulletins and\n"
-"                        Incidents. Users can attach one or more events."
+"Actors, Primary Records and Incidents. Users can attach one or more "
+"events."
 msgstr ""
 "الأحداث عبارة عن نماذج بيانات لتخزين معلومات الوقت والموقع المتعلقة "
 "بالممثلين والنشرات والحوادث. يمكن للمستخدمين إرفاق حدث واحد أو أكثر"
 
-#: enferno/templates/views/admin/partials/event_dialog.html:37
+#: enferno/templates/views/admin/partials/event_dialog.html:36
 msgid "Event"
 msgstr "الحادث"
 
-#: enferno/templates/views/admin/partials/event_dialog.html:52
-msgid "Comments (AR)"
-msgstr "التعليقات (عربي)"
+#: enferno/templates/views/admin/partials/event_dialog.html:72
+#, fuzzy
+msgid "Description of Event"
+msgstr "التوصيف"
 
 #: enferno/templates/views/admin/partials/export_drawer.html:5
 msgid "Export Data"
@@ -3685,23 +3412,9 @@ msgid "Incident Advanced Search"
 msgstr "البحث المتقدم"
 
 #: enferno/templates/views/admin/partials/incident_dialog.html:8
-msgid ""
-"Save\n"
-"                    Incident"
-msgstr ""
-
-#: enferno/templates/views/admin/partials/incident_dialog.html:58
 #, fuzzy
-msgid ""
-"\n"
-"                                                Title"
-msgstr "العنوان"
-
-#: enferno/templates/views/admin/partials/incident_dialog.html:60
-msgid ""
-"Title\n"
-"                                                (AR)"
-msgstr ""
+msgid "Save Incident"
+msgstr "واقعة جديدة"
 
 #: enferno/templates/views/admin/partials/incident_dialog.html:78
 #, fuzzy
@@ -3712,72 +3425,21 @@ msgstr ""
 "وصف الحادث هو وصف كامل للحادث والأدلة الواردة في النشرات والجهات الفاعلة "
 "ذات الصلة، بالإضافة إلى الملاحظات والموارد الإضافية"
 
-#: enferno/templates/views/admin/partials/incident_dialog.html:95
+#: enferno/templates/views/admin/partials/incident_dialog.html:100
 #, fuzzy
 msgid ""
-"Potential\n"
-"                                                        violation "
-"categories"
+"List that is used to determine the category under which the violations "
+"related to the incident can be described."
 msgstr ""
 "القائمة التي يتم استخدامها لتحديد الفئة التي يمكن ضمنها وصف المخالفات "
 "المتعلقة بالحادثة"
 
-#: enferno/templates/views/admin/partials/incident_dialog.html:99
+#: enferno/templates/views/admin/partials/incident_dialog.html:114
 #, fuzzy
 msgid ""
-"List that is used to determine the category under which the\n"
-"                                                violations related to the"
-" incident can be described."
-msgstr ""
-"القائمة التي يتم استخدامها لتحديد الفئة التي يمكن ضمنها وصف المخالفات "
-"المتعلقة بالحادثة"
-
-#: enferno/templates/views/admin/partials/incident_dialog.html:109
-#, fuzzy
-msgid ""
-"Claimed\n"
-"                                                        Violations "
-"Categories"
-msgstr ""
-"القائمة التي يتم استخدامها لتحديد الفئة التي يمكن ضمنها وصف المخالفات "
-"المتعلقة بالحادثة"
-
-#: enferno/templates/views/admin/partials/incident_dialog.html:113
-#, fuzzy
-msgid ""
-"List of violations that have been committed during the course of\n"
-"                                                the event related to the "
-"incident."
+"List of violations that have been committed during the course of the "
+"event related to the incident."
 msgstr "قائمة المخالفات التي تم ارتكابها أثناء الحدث والمتعلقة بالحادث"
-
-#: enferno/templates/views/admin/partials/incident_dialog.html:168
-#, fuzzy
-msgid ""
-"Search & Relate\n"
-"                                                            Actors"
-msgstr ""
-"قد يتم تحرير العناوين من المصادر من أجل الوضوح، ولكن يتم الاحتفاظ بـ "
-"\"العنوان الأصلي\""
-
-#: enferno/templates/views/admin/partials/incident_dialog.html:173
-#, fuzzy
-msgid ""
-"Actors are items of documentation about persons or\n"
-"                                                        bodies of "
-"interest that can be related to other Actors,\n"
-"                                                        Bulletins, or "
-"Incidents, usually coming from a single source.\n"
-"                                                        The Actor profile"
-" contains fields to identify the person or\n"
-"                                                        body, relate the "
-"Actor to other items in the database, add\n"
-"                                                        labels and create"
-" Events."
-msgstr ""
-"الممثلون عبارة عن وثائق حول أشخاص أو هيئات ذات أهمية يمكن أن تكون مرتبطة "
-"بممثلين آخرين أو نشرات أو حوادث، وعادة ما تأتي من مصدر واحد. يحتوي ملف "
-"تعريف الممثل على حقول لتحديد الشخص أو الجسم، وربط الممثل بالعناصر الأخرى "
-"في قاعدة البيانات، وإضافة تسميات وإنشاء الأحداث"
 
 #: enferno/templates/views/admin/partials/location_dialog.html:10
 msgid "Save Location"
@@ -3806,9 +3468,7 @@ msgid "Needs Review"
 msgstr "تحتاج مراجعة"
 
 #: enferno/templates/views/admin/partials/review_dialog.html:53
-msgid ""
-"No Review\n"
-"                        Needed"
+msgid "No Review Needed"
 msgstr ""
 
 #: enferno/templates/views/user/change-password.html:9
@@ -4895,13 +4555,13 @@ msgstr ""
 #~ msgid " Actor to Actor Relations"
 #~ msgstr "أضف مواقع الحوادث"
 
-#~ msgid " Actor to Bulletin Relations"
+#~ msgid " Actor to Primary Record Relations"
 #~ msgstr "المواد"
 
-#~ msgid " Bulletin to Bulletin Relations"
+#~ msgid " Primary Record to Primary Record Relations"
 #~ msgstr "المواد"
 
-#~ msgid " Incident to Bulletin Relations"
+#~ msgid " Incident to Primary Record Relations"
 #~ msgstr "المواد"
 
 #~ msgid " Incident to Actor Relations"
@@ -5251,5 +4911,575 @@ msgstr ""
 #~ msgid ""
 #~ " Search & Relate\n"
 #~ "                                                            Actors"
+#~ msgstr ""
+
+#~ msgid "Bulletins"
+#~ msgstr "المواد"
+
+#~ msgid ""
+#~ "My Review\n"
+#~ "                                    List"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "All\n"
+#~ "                                    Bulletins"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Assigned to\n"
+#~ "                                    me"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "                                    Search"
+#~ msgstr "بحث"
+
+#~ msgid "New Bulletin"
+#~ msgstr "مادة جديدة"
+
+#~ msgid ""
+#~ "Selected\n"
+#~ "                                    items"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ ""
+#~ "                                                                    "
+#~ "Title"
+#~ msgstr "العنوان"
+
+#~ msgid "For Bulletins"
+#~ msgstr "المواد"
+
+#~ msgid ""
+#~ "Import\n"
+#~ "                                                    CSV"
+#~ msgstr ""
+
+#~ msgid "Bulletin"
+#~ msgstr "مادة"
+
+#~ msgid "Edit Bulletin"
+#~ msgstr "تعديل المادة"
+
+#~ msgid "Related Bulletins"
+#~ msgstr "المواد المرتبطة"
+
+#~ msgid ""
+#~ "\n"
+#~ "                                                                Title"
+#~ msgstr "العنوان"
+
+#~ msgid ""
+#~ "\n"
+#~ "                                                                "
+#~ "Title (AR)"
+#~ msgstr "العنوان (عربي)"
+
+#~ msgid ""
+#~ "\n"
+#~ "                                                                "
+#~ "Comments"
+#~ msgstr "تعليقات"
+
+#~ msgid ""
+#~ "\n"
+#~ "                                                                "
+#~ "Comments (AR)"
+#~ msgstr "التعليقات (عربي)"
+
+#~ msgid ""
+#~ "\n"
+#~ "                                                                "
+#~ "Verified"
+#~ msgstr "مثبت"
+
+#~ msgid ""
+#~ "\n"
+#~ "                                                                "
+#~ "Bulletin"
+#~ msgstr "مادة"
+
+#~ msgid ""
+#~ "\n"
+#~ "                                                                Actor"
+#~ msgstr "كيان"
+
+#~ msgid ""
+#~ "\n"
+#~ "                                                                "
+#~ "Incident"
+#~ msgstr "واقعة"
+
+#~ msgid ""
+#~ "\n"
+#~ "                                                                Offline"
+#~ msgstr "غير متصل (بالشبكة)"
+
+#~ msgid ""
+#~ "Import\n"
+#~ "                                                CSV"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ ""
+#~ "                                                                    "
+#~ "Parent"
+#~ msgstr "أب"
+
+#~ msgid ""
+#~ "\n"
+#~ ""
+#~ "                                                                    "
+#~ "ETL ID"
+#~ msgstr "عنوان الETL"
+
+#~ msgid ""
+#~ "Changes default interface language for all users. Users can\n"
+#~ "                                                    still\n"
+#~ "                                                    choose "
+#~ "their own interface language."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Missing Persons\n"
+#~ "                                                    Extension"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Enables the Missing Persons extension\n"
+#~ "                                                    to "
+#~ "Actor component. Ideally this setting "
+#~ "should be enabled when\n"
+#~ "                                                    first "
+#~ "setting up the system and not "
+#~ "afterwards. Enabling this\n"
+#~ "                                                    setting "
+#~ "later involves database migrations. This "
+#~ "feature can be\n"
+#~ "                                                    disabled "
+#~ "after being enabled without deleting the"
+#~ " data."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Storage options for media files uploaded to Bayanat. It's\n"
+#~ "                                                    possible "
+#~ "to store these files locally on "
+#~ "the host or in S3 bucket."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Allowed Media\n"
+#~ "                                                    Extensions"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The system will only\n"
+#~ "                                                    allow "
+#~ "files uploaded whose extensions are "
+#~ "included in this list and\n"
+#~ "                                                    reject "
+#~ "all other extensions."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Security\n"
+#~ "                                                    Freshness"
+#~ msgstr ""
+#~ "قد يتم تحرير العناوين من المصادر "
+#~ "من أجل الوضوح، ولكن يتم الاحتفاظ "
+#~ "بـ \"العنوان الأصلي\""
+
+#~ msgid ""
+#~ "Secure pages will\n"
+#~ "                                                    require "
+#~ "re-authentication after this time "
+#~ "expires."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Security\n"
+#~ "                                                    Freshness"
+#~ " Grace Period"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "                                                    Re-"
+#~ "authentication will require a second "
+#~ "factor after this period."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Media Import Path\n"
+#~ "                                                            Scanning"
+#~ msgstr ""
+#~ "قد يتم تحرير العناوين من المصادر "
+#~ "من أجل الوضوح، ولكن يتم الاحتفاظ "
+#~ "بـ \"العنوان الأصلي\""
+
+#~ msgid ""
+#~ "File extensions\n"
+#~ ""
+#~ "                                                                        "
+#~ "which will be scanned using Tesseract"
+#~ " OCR."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "OCR\n"
+#~ ""
+#~ "                                                                        "
+#~ "Extensions"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Path to Tesseract\n"
+#~ ""
+#~ "                                                                        "
+#~ "executable."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Enable importing spreadsheets\n"
+#~ "                                                            and"
+#~ " mapping them to Actors."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Allowed spreadsheet\n"
+#~ ""
+#~ "                                                                        "
+#~ "extensions for Sheets Import Tool."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Full\n"
+#~ "                                                            Name"
+#~ msgstr ""
+
+#~ msgid "Search & Relate Bulletins"
+#~ msgstr "البحث عن المواد المرتبطة"
+
+#~ msgid "Bulk Update Bulletins"
+#~ msgstr "تحديث مواد بالجملة"
+
+#~ msgid "Bulletin Advanced Search"
+#~ msgstr "البحث المتقدم"
+
+#~ msgid ""
+#~ "Save\n"
+#~ "                Search"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Save As\n"
+#~ "                New"
+#~ msgstr ""
+
+#~ msgid "Save Bulletin"
+#~ msgstr "حفظ المادة"
+
+#~ msgid ""
+#~ "Titles from sources might be edited for clarity, but the\n"
+#~ "                                                        "
+#~ "“Original Title” is retained."
+#~ msgstr ""
+#~ "قد يتم تحرير العناوين من المصادر "
+#~ "من أجل الوضوح، ولكن يتم الاحتفاظ "
+#~ "بـ \"العنوان الأصلي\""
+
+#~ msgid ""
+#~ "\n"
+#~ "                                                        Sources"
+#~ msgstr "المصادر"
+
+#~ msgid ""
+#~ "Sources are profiles of the original creators and publishers of\n"
+#~ "                                                the "
+#~ "content of Actors and Bulletins in "
+#~ "the database. This structure also\n"
+#~ "                                                provides "
+#~ "easy search and filtering and prevents"
+#~ " data entry mistakes by\n"
+#~ "                                                users."
+#~ msgstr ""
+#~ "المصادر هي ملفات تعريف للمبدعين "
+#~ "والناشرين الأصليين لمحتوى الممثلين والنشرات"
+#~ " في قاعدة البيانات. توفر هذه البنية"
+#~ " أيضًا سهولة البحث والتصفية وتمنع "
+#~ "أخطاء إدخال البيانات من قبل المستخدمين"
+
+#~ msgid ""
+#~ "Labels allow for easy search and filter of the database. Labels\n"
+#~ "                                                can be "
+#~ "created by an admin to tag the "
+#~ "content or metadata of an item.\n"
+#~ "                                                Additionally,"
+#~ " labels can be used for references"
+#~ " or workflow control."
+#~ msgstr ""
+#~ "تسمح التسميات بالبحث السهل وتصفية قاعدة"
+#~ " البيانات. يمكن للمسؤول إنشاء التصنيفات "
+#~ "لوضع علامة على المحتوى أو البيانات "
+#~ "التعريفية لعنصر ما. بالإضافة إلى ذلك،"
+#~ " يمكن استخدام التسميات للمراجع أو "
+#~ "التحكم في سير العمل"
+
+#~ msgid ""
+#~ "\n"
+#~ "                                                        Verified Labels"
+#~ msgstr "الوسوم المُثبتة"
+
+#~ msgid ""
+#~ "The Verified labels are a set of neutral labels added by the\n"
+#~ "                                                data "
+#~ "analyst based on observation and "
+#~ "evidence found in the content.\n"
+#~ "                                                Allegations "
+#~ "made by the source or person(s) in"
+#~ " the content must not\n"
+#~ "                                                influence "
+#~ "adding or not adding these labels. "
+#~ "SJAC utilises this list of\n"
+#~ "                                                Labels to"
+#~ " tag the reliability, priority, metadata"
+#~ " or the verified\n"
+#~ "                                                content. "
+#~ "The latter is utilized mainly in "
+#~ "items with verifiable evidence\n"
+#~ "                                                like video Bulletins."
+#~ msgstr ""
+#~ "التصنيفات التي تم التحقق منها هي "
+#~ "مجموعة من التصنيفات المحايدة التي يضيفها"
+#~ " محلل البيانات بناءً على الملاحظة "
+#~ "والأدلة الموجودة في المحتوى. يجب ألا "
+#~ "تؤثر الادعاءات التي يقدمها المصدر أو "
+#~ "الشخص (الأشخاص) في المحتوى على إضافة "
+#~ "هذه التصنيفات أو عدم إضافتها. يستخدم "
+#~ "المركز السوري للعدالة والمساءلة قائمة "
+#~ "التصنيفات هذه لوضع علامة على الموثوقية"
+#~ " أو الأولوية أو البيانات الوصفية أو"
+#~ " المحتوى الذي تم التحقق منه. يتم "
+#~ "استخدام الأخير بشكل أساسي في العناصر "
+#~ "التي تحتوي على أدلة يمكن التحقق "
+#~ "منها مثل نشرات الفيديو"
+
+#~ msgid ""
+#~ "Actors are items of documentation about persons or\n"
+#~ "                                                        bodies"
+#~ " of interest that can be related "
+#~ "to otherActors,\n"
+#~ "                                                        "
+#~ "Bulletins, or Incidents, usually coming "
+#~ "from a single source.\n"
+#~ "                                                        The "
+#~ "Actor profile contains fields to "
+#~ "identify the person or\n"
+#~ "                                                        body,"
+#~ " relate the Actor to other items "
+#~ "in the database, add\n"
+#~ "                                                        labels"
+#~ " and create Events."
+#~ msgstr ""
+#~ "الممثلون عبارة عن وثائق حول أشخاص "
+#~ "أو هيئات ذات أهمية يمكن أن تكون"
+#~ " مرتبطة بممثلين آخرين أو نشرات أو "
+#~ "حوادث، وعادة ما تأتي من مصدر واحد."
+#~ " يحتوي ملف تعريف الممثل على حقول "
+#~ "لتحديد الشخص أو الجسم، وربط الممثل "
+#~ "بالعناصر الأخرى في قاعدة البيانات، "
+#~ "وإضافة تسميات وإنشاء الأحداث"
+
+#~ msgid ""
+#~ "Search & Relate\n"
+#~ "                                                            Bulletins"
+#~ msgstr "العلامات الجغرافية هي علامات جغرافية أو معالم تساعد في وصف النشرة"
+
+#~ msgid ""
+#~ "A Bulletin is one piece of documentation that provides\n"
+#~ "                                                        "
+#~ "information about a specific event. "
+#~ "Bulletins could be from\n"
+#~ "                                                        almost"
+#~ " any type of content, such as "
+#~ "videos, audio, pictures,\n"
+#~ "                                                        "
+#~ "documents, interviews, reports, text files,"
+#~ " etc."
+#~ msgstr ""
+#~ "النشرة هي قطعة واحدة من الوثائق "
+#~ "التي توفر معلومات حول حدث معين. "
+#~ "يمكن أن تكون النشرات من أي نوع "
+#~ "من المحتوى تقريبًا، مثل مقاطع الفيديو"
+#~ " والصوت والصور والمستندات والمقابلات "
+#~ "والتقارير والملفات النصية وما إلى ذلك"
+
+#~ msgid ""
+#~ "Analysis of Actors and Bulletins is intended to follow a\n"
+#~ "                                                        \"closed"
+#~ " universe\" approach, where the only "
+#~ "focus of the analysis\n"
+#~ "                                                        is "
+#~ "the evidence contained in each item "
+#~ "individually and without\n"
+#~ "                                                        looking"
+#~ " for additional information outside. This"
+#~ " approach allows\n"
+#~ "                                                        for "
+#~ "speedy initial analysis of Actors and"
+#~ " Bulletins and prevents\n"
+#~ "                                                        adding"
+#~ " any unreliable outside information or "
+#~ "opinions. Incidents\n"
+#~ "                                                        allow"
+#~ " for the evidence contained in "
+#~ "individual Actors and\n"
+#~ "                                                        "
+#~ "Bulletins to be linked together and "
+#~ "analyzed as a group."
+#~ msgstr ""
+#~ "يهدف تحليل الممثلين والنشرات إلى اتباع"
+#~ " نهج \"العالم المغلق\"، حيث يكون "
+#~ "التركيز الوحيد للتحليل هو الأدلة الواردة"
+#~ " في كل عنصر على حدة ودون البحث"
+#~ " عن معلومات إضافية في الخارج. يسمح"
+#~ " هذا الأسلوب بإجراء تحليل أولي سريع"
+#~ " للممثلين والنشرات ويمنع إضافة أي "
+#~ "معلومات أو آراء خارجية غير موثوقة. "
+#~ "تسمح الحوادث بربط الأدلة الواردة في "
+#~ "الجهات الفاعلة والنشرات الفردية معًا "
+#~ "وتحليلها كمجموعة"
+
+#~ msgid ""
+#~ "Source\n"
+#~ "                                                                Link"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The URL to the original source from which the\n"
+#~ "                                                        "
+#~ "information was obtained. ‘Not Available’ "
+#~ "checkbox can be\n"
+#~ "                                                        selected"
+#~ " if the source link is no "
+#~ "applicable, for example if the\n"
+#~ "                                                        "
+#~ "information was obtained from an offline"
+#~ " source. ‘Private’\n"
+#~ "                                                        slider"
+#~ " can be used if the URL is "
+#~ "not reachable anymore. The\n"
+#~ "                                                        field"
+#~ " validates the entry and will not "
+#~ "accept an invalid URL."
+#~ msgstr ""
+#~ "عنوان URL للمصدر الأصلي الذي تم "
+#~ "الحصول على المعلومات منه. يمكن تحديد "
+#~ "خانة الاختيار \"غير متوفر\" إذا كان "
+#~ "رابط المصدر غير قابل للتطبيق، على "
+#~ "سبيل المثال، إذا تم الحصول على "
+#~ "المعلومات من مصدر غير متصل بالإنترنت."
+#~ " يمكن استخدام شريط التمرير \"الخاص\" "
+#~ "إذا لم يعد من الممكن الوصول إلى"
+#~ " عنوان URL. يتحقق الحقل من صحة "
+#~ "الإدخال ولن يقبل عنوان URL غير "
+#~ "صالح"
+
+#~ msgid ""
+#~ "Publish\n"
+#~ "                                            Date"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "                                            Date Created"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Save\n"
+#~ "                    Incident"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "\n"
+#~ "                                                Title"
+#~ msgstr "العنوان"
+
+#~ msgid ""
+#~ "Title\n"
+#~ "                                                (AR)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Potential\n"
+#~ "                                                        "
+#~ "violation categories"
+#~ msgstr ""
+#~ "القائمة التي يتم استخدامها لتحديد الفئة"
+#~ " التي يمكن ضمنها وصف المخالفات "
+#~ "المتعلقة بالحادثة"
+
+#~ msgid ""
+#~ "Claimed\n"
+#~ "                                                        "
+#~ "Violations Categories"
+#~ msgstr ""
+#~ "القائمة التي يتم استخدامها لتحديد الفئة"
+#~ " التي يمكن ضمنها وصف المخالفات "
+#~ "المتعلقة بالحادثة"
+
+#~ msgid ""
+#~ "Search & Relate\n"
+#~ "                                                            Actors"
+#~ msgstr ""
+#~ "قد يتم تحرير العناوين من المصادر "
+#~ "من أجل الوضوح، ولكن يتم الاحتفاظ "
+#~ "بـ \"العنوان الأصلي\""
+
+#~ msgid ""
+#~ "Actors are items of documentation about persons or\n"
+#~ "                                                        bodies"
+#~ " of interest that can be related "
+#~ "to other Actors,\n"
+#~ "                                                        "
+#~ "Bulletins, or Incidents, usually coming "
+#~ "from a single source.\n"
+#~ "                                                        The "
+#~ "Actor profile contains fields to "
+#~ "identify the person or\n"
+#~ "                                                        body,"
+#~ " relate the Actor to other items "
+#~ "in the database, add\n"
+#~ "                                                        labels"
+#~ " and create Events."
+#~ msgstr ""
+#~ "الممثلون عبارة عن وثائق حول أشخاص "
+#~ "أو هيئات ذات أهمية يمكن أن تكون"
+#~ " مرتبطة بممثلين آخرين أو نشرات أو "
+#~ "حوادث، وعادة ما تأتي من مصدر واحد."
+#~ " يحتوي ملف تعريف الممثل على حقول "
+#~ "لتحديد الشخص أو الجسم، وربط الممثل "
+#~ "بالعناصر الأخرى في قاعدة البيانات، "
+#~ "وإضافة تسميات وإنشاء الأحداث"
+
+#~ msgid ""
+#~ "No Review\n"
+#~ "                        Needed"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Allows to load different set of items in pages that has\n"
+#~ "                                                    data tables"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Allows to play videos at different\n"
+#~ "                                                    speed rates"
 #~ msgstr ""
 

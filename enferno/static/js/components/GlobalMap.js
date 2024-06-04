@@ -131,7 +131,7 @@ Vue.component("global-map", {
           marker.bindPopup(`
                     <div>
                     <span title="No." class="map-bid">${loc.number || ""}</span>
-                    <span title="Bulletin ID" class="map-bid">${loc.parentId || ""}</span>
+                    <span title="Primary Record ID" class="map-bid">${loc.parentId || ""}</span>
                     
                     <div class="body-2 font-weight-bold">${loc.title || ""}</div>
 

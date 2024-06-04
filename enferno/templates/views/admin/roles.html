@@ -30,8 +30,8 @@
                                                     <v-container>
                                                         <v-row>
                                                             <v-col cols="12" md="8">
-                                                                <v-text-field v-model="editedItem.name" label="{{ _("
-                                                                    Group Name") }}"></v-text-field>
+                                                                <v-text-field v-model="editedItem.name"
+                                                                    label="{{ _("Group Name") }}"></v-text-field>
                                                             </v-col>
                                                             <v-col cols="12" md="4">
                                                                 <v-text-field v-model="editedItem.color" v-mask="mask">
@@ -73,8 +73,8 @@
                                         </v-dialog>
                                         <v-dialog v-model="imDialog" width="500">
                                             <template v-slot:activator="{ on }">
-                                                <v-btn color="accent" outlined dark class="ma-2" v-on="on">{{ _('Import
-                                                    CSV') }}</v-btn>
+                                                <v-btn color="accent" outlined dark class="ma-2" v-on="on">
+                                                    {{ _('Import CSV') }}</v-btn>
                                             </template>
                                             <v-card>
                                                 <v-card-title>
