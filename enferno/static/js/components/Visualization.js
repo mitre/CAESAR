@@ -162,10 +162,10 @@ Vue.component("visualization", {
       const incidents = item.incident_relations.map((x) => {
         return {
           id: "i" + x.incident.id,
-          related_as: this.find_relation_type(item, x, "Incident"),
+          related_as: this.find_relation_type(item, x, "Investigation"),
           title: x.incident.title,
           color: this.INCIDENTCOLOR,
-          type: "Incident",
+          type: "Investigation",
           collapsed: x.collapsed || true,
           childLinks: [],
         };

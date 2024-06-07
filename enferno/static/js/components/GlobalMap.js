@@ -141,7 +141,7 @@ Vue.component("global-map", {
 
                     <span class="mt-1 subtitle">${loc.full_string || ""}</span>
                     <div>
-                    <span title="Main Incident" class="map-bid">${mainStr || ""}</span>
+                    <span title="Main Investigation" class="map-bid">${mainStr || ""}</span>
                     <span title="Marker Type" class="map-bid">${loc.type || ""}</span>
                     <span title="Event Type" class="map-bid">${loc.eventtype || ""}</span>
                     </div>

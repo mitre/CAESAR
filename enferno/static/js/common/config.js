@@ -82,7 +82,7 @@ const sideNav = [
   },
   {
     icon: "mdi-hazard-lights",
-    text: "Incidents",
+    text: "Investigations",
     href: "/admin/bulletins/",
   },
 

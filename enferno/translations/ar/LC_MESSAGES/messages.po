@@ -1262,16 +1262,16 @@ msgid "Edit Item"
 msgstr "تعديل العنصر"
 
 #: enferno/templates/views/admin/incidents.html:24
-msgid "All Incidents"
+msgid "All Investigations"
 msgstr "جميع الوقائع"
 
 #: enferno/templates/views/admin/incidents.html:38
 #: enferno/templates/views/admin/incidents.html:491
-msgid "New Incident"
+msgid "New Investigation"
 msgstr "واقعة جديدة"
 
 #: enferno/templates/views/admin/incidents.html:491
-msgid "Edit Incident"
+msgid "Edit Investigation"
 msgstr "تحرير الواقعة"
 
 #: enferno/templates/views/admin/jsapi.jinja2:10

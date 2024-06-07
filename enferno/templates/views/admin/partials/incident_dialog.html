@@ -5,7 +5,7 @@
                 <v-toolbar-title>${formTitle} <span class="gv--text" v-if="editedItem.id">${editedItem.id}</span>
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn @click="save" :disabled="invalid" dark color="accent" small class="mx-2" depressed>{{ _("Save Incident") }}
+                <v-btn @click="save" :disabled="invalid" dark color="accent" small class="mx-2" depressed>{{ _("Save Investigation") }}
                 </v-btn>
                 <v-btn @click="confirmClose" icon>
                     <v-icon>mdi-close</v-icon>
@@ -17,7 +17,7 @@
                         <v-row>
                             <v-col cols="2" class="anchor-col">
                                 <v-list shaped class="anchor-menu">
-                                    <v-subheader>Incident</v-subheader>
+                                    <v-subheader>Investigation</v-subheader>
                                     <v-list-item-group color="primary">
                                         <v-list-item>
                                             <v-list-item-content @click="anchorScroll('general')">
@@ -75,7 +75,7 @@
                                                       <div v-on="on" class="ml-2 mb-1">
                                                           <v-icon>mdi-information-outline</v-icon>
                                                   </template>
-                                                  <span>{{ _('A full description of the Incident as well as notes and additional resources.') }}</span>
+                                                  <span>{{ _('A full description of the Investigation as well as notes and additional resources.') }}</span>
                                               </v-tooltip>
                                             </div>
                                             <tinymce-editor :init="tinyConfig"
@@ -97,7 +97,7 @@
                                                     </search-field>
                                                 </div>
                                             </template>
-                                            <span>{{ _('List that is used to determine the category under which the violations related to the incident can be described.') }}</span>
+                                            <span>{{ _('List that is used to determine the category under which the violations related to the Investigation can be described.') }}</span>
                                         </v-tooltip>
                                     </v-col>
                                     <v-col cols="12" md="6">
@@ -308,13 +308,13 @@
                                             <v-card-title class="handle">
                                                 <v-icon left>mdi-hazard-lights</v-icon>
                                                 <!-- <v-btn :loading="ir_loading" :disabled="ir_loaded" @click.stop="loadIncidentRelations" outlined>{{ _('Related Incidents') }}</v-btn> -->
-                                                {{ _("Related Incidents") }}
+                                                {{ _("Related Investigations") }}
                                                 <v-spacer></v-spacer>
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
                                                         <v-text-field v-on="on" class="mx-5"
                                                             v-model="relateIncidentTerm"
-                                                            label="{{ _("Search & Relate Incidents") }}"
+                                                            label="{{ _("Search & Relate Investigations") }}"
                                                             @keydown.enter="searchRelatedIncidents"
                                                             @click:append="searchRelatedIncidents"
                                                             append-icon="mdi-magnify"></v-text-field>

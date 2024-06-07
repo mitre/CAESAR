@@ -1273,16 +1273,16 @@ msgid "Edit Item"
 msgstr "Modifier l'élément"
 
 #: enferno/templates/views/admin/incidents.html:24
-msgid "All Incidents"
+msgid "All Investigations"
 msgstr "Tous les incidents"
 
 #: enferno/templates/views/admin/incidents.html:38
 #: enferno/templates/views/admin/incidents.html:491
-msgid "New Incident"
+msgid "New Investigations"
 msgstr "Nouvel incident"
 
 #: enferno/templates/views/admin/incidents.html:491
-msgid "Edit Incident"
+msgid "Edit Investigations"
 msgstr "Modifier l'incident"
 
 #: enferno/templates/views/admin/jsapi.jinja2:10
@@ -1300,8 +1300,8 @@ msgstr "Acteur"
 #: enferno/templates/views/admin/jsapi.jinja2:12
 #: enferno/templates/views/admin/labels.html:82
 #: enferno/templates/views/admin/labels.html:197
-msgid "Incident"
-msgstr "Incident"
+msgid "Investigation"
+msgstr "Investigation"
 
 #: enferno/templates/views/admin/jsapi.jinja2:15
 #, fuzzy
