@@ -378,7 +378,7 @@ msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:184
 #: enferno/templates/views/admin/partials/actor_dialog.html:120
-msgid "First Name (AR)"
+msgid "First Name (Original Language)"
 msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:187

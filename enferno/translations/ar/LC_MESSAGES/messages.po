@@ -397,8 +397,8 @@ msgstr "الاسم"
 #: enferno/data_import/templates/sheets-import.html:184
 #: enferno/templates/views/admin/partials/actor_dialog.html:120
 #, fuzzy
-msgid "First Name (AR)"
-msgstr "الاسم (عربي)"
+msgid "First Name (Original Language)"
+msgstr "الاسم الأول (اللغة الأصلية)"
 
 #: enferno/data_import/templates/sheets-import.html:187
 msgid "Middle/Father's Name"

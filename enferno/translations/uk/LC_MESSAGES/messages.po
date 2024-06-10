@@ -399,8 +399,8 @@ msgstr "Ім'я"
 #: enferno/data_import/templates/sheets-import.html:184
 #: enferno/templates/views/admin/partials/actor_dialog.html:120
 #, fuzzy
-msgid "First Name (AR)"
-msgstr "Ім'я (ДР)"
+msgid "First Name (Original Language)"
+msgstr "Ім'я (мова оригіналу)"
 
 #: enferno/data_import/templates/sheets-import.html:187
 msgid "Middle/Father's Name"
