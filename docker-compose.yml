@@ -77,6 +77,7 @@ services:
       - ${BAYANAT_IMPORT_PATH:-./enferno/imports}:/app/enferno/imports:rw
       - ${BAYANAT_LOGS_PATH:-./logs}:/app/logs:rw
       - ${BAYANAT_MEDIA_PATH:-./enferno/media}:/app/enferno/media:rw
+      - ${BAYANAT_EXPORTS_PATH:-./enferno/exports}:/app/enferno/exports:rw
     tmpfs:
       - /tmp
     security_opt:
