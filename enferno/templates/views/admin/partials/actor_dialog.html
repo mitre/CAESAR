@@ -92,12 +92,12 @@
                                                 </validation-provider>
                                             </div>
                                             <div v-else style="flex:auto">
-                                                <validation-provider name="Name(ar)"
+                                                <validation-provider name="Name(Original Language)"
                                                     :rules="{oneisnull:editedItem.name}" v-slot="{errors}">
                                                     <v-text-field v-model="editedItem.name_ar"
                                                         background-color="lime lighten-5">
                                                         <template #label>
-                                                            {{ _("Name (AR)") }} <span
+                                                            {{ _("Name (Original Language)") }} <span
                                                                 class="red--text"><strong>*</strong></span>
                                                         </template>
                                                     </v-text-field>
@@ -117,7 +117,7 @@
                                             <v-text-field v-if="first_name__" v-model="editedItem.first_name"
                                                 label="{{ _("First Name") }}"></v-text-field>
                                             <v-text-field v-else v-model="editedItem.first_name_ar" 
-                                                label="{{ _("First Name (AR)") }}" background-color="lime lighten-5">
+                                                label="{{ _("First Name (Original Language)") }}" background-color="lime lighten-5">
                                             </v-text-field>
                                             <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline"
                                                 @click="first_name__=!first_name__">
@@ -130,7 +130,7 @@
                                             <v-text-field v-if="middle_name__" v-model="editedItem.middle_name"
                                                 label="{{ _("Middle Name") }}"></v-text-field>
                                             <v-text-field v-else v-model="editedItem.middle_name_ar" 
-                                                label="{{ _("Middle Name (AR)") }}" background-color="lime lighten-5">
+                                                label="{{ _("Middle Name (Original Language)") }}" background-color="lime lighten-5">
                                             </v-text-field>
                                             <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline"
                                                 @click="middle_name__=!middle_name__">
@@ -143,7 +143,7 @@
                                             <v-text-field v-if="last_name__" v-model="editedItem.last_name"
                                                 label="{{ _("Last Name") }}"></v-text-field>
                                             <v-text-field v-else v-model="editedItem.last_name_ar" 
-                                                label="{{ _("Last Name (AR)") }}" background-color="lime lighten-5">
+                                                label="{{ _("Last Name (Original Language)") }}" background-color="lime lighten-5">
                                             </v-text-field>
                                             <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline"
                                                 @click="last_name__=!last_name__">
@@ -155,7 +155,7 @@
                                         <v-card class="d-flex" flat>
                                             <v-text-field v-if="mother_name__" v-model="editedItem.mother_name" label="{{ _('Mother\'s Name') }}"></v-text-field>
 
-                                            <v-text-field v-else v-model="editedItem.mother_name_ar" label="{{ _('Mother\'s Name (AR)') }}" background-color="lime lighten-5"></v-text-field>
+                                            <v-text-field v-else v-model="editedItem.mother_name_ar" label="{{ _('Mother\'s Name (Original Language)') }}" background-color="lime lighten-5"></v-text-field>
 
                                             <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline" @click="mother_name__=!mother_name__">
                                                 <v-icon>mdi-web</v-icon>
@@ -235,7 +235,7 @@
                                             <v-text-field v-if="occupation__" v-model="editedItem.occupation"
                                                 label="{{ _("Occupation") }}"></v-text-field>
                                             <v-text-field v-else v-model="editedItem.occupation_ar" 
-                                                label="{{ _("Occupation (AR)") }}" background-color="lime lighten-5">
+                                                label="{{ _("Occupation (Original Language)") }}" background-color="lime lighten-5">
                                             </v-text-field>
                                             <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline"
                                                 @click="occupation__=!occupation__">
@@ -251,7 +251,7 @@
                                                         <v-text-field v-if="position__" v-model="editedItem.position"
                                                             label="{{ _("Position") }}"></v-text-field>
                                                         <v-text-field v-else v-model="editedItem.position_ar"
-                                                            label="{{ _("Position (AR)") }}"
+                                                            label="{{ _("Position (Original Language)") }}"
                                                             background-color="lime lighten-5"></v-text-field>
                                                     </div>
                                                 </template>
@@ -272,7 +272,7 @@
                                                         <v-text-field v-if="dialects__" v-model="editedItem.dialects"
                                                             label="{{ _('Spoken Dialects') }}"></v-text-field>
                                                         <v-text-field v-else v-model="editedItem.dialects_ar"
-                                                            label="{{ _('Spoken Dialects (AR) ') }}"
+                                                            label="{{ _('Spoken Dialects (Original Language) ') }}"
                                                             background-color="lime lighten-5"></v-text-field>
                                                     </div>
                                                 </template>
@@ -294,7 +294,7 @@
                                                             label="{{ _("Family Status") }}">
                                                         </v-text-field>
                                                         <v-text-field v-else v-model="editedItem.family_status_ar"
-                                                            label="{{ _("Family Status (AR)") }}"
+                                                            label="{{ _("Family Status (Original Language)") }}"
                                                             background-color="lime lighten-5"></v-text-field>
                                                     </div>
                                                 </template>

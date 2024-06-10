@@ -377,8 +377,8 @@ msgstr "Джерело ID"
 
 #: enferno/data_import/templates/sheets-import.html:160
 #: enferno/templates/views/admin/partials/actor_dialog.html:100
-msgid "Name (AR)"
-msgstr "Ім'я (ДР) "
+msgid "Name (Original Language)"
+msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:163
 #, fuzzy
@@ -387,8 +387,8 @@ msgstr "Прізвисько"
 
 #: enferno/data_import/templates/sheets-import.html:166
 #, fuzzy
-msgid "Nickname (AR)"
-msgstr "Нікнейм (ДР) "
+msgid "Nickname (Original Language)"
+msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:181
 #: enferno/templates/views/admin/jsapi.jinja2:129
@@ -399,16 +399,16 @@ msgstr "Ім'я"
 #: enferno/data_import/templates/sheets-import.html:184
 #: enferno/templates/views/admin/partials/actor_dialog.html:120
 #, fuzzy
-msgid "First Name (AR)"
-msgstr "Ім'я (ДР)"
+msgid "First Name (Original Language)"
+msgstr "Ім'я (мова оригіналу)"
 
 #: enferno/data_import/templates/sheets-import.html:187
 msgid "Middle/Father's Name"
 msgstr "По батькові"
 
 #: enferno/data_import/templates/sheets-import.html:189
-msgid "Middle/Father's Name (AR)"
-msgstr "По батькові (ДР)"
+msgid "Middle/Father's Name (Original Language)"
+msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:192
 #: enferno/templates/views/admin/jsapi.jinja2:131
@@ -419,8 +419,8 @@ msgstr "Прізвище"
 #: enferno/data_import/templates/sheets-import.html:195
 #: enferno/templates/views/admin/partials/actor_dialog.html:146
 #, fuzzy
-msgid "Last Name (AR)"
-msgstr "Прізвище (ДР)"
+msgid "Last Name (Original Language)"
+msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:198
 #: enferno/templates/views/admin/jsapi.jinja2:132
@@ -430,8 +430,8 @@ msgstr "Дівоче прізвище"
 
 #: enferno/data_import/templates/sheets-import.html:201
 #: enferno/templates/views/admin/partials/actor_dialog.html:158
-msgid "Mother's Name (AR)"
-msgstr "Дівоче прізвище (ДР)"
+msgid "Mother's Name (Original Language)"
+msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:210
 #: enferno/templates/views/admin/jsapi.jinja2:107
@@ -598,8 +598,8 @@ msgstr "Рід занять"
 #: enferno/data_import/templates/sheets-import.html:307
 #: enferno/templates/views/admin/partials/actor_dialog.html:238
 #, fuzzy
-msgid "Occupation (AR)"
-msgstr "Рід занять (ДР)"
+msgid "Occupation (Original Language)"
+msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:308
 #: enferno/templates/views/admin/jsapi.jinja2:72
@@ -611,8 +611,8 @@ msgstr "Посада"
 #: enferno/data_import/templates/sheets-import.html:309
 #: enferno/templates/views/admin/partials/actor_dialog.html:254
 #, fuzzy
-msgid "Position (AR)"
-msgstr "Посада (ДР)"
+msgid "Position (Original Language)"
+msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:310
 #: enferno/templates/views/admin/jsapi.jinja2:145
@@ -622,8 +622,8 @@ msgstr "Розмовні діалекти"
 
 #: enferno/data_import/templates/sheets-import.html:311
 #, fuzzy
-msgid "Spoken Dialects (AR)"
-msgstr "Розмовні діалекти (ДР)"
+msgid "Spoken Dialects (Original Language)"
+msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:312
 #: enferno/templates/views/admin/jsapi.jinja2:74
@@ -634,8 +634,8 @@ msgstr "Сімейний стан"
 
 #: enferno/data_import/templates/sheets-import.html:313
 #: enferno/templates/views/admin/partials/actor_dialog.html:297
-msgid "Family Status (AR)"
-msgstr "Сімейний стан (ДР)"
+msgid "Family Status (Original Language)"
+msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:316
 #: enferno/templates/views/admin/component-data.html:28
@@ -1208,8 +1208,8 @@ msgstr "Новий елемент"
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:99
 #: enferno/templates/views/admin/partials/event_dialog.html:44
 #: enferno/templates/views/admin/partials/incident_dialog.html:60
-msgid "Title (AR)"
-msgstr "Назва (ДР)"
+msgid "Title (Original Language)"
+msgstr ""
 
 #: enferno/templates/views/admin/eventtypes.html:48
 #: enferno/templates/views/admin/eventtypes.html:159
@@ -1258,8 +1258,8 @@ msgid "Select CSV File"
 msgstr "Обрати файл CSV"
 
 #: enferno/templates/views/admin/eventtypes.html:156
-msgid "Title (ar)"
-msgstr "Назва (ДР)"
+msgid "Title (Original Language)"
+msgstr ""
 
 #: enferno/templates/views/admin/eventtypes.html:187
 #: enferno/templates/views/admin/labels.html:225
@@ -2262,8 +2262,8 @@ msgid "Identified"
 msgstr "Ідентифіковано"
 
 #: enferno/templates/views/admin/labels.html:54
-msgid "Comments (AR)"
-msgstr "Коментарі (ДР)"
+msgid "Comments (Original Language)"
+msgstr ""
 
 #: enferno/templates/views/admin/labels.html:70
 #: enferno/templates/views/admin/labels.html:188
@@ -2875,8 +2875,8 @@ msgstr "деталі"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:133
 #, fuzzy
-msgid "Middle Name (AR)"
-msgstr "По батькові"
+msgid "Middle Name (Original Language)"
+msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:203
 msgid "Religious and ethnic groups to which the person belongs."
@@ -2903,8 +2903,8 @@ msgstr "Посада особи за місцем роботи."
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:275
 #, fuzzy
-msgid "Spoken Dialects (AR) "
-msgstr "Розмовні діалекти (ДР)"
+msgid "Spoken Dialects (Original Language) "
+msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:279
 msgid "The local dialect or dialects the person speaks."
@@ -3312,8 +3312,8 @@ msgstr "Зберегти виконавця"
 
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:78
 #, fuzzy
-msgid "Original Title (AR)"
-msgstr "Оригінальна назва (ДР)"
+msgid "Original Title (Original Language)"
+msgstr ""
 
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:81
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:102
@@ -3475,8 +3475,8 @@ msgid "Location Details"
 msgstr "Тип місценаходження"
 
 #: enferno/templates/views/admin/partials/location_dialog.html:57
-msgid "Title (Ar)"
-msgstr "Назва (ДР)"
+msgid "Title (Original Language)"
+msgstr ""
 
 #: enferno/templates/views/admin/partials/location_dialog.html:90
 msgid "Country"
@@ -4432,8 +4432,8 @@ msgstr ""
 #~ msgid " Name"
 #~ msgstr "Ім'я"
 
-#~ msgid " Name (AR)"
-#~ msgstr "Ім'я (ДР) "
+#~ msgid " Name (Original Language)"
+#~ msgstr ""
 
 #~ msgid " First Name"
 #~ msgstr "Ім'я"
@@ -4498,8 +4498,8 @@ msgstr ""
 #~ msgid " Spoken Dialects"
 #~ msgstr "Розмовні діалекти"
 
-#~ msgid " Spoken Dialects (AR)"
-#~ msgstr "Розмовні діалекти (ДР)"
+#~ msgid " Spoken Dialects (Original Language)"
+#~ msgstr ""
 
 #~ msgid " Family Status"
 #~ msgstr "Сімейний стан"
@@ -4558,8 +4558,8 @@ msgstr ""
 #~ msgid " Geo Location Types"
 #~ msgstr "Тип місценаходження"
 
-#~ msgid " Title (AR)"
-#~ msgstr "Назва (ДР)"
+#~ msgid " Title (Original Language)"
+#~ msgstr ""
 
 #~ msgid " For Actors"
 #~ msgstr "Для виконавців"
@@ -4763,8 +4763,8 @@ msgstr ""
 #~ msgid " Tax ID Number"
 #~ msgstr ""
 
-#~ msgid " Family Status (AR)"
-#~ msgstr "Сімейний стан (ДР)"
+#~ msgid " Family Status (Original Language)"
+#~ msgstr ""
 
 #~ msgid " Last Address"
 #~ msgstr "Остання адреса"
@@ -4878,7 +4878,7 @@ msgstr ""
 
 #~ msgid ""
 #~ " Title\n"
-#~ "                                                (AR)"
+#~ "                                                (Original Language)"
 #~ msgstr ""
 
 #~ msgid ""
@@ -4961,8 +4961,8 @@ msgstr ""
 #~ msgid ""
 #~ "\n"
 #~ "                                                                "
-#~ "Title (AR)"
-#~ msgstr "Назва (ДР)"
+#~ "Title (Original Language)"
+#~ msgstr ""
 
 #~ msgid ""
 #~ "\n"
@@ -4973,8 +4973,8 @@ msgstr ""
 #~ msgid ""
 #~ "\n"
 #~ "                                                                "
-#~ "Comments (AR)"
-#~ msgstr "Коментарі (ДР)"
+#~ "Comments (Original Language)"
+#~ msgstr ""
 
 #~ msgid ""
 #~ "\n"
@@ -5400,7 +5400,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "Title\n"
-#~ "                                                (AR)"
+#~ "                                                (Original Language)"
 #~ msgstr ""
 
 #~ msgid ""

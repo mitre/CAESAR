@@ -51,7 +51,7 @@
                     <v-col cols="12" md="6">
                         <v-card class="d-flex" flat>
                             <v-text-field v-if="mediaTitle__" v-model="editedMedia.title" label="Title"></v-text-field>
-                            <v-text-field v-else v-model="editedMedia.title_ar" label="Title (AR)" background-color="lime lighten-5"></v-text-field>
+                            <v-text-field v-else v-model="editedMedia.title_ar" label="Title (Original Language)" background-color="lime lighten-5"></v-text-field>
                             <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline" @click="mediaTitle__=!mediaTitle__">
                                 <v-icon>mdi-web</v-icon>
                             </v-btn>

@@ -250,7 +250,7 @@
         computesRequired: true,
         validate: (value, param) => {
             if (['', null, undefined].indexOf(value) !== -1 && ['', null, undefined].indexOf(param[0]) !== -1) {
-                return 'Either Name or Name(ar) should not be empty'
+                return 'Either Name or Name(Original Language) should not be empty'
             }
             return true
         },
