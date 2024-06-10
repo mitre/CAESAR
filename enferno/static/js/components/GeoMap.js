@@ -34,7 +34,7 @@ Vue.component("geo-map", {
     // },
 
     mapCenter() {
-      if (this.lat && this.lng) {
+      if (this.lat !== undefined && this.lng !== undefined) {
         return {lat: this.lat, lng: this.lng};
       }
       return geoMapDefaultCenter;
@@ -94,6 +94,8 @@ Vue.component("geo-map", {
         this.lat = val.lat;
         this.lng = val.lng;
       }
+
+      if(!this.map) this.initMap();
     },
 
     lat: {
@@ -114,57 +116,7 @@ Vue.component("geo-map", {
   },
 
   mounted() {
-    window.addEventListener("resize", this.fixMap);
-
-    this.fixMap();
-    this.broadcast();
-
-    let mlMapContainer = this.$refs.mapContainer
-    let mlMap = {};
-    mlMap.value = new maplibregl.Map({
-      container: mlMapContainer,
-      style: `https://tileserver.apps.epic-osc.mitre.org/styles/bright/style.json`,
-      center: [this.mapCenter.lng, this.mapCenter.lat],
-      zoom: this.mapZoom,
-    });
-    
-    this.map = mlMap.value;
-
-    this.map.addControl(new maplibregl.NavigationControl());
-    this.map.addControl(new maplibregl.FullscreenControl());
-    this.map.on('click', (e) => {this.updateMarker(e)});
-
-    if (this.value) {
-      this.$nextTick(() => {this.updateMarker()});
-    }
-
-    if (this.others) {
-      this.others.filter(
-        (x) => !this.value || (x.lat != this.value.lat && x.lng != this.value.lng),
-      ).forEach((marker)=>{
-        new maplibregl.Marker({color: "#DDDDDD"})
-          .setLngLat([marker.lng, marker.lat])
-          .addTo(this.map);
-      });
-    }
-
-    // create a DOM element for the marker
-    // const el = document.createElement('div');
-    // el.className = 'marker';
-    // el.style.background = 'red';
-    // el.style.width = `50px`;
-    // el.style.height = `50px`;
-    // el.style.borborderRadius = `25px`;
-
-    // // add marker to map
-    // new maplibregl.Marker({element: el})
-    //   .setLngLat([this.mapCenter.lng, this.mapCenter.lat])
-    //   .addTo(mlMap.value);
-
-   
-    // this.satellite = L.gridLayer.googleMutant({
-    //   type: "satellite", // valid values are 'roadmap', 'satellite', 'terrain' and 'hybrid'
-    // });
+    this.initMap();
   },
 
   // clean up resize event listener
@@ -173,18 +125,53 @@ Vue.component("geo-map", {
   },
 
   methods: {
+    initMap() {
+      window.addEventListener("resize", this.fixMap);
+  
+      this.fixMap();
+      this.broadcast();
+  
+      let mlMapContainer = this.$refs.mapContainer
+      let mlMap = {};
+      mlMap.value = new maplibregl.Map({
+        container: mlMapContainer,
+        style: this.mapsApiEndpoint,
+        center: [this.mapCenter.lng, this.mapCenter.lat],
+        zoom: this.mapZoom,
+      });
+      
+      this.map = mlMap.value;
+  
+      this.map.addControl(new maplibregl.NavigationControl());
+      this.map.addControl(new maplibregl.FullscreenControl());
+      this.map.on('click', (e) => {this.updateMarker(e)});
+  
+      this.map.once('render', async () => {
+        this.updateMarker();
+      });
+
+      if (this.value) {
+        this.$nextTick(() => {
+          this.updateMarker();
+        });
+      }
+  
+      if (this.others) {
+        this.others.filter(
+          (x) => !this.value || (x.lat != this.value.lat && x.lng != this.value.lng),
+        ).forEach((marker)=>{
+          new maplibregl.Marker({color: "#DDDDDD"})
+            .setLngLat([marker.lng, marker.lat])
+            .addTo(this.map);
+        });
+      }
+    },
+
     fixMap() {
       this.$nextTick(() => {
         if (this.map) {
           this.map.resize();
         }
-
-        // Add error handling for the tile layer
-        // L.tileLayer(this.mapsApiEndpoint)
-        //   .on("error", function (error) {
-        //     console.error("Tile layer error:", error);
-        //   })
-        //   .addTo(this.map);
       });
     },
 
@@ -218,14 +205,14 @@ Vue.component("geo-map", {
       let loc = [this.mapCenter.lng, this.mapCenter.lat];
       if (evt && evt.lngLat) {
         loc = [evt.lngLat.lng, evt.lngLat.lat];
-      } else if (this.lat && this.lng) {
+      } else if (this.lat !== undefined && this.lng !== undefined && !isNaN(parseFloat(this.lat)) && !isNaN(parseFloat(this.lng))) {
         loc = [this.lng, this.lat];
       }
 
       if(!this.marker) {
         this.marker = new maplibregl.Marker({
           id: 'editing-geolocation',
-          draggable: true
+          draggable: this.editMode
         })
         .setLngLat(loc)
         .on('dragend', (evt) => {
@@ -250,6 +237,11 @@ Vue.component("geo-map", {
         this.lat = loc[1];
         this.lng = loc[0];
       }
+
+      this.map.flyTo({
+        animate: false, 
+        center: loc
+      });
     },
 
     clearAddRadiusCircle() {
@@ -308,7 +300,7 @@ Vue.component("geo-map", {
 
     broadcast() {
       // Only return obj if both lat,lng values present
-      if (this.lat && this.lng) {
+      if (this.lat !== undefined && this.lng !== undefined && !isNaN(parseFloat(this.lat)) && !isNaN(parseFloat(this.lng))) {
         const obj = { lat: this.lat, lng: this.lng };
         if (this.radiusControls && this.radius) {
           obj.radius = this.radius;
@@ -326,12 +318,12 @@ Vue.component("geo-map", {
           <v-card-text>
             <h3 v-if="title" class=" mb-5">{{ title }}</h3>
             <div v-if="editMode" class="d-flex" style="column-gap: 20px;">
-              <v-text-field dense type="number" min="-90" max="90" v-model.number="lat">
+              <v-text-field dense type="number" min="-90" max="90" v-model.number="lat" @keyup="updateMarker">
                 <template #label>
                     {{ translations.latitude_ }} <span class="red--text" v-if="required"><strong>* </strong></span>
                 </template>
               </v-text-field>
-              <v-text-field dense type="number" min="-180" max="180" :label="translations.longitude_" v-model.number="lng">
+              <v-text-field dense type="number" min="-180" max="180" :label="translations.longitude_" v-model.number="lng" @keyup="updateMarker">
                 <template #label>
                     {{ translations.longitude_ }} <span class="red--text" v-if="required"><strong>* </strong></span>
                 </template>            
@@ -346,7 +338,7 @@ Vue.component("geo-map", {
                   v-if="editMode && radiusControls"
                   class="mt-1 align-center"
                   :min="100"
-                  :max="100000"
+                  :max="1000000"
                   :step="100"
                   thumb-label
                   track-color="gray lighten-2"

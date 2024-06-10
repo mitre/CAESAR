@@ -16,8 +16,6 @@ Vue.component("global-map", {
       mapHeight: 300,
       zoom: 10,
       mapKey: 0,
-      // Marker cluster
-      // markerGroup: null,
       markers: {},
       markersOnScreen: {},
       // Event routes
@@ -59,86 +57,13 @@ Vue.component("global-map", {
   },
 
   mounted() {
-    let mlMapContainer = this.$refs.mapContainer
 
-    this.map = new maplibregl.Map({
-      container: mlMapContainer,
-      style: `https://tileserver.apps.epic-osc.mitre.org/styles/bright/style.json`,
-      center: [this.lng, this.lat],
-      zoom: this.zoom,
-    });
-
-    this.map.addControl(new maplibregl.NavigationControl());
-
-    this.map.addControl(new maplibregl.FullscreenControl());
-
-    this.map.addControl(new maplibreGLMeasures.default({
-      lang: {
-        areaMeasurementButtonTitle: 'Measure area',
-        lengthMeasurementButtonTitle: 'Measure length',
-        clearMeasurementsButtonTitle:  'Clear measurements',
-      },
-      units: 'imperial',
-      style: {
-        text: {
-            radialOffset:  0.9,
-            letterSpacing: 0.05,
-            color: '#D20C0C',
-            haloColor: '#fff',
-            haloWidth: 0,
-            font: 'Klokantech Noto Sans Bold',
-        },
-        common: {
-            midPointRadius: 5,
-            midPointColor: '#D20C0C',
-            midPointHaloRadius: 5,
-            midPointHaloColor: '#FFF',
-        },
-        areaMeasurement: {
-            fillColor: '#D20C0C',
-            fillOutlineColor: '#D20C0C',
-            fillOpacity: 0.01,
-            lineWidth: 2,
-        },
-        lengthMeasurement: {
-            lineWidth: 2,
-            lineColor: "#D20C0C",
-        },
-      }
-    }))
-
-    this.map.once('load', async () => {
-      this.map.resize();
-    });
-
-    this.map.on('render', this.init);
-
-    this.map.on('click', 'clusters', this.onClusterClick);
-
-    this.map.on('click', 'unclustered-point', this.onUnclusteredClick);
-    
-    this.map.on('render', () => {
-      this.updateMarkers();
-    });
-
-    this.map.on('resize', () => {
-      this.fitMarkers();
-    });
-    
-    this.map.on('styleimagemissing', (e) => {
-      let img = document.createElement('img');
-      img.src = "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InJvdGF0ZSg5MCkiIHZpZXdCb3g9Ii0wLjIgLTAuMiA0LjQgNC40IiBoZWlnaHQ9IjEwIiB3aWR0aD0iMTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0ibTIgMCAyIDJ2MkwyIDIgMCA0VjJ6Ii8+PC9zdmc+"
-      this.map.addImage("arrow", img, { sdf: true });
-    });
-
-    // replace google sattelite maps with mapbox maps: https://docs.mapbox.com/mapbox-gl-js/example/satellite-map/
   },
 
   watch: {
     value(val, old) {
       if ((val && val.length) || val !== old) {
         this.locations = val;
-        this.addMarkers();
       }
       if (val.length === 0) {
         this.$refs.map.mapObject.setView([this.lat, this.lng]);
@@ -146,11 +71,109 @@ Vue.component("global-map", {
     },
 
     locations() {
+      if(!this.map) this.initMap();
+
+      for (loc of this.locations) {
+        if(loc.color == this.category.location.color) {
+          loc.markerType = this.category.location.id;
+        } else if(loc.color == this.category.geomarker.color) {
+          loc.markerType = this.category.geomarker.id;
+        } else if(loc.color == this.category.event.color) {
+          loc.markerType = this.category.event.id;
+        } else {
+          continue;
+        }
+      } 
+
+      if(this.map) this.addMarkers();
+
       this.$emit("input", this.locations);
     },
   },
 
   methods: {
+    initMap() {
+      let mlMapContainer = this.$refs.mapContainer
+  
+      let bounds = this.getLocationBounds();
+      if(bounds) {
+        this.lat = bounds.getCenter().lat;
+        this.lng = bounds.getCenter().lng;
+      }
+
+      this.map = new maplibregl.Map({
+        container: mlMapContainer,
+        style: this.mapsApiEndpoint,
+        center: [this.lng, this.lat],
+        zoom: this.zoom,
+      });
+  
+      this.map.addControl(new maplibregl.NavigationControl());
+  
+      this.map.addControl(new maplibregl.FullscreenControl());
+  
+      this.map.addControl(new maplibreGLMeasures.default({
+        lang: {
+          areaMeasurementButtonTitle: 'Measure area',
+          lengthMeasurementButtonTitle: 'Measure length',
+          clearMeasurementsButtonTitle:  'Clear measurements',
+        },
+        units: 'imperial',
+        style: {
+          text: {
+              radialOffset:  0.9,
+              letterSpacing: 0.05,
+              color: '#D20C0C',
+              haloColor: '#fff',
+              haloWidth: 0,
+              font: 'Klokantech Noto Sans Bold',
+          },
+          common: {
+              midPointRadius: 5,
+              midPointColor: '#D20C0C',
+              midPointHaloRadius: 5,
+              midPointHaloColor: '#FFF',
+          },
+          areaMeasurement: {
+              fillColor: '#D20C0C',
+              fillOutlineColor: '#D20C0C',
+              fillOpacity: 0.01,
+              lineWidth: 2,
+          },
+          lengthMeasurement: {
+              lineWidth: 2,
+              lineColor: "#D20C0C",
+          },
+        }
+      }))
+  
+      this.map.once('load', async () => {
+        this.map.resize();
+      });
+  
+      this.map.on('render', this.init);
+  
+      this.map.on('click', 'clusters', this.onClusterClick);
+  
+      this.map.on('click', 'unclustered-point', this.onUnclusteredClick);
+      
+      this.map.on('render', () => {
+        this.updateMarkers();
+      });
+  
+      this.map.on('resize', () => {
+        this.fitMarkers();
+      });
+      
+      this.map.on('styleimagemissing', (e) => {
+        let img = document.createElement('img');
+        img.src = "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InJvdGF0ZSg5MCkiIHZpZXdCb3g9Ii0wLjIgLTAuMiA0LjQgNC40IiBoZWlnaHQ9IjEwIiB3aWR0aD0iMTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0ibTIgMCAyIDJ2MkwyIDIgMCA0VjJ6Ii8+PC9zdmc+"
+        this.map.addImage("arrow", img, { sdf: true });
+      });
+
+      this.fitMarkers(false);
+      // replace google sattelite maps with mapbox maps: https://docs.mapbox.com/mapbox-gl-js/example/satellite-map/
+    },
 
     init() {
       if (this.map.isStyleLoaded()) {
@@ -171,12 +194,6 @@ Vue.component("global-map", {
 
       // Working hack : redraw the tile layer component via Vue key
       this.mapKey += 1;
-    },
-
-    fsHandler() {
-      // TODO: this callback doesn't exist in the maplibre fullscreen impl
-      // allow some time for the map to enter/exit fullscreen
-      setTimeout(() => this.addMarkers(), 500);
     },
 
     redraw() {
@@ -254,13 +271,7 @@ Vue.component("global-map", {
         
         for (loc of this.locations) {
           
-          if(loc.color == this.category.location.color && this.category.location.visible) {
-            loc.markerType = this.category.location.id;
-          } else if(loc.color == this.category.geomarker.color && this.category.geomarker.visible) {
-            loc.markerType = this.category.geomarker.id;
-          } else if(loc.color == this.category.event.color && this.category.event.visible) {
-            loc.markerType = this.category.event.id;
-          } else {
+          if(!this.category[loc.markerType].visible) {
             continue;
           }
 
@@ -427,7 +438,23 @@ Vue.component("global-map", {
         }" fill="${color}" />`;
     },
 
-    fitMarkers() {
+    hasMarkers() {
+      return this.locations.length > 0;
+    },
+
+    hasLocations() {
+      return this.hasMarkers() && this.locations.some((location) => {return location.markerType == this.category.location.id });
+    },
+
+    hasGeomarkers() {
+      return this.hasMarkers() && this.locations.some((location) => {return location.markerType == this.category.geomarker.id });
+    },
+
+    hasEvents() {
+      return this.hasMarkers() && this.locations.some((location) => {return location.markerType == this.category.event.id });
+    },
+
+    getLocationBounds() {
       if (this.locations.length) {
 
         var coordinates = this.locations;
@@ -435,9 +462,20 @@ Vue.component("global-map", {
         var bounds = coordinates.reduce(function(bounds, coord) {
           return bounds.extend(coord);
         }, new maplibregl.LngLatBounds(coordinates[0], coordinates[0]));
-        
+
+        return bounds;
+      }
+      return null;
+    },
+
+    fitMarkers(animate = true) {
+      let bounds = this.getLocationBounds();
+
+      if (bounds) {
         this.map.fitBounds(bounds, {
-          padding: 50
+          padding: 50,
+          duration: 3000,
+          animate: animate
         });
       }
     },
@@ -518,16 +556,16 @@ Vue.component("global-map", {
       <div>
       <v-card outlined color="grey lighten-3">
         <v-card-text>
-          <div v-if="legend" class="map-legend d-flex mb-3 align-center" style="column-gap: 10px">
-            <div class="caption">
+          <div v-if="legend && hasMarkers()" class="map-legend d-flex mb-3 align-center" style="column-gap: 10px">
+            <div class="caption" v-if="hasLocations()">
               <v-icon @click="toggleVisibility('location')" small :color="category.location.visible?category.location.color:'#cccccc'"> mdi-checkbox-blank-circle</v-icon>
               {{ i18n.locations_ }}
             </div>
-            <div class="caption">
+            <div class="caption" v-if="hasGeomarkers()">
               <v-icon @click="toggleVisibility('geomarker')" small :color="category.geomarker.visible?category.geomarker.color:'#cccccc'"> mdi-checkbox-blank-circle</v-icon>
               {{ i18n.geoMarkers_ }}
             </div>
-            <div class="caption">
+            <div class="caption" v-if="hasEvents()">
               <v-icon @click="toggleVisibility('event')" small :color="category.event.visible?category.event.color:'#cccccc'"> mdi-checkbox-blank-circle</v-icon>
               {{ i18n.events_ }}
             </div>
