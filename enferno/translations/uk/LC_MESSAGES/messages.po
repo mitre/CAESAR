@@ -3202,7 +3202,7 @@ msgstr ""
 #: enferno/templates/views/admin/partials/actor_dialog.html:888
 #: enferno/templates/views/admin/partials/incident_dialog.html:317
 #, fuzzy
-msgid "Search & Relate Incidents"
+msgid "Search & Relate Investigations"
 msgstr "Знайти та Пов'язати Випадки"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:892

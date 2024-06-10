@@ -3209,8 +3209,8 @@ msgstr ""
 #: enferno/templates/views/admin/partials/actor_dialog.html:888
 #: enferno/templates/views/admin/partials/incident_dialog.html:317
 #, fuzzy
-msgid "Search & Relate Incidents"
-msgstr "Rechercher et signaler des incidents"
+msgid "Search & Relate Investigations"
+msgstr "Rechercher et signaler des investigations"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:892
 #, fuzzy
