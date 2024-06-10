@@ -359,7 +359,7 @@ msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:160
 #: enferno/templates/views/admin/partials/actor_dialog.html:100
-msgid "Name (AR)"
+msgid "Name (Original Language)"
 msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:163
@@ -367,7 +367,7 @@ msgid "Nickname"
 msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:166
-msgid "Nickname (AR)"
+msgid "Nickname (Original Language)"
 msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:181
@@ -386,7 +386,7 @@ msgid "Middle/Father's Name"
 msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:189
-msgid "Middle/Father's Name (AR)"
+msgid "Middle/Father's Name (Original Language)"
 msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:192
@@ -397,7 +397,7 @@ msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:195
 #: enferno/templates/views/admin/partials/actor_dialog.html:146
-msgid "Last Name (AR)"
+msgid "Last Name (Original Language)"
 msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:198
@@ -408,7 +408,7 @@ msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:201
 #: enferno/templates/views/admin/partials/actor_dialog.html:158
-msgid "Mother's Name (AR)"
+msgid "Mother's Name (Original Language)"
 msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:210
@@ -575,7 +575,7 @@ msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:307
 #: enferno/templates/views/admin/partials/actor_dialog.html:238
-msgid "Occupation (AR)"
+msgid "Occupation (Original Language)"
 msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:308
@@ -587,7 +587,7 @@ msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:309
 #: enferno/templates/views/admin/partials/actor_dialog.html:254
-msgid "Position (AR)"
+msgid "Position (Original Language)"
 msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:310
@@ -597,7 +597,7 @@ msgid "Spoken Dialects"
 msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:311
-msgid "Spoken Dialects (AR)"
+msgid "Spoken Dialects (Original Language)"
 msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:312
@@ -609,7 +609,7 @@ msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:313
 #: enferno/templates/views/admin/partials/actor_dialog.html:297
-msgid "Family Status (AR)"
+msgid "Family Status (Original Language)"
 msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:316
@@ -1144,7 +1144,7 @@ msgstr ""
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:99
 #: enferno/templates/views/admin/partials/event_dialog.html:44
 #: enferno/templates/views/admin/partials/incident_dialog.html:60
-msgid "Title (AR)"
+msgid "Title (Original Language)"
 msgstr ""
 
 #: enferno/templates/views/admin/eventtypes.html:48
@@ -1192,7 +1192,7 @@ msgid "Select CSV File"
 msgstr ""
 
 #: enferno/templates/views/admin/eventtypes.html:156
-msgid "Title (ar)"
+msgid "Title (Original Language)"
 msgstr ""
 
 #: enferno/templates/views/admin/eventtypes.html:187
@@ -2179,7 +2179,7 @@ msgid "Identified"
 msgstr ""
 
 #: enferno/templates/views/admin/labels.html:54
-msgid "Comments (AR)"
+msgid "Comments (Original Language)"
 msgstr ""
 
 #: enferno/templates/views/admin/labels.html:70
@@ -2730,7 +2730,7 @@ msgid "Data Details"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:133
-msgid "Middle Name (AR)"
+msgid "Middle Name (Original Language)"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:203
@@ -2754,7 +2754,7 @@ msgid "The person's position in their place of employment."
 msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:275
-msgid "Spoken Dialects (AR) "
+msgid "Spoken Dialects (Original Language) "
 msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:279
@@ -3073,7 +3073,7 @@ msgid "Save Primary Record"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:78
-msgid "Original Title (AR)"
+msgid "Original Title (Original Language)"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:81
@@ -3187,7 +3187,7 @@ msgid "Location Details"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/location_dialog.html:57
-msgid "Title (Ar)"
+msgid "Title (Original Language)"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/location_dialog.html:90

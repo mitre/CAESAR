@@ -375,8 +375,8 @@ msgstr "رقم تعريف المصدر"
 
 #: enferno/data_import/templates/sheets-import.html:160
 #: enferno/templates/views/admin/partials/actor_dialog.html:100
-msgid "Name (AR)"
-msgstr "الاسم (عربي)"
+msgid "Name (Original Language)"
+msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:163
 #, fuzzy
@@ -385,8 +385,8 @@ msgstr "اللقب"
 
 #: enferno/data_import/templates/sheets-import.html:166
 #, fuzzy
-msgid "Nickname (AR)"
-msgstr "اللقب (عربي)"
+msgid "Nickname (Original Language)"
+msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:181
 #: enferno/templates/views/admin/jsapi.jinja2:129
@@ -405,8 +405,8 @@ msgid "Middle/Father's Name"
 msgstr "اسم الأب/الاسم الأوسط"
 
 #: enferno/data_import/templates/sheets-import.html:189
-msgid "Middle/Father's Name (AR)"
-msgstr "اسم الأب/الاسم الأوسط (عربي)"
+msgid "Middle/Father's Name (Original Language)"
+msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:192
 #: enferno/templates/views/admin/jsapi.jinja2:131
@@ -417,8 +417,8 @@ msgstr "الكنية"
 #: enferno/data_import/templates/sheets-import.html:195
 #: enferno/templates/views/admin/partials/actor_dialog.html:146
 #, fuzzy
-msgid "Last Name (AR)"
-msgstr "الكنية (عربي)"
+msgid "Last Name (Original Language)"
+msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:198
 #: enferno/templates/views/admin/jsapi.jinja2:132
@@ -428,8 +428,8 @@ msgstr "اسم الأم"
 
 #: enferno/data_import/templates/sheets-import.html:201
 #: enferno/templates/views/admin/partials/actor_dialog.html:158
-msgid "Mother's Name (AR)"
-msgstr "اسم الأم (عربي)"
+msgid "Mother's Name (Original Language)"
+msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:210
 #: enferno/templates/views/admin/jsapi.jinja2:107
@@ -596,8 +596,8 @@ msgstr "المهنة"
 #: enferno/data_import/templates/sheets-import.html:307
 #: enferno/templates/views/admin/partials/actor_dialog.html:238
 #, fuzzy
-msgid "Occupation (AR)"
-msgstr "المهنة (عربي)"
+msgid "Occupation (Original Language)"
+msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:308
 #: enferno/templates/views/admin/jsapi.jinja2:72
@@ -609,8 +609,8 @@ msgstr "المنصب"
 #: enferno/data_import/templates/sheets-import.html:309
 #: enferno/templates/views/admin/partials/actor_dialog.html:254
 #, fuzzy
-msgid "Position (AR)"
-msgstr "المنصب (عربي)"
+msgid "Position (Original Language)"
+msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:310
 #: enferno/templates/views/admin/jsapi.jinja2:145
@@ -620,8 +620,8 @@ msgstr "اللهجات المحكية"
 
 #: enferno/data_import/templates/sheets-import.html:311
 #, fuzzy
-msgid "Spoken Dialects (AR)"
-msgstr "اللهجات المحكية (عربي)"
+msgid "Spoken Dialects (Original Language)"
+msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:312
 #: enferno/templates/views/admin/jsapi.jinja2:74
@@ -632,8 +632,8 @@ msgstr "الوضع العائلي"
 
 #: enferno/data_import/templates/sheets-import.html:313
 #: enferno/templates/views/admin/partials/actor_dialog.html:297
-msgid "Family Status (AR)"
-msgstr "الوضع العائلي (عربي)"
+msgid "Family Status (Original Language)"
+msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:316
 #: enferno/templates/views/admin/component-data.html:28
@@ -1201,8 +1201,8 @@ msgstr "عنصر جديد"
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:99
 #: enferno/templates/views/admin/partials/event_dialog.html:44
 #: enferno/templates/views/admin/partials/incident_dialog.html:60
-msgid "Title (AR)"
-msgstr "عنوان المصدر (عربي)"
+msgid "Title (Original Language)"
+msgstr ""
 
 #: enferno/templates/views/admin/eventtypes.html:48
 #: enferno/templates/views/admin/eventtypes.html:159
@@ -1251,8 +1251,8 @@ msgid "Select CSV File"
 msgstr "اختر ملف CSV"
 
 #: enferno/templates/views/admin/eventtypes.html:156
-msgid "Title (ar)"
-msgstr "العنوان (عربي)"
+msgid "Title (Original Language)"
+msgstr ""
 
 #: enferno/templates/views/admin/eventtypes.html:187
 #: enferno/templates/views/admin/labels.html:225
@@ -2250,8 +2250,8 @@ msgid "Identified"
 msgstr "محدد / معرَّف"
 
 #: enferno/templates/views/admin/labels.html:54
-msgid "Comments (AR)"
-msgstr "التعليقات (عربي)"
+msgid "Comments (Original Language)"
+msgstr ""
 
 #: enferno/templates/views/admin/labels.html:70
 #: enferno/templates/views/admin/labels.html:188
@@ -2876,8 +2876,8 @@ msgstr "تفاصيل"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:133
 #, fuzzy
-msgid "Middle Name (AR)"
-msgstr "الاسم الأوسط"
+msgid "Middle Name (Original Language)"
+msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:203
 msgid "Religious and ethnic groups to which the person belongs."
@@ -2904,8 +2904,8 @@ msgstr "موقف الشخص في مكان عمله"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:275
 #, fuzzy
-msgid "Spoken Dialects (AR) "
-msgstr "اللهجات المحكية (عربي)"
+msgid "Spoken Dialects (Original Language) "
+msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:279
 msgid "The local dialect or dialects the person speaks."
@@ -3298,8 +3298,8 @@ msgstr "حفظ الكيان"
 
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:78
 #, fuzzy
-msgid "Original Title (AR)"
-msgstr "العنوان الأصلي (عربي)"
+msgid "Original Title (Original Language)"
+msgstr ""
 
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:81
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:102
@@ -3452,8 +3452,8 @@ msgid "Location Details"
 msgstr "نوع المكان"
 
 #: enferno/templates/views/admin/partials/location_dialog.html:57
-msgid "Title (Ar)"
-msgstr "العنوان (عربي)"
+msgid "Title (Original Language)"
+msgstr ""
 
 #: enferno/templates/views/admin/partials/location_dialog.html:90
 msgid "Country"
@@ -4450,8 +4450,8 @@ msgstr ""
 #~ msgid " Name"
 #~ msgstr "الاسم"
 
-#~ msgid " Name (AR)"
-#~ msgstr "الاسم (عربي)"
+#~ msgid " Name (Original Language)"
+#~ msgstr ""
 
 #~ msgid " First Name"
 #~ msgstr "الاسم"
@@ -4516,8 +4516,8 @@ msgstr ""
 #~ msgid " Spoken Dialects"
 #~ msgstr "اللهجات المحكية"
 
-#~ msgid " Spoken Dialects (AR)"
-#~ msgstr "اللهجات المحكية (عربي)"
+#~ msgid " Spoken Dialects (Original Language)"
+#~ msgstr ""
 
 #~ msgid " Family Status"
 #~ msgstr "الوضع العائلي"
@@ -4576,8 +4576,8 @@ msgstr ""
 #~ msgid " Geo Location Types"
 #~ msgstr "نوع المكان"
 
-#~ msgid " Title (AR)"
-#~ msgstr "العنوان (عربي)"
+#~ msgid " Title (Original Language)"
+#~ msgstr ""
 
 #~ msgid " For Actors"
 #~ msgstr "للكيانات"
@@ -4778,8 +4778,8 @@ msgstr ""
 #~ msgid " Tax ID Number"
 #~ msgstr ""
 
-#~ msgid " Family Status (AR)"
-#~ msgstr "الوضع العائلي (عربي)"
+#~ msgid " Family Status (Original Language)"
+#~ msgstr ""
 
 #~ msgid " Last Address"
 #~ msgstr "آخر عنوان"
@@ -4893,7 +4893,7 @@ msgstr ""
 
 #~ msgid ""
 #~ " Title\n"
-#~ "                                                (AR)"
+#~ "                                                (Original Language)"
 #~ msgstr ""
 
 #~ msgid ""
@@ -4976,8 +4976,8 @@ msgstr ""
 #~ msgid ""
 #~ "\n"
 #~ "                                                                "
-#~ "Title (AR)"
-#~ msgstr "العنوان (عربي)"
+#~ "Title (Original Language)"
+#~ msgstr ""
 
 #~ msgid ""
 #~ "\n"
@@ -4988,8 +4988,8 @@ msgstr ""
 #~ msgid ""
 #~ "\n"
 #~ "                                                                "
-#~ "Comments (AR)"
-#~ msgstr "التعليقات (عربي)"
+#~ "Comments (Original Language)"
+#~ msgstr ""
 
 #~ msgid ""
 #~ "\n"
@@ -5413,7 +5413,7 @@ msgstr ""
 
 #~ msgid ""
 #~ "Title\n"
-#~ "                                                (AR)"
+#~ "                                                (Original Language)"
 #~ msgstr ""
 
 #~ msgid ""

@@ -31,7 +31,7 @@
                             crossOrigin="anonymous"></canvas>
                     <div class="d-flex">
                         <v-text-field v-model="screenshots[index].title" v-if="media.sw" label="Title"></v-text-field>
-                        <v-text-field v-else v-model="screenshots[index].title_ar" label="Title (AR)" background-color="lime lighten-5"></v-text-field>
+                        <v-text-field v-else v-model="screenshots[index].title_ar" label="Title (Original Language)" background-color="lime lighten-5"></v-text-field>
                         <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline" @click="media.sw = !media.sw"><v-icon>mdi-web</v-icon></v-btn>
                     </div>
     <!-- cagtegory -->
