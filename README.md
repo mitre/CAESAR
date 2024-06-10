@@ -31,10 +31,10 @@ Caesar translation uses the Flask-Babel library. A messages.pot file holds all d
 We need to provide translations for our text, but the babel command line tools can be used to generate/regenerate message files. This should be done for any wholesale changes or additions of text messages to Caesar.
 See https://babel.pocoo.org/en/latest/cmdline.html
 To generate a new messages.pot file (caesar/messages.pot) based on code changes using the gettext() conventions, run < pybabel extract -F babel.cfg -o messages.pot . > from the project root
-To generate new messages.po catalog files from the messages.pot file, run < pybabel update -i messages.pot -d .\enferno\translations\ > from the project root
+To generate new messages.po catalog files from the messages.pot file, run < pybabel update -i messages.pot -d ./enferno/translations/ > from the project root
  * messages.po catalog files updated in this way should port all old translations
  * new translations should be added to the messages.po files
-To generate new messages.mo files from the messages.po files, run < pybabel compile -d .\enferno\translations\ > from the project root
+To generate new messages.mo files from the messages.po files, run < pybabel compile -d ./enferno/translations/ > from the project root
 messages.pot, messages.po, and messages.mo files should all show changes in source control diffs 
 
 

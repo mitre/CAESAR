@@ -3,7 +3,11 @@
         <v-card outlined>
             <v-card-title class="handle">
                 <v-icon left>mdi-folder-multiple-image</v-icon>
-                {{ _("Media") }}
+                {% if media_scope == "actor" %}
+                {{ _("Photos or Videos of Actor") }}
+                {% else %}
+                {{ _("Upload Data File") }}
+                {% endif %}
                 <v-spacer></v-spacer>
                 <v-btn class="mx-2 white--text" x-small fab dark depressed color="accent lighten-2" @click="addMedia">
                     <v-icon dark>mdi-plus-circle</v-icon></v-btn>
@@ -27,7 +31,13 @@
     </template>
     <v-card>
         <v-card-title>
-            <span class="headline">Media File</span>
+            <span class="headline">
+                {% if media_scope == "actor" %}
+                {{ _("Photo or Video of Actor") }}
+                {% else %}
+                {{ _("Upload Data File") }}
+                {% endif %}
+            </span>
         </v-card-title>
         <v-card-text>
             <v-container>
@@ -41,7 +51,7 @@
                     <v-col cols="12" md="6">
                         <v-card class="d-flex" flat>
                             <v-text-field v-if="mediaTitle__" v-model="editedMedia.title" label="Title"></v-text-field>
-                            <v-text-field v-else v-model="editedMedia.title_ar" label="Title (AR)" background-color="lime lighten-5"></v-text-field>
+                            <v-text-field v-else v-model="editedMedia.title_ar" label="Title (Original Language)" background-color="lime lighten-5"></v-text-field>
                             <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline" @click="mediaTitle__=!mediaTitle__">
                                 <v-icon>mdi-web</v-icon>
                             </v-btn>

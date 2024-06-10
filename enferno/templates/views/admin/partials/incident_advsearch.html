@@ -30,10 +30,8 @@
         <v-card-text>
             <v-btn @click="search={}" text>{{ _("Clear Search") }}</v-btn>
             <v-btn v-if="!savedSearchSelection" @click="saveQueryDialog=true" class="mx-2" color="accent" text>{{ _("Save Search") }}</v-btn>
-            <v-btn v-if="savedSearchSelection" @click="updateSearch" color="warning" depressed>{{ _("Update Search")
-                }}</v-btn>
-            <v-btn v-if="savedSearchSelection" @click="openSaveQueryDialog" color="warning" depressed>{{ _('Save As
-                New') }}</v-btn>
+            <v-btn v-if="savedSearchSelection" @click="updateSearch" color="warning" depressed>{{ _("Update Search") }}</v-btn>
+            <v-btn v-if="savedSearchSelection" @click="openSaveQueryDialog" color="warning" depressed>{{ _('Save As New') }}</v-btn>
             <v-btn @click="doSearch" color="accent">{{ _("Search") }}</v-btn>
         </v-card-text>
     </v-card>

@@ -16,8 +16,7 @@
                             <v-card outlined class="ma-2">
                                 <v-card-title>{{ _("User Interface") }}</v-card-title>
                                 <v-card-text>
-                                    <v-switch v-model="settings.dark" @change="saveSettings" label="{{ _(" Dark Mode")
-                                        }}"></v-switch>
+                                    <v-switch v-model="settings.dark" @change="saveSettings" label="{{ _("Dark Mode") }}"></v-switch>
                                 </v-card-text>
                             </v-card>
                             <v-card outlined class="ma-2">
@@ -36,17 +35,14 @@
                             <v-card outlined class="ma-2">
                                 <v-card-title>{{ _("Security") }}</v-card-title>
                                 <v-card-text>
-                                    <v-btn class="fifth" outlined href="/tf-setup">{{ _("Setup Two-Factor Auth")
-                                        }}</v-btn>
+                                    <v-btn class="fifth" outlined href="/tf-setup">{{ _("Setup Two-Factor Auth") }}</v-btn>
                                 </v-card-text>
                                 <v-card-text>
-                                    <v-btn outlined class="fifth" href="/mf-recovery-codes">{{ _("Recovery Codes")
-                                        }}</v-btn>
+                                    <v-btn outlined class="fifth" href="/mf-recovery-codes">{{ _("Recovery Codes") }}</v-btn>
                                 </v-card-text>
                                 {% if config.SECURITY_WEBAUTHN %}
                                 <v-card-text>
-                                    <v-btn outlined class="fifth" href="/wan-register">{{ _("Setup a Security Key")
-                                        }}</v-btn>
+                                    <v-btn outlined class="fifth" href="/wan-register">{{ _("Setup a Security Key") }}</v-btn>
                                 </v-card-text>
                                 {% endif %}
                             </v-card>

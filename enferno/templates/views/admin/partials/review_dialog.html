@@ -39,7 +39,7 @@
                 <v-card-text>
                     <div class="d-flex justify-space-around">
                         <v-btn class="mx-3" depressed @click="searchRelatedBulletins"> <v-icon left>mdi-magnify</v-icon>
-                            Related Bulletins</v-btn>
+                            Related Primary Records</v-btn>
                         <v-btn class="mx-3" depressed @click="searchRelatedActors"> <v-icon left>mdi-magnify</v-icon>
                             Related Actors</v-btn>
                         <v-btn class="mx-3" depressed @click="searchRelatedIncidents"> <v-icon left>mdi-magnify</v-icon>
@@ -50,8 +50,7 @@
             <v-card-text class="text-center">
                 <v-btn-toggle borderless v-model="reviewItem.review_action">
                     <v-btn small outlined color="red darken-2 " value="Needs Review">{{ _("Needs Review") }}</v-btn>
-                    <v-btn small outlined color="lime darken-2 " value="No Review Needed">{{ _('No Review
-                        Needed') }}</v-btn>
+                    <v-btn small outlined color="lime darken-2 " value="No Review Needed">{{ _('No Review Needed') }}</v-btn>
                 </v-btn-toggle>
             </v-card-text>
         </v-sheet>

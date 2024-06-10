@@ -28,19 +28,15 @@
                         </template>
                         <template v-slot:top>
                             <v-toolbar flat color="white">
-                                <v-btn class="hidden-sm-and-down" small @click="allActors" text>{{ _("All Actors")
-                                    }}</v-btn>
+                                <v-btn class="hidden-sm-and-down" small @click="allActors" text>{{ _("All Actors") }}</v-btn>
                                 <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
-                                <v-btn class="hidden-sm-and-down" small @click="myAssigned" text>{{ _("Assigned to me")
-                                    }}</v-btn>
+                                <v-btn class="hidden-sm-and-down" small @click="myAssigned" text>{{ _("Assigned to me") }}</v-btn>
                                 <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
-                                <v-btn small @click="myReview" class="mr-2 hidden-sm-and-down" text>{{ _('My Review
-                                    List') }}</v-btn>
+                                <v-btn small @click="myReview" class="mr-2 hidden-sm-and-down" text>{{ _('My Review List') }}</v-btn>
                                 <v-text-field flat dense outlined small v-model.trim="search[0].tsv"
                                     @keydown.enter="doSearch" hide-details append-outer-icon="mdi-ballot"
                                     append-icon="mdi-close" @click:append-outer="toggleAdvSearch"
-                                    @click:append="resetSearch" prepend-inner-icon="mdi-magnify" label="{{ _(" Search")
-                                    }}"></v-text-field>
+                                    @click:append="resetSearch" prepend-inner-icon="mdi-magnify" label="{{ _("Search") }}"></v-text-field>
                                 <v-btn @click="searchActors(false)" icon>
                                     <v-icon>mdi-refresh</v-icon>
                                 </v-btn>
@@ -79,8 +75,7 @@
                                     <v-tooltip top>
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-chip v-on="on" label small close color="yellow lighten-4"
-                                                class="grey--text text--darken-2" @click:close="allActors">{{ _("About")
-                                                }} ${itemsLength} {{ _("results") }}
+                                                class="grey--text text--darken-2" @click:close="allActors">{{ _("About") }} ${itemsLength} {{ _("results") }}
                                                 (${searchTime} {{ _("seconds") }})
                                             </v-chip>
                                         </template>
@@ -187,7 +182,7 @@
                                 <validation-provider name="Assigned To" rules="required" v-slot="{ errors }">
                                     <search-field-single v-model="assignActor.assigned_to_id" api="/admin/api/users/"
                                         item-text="name" item-value="id" :return-object="false" :multiple="false"
-                                        label="{{ _(" Assigned To") }}"></search-field-single>
+                                        label="{{ _("Assigned To") }}"></search-field-single>
                                     <span class="red--text">${errors[0]}</span>
                                 </validation-provider>
                                 <validation-provider name="Comments" rules="required" v-slot="{ errors }">
@@ -254,7 +249,7 @@
         computesRequired: true,
         validate: (value, param) => {
             if (['', null, undefined].indexOf(value) !== -1 && ['', null, undefined].indexOf(param[0]) !== -1) {
-                return 'Either Name or Name(ar) should not be empty'
+                return 'Either Name or Name(Original Language) should not be empty'
             }
             return true
         },

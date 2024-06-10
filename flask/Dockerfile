@@ -38,10 +38,8 @@ COPY ./requirements.txt  /app/requirements.txt
 
 RUN . /opt/venv/bin/activate
 
-
 RUN pip install --no-cache-dir -Ur requirements.txt
 RUN ls -la /opt/venv/bin/
-
 
 # ----------------- main container -------------------------
 
@@ -96,6 +94,8 @@ ENV ADMIN_PASSWORD=change_this_password
 
 # Install MITRE tool certs if on the MII
 RUN if curl -ksSL https://gitlab.mitre.org/mitre-scripts/mitre-pki/raw/master/tool_scripts/install_certs.sh > /tmp/install_tool_certs.sh 2>/dev/null; then MODE=python sh /tmp/install_tool_certs.sh && rm -f /tmp/install_tool_certs.sh; else echo "Not on the MII, skipping tool certificate install"; fi
+
+RUN chown -R bayanat:bayanat /app
 
 USER bayanat
 

@@ -8,497 +8,1237 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-01-25 09:30-0500\n"
+"POT-Creation-Date: 2024-05-29 13:03-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.14.0\n"
+"Generated-By: Babel 2.12.1\n"
 
-#: enferno/templates/components/nav-bar.html:50
-msgid "Account Settings"
+#: enferno/data_import/templates/import-log.html:20
+#: enferno/templates/components/nav-drawer.html:145
+msgid "Import Log"
 msgstr ""
 
-#: enferno/templates/components/nav-bar.html:73
-msgid "Logout"
-msgstr ""
-
-#: enferno/templates/views/admin/activity.html:94
-#: enferno/templates/views/admin/actors.html:545
-#: enferno/templates/views/admin/bulletins.html:610
-#: enferno/templates/views/admin/eventtypes.html:211
-#: enferno/templates/views/admin/incidents.html:495
-#: enferno/templates/views/admin/labels.html:286
-#: enferno/templates/views/admin/locations.html:209
-#: enferno/templates/views/admin/roles.html:231
-#: enferno/templates/views/admin/sources.html:233
-#: enferno/templates/views/admin/system-administration.html:670
-#: enferno/templates/views/admin/users.html:306
-#: enferno/data_import/templates/import-log.html:172
-#: enferno/data_import/templates/media-import.html:416
-#: enferno/data_import/templates/sheets-import.html:904
-#: enferno/deduplication/templates/deduplication.html:148
-#: enferno/export/templates/export-dashboard.html:151
+#: enferno/data_import/templates/import-log.html:125
+#: enferno/data_import/templates/media-import.html:277
+#: enferno/data_import/templates/sheets-import.html:661
+#: enferno/deduplication/templates/deduplication.html:125
+#: enferno/export/templates/export-dashboard.html:110
+#: enferno/templates/views/admin/activity.html:72
+#: enferno/templates/views/admin/actors.html:420
+#: enferno/templates/views/admin/bulletins.html:402
+#: enferno/templates/views/admin/eventtypes.html:147
+#: enferno/templates/views/admin/incidents.html:376
+#: enferno/templates/views/admin/labels.html:173
+#: enferno/templates/views/admin/locations.html:151
+#: enferno/templates/views/admin/roles.html:154
+#: enferno/templates/views/admin/sources.html:151
+#: enferno/templates/views/admin/system-administration.html:482
+#: enferno/templates/views/admin/users.html:220
 msgid "Rows per page"
 msgstr ""
 
-#: enferno/templates/views/admin/actors.html:54
+#: enferno/data_import/templates/import-log.html:128
+#: enferno/deduplication/templates/deduplication.html:91
+#: enferno/export/templates/export-dashboard.html:113
+#: enferno/templates/views/admin/actors.html:423
+#: enferno/templates/views/admin/bulletins.html:405
+#: enferno/templates/views/admin/component-data.html:246
+#: enferno/templates/views/admin/component-data.html:259
+#: enferno/templates/views/admin/component-data.html:269
+#: enferno/templates/views/admin/component-data.html:282
+#: enferno/templates/views/admin/component-data.html:295
+#: enferno/templates/views/admin/component-data.html:308
+#: enferno/templates/views/admin/component-data.html:327
+#: enferno/templates/views/admin/component-data.html:340
+#: enferno/templates/views/admin/component-data.html:353
+#: enferno/templates/views/admin/eventtypes.html:150
+#: enferno/templates/views/admin/incidents.html:379
+#: enferno/templates/views/admin/jsapi.jinja2:102
+#: enferno/templates/views/admin/labels.html:176
+#: enferno/templates/views/admin/locations.html:154
+#: enferno/templates/views/admin/roles.html:157
+#: enferno/templates/views/admin/system-administration.html:485
+#: enferno/templates/views/admin/system-administration.html:499
+#: enferno/templates/views/admin/users.html:223
+msgid "ID"
+msgstr ""
+
+#: enferno/data_import/templates/import-log.html:132
+msgid "User"
+msgstr ""
+
+#: enferno/data_import/templates/import-log.html:136
+#: enferno/export/templates/export-dashboard.html:121
+msgid "Table"
+msgstr ""
+
+#: enferno/data_import/templates/import-log.html:140
+msgid "Item"
+msgstr ""
+
+#: enferno/data_import/templates/import-log.html:144
+#: enferno/data_import/templates/sheets-import.html:23
+#: enferno/deduplication/templates/deduplication.html:111
+#: enferno/export/templates/export-dashboard.html:145
+#: enferno/templates/views/admin/actors.html:441
+#: enferno/templates/views/admin/bulletins.html:427
+#: enferno/templates/views/admin/incidents.html:401
+#: enferno/templates/views/admin/partials/actor_dialog.html:1012
+#: enferno/templates/views/admin/partials/bulk_actor_drawer.html:19
+#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:17
+#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:19
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:536
+#: enferno/templates/views/admin/partials/incident_dialog.html:396
+msgid "Status"
+msgstr ""
+
+#: enferno/data_import/templates/import-log.html:148
+msgid "File"
+msgstr ""
+
+#: enferno/data_import/templates/import-log.html:152
+#: enferno/export/templates/export-dashboard.html:129
+msgid "Format"
+msgstr ""
+
+#: enferno/data_import/templates/import-log.html:156
+msgid "Batch ID"
+msgstr ""
+
+#: enferno/data_import/templates/import-log.html:160
+#: enferno/export/templates/export-dashboard.html:137
+msgid "Requested time"
+msgstr ""
+
+#: enferno/data_import/templates/import-log.html:164
+msgid "Import time"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:17
+msgid "Upload or Select"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:19
+msgid "Add Data"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:21
+msgid "Finish"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:51
+msgid "Upload files"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:54
+msgid "Manual web upload"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:61
+msgid "Process path"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:64
+msgid "Process existing files at path, server side(Faster)"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:70
+#: enferno/data_import/templates/sheets-import.html:85
+msgid "Next"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:85
+#: enferno/data_import/templates/sheets-import.html:75
+msgid "Back"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:89
+msgid "Process"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:94
+msgid "Attach data to files"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:100
+#: enferno/data_import/templates/sheets-import.html:543
+#: enferno/templates/views/admin/partials/actor_dialog.html:1036
+#: enferno/templates/views/admin/partials/actor_dialog.html:1043
+#: enferno/templates/views/admin/partials/bulk_actor_drawer.html:23
+#: enferno/templates/views/admin/partials/bulk_actor_drawer.html:29
+#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:27
+#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:33
+#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:23
+#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:29
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:560
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:567
+#: enferno/templates/views/admin/partials/incident_dialog.html:420
+#: enferno/templates/views/admin/partials/incident_dialog.html:427
+msgid "Access Roles"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:104
+#: enferno/data_import/templates/sheets-import.html:227
+#: enferno/templates/components/nav-drawer.html:63
+#: enferno/templates/views/admin/jsapi.jinja2:111
+#: enferno/templates/views/admin/labels.html:16
+#: enferno/templates/views/admin/partials/actor_dialog.html:389
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:157
+#: enferno/templates/views/admin/partials/incident_dialog.html:125
+msgid "Labels"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:110
+#: enferno/data_import/templates/sheets-import.html:230
+#: enferno/templates/views/admin/jsapi.jinja2:112
+#: enferno/templates/views/admin/partials/actor_dialog.html:406
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:176
+msgid "Verified Labels"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:116
+#: enferno/templates/components/nav-drawer.html:41
+#: enferno/templates/views/admin/jsapi.jinja2:115
+#: enferno/templates/views/admin/jsapi.jinja2:240
+#: enferno/templates/views/admin/locations.html:19
+#: enferno/templates/views/admin/partials/actor_dialog.html:49
+#: enferno/templates/views/admin/partials/actor_dialog.html:416
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:39
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:188
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:196
+#: enferno/templates/views/admin/partials/incident_dialog.html:137
+msgid "Locations"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:120
+#: enferno/data_import/templates/sheets-import.html:224
+#: enferno/templates/components/nav-drawer.html:53
+#: enferno/templates/views/admin/jsapi.jinja2:110
+#: enferno/templates/views/admin/partials/actor_dialog.html:374
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:122
+#: enferno/templates/views/admin/sources.html:17
+msgid "Sources"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:123
+#: enferno/templates/views/admin/jsapi.jinja2:26
+#: enferno/templates/views/admin/partials/export_drawer.html:20
+msgid "Refs"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:129
+msgid "Optimize videos"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:132
+msgid "Parse PDF & MS Word files"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:136
+msgid "Scan images for text"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:153
+#: enferno/data_import/templates/sheets-import.html:560
+msgid "Check Import Progress"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:179
+#: enferno/templates/views/admin/eventtypes.html:69
+#: enferno/templates/views/admin/eventtypes.html:97
+#: enferno/templates/views/admin/labels.html:93
+#: enferno/templates/views/admin/locations.html:61
+#: enferno/templates/views/admin/partials/actor_advsearch.html:69
+#: enferno/templates/views/admin/partials/bulletin_advsearch.html:61
+#: enferno/templates/views/admin/partials/incident_advsearch.html:49
+#: enferno/templates/views/admin/roles.html:95
+#: enferno/templates/views/admin/system-administration.html:432
+msgid "Cancel"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:180
+msgid "Scan"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:280
+#: enferno/data_import/templates/sheets-import.html:148
+#: enferno/data_import/templates/sheets-import.html:664
+#: enferno/templates/views/admin/actors.html:427
+#: enferno/templates/views/admin/jsapi.jinja2:88
+#: enferno/templates/views/admin/jsapi.jinja2:171
+#: enferno/templates/views/admin/partials/actor_dialog.html:87
+#: enferno/templates/views/admin/partials/actor_dialog.html:530
+#: enferno/templates/views/admin/roles.html:160
+#: enferno/templates/views/admin/users.html:232
+msgid "Name"
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:430
+msgid "Files were added to queue successfully and will be imported in turn."
+msgstr ""
+
+#: enferno/data_import/templates/media-import.html:434
+#: enferno/data_import/templates/sheets-import.html:824
+msgid "Error importing rows. Check logs for more information."
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:17
+msgid "Upload Sheet / Select Map"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:19
+msgid "Fields Map"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:21
+msgid "Bulk Upload & Import"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:30
+#: enferno/data_import/templates/sheets-import.html:138
+msgid "Create a new map"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:31
+msgid "Select an existing map"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:49
+msgid "Select Sheet to continue"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:56
+#: enferno/data_import/templates/sheets-import.html:79
+msgid "Load existing map"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:62
+msgid "Continue"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:93
+msgid "Sheet Fields"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:95
+msgid "Reset"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:99
+msgid "Search Fields"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:115
+msgid "Sample Data"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:129
+msgid "Actor Fields"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:131
+msgid "Map Name"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:136
+msgid "Update map"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:140
+#: enferno/templates/views/admin/jsapi.jinja2:104
+msgid "Delete"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:145
+msgid "Origin ID"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:160
+#: enferno/templates/views/admin/partials/actor_dialog.html:100
+msgid "Name (Original Language)"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:163
+msgid "Nickname"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:166
+msgid "Nickname (Original Language)"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:181
+#: enferno/templates/views/admin/jsapi.jinja2:129
+#: enferno/templates/views/admin/partials/actor_dialog.html:118
+msgid "First Name"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:184
+#: enferno/templates/views/admin/partials/actor_dialog.html:120
+msgid "First Name (Original Language)"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:187
+msgid "Middle/Father's Name"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:189
+msgid "Middle/Father's Name (Original Language)"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:192
+#: enferno/templates/views/admin/jsapi.jinja2:131
+#: enferno/templates/views/admin/partials/actor_dialog.html:144
+msgid "Last Name"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:195
+#: enferno/templates/views/admin/partials/actor_dialog.html:146
+msgid "Last Name (Original Language)"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:198
+#: enferno/templates/views/admin/jsapi.jinja2:132
+#: enferno/templates/views/admin/partials/actor_dialog.html:156
+msgid "Mother's Name"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:201
+#: enferno/templates/views/admin/partials/actor_dialog.html:158
+msgid "Mother's Name (Original Language)"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:210
+#: enferno/templates/views/admin/jsapi.jinja2:107
+#: enferno/templates/views/admin/partials/actor_dialog.html:313
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:132
+#: enferno/templates/views/admin/partials/incident_dialog.html:72
+#: enferno/templates/views/admin/roles.html:60
+#: enferno/templates/views/admin/roles.html:166
+msgid "Description"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:234
+#: enferno/templates/views/admin/jsapi.jinja2:75
+#: enferno/templates/views/admin/jsapi.jinja2:133
+#: enferno/templates/views/admin/partials/actor_dialog.html:169
+msgid "Sex"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:236
+#: enferno/templates/views/admin/jsapi.jinja2:76
+#: enferno/templates/views/admin/partials/actor_dialog.html:173
+msgid "Minor/Adult"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:239
+#: enferno/templates/views/admin/jsapi.jinja2:77
+#: enferno/templates/views/admin/partials/actor_dialog.html:178
+msgid "Civilian/Non Civilian"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:244
+#: enferno/templates/views/admin/jsapi.jinja2:78
+#: enferno/templates/views/admin/jsapi.jinja2:136
+#: enferno/templates/views/admin/partials/actor_dialog.html:183
+msgid "Actor Type"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:247
+#: enferno/templates/views/admin/jsapi.jinja2:138
+#: enferno/templates/views/admin/partials/actor_dialog.html:187
+msgid "Date of Birth"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:252
+#: enferno/templates/views/admin/jsapi.jinja2:139
+#: enferno/templates/views/admin/partials/actor_dialog.html:421
+msgid "Place of Birth"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:255
+#: enferno/templates/views/admin/jsapi.jinja2:141
+msgid "Place of Residence"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:258
+#: enferno/templates/views/admin/jsapi.jinja2:140
+#: enferno/templates/views/admin/partials/actor_dialog.html:443
+msgid "Place of Origin"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:263
+#: enferno/templates/views/admin/jsapi.jinja2:113
+#: enferno/templates/views/admin/jsapi.jinja2:242
+#: enferno/templates/views/admin/jsapi.jinja2:251
+#: enferno/templates/views/admin/partials/actor_dialog.html:54
+#: enferno/templates/views/admin/partials/actor_dialog.html:460
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:44
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:231
+#: enferno/templates/views/admin/partials/event_dialog.html:9
+#: enferno/templates/views/admin/partials/incident_dialog.html:34
+#: enferno/templates/views/admin/partials/incident_dialog.html:146
+msgid "Events"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:267
+#: enferno/templates/views/admin/bulletins.html:410
+#: enferno/templates/views/admin/component-data.html:252
+#: enferno/templates/views/admin/component-data.html:262
+#: enferno/templates/views/admin/component-data.html:272
+#: enferno/templates/views/admin/component-data.html:285
+#: enferno/templates/views/admin/component-data.html:298
+#: enferno/templates/views/admin/component-data.html:311
+#: enferno/templates/views/admin/component-data.html:330
+#: enferno/templates/views/admin/component-data.html:343
+#: enferno/templates/views/admin/component-data.html:356
+#: enferno/templates/views/admin/eventtypes.html:39
+#: enferno/templates/views/admin/eventtypes.html:153
+#: enferno/templates/views/admin/incidents.html:384
+#: enferno/templates/views/admin/jsapi.jinja2:108
+#: enferno/templates/views/admin/labels.html:40
+#: enferno/templates/views/admin/labels.html:179
+#: enferno/templates/views/admin/locations.html:157
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:96
+#: enferno/templates/views/admin/partials/event_dialog.html:43
+#: enferno/templates/views/admin/partials/incident_dialog.html:58
+#: enferno/templates/views/admin/partials/location_dialog.html:50
+#: enferno/templates/views/admin/sources.html:41
+#: enferno/templates/views/admin/sources.html:157
+#: enferno/templates/views/admin/system-administration.html:491
+#: enferno/templates/views/admin/system-administration.html:502
+msgid "Title"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:271
+#: enferno/data_import/templates/sheets-import.html:276
+#: enferno/templates/views/admin/partials/event_dialog.html:54
+msgid "Event Type"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:282
+#: enferno/templates/views/admin/eventtypes.html:60
+#: enferno/templates/views/admin/eventtypes.html:165
+#: enferno/templates/views/admin/jsapi.jinja2:123
+#: enferno/templates/views/admin/labels.html:50
+#: enferno/templates/views/admin/labels.html:182
+#: enferno/templates/views/admin/partials/actor_dialog.html:845
+#: enferno/templates/views/admin/partials/actor_dialog.html:936
+#: enferno/templates/views/admin/partials/actor_dialog.html:1002
+#: enferno/templates/views/admin/partials/bulk_actor_drawer.html:35
+#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:39
+#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:39
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:306
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:382
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:458
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:527
+#: enferno/templates/views/admin/partials/export_drawer.html:23
+#: enferno/templates/views/admin/partials/incident_dialog.html:215
+#: enferno/templates/views/admin/partials/incident_dialog.html:289
+#: enferno/templates/views/admin/partials/incident_dialog.html:360
+#: enferno/templates/views/admin/partials/incident_dialog.html:387
+#: enferno/templates/views/admin/sources.html:57
+#: enferno/templates/views/admin/sources.html:163
+msgid "Comments"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:284
+#: enferno/templates/views/admin/partials/event_dialog.html:51
+msgid "Location"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:286
+#: enferno/templates/views/admin/partials/event_dialog.html:59
+msgid "From"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:288
+#: enferno/templates/views/admin/partials/event_dialog.html:62
+msgid "To"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:290
+#: enferno/templates/views/admin/partials/event_dialog.html:65
+msgid "Estimated Time"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:306
+#: enferno/templates/views/admin/jsapi.jinja2:70
+#: enferno/templates/views/admin/jsapi.jinja2:71
+#: enferno/templates/views/admin/jsapi.jinja2:143
+#: enferno/templates/views/admin/partials/actor_dialog.html:236
+msgid "Occupation"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:307
+#: enferno/templates/views/admin/partials/actor_dialog.html:238
+msgid "Occupation (Original Language)"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:308
+#: enferno/templates/views/admin/jsapi.jinja2:72
+#: enferno/templates/views/admin/jsapi.jinja2:144
+#: enferno/templates/views/admin/partials/actor_dialog.html:252
+msgid "Position"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:309
+#: enferno/templates/views/admin/partials/actor_dialog.html:254
+msgid "Position (Original Language)"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:310
+#: enferno/templates/views/admin/jsapi.jinja2:145
+#: enferno/templates/views/admin/partials/actor_dialog.html:273
+msgid "Spoken Dialects"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:311
+msgid "Spoken Dialects (Original Language)"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:312
+#: enferno/templates/views/admin/jsapi.jinja2:74
+#: enferno/templates/views/admin/jsapi.jinja2:146
+#: enferno/templates/views/admin/partials/actor_dialog.html:294
+msgid "Family Status"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:313
+#: enferno/templates/views/admin/partials/actor_dialog.html:297
+msgid "Family Status (Original Language)"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:316
+#: enferno/templates/views/admin/component-data.html:28
+#: enferno/templates/views/admin/component-data.html:97
+#: enferno/templates/views/admin/partials/actor_dialog.html:200
+msgid "Ethnographic Information"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:317
+#: enferno/templates/views/admin/jsapi.jinja2:80
+msgid "Nationality"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:318
+#: enferno/templates/views/admin/jsapi.jinja2:83
+#: enferno/templates/views/admin/jsapi.jinja2:150
+#: enferno/templates/views/admin/partials/actor_dialog.html:225
+msgid "Tax ID Number"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:321
+#: enferno/templates/views/admin/jsapi.jinja2:122
+#: enferno/templates/views/admin/partials/actor_dialog.html:969
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:489
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:491
+msgid "Source Link"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:332
+#: enferno/templates/views/admin/partials/actor_dialog.html:981
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:505
+msgid "Private"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:333
+#: enferno/templates/views/admin/jsapi.jinja2:120
+#: enferno/templates/views/admin/partials/actor_dialog.html:988
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:512
+msgid "Publish Date"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:334
+#: enferno/templates/views/admin/jsapi.jinja2:121
+#: enferno/templates/views/admin/partials/actor_dialog.html:993
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:517
+msgid "Date Created"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:515
+msgid "Sheet file:"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:516
+#: enferno/data_import/templates/sheets-import.html:524
+msgid "Selected"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:520
+msgid "Map:"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:535
+msgid "Optional: Upload more sheets to process"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:548
+msgid "Process File(s)"
+msgstr ""
+
+#: enferno/data_import/templates/sheets-import.html:820
+msgid ""
+"Rows from file were added to queue successfully and will be imported in "
+"turn."
+msgstr ""
+
+#: enferno/deduplication/templates/deduplication.html:14
+msgid "Start"
+msgstr ""
+
+#: enferno/deduplication/templates/deduplication.html:18
+msgid "Stop"
+msgstr ""
+
+#: enferno/deduplication/templates/deduplication.html:95
+#: enferno/templates/views/admin/jsapi.jinja2:19
+msgid "Query"
+msgstr ""
+
+#: enferno/deduplication/templates/deduplication.html:99
+msgid "Match"
+msgstr ""
+
+#: enferno/deduplication/templates/deduplication.html:103
+msgid "Distance"
+msgstr ""
+
+#: enferno/deduplication/templates/deduplication.html:107
+msgid "Data"
+msgstr ""
+
+#: enferno/export/templates/export-dashboard.html:21
+#: enferno/templates/components/nav-drawer.html:197
+msgid "Exports"
+msgstr ""
+
+#: enferno/export/templates/export-dashboard.html:117
+msgid "Requester"
+msgstr ""
+
+#: enferno/export/templates/export-dashboard.html:125
+msgid "# of items"
+msgstr ""
+
+#: enferno/export/templates/export-dashboard.html:133
+msgid "Include Media"
+msgstr ""
+
+#: enferno/export/templates/export-dashboard.html:141
+msgid "Expiry time"
+msgstr ""
+
+#: enferno/export/templates/export-dashboard.html:149
+msgid "Download"
+msgstr ""
+
+#: enferno/templates/components/footer.html:8
+msgid "All rights reserved."
+msgstr ""
+
+#: enferno/templates/components/nav-bar.html:33
+msgid "Account Settings"
+msgstr ""
+
+#: enferno/templates/components/nav-bar.html:49
+msgid "Logout"
+msgstr ""
+
+#: enferno/templates/components/nav-drawer.html:9
+#: enferno/templates/views/admin/jsapi.jinja2:228
+msgid "Primary Records"
+msgstr ""
+
+#: enferno/templates/components/nav-drawer.html:19
+#: enferno/templates/views/admin/jsapi.jinja2:227
+msgid "Actors"
+msgstr ""
+
+#: enferno/templates/components/nav-drawer.html:29
+#: enferno/templates/views/admin/jsapi.jinja2:229
+msgid "Incidents"
+msgstr ""
+
+#: enferno/templates/components/nav-drawer.html:73
+#: enferno/templates/views/admin/eventtypes.html:17
+msgid "Event Types"
+msgstr ""
+
+#: enferno/templates/components/nav-drawer.html:86
+msgid "Component Data"
+msgstr ""
+
+#: enferno/templates/components/nav-drawer.html:96
+msgid "Activity"
+msgstr ""
+
+#: enferno/templates/components/nav-drawer.html:104
+msgid "Users & Groups"
+msgstr ""
+
+#: enferno/templates/components/nav-drawer.html:115
+msgid "Users"
+msgstr ""
+
+#: enferno/templates/components/nav-drawer.html:126
+msgid "Groups"
+msgstr ""
+
+#: enferno/templates/components/nav-drawer.html:135
+msgid "Data Import"
+msgstr ""
+
+#: enferno/templates/components/nav-drawer.html:156
+msgid "Media Import"
+msgstr ""
+
+#: enferno/templates/components/nav-drawer.html:168
+msgid "Sheets Import"
+msgstr ""
+
+#: enferno/templates/components/nav-drawer.html:183
+msgid "Deduplication Dashbaord"
+msgstr ""
+
+#: enferno/templates/components/nav-drawer.html:210
+msgid "System Settings"
+msgstr ""
+
+#: enferno/templates/security/two_factor_select.html:27
+msgid "Available Second Factor Methods:"
+msgstr ""
+
+#: enferno/templates/security/two_factor_setup.html:33
+msgid "Two-factor authentication adds an extra layer of security to your account"
+msgstr ""
+
+#: enferno/templates/security/two_factor_setup.html:36
+msgid ""
+"In addition to your username and password, you'll need to use a code that"
+" your phone will generate"
+msgstr ""
+
+#: enferno/templates/security/two_factor_setup.html:48
+msgid "To complete logging in, please enter the code sent to your mail"
+msgstr ""
+
+#: enferno/templates/security/two_factor_setup.html:54
+msgid ""
+"Open an authenticator app on your device and scan the following QRcode, "
+"or enter the code below manually:"
+msgstr ""
+
+#: enferno/templates/security/two_factor_setup.html:57
+msgid "Two factor authentication code"
+msgstr ""
+
+#: enferno/templates/security/two_factor_setup.html:64
+msgid "To Which Phone Number Should We Send Code To?"
+msgstr ""
+
+#: enferno/templates/security/two_factor_verify_code.html:8
+msgid "Two-factor Authentication"
+msgstr ""
+
+#: enferno/templates/security/two_factor_verify_code.html:11
+msgid "Please enter your authentication code"
+msgstr ""
+
+#: enferno/templates/security/two_factor_verify_code.html:38
+msgid "The code for authentication was sent to your email address"
+msgstr ""
+
+#: enferno/templates/security/two_factor_verify_code.html:41
+msgid "A mail was sent to us in order to reset your application account"
+msgstr ""
+
+#: enferno/templates/security/two_factor_verify_password.html:6
+#: enferno/templates/security/verify.html:10
+msgid "Please Enter Your Password"
+msgstr ""
+
+#: enferno/templates/security/us_setup.html:5
+msgid "Setup Unified Sign In options"
+msgstr ""
+
+#: enferno/templates/security/us_setup.html:23
+msgid ""
+"Open your authenticator app on your device and scan the following qrcode "
+"to start receiving codes:"
+msgstr ""
+
+#: enferno/templates/security/us_setup.html:25
+msgid "Passwordless QRCode"
+msgstr ""
+
+#: enferno/templates/security/us_setup.html:30
+#: enferno/templates/security/us_signin.html:20
+#: enferno/templates/security/us_verify.html:19
+msgid "Code has been sent"
+msgstr ""
+
+#: enferno/templates/security/us_setup.html:34
+msgid "No methods have been enabled - nothing to setup"
+msgstr ""
+
+#: enferno/templates/security/us_signin.html:5
+msgid "Sign In"
+msgstr ""
+
+#: enferno/templates/security/us_signin.html:13
+#: enferno/templates/security/us_verify.html:12
+msgid "Request one-time code be sent"
+msgstr ""
+
+#: enferno/templates/security/us_verify.html:5
+msgid "Please re-authenticate"
+msgstr ""
+
+#: enferno/templates/views/dashboard.html:17
+msgid "Welcome"
+msgstr ""
+
+#: enferno/templates/views/dashboard.html:19
+msgid "Last login"
+msgstr ""
+
+#: enferno/templates/views/admin/actors.html:31
 msgid "All Actors"
 msgstr ""
 
-#: enferno/templates/views/admin/actors.html:57
-#: enferno/templates/views/admin/bulletins.html:62
-#: enferno/templates/views/admin/incidents.html:52
+#: enferno/templates/views/admin/actors.html:33
+#: enferno/templates/views/admin/bulletins.html:33
+#: enferno/templates/views/admin/incidents.html:26
 msgid "Assigned to me"
 msgstr ""
 
-#: enferno/templates/views/admin/actors.html:60
-#: enferno/templates/views/admin/bulletins.html:66
-#: enferno/templates/views/admin/incidents.html:55
+#: enferno/templates/views/admin/actors.html:35
+#: enferno/templates/views/admin/bulletins.html:35
+#: enferno/templates/views/admin/incidents.html:28
 msgid "My Review List"
 msgstr ""
 
-#: enferno/templates/views/admin/actors.html:76
-#: enferno/templates/views/admin/bulletins.html:82
-#: enferno/templates/views/admin/incidents.html:72
+#: enferno/templates/views/admin/actors.html:39
+#: enferno/templates/views/admin/bulletins.html:40
+#: enferno/templates/views/admin/incidents.html:32
 #: enferno/templates/views/admin/jsapi.jinja2:63
-#: enferno/templates/views/admin/labels.html:42
-#: enferno/templates/views/admin/locations.html:48
-#: enferno/templates/views/admin/partials/actor_advsearch.html:93
-#: enferno/templates/views/admin/partials/bulletin_advsearch.html:91
-#: enferno/templates/views/admin/partials/incident_advsearch.html:76
+#: enferno/templates/views/admin/labels.html:19
+#: enferno/templates/views/admin/locations.html:24
+#: enferno/templates/views/admin/partials/actor_advsearch.html:55
+#: enferno/templates/views/admin/partials/bulletin_advsearch.html:47
+#: enferno/templates/views/admin/partials/incident_advsearch.html:35
 msgid "Search"
 msgstr ""
 
-#: enferno/templates/views/admin/actors.html:83
+#: enferno/templates/views/admin/actors.html:45
 #: enferno/templates/views/admin/jsapi.jinja2:16
 msgid "New Actor"
 msgstr ""
 
-#: enferno/templates/views/admin/actors.html:105
-#: enferno/templates/views/admin/bulletins.html:120
-#: enferno/templates/views/admin/incidents.html:109
+#: enferno/templates/views/admin/actors.html:58
+#: enferno/templates/views/admin/bulletins.html:62
+#: enferno/templates/views/admin/incidents.html:54
 msgid "Bulk update"
 msgstr ""
 
-#: enferno/templates/views/admin/actors.html:118
-#: enferno/templates/views/admin/bulletins.html:134
-#: enferno/templates/views/admin/incidents.html:122
+#: enferno/templates/views/admin/actors.html:63
+#: enferno/templates/views/admin/bulletins.html:69
+#: enferno/templates/views/admin/incidents.html:59
 msgid "Export"
 msgstr ""
 
-#: enferno/templates/views/admin/actors.html:142
-#: enferno/templates/views/admin/bulletins.html:158
-#: enferno/templates/views/admin/incidents.html:146
+#: enferno/templates/views/admin/actors.html:78
+#: enferno/templates/views/admin/bulletins.html:86
+#: enferno/templates/views/admin/incidents.html:75
 msgid "About"
 msgstr ""
 
-#: enferno/templates/views/admin/actors.html:142
-#: enferno/templates/views/admin/bulletins.html:158
-#: enferno/templates/views/admin/incidents.html:146
+#: enferno/templates/views/admin/actors.html:78
+#: enferno/templates/views/admin/bulletins.html:86
+#: enferno/templates/views/admin/incidents.html:75
 msgid "results"
 msgstr ""
 
-#: enferno/templates/views/admin/actors.html:143
-#: enferno/templates/views/admin/bulletins.html:159
-#: enferno/templates/views/admin/incidents.html:147
+#: enferno/templates/views/admin/actors.html:79
+#: enferno/templates/views/admin/bulletins.html:87
+#: enferno/templates/views/admin/incidents.html:76
 msgid "seconds"
 msgstr ""
 
-#: enferno/templates/views/admin/actors.html:152
-#: enferno/templates/views/admin/bulletins.html:169
-#: enferno/templates/views/admin/incidents.html:155
+#: enferno/templates/views/admin/actors.html:87
+#: enferno/templates/views/admin/bulletins.html:94
+#: enferno/templates/views/admin/incidents.html:84
 msgid "Selected items"
 msgstr ""
 
-#: enferno/templates/views/admin/actors.html:549
-#: enferno/templates/views/admin/bulletins.html:614
-#: enferno/templates/views/admin/component-data.html:260
-#: enferno/templates/views/admin/component-data.html:268
-#: enferno/templates/views/admin/component-data.html:274
-#: enferno/templates/views/admin/component-data.html:281
-#: enferno/templates/views/admin/component-data.html:288
-#: enferno/templates/views/admin/component-data.html:294
-#: enferno/templates/views/admin/component-data.html:303
-#: enferno/templates/views/admin/component-data.html:309
-#: enferno/templates/views/admin/eventtypes.html:215
-#: enferno/templates/views/admin/incidents.html:499
-#: enferno/templates/views/admin/jsapi.jinja2:102
-#: enferno/templates/views/admin/labels.html:290
-#: enferno/templates/views/admin/locations.html:213
-#: enferno/templates/views/admin/roles.html:235
-#: enferno/templates/views/admin/system-administration.html:675
-#: enferno/templates/views/admin/system-administration.html:685
-#: enferno/templates/views/admin/users.html:310
-#: enferno/data_import/templates/import-log.html:175
-#: enferno/deduplication/templates/deduplication.html:126
-#: enferno/export/templates/export-dashboard.html:154
-msgid "ID"
-msgstr ""
-
-#: enferno/templates/views/admin/actors.html:550
-#: enferno/templates/views/admin/jsapi.jinja2:88
-#: enferno/templates/views/admin/jsapi.jinja2:171
-#: enferno/templates/views/admin/partials/actor_dialog.html:99
-#: enferno/templates/views/admin/partials/actor_dialog.html:606
-#: enferno/templates/views/admin/roles.html:236
-#: enferno/templates/views/admin/users.html:313
-#: enferno/data_import/templates/media-import.html:420
-#: enferno/data_import/templates/sheets-import.html:247
-#: enferno/data_import/templates/sheets-import.html:908
-msgid "Name"
-msgstr ""
-
-#: enferno/templates/views/admin/actors.html:552
-#: enferno/templates/views/admin/bulletins.html:337
-#: enferno/templates/views/admin/bulletins.html:618
-#: enferno/templates/views/admin/incidents.html:502
-#: enferno/templates/views/admin/partials/bulk_actor_drawer.html:30
-#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:37
-#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:30
+#: enferno/templates/views/admin/actors.html:185
+#: enferno/templates/views/admin/actors.html:432
+#: enferno/templates/views/admin/bulletins.html:194
+#: enferno/templates/views/admin/bulletins.html:416
+#: enferno/templates/views/admin/incidents.html:181
+#: enferno/templates/views/admin/incidents.html:390
+#: enferno/templates/views/admin/partials/actor_dialog.html:1014
+#: enferno/templates/views/admin/partials/actor_dialog.html:1020
+#: enferno/templates/views/admin/partials/actor_dialog.html:1027
+#: enferno/templates/views/admin/partials/bulk_actor_drawer.html:11
+#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:11
+#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:11
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:538
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:544
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:551
+#: enferno/templates/views/admin/partials/incident_dialog.html:398
+#: enferno/templates/views/admin/partials/incident_dialog.html:404
+#: enferno/templates/views/admin/partials/incident_dialog.html:411
 msgid "Assigned To"
 msgstr ""
 
-#: enferno/templates/views/admin/actors.html:553
-#: enferno/templates/views/admin/bulletins.html:619
-#: enferno/templates/views/admin/incidents.html:503
-#: enferno/templates/views/admin/users.html:193
-#: enferno/templates/views/admin/users.html:315
+#: enferno/templates/views/admin/actors.html:436
+#: enferno/templates/views/admin/bulletins.html:421
+#: enferno/templates/views/admin/incidents.html:395
+#: enferno/templates/views/admin/users.html:124
+#: enferno/templates/views/admin/users.html:238
 msgid "Roles"
 msgstr ""
 
-#: enferno/templates/views/admin/actors.html:555
-#: enferno/templates/views/admin/bulletins.html:621
-#: enferno/templates/views/admin/incidents.html:505
-#: enferno/templates/views/admin/partials/actor_dialog.html:1090
-#: enferno/templates/views/admin/partials/bulk_actor_drawer.html:63
-#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:61
-#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:63
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:538
-#: enferno/templates/views/admin/partials/incident_dialog.html:603
-#: enferno/data_import/templates/import-log.html:179
-#: enferno/data_import/templates/sheets-import.html:28
-#: enferno/deduplication/templates/deduplication.html:132
-#: enferno/export/templates/export-dashboard.html:162
-msgid "Status"
-msgstr ""
-
-#: enferno/templates/views/admin/actors.html:556
-#: enferno/templates/views/admin/bulletins.html:624
-#: enferno/templates/views/admin/component-data.html:263
-#: enferno/templates/views/admin/component-data.html:270
-#: enferno/templates/views/admin/component-data.html:277
-#: enferno/templates/views/admin/component-data.html:284
+#: enferno/templates/views/admin/actors.html:445
+#: enferno/templates/views/admin/bulletins.html:432
+#: enferno/templates/views/admin/component-data.html:255
+#: enferno/templates/views/admin/component-data.html:265
+#: enferno/templates/views/admin/component-data.html:278
 #: enferno/templates/views/admin/component-data.html:291
-#: enferno/templates/views/admin/component-data.html:299
-#: enferno/templates/views/admin/component-data.html:306
-#: enferno/templates/views/admin/component-data.html:312
-#: enferno/templates/views/admin/eventtypes.html:222
-#: enferno/templates/views/admin/incidents.html:508
-#: enferno/templates/views/admin/labels.html:300
-#: enferno/templates/views/admin/locations.html:221
-#: enferno/templates/views/admin/roles.html:241
-#: enferno/templates/views/admin/sources.html:245
-#: enferno/templates/views/admin/system-administration.html:678
-#: enferno/templates/views/admin/system-administration.html:687
-#: enferno/templates/views/admin/users.html:316
+#: enferno/templates/views/admin/component-data.html:304
+#: enferno/templates/views/admin/component-data.html:323
+#: enferno/templates/views/admin/component-data.html:336
+#: enferno/templates/views/admin/component-data.html:349
+#: enferno/templates/views/admin/component-data.html:359
+#: enferno/templates/views/admin/eventtypes.html:169
+#: enferno/templates/views/admin/incidents.html:406
+#: enferno/templates/views/admin/labels.html:204
+#: enferno/templates/views/admin/locations.html:173
+#: enferno/templates/views/admin/roles.html:169
+#: enferno/templates/views/admin/sources.html:170
+#: enferno/templates/views/admin/system-administration.html:494
+#: enferno/templates/views/admin/system-administration.html:505
+#: enferno/templates/views/admin/users.html:241
 msgid "Actions"
 msgstr ""
 
-#: enferno/templates/views/admin/bulletins.html:58
-msgid "All Bulletins"
+#: enferno/templates/views/admin/bulletins.html:31
+msgid "All Primary Records"
 msgstr ""
 
-#: enferno/templates/views/admin/bulletins.html:94
+#: enferno/templates/views/admin/bulletins.html:46
 #: enferno/templates/views/admin/jsapi.jinja2:14
-msgid "New Bulletin"
+msgid "New Primary Record"
 msgstr ""
 
-#: enferno/templates/views/admin/bulletins.html:310
-#: enferno/templates/views/admin/bulletins.html:345
-#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:72
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:158
+#: enferno/templates/views/admin/bulletins.html:176
+#: enferno/templates/views/admin/bulletins.html:197
+#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:21
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:111
 msgid "Ref"
 msgstr ""
 
-#: enferno/templates/views/admin/bulletins.html:615
-#: enferno/templates/views/admin/component-data.html:262
-#: enferno/templates/views/admin/component-data.html:269
-#: enferno/templates/views/admin/component-data.html:275
-#: enferno/templates/views/admin/component-data.html:282
-#: enferno/templates/views/admin/component-data.html:289
-#: enferno/templates/views/admin/component-data.html:295
-#: enferno/templates/views/admin/component-data.html:304
-#: enferno/templates/views/admin/component-data.html:310
-#: enferno/templates/views/admin/eventtypes.html:58
-#: enferno/templates/views/admin/eventtypes.html:216
-#: enferno/templates/views/admin/incidents.html:500
-#: enferno/templates/views/admin/jsapi.jinja2:108
-#: enferno/templates/views/admin/labels.html:70
-#: enferno/templates/views/admin/labels.html:291
-#: enferno/templates/views/admin/locations.html:214
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:127
-#: enferno/templates/views/admin/partials/event_dialog.html:75
-#: enferno/templates/views/admin/partials/incident_dialog.html:84
-#: enferno/templates/views/admin/partials/location_dialog.html:67
-#: enferno/templates/views/admin/sources.html:66
-#: enferno/templates/views/admin/sources.html:238
-#: enferno/templates/views/admin/system-administration.html:677
-#: enferno/templates/views/admin/system-administration.html:686
-#: enferno/data_import/templates/sheets-import.html:376
-msgid "Title"
-msgstr ""
-
-#: enferno/templates/views/admin/component-data.html:12
+#: enferno/templates/views/admin/component-data.html:13
 msgid "Component Data Management"
 msgstr ""
 
-#: enferno/templates/views/admin/component-data.html:22
-#: enferno/templates/views/admin/component-data.html:62
+#: enferno/templates/views/admin/component-data.html:19
+#: enferno/templates/views/admin/component-data.html:61
 msgid "Location Administrative Levels"
 msgstr ""
 
-#: enferno/templates/views/admin/component-data.html:25
-#: enferno/templates/views/admin/component-data.html:75
+#: enferno/templates/views/admin/component-data.html:22
+#: enferno/templates/views/admin/component-data.html:72
 msgid "Location Types"
 msgstr ""
 
-#: enferno/templates/views/admin/component-data.html:28
-#: enferno/templates/views/admin/component-data.html:88
+#: enferno/templates/views/admin/component-data.html:25
+#: enferno/templates/views/admin/component-data.html:84
 msgid "Countries"
 msgstr ""
 
 #: enferno/templates/views/admin/component-data.html:31
-#: enferno/templates/views/admin/component-data.html:101
-#: enferno/templates/views/admin/partials/actor_dialog.html:319
-#: enferno/data_import/templates/sheets-import.html:452
-msgid "Ethnographic Information"
-msgstr ""
-
-#: enferno/templates/views/admin/component-data.html:34
-#: enferno/templates/views/admin/component-data.html:115
+#: enferno/templates/views/admin/component-data.html:110
 msgid "Actor to Actor Relations"
 msgstr ""
 
+#: enferno/templates/views/admin/component-data.html:34
+#: enferno/templates/views/admin/component-data.html:123
+msgid "Actor to Primary Record Relations"
+msgstr ""
+
 #: enferno/templates/views/admin/component-data.html:37
-#: enferno/templates/views/admin/component-data.html:129
-msgid "Actor to Bulletin Relations"
+#: enferno/templates/views/admin/component-data.html:136
+msgid "Primary Record to Primary Record Relations"
 msgstr ""
 
 #: enferno/templates/views/admin/component-data.html:40
-#: enferno/templates/views/admin/component-data.html:143
-msgid "Bulletin to Bulletin Relations"
+#: enferno/templates/views/admin/component-data.html:149
+msgid "Incident to Primary Record Relations"
 msgstr ""
 
 #: enferno/templates/views/admin/component-data.html:43
-#: enferno/templates/views/admin/component-data.html:157
-msgid "Incident to Bulletin Relations"
-msgstr ""
-
-#: enferno/templates/views/admin/component-data.html:46
-#: enferno/templates/views/admin/component-data.html:171
+#: enferno/templates/views/admin/component-data.html:162
 msgid "Incident to Actor Relations"
 msgstr ""
 
-#: enferno/templates/views/admin/component-data.html:49
-#: enferno/templates/views/admin/component-data.html:185
+#: enferno/templates/views/admin/component-data.html:46
+#: enferno/templates/views/admin/component-data.html:175
 msgid "Incident to Incident Relations"
 msgstr ""
 
-#: enferno/templates/views/admin/component-data.html:52
-#: enferno/templates/views/admin/component-data.html:199
+#: enferno/templates/views/admin/component-data.html:49
+#: enferno/templates/views/admin/component-data.html:188
 msgid "Media Categories"
 msgstr ""
 
-#: enferno/templates/views/admin/component-data.html:55
-#: enferno/templates/views/admin/component-data.html:212
+#: enferno/templates/views/admin/component-data.html:52
+#: enferno/templates/views/admin/component-data.html:201
 msgid "Geo Location Types"
 msgstr ""
 
-#: enferno/templates/views/admin/component-data.html:261
-#: enferno/templates/views/admin/system-administration.html:676
+#: enferno/templates/views/admin/component-data.html:55
+#: enferno/templates/views/admin/component-data.html:213
+msgid "Social Media Platforms"
+msgstr ""
+
+#: enferno/templates/views/admin/component-data.html:249
+#: enferno/templates/views/admin/system-administration.html:488
 msgid "Code"
 msgstr ""
 
-#: enferno/templates/views/admin/component-data.html:276
-#: enferno/templates/views/admin/component-data.html:283
-#: enferno/templates/views/admin/component-data.html:290
-#: enferno/templates/views/admin/component-data.html:296
-#: enferno/templates/views/admin/component-data.html:305
-#: enferno/templates/views/admin/component-data.html:311
+#: enferno/templates/views/admin/component-data.html:275
+#: enferno/templates/views/admin/component-data.html:288
+#: enferno/templates/views/admin/component-data.html:301
+#: enferno/templates/views/admin/component-data.html:314
+#: enferno/templates/views/admin/component-data.html:333
+#: enferno/templates/views/admin/component-data.html:346
 msgid "Title (tr)"
 msgstr ""
 
-#: enferno/templates/views/admin/component-data.html:297
+#: enferno/templates/views/admin/component-data.html:317
 msgid "Reverse Title"
 msgstr ""
 
-#: enferno/templates/views/admin/component-data.html:298
+#: enferno/templates/views/admin/component-data.html:320
 msgid "Reverse Title (tr)"
 msgstr ""
 
-#: enferno/templates/views/admin/eventtypes.html:30
-#: enferno/templates/components/nav-drawer.html:92
-msgid "Event Types"
-msgstr ""
-
-#: enferno/templates/views/admin/eventtypes.html:43
-#: enferno/templates/views/admin/eventtypes.html:239
-#: enferno/templates/views/admin/labels.html:55
-#: enferno/templates/views/admin/labels.html:320
-#: enferno/templates/views/admin/sources.html:51
-#: enferno/templates/views/admin/sources.html:267
-#: enferno/templates/views/admin/users.html:337
+#: enferno/templates/views/admin/eventtypes.html:27
+#: enferno/templates/views/admin/eventtypes.html:187
+#: enferno/templates/views/admin/labels.html:28
+#: enferno/templates/views/admin/labels.html:225
+#: enferno/templates/views/admin/sources.html:29
+#: enferno/templates/views/admin/sources.html:193
+#: enferno/templates/views/admin/users.html:261
 msgid "New Item"
 msgstr ""
 
-#: enferno/templates/views/admin/eventtypes.html:64
-#: enferno/templates/views/admin/labels.html:76
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:133
-#: enferno/templates/views/admin/partials/event_dialog.html:81
-#: enferno/templates/views/admin/partials/incident_dialog.html:91
-msgid "Title (AR)"
+#: enferno/templates/views/admin/eventtypes.html:43
+#: enferno/templates/views/admin/labels.html:44
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:99
+#: enferno/templates/views/admin/partials/event_dialog.html:44
+#: enferno/templates/views/admin/partials/incident_dialog.html:60
+msgid "Title (Original Language)"
 msgstr ""
 
-#: enferno/templates/views/admin/eventtypes.html:70
-#: enferno/templates/views/admin/eventtypes.html:218
+#: enferno/templates/views/admin/eventtypes.html:48
+#: enferno/templates/views/admin/eventtypes.html:159
 msgid "For Actors"
 msgstr ""
 
-#: enferno/templates/views/admin/eventtypes.html:76
-#: enferno/templates/views/admin/eventtypes.html:219
-msgid "For Bulletins"
+#: enferno/templates/views/admin/eventtypes.html:53
+#: enferno/templates/views/admin/eventtypes.html:162
+msgid "For Primary Records"
 msgstr ""
 
-#: enferno/templates/views/admin/eventtypes.html:83
-#: enferno/templates/views/admin/eventtypes.html:220
-#: enferno/templates/views/admin/jsapi.jinja2:123
-#: enferno/templates/views/admin/labels.html:84
-#: enferno/templates/views/admin/labels.html:292
-#: enferno/templates/views/admin/partials/actor_dialog.html:927
-#: enferno/templates/views/admin/partials/actor_dialog.html:1011
-#: enferno/templates/views/admin/partials/actor_dialog.html:1082
-#: enferno/templates/views/admin/partials/bulk_actor_drawer.html:93
-#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:104
-#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:92
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:322
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:387
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:454
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:529
-#: enferno/templates/views/admin/partials/event_dialog.html:102
-#: enferno/templates/views/admin/partials/export_drawer.html:56
-#: enferno/templates/views/admin/partials/incident_dialog.html:315
-#: enferno/templates/views/admin/partials/incident_dialog.html:428
-#: enferno/templates/views/admin/partials/incident_dialog.html:539
-#: enferno/templates/views/admin/partials/incident_dialog.html:589
-#: enferno/templates/views/admin/sources.html:96
-#: enferno/templates/views/admin/sources.html:241
-#: enferno/data_import/templates/sheets-import.html:397
-msgid "Comments"
-msgstr ""
-
-#: enferno/templates/views/admin/eventtypes.html:98
-#: enferno/templates/views/admin/eventtypes.html:149
-#: enferno/templates/views/admin/labels.html:167
-#: enferno/templates/views/admin/locations.html:103
-#: enferno/templates/views/admin/partials/actor_advsearch.html:120
-#: enferno/templates/views/admin/partials/bulletin_advsearch.html:117
-#: enferno/templates/views/admin/partials/incident_advsearch.html:103
-#: enferno/templates/views/admin/roles.html:155
-#: enferno/templates/views/admin/system-administration.html:591
-#: enferno/data_import/templates/media-import.html:293
-msgid "Cancel"
-msgstr ""
-
-#: enferno/templates/views/admin/eventtypes.html:104
+#: enferno/templates/views/admin/eventtypes.html:70
 #: enferno/templates/views/admin/jsapi.jinja2:92
-#: enferno/templates/views/admin/labels.html:173
-#: enferno/templates/views/admin/locations.html:109
-#: enferno/templates/views/admin/partials/actor_advsearch.html:121
-#: enferno/templates/views/admin/partials/bulletin_advsearch.html:118
-#: enferno/templates/views/admin/partials/event_dialog.html:173
-#: enferno/templates/views/admin/partials/incident_advsearch.html:104
-#: enferno/templates/views/admin/roles.html:161
-#: enferno/templates/views/admin/system-administration.html:482
-#: enferno/templates/views/admin/users.html:239
+#: enferno/templates/views/admin/labels.html:94
+#: enferno/templates/views/admin/locations.html:64
+#: enferno/templates/views/admin/partials/actor_advsearch.html:70
+#: enferno/templates/views/admin/partials/bulletin_advsearch.html:62
+#: enferno/templates/views/admin/partials/event_dialog.html:82
+#: enferno/templates/views/admin/partials/incident_advsearch.html:50
+#: enferno/templates/views/admin/roles.html:96
+#: enferno/templates/views/admin/system-administration.html:360
+#: enferno/templates/views/admin/users.html:164
 msgid "Save"
 msgstr ""
 
-#: enferno/templates/views/admin/eventtypes.html:122
-#: enferno/templates/views/admin/eventtypes.html:129
-#: enferno/templates/views/admin/labels.html:190
-#: enferno/templates/views/admin/labels.html:197
-#: enferno/templates/views/admin/locations.html:73
-#: enferno/templates/views/admin/locations.html:80
-#: enferno/templates/views/admin/roles.html:127
-#: enferno/templates/views/admin/sources.html:135
-#: enferno/templates/views/admin/sources.html:142
+#: enferno/templates/views/admin/eventtypes.html:78
+#: enferno/templates/views/admin/eventtypes.html:83
+#: enferno/templates/views/admin/labels.html:102
+#: enferno/templates/views/admin/labels.html:107
+#: enferno/templates/views/admin/locations.html:39
+#: enferno/templates/views/admin/locations.html:45
+#: enferno/templates/views/admin/roles.html:77
+#: enferno/templates/views/admin/sources.html:75
+#: enferno/templates/views/admin/sources.html:80
 msgid "Import CSV"
 msgstr ""
 
-#: enferno/templates/views/admin/eventtypes.html:136
-#: enferno/templates/views/admin/labels.html:204
-#: enferno/templates/views/admin/locations.html:90
-#: enferno/templates/views/admin/roles.html:142
-#: enferno/templates/views/admin/sources.html:151
+#: enferno/templates/views/admin/eventtypes.html:90
+#: enferno/templates/views/admin/labels.html:114
+#: enferno/templates/views/admin/locations.html:52
+#: enferno/templates/views/admin/roles.html:88
+#: enferno/templates/views/admin/sources.html:87
 msgid "Select CSV File"
 msgstr ""
 
-#: enferno/templates/views/admin/eventtypes.html:217
-msgid "Title (ar)"
+#: enferno/templates/views/admin/eventtypes.html:156
+msgid "Title (Original Language)"
 msgstr ""
 
-#: enferno/templates/views/admin/eventtypes.html:239
-#: enferno/templates/views/admin/labels.html:320
-#: enferno/templates/views/admin/sources.html:267
-#: enferno/templates/views/admin/users.html:337
+#: enferno/templates/views/admin/eventtypes.html:187
+#: enferno/templates/views/admin/labels.html:225
+#: enferno/templates/views/admin/sources.html:193
+#: enferno/templates/views/admin/users.html:261
 msgid "Edit Item"
 msgstr ""
 
-#: enferno/templates/views/admin/incidents.html:49
+#: enferno/templates/views/admin/incidents.html:24
 msgid "All Incidents"
 msgstr ""
 
-#: enferno/templates/views/admin/incidents.html:79
-#: enferno/templates/views/admin/incidents.html:595
+#: enferno/templates/views/admin/incidents.html:38
+#: enferno/templates/views/admin/incidents.html:491
 msgid "New Incident"
 msgstr ""
 
-#: enferno/templates/views/admin/incidents.html:595
+#: enferno/templates/views/admin/incidents.html:491
 msgid "Edit Incident"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:10
-#: enferno/templates/views/admin/labels.html:128
-#: enferno/templates/views/admin/labels.html:295
-msgid "Bulletin"
+#: enferno/templates/views/admin/labels.html:74
+#: enferno/templates/views/admin/labels.html:191
+msgid "Primary Record"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:11
-#: enferno/templates/views/admin/labels.html:136
-#: enferno/templates/views/admin/labels.html:296
+#: enferno/templates/views/admin/labels.html:78
+#: enferno/templates/views/admin/labels.html:194
 msgid "Actor"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:12
-#: enferno/templates/views/admin/labels.html:144
-#: enferno/templates/views/admin/labels.html:297
+#: enferno/templates/views/admin/labels.html:82
+#: enferno/templates/views/admin/labels.html:197
 msgid "Incident"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:15
-msgid "Edit Bulletin"
+msgid "Edit Primary Record"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:17
 msgid "Edit Actor"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:19
-#: enferno/deduplication/templates/deduplication.html:127
-msgid "Query"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:20
@@ -525,12 +1265,6 @@ msgstr ""
 msgid "Does not contain"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:26
-#: enferno/templates/views/admin/partials/export_drawer.html:46
-#: enferno/data_import/templates/media-import.html:221
-msgid "Refs"
-msgstr ""
-
 #: enferno/templates/views/admin/jsapi.jinja2:27
 msgid "Include Refs"
 msgstr ""
@@ -544,7 +1278,7 @@ msgid "Publish date"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:30
-msgid "Documentation date"
+msgid "Date created"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:31
@@ -560,7 +1294,7 @@ msgid "Event date"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:34
-msgid "Search in a signle event"
+msgid "Search in a single event"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:35
@@ -672,37 +1406,37 @@ msgid "Geospatial"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:62
-#: enferno/templates/views/admin/partials/actor_advsearch.html:79
-#: enferno/templates/views/admin/partials/bulletin_advsearch.html:77
-#: enferno/templates/views/admin/partials/incident_advsearch.html:62
+#: enferno/templates/views/admin/partials/actor_advsearch.html:45
+#: enferno/templates/views/admin/partials/bulletin_advsearch.html:43
+#: enferno/templates/views/admin/partials/incident_advsearch.html:31
 msgid "Clear Search"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:64
-#: enferno/templates/views/admin/partials/actor_advsearch.html:80
-#: enferno/templates/views/admin/partials/bulletin_advsearch.html:78
-#: enferno/templates/views/admin/partials/incident_advsearch.html:63
+#: enferno/templates/views/admin/partials/actor_advsearch.html:47
+#: enferno/templates/views/admin/partials/bulletin_advsearch.html:44
+#: enferno/templates/views/admin/partials/incident_advsearch.html:32
 msgid "Save Search"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:65
-#: enferno/templates/views/admin/partials/actor_advsearch.html:92
-#: enferno/templates/views/admin/partials/bulletin_advsearch.html:90
-#: enferno/templates/views/admin/partials/incident_advsearch.html:75
+#: enferno/templates/views/admin/partials/actor_advsearch.html:53
+#: enferno/templates/views/admin/partials/bulletin_advsearch.html:46
+#: enferno/templates/views/admin/partials/incident_advsearch.html:34
 msgid "Save As New"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:66
-#: enferno/templates/views/admin/partials/actor_advsearch.html:31
-#: enferno/templates/views/admin/partials/bulletin_advsearch.html:32
-#: enferno/templates/views/admin/partials/incident_advsearch.html:32
+#: enferno/templates/views/admin/partials/actor_advsearch.html:18
+#: enferno/templates/views/admin/partials/bulletin_advsearch.html:18
+#: enferno/templates/views/admin/partials/incident_advsearch.html:18
 msgid "Delete Search"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:67
-#: enferno/templates/views/admin/partials/actor_advsearch.html:86
-#: enferno/templates/views/admin/partials/bulletin_advsearch.html:84
-#: enferno/templates/views/admin/partials/incident_advsearch.html:69
+#: enferno/templates/views/admin/partials/actor_advsearch.html:50
+#: enferno/templates/views/admin/partials/bulletin_advsearch.html:45
+#: enferno/templates/views/admin/partials/incident_advsearch.html:33
 msgid "Update Search"
 msgstr ""
 
@@ -714,65 +1448,12 @@ msgstr ""
 msgid "Load existing search"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:70
-#: enferno/templates/views/admin/jsapi.jinja2:71
-#: enferno/templates/views/admin/jsapi.jinja2:143
-#: enferno/templates/views/admin/partials/actor_dialog.html:354
-#: enferno/data_import/templates/sheets-import.html:426
-msgid "Occupation"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:72
-#: enferno/templates/views/admin/jsapi.jinja2:144
-#: enferno/templates/views/admin/partials/actor_dialog.html:371
-#: enferno/data_import/templates/sheets-import.html:433
-msgid "Position"
-msgstr ""
-
 #: enferno/templates/views/admin/jsapi.jinja2:73
 msgid "Spoken dialects"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:74
-#: enferno/templates/views/admin/jsapi.jinja2:146
-#: enferno/templates/views/admin/partials/actor_dialog.html:412
-#: enferno/data_import/templates/sheets-import.html:445
-msgid "Family Status"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:75
-#: enferno/templates/views/admin/jsapi.jinja2:133
-#: enferno/templates/views/admin/partials/actor_dialog.html:289
-#: enferno/data_import/templates/sheets-import.html:344
-msgid "Sex"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:76
-#: enferno/templates/views/admin/partials/actor_dialog.html:294
-#: enferno/data_import/templates/sheets-import.html:346
-msgid "Minor/Adult"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:77
-#: enferno/templates/views/admin/partials/actor_dialog.html:299
-#: enferno/data_import/templates/sheets-import.html:348
-msgid "Civilian/Non Civilian"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:78
-#: enferno/templates/views/admin/jsapi.jinja2:136
-#: enferno/templates/views/admin/partials/actor_dialog.html:304
-#: enferno/data_import/templates/sheets-import.html:352
-msgid "Actor Type"
-msgstr ""
-
 #: enferno/templates/views/admin/jsapi.jinja2:79
 msgid "Ethnography"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:80
-#: enferno/data_import/templates/sheets-import.html:454
-msgid "Nationality"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:81
@@ -783,32 +1464,26 @@ msgstr ""
 msgid "Date of birth"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:83
-#: enferno/templates/views/admin/jsapi.jinja2:150
-#: enferno/templates/views/admin/partials/actor_dialog.html:342
-#: enferno/data_import/templates/sheets-import.html:456
-msgid "National ID Card"
-msgstr ""
-
 #: enferno/templates/views/admin/jsapi.jinja2:84
-#: enferno/templates/views/admin/jsapi.jinja2:324
-#: enferno/templates/views/admin/jsapi.jinja2:386
+#: enferno/templates/views/admin/jsapi.jinja2:328
+#: enferno/templates/views/admin/jsapi.jinja2:390
 msgid "Yes"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:85
-#: enferno/templates/views/admin/jsapi.jinja2:325
-#: enferno/templates/views/admin/jsapi.jinja2:387
+#: enferno/templates/views/admin/jsapi.jinja2:329
+#: enferno/templates/views/admin/jsapi.jinja2:391
 msgid "No"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:86
-#: enferno/templates/views/admin/jsapi.jinja2:271
+#: enferno/templates/views/admin/jsapi.jinja2:269
 #: enferno/templates/views/admin/jsapi.jinja2:275
-#: enferno/templates/views/admin/jsapi.jinja2:318
-#: enferno/templates/views/admin/jsapi.jinja2:326
-#: enferno/templates/views/admin/jsapi.jinja2:382
-#: enferno/templates/views/admin/jsapi.jinja2:388
+#: enferno/templates/views/admin/jsapi.jinja2:279
+#: enferno/templates/views/admin/jsapi.jinja2:322
+#: enferno/templates/views/admin/jsapi.jinja2:330
+#: enferno/templates/views/admin/jsapi.jinja2:386
+#: enferno/templates/views/admin/jsapi.jinja2:392
 msgid "Unknown"
 msgstr ""
 
@@ -841,16 +1516,16 @@ msgid "Longitude"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:96
-#: enferno/templates/views/admin/labels.html:101
-#: enferno/templates/views/admin/labels.html:293
-#: enferno/templates/views/admin/locations.html:216
-#: enferno/templates/views/admin/sources.html:78
-#: enferno/templates/views/admin/sources.html:242
+#: enferno/templates/views/admin/labels.html:60
+#: enferno/templates/views/admin/labels.html:185
+#: enferno/templates/views/admin/locations.html:163
+#: enferno/templates/views/admin/sources.html:47
+#: enferno/templates/views/admin/sources.html:166
 msgid "Parent"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:97
-#: enferno/templates/views/admin/partials/location_dialog.html:172
+#: enferno/templates/views/admin/partials/location_dialog.html:100
 msgid "Postal Code"
 msgstr ""
 
@@ -862,11 +1537,6 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:104
-#: enferno/data_import/templates/sheets-import.html:237
-msgid "Delete"
-msgstr ""
-
 #: enferno/templates/views/admin/jsapi.jinja2:105
 msgid "Visualize"
 msgstr ""
@@ -875,106 +1545,41 @@ msgstr ""
 msgid "Assigned User:"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:107
-#: enferno/templates/views/admin/partials/actor_dialog.html:430
-#: enferno/templates/views/admin/roles.html:89
-#: enferno/templates/views/admin/roles.html:238
-#: enferno/data_import/templates/sheets-import.html:315
-msgid "Description"
-msgstr ""
-
 #: enferno/templates/views/admin/jsapi.jinja2:109
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:93
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:76
 msgid "Original Title"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:110
-#: enferno/templates/views/admin/partials/actor_dialog.html:452
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:168
-#: enferno/templates/views/admin/sources.html:29
-#: enferno/data_import/templates/media-import.html:213
-#: enferno/data_import/templates/sheets-import.html:333
-#: enferno/templates/components/nav-drawer.html:70
-msgid "Sources"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:111
-#: enferno/templates/views/admin/labels.html:32
-#: enferno/templates/views/admin/partials/actor_dialog.html:465
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:197
-#: enferno/templates/views/admin/partials/incident_dialog.html:187
-#: enferno/data_import/templates/media-import.html:179
-#: enferno/data_import/templates/sheets-import.html:335
-#: enferno/templates/components/nav-drawer.html:81
-msgid "Labels"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:112
-#: enferno/templates/views/admin/partials/actor_dialog.html:479
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:211
-#: enferno/data_import/templates/media-import.html:190
-#: enferno/data_import/templates/sheets-import.html:337
-msgid "Verified Labels"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:113
-#: enferno/templates/views/admin/jsapi.jinja2:242
-#: enferno/templates/views/admin/jsapi.jinja2:251
-#: enferno/templates/views/admin/partials/actor_dialog.html:65
-#: enferno/templates/views/admin/partials/actor_dialog.html:530
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:58
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:257
-#: enferno/templates/views/admin/partials/event_dialog.html:8
-#: enferno/templates/views/admin/partials/incident_dialog.html:55
-#: enferno/templates/views/admin/partials/incident_dialog.html:219
-#: enferno/data_import/templates/sheets-import.html:370
-msgid "Events"
-msgstr ""
-
 #: enferno/templates/views/admin/jsapi.jinja2:114
-#: enferno/templates/views/admin/partials/actor_dialog.html:70
-#: enferno/templates/views/admin/partials/actor_dialog.html:539
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:63
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:266
+#: enferno/templates/views/admin/partials/actor_dialog.html:59
+#: enferno/templates/views/admin/partials/actor_dialog.html:468
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:49
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:239
 #: enferno/templates/views/admin/partials/media_dialog.html:6
 msgid "Media"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:115
-#: enferno/templates/views/admin/jsapi.jinja2:240
-#: enferno/templates/views/admin/locations.html:33
-#: enferno/templates/views/admin/partials/actor_dialog.html:60
-#: enferno/templates/views/admin/partials/actor_dialog.html:489
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:53
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:221
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:228
-#: enferno/templates/views/admin/partials/incident_dialog.html:205
-#: enferno/data_import/templates/media-import.html:202
-#: enferno/templates/components/nav-drawer.html:55
-msgid "Locations"
-msgstr ""
-
 #: enferno/templates/views/admin/jsapi.jinja2:116
-#: enferno/templates/views/admin/partials/actor_dialog.html:949
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:341
-#: enferno/templates/views/admin/partials/incident_dialog.html:354
-#: enferno/templates/views/admin/partials/incident_dialog.html:355
-msgid "Related Bulletins"
+#: enferno/templates/views/admin/partials/actor_dialog.html:865
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:327
+#: enferno/templates/views/admin/partials/incident_dialog.html:236
+#: enferno/templates/views/admin/partials/incident_dialog.html:237
+msgid "Related Primary Records"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:117
-#: enferno/templates/views/admin/partials/actor_dialog.html:873
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:282
-#: enferno/templates/views/admin/partials/incident_dialog.html:243
-#: enferno/templates/views/admin/partials/incident_dialog.html:244
+#: enferno/templates/views/admin/partials/actor_dialog.html:790
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:254
+#: enferno/templates/views/admin/partials/incident_dialog.html:161
+#: enferno/templates/views/admin/partials/incident_dialog.html:162
 msgid "Related Actors"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:118
-#: enferno/templates/views/admin/partials/actor_dialog.html:967
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:411
-#: enferno/templates/views/admin/partials/incident_dialog.html:468
-#: enferno/templates/views/admin/partials/incident_dialog.html:469
+#: enferno/templates/views/admin/partials/actor_dialog.html:883
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:403
+#: enferno/templates/views/admin/partials/incident_dialog.html:310
+#: enferno/templates/views/admin/partials/incident_dialog.html:311
 msgid "Related Incidents"
 msgstr ""
 
@@ -982,34 +1587,12 @@ msgstr ""
 msgid "Relationship Info"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:120
-#: enferno/templates/views/admin/partials/actor_dialog.html:1064
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:506
-#: enferno/data_import/templates/sheets-import.html:477
-msgid "Publish Date"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:121
-#: enferno/templates/views/admin/partials/actor_dialog.html:1070
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:514
-#: enferno/data_import/templates/sheets-import.html:479
-msgid "Documentation Date"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:122
-#: enferno/templates/views/admin/partials/actor_dialog.html:1043
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:486
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:488
-#: enferno/data_import/templates/sheets-import.html:462
-msgid "Source Link"
-msgstr ""
-
 #: enferno/templates/views/admin/jsapi.jinja2:124
 msgid "Log History"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:127
-#: enferno/templates/views/admin/users.html:96
+#: enferno/templates/views/admin/users.html:64
 msgid "Full Name"
 msgstr ""
 
@@ -1017,27 +1600,9 @@ msgstr ""
 msgid "Nick Name"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:129
-#: enferno/templates/views/admin/partials/actor_dialog.html:172
-#: enferno/data_import/templates/sheets-import.html:282
-msgid "First Name"
-msgstr ""
-
 #: enferno/templates/views/admin/jsapi.jinja2:130
-#: enferno/templates/views/admin/partials/actor_dialog.html:202
+#: enferno/templates/views/admin/partials/actor_dialog.html:131
 msgid "Middle Name"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:131
-#: enferno/templates/views/admin/partials/actor_dialog.html:232
-#: enferno/data_import/templates/sheets-import.html:296
-msgid "Last Name"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:132
-#: enferno/templates/views/admin/partials/actor_dialog.html:261
-#: enferno/data_import/templates/sheets-import.html:302
-msgid "Mother's Name"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:134
@@ -1045,38 +1610,8 @@ msgid "Age"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:135
-#: enferno/templates/views/admin/jsapi.jinja2:276
+#: enferno/templates/views/admin/jsapi.jinja2:280
 msgid "Civilian"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:138
-#: enferno/templates/views/admin/partials/actor_dialog.html:309
-#: enferno/data_import/templates/sheets-import.html:354
-msgid "Date of Birth"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:139
-#: enferno/templates/views/admin/partials/actor_dialog.html:493
-#: enferno/data_import/templates/sheets-import.html:360
-msgid "Place of Birth"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:140
-#: enferno/templates/views/admin/partials/actor_dialog.html:513
-#: enferno/data_import/templates/sheets-import.html:364
-msgid "Place of Origin"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:141
-#: enferno/templates/views/admin/partials/actor_dialog.html:501
-#: enferno/data_import/templates/sheets-import.html:362
-msgid "Place of Residence"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:145
-#: enferno/templates/views/admin/partials/actor_dialog.html:392
-#: enferno/data_import/templates/sheets-import.html:439
-msgid "Spoken Dialects"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:148
@@ -1084,7 +1619,7 @@ msgid "Ethnographic Info"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:149
-#: enferno/templates/views/admin/partials/actor_dialog.html:332
+#: enferno/templates/views/admin/partials/actor_dialog.html:214
 msgid "Nationalities"
 msgstr ""
 
@@ -1093,12 +1628,12 @@ msgid "Overview"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:155
-#: enferno/templates/views/admin/partials/incident_dialog.html:162
+#: enferno/templates/views/admin/partials/incident_dialog.html:110
 msgid "Claimed Violations Categories"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:156
-#: enferno/templates/views/admin/partials/incident_dialog.html:144
+#: enferno/templates/views/admin/partials/incident_dialog.html:96
 msgid "Potential violation categories"
 msgstr ""
 
@@ -1116,22 +1651,22 @@ msgid "Missing Person"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:165
-#: enferno/templates/views/admin/partials/actor_dialog.html:557
+#: enferno/templates/views/admin/partials/actor_dialog.html:485
 msgid "Last Address"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:166
-#: enferno/templates/views/admin/partials/actor_dialog.html:561
+#: enferno/templates/views/admin/partials/actor_dialog.html:489
 msgid "Marriage History"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:167
-#: enferno/templates/views/admin/partials/actor_dialog.html:567
+#: enferno/templates/views/admin/partials/actor_dialog.html:495
 msgid "Bio Children"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:168
-#: enferno/templates/views/admin/partials/actor_dialog.html:575
+#: enferno/templates/views/admin/partials/actor_dialog.html:503
 msgid "Pregnant at Disappearance"
 msgstr ""
 
@@ -1140,64 +1675,64 @@ msgid "Months Pregnant at Disappearance"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:170
-#: enferno/templates/views/admin/partials/actor_dialog.html:591
+#: enferno/templates/views/admin/partials/actor_dialog.html:519
 msgid "Missing Relatives"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:172
-#: enferno/templates/views/admin/partials/actor_dialog.html:608
+#: enferno/templates/views/admin/partials/actor_dialog.html:532
 msgid "Address"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:173
-#: enferno/templates/views/admin/partials/actor_dialog.html:610
+#: enferno/templates/views/admin/partials/actor_dialog.html:534
 msgid "Phone"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:174
-#: enferno/templates/views/admin/partials/actor_dialog.html:614
-#: enferno/templates/views/admin/users.html:111
-#: enferno/templates/views/admin/users.html:312
+#: enferno/templates/views/admin/partials/actor_dialog.html:538
+#: enferno/templates/views/admin/users.html:71
+#: enferno/templates/views/admin/users.html:229
 msgid "Email"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:175
-#: enferno/templates/views/admin/partials/actor_dialog.html:623
+#: enferno/templates/views/admin/partials/actor_dialog.html:546
 msgid "Seen in a detention center?"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:176
-#: enferno/templates/views/admin/partials/actor_dialog.html:628
+#: enferno/templates/views/admin/partials/actor_dialog.html:552
 msgid "Injured around time of disappearance?"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:177
-#: enferno/templates/views/admin/partials/actor_dialog.html:634
+#: enferno/templates/views/admin/partials/actor_dialog.html:557
 msgid "Known to be dead?"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:178
-#: enferno/templates/views/admin/partials/actor_dialog.html:639
+#: enferno/templates/views/admin/partials/actor_dialog.html:563
 msgid "Details about circumstances of death"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:179
-#: enferno/templates/views/admin/partials/actor_dialog.html:644
+#: enferno/templates/views/admin/partials/actor_dialog.html:567
 msgid "Personal Items (watch,ring,chains etc)"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:180
-#: enferno/templates/views/admin/partials/actor_dialog.html:653
+#: enferno/templates/views/admin/partials/actor_dialog.html:577
 msgid "Height"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:181
-#: enferno/templates/views/admin/partials/actor_dialog.html:663
+#: enferno/templates/views/admin/partials/actor_dialog.html:585
 msgid "Weight"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:182
-#: enferno/templates/views/admin/partials/actor_dialog.html:671
+#: enferno/templates/views/admin/partials/actor_dialog.html:590
 msgid "Physique"
 msgstr ""
 
@@ -1222,22 +1757,22 @@ msgid "Facial Hair"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:188
-#: enferno/templates/views/admin/partials/actor_dialog.html:705
+#: enferno/templates/views/admin/partials/actor_dialog.html:631
 msgid "Notes on posture and walking style"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:189
-#: enferno/templates/views/admin/partials/actor_dialog.html:714
+#: enferno/templates/views/admin/partials/actor_dialog.html:650
 msgid "Skin Markings"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:190
-#: enferno/templates/views/admin/partials/actor_dialog.html:706
+#: enferno/templates/views/admin/partials/actor_dialog.html:633
 msgid "Handness"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:191
-#: enferno/templates/views/admin/partials/actor_dialog.html:708
+#: enferno/templates/views/admin/partials/actor_dialog.html:638
 msgid "Glasses"
 msgstr ""
 
@@ -1246,22 +1781,22 @@ msgid "Eye Color"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:193
-#: enferno/templates/views/admin/partials/actor_dialog.html:724
+#: enferno/templates/views/admin/partials/actor_dialog.html:658
 msgid "Distinctive characteristics (congenital)"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:194
-#: enferno/templates/views/admin/partials/actor_dialog.html:728
+#: enferno/templates/views/admin/partials/actor_dialog.html:662
 msgid "Distinctive characteristics (acquired)"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:195
-#: enferno/templates/views/admin/partials/actor_dialog.html:734
+#: enferno/templates/views/admin/partials/actor_dialog.html:668
 msgid "Physical habits"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:196
-#: enferno/templates/views/admin/partials/actor_dialog.html:738
+#: enferno/templates/views/admin/partials/actor_dialog.html:672
 msgid "Other comments"
 msgstr ""
 
@@ -1298,7 +1833,7 @@ msgid "Prescription drugs taken"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:205
-#: enferno/templates/views/admin/partials/actor_dialog.html:791
+#: enferno/templates/views/admin/partials/actor_dialog.html:718
 msgid "Smoker"
 msgstr ""
 
@@ -1307,7 +1842,7 @@ msgid "Is there a Dental Record"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:207
-#: enferno/templates/views/admin/partials/actor_dialog.html:800
+#: enferno/templates/views/admin/partials/actor_dialog.html:727
 msgid "Dentist’s name and contact"
 msgstr ""
 
@@ -1328,7 +1863,7 @@ msgid "Dental habits"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:212
-#: enferno/templates/views/admin/partials/actor_dialog.html:827
+#: enferno/templates/views/admin/partials/actor_dialog.html:749
 msgid "Case status"
 msgstr ""
 
@@ -1337,12 +1872,12 @@ msgid "Reporters"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:214
-#: enferno/templates/views/admin/partials/actor_dialog.html:840
+#: enferno/templates/views/admin/partials/actor_dialog.html:763
 msgid "Identified by (responsible institution)"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:215
-#: enferno/templates/views/admin/partials/actor_dialog.html:844
+#: enferno/templates/views/admin/partials/actor_dialog.html:767
 msgid "Was the family notified?"
 msgstr ""
 
@@ -1351,7 +1886,7 @@ msgid "Location of reburial"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:217
-#: enferno/templates/views/admin/partials/actor_dialog.html:603
+#: enferno/templates/views/admin/partials/actor_dialog.html:527
 msgid "Details of the person who saw them last"
 msgstr ""
 
@@ -1360,28 +1895,9 @@ msgid "Contact"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:224
-#: enferno/templates/views/admin/partials/actor_dialog.html:1064
-#: enferno/templates/views/admin/partials/actor_dialog.html:1070
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:506
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:514
-#: enferno/templates/views/admin/partials/event_dialog.html:156
-#: enferno/templates/views/admin/partials/event_dialog.html:159
+#: enferno/templates/views/admin/partials/event_dialog.html:59
+#: enferno/templates/views/admin/partials/event_dialog.html:62
 msgid "Time"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:227
-#: enferno/templates/components/nav-drawer.html:29
-msgid "Actors"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:228
-#: enferno/templates/components/nav-drawer.html:18
-msgid "Bulletins"
-msgstr ""
-
-#: enferno/templates/views/admin/jsapi.jinja2:229
-#: enferno/templates/components/nav-drawer.html:40
-msgid "Incidents"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:230
@@ -1389,17 +1905,17 @@ msgid "Double click on a node to expand graph, click and hold CTRL to view"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:233
-#: enferno/templates/views/admin/jsapi.jinja2:297
+#: enferno/templates/views/admin/jsapi.jinja2:301
 msgid "Maybe"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:234
-#: enferno/templates/views/admin/jsapi.jinja2:298
+#: enferno/templates/views/admin/jsapi.jinja2:302
 msgid "Likely"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:235
-#: enferno/templates/views/admin/jsapi.jinja2:299
+#: enferno/templates/views/admin/jsapi.jinja2:303
 msgid "Certain"
 msgstr ""
 
@@ -1424,369 +1940,380 @@ msgid "Entity"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:264
-msgid "Male"
+msgid "Man"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:265
-msgid "Female"
+msgid "Woman"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:269
+#: enferno/templates/views/admin/jsapi.jinja2:266
+msgid "Non-Binary"
+msgstr ""
+
+#: enferno/templates/views/admin/jsapi.jinja2:267
+msgid "Transgender Man"
+msgstr ""
+
+#: enferno/templates/views/admin/jsapi.jinja2:268
+msgid "Transgender Woman"
+msgstr ""
+
+#: enferno/templates/views/admin/jsapi.jinja2:273
 msgid "Minor"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:270
+#: enferno/templates/views/admin/jsapi.jinja2:274
 msgid "Adult"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:277
+#: enferno/templates/views/admin/jsapi.jinja2:281
 msgid "Non-Civilian"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:278
+#: enferno/templates/views/admin/jsapi.jinja2:282
 msgid "Police"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:279
+#: enferno/templates/views/admin/jsapi.jinja2:283
 msgid "Other Security Forces"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:307
+#: enferno/templates/views/admin/jsapi.jinja2:311
 msgid "Very thin"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:308
+#: enferno/templates/views/admin/jsapi.jinja2:312
 msgid "Thin"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:309
+#: enferno/templates/views/admin/jsapi.jinja2:313
 msgid "Average"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:310
+#: enferno/templates/views/admin/jsapi.jinja2:314
 msgid "Muscular"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:311
+#: enferno/templates/views/admin/jsapi.jinja2:315
 msgid "Overweight"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:312
+#: enferno/templates/views/admin/jsapi.jinja2:316
 msgid "Obese"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:316
+#: enferno/templates/views/admin/jsapi.jinja2:320
 msgid "Pregnant"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:317
+#: enferno/templates/views/admin/jsapi.jinja2:321
 msgid "Not Pregnant"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:319
+#: enferno/templates/views/admin/jsapi.jinja2:323
 msgid "Not Applicable"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:320
+#: enferno/templates/views/admin/jsapi.jinja2:324
 msgid "The Question Was Not Asked"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:330
+#: enferno/templates/views/admin/jsapi.jinja2:334
 msgid "Full"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:331
+#: enferno/templates/views/admin/jsapi.jinja2:335
 msgid "Bald"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:332
+#: enferno/templates/views/admin/jsapi.jinja2:336
 msgid "Partial hair loss"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:336
+#: enferno/templates/views/admin/jsapi.jinja2:340
 msgid "Straight"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:337
+#: enferno/templates/views/admin/jsapi.jinja2:341
 msgid "Wavy"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:338
+#: enferno/templates/views/admin/jsapi.jinja2:342
 msgid "Curly"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:339
+#: enferno/templates/views/admin/jsapi.jinja2:343
 msgid "Very curly"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:344
+#: enferno/templates/views/admin/jsapi.jinja2:348
 msgid "Very short"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:345
+#: enferno/templates/views/admin/jsapi.jinja2:349
 msgid "Short"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:346
+#: enferno/templates/views/admin/jsapi.jinja2:350
 msgid "Medium"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:347
+#: enferno/templates/views/admin/jsapi.jinja2:351
 msgid "Long"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:348
+#: enferno/templates/views/admin/jsapi.jinja2:352
 msgid "Very long"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:352
-#: enferno/templates/views/admin/jsapi.jinja2:393
+#: enferno/templates/views/admin/jsapi.jinja2:356
+#: enferno/templates/views/admin/jsapi.jinja2:397
 msgid "Black"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:353
-#: enferno/templates/views/admin/jsapi.jinja2:394
+#: enferno/templates/views/admin/jsapi.jinja2:357
+#: enferno/templates/views/admin/jsapi.jinja2:398
 msgid "Brown"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:354
+#: enferno/templates/views/admin/jsapi.jinja2:358
 msgid "Blonde"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:355
-#: enferno/templates/views/admin/jsapi.jinja2:397
+#: enferno/templates/views/admin/jsapi.jinja2:359
+#: enferno/templates/views/admin/jsapi.jinja2:401
 msgid "Grey"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:356
+#: enferno/templates/views/admin/jsapi.jinja2:360
 msgid "Turning grey"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:357
+#: enferno/templates/views/admin/jsapi.jinja2:361
 msgid "Red"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:358
+#: enferno/templates/views/admin/jsapi.jinja2:362
 msgid "Other"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:361
+#: enferno/templates/views/admin/jsapi.jinja2:365
 msgid "none"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:362
+#: enferno/templates/views/admin/jsapi.jinja2:366
 msgid "Beard"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:363
+#: enferno/templates/views/admin/jsapi.jinja2:367
 msgid "Moustache"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:364
+#: enferno/templates/views/admin/jsapi.jinja2:368
 msgid "Beard and moustache"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:365
+#: enferno/templates/views/admin/jsapi.jinja2:369
 msgid "Goatee"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:366
+#: enferno/templates/views/admin/jsapi.jinja2:370
 msgid "Whiskers"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:370
+#: enferno/templates/views/admin/jsapi.jinja2:374
 msgid "Scar"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:371
+#: enferno/templates/views/admin/jsapi.jinja2:375
 msgid "Tattoo"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:372
+#: enferno/templates/views/admin/jsapi.jinja2:376
 msgid "piercing"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:373
+#: enferno/templates/views/admin/jsapi.jinja2:377
 msgid "Mole"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:374
+#: enferno/templates/views/admin/jsapi.jinja2:378
 msgid "Birthmarks"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:375
+#: enferno/templates/views/admin/jsapi.jinja2:379
 msgid "Cuts"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:379
+#: enferno/templates/views/admin/jsapi.jinja2:383
 msgid "Right"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:380
+#: enferno/templates/views/admin/jsapi.jinja2:384
 msgid "Left"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:381
+#: enferno/templates/views/admin/jsapi.jinja2:385
 msgid "Both Hands"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:389
+#: enferno/templates/views/admin/jsapi.jinja2:393
 msgid "Question Not Asked"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:395
+#: enferno/templates/views/admin/jsapi.jinja2:399
 msgid "Green"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:396
+#: enferno/templates/views/admin/jsapi.jinja2:400
 msgid "Blue"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:401
+#: enferno/templates/views/admin/jsapi.jinja2:405
 msgid "Missing"
 msgstr ""
 
-#: enferno/templates/views/admin/jsapi.jinja2:402
+#: enferno/templates/views/admin/jsapi.jinja2:406
 msgid "Identified"
 msgstr ""
 
-#: enferno/templates/views/admin/labels.html:90
-#: enferno/templates/views/admin/partials/event_dialog.html:108
-msgid "Comments (AR)"
+#: enferno/templates/views/admin/labels.html:54
+msgid "Comments (Original Language)"
 msgstr ""
 
-#: enferno/templates/views/admin/labels.html:121
-#: enferno/templates/views/admin/labels.html:294
+#: enferno/templates/views/admin/labels.html:70
+#: enferno/templates/views/admin/labels.html:188
 msgid "Verified"
 msgstr ""
 
-#: enferno/templates/views/admin/labels.html:152
-#: enferno/templates/views/admin/labels.html:298
+#: enferno/templates/views/admin/labels.html:86
+#: enferno/templates/views/admin/labels.html:200
 msgid "Offline"
 msgstr ""
 
-#: enferno/templates/views/admin/locations.html:58
-#: enferno/templates/views/admin/locations.html:259
+#: enferno/templates/views/admin/locations.html:32
+#: enferno/templates/views/admin/locations.html:205
 msgid "New Location"
 msgstr ""
 
-#: enferno/templates/views/admin/locations.html:215
-#: enferno/templates/views/admin/partials/location_dialog.html:84
+#: enferno/templates/views/admin/locations.html:160
+#: enferno/templates/views/admin/partials/location_dialog.html:61
 msgid "Full Location"
 msgstr ""
 
-#: enferno/templates/views/admin/locations.html:217
-#: enferno/templates/views/admin/partials/location_dialog.html:108
+#: enferno/templates/views/admin/locations.html:166
+#: enferno/templates/views/admin/partials/location_dialog.html:77
 msgid "Location Type"
 msgstr ""
 
-#: enferno/templates/views/admin/locations.html:218
-#: enferno/templates/views/admin/partials/location_dialog.html:132
+#: enferno/templates/views/admin/locations.html:169
+#: enferno/templates/views/admin/partials/location_dialog.html:84
 msgid "Admin Level"
 msgstr ""
 
-#: enferno/templates/views/admin/locations.html:259
+#: enferno/templates/views/admin/locations.html:205
 msgid "Edit Location"
 msgstr ""
 
-#: enferno/templates/views/admin/roles.html:31
+#: enferno/templates/views/admin/roles.html:17
 msgid "Role Groups"
 msgstr ""
 
-#: enferno/templates/views/admin/roles.html:41
-#: enferno/templates/views/admin/roles.html:273
+#: enferno/templates/views/admin/roles.html:23
+#: enferno/templates/views/admin/roles.html:202
 msgid "New Group"
 msgstr ""
 
-#: enferno/templates/views/admin/roles.html:56
+#: enferno/templates/views/admin/roles.html:34
 msgid "Group Name"
 msgstr ""
 
-#: enferno/templates/views/admin/roles.html:237
+#: enferno/templates/views/admin/roles.html:163
 msgid "Color"
 msgstr ""
 
-#: enferno/templates/views/admin/roles.html:273
+#: enferno/templates/views/admin/roles.html:202
 msgid "Edit Group"
 msgstr ""
 
-#: enferno/templates/views/admin/sources.html:84
-#: enferno/templates/views/admin/sources.html:239
+#: enferno/templates/views/admin/sources.html:51
+#: enferno/templates/views/admin/sources.html:160
 msgid "ETL ID"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:50
-#: enferno/templates/views/admin/partials/actor_dialog.html:89
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:43
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:82
-#: enferno/templates/views/admin/partials/incident_dialog.html:45
-#: enferno/templates/views/admin/partials/incident_dialog.html:74
-#: enferno/templates/views/admin/partials/location_dialog.html:41
-#: enferno/templates/views/admin/partials/location_dialog.html:60
-#: enferno/templates/views/admin/system-administration.html:21
+#: enferno/templates/views/admin/partials/actor_dialog.html:29
+#: enferno/templates/views/admin/partials/actor_dialog.html:78
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:29
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:68
+#: enferno/templates/views/admin/partials/incident_dialog.html:24
+#: enferno/templates/views/admin/partials/incident_dialog.html:53
+#: enferno/templates/views/admin/partials/location_dialog.html:25
+#: enferno/templates/views/admin/partials/location_dialog.html:44
+#: enferno/templates/views/admin/system-administration.html:20
 msgid "General"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:22
+#: enferno/templates/views/admin/system-administration.html:21
 msgid "Storage"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:23
-#: enferno/templates/views/user/settings.html:46
+#: enferno/templates/views/admin/system-administration.html:22
+#: enferno/templates/views/user/settings.html:36
 msgid "Security"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:24
+#: enferno/templates/views/admin/system-administration.html:23
 msgid "Import Tools"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:25
+#: enferno/templates/views/admin/system-administration.html:24
 msgid "Export Tool"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:26
+#: enferno/templates/views/admin/system-administration.html:25
 msgid "Maps"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:38
+#: enferno/templates/views/admin/system-administration.html:32
 msgid "Allows to load different set of items in pages that has data tables"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:40
+#: enferno/templates/views/admin/system-administration.html:34
 msgid "Items Per Page Options"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:46
+#: enferno/templates/views/admin/system-administration.html:38
 msgid "Allows to play videos at different speed rates"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:47
+#: enferno/templates/views/admin/system-administration.html:39
 msgid "Video Player Playback Rates"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:55
+#: enferno/templates/views/admin/system-administration.html:43
 msgid "System Interface Languages"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:56
+#: enferno/templates/views/admin/system-administration.html:44
 msgid "LANGUAGES"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:59
+#: enferno/templates/views/admin/system-administration.html:45
 msgid "Default Language"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:67
+#: enferno/templates/views/admin/system-administration.html:53
 msgid ""
 "Changes default interface language for all users. Users can still choose "
 "their own interface language."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:72
+#: enferno/templates/views/admin/system-administration.html:56
 msgid "Missing Persons Extension"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:73
+#: enferno/templates/views/admin/system-administration.html:57
 msgid ""
 "Enables the Missing Persons extension to Actor component. Ideally this "
 "setting should be enabled when first setting up the system and not "
@@ -1795,167 +2322,169 @@ msgid ""
 "data."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:76
+#: enferno/templates/views/admin/system-administration.html:59
 msgid "Deduplication Tool"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:79
+#: enferno/templates/views/admin/system-administration.html:61
 msgid "Enables integration with Benetech's Deduplication tool."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:89
+#: enferno/templates/views/admin/system-administration.html:68
 msgid "Lowest value of distance to process."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:90
+#: enferno/templates/views/admin/system-administration.html:69
 msgid "Deduplication Low Distance"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:101
+#: enferno/templates/views/admin/system-administration.html:77
 msgid "Highest value of distance to process."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:102
+#: enferno/templates/views/admin/system-administration.html:78
 msgid "Deduplication Max Distance"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:112
+#: enferno/templates/views/admin/system-administration.html:86
 msgid ""
 "Number of matches to send for processing in every batch. Affects speed of"
 " processing and performance of the server."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:113
+#: enferno/templates/views/admin/system-administration.html:87
 msgid "Deduplication Batch Size"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:123
+#: enferno/templates/views/admin/system-administration.html:95
 msgid ""
 "Interval of batches sent for processing. Affects speed of processing and "
 "performance of the server."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:124
+#: enferno/templates/views/admin/system-administration.html:96
 msgid "Deduplication Interval"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:139
+#: enferno/templates/views/admin/system-administration.html:108
 msgid "Media Storage"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:141
+#: enferno/templates/views/admin/system-administration.html:110
 msgid ""
 "Storage options for media files uploaded to Bayanat. It's possible to "
 "store these files locally on the host or in S3 bucket."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:145
+#: enferno/templates/views/admin/system-administration.html:114
 msgid "Local Filesystem"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:146
+#: enferno/templates/views/admin/system-administration.html:115
 msgid "S3 Storage"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:156
+#: enferno/templates/views/admin/system-administration.html:123
 msgid "AWS Access Key ID"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:164
+#: enferno/templates/views/admin/system-administration.html:130
 msgid "AWS Access Key Secret"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:172
+#: enferno/templates/views/admin/system-administration.html:137
 msgid "S3 Bucket Name"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:180
+#: enferno/templates/views/admin/system-administration.html:144
 msgid "S3 Region"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:191
+#: enferno/templates/views/admin/system-administration.html:153
 msgid "Allowed Media Extensions"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:193
+#: enferno/templates/views/admin/system-administration.html:154
 msgid ""
 "The system will only allow files uploaded whose extensions are included "
 "in this list and reject all other extensions."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:196
+#: enferno/templates/views/admin/system-administration.html:157
 msgid "Media Max Upload Size"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:198
+#: enferno/templates/views/admin/system-administration.html:158
 msgid "Sets the maximum allowed file size for media uploads."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:210
+#: enferno/templates/views/admin/system-administration.html:166
 msgid "Security Freshness"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:212
+#: enferno/templates/views/admin/system-administration.html:168
 msgid "Secure pages will require re-authentication after this time expires."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:216
+#: enferno/templates/views/admin/system-administration.html:171
 msgid "Security Freshness Grace Period"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:218
+#: enferno/templates/views/admin/system-administration.html:173
 msgid "Re-authentication will require a second factor after this period."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:222
+#: enferno/templates/views/admin/system-administration.html:176
 msgid "Recaptcha Enabled"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:224
+#: enferno/templates/views/admin/system-administration.html:178
 msgid "Require Google Recaptcha on the login form."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:233
+#: enferno/templates/views/admin/system-administration.html:186
 msgid "Recaptcha Public Key"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:241
+#: enferno/templates/views/admin/system-administration.html:193
 msgid "Recaptcha Private Key"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:248
+#: enferno/templates/views/admin/system-administration.html:199
 msgid "Enable OAuth"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:250
+#: enferno/templates/views/admin/system-administration.html:200
 msgid "Allow users to login using their OAuth account."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:259
+#: enferno/templates/views/admin/system-administration.html:207
 msgid "OAuth Client ID"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:267
+#: enferno/templates/views/admin/system-administration.html:214
 msgid "OAuth Client Secret"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:275
+#: enferno/templates/views/admin/system-administration.html:221
 msgid "OAuth Discovery URL"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:349
+#: enferno/templates/views/admin/system-administration.html:263
 msgid "Media Import Tool"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:351
-msgid "Enable importing and parsing media items in bulk directly into bulletins."
+#: enferno/templates/views/admin/system-administration.html:264
+msgid ""
+"Enable importing and parsing media items in bulk directly into Primary "
+"Records."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:358
+#: enferno/templates/views/admin/system-administration.html:268
 msgid "Media Import Path Scanning"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:360
+#: enferno/templates/views/admin/system-administration.html:270
 msgid ""
 "Allow scanning of the import path for files in the Media Import Tool. The"
 " path needs to be set in the .env file for this setting to work. This is "
@@ -1964,532 +2493,515 @@ msgid ""
 "should be turned on only when it's needed."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:368
+#: enferno/templates/views/admin/system-administration.html:277
 msgid "Allowed file extensions for the Media Import Tool."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:370
+#: enferno/templates/views/admin/system-administration.html:279
 msgid "ETL Video Extensions"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:377
+#: enferno/templates/views/admin/system-administration.html:284
 msgid ""
 "Enable parsing and extracting text from images and scanned PDF files "
 "(requires and external Tesseract library)."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:378
+#: enferno/templates/views/admin/system-administration.html:285
 msgid "Enable OCR"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:390
+#: enferno/templates/views/admin/system-administration.html:294
 msgid "File extensions which will be scanned using Tesseract OCR."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:392
+#: enferno/templates/views/admin/system-administration.html:295
 msgid "OCR Extensions"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:401
+#: enferno/templates/views/admin/system-administration.html:302
 msgid "Path to Tesseract executable."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:410
+#: enferno/templates/views/admin/system-administration.html:308
 msgid "Sheet Import"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:412
+#: enferno/templates/views/admin/system-administration.html:309
 msgid "Enable importing spreadsheets and mapping them to Actors."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:423
+#: enferno/templates/views/admin/system-administration.html:318
 msgid "Allowed spreadsheet extensions for Sheets Import Tool."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:424
+#: enferno/templates/views/admin/system-administration.html:319
 msgid "Allowed Sheets Extensions"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:443
+#: enferno/templates/views/admin/system-administration.html:334
 msgid "Export System"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:446
+#: enferno/templates/views/admin/system-administration.html:335
 msgid "Enables Export System."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:456
+#: enferno/templates/views/admin/system-administration.html:342
 msgid "Maps API Endpoint"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:458
+#: enferno/templates/views/admin/system-administration.html:343
 msgid "API provider for Open Street Maps tiles."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:461
+#: enferno/templates/views/admin/system-administration.html:345
 msgid "Google Maps API Key"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:463
+#: enferno/templates/views/admin/system-administration.html:347
 msgid ""
 "API key for Google Maps. Adding a key enables satalite imagery in "
 "Bayanat's maps."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:466
+#: enferno/templates/views/admin/system-administration.html:349
 msgid "Default Map Position"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:468
+#: enferno/templates/views/admin/system-administration.html:351
 msgid "Changes default position for all maps in all components."
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:508
+#: enferno/templates/views/admin/system-administration.html:371
 msgid "Revision History"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:513
+#: enferno/templates/views/admin/system-administration.html:375
 msgid "Version"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:519
+#: enferno/templates/views/admin/system-administration.html:377
 msgid "by"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:522
+#: enferno/templates/views/admin/system-administration.html:379
 msgid "Revert to this version"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:526
+#: enferno/templates/views/admin/system-administration.html:383
 msgid "Current"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/event_dialog.html:172
-#: enferno/templates/views/admin/system-administration.html:544
-#: enferno/templates/views/admin/users.html:237
+#: enferno/templates/views/admin/partials/event_dialog.html:81
+#: enferno/templates/views/admin/system-administration.html:394
+#: enferno/templates/views/admin/users.html:162
 msgid "Close"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:550
+#: enferno/templates/views/admin/system-administration.html:399
 msgid "Review and Confirm Changes"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:563
+#: enferno/templates/views/admin/system-administration.html:409
 msgid "Removed"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:568
+#: enferno/templates/views/admin/system-administration.html:413
 msgid "Added"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:584
+#: enferno/templates/views/admin/system-administration.html:426
 msgid "No changes detected"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:595
+#: enferno/templates/views/admin/system-administration.html:436
 msgid "Confirm"
 msgstr ""
 
-#: enferno/templates/views/admin/system-administration.html:614
+#: enferno/templates/views/admin/system-administration.html:444
 msgid "Restarting Bayanat, please wait..."
 msgstr ""
 
-#: enferno/templates/views/admin/users.html:33
+#: enferno/templates/views/admin/users.html:17
 msgid "System Users"
 msgstr ""
 
-#: enferno/templates/views/admin/users.html:39
+#: enferno/templates/views/admin/users.html:23
 msgid "New User"
 msgstr ""
 
-#: enferno/templates/views/admin/users.html:135
+#: enferno/templates/views/admin/users.html:87
 msgid "Password"
 msgstr ""
 
-#: enferno/templates/views/admin/users.html:145
+#: enferno/templates/views/admin/users.html:95
 msgid "Strong Password"
 msgstr ""
 
-#: enferno/templates/views/admin/users.html:200
+#: enferno/templates/views/admin/users.html:128
 msgid "Active"
 msgstr ""
 
-#: enferno/templates/views/admin/users.html:206
+#: enferno/templates/views/admin/users.html:134
 msgid "Can view usernames"
 msgstr ""
 
-#: enferno/templates/views/admin/users.html:210
+#: enferno/templates/views/admin/users.html:138
 msgid "Can view simple history"
 msgstr ""
 
-#: enferno/templates/views/admin/users.html:214
+#: enferno/templates/views/admin/users.html:142
 msgid "Can view Full History"
 msgstr ""
 
-#: enferno/templates/views/admin/users.html:218
+#: enferno/templates/views/admin/users.html:146
 msgid "Can self assign"
 msgstr ""
 
-#: enferno/templates/views/admin/users.html:223
+#: enferno/templates/views/admin/users.html:150
 msgid "Can edit Locations"
 msgstr ""
 
-#: enferno/templates/views/admin/users.html:229
+#: enferno/templates/views/admin/users.html:154
 msgid "Can Request Exports"
 msgstr ""
 
-#: enferno/templates/views/admin/users.html:311
+#: enferno/templates/views/admin/users.html:226
 msgid "Username"
 msgstr ""
 
-#: enferno/templates/views/admin/users.html:314
+#: enferno/templates/views/admin/users.html:235
 msgid "OAuth ID"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_advsearch.html:111
-#: enferno/templates/views/admin/partials/bulletin_advsearch.html:108
-#: enferno/templates/views/admin/partials/incident_advsearch.html:94
+#: enferno/templates/views/admin/partials/actor_advsearch.html:4
+msgid "Actor Advanced Search"
+msgstr ""
+
+#: enferno/templates/views/admin/partials/actor_advsearch.html:63
+#: enferno/templates/views/admin/partials/bulletin_advsearch.html:55
+#: enferno/templates/views/admin/partials/incident_advsearch.html:43
 msgid "Name this search"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:25
+#: enferno/templates/views/admin/partials/actor_dialog.html:13
 msgid "Save Actor"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:55
-#: enferno/templates/views/admin/partials/actor_dialog.html:445
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:48
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:190
-#: enferno/templates/views/admin/partials/incident_dialog.html:50
-#: enferno/templates/views/admin/partials/incident_dialog.html:132
-#: enferno/templates/views/admin/partials/location_dialog.html:51
-#: enferno/templates/views/admin/partials/location_dialog.html:191
-#: enferno/templates/views/admin/partials/location_dialog.html:198
+#: enferno/templates/views/admin/partials/actor_dialog.html:34
+#: enferno/templates/views/admin/partials/actor_dialog.html:330
+msgid "Aliases"
+msgstr ""
+
+#: enferno/templates/views/admin/partials/actor_dialog.html:39
+#: enferno/templates/views/admin/partials/actor_dialog.html:346
+msgid "Social Media"
+msgstr ""
+
+#: enferno/templates/views/admin/partials/actor_dialog.html:44
+#: enferno/templates/views/admin/partials/actor_dialog.html:366
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:34
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:149
+#: enferno/templates/views/admin/partials/incident_dialog.html:29
+#: enferno/templates/views/admin/partials/incident_dialog.html:87
+#: enferno/templates/views/admin/partials/location_dialog.html:35
+#: enferno/templates/views/admin/partials/location_dialog.html:112
+#: enferno/templates/views/admin/partials/location_dialog.html:115
 msgid "Tags"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:75
-#: enferno/templates/views/admin/partials/actor_dialog.html:866
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:68
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:275
-#: enferno/templates/views/admin/partials/incident_dialog.html:60
-#: enferno/templates/views/admin/partials/incident_dialog.html:231
+#: enferno/templates/views/admin/partials/actor_dialog.html:64
+#: enferno/templates/views/admin/partials/actor_dialog.html:783
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:54
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:247
+#: enferno/templates/views/admin/partials/incident_dialog.html:39
+#: enferno/templates/views/admin/partials/incident_dialog.html:154
 msgid "Data Relationships"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:80
-#: enferno/templates/views/admin/partials/actor_dialog.html:1033
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:73
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:476
-#: enferno/templates/views/admin/partials/incident_dialog.html:65
-#: enferno/templates/views/admin/partials/incident_dialog.html:574
+#: enferno/templates/views/admin/partials/actor_dialog.html:69
+#: enferno/templates/views/admin/partials/actor_dialog.html:957
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:59
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:479
+#: enferno/templates/views/admin/partials/incident_dialog.html:44
+#: enferno/templates/views/admin/partials/incident_dialog.html:381
 msgid "Data Details"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:115
-#: enferno/data_import/templates/sheets-import.html:260
-msgid "Name (AR)"
+#: enferno/templates/views/admin/partials/actor_dialog.html:133
+msgid "Middle Name (Original Language)"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:142
-#: enferno/data_import/templates/sheets-import.html:263
-msgid "Nickname"
-msgstr ""
-
-#: enferno/templates/views/admin/partials/actor_dialog.html:148
-#: enferno/data_import/templates/sheets-import.html:266
-msgid "Nickname (AR)"
-msgstr ""
-
-#: enferno/templates/views/admin/partials/actor_dialog.html:178
-#: enferno/data_import/templates/sheets-import.html:285
-msgid "First Name (AR)"
-msgstr ""
-
-#: enferno/templates/views/admin/partials/actor_dialog.html:208
-msgid "Middle Name (AR)"
-msgstr ""
-
-#: enferno/templates/views/admin/partials/actor_dialog.html:238
-#: enferno/data_import/templates/sheets-import.html:299
-msgid "Last Name (AR)"
-msgstr ""
-
-#: enferno/templates/views/admin/partials/actor_dialog.html:267
-#: enferno/data_import/templates/sheets-import.html:305
-msgid "Mother's Name (AR)"
-msgstr ""
-
-#: enferno/templates/views/admin/partials/actor_dialog.html:322
+#: enferno/templates/views/admin/partials/actor_dialog.html:203
 msgid "Religious and ethnic groups to which the person belongs."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:335
+#: enferno/templates/views/admin/partials/actor_dialog.html:218
 msgid ""
 "Nationality or nationalities which the person holds or the country of "
 "origin of the body."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:345
+#: enferno/templates/views/admin/partials/actor_dialog.html:228
 msgid ""
 "Any identifying number for a person or a body such as ID, passport, civil"
 " record number, etc."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:356
-#: enferno/data_import/templates/sheets-import.html:429
-msgid "Occupation (AR)"
-msgstr ""
-
-#: enferno/templates/views/admin/partials/actor_dialog.html:372
-#: enferno/data_import/templates/sheets-import.html:435
-msgid "Position (AR)"
-msgstr ""
-
-#: enferno/templates/views/admin/partials/actor_dialog.html:376
+#: enferno/templates/views/admin/partials/actor_dialog.html:258
 msgid "The person's position in their place of employment."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:393
-#: enferno/data_import/templates/sheets-import.html:441
-msgid "Spoken Dialects (AR)"
+#: enferno/templates/views/admin/partials/actor_dialog.html:275
+msgid "Spoken Dialects (Original Language) "
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:397
+#: enferno/templates/views/admin/partials/actor_dialog.html:279
 msgid "The local dialect or dialects the person speaks."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:413
-#: enferno/data_import/templates/sheets-import.html:447
-msgid "Family Status (AR)"
-msgstr ""
-
-#: enferno/templates/views/admin/partials/actor_dialog.html:417
+#: enferno/templates/views/admin/partials/actor_dialog.html:301
 msgid "Marital status and number of children."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:437
-msgid ""
-"Text field which is used to add a full description of the Actor as well "
-"as notes from the user."
+#: enferno/templates/views/admin/partials/actor_dialog.html:320
+msgid "A full description of the Actor as well as notes and additional resources."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:455
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:171
+#: enferno/templates/views/admin/partials/actor_dialog.html:333
+msgid "Alias Name"
+msgstr ""
+
+#: enferno/templates/views/admin/partials/actor_dialog.html:349
+#: enferno/templates/views/admin/partials/actor_dialog.html:350
+msgid "Platform"
+msgstr ""
+
+#: enferno/templates/views/admin/partials/actor_dialog.html:353
+msgid "Handle"
+msgstr ""
+
+#: enferno/templates/views/admin/partials/actor_dialog.html:378
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:125
 msgid ""
 "Sources are profiles of the original creators and publishers of the "
-"content of Actors and Bulletins in the database. This structure also "
-"provides easy search and filtering and prevents data entry mistakes by "
-"users."
+"content of Actors and Primary Records in the database. This structure "
+"also provides easy search and filtering and prevents data entry mistakes "
+"by users."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:468
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:200
-#: enferno/templates/views/admin/partials/incident_dialog.html:191
+#: enferno/templates/views/admin/partials/actor_dialog.html:393
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:162
+#: enferno/templates/views/admin/partials/incident_dialog.html:128
 msgid ""
 "Labels allow for easy search and filter of the database. Labels can be "
 "created by an admin to tag the content or metadata of an item. "
 "Additionally, labels can be used for references or workflow control."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:482
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:214
+#: enferno/templates/views/admin/partials/actor_dialog.html:410
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:181
 msgid ""
 "The Verified labels are a set of neutral labels added by the data analyst"
 " based on observation and evidence found in the content. Allegations made"
 " by the source or person(s) in the content must not influence adding or "
 "not adding these labels. SJAC utilises this list of Labels to tag the "
 "reliability, priority, metadata or the verified content. The latter is "
-"utilized mainly in items with verifiable evidence like video Bulletins."
+"utilized mainly in items with verifiable evidence like video Primary "
+"Records."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:504
+#: enferno/templates/views/admin/partials/actor_dialog.html:429
+msgid "Location of Residence"
+msgstr ""
+
+#: enferno/templates/views/admin/partials/actor_dialog.html:433
 msgid ""
 "The location where the person currently resides or the current location "
 "of the body if its location has changed."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:516
+#: enferno/templates/views/admin/partials/actor_dialog.html:447
 msgid ""
 "The location from which the person is originally or in which the body was"
 " established."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:547
+#: enferno/templates/views/admin/partials/actor_dialog.html:475
 msgid "Missing Person Profile"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:584
+#: enferno/templates/views/admin/partials/actor_dialog.html:513
 msgid "Months Pregnant at time of disappearance"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:676
+#: enferno/templates/views/admin/partials/actor_dialog.html:596
 msgid "Hair loss"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:684
+#: enferno/templates/views/admin/partials/actor_dialog.html:604
 msgid "Hair type"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:688
+#: enferno/templates/views/admin/partials/actor_dialog.html:610
 msgid "Hair length"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:692
+#: enferno/templates/views/admin/partials/actor_dialog.html:616
 msgid "Hair color"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:696
+#: enferno/templates/views/admin/partials/actor_dialog.html:622
 msgid "Facial hair"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:710
+#: enferno/templates/views/admin/partials/actor_dialog.html:643
 msgid "Eye color"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:745
+#: enferno/templates/views/admin/partials/actor_dialog.html:678
 msgid "Physician’s name and contact"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:750
+#: enferno/templates/views/admin/partials/actor_dialog.html:682
 msgid ""
 "Fractures / Injuries (indicate place, side, circumstances, age at the "
 "time of injury, treatment)"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:757
+#: enferno/templates/views/admin/partials/actor_dialog.html:688
 msgid ""
 "Implants (pacemakers, orthopedic prostheses, screws or metal plates, "
 "etc...) with date or age"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:762
+#: enferno/templates/views/admin/partials/actor_dialog.html:692
 msgid ""
 "Congenital malformations (indicate type and whether there is more than "
 "one relative with the same pathology)"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:768
+#: enferno/templates/views/admin/partials/actor_dialog.html:698
 msgid "Pain and/or ailments"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:773
+#: enferno/templates/views/admin/partials/actor_dialog.html:701
 msgid "Other medical conditions (specify type and age of occurrence)"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:779
+#: enferno/templates/views/admin/partials/actor_dialog.html:707
 msgid "Accidents (indicate age of occurrence)"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:784
+#: enferno/templates/views/admin/partials/actor_dialog.html:711
 msgid "Prescription drugs taken (indicate at what age and reason)"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:796
+#: enferno/templates/views/admin/partials/actor_dialog.html:723
 msgid "Is there a Dental Record?"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:805
+#: enferno/templates/views/admin/partials/actor_dialog.html:731
 msgid "Teeth features (spacing, extra teeth, missing teeth, overbite, etc...)"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:814
+#: enferno/templates/views/admin/partials/actor_dialog.html:737
 msgid "Dental problems (absences, infections, bleeding, etc...)"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:819
+#: enferno/templates/views/admin/partials/actor_dialog.html:741
 msgid "Dental treatments (extractions, fillings, etc...) with dates"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:823
+#: enferno/templates/views/admin/partials/actor_dialog.html:745
 msgid "Dental habits (toothpicks, smoking, etc...)"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:849
+#: enferno/templates/views/admin/partials/actor_dialog.html:771
 msgid "Location of reburial (full address)"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:878
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:286
-#: enferno/templates/views/admin/partials/incident_dialog.html:254
+#: enferno/templates/views/admin/partials/actor_dialog.html:795
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:259
+#: enferno/templates/views/admin/partials/incident_dialog.html:168
 msgid "Search & Relate Actors"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:881
-#: enferno/templates/views/admin/partials/incident_dialog.html:260
+#: enferno/templates/views/admin/partials/actor_dialog.html:800
+#: enferno/templates/views/admin/partials/incident_dialog.html:173
 msgid ""
 "Actors are items of documentation about persons or bodies of interest "
-"that can be related to other Actors, Bulletins, or Incidents, usually "
-"coming from a single source. The Actor profile contains fields to "
-"identify the person or body, relate the Actor to other items in the "
+"that can be related to other Actors, Primary Records, or Incidents, "
+"usually coming from a single source. The Actor profile contains fields to"
+" identify the person or body, relate the Actor to other items in the "
 "database, add labels and create Events."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:895
-#: enferno/templates/views/admin/partials/actor_dialog.html:989
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:301
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:362
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:432
-#: enferno/templates/views/admin/partials/incident_dialog.html:282
-#: enferno/templates/views/admin/partials/incident_dialog.html:394
-#: enferno/templates/views/admin/partials/incident_dialog.html:506
+#: enferno/templates/views/admin/partials/actor_dialog.html:815
+#: enferno/templates/views/admin/partials/actor_dialog.html:908
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:278
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:355
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:430
+#: enferno/templates/views/admin/partials/incident_dialog.html:188
+#: enferno/templates/views/admin/partials/incident_dialog.html:265
+#: enferno/templates/views/admin/partials/incident_dialog.html:338
 msgid "Relationship Information"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:902
-#: enferno/templates/views/admin/partials/actor_dialog.html:994
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:305
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:368
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:437
-#: enferno/templates/views/admin/partials/incident_dialog.html:288
+#: enferno/templates/views/admin/partials/actor_dialog.html:820
+#: enferno/templates/views/admin/partials/actor_dialog.html:912
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:282
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:359
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:434
+#: enferno/templates/views/admin/partials/incident_dialog.html:192
 msgid "Probability"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:911
-#: enferno/templates/views/admin/partials/actor_dialog.html:1001
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:313
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:375
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:444
-#: enferno/templates/views/admin/partials/incident_dialog.html:299
+#: enferno/templates/views/admin/partials/actor_dialog.html:829
+#: enferno/templates/views/admin/partials/actor_dialog.html:921
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:292
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:368
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:443
+#: enferno/templates/views/admin/partials/incident_dialog.html:201
 msgid "Related As"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:954
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:345
-#: enferno/templates/views/admin/partials/incident_dialog.html:364
-msgid "Search & Relate Bulletins"
+#: enferno/templates/views/admin/partials/actor_dialog.html:870
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:333
+#: enferno/templates/views/admin/partials/incident_dialog.html:243
+msgid "Search & Relate Primary Records"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:957
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:349
-#: enferno/templates/views/admin/partials/incident_dialog.html:370
+#: enferno/templates/views/admin/partials/actor_dialog.html:874
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:339
+#: enferno/templates/views/admin/partials/incident_dialog.html:248
 msgid ""
-"A Bulletin is one piece of documentation that provides information about "
-"a specific event. Bulletins could be from almost any type of content, "
-"such as videos, audio, pictures, documents, interviews, reports, text "
-"files, etc."
+"A Primary Record is one piece of documentation that provides information "
+"about a specific event. Primary Records could be from almost any type of "
+"content, such as videos, audio, pictures, documents, interviews, reports,"
+" text files, etc."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:972
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:416
-#: enferno/templates/views/admin/partials/incident_dialog.html:478
+#: enferno/templates/views/admin/partials/actor_dialog.html:888
+#: enferno/templates/views/admin/partials/incident_dialog.html:317
 msgid "Search & Relate Incidents"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:975
+#: enferno/templates/views/admin/partials/actor_dialog.html:892
 msgid ""
-"_(\"Analysis of Actors and Bulletins is intended to follow a \"closed "
-"universe\" approach, where the only focus of the analysis is the evidence"
-" contained in each item individually and without looking for additional "
-"information outside. This approach allows for speedy initial analysis of "
-"Actors and Bulletins and prevents adding any unreliable outside "
-"information or opinions. Incidents allow for the evidence contained in "
-"individual Actors and Bulletins to be linked together and analyzed as a "
-"group.\")"
+"_(\"Analysis of Actors and Primary Records is intended to follow a "
+"\"closed universe\" approach, where the only focus of the analysis is the"
+" evidence contained in each item individually and without looking for "
+"additional information outside. This approach allows for speedy initial "
+"analysis of Actors and Primary Records and prevents adding any unreliable"
+" outside information or opinions. Incidents allow for the evidence "
+"contained in individual Actors and Primary Records to be linked together "
+"and analyzed as a group.\")"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:1048
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:493
+#: enferno/templates/views/admin/partials/actor_dialog.html:974
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:497
 msgid ""
 "The URL to the original source from which the information was obtained. "
 "‘Not Available’ checkbox can be selected if the source link is no "
@@ -2498,667 +3010,247 @@ msgid ""
 " The field validates the entry and will not accept an invalid URL."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:1053
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:498
+#: enferno/templates/views/admin/partials/actor_dialog.html:978
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:502
 msgid "Not Available"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:1055
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:501
-#: enferno/data_import/templates/sheets-import.html:475
-msgid "Private"
+#: enferno/templates/views/admin/partials/actor_dialog.html:987
+#: enferno/templates/views/admin/partials/actor_dialog.html:992
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:511
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:516
+msgid "Time (UTC)"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/bulk_actor_drawer.html:12
-#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:12
-#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:12
+#: enferno/templates/views/admin/partials/bulk_actor_drawer.html:5
+#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:5
+#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:5
 msgid "Bulk Update"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/bulk_actor_drawer.html:45
-#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:50
-#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:45
+#: enferno/templates/views/admin/partials/bulk_actor_drawer.html:15
+#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:14
+#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:15
 msgid "Peer Reviewer"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/bulk_actor_drawer.html:78
-#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:88
-#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:75
-#: enferno/data_import/templates/media-import.html:166
-#: enferno/data_import/templates/sheets-import.html:745
-msgid "Access Roles"
-msgstr ""
-
-#: enferno/templates/views/admin/partials/bulk_actor_drawer.html:81
-#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:76
-#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:93
-#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:78
+#: enferno/templates/views/admin/partials/bulk_actor_drawer.html:24
+#: enferno/templates/views/admin/partials/bulk_actor_drawer.html:30
+#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:22
+#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:28
+#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:34
+#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:24
+#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:30
 msgid "Replace"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/bulk_actor_drawer.html:104
+#: enferno/templates/views/admin/partials/bulk_actor_drawer.html:42
 msgid "Bulk Update Actors"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:113
-msgid "Bulk Update Bulletins"
+#: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:46
+msgid "Bulk Update Primary Records"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:83
+#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:34
 msgid "Assign Related Items"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:84
+#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:35
 msgid "Restrict Related Items"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:103
+#: enferno/templates/views/admin/partials/bulk_incident_drawer.html:46
 msgid "Bulk Update Incidents"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:22
-msgid "Save Bulletin"
+#: enferno/templates/views/admin/partials/bulletin_advsearch.html:4
+msgid "Primary Record Advanced Search"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:99
-msgid "Original Title (AR)"
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:13
+msgid "Save Primary Record"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:103
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:137
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:78
+msgid "Original Title (Original Language)"
+msgstr ""
+
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:81
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:102
 msgid ""
 "Titles from sources might be edited for clarity, but the “Original Title”"
 " is retained."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:183
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:139
 msgid ""
-"The Bulletin Description should describe, in details, what happens, and "
-"what the content shows. Describe the people involved, the surrounding "
-"area, information about time and day. Be critical and only use (describe)"
-" the facts actually shown in the documentation."
+"The Primary Record description should describe, in details, what happens,"
+" and what the content shows. Describe the people involved, the "
+"surrounding area, information about time and day. Be critical and only "
+"use (describe) the facts actually shown in the documentation."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:231
-#: enferno/templates/views/admin/partials/incident_dialog.html:209
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:201
+#: enferno/templates/views/admin/partials/incident_dialog.html:140
 msgid ""
 "Locations is a central list of entries for the adminstrative centers "
 "(cities, towns, villages, etc)."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:250
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:224
 msgid ""
 "Geo Markers are geographical markers or landmarks that help describe the "
-"bulletin."
+"Primary Record."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:290
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:265
 msgid ""
 "Actors are items of documentation about persons or bodies of interest "
-"that can be related to otherActors, Bulletins, or Incidents, usually "
-"coming from a single source. The Actor profile contains fields to "
-"identify the person or body, relate the Actor to other items in the "
+"that can be related to otherActors, Primary Records, or Incidents, "
+"usually coming from a single source. The Actor profile contains fields to"
+" identify the person or body, relate the Actor to other items in the "
 "database, add labels and create Events."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:419
-#: enferno/templates/views/admin/partials/incident_dialog.html:484
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:408
 msgid ""
-"Analysis of Actors and Bulletins is intended to follow a \"closed "
+"Search & Relate\n"
+"                                                            Incidents"
+msgstr ""
+
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:414
+#: enferno/templates/views/admin/partials/incident_dialog.html:322
+msgid ""
+"Analysis of Actors and Primary Records is intended to follow a \"closed "
 "universe\" approach, where the only focus of the analysis is the evidence"
 " contained in each item individually and without looking for additional "
 "information outside. This approach allows for speedy initial analysis of "
-"Actors and Bulletins and prevents adding any unreliable outside "
+"Actors and Primary Records and prevents adding any unreliable outside "
 "information or opinions. Incidents allow for the evidence contained in "
-"individual Actors and Bulletins to be linked together and analyzed as a "
-"group."
+"individual Actors and Primary Records to be linked together and analyzed "
+"as a group."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/event_dialog.html:24
+#: enferno/templates/views/admin/partials/event_dialog.html:12
 msgid ""
 "Events are data forms to store time and location information related to "
-"Actors, Bulletins and Incidents. Users can attach one or more events."
+"Actors, Primary Records and Incidents. Users can attach one or more "
+"events."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/event_dialog.html:65
+#: enferno/templates/views/admin/partials/event_dialog.html:36
 msgid "Event"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/event_dialog.html:133
-#: enferno/data_import/templates/sheets-import.html:399
-msgid "Location"
+#: enferno/templates/views/admin/partials/event_dialog.html:72
+msgid "Description of Event"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/event_dialog.html:147
-#: enferno/data_import/templates/sheets-import.html:382
-#: enferno/data_import/templates/sheets-import.html:388
-msgid "Event Type"
-msgstr ""
-
-#: enferno/templates/views/admin/partials/event_dialog.html:156
-#: enferno/data_import/templates/sheets-import.html:403
-msgid "From"
-msgstr ""
-
-#: enferno/templates/views/admin/partials/event_dialog.html:159
-#: enferno/data_import/templates/sheets-import.html:405
-msgid "To"
-msgstr ""
-
-#: enferno/templates/views/admin/partials/event_dialog.html:163
-#: enferno/data_import/templates/sheets-import.html:407
-msgid "Estimated Time"
-msgstr ""
-
-#: enferno/templates/views/admin/partials/export_drawer.html:12
+#: enferno/templates/views/admin/partials/export_drawer.html:5
 msgid "Export Data"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/incident_dialog.html:20
+#: enferno/templates/views/admin/partials/incident_advsearch.html:4
+msgid "Incident Advanced Search"
+msgstr ""
+
+#: enferno/templates/views/admin/partials/incident_dialog.html:8
 msgid "Save Incident"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/incident_dialog.html:125
+#: enferno/templates/views/admin/partials/incident_dialog.html:78
 msgid ""
-"The incident description is a full description of the Incident and the "
-"evidence contained in the related Bulletins and Actors, as well as notes "
-"and additional resources."
+"A full description of the Incident as well as notes and additional "
+"resources."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/incident_dialog.html:148
+#: enferno/templates/views/admin/partials/incident_dialog.html:100
 msgid ""
 "List that is used to determine the category under which the violations "
 "related to the incident can be described."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/incident_dialog.html:166
+#: enferno/templates/views/admin/partials/incident_dialog.html:114
 msgid ""
 "List of violations that have been committed during the course of the "
 "event related to the incident."
 msgstr ""
 
-#: enferno/templates/views/admin/partials/location_dialog.html:20
+#: enferno/templates/views/admin/partials/location_dialog.html:10
 msgid "Save Location"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/location_dialog.html:46
-#: enferno/templates/views/admin/partials/location_dialog.html:96
+#: enferno/templates/views/admin/partials/location_dialog.html:30
+#: enferno/templates/views/admin/partials/location_dialog.html:73
 msgid "Location Details"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/location_dialog.html:76
-msgid "Title (Ar)"
+#: enferno/templates/views/admin/partials/location_dialog.html:57
+msgid "Title (Original Language)"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/location_dialog.html:148
+#: enferno/templates/views/admin/partials/location_dialog.html:90
 msgid "Country"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/location_dialog.html:164
+#: enferno/templates/views/admin/partials/location_dialog.html:96
 msgid "Parent Location"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/review_dialog.html:115
+#: enferno/templates/views/admin/partials/review_dialog.html:52
 msgid "Needs Review"
 msgstr ""
 
-#: enferno/templates/views/admin/partials/review_dialog.html:116
+#: enferno/templates/views/admin/partials/review_dialog.html:53
 msgid "No Review Needed"
 msgstr ""
 
-#: enferno/data_import/templates/import-log.html:35
-#: enferno/templates/components/nav-drawer.html:173
-msgid "Import Log"
-msgstr ""
-
-#: enferno/data_import/templates/import-log.html:176
-msgid "User"
-msgstr ""
-
-#: enferno/data_import/templates/import-log.html:177
-#: enferno/export/templates/export-dashboard.html:156
-msgid "Table"
-msgstr ""
-
-#: enferno/data_import/templates/import-log.html:178
-msgid "Item"
-msgstr ""
-
-#: enferno/data_import/templates/import-log.html:180
-msgid "File"
-msgstr ""
-
-#: enferno/data_import/templates/import-log.html:181
-#: enferno/export/templates/export-dashboard.html:158
-msgid "Format"
-msgstr ""
-
-#: enferno/data_import/templates/import-log.html:182
-msgid "Batch ID"
-msgstr ""
-
-#: enferno/data_import/templates/import-log.html:183
-#: enferno/export/templates/export-dashboard.html:160
-msgid "Requested time"
-msgstr ""
-
-#: enferno/data_import/templates/import-log.html:184
-msgid "Import time"
-msgstr ""
-
-#: enferno/data_import/templates/media-import.html:18
-msgid "Upload or Select"
-msgstr ""
-
-#: enferno/data_import/templates/media-import.html:21
-msgid "Add Data"
-msgstr ""
-
-#: enferno/data_import/templates/media-import.html:23
-msgid "Finish"
-msgstr ""
-
-#: enferno/data_import/templates/media-import.html:85
-msgid "Upload files"
-msgstr ""
-
-#: enferno/data_import/templates/media-import.html:88
-msgid "Manual web upload"
-msgstr ""
-
-#: enferno/data_import/templates/media-import.html:96
-msgid "Process path"
-msgstr ""
-
-#: enferno/data_import/templates/media-import.html:100
-msgid "Process existing files at path, server side(Faster)"
-msgstr ""
-
-#: enferno/data_import/templates/media-import.html:112
-#: enferno/data_import/templates/sheets-import.html:149
-msgid "Next"
-msgstr ""
-
-#: enferno/data_import/templates/media-import.html:141
-#: enferno/data_import/templates/sheets-import.html:122
-msgid "Back"
-msgstr ""
-
-#: enferno/data_import/templates/media-import.html:149
-msgid "Process"
-msgstr ""
-
-#: enferno/data_import/templates/media-import.html:155
-msgid "Attach data to files"
-msgstr ""
-
-#: enferno/data_import/templates/media-import.html:232
-msgid "Optimize videos"
-msgstr ""
-
-#: enferno/data_import/templates/media-import.html:236
-msgid "Parse PDF & MS Word files"
-msgstr ""
-
-#: enferno/data_import/templates/media-import.html:241
-msgid "Scan images for text"
-msgstr ""
-
-#: enferno/data_import/templates/media-import.html:266
-#: enferno/data_import/templates/sheets-import.html:775
-msgid "Check Import Progress"
-msgstr ""
-
-#: enferno/data_import/templates/media-import.html:294
-msgid "Scan"
-msgstr ""
-
-#: enferno/data_import/templates/media-import.html:609
-msgid "Files were added to queue successfully and will be imported in turn."
-msgstr ""
-
-#: enferno/data_import/templates/media-import.html:613
-#: enferno/data_import/templates/sheets-import.html:1140
-msgid "Error importing rows. Check logs for more information."
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:21
-msgid "Upload Sheet / Select Map"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:24
-msgid "Fields Map"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:26
-msgid "Bulk Upload & Import"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:37
-#: enferno/data_import/templates/sheets-import.html:234
-msgid "Create a new map"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:38
-msgid "Select an existing map"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:65
-msgid "Select Sheet to continue"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:80
-#: enferno/data_import/templates/sheets-import.html:128
-msgid "Load existing map"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:98
-msgid "Continue"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:160
-msgid "Sheet Fields"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:163
-msgid "Reset"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:167
-msgid "Search Fields"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:196
-msgid "Sample Data"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:218
-msgid "Actor Fields"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:223
-msgid "Map Name"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:232
-msgid "Update map"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:243
-msgid "Origin ID"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:289
-msgid "Middle/Father's Name"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:292
-msgid "Middle/Father's Name (AR)"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:697
-msgid "Sheet file:"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:699
-#: enferno/data_import/templates/sheets-import.html:707
-msgid "Selected"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:703
-msgid "Map:"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:727
-msgid "Optional: Upload more sheets to process"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:757
-msgid "Process File(s)"
-msgstr ""
-
-#: enferno/data_import/templates/sheets-import.html:1135
-msgid ""
-"Rows from file were added to queue successfully and will be imported in "
-"turn."
-msgstr ""
-
-#: enferno/deduplication/templates/deduplication.html:15
-msgid "Start"
-msgstr ""
-
-#: enferno/deduplication/templates/deduplication.html:20
-msgid "Stop"
-msgstr ""
-
-#: enferno/deduplication/templates/deduplication.html:128
-msgid "Match"
-msgstr ""
-
-#: enferno/deduplication/templates/deduplication.html:129
-msgid "Distance"
-msgstr ""
-
-#: enferno/deduplication/templates/deduplication.html:131
-msgid "Data"
-msgstr ""
-
-#: enferno/export/templates/export-dashboard.html:35
-#: enferno/templates/components/nav-drawer.html:236
-msgid "Exports"
-msgstr ""
-
-#: enferno/export/templates/export-dashboard.html:155
-msgid "Requester"
-msgstr ""
-
-#: enferno/export/templates/export-dashboard.html:157
-msgid "# of items"
-msgstr ""
-
-#: enferno/export/templates/export-dashboard.html:159
-msgid "Include Media"
-msgstr ""
-
-#: enferno/export/templates/export-dashboard.html:161
-msgid "Expiry time"
-msgstr ""
-
-#: enferno/export/templates/export-dashboard.html:163
-msgid "Download"
-msgstr ""
-
-#: enferno/templates/views/user/change-password.html:13
+#: enferno/templates/views/user/change-password.html:9
 msgid "Old Password"
 msgstr ""
 
-#: enferno/templates/views/user/change-password.html:16
+#: enferno/templates/views/user/change-password.html:10
 msgid "New Password"
 msgstr ""
 
-#: enferno/templates/views/user/change-password.html:20
+#: enferno/templates/views/user/change-password.html:12
 msgid "Confirm Password"
 msgstr ""
 
-#: enferno/templates/views/dashboard.html:21
-msgid "Welcome"
-msgstr ""
-
-#: enferno/templates/views/dashboard.html:25
-msgid "Last login"
-msgstr ""
-
-#: enferno/templates/footer.html:8
-msgid "All rights reserved."
-msgstr ""
-
-#: enferno/templates/components/nav-drawer.html:108
-msgid "Component Data"
-msgstr ""
-
-#: enferno/templates/components/nav-drawer.html:119
-msgid "Activity"
-msgstr ""
-
-#: enferno/templates/components/nav-drawer.html:128
-msgid "Users & Groups"
-msgstr ""
-
-#: enferno/templates/components/nav-drawer.html:140
-msgid "Users"
-msgstr ""
-
-#: enferno/templates/components/nav-drawer.html:152
-msgid "Groups"
-msgstr ""
-
-#: enferno/templates/components/nav-drawer.html:162
-msgid "Data Import"
-msgstr ""
-
-#: enferno/templates/components/nav-drawer.html:187
-msgid "Media Import"
-msgstr ""
-
-#: enferno/templates/components/nav-drawer.html:202
-msgid "Sheets Import"
-msgstr ""
-
-#: enferno/templates/components/nav-drawer.html:219
-msgid "Deduplication Dashbaord"
-msgstr ""
-
-#: enferno/templates/components/nav-drawer.html:253
-msgid "System Settings"
-msgstr ""
-
-#: enferno/templates/views/user/settings.html:16
+#: enferno/templates/views/user/settings.html:12
 msgid "Settings"
 msgstr ""
 
-#: enferno/templates/views/user/settings.html:21
+#: enferno/templates/views/user/settings.html:17
 msgid "User Interface"
 msgstr ""
 
-#: enferno/templates/views/user/settings.html:24
+#: enferno/templates/views/user/settings.html:19
 msgid "Dark Mode"
 msgstr ""
 
-#: enferno/templates/views/user/settings.html:29
+#: enferno/templates/views/user/settings.html:23
 msgid "Interface Language"
 msgstr ""
 
-#: enferno/templates/views/user/settings.html:38
+#: enferno/templates/views/user/settings.html:30
 msgid "Profile Settings"
 msgstr ""
 
-#: enferno/templates/views/user/settings.html:40
+#: enferno/templates/views/user/settings.html:32
 msgid "Change Password"
 msgstr ""
 
-#: enferno/templates/views/user/settings.html:48
+#: enferno/templates/views/user/settings.html:38
 msgid "Setup Two-Factor Auth"
 msgstr ""
 
-#: enferno/templates/views/user/settings.html:51
+#: enferno/templates/views/user/settings.html:41
 msgid "Recovery Codes"
 msgstr ""
 
-#: enferno/templates/views/user/settings.html:56
+#: enferno/templates/views/user/settings.html:45
 msgid "Setup a Security Key"
-msgstr ""
-
-#: enferno/templates/security/two_factor_select.html:30
-msgid "Available Second Factor Methods:"
-msgstr ""
-
-#: enferno/templates/security/two_factor_setup.html:38
-msgid "Two-factor authentication adds an extra layer of security to your account"
-msgstr ""
-
-#: enferno/templates/security/two_factor_setup.html:41
-msgid ""
-"In addition to your username and password, you'll need to use a code that"
-" your phone will generate"
-msgstr ""
-
-#: enferno/templates/security/two_factor_setup.html:58
-msgid "To complete logging in, please enter the code sent to your mail"
-msgstr ""
-
-#: enferno/templates/security/two_factor_setup.html:64
-msgid ""
-"Open an authenticator app on your device and scan the following QRcode, "
-"or enter the code below manually:"
-msgstr ""
-
-#: enferno/templates/security/two_factor_setup.html:67
-msgid "Two factor authentication code"
-msgstr ""
-
-#: enferno/templates/security/two_factor_setup.html:76
-msgid "To Which Phone Number Should We Send Code To?"
-msgstr ""
-
-#: enferno/templates/security/two_factor_verify_code.html:9
-msgid "Two-factor Authentication"
-msgstr ""
-
-#: enferno/templates/security/two_factor_verify_code.html:12
-msgid "Please enter your authentication code"
-msgstr ""
-
-#: enferno/templates/security/two_factor_verify_code.html:50
-msgid "The code for authentication was sent to your email address"
-msgstr ""
-
-#: enferno/templates/security/two_factor_verify_code.html:53
-msgid "A mail was sent to us in order to reset your application account"
-msgstr ""
-
-#: enferno/templates/security/two_factor_verify_password.html:7
-#: enferno/templates/security/verify.html:12
-msgid "Please Enter Your Password"
-msgstr ""
-
-#: enferno/templates/security/us_setup.html:6
-msgid "Setup Unified Sign In options"
-msgstr ""
-
-#: enferno/templates/security/us_setup.html:28
-msgid ""
-"Open your authenticator app on your device and scan the following qrcode "
-"to start receiving codes:"
-msgstr ""
-
-#: enferno/templates/security/us_setup.html:29
-msgid "Passwordless QRCode"
-msgstr ""
-
-#: enferno/templates/security/us_setup.html:32
-#: enferno/templates/security/us_signin.html:23
-#: enferno/templates/security/us_verify.html:22
-msgid "Code has been sent"
-msgstr ""
-
-#: enferno/templates/security/us_setup.html:36
-msgid "No methods have been enabled - nothing to setup"
-msgstr ""
-
-#: enferno/templates/security/us_signin.html:6
-msgid "Sign In"
-msgstr ""
-
-#: enferno/templates/security/us_signin.html:15
-#: enferno/templates/security/us_verify.html:14
-msgid "Request one-time code be sent"
-msgstr ""
-
-#: enferno/templates/security/us_verify.html:7
-msgid "Please re-authenticate"
-msgstr ""
-
-#: enferno/templates/security/wan_signin.html:21
-msgid "Sign In Using your Security Key"
 msgstr ""
 

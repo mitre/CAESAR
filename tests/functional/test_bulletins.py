@@ -18,7 +18,8 @@ def new_bulletin():
         "publish_date": datetime.date(randint(2005,2025), randint(1,12),randint(1,28)).strftime("%Y-%m-%dT%H:%M"),
         "documentation_date": datetime.date(randint(2005,2025), randint(1,12),randint(1,28)).strftime("%Y-%m-%dT%H:%M"),
         "sjac_title": str(uuid.uuid4()),
-        "comments": str(uuid.uuid4())
+        "comments": str(uuid.uuid4()),
+        "discovery_file_name": str(uuid.uuid4())
     }
   return bulletin
 
@@ -91,6 +92,7 @@ def assert_bulletins_match(first, second):
   assert first["documentation_date"] == second["documentation_date"]
   assert first["sjac_title"] == second["sjac_title"]
   assert first["comments"] == second["comments"]
+  assert first["discovery_file_name"] == second["discovery_file_name"]
 
 def test_bulletin_crud_sequence(auth_session):
   first_bulletin = new_bulletin()
