@@ -882,16 +882,16 @@
                                         <v-card outlined class="my-5">
                                             <v-card-title class="handle">
                                                 <v-icon left>mdi-hazard-lights</v-icon>
-                                                {{ _("Related Incidents") }}
+                                                {{ _("Related Investigations") }}
                                                 <v-spacer></v-spacer>
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
                                                         <v-text-field v-on="on" class="mx-5"
-                                                            v-model="relateIncidentTerm" label="{{ _("Search & Relate Incidents") }}" @keydown.enter="searchRelatedIncidents"
+                                                            v-model="relateIncidentTerm" label="{{ _("Search & Relate Investigations") }}" @keydown.enter="searchRelatedIncidents"
                                                             @click:append="searchRelatedIncidents"
                                                             append-icon="mdi-magnify"></v-text-field>
                                                     </template>
-                                                    <span>{{ _('_("Analysis of Actors and Primary Records is intended to follow a "closed universe" approach, where the only focus of the analysis is the evidence contained in each item individually and without looking for additional information outside. This approach allows for speedy initial analysis of Actors and Primary Records and prevents adding any unreliable outside information or opinions. Incidents allow for the evidence contained in individual Actors and Primary Records to be linked together and analyzed as a group.")') }}</span>
+                                                    <span>{{ _('_("Analysis of Actors and Primary Records is intended to follow a "closed universe" approach, where the only focus of the analysis is the evidence contained in each item individually and without looking for additional information outside. This approach allows for speedy initial analysis of Actors and Primary Records and prevents adding any unreliable outside information or opinions. Investigations allow for the evidence contained in individual Actors and Primary Records to be linked together and analyzed as a group.")') }}</span>
                                                 </v-tooltip>
                                             </v-card-title>
                                             <!--  Grid of Incidents Items -->

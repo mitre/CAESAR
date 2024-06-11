@@ -1262,17 +1262,17 @@ msgid "Edit Item"
 msgstr "تعديل العنصر"
 
 #: enferno/templates/views/admin/incidents.html:24
-msgid "All Incidents"
-msgstr "جميع الوقائع"
+msgid "All Investigations"
+msgstr "Tous les incidents"
 
 #: enferno/templates/views/admin/incidents.html:38
 #: enferno/templates/views/admin/incidents.html:491
-msgid "New Incident"
-msgstr "واقعة جديدة"
+msgid "New Investigations"
+msgstr "Nouvel incident"
 
 #: enferno/templates/views/admin/incidents.html:491
-msgid "Edit Incident"
-msgstr "تحرير الواقعة"
+msgid "Edit Investigations"
+msgstr "Modifier l'incident"
 
 #: enferno/templates/views/admin/jsapi.jinja2:10
 #: enferno/templates/views/admin/labels.html:74
@@ -1289,8 +1289,8 @@ msgstr "كيان"
 #: enferno/templates/views/admin/jsapi.jinja2:12
 #: enferno/templates/views/admin/labels.html:82
 #: enferno/templates/views/admin/labels.html:197
-msgid "Incident"
-msgstr "واقعة"
+msgid "Investigation"
+msgstr "Investigation"
 
 #: enferno/templates/views/admin/jsapi.jinja2:15
 #, fuzzy
@@ -3192,8 +3192,8 @@ msgstr ""
 #: enferno/templates/views/admin/partials/actor_dialog.html:888
 #: enferno/templates/views/admin/partials/incident_dialog.html:317
 #, fuzzy
-msgid "Search & Relate Incidents"
-msgstr "البحث عن الوقائع المرتبطة"
+msgid "Search & Relate Investigations"
+msgstr "Rechercher et signaler des investigations"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:892
 #, fuzzy

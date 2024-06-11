@@ -21,7 +21,7 @@
                         </template>
                         <template v-slot:top>
                             <v-toolbar flat color="white">
-                                <v-btn class="hidden-sm-and-down" small @click="allIncidents" text>{{ _("All Incidents") }}</v-btn>
+                                <v-btn class="hidden-sm-and-down" small @click="allIncidents" text>{{ _("All Investigations") }}</v-btn>
                                 <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
                                 <v-btn class="hidden-sm-and-down" small @click="myAssigned" text>{{ _("Assigned to me") }}</v-btn>
                                 <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
@@ -35,7 +35,7 @@
                                 </v-btn>
                                 <v-spacer></v-spacer>
                                 {% if current_user.roles_in(['Admin','DA']) %}
-                                <v-btn @click="editItem" color="accent" dark class="ma-2">{{ _("New Incident") }}</v-btn>
+                                <v-btn @click="editItem" color="accent" dark class="ma-2">{{ _("New Investigation") }}</v-btn>
                                 {% endif %}
                                 {% include 'views/admin/partials/incident_dialog.html' %}
                                 {% include 'views/admin/partials/review_dialog.html' %}
@@ -127,7 +127,7 @@
                                         mdi-account-box-outline
                                     </v-icon>
                                 </template>
-                                <span>Assign Incident</span>
+                                <span>Assign Investigation</span>
                             </v-tooltip>
                             <v-tooltip top>
                                 <template v-slot:activator="{ on }">
@@ -144,7 +144,7 @@
                                         class="mr-2">mdi-delete-sweep
                                     </v-icon>
                                 </template>
-                                <span>Delete Incident</span>
+                                <span>Delete Investigation</span>
                             </v-tooltip>
                         </template>
                         <template v-slot:no-data></template>
@@ -173,7 +173,7 @@
                     </v-dialog>
                     <v-dialog width="600" v-model="assignDialog">
                         <v-card class="pa-3">
-                            <v-card-title>Assign Incident #${assignIncident.id}</v-card-title>
+                            <v-card-title>Assign Investigation #${assignIncident.id}</v-card-title>
                             <v-card-text>
                                 <validation-provider name="Assigned To" rules="required" v-slot="{ errors }">
                                     <search-field-single v-model="assignIncident.assigned_to_id" api="/admin/api/users/"
@@ -188,7 +188,7 @@
                             </v-card-text>
                             <v-card-actions>
                                 <v-btn :disabled="!assignIncident.comments || !assignIncident.assigned_to_id"
-                                    class="ma-auto" @click="assignOther()" color="primary">Assign Incident
+                                    class="ma-auto" @click="assignOther()" color="primary">Assign Investigation
                                 </v-btn>
                             </v-card-actions>
                         </v-card>
@@ -488,7 +488,7 @@
             return ids;
         },
         formTitle() {
-            return this.editedIndex === -1 ? "{{_('New Incident')}}" : "{{_('Edit Incident')}}";
+            return this.editedIndex === -1 ? "{{_('New Investigation')}}" : "{{_('Edit Investigation')}}";
         },
         videoPlayer() {
             return document.querySelector("#player");
@@ -617,7 +617,7 @@
             axios.put(`/admin/api/incident/assignother/${this.assignIncident.id}`, {
                 incident: this.assignIncident
             }).then(res => {
-                this.showSnack('Incident assigned successfully.')
+                this.showSnack('Investigation assigned successfully.')
                 this.searchIncidents(true)
             }).catch(err => {
                 this.showSnack(err.response.data);
@@ -630,7 +630,7 @@
             axios.put(`/admin/api/incident/assign/${this.assignIncident.id}`, {
                 incident: this.assignIncident
             }).then(res => {
-                this.showSnack('Incident assigned successfully.')
+                this.showSnack('Investigation assigned successfully.')
                 this.searchIncidents()
             }).catch(err => {
                 this.showSnack(err.response.data);

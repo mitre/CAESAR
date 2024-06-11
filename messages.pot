@@ -760,7 +760,7 @@ msgstr ""
 
 #: enferno/templates/components/nav-drawer.html:29
 #: enferno/templates/views/admin/jsapi.jinja2:229
-msgid "Incidents"
+msgid "Investigations"
 msgstr ""
 
 #: enferno/templates/components/nav-drawer.html:73
@@ -1079,17 +1079,17 @@ msgstr ""
 
 #: enferno/templates/views/admin/component-data.html:40
 #: enferno/templates/views/admin/component-data.html:149
-msgid "Incident to Primary Record Relations"
+msgid "Investigation to Primary Record Relations"
 msgstr ""
 
 #: enferno/templates/views/admin/component-data.html:43
 #: enferno/templates/views/admin/component-data.html:162
-msgid "Incident to Actor Relations"
+msgid "Investigation to Actor Relations"
 msgstr ""
 
 #: enferno/templates/views/admin/component-data.html:46
 #: enferno/templates/views/admin/component-data.html:175
-msgid "Incident to Incident Relations"
+msgid "Investigation to Investigation Relations"
 msgstr ""
 
 #: enferno/templates/views/admin/component-data.html:49
@@ -1203,16 +1203,16 @@ msgid "Edit Item"
 msgstr ""
 
 #: enferno/templates/views/admin/incidents.html:24
-msgid "All Incidents"
+msgid "All Investigations"
 msgstr ""
 
 #: enferno/templates/views/admin/incidents.html:38
 #: enferno/templates/views/admin/incidents.html:491
-msgid "New Incident"
+msgid "New Investigation"
 msgstr ""
 
 #: enferno/templates/views/admin/incidents.html:491
-msgid "Edit Incident"
+msgid "Edit Investigation"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:10
@@ -1230,7 +1230,7 @@ msgstr ""
 #: enferno/templates/views/admin/jsapi.jinja2:12
 #: enferno/templates/views/admin/labels.html:82
 #: enferno/templates/views/admin/labels.html:197
-msgid "Incident"
+msgid "Investigation"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:15
@@ -1530,7 +1530,7 @@ msgid "Postal Code"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:98
-msgid "Main Incident"
+msgid "Main Investigation"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:103
@@ -1580,7 +1580,7 @@ msgstr ""
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:403
 #: enferno/templates/views/admin/partials/incident_dialog.html:310
 #: enferno/templates/views/admin/partials/incident_dialog.html:311
-msgid "Related Incidents"
+msgid "Related Investigations"
 msgstr ""
 
 #: enferno/templates/views/admin/jsapi.jinja2:119
@@ -2985,7 +2985,7 @@ msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:888
 #: enferno/templates/views/admin/partials/incident_dialog.html:317
-msgid "Search & Relate Incidents"
+msgid "Search & Relate Investigations"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:892
@@ -3061,7 +3061,7 @@ msgid "Restrict Related Items"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulk_incident_drawer.html:46
-msgid "Bulk Update Incidents"
+msgid "Bulk Update Investigations"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/bulletin_advsearch.html:4
@@ -3152,29 +3152,29 @@ msgid "Export Data"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/incident_advsearch.html:4
-msgid "Incident Advanced Search"
+msgid "Investigation Advanced Search"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/incident_dialog.html:8
-msgid "Save Incident"
+msgid "Save Investigation"
 msgstr ""
 
 #: enferno/templates/views/admin/partials/incident_dialog.html:78
 msgid ""
-"A full description of the Incident as well as notes and additional "
+"A full description of the Investigation as well as notes and additional "
 "resources."
 msgstr ""
 
 #: enferno/templates/views/admin/partials/incident_dialog.html:100
 msgid ""
 "List that is used to determine the category under which the violations "
-"related to the incident can be described."
+"related to the Investigation can be described."
 msgstr ""
 
 #: enferno/templates/views/admin/partials/incident_dialog.html:114
 msgid ""
 "List of violations that have been committed during the course of the "
-"event related to the incident."
+"event related to the Investigation."
 msgstr ""
 
 #: enferno/templates/views/admin/partials/location_dialog.html:10

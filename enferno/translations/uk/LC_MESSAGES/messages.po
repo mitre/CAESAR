@@ -1269,16 +1269,16 @@ msgid "Edit Item"
 msgstr "Редагувати елемент"
 
 #: enferno/templates/views/admin/incidents.html:24
-msgid "All Incidents"
+msgid "All Investigations"
 msgstr "Усі випадки"
 
 #: enferno/templates/views/admin/incidents.html:38
 #: enferno/templates/views/admin/incidents.html:491
-msgid "New Incident"
+msgid "New Investigation"
 msgstr "Новий випадок"
 
 #: enferno/templates/views/admin/incidents.html:491
-msgid "Edit Incident"
+msgid "Edit Investigation"
 msgstr "Редагувати випадок"
 
 #: enferno/templates/views/admin/jsapi.jinja2:10
@@ -3202,7 +3202,7 @@ msgstr ""
 #: enferno/templates/views/admin/partials/actor_dialog.html:888
 #: enferno/templates/views/admin/partials/incident_dialog.html:317
 #, fuzzy
-msgid "Search & Relate Incidents"
+msgid "Search & Relate Investigations"
 msgstr "Знайти та Пов'язати Випадки"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:892
