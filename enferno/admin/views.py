@@ -1892,7 +1892,7 @@ def api_incident_assign(id):
 
         # Record Activity
         Activity.create(current_user, Activity.ACTION_UPDATE, incident.to_mini(), 'incident')
-        return F'Saved Incident #{incident.id}', 200
+        return F'Saved Investigation #{incident.id}', 200
     else:
         return HTTPResponse.NOT_FOUND
 
@@ -1928,7 +1928,7 @@ def api_incident_self_assign(id):
 
         # Record Activity
         Activity.create(current_user, Activity.ACTION_UPDATE, incident.to_mini(), 'incident')
-        return F'Saved Incident #{incident.id}', 200
+        return F'Saved Investigation #{incident.id}', 200
     else:
         return HTTPResponse.NOT_FOUND
 
@@ -3158,7 +3158,7 @@ def api_incident_create():
     incident.create_revision()
     # Record activity
     Activity.create(current_user, Activity.ACTION_CREATE, incident.to_mini(), 'incident')
-    return F'Created Incident #{incident.id}', 200
+    return F'Created Investigation #{incident.id}', 200
 
 
 # update incident endpoint
@@ -3180,9 +3180,9 @@ def api_incident_update(id):
             incident.create_revision()
             # Record activity
             Activity.create(current_user, Activity.ACTION_UPDATE, incident.to_mini(), 'incident')
-            return F'Saved Incident #{id}', 200
+            return F'Saved Investigation #{id}', 200
         else:
-            return F'Error saving Incident {id}', 417
+            return F'Error saving Investigation {id}', 417
     else:
         return HTTPResponse.NOT_FOUND
 
@@ -3202,7 +3202,7 @@ def api_incidnet_delete(id):
     Activity.create(current_user, Activity.ACTION_DELETE, incident.to_mini(), 'incident')
     incident.deleted = True
     incident.create_revision()
-    return F'Deleted Incident #{incident.id}', 200
+    return F'Deleted Investigation #{incident.id}', 200
 
 
 # Add/Update review incident endpoint
@@ -3233,7 +3233,7 @@ def api_incident_review_update(id):
             Activity.create(current_user, Activity.ACTION_UPDATE, incident.to_mini(), 'incident')
             return F'Bulletin review updated #{id}', 200
         else:
-            return F'Error saving Incident #{id}\'s Review', 417
+            return F'Error saving Investigation #{id}\'s Review', 417
     else:
         return HTTPResponse.NOT_FOUND
 

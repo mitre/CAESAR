@@ -5,7 +5,7 @@
                 <v-toolbar-title>${formTitle} <span class="gv--text" v-if="editedItem.id">${editedItem.id}</span>
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn @click="save" :disabled="invalid" dark color="accent" small class="mx-2" depressed>{{ _("Save Incident") }}
+                <v-btn @click="save" :disabled="invalid" dark color="accent" small class="mx-2" depressed>{{ _("Save Investigation") }}
                 </v-btn>
                 <v-btn @click="confirmClose" icon>
                     <v-icon>mdi-close</v-icon>
@@ -17,7 +17,7 @@
                         <v-row>
                             <v-col cols="2" class="anchor-col">
                                 <v-list shaped class="anchor-menu">
-                                    <v-subheader>Incident</v-subheader>
+                                    <v-subheader>Investigation</v-subheader>
                                     <v-list-item-group color="primary">
                                         <v-list-item>
                                             <v-list-item-content @click="anchorScroll('general')">
@@ -75,7 +75,7 @@
                                                       <div v-on="on" class="ml-2 mb-1">
                                                           <v-icon>mdi-information-outline</v-icon>
                                                   </template>
-                                                  <span>{{ _('A full description of the Incident as well as notes and additional resources.') }}</span>
+                                                  <span>{{ _('A full description of the Investigation as well as notes and additional resources.') }}</span>
                                               </v-tooltip>
                                             </div>
                                             <tinymce-editor :init="tinyConfig"
@@ -97,7 +97,7 @@
                                                     </search-field>
                                                 </div>
                                             </template>
-                                            <span>{{ _('List that is used to determine the category under which the violations related to the incident can be described.') }}</span>
+                                            <span>{{ _('List that is used to determine the category under which the violations related to the Investigation can be described.') }}</span>
                                         </v-tooltip>
                                     </v-col>
                                     <v-col cols="12" md="6">
@@ -111,7 +111,7 @@
                                                     </search-field>
                                                 </div>
                                             </template>
-                                            <span>{{ _('List of violations that have been committed during the course of the event related to the incident.') }}</span>
+                                            <span>{{ _('List of violations that have been committed during the course of the event related to the investigation.') }}</span>
                                         </v-tooltip>
                                     </v-col>
                                 </v-row>
@@ -170,7 +170,7 @@
                                                             @click:append="searchRelatedActors"
                                                             append-icon="mdi-magnify"></v-text-field>
                                                     </template>
-                                                    <span>{{ _('Actors are items of documentation about persons or bodies of interest that can be related to other Actors, Primary Records, or Incidents, usually coming from a single source. The Actor profile contains fields to identify the person or body, relate the Actor to other items in the database, add labels and create Events.') }}</span>
+                                                    <span>{{ _('Actors are items of documentation about persons or bodies of interest that can be related to other Actors, Primary Records, or Investigations, usually coming from a single source. The Actor profile contains fields to identify the person or body, relate the Actor to other items in the database, add labels and create Events.') }}</span>
                                                 </v-tooltip>
                                             </v-card-title>
                                             <!--  Grid of Actors Items -->
@@ -307,19 +307,19 @@
                                         <v-card outlined class="my-5">
                                             <v-card-title class="handle">
                                                 <v-icon left>mdi-hazard-lights</v-icon>
-                                                <!-- <v-btn :loading="ir_loading" :disabled="ir_loaded" @click.stop="loadIncidentRelations" outlined>{{ _('Related Incidents') }}</v-btn> -->
-                                                {{ _("Related Incidents") }}
+                                                <!-- <v-btn :loading="ir_loading" :disabled="ir_loaded" @click.stop="loadIncidentRelations" outlined>{{ _('Related Investigations') }}</v-btn> -->
+                                                {{ _("Related Investigations") }}
                                                 <v-spacer></v-spacer>
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
                                                         <v-text-field v-on="on" class="mx-5"
                                                             v-model="relateIncidentTerm"
-                                                            label="{{ _("Search & Relate Incidents") }}"
+                                                            label="{{ _("Search & Relate Investigations") }}"
                                                             @keydown.enter="searchRelatedIncidents"
                                                             @click:append="searchRelatedIncidents"
                                                             append-icon="mdi-magnify"></v-text-field>
                                                     </template>
-                                                    <span>{{ _('Analysis of Actors and Primary Records is intended to follow a "closed universe" approach, where the only focus of the analysis is the evidence contained in each item individually and without looking for additional information outside. This approach allows for speedy initial analysis of Actors and Primary Records and prevents adding any unreliable outside information or opinions. Incidents allow for the evidence contained in individual Actors and Primary Records to be linked together and analyzed as a group.')}}</span>
+                                                    <span>{{ _('Analysis of Actors and Primary Records is intended to follow a "closed universe" approach, where the only focus of the analysis is the evidence contained in each item individually and without looking for additional information outside. This approach allows for speedy initial analysis of Actors and Primary Records and prevents adding any unreliable outside information or opinions. Investigations allow for the evidence contained in individual Actors and Primary Records to be linked together and analyzed as a group.')}}</span>
                                                 </v-tooltip>
                                             </v-card-title>
                                             <!--  Grid of Incident Items -->

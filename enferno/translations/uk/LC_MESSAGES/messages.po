@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Bayanat v1.11.1\n"
 "Report-Msgid-Bugs-To: tech@syriaaccountability.org \n"
-"POT-Creation-Date: 2024-05-29 13:03-0400\n"
+"POT-Creation-Date: 2024-06-11 12:49+0000\n"
 "PO-Revision-Date: 2022-03-08 19:33+0000\n"
 "Last-Translator: SJAC <tech@syriaaccountability.org >\n"
 "Language: uk\n"
@@ -93,11 +93,11 @@ msgstr "Назва"
 #: enferno/templates/views/admin/actors.html:441
 #: enferno/templates/views/admin/bulletins.html:427
 #: enferno/templates/views/admin/incidents.html:401
-#: enferno/templates/views/admin/partials/actor_dialog.html:1012
+#: enferno/templates/views/admin/partials/actor_dialog.html:1014
 #: enferno/templates/views/admin/partials/bulk_actor_drawer.html:19
 #: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:17
 #: enferno/templates/views/admin/partials/bulk_incident_drawer.html:19
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:536
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:545
 #: enferno/templates/views/admin/partials/incident_dialog.html:396
 msgid "Status"
 msgstr "Статус"
@@ -177,16 +177,16 @@ msgstr "Прикріпити дані до файлів"
 
 #: enferno/data_import/templates/media-import.html:100
 #: enferno/data_import/templates/sheets-import.html:543
-#: enferno/templates/views/admin/partials/actor_dialog.html:1036
-#: enferno/templates/views/admin/partials/actor_dialog.html:1043
+#: enferno/templates/views/admin/partials/actor_dialog.html:1038
+#: enferno/templates/views/admin/partials/actor_dialog.html:1045
 #: enferno/templates/views/admin/partials/bulk_actor_drawer.html:23
 #: enferno/templates/views/admin/partials/bulk_actor_drawer.html:29
 #: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:27
 #: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:33
 #: enferno/templates/views/admin/partials/bulk_incident_drawer.html:23
 #: enferno/templates/views/admin/partials/bulk_incident_drawer.html:29
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:560
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:567
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:569
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:576
 #: enferno/templates/views/admin/partials/incident_dialog.html:420
 #: enferno/templates/views/admin/partials/incident_dialog.html:427
 msgid "Access Roles"
@@ -283,7 +283,7 @@ msgstr "Сканувати"
 #: enferno/templates/views/admin/jsapi.jinja2:88
 #: enferno/templates/views/admin/jsapi.jinja2:171
 #: enferno/templates/views/admin/partials/actor_dialog.html:87
-#: enferno/templates/views/admin/partials/actor_dialog.html:530
+#: enferno/templates/views/admin/partials/actor_dialog.html:532
 #: enferno/templates/views/admin/roles.html:160
 #: enferno/templates/views/admin/users.html:232
 msgid "Name"
@@ -547,16 +547,16 @@ msgstr "Тип події"
 #: enferno/templates/views/admin/jsapi.jinja2:123
 #: enferno/templates/views/admin/labels.html:50
 #: enferno/templates/views/admin/labels.html:182
-#: enferno/templates/views/admin/partials/actor_dialog.html:845
-#: enferno/templates/views/admin/partials/actor_dialog.html:936
-#: enferno/templates/views/admin/partials/actor_dialog.html:1002
+#: enferno/templates/views/admin/partials/actor_dialog.html:847
+#: enferno/templates/views/admin/partials/actor_dialog.html:938
+#: enferno/templates/views/admin/partials/actor_dialog.html:1004
 #: enferno/templates/views/admin/partials/bulk_actor_drawer.html:35
 #: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:39
 #: enferno/templates/views/admin/partials/bulk_incident_drawer.html:39
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:306
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:382
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:458
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:527
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:536
 #: enferno/templates/views/admin/partials/export_drawer.html:23
 #: enferno/templates/views/admin/partials/incident_dialog.html:215
 #: enferno/templates/views/admin/partials/incident_dialog.html:289
@@ -658,14 +658,14 @@ msgstr ""
 
 #: enferno/data_import/templates/sheets-import.html:321
 #: enferno/templates/views/admin/jsapi.jinja2:122
-#: enferno/templates/views/admin/partials/actor_dialog.html:969
+#: enferno/templates/views/admin/partials/actor_dialog.html:971
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:489
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:491
 msgid "Source Link"
 msgstr "Посилання на джерело"
 
 #: enferno/data_import/templates/sheets-import.html:332
-#: enferno/templates/views/admin/partials/actor_dialog.html:981
+#: enferno/templates/views/admin/partials/actor_dialog.html:983
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:505
 #, fuzzy
 msgid "Private"
@@ -673,15 +673,15 @@ msgstr "Особистий"
 
 #: enferno/data_import/templates/sheets-import.html:333
 #: enferno/templates/views/admin/jsapi.jinja2:120
-#: enferno/templates/views/admin/partials/actor_dialog.html:988
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:512
+#: enferno/templates/views/admin/partials/actor_dialog.html:990
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:521
 msgid "Publish Date"
 msgstr "Дата публікації"
 
 #: enferno/data_import/templates/sheets-import.html:334
 #: enferno/templates/views/admin/jsapi.jinja2:121
-#: enferno/templates/views/admin/partials/actor_dialog.html:993
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:517
+#: enferno/templates/views/admin/partials/actor_dialog.html:995
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:526
 msgid "Date Created"
 msgstr ""
 
@@ -791,8 +791,9 @@ msgstr "Виконваці"
 
 #: enferno/templates/components/nav-drawer.html:29
 #: enferno/templates/views/admin/jsapi.jinja2:229
-msgid "Incidents"
-msgstr "Випадки"
+#, fuzzy
+msgid "Investigations"
+msgstr "Усі випадки"
 
 #: enferno/templates/components/nav-drawer.html:73
 #: enferno/templates/views/admin/eventtypes.html:17
@@ -1031,15 +1032,15 @@ msgstr "Обрані елементи"
 #: enferno/templates/views/admin/bulletins.html:416
 #: enferno/templates/views/admin/incidents.html:181
 #: enferno/templates/views/admin/incidents.html:390
-#: enferno/templates/views/admin/partials/actor_dialog.html:1014
-#: enferno/templates/views/admin/partials/actor_dialog.html:1020
-#: enferno/templates/views/admin/partials/actor_dialog.html:1027
+#: enferno/templates/views/admin/partials/actor_dialog.html:1016
+#: enferno/templates/views/admin/partials/actor_dialog.html:1022
+#: enferno/templates/views/admin/partials/actor_dialog.html:1029
 #: enferno/templates/views/admin/partials/bulk_actor_drawer.html:11
 #: enferno/templates/views/admin/partials/bulk_bulletin_drawer.html:11
 #: enferno/templates/views/admin/partials/bulk_incident_drawer.html:11
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:538
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:544
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:551
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:547
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:553
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:560
 #: enferno/templates/views/admin/partials/incident_dialog.html:398
 #: enferno/templates/views/admin/partials/incident_dialog.html:404
 #: enferno/templates/views/admin/partials/incident_dialog.html:411
@@ -1135,19 +1136,21 @@ msgstr ""
 
 #: enferno/templates/views/admin/component-data.html:40
 #: enferno/templates/views/admin/component-data.html:149
-msgid "Incident to Primary Record Relations"
-msgstr ""
+#, fuzzy
+msgid "Investigation to Primary Record Relations"
+msgstr "Для бюлетенів"
 
 #: enferno/templates/views/admin/component-data.html:43
 #: enferno/templates/views/admin/component-data.html:162
 #, fuzzy
-msgid "Incident to Actor Relations"
+msgid "Investigation to Actor Relations"
 msgstr "Включити місця подій"
 
 #: enferno/templates/views/admin/component-data.html:46
 #: enferno/templates/views/admin/component-data.html:175
-msgid "Incident to Incident Relations"
-msgstr ""
+#, fuzzy
+msgid "Investigation to Investigation Relations"
+msgstr "Включити місця подій"
 
 #: enferno/templates/views/admin/component-data.html:49
 #: enferno/templates/views/admin/component-data.html:188
@@ -1204,10 +1207,12 @@ msgid "New Item"
 msgstr "Новий елемент"
 
 #: enferno/templates/views/admin/eventtypes.html:43
+#: enferno/templates/views/admin/eventtypes.html:156
 #: enferno/templates/views/admin/labels.html:44
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:99
 #: enferno/templates/views/admin/partials/event_dialog.html:44
 #: enferno/templates/views/admin/partials/incident_dialog.html:60
+#: enferno/templates/views/admin/partials/location_dialog.html:57
 msgid "Title (Original Language)"
 msgstr ""
 
@@ -1257,10 +1262,6 @@ msgstr "Імпортувати CSV"
 msgid "Select CSV File"
 msgstr "Обрати файл CSV"
 
-#: enferno/templates/views/admin/eventtypes.html:156
-msgid "Title (Original Language)"
-msgstr ""
-
 #: enferno/templates/views/admin/eventtypes.html:187
 #: enferno/templates/views/admin/labels.html:225
 #: enferno/templates/views/admin/sources.html:193
@@ -1269,16 +1270,16 @@ msgid "Edit Item"
 msgstr "Редагувати елемент"
 
 #: enferno/templates/views/admin/incidents.html:24
-msgid "All Incidents"
+msgid "All Investigations"
 msgstr "Усі випадки"
 
 #: enferno/templates/views/admin/incidents.html:38
 #: enferno/templates/views/admin/incidents.html:491
-msgid "New Incident"
+msgid "New Investigation"
 msgstr "Новий випадок"
 
 #: enferno/templates/views/admin/incidents.html:491
-msgid "Edit Incident"
+msgid "Edit Investigation"
 msgstr "Редагувати випадок"
 
 #: enferno/templates/views/admin/jsapi.jinja2:10
@@ -1296,8 +1297,9 @@ msgstr "Виконавець"
 #: enferno/templates/views/admin/jsapi.jinja2:12
 #: enferno/templates/views/admin/labels.html:82
 #: enferno/templates/views/admin/labels.html:197
-msgid "Incident"
-msgstr "Випадок"
+#, fuzzy
+msgid "Investigation"
+msgstr "Новий випадок"
 
 #: enferno/templates/views/admin/jsapi.jinja2:15
 #, fuzzy
@@ -1604,7 +1606,7 @@ msgstr "Вуса"
 
 #: enferno/templates/views/admin/jsapi.jinja2:98
 #, fuzzy
-msgid "Main Incident"
+msgid "Main Investigation"
 msgstr "Новий випадок"
 
 #: enferno/templates/views/admin/jsapi.jinja2:103
@@ -1630,12 +1632,11 @@ msgstr "Оригінальна назва"
 #: enferno/templates/views/admin/partials/actor_dialog.html:468
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:49
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:239
-#: enferno/templates/views/admin/partials/media_dialog.html:6
 msgid "Media"
 msgstr "Медіа"
 
 #: enferno/templates/views/admin/jsapi.jinja2:116
-#: enferno/templates/views/admin/partials/actor_dialog.html:865
+#: enferno/templates/views/admin/partials/actor_dialog.html:867
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:327
 #: enferno/templates/views/admin/partials/incident_dialog.html:236
 #: enferno/templates/views/admin/partials/incident_dialog.html:237
@@ -1644,7 +1645,7 @@ msgid "Related Primary Records"
 msgstr "Пов'язані виконавці"
 
 #: enferno/templates/views/admin/jsapi.jinja2:117
-#: enferno/templates/views/admin/partials/actor_dialog.html:790
+#: enferno/templates/views/admin/partials/actor_dialog.html:792
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:254
 #: enferno/templates/views/admin/partials/incident_dialog.html:161
 #: enferno/templates/views/admin/partials/incident_dialog.html:162
@@ -1652,12 +1653,13 @@ msgid "Related Actors"
 msgstr "Пов'язані виконавці"
 
 #: enferno/templates/views/admin/jsapi.jinja2:118
-#: enferno/templates/views/admin/partials/actor_dialog.html:883
+#: enferno/templates/views/admin/partials/actor_dialog.html:885
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:403
 #: enferno/templates/views/admin/partials/incident_dialog.html:310
 #: enferno/templates/views/admin/partials/incident_dialog.html:311
-msgid "Related Incidents"
-msgstr "Пов'язані випадки"
+#, fuzzy
+msgid "Related Investigations"
+msgstr "Знайти та Пов'язати Випадки"
 
 #: enferno/templates/views/admin/jsapi.jinja2:119
 #, fuzzy
@@ -1728,22 +1730,22 @@ msgid "Missing Person"
 msgstr "Зник(-ла) безвісти"
 
 #: enferno/templates/views/admin/jsapi.jinja2:165
-#: enferno/templates/views/admin/partials/actor_dialog.html:485
+#: enferno/templates/views/admin/partials/actor_dialog.html:487
 msgid "Last Address"
 msgstr "Остання адреса"
 
 #: enferno/templates/views/admin/jsapi.jinja2:166
-#: enferno/templates/views/admin/partials/actor_dialog.html:489
+#: enferno/templates/views/admin/partials/actor_dialog.html:491
 msgid "Marriage History"
 msgstr "Шлюбна історія"
 
 #: enferno/templates/views/admin/jsapi.jinja2:167
-#: enferno/templates/views/admin/partials/actor_dialog.html:495
+#: enferno/templates/views/admin/partials/actor_dialog.html:497
 msgid "Bio Children"
 msgstr "Рідні діти"
 
 #: enferno/templates/views/admin/jsapi.jinja2:168
-#: enferno/templates/views/admin/partials/actor_dialog.html:503
+#: enferno/templates/views/admin/partials/actor_dialog.html:505
 msgid "Pregnant at Disappearance"
 msgstr "Вагітність на момент зникнення"
 
@@ -1752,64 +1754,64 @@ msgid "Months Pregnant at Disappearance"
 msgstr "Місяць вагітності на момент зникнення"
 
 #: enferno/templates/views/admin/jsapi.jinja2:170
-#: enferno/templates/views/admin/partials/actor_dialog.html:519
+#: enferno/templates/views/admin/partials/actor_dialog.html:521
 msgid "Missing Relatives"
 msgstr "Зниклі родичі"
 
 #: enferno/templates/views/admin/jsapi.jinja2:172
-#: enferno/templates/views/admin/partials/actor_dialog.html:532
+#: enferno/templates/views/admin/partials/actor_dialog.html:534
 msgid "Address"
 msgstr "Адреса"
 
 #: enferno/templates/views/admin/jsapi.jinja2:173
-#: enferno/templates/views/admin/partials/actor_dialog.html:534
+#: enferno/templates/views/admin/partials/actor_dialog.html:536
 msgid "Phone"
 msgstr "Телефон"
 
 #: enferno/templates/views/admin/jsapi.jinja2:174
-#: enferno/templates/views/admin/partials/actor_dialog.html:538
+#: enferno/templates/views/admin/partials/actor_dialog.html:540
 #: enferno/templates/views/admin/users.html:71
 #: enferno/templates/views/admin/users.html:229
 msgid "Email"
 msgstr "Електронна пошта"
 
 #: enferno/templates/views/admin/jsapi.jinja2:175
-#: enferno/templates/views/admin/partials/actor_dialog.html:546
+#: enferno/templates/views/admin/partials/actor_dialog.html:548
 msgid "Seen in a detention center?"
 msgstr "Бачили у слідчому ізоляторі?"
 
 #: enferno/templates/views/admin/jsapi.jinja2:176
-#: enferno/templates/views/admin/partials/actor_dialog.html:552
+#: enferno/templates/views/admin/partials/actor_dialog.html:554
 msgid "Injured around time of disappearance?"
 msgstr "Травмований перед зникненням?"
 
 #: enferno/templates/views/admin/jsapi.jinja2:177
-#: enferno/templates/views/admin/partials/actor_dialog.html:557
+#: enferno/templates/views/admin/partials/actor_dialog.html:559
 msgid "Known to be dead?"
 msgstr "Визнаний мертвим?"
 
 #: enferno/templates/views/admin/jsapi.jinja2:178
-#: enferno/templates/views/admin/partials/actor_dialog.html:563
+#: enferno/templates/views/admin/partials/actor_dialog.html:565
 msgid "Details about circumstances of death"
 msgstr "Подробиці обставин смерті"
 
 #: enferno/templates/views/admin/jsapi.jinja2:179
-#: enferno/templates/views/admin/partials/actor_dialog.html:567
+#: enferno/templates/views/admin/partials/actor_dialog.html:569
 msgid "Personal Items (watch,ring,chains etc)"
 msgstr "Особисті речі (годинник, обручка, ланцюжок тощо)"
 
 #: enferno/templates/views/admin/jsapi.jinja2:180
-#: enferno/templates/views/admin/partials/actor_dialog.html:577
+#: enferno/templates/views/admin/partials/actor_dialog.html:579
 msgid "Height"
 msgstr "Зріст"
 
 #: enferno/templates/views/admin/jsapi.jinja2:181
-#: enferno/templates/views/admin/partials/actor_dialog.html:585
+#: enferno/templates/views/admin/partials/actor_dialog.html:587
 msgid "Weight"
 msgstr "Вага"
 
 #: enferno/templates/views/admin/jsapi.jinja2:182
-#: enferno/templates/views/admin/partials/actor_dialog.html:590
+#: enferno/templates/views/admin/partials/actor_dialog.html:592
 msgid "Physique"
 msgstr "Статура"
 
@@ -1834,22 +1836,22 @@ msgid "Facial Hair"
 msgstr "Волосся на обличчі"
 
 #: enferno/templates/views/admin/jsapi.jinja2:188
-#: enferno/templates/views/admin/partials/actor_dialog.html:631
+#: enferno/templates/views/admin/partials/actor_dialog.html:633
 msgid "Notes on posture and walking style"
 msgstr "Нотатки про поставу та стиль ходьби"
 
 #: enferno/templates/views/admin/jsapi.jinja2:189
-#: enferno/templates/views/admin/partials/actor_dialog.html:650
+#: enferno/templates/views/admin/partials/actor_dialog.html:652
 msgid "Skin Markings"
 msgstr "Відмітки на шкірі"
 
 #: enferno/templates/views/admin/jsapi.jinja2:190
-#: enferno/templates/views/admin/partials/actor_dialog.html:633
+#: enferno/templates/views/admin/partials/actor_dialog.html:635
 msgid "Handness"
 msgstr "Правша/Лівша"
 
 #: enferno/templates/views/admin/jsapi.jinja2:191
-#: enferno/templates/views/admin/partials/actor_dialog.html:638
+#: enferno/templates/views/admin/partials/actor_dialog.html:640
 msgid "Glasses"
 msgstr "Окуляри"
 
@@ -1858,22 +1860,22 @@ msgid "Eye Color"
 msgstr "Колір очей"
 
 #: enferno/templates/views/admin/jsapi.jinja2:193
-#: enferno/templates/views/admin/partials/actor_dialog.html:658
+#: enferno/templates/views/admin/partials/actor_dialog.html:660
 msgid "Distinctive characteristics (congenital)"
 msgstr "Відмінні ознаки (вроджені)"
 
 #: enferno/templates/views/admin/jsapi.jinja2:194
-#: enferno/templates/views/admin/partials/actor_dialog.html:662
+#: enferno/templates/views/admin/partials/actor_dialog.html:664
 msgid "Distinctive characteristics (acquired)"
 msgstr "Відмінні знаки (набуті)"
 
 #: enferno/templates/views/admin/jsapi.jinja2:195
-#: enferno/templates/views/admin/partials/actor_dialog.html:668
+#: enferno/templates/views/admin/partials/actor_dialog.html:670
 msgid "Physical habits"
 msgstr "Фізичні звички"
 
 #: enferno/templates/views/admin/jsapi.jinja2:196
-#: enferno/templates/views/admin/partials/actor_dialog.html:672
+#: enferno/templates/views/admin/partials/actor_dialog.html:674
 msgid "Other comments"
 msgstr "Інші коментарі"
 
@@ -1910,7 +1912,7 @@ msgid "Prescription drugs taken"
 msgstr "Прийом ліків за рецептом"
 
 #: enferno/templates/views/admin/jsapi.jinja2:205
-#: enferno/templates/views/admin/partials/actor_dialog.html:718
+#: enferno/templates/views/admin/partials/actor_dialog.html:720
 msgid "Smoker"
 msgstr "Курець"
 
@@ -1919,7 +1921,7 @@ msgid "Is there a Dental Record"
 msgstr "Чи є стоматологічна картка"
 
 #: enferno/templates/views/admin/jsapi.jinja2:207
-#: enferno/templates/views/admin/partials/actor_dialog.html:727
+#: enferno/templates/views/admin/partials/actor_dialog.html:729
 msgid "Dentist’s name and contact"
 msgstr "Ім’я та контакти стоматолога"
 
@@ -1940,7 +1942,7 @@ msgid "Dental habits"
 msgstr "Зубні звички"
 
 #: enferno/templates/views/admin/jsapi.jinja2:212
-#: enferno/templates/views/admin/partials/actor_dialog.html:749
+#: enferno/templates/views/admin/partials/actor_dialog.html:751
 msgid "Case status"
 msgstr "Статус справи"
 
@@ -1949,12 +1951,12 @@ msgid "Reporters"
 msgstr "Звітовики"
 
 #: enferno/templates/views/admin/jsapi.jinja2:214
-#: enferno/templates/views/admin/partials/actor_dialog.html:763
+#: enferno/templates/views/admin/partials/actor_dialog.html:765
 msgid "Identified by (responsible institution)"
 msgstr "Ідентифіковано (відповідальна установа)"
 
 #: enferno/templates/views/admin/jsapi.jinja2:215
-#: enferno/templates/views/admin/partials/actor_dialog.html:767
+#: enferno/templates/views/admin/partials/actor_dialog.html:769
 msgid "Was the family notified?"
 msgstr "Чи була повідомлена родина?"
 
@@ -1963,7 +1965,7 @@ msgid "Location of reburial"
 msgstr "Місце перепоховання"
 
 #: enferno/templates/views/admin/jsapi.jinja2:217
-#: enferno/templates/views/admin/partials/actor_dialog.html:527
+#: enferno/templates/views/admin/partials/actor_dialog.html:529
 msgid "Details of the person who saw them last"
 msgstr "Деталі від особи, що бачила їх востаннє"
 
@@ -2854,7 +2856,7 @@ msgid "Tags"
 msgstr "Статус"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:64
-#: enferno/templates/views/admin/partials/actor_dialog.html:783
+#: enferno/templates/views/admin/partials/actor_dialog.html:785
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:54
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:247
 #: enferno/templates/views/admin/partials/incident_dialog.html:39
@@ -2864,7 +2866,7 @@ msgid "Data Relationships"
 msgstr "Сімейний стан"
 
 #: enferno/templates/views/admin/partials/actor_dialog.html:69
-#: enferno/templates/views/admin/partials/actor_dialog.html:957
+#: enferno/templates/views/admin/partials/actor_dialog.html:959
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:59
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:479
 #: enferno/templates/views/admin/partials/incident_dialog.html:44
@@ -3002,51 +3004,51 @@ msgid ""
 " established."
 msgstr "Місце, звідки особа походить або де було знайдено тіло."
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:475
+#: enferno/templates/views/admin/partials/actor_dialog.html:477
 msgid "Missing Person Profile"
 msgstr "Профіль зниклої людини"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:513
+#: enferno/templates/views/admin/partials/actor_dialog.html:515
 #, fuzzy
 msgid "Months Pregnant at time of disappearance"
 msgstr "Місяць вагітносі на момент зникнення"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:596
+#: enferno/templates/views/admin/partials/actor_dialog.html:598
 #, fuzzy
 msgid "Hair loss"
 msgstr "Втрата волосся"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:604
+#: enferno/templates/views/admin/partials/actor_dialog.html:606
 #, fuzzy
 msgid "Hair type"
 msgstr "Тип волосся"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:610
+#: enferno/templates/views/admin/partials/actor_dialog.html:612
 #, fuzzy
 msgid "Hair length"
 msgstr "Довжина волосся"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:616
+#: enferno/templates/views/admin/partials/actor_dialog.html:618
 #, fuzzy
 msgid "Hair color"
 msgstr "Колір волосся"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:622
+#: enferno/templates/views/admin/partials/actor_dialog.html:624
 #, fuzzy
 msgid "Facial hair"
 msgstr "Волосся на обличчі"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:643
+#: enferno/templates/views/admin/partials/actor_dialog.html:645
 #, fuzzy
 msgid "Eye color"
 msgstr "Колір очей"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:678
+#: enferno/templates/views/admin/partials/actor_dialog.html:680
 #, fuzzy
 msgid "Physician’s name and contact"
 msgstr "Ім’я лікаря та контактні дані"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:682
+#: enferno/templates/views/admin/partials/actor_dialog.html:684
 #, fuzzy
 msgid ""
 "Fractures / Injuries (indicate place, side, circumstances, age at the "
@@ -3055,7 +3057,7 @@ msgstr ""
 "Переломи/травми (вказати місце, бік, обставини, вік на момент травми, "
 "лікування)"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:688
+#: enferno/templates/views/admin/partials/actor_dialog.html:690
 #, fuzzy
 msgid ""
 "Implants (pacemakers, orthopedic prostheses, screws or metal plates, "
@@ -3064,7 +3066,7 @@ msgstr ""
 "Імплантати (кардіостимулятори, ортопедичні протези, гвинти або металеві "
 "пластини, тощо) з датою або віком"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:692
+#: enferno/templates/views/admin/partials/actor_dialog.html:694
 #, fuzzy
 msgid ""
 "Congenital malformations (indicate type and whether there is more than "
@@ -3073,67 +3075,66 @@ msgstr ""
 "Вроджені вади розвитку (вказати тип і чи є більше ніж  один родич з такою"
 " ж патологією)"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:698
+#: enferno/templates/views/admin/partials/actor_dialog.html:700
 #, fuzzy
 msgid "Pain and/or ailments"
 msgstr "Біль та/або нездужання"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:701
+#: enferno/templates/views/admin/partials/actor_dialog.html:703
 #, fuzzy
 msgid "Other medical conditions (specify type and age of occurrence)"
 msgstr "Інші медичні стани (вказати тип і вік виникнення)"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:707
+#: enferno/templates/views/admin/partials/actor_dialog.html:709
 #, fuzzy
 msgid "Accidents (indicate age of occurrence)"
 msgstr "Нещасні випадки (вказати вік випадку) "
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:711
+#: enferno/templates/views/admin/partials/actor_dialog.html:713
 #, fuzzy
 msgid "Prescription drugs taken (indicate at what age and reason)"
 msgstr "Прийом ліків за рецептом (вказати з якого віку та причину)"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:723
+#: enferno/templates/views/admin/partials/actor_dialog.html:725
 #, fuzzy
 msgid "Is there a Dental Record?"
 msgstr "Чи є стоматологічна картка?"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:731
+#: enferno/templates/views/admin/partials/actor_dialog.html:733
 #, fuzzy
 msgid "Teeth features (spacing, extra teeth, missing teeth, overbite, etc...)"
 msgstr ""
 "Особливості зубів (відстань, зайві зуби, відсутність зубів, надмірний "
 "прикус тощо)"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:737
+#: enferno/templates/views/admin/partials/actor_dialog.html:739
 #, fuzzy
 msgid "Dental problems (absences, infections, bleeding, etc...)"
 msgstr "Проблеми з зубами (відсутність зубів, інфекції, кровотечі тощо)"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:741
+#: enferno/templates/views/admin/partials/actor_dialog.html:743
 #, fuzzy
 msgid "Dental treatments (extractions, fillings, etc...) with dates"
 msgstr "Лікування зубів (видалення, пломбування тощо) з датами"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:745
+#: enferno/templates/views/admin/partials/actor_dialog.html:747
 #, fuzzy
 msgid "Dental habits (toothpicks, smoking, etc...)"
 msgstr "Стоматологічні звички (зубочистки, куріння тощо)"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:771
+#: enferno/templates/views/admin/partials/actor_dialog.html:773
 #, fuzzy
 msgid "Location of reburial (full address)"
 msgstr "Місце перепоховання (повна адреса)"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:795
+#: enferno/templates/views/admin/partials/actor_dialog.html:797
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:259
 #: enferno/templates/views/admin/partials/incident_dialog.html:168
 #, fuzzy
 msgid "Search & Relate Actors"
 msgstr "Знайти та пов'язати виконавців"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:800
-#: enferno/templates/views/admin/partials/incident_dialog.html:173
+#: enferno/templates/views/admin/partials/actor_dialog.html:802
 #, fuzzy
 msgid ""
 "Actors are items of documentation about persons or bodies of interest "
@@ -3148,8 +3149,8 @@ msgstr ""
 "ідентифікації особи чи тіла, пов’язування актора з іншими елементами в "
 "базі даних, додавання міток і створення подій."
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:815
-#: enferno/templates/views/admin/partials/actor_dialog.html:908
+#: enferno/templates/views/admin/partials/actor_dialog.html:817
+#: enferno/templates/views/admin/partials/actor_dialog.html:910
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:278
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:355
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:430
@@ -3159,8 +3160,8 @@ msgstr ""
 msgid "Relationship Information"
 msgstr "Інформація про сімейний стан"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:820
-#: enferno/templates/views/admin/partials/actor_dialog.html:912
+#: enferno/templates/views/admin/partials/actor_dialog.html:822
+#: enferno/templates/views/admin/partials/actor_dialog.html:914
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:282
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:359
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:434
@@ -3168,8 +3169,8 @@ msgstr "Інформація про сімейний стан"
 msgid "Probability"
 msgstr "Ймовірність"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:829
-#: enferno/templates/views/admin/partials/actor_dialog.html:921
+#: enferno/templates/views/admin/partials/actor_dialog.html:831
+#: enferno/templates/views/admin/partials/actor_dialog.html:923
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:292
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:368
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:443
@@ -3177,14 +3178,14 @@ msgstr "Ймовірність"
 msgid "Related As"
 msgstr "Пов'язані як"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:870
+#: enferno/templates/views/admin/partials/actor_dialog.html:872
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:333
 #: enferno/templates/views/admin/partials/incident_dialog.html:243
 #, fuzzy
 msgid "Search & Relate Primary Records"
 msgstr "Знайти та пов'язати виконавців"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:874
+#: enferno/templates/views/admin/partials/actor_dialog.html:876
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:339
 #: enferno/templates/views/admin/partials/incident_dialog.html:248
 #, fuzzy
@@ -3199,13 +3200,13 @@ msgstr ""
 "відео, аудіо, зображення, документи, інтерв’ю, звіти, текстові файли "
 "тощо."
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:888
+#: enferno/templates/views/admin/partials/actor_dialog.html:890
 #: enferno/templates/views/admin/partials/incident_dialog.html:317
 #, fuzzy
-msgid "Search & Relate Incidents"
+msgid "Search & Relate Investigations"
 msgstr "Знайти та Пов'язати Випадки"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:892
+#: enferno/templates/views/admin/partials/actor_dialog.html:894
 #, fuzzy
 msgid ""
 "_(\"Analysis of Actors and Primary Records is intended to follow a "
@@ -3213,7 +3214,7 @@ msgid ""
 " evidence contained in each item individually and without looking for "
 "additional information outside. This approach allows for speedy initial "
 "analysis of Actors and Primary Records and prevents adding any unreliable"
-" outside information or opinions. Incidents allow for the evidence "
+" outside information or opinions. Investigations allow for the evidence "
 "contained in individual Actors and Primary Records to be linked together "
 "and analyzed as a group.\")"
 msgstr ""
@@ -3225,7 +3226,7 @@ msgstr ""
 "Інциденти дозволяють зв’язувати докази, що містяться в окремих акторах і "
 "бюлетенях, і аналізувати їх як групу."
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:974
+#: enferno/templates/views/admin/partials/actor_dialog.html:976
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:497
 msgid ""
 "The URL to the original source from which the information was obtained. "
@@ -3240,16 +3241,16 @@ msgstr ""
 "«Приватний» можна використовувати, якщо URL-адреса більше не доступна. "
 "Поле перевіряє введення та не приймає недійсну URL-адресу."
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:978
+#: enferno/templates/views/admin/partials/actor_dialog.html:980
 #: enferno/templates/views/admin/partials/bulletin_dialog.html:502
 #, fuzzy
 msgid "Not Available"
 msgstr "Недоступний"
 
-#: enferno/templates/views/admin/partials/actor_dialog.html:987
-#: enferno/templates/views/admin/partials/actor_dialog.html:992
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:511
-#: enferno/templates/views/admin/partials/bulletin_dialog.html:516
+#: enferno/templates/views/admin/partials/actor_dialog.html:989
+#: enferno/templates/views/admin/partials/actor_dialog.html:994
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:520
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:525
 #, fuzzy
 msgid "Time (UTC)"
 msgstr "Назва (ДР)"
@@ -3297,8 +3298,9 @@ msgid "Restrict Related Items"
 msgstr "Обрані елементи"
 
 #: enferno/templates/views/admin/partials/bulk_incident_drawer.html:46
-msgid "Bulk Update Incidents"
-msgstr "Сукупне оновлення випадків"
+#, fuzzy
+msgid "Bulk Update Investigations"
+msgstr "Масове оновлення виконавців"
 
 #: enferno/templates/views/admin/partials/bulletin_advsearch.html:4
 #, fuzzy
@@ -3361,7 +3363,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "Actors are items of documentation about persons or bodies of interest "
-"that can be related to otherActors, Primary Records, or Incidents, "
+"that can be related to otherActors, Primary Records, or Investigations, "
 "usually coming from a single source. The Actor profile contains fields to"
 " identify the person or body, relate the Actor to other items in the "
 "database, add labels and create Events."
@@ -3376,7 +3378,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "Search & Relate\n"
-"                                                            Incidents"
+"                                                            Investigations"
 msgstr ""
 "Назви з джерел можуть бути відредаговані для ясності, але «Оригінальна "
 "назва» зберігається."
@@ -3390,9 +3392,9 @@ msgid ""
 " contained in each item individually and without looking for additional "
 "information outside. This approach allows for speedy initial analysis of "
 "Actors and Primary Records and prevents adding any unreliable outside "
-"information or opinions. Incidents allow for the evidence contained in "
-"individual Actors and Primary Records to be linked together and analyzed "
-"as a group."
+"information or opinions. Investigations allow for the evidence contained "
+"in individual Actors and Primary Records to be linked together and "
+"analyzed as a group."
 msgstr ""
 "Аналіз акторів і бюлетенів призначений для дотримання підходу «закритого "
 "всесвіту», де єдиним фокусом аналізу є докази, що містяться в кожному "
@@ -3402,11 +3404,21 @@ msgstr ""
 "Інциденти дозволяють зв’язувати докази, що містяться в окремих акторах і "
 "бюлетенях, і аналізувати їх як групу."
 
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:513
+msgid "Discovery File name"
+msgstr ""
+
+#: enferno/templates/views/admin/partials/bulletin_dialog.html:515
+msgid ""
+"Name of the Hunchly/WebRecorder/RecRoom file from which data item was "
+"extracted"
+msgstr ""
+
 #: enferno/templates/views/admin/partials/event_dialog.html:12
 #, fuzzy
 msgid ""
 "Events are data forms to store time and location information related to "
-"Actors, Primary Records and Incidents. Users can attach one or more "
+"Actors, Primary Records and Investigations. Users can attach one or more "
 "events."
 msgstr ""
 "Події – це форми даних для зберігання інформації про час і "
@@ -3428,28 +3440,28 @@ msgstr ""
 
 #: enferno/templates/views/admin/partials/incident_advsearch.html:4
 #, fuzzy
-msgid "Incident Advanced Search"
+msgid "Investigation Advanced Search"
 msgstr "Розширений пошук"
 
 #: enferno/templates/views/admin/partials/incident_dialog.html:8
 #, fuzzy
-msgid "Save Incident"
+msgid "Save Investigation"
 msgstr "Новий випадок"
 
 #: enferno/templates/views/admin/partials/incident_dialog.html:78
 #, fuzzy
 msgid ""
-"A full description of the Incident as well as notes and additional "
+"A full description of the Investigation as well as notes and additional "
 "resources."
 msgstr ""
-"Опис інциденту – це повний опис інциденту та доказів, що містяться у "
-"відповідних бюлетенях та акторах, а також примітки та додаткові ресурси."
+"Текстове поле, яке використовується для додавання повного опису Актора, а"
+" також приміток від користувача."
 
 #: enferno/templates/views/admin/partials/incident_dialog.html:100
 #, fuzzy
 msgid ""
 "List that is used to determine the category under which the violations "
-"related to the incident can be described."
+"related to the Investigation can be described."
 msgstr ""
 "Список, який використовується для визначення категорії, під якою можуть "
 "бути описані порушення, пов’язані з інцидентом."
@@ -3458,10 +3470,25 @@ msgstr ""
 #, fuzzy
 msgid ""
 "List of violations that have been committed during the course of the "
-"event related to the incident."
+"event related to the investigation."
 msgstr ""
 "Перелік порушень, які були допущені під час події, пов'язаної з "
 "інцидентом."
+
+#: enferno/templates/views/admin/partials/incident_dialog.html:173
+#, fuzzy
+msgid ""
+"Actors are items of documentation about persons or bodies of interest "
+"that can be related to other Actors, Primary Records, or Investigations, "
+"usually coming from a single source. The Actor profile contains fields to"
+" identify the person or body, relate the Actor to other items in the "
+"database, add labels and create Events."
+msgstr ""
+"Актори — це документи про осіб або організації, що представляють інтерес,"
+" які можуть бути пов’язані з іншими акторами, бюлетенями чи інцидентами, "
+"зазвичай надходять з одного джерела. Профіль актора містить поля для "
+"ідентифікації особи чи тіла, пов’язування актора з іншими елементами в "
+"базі даних, додавання міток і створення подій."
 
 #: enferno/templates/views/admin/partials/location_dialog.html:10
 #, fuzzy
@@ -3474,10 +3501,6 @@ msgstr "Включити місця подій"
 msgid "Location Details"
 msgstr "Тип місценаходження"
 
-#: enferno/templates/views/admin/partials/location_dialog.html:57
-msgid "Title (Original Language)"
-msgstr ""
-
 #: enferno/templates/views/admin/partials/location_dialog.html:90
 msgid "Country"
 msgstr ""
@@ -3486,6 +3509,20 @@ msgstr ""
 #, fuzzy
 msgid "Parent Location"
 msgstr "Включити місця подій"
+
+#: enferno/templates/views/admin/partials/media_dialog.html:7
+msgid "Photos or Videos of Actor"
+msgstr ""
+
+#: enferno/templates/views/admin/partials/media_dialog.html:9
+#: enferno/templates/views/admin/partials/media_dialog.html:38
+#, fuzzy
+msgid "Upload Data File"
+msgstr "Завантажити файли"
+
+#: enferno/templates/views/admin/partials/media_dialog.html:36
+msgid "Photo or Video of Actor"
+msgstr ""
 
 #: enferno/templates/views/admin/partials/review_dialog.html:52
 msgid "Needs Review"
@@ -4391,7 +4428,7 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Save Incident"
-#~ msgstr "Зберегти випадок"
+#~ msgstr "Новий випадок"
 
 #~ msgid "No Review Needed"
 #~ msgstr "Не потрібно перевіряти"
@@ -5470,4 +5507,38 @@ msgstr ""
 #~ "Allows to play videos at different\n"
 #~ "                                                    speed rates"
 #~ msgstr ""
+
+#~ msgid "Incidents"
+#~ msgstr "Випадки"
+
+#~ msgid "Incident to Primary Record Relations"
+#~ msgstr ""
+
+#~ msgid "Incident to Incident Relations"
+#~ msgstr ""
+
+#~ msgid "Incident"
+#~ msgstr "Випадок"
+
+#~ msgid "Main Incident"
+#~ msgstr "Новий випадок"
+
+#~ msgid "Related Incidents"
+#~ msgstr "Пов'язані випадки"
+
+#~ msgid "Bulk Update Incidents"
+#~ msgstr "Сукупне оновлення випадків"
+
+#~ msgid "Incident Advanced Search"
+#~ msgstr "Розширений пошук"
+
+#~ msgid ""
+#~ "A full description of the Incident "
+#~ "as well as notes and additional "
+#~ "resources."
+#~ msgstr ""
+#~ "Опис інциденту – це повний опис "
+#~ "інциденту та доказів, що містяться у "
+#~ "відповідних бюлетенях та акторах, а "
+#~ "також примітки та додаткові ресурси."
 

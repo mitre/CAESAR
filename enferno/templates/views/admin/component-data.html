@@ -37,13 +37,13 @@
                                             {{ _("Primary Record to Primary Record Relations") }}
                                         </v-tab>
                                         <v-tab class="justify-start">
-                                            {{ _("Incident to Primary Record Relations") }}
+                                            {{ _("Investigation to Primary Record Relations") }}
                                         </v-tab>
                                         <v-tab class="justify-start">
-                                            {{ _("Incident to Actor Relations") }}
+                                            {{ _("Investigation to Actor Relations") }}
                                         </v-tab>
                                         <v-tab class="justify-start">
-                                            {{ _("Incident to Incident Relations") }}
+                                            {{ _("Investigation to Investigation Relations") }}
                                         </v-tab>
                                         <v-tab class="justify-start">
                                             {{ _("Media Categories") }}
@@ -146,7 +146,7 @@
                                     <v-tab-item class="pa-1">
                                         <v-card class="pa-3">
                                             <v-card-text>
-                                                <editable-table title="{{ _("Incident to Primary Record Relations") }}"
+                                                <editable-table title="{{ _("Investigation to Primary Record Relations") }}"
                                                     :item-headers="relationHeaders"
                                                     :editable-columns="['title','title_tr']"
                                                     delete-endpoint="/admin/api/itobinfo"
@@ -159,7 +159,7 @@
                                     <v-tab-item class="pa-1">
                                         <v-card class="pa-3">
                                             <v-card-text>
-                                                <editable-table title="{{ _("Incident to Actor Relations") }}"
+                                                <editable-table title="{{ _("Investigation to Actor Relations") }}"
                                                     :item-headers="relationHeaders"
                                                     :editable-columns="['title','title_tr']"
                                                     delete-endpoint="/admin/api/itoainfo"
@@ -172,7 +172,7 @@
                                     <v-tab-item class="pa-1">
                                         <v-card class="pa-3">
                                             <v-card-text>
-                                                <editable-table title="{{ _("Incident to Incident Relations") }}"
+                                                <editable-table title="{{ _("Investigation to Investigation Relations") }}"
                                                     :item-headers="relationHeaders"
                                                     :editable-columns="['title','title_tr']"
                                                     delete-endpoint="/admin/api/itoiinfo"
