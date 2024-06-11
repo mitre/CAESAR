@@ -58,6 +58,7 @@ Vue.component("global-map", {
 
   mounted() {
     this.initMap();
+    this.addLocationMarkerTypes();
   },
 
   watch: {
@@ -68,17 +69,7 @@ Vue.component("global-map", {
     },
 
     locations() {
-      for (loc of this.locations) {
-        if(loc.color == this.category.location.color) {
-          loc.markerType = this.category.location.id;
-        } else if(loc.color == this.category.geomarker.color) {
-          loc.markerType = this.category.geomarker.id;
-        } else if(loc.color == this.category.event.color) {
-          loc.markerType = this.category.event.id;
-        } else {
-          continue;
-        }
-      } 
+      this.addLocationMarkerTypes();
 
       if(this.map && this.map.isStyleLoaded()){
         this.addMarkers();
@@ -149,7 +140,11 @@ Vue.component("global-map", {
         this.map.resize();
         this.fitMarkers(false); 
       });
-      this.map.on('render', this.runOnceAfterStyleLoaded);
+      // see https://github.com/mapbox/mapbox-gl-js/issues/9779, https://github.com/mapbox/mapbox-gl-js/issues/8691
+      this.map.once('style.load', () => {
+        this.addMarkers();
+        this.fitMarkers(false);
+      });
       this.map.on('render', () => {
         this.updateMarkers();
       });
@@ -169,15 +164,6 @@ Vue.component("global-map", {
       });
 
       // replace google sattelite maps with mapbox maps: https://docs.mapbox.com/mapbox-gl-js/example/satellite-map/
-    },
-
-    runOnceAfterStyleLoaded() {
-      // this code should only run once
-      if (this.map.isStyleLoaded()) {
-        this.map.off('render', this.runOnceAfterStyleLoaded);
-        this.addMarkers();
-        this.fitMarkers(false);
-      }
     },
 
     toggleSatellite() {
@@ -265,9 +251,8 @@ Vue.component("global-map", {
       if (this.locations.length) {
         let allLocations = [];
         let eventLocations = [];
-        
+
         for (loc of this.locations) {
-          
           if(!this.category[loc.markerType].visible) {
             continue;
           }
@@ -440,6 +425,20 @@ Vue.component("global-map", {
 
     hasLocations() {
       return this.hasMarkers() && this.locations.some((location) => {return location.markerType == this.category.location.id });
+    },
+
+    addLocationMarkerTypes(){
+      for (loc of this.locations) {
+        if(loc.color == this.category.location.color) {
+          loc.markerType = this.category.location.id;
+        } else if(loc.color == this.category.geomarker.color) {
+          loc.markerType = this.category.geomarker.id;
+        } else if(loc.color == this.category.event.color) {
+          loc.markerType = this.category.event.id;
+        } else {
+          continue;
+        }
+      } 
     },
 
     hasGeomarkers() {
