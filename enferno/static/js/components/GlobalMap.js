@@ -52,7 +52,6 @@ Vue.component("global-map", {
           visible: true
         }
       },
-      arrow: '<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="-1 -1 22 22"><g><path d="m 10,0 10,10 0,10 -10,-10 -10,10 0,-10 z"/></g></svg>'
     };
   },
 
@@ -65,25 +64,12 @@ Vue.component("global-map", {
       if ((val && val.length) || val !== old) {
         this.locations = val;
       }
-      if (val.length === 0) {
-        this.$refs.map.mapObject.setView([this.lat, this.lng]);
-      }
     },
 
     locations() {
       if(!this.map) this.initMap();
 
-      for (loc of this.locations) {
-        if(loc.color == this.category.location.color) {
-          loc.markerType = this.category.location.id;
-        } else if(loc.color == this.category.geomarker.color) {
-          loc.markerType = this.category.geomarker.id;
-        } else if(loc.color == this.category.event.color) {
-          loc.markerType = this.category.event.id;
-        } else {
-          continue;
-        }
-      } 
+      this.addLocationMarkerTypes();
 
       if(this.map) this.addMarkers();
 
@@ -151,7 +137,7 @@ Vue.component("global-map", {
         this.map.resize();
       });
   
-      this.map.on('render', this.init);
+      this.map.on('render', this.runOnceAfterStyleLoaded);
   
       this.map.on('click', 'clusters', this.onClusterClick);
   
@@ -160,26 +146,33 @@ Vue.component("global-map", {
       this.map.on('render', () => {
         this.updateMarkers();
       });
-  
+
       this.map.on('resize', () => {
         this.fitMarkers();
       });
       
       this.map.on('styleimagemissing', (e) => {
-        let img = document.createElement('img');
-        img.src = "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InJvdGF0ZSg5MCkiIHZpZXdCb3g9Ii0wLjIgLTAuMiA0LjQgNC40IiBoZWlnaHQ9IjEwIiB3aWR0aD0iMTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0ibTIgMCAyIDJ2MkwyIDIgMCA0VjJ6Ii8+PC9zdmc+"
-        this.map.addImage("arrow", img, { sdf: true });
+        this.loadEventLinkArrowImage();
       });
 
       this.fitMarkers(false);
       // replace google sattelite maps with mapbox maps: https://docs.mapbox.com/mapbox-gl-js/example/satellite-map/
     },
 
-    init() {
+    runOnceAfterStyleLoaded() {
       if (this.map.isStyleLoaded()) {
-        this.map.off('render', this.init);
+        this.map.off('render', this.runOnceAfterStyleLoaded);
+        this.loadEventLinkArrowImage();
         this.addMarkers();
       }
+    },
+
+    loadEventLinkArrowImage() {
+      try {
+        let img = document.createElement('img');
+        img.src = "data:image/svg+xml;base64,PHN2ZyB0cmFuc2Zvcm09InJvdGF0ZSg5MCkiIHZpZXdCb3g9Ii0wLjIgLTAuMiA0LjQgNC40IiBoZWlnaHQ9IjEwIiB3aWR0aD0iMTAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0ibTIgMCAyIDJ2MkwyIDIgMCA0VjJ6Ii8+PC9zdmc+"
+        this.map.addImage("arrow", img, { sdf: true });
+      } catch(e) {}
     },
 
     toggleSatellite() {
@@ -440,6 +433,20 @@ Vue.component("global-map", {
 
     hasMarkers() {
       return this.locations.length > 0;
+    },
+
+    addLocationMarkerTypes(){
+      for (loc of this.locations) {
+        if(loc.color == this.category.location.color) {
+          loc.markerType = this.category.location.id;
+        } else if(loc.color == this.category.geomarker.color) {
+          loc.markerType = this.category.geomarker.id;
+        } else if(loc.color == this.category.event.color) {
+          loc.markerType = this.category.event.id;
+        } else {
+          continue;
+        }
+      } 
     },
 
     hasLocations() {
