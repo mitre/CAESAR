@@ -95,7 +95,7 @@ Vue.component("geo-map", {
         this.lng = val.lng;
       }
 
-      if(!this.map) this.initMap();
+      this.updateMarker();
     },
 
     lat: {
