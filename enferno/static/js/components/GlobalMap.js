@@ -56,7 +56,8 @@ Vue.component("global-map", {
   },
 
   mounted() {
-
+    this.addLocationMarkerTypes();
+    this.initMap();
   },
 
   watch: {
@@ -67,11 +68,12 @@ Vue.component("global-map", {
     },
 
     locations() {
-      if(!this.map) this.initMap();
-
       this.addLocationMarkerTypes();
 
-      if(this.map) this.addMarkers();
+      if(this.map && this.map.isStyleLoaded()){
+        this.addMarkers();
+        this.fitMarkers();
+      }
 
       this.$emit("input", this.locations);
     },
@@ -133,20 +135,23 @@ Vue.component("global-map", {
         }
       }))
   
-      this.map.once('load', async () => {
+      this.map.once('render', () => {
         this.map.resize();
+        this.fitMarkers(false); 
       });
-  
-      this.map.on('render', this.runOnceAfterStyleLoaded);
+      // see https://github.com/mapbox/mapbox-gl-js/issues/9779, https://github.com/mapbox/mapbox-gl-js/issues/8691
+      this.map.once('style.load', () => {
+        this.addMarkers();
+        this.fitMarkers(false);
+      });
+      this.map.on('render', () => {
+        this.updateMarkers();
+      });
   
       this.map.on('click', 'clusters', this.onClusterClick);
   
       this.map.on('click', 'unclustered-point', this.onUnclusteredClick);
-      
-      this.map.on('render', () => {
-        this.updateMarkers();
-      });
-
+  
       this.map.on('resize', () => {
         this.fitMarkers();
       });
@@ -155,16 +160,7 @@ Vue.component("global-map", {
         this.loadEventLinkArrowImage();
       });
 
-      this.fitMarkers(false);
       // replace google sattelite maps with mapbox maps: https://docs.mapbox.com/mapbox-gl-js/example/satellite-map/
-    },
-
-    runOnceAfterStyleLoaded() {
-      if (this.map.isStyleLoaded()) {
-        this.map.off('render', this.runOnceAfterStyleLoaded);
-        this.loadEventLinkArrowImage();
-        this.addMarkers();
-      }
     },
 
     loadEventLinkArrowImage() {
@@ -248,11 +244,10 @@ Vue.component("global-map", {
     toggleVisibility(categoryId) {
       this.category[categoryId].visible = !this.category[categoryId].visible;
       this.addMarkers();
+      this.fitMarkers();
     },
 
     addMarkers() {
-      if (!this.map.isStyleLoaded()) return; 
-
       if (this.map.getSource('markers')) {
         this.map.removeLayer('unclustered-point');
         this.map.removeSource('markers');
@@ -261,9 +256,8 @@ Vue.component("global-map", {
       if (this.locations.length) {
         let allLocations = [];
         let eventLocations = [];
-        
+
         for (loc of this.locations) {
-          
           if(!this.category[loc.markerType].visible) {
             continue;
           }
@@ -328,7 +322,6 @@ Vue.component("global-map", {
             }
         });
       }
-      this.fitMarkers();
     },
 
     updateMarkers() {
@@ -451,6 +444,20 @@ Vue.component("global-map", {
 
     hasLocations() {
       return this.hasMarkers() && this.locations.some((location) => {return location.markerType == this.category.location.id });
+    },
+
+    addLocationMarkerTypes(){
+      for (loc of this.locations) {
+        if(loc.color == this.category.location.color) {
+          loc.markerType = this.category.location.id;
+        } else if(loc.color == this.category.geomarker.color) {
+          loc.markerType = this.category.geomarker.id;
+        } else if(loc.color == this.category.event.color) {
+          loc.markerType = this.category.event.id;
+        } else {
+          continue;
+        }
+      } 
     },
 
     hasGeomarkers() {
@@ -579,21 +586,7 @@ Vue.component("global-map", {
 
           </div>
 
-          <!--l-map @fullscreenchange="fsHandler" @dragend="redraw" ref="map" @ready="fitMarkers" :zoom="zoom"
-                 :max-zoom="18"
-                 :style=" 'resize:vertical;height:'+ mapHeight + 'px'"
-                 :center="[lat,lng]" :options="{scrollWheelZoom:false}">
-            <l-tile-layer v-if="defaultTile" :attribution="attribution" :key="mapKey" :url="mapsApiEndpoint"
-                          :subdomains="subdomains">
-            </l-tile-layer>
-            <l-control class="example-custom-control">
-              <v-btn v-if="__GOOGLE_MAPS_API_KEY__" @click="toggleSatellite" small fab>
-                <img src="/static/img/satellite-icon.png" width="18"></img>
-              </v-btn>
-            </l-control>
-          </l-map-->
-
-          <l-map id="mlMapContainer" @ready="addMarkers" ref="mapContainer" :style="'position: relative; display: inline-block; height: '+ mapHeight + 'px; width: 100%;; resize: vertical'"></l-map>
+          <l-map id="mlMapContainer" ref="mapContainer" :style="'position: relative; display: inline-block; height: '+ mapHeight + 'px; width: 100%;; resize: vertical'"></l-map>
 
         </v-card-text>
       </v-card>
