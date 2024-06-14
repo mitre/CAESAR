@@ -89,9 +89,11 @@ Vue.component("global-map", {
         this.lng = bounds.getCenter().lng;
       }
 
+      const style = mapUtils.loadBaseLayer();
+
       this.map = new maplibregl.Map({
         container: mlMapContainer,
-        style: this.mapsApiEndpoint,
+        style: style,
         center: [this.lng, this.lat],
         zoom: this.zoom,
       });
