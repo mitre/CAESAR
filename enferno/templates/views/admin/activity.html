@@ -23,7 +23,7 @@
                                     </v-toolbar>
                                     <v-toolbar flat>
                                         <v-chip-group @change="refresh" v-model="tag">
-                                            <v-chip :value="item" v-for="item in tagFilters" filter>${item}</v-chip>
+                                            <v-chip :value="item" v-for="item in tagFilters" filter>${frontendTermsByTagFilters[item]}</v-chip>
                                         </v-chip-group>
                                     </v-toolbar>
                                 </template>
@@ -64,6 +64,7 @@
             loading: true,
             parentLoading: false,
             tagFilters: ['bulletin', 'actor', 'incident', 'user'],
+            frontendTermsByTagFilters: {'bulletin':'primary record', 'actor':'actor', 'incident':'investigation', 'user':'user'},
             csvFile: null,
             tag: '',
             options: {},
@@ -126,12 +127,29 @@
                     tag: this.tag
                 }).then(res => {
                     this.items = res.data.items;
+                    this.replaceBackendLingoWithFrontendLingo(this.items)
                     this.itemsLength = res.data.total;
                 }).catch(err => {
                     console.log(err.response.data);
                 }).finally(() => {
                     this.loading = false;
                 });
+            },
+            // we've kept the backend "bulletin" and "incident" objects but have updated the frontend to display "primary record" and "investigation" objects
+            // this method transcribes backend names to frontend labels on the activity page for all activity data displayed on this page
+            replaceBackendLingoWithFrontendLingo(activityItems){
+                for(item of activityItems){
+                    switch(item.subject.class){
+                        case 'bulletin':
+                            item.subject.class = 'primary record';
+                            item.tag = 'primary record'
+                            break;
+                        case 'incident':
+                            item.subject.class = 'investigation';
+                            item.tag = 'investigation'
+                            break;
+                    }
+                }
             },
             close() {
                 this.dialog = false;
