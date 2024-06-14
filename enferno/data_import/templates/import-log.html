@@ -89,7 +89,6 @@
 <script src="https://maps.googleapis.com/maps/api/js?key='|safe + config.GOOGLE_MAPS_API_KEY + '" async defer></script>
 '|safe }}
 {% endif %}
-<script src="/static/js/Leaflet.GoogleMutant.js"></script>
 <script>
     window.__GOOGLE_MAPS_API_KEY__ = '{{ config.GOOGLE_MAPS_API_KEY }}';
     const app = new Vue({

@@ -14,11 +14,7 @@
       <link rel="stylesheet" href="/static/css/app.css" />
       <link rel="stylesheet" href="/static/font/mdi/css/materialdesignicons.css" />
       <link rel="stylesheet" href="/static/js/croppr/croppr.min.css" />
-      <link rel="stylesheet" href="/static/css/leaflet.css">
-      <link rel="stylesheet" href="/static/css/MarkerCluster.css">
-      <link rel="stylesheet" href="/static/css/MarkerCluster.Default.css">
-      <link rel="stylesheet" href="/static/css/Leaflet.PolylineMeasure.css">
-      <link rel="stylesheet" href="/static/leaflet-fullscreen/leaflet.fullscreen.css">
+      <link rel="stylesheet" href="/static/css/maplibre-gl.css">
       <link rel="stylesheet" href="/static/js/photoswipe/photoswipe.css" />
       <!-- favicon -->
       <link rel="apple-touch-icon" sizes="57x57" href="/static/img/favicon/apple-icon-57x57.png">
@@ -62,9 +58,10 @@
       <script src="/static/js/vee-validate.full.min.js"></script>
       <script src="/static/js/photoswipe/photoswipe.umd.min.js"></script>
       <script src="/static/js/photoswipe/photoswipe-lightbox.umd.min.js"></script>
-      <script src="/static/js/leaflet.js"></script>
-      <script src="/static/js/vue2-leaflet.min.js"></script>
-      <script src="/static/leaflet-fullscreen/leaflet.fullscreen.min.js"></script>
+      <script src="/static/js/maplibre-gl.js"></script>
+      <script src="/static/js/turf.min.js"></script>
+      <script src="/static/js/maplibre-gl-measures/dist/maplibre-gl-measures.js"></script>
+      <script src="/static/js/mapUtils.js"></script>
       <script src="/static/js/vue-tippy.min.js"></script>
       <script>
             {% include 'views/admin/jsapi.jinja2' %}
@@ -92,11 +89,6 @@
       <script src="/static/js/components/IncidentSearchBox.js"></script>
       <script src="/static/js/components/PreviewCard.js"></script>
       <script src="/static/js/components/GeoMap.js"></script>
-      <script src="/static/js/leaflet.geometryutil.js"></script>
-      <script src="/static/js/leaflet.markercluster.js"></script>
-      <script src="/static/js/leaflet.curve.min.js"></script>
-      <script src="/static/js/leaflet.rotatedmarker.min.js"></script>
-      <script src="/static/js/Leaflet.PolylineMeasure.js"></script>
       {% endif %}
       {% block js %}{% endblock %}
       <script type="text/javascript" src="/static/js/app.js"></script>
