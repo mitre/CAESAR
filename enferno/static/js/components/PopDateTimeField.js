@@ -25,6 +25,8 @@ Vue.component("pop-date-time-field", {
 
     value: function (newV, oldV) {
       if (newV != null) {
+        console.log(newV)
+        
         this.dt = dateFns.format(newV, "YYYY-MM-DD");
 
         this.tm = dateFns.format(newV, "HH:mm");
@@ -63,9 +65,11 @@ Vue.component("pop-date-time-field", {
   },
 
   template: `
-        <v-sheet >
-            <pop-date-field :label="label" v-model="dt"></pop-date-field>
-            <v-text-field @input="emitInput" v-model="tm" type="time" :label="timeLabel"></v-text-field>
+        <v-sheet>
+          <div style="display: flex">
+              <pop-date-field :label="label" v-model="dt"></pop-date-field>
+              <v-text-field @input="emitInput" v-model="tm" type="time" :label="timeLabel"></v-text-field>
+            </div>
         </v-sheet>
     `,
 });
