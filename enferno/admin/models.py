@@ -2584,7 +2584,7 @@ class Actor(db.Model, BaseMixin):
             ver_labels = Label.query.filter(Label.id.in_(ids)).all()
             self.ver_labels = ver_labels
 
-        if "sex" in json:
+        if "sex" in json and json["sex"]:
             if Sex.is_valid(json["sex"]):
                 self.sex = Sex.get_name(json["sex"])
             else:
