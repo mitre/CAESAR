@@ -559,15 +559,21 @@
                                             </v-tooltip>
                                         </v-sheet>
                                     </v-col>
-                                    <v-col cols="12" md="3">
-                                        <pop-date-time-field time-label="{{ _(" Time (UTC)") }}" label="{{ _(" Publish
-                                            Date") }}" v-model="editedItem.publish_date">
-                                        </pop-date-time-field>
-                                    </v-col>
-                                    <v-col cols="12" md="3">
-                                        <pop-date-time-field time-label="{{ _(" Time (UTC)") }}" label="{{ _(" Date
-                                            Created") }}" v-model="editedItem.documentation_date">
-                                        </pop-date-time-field>
+                                    <v-col cols="12" md="6">
+                                        <v-row>
+                                            <v-col cols="12">
+                                                <pop-date-time-field time-label="{{ _(" Time (UTC)") }}" label="{{ _("
+                                                    Publish Date") }}" v-model="editedItem.publish_date">
+                                                </pop-date-time-field>
+                                            </v-col>
+                                        </v-row>
+                                        <v-row>
+                                            <v-col cols="12">
+                                                <pop-date-time-field time-label="{{ _(" Time (UTC)") }}" label="{{ _("
+                                                    Date Created") }}" v-model="editedItem.documentation_date">
+                                                </pop-date-time-field>
+                                            </v-col>
+                                        </v-row>
                                     </v-col>
                                 </v-row>
                                 <v-row>

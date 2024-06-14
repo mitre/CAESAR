@@ -53,7 +53,7 @@ Vue.component("pop-date-time-field", {
 
   template: `
         <v-sheet>
-          <div style="display: flex">
+          <div style="display: flex; gap: 8px">
               <pop-date-field :label="label" v-model="dt"></pop-date-field>
               <v-text-field @input="emitInput" v-model="tm" type="time" :label="timeLabel"></v-text-field>
             </div>
