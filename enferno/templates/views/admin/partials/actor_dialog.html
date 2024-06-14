@@ -363,17 +363,18 @@
                                         </v-tooltip>
                                     </v-col>
                                 </v-row> -->
+
                                 <!-- Locations -->
                                 <span class="anchor" id="locations"></span>
                                 <h2 class="form-section-header">{{ _("Locations") }}</h2>
                                 <v-row>
-                                    <v-col cols="12" md="4">
+                                    <v-col cols="12" md="6">
                                         <location-search-field v-model="editedItem.birth_place"
                                             api="/admin/api/locations/" item-text="full_string" item-value="id"
                                             :multiple="false" label="{{ _(" Place of Birth")
                                             }}"></location-search-field>
                                     </v-col>
-                                    <v-col cols="12" md="4">
+                                    <v-col cols="12" md="6">
                                         <v-tooltip top max-width=500 open-delay=1500>
                                             <template v-slot:activator="{ on }">
                                                 <div v-on="on">
@@ -386,21 +387,6 @@
                                             </template>
                                             <span>{{ _('The location where the person currently resides or the current
                                                 location of the body if its location has changed.') }}</span>
-                                        </v-tooltip>
-                                    </v-col>
-                                    <v-col cols="12" md="4">
-                                        <v-tooltip top max-width=500 open-delay=1500>
-                                            <template v-slot:activator="{ on }">
-                                                <div v-on="on">
-                                                    <location-search-field v-model="editedItem.origin_place"
-                                                        api="/admin/api/locations/" item-text="full_string"
-                                                        item-value="id" :multiple="false" label="{{ _(" Place of
-                                                        Origin") }}">
-                                                    </location-search-field>
-                                                </div>
-                                            </template>
-                                            <span>{{ _('The location from which the person is originally or in which the
-                                                body was established.') }}</span>
                                         </v-tooltip>
                                     </v-col>
                                 </v-row>
@@ -419,6 +405,7 @@
                                         {% include 'views/admin/partials/event_dialog.html' %}
                                     </v-col>
                                 </v-row>
+
                                 <!-- Media -->
                                 <span class="anchor" id="media"></span>
                                 <h2 class="form-section-header">{{ _("Media") }}</h2>
@@ -760,6 +747,7 @@
                                         {% endif %}
                                     </v-col>
                                 </v-row>
+
                                 <!-- Relationships -->
                                 <span class="anchor" id="data-relationships"></span>
                                 <h2 class="form-section-header">{{ _("Data Relationships") }}</h2>
@@ -955,6 +943,7 @@
                                         </v-card>
                                     </v-col>
                                 </v-row>
+
                                 <!-- Details -->
                                 <span class="anchor" id="data-details"></span>
                                 <h2 class="form-section-header">{{ _("Data Details") }}</h2>
@@ -984,23 +973,29 @@
                                                 </v-tooltip>
                                                 <span class="red--text">${errors[0]}</span>
                                             </validation-provider>
-                                            <v-checkbox small class="mx-2" label="{{ _(" Not Available") }}"
+                                            <!-- <v-checkbox small class="mx-2" label="{{ _(" Not Available") }}"
                                                 v-model="source_alt" small>
-                                            </v-checkbox>
+                                            </v-checkbox> -->
                                             <v-switch small class="mx-2" label="{{ _(" Private") }}"
                                                 v-model="editedItem.source_link_type" small>
                                             </v-switch>
                                         </v-sheet>
                                     </v-col>
-                                    <v-col cols="12" md="3">
-                                        <pop-date-time-field time-label="{{ _(" Time (UTC)") }}" label="{{ _(" Publish
-                                            Date") }}" v-model="editedItem.publish_date">
-                                        </pop-date-time-field>
-                                    </v-col>
-                                    <v-col cols="12" md="3">
-                                        <pop-date-time-field time-label="{{ _(" Time (UTC)") }}" label="{{ _(" Date
-                                            Created") }}" v-model="editedItem.documentation_date">
-                                        </pop-date-time-field>
+                                    <v-col cols="12" md="6">
+                                        <v-row>
+                                            <v-col cols="12">
+                                                <pop-date-time-field time-label="{{ _(" Time (UTC)") }}" label="{{ _("
+                                                    Publish Date") }}" v-model="editedItem.publish_date">
+                                                </pop-date-time-field>
+                                            </v-col>
+                                        </v-row>
+                                        <v-row>
+                                            <v-col cols="12">
+                                                <pop-date-time-field time-label="{{ _(" Time (UTC)") }}" label="{{ _("
+                                                    Date Created") }}" v-model="editedItem.documentation_date">
+                                                </pop-date-time-field>
+                                            </v-col>
+                                        </v-row>
                                     </v-col>
                                 </v-row>
                                 <v-row>
