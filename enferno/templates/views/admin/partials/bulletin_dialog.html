@@ -73,14 +73,12 @@
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
                                                         <v-text-field v-if="title__" v-on="on"
-                                                            v-model="editedItem.title" label="{{ _(" Original Title")
-                                                            }}"></v-text-field>
+                                                            v-model="editedItem.title" label="{{ _(" Original Title") }}"></v-text-field>
                                                         <v-text-field v-else v-on="on" v-model="editedItem.title_ar"
                                                             label="{{ _(" Original Title (Original Language)") }}"
                                                             background-color="lime lighten-5"></v-text-field>
                                                     </template>
-                                                    <span>{{ _('Titles from sources might be edited for clarity, but the
-                                                        “Original Title” is retained.') }}</span>
+                                                    <span>{{ _('Titles from sources might be edited for clarity, but the “Original Title” is retained.') }}</span>
                                                 </v-tooltip>
                                                 <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline"
                                                     @click="title__=!title__">
@@ -101,8 +99,7 @@
                                                         label="{{ _(" Title (Original Language)") }}"
                                                         background-color="lime lighten-5"></v-text-field>
                                                 </template>
-                                                <span>{{ _('Titles from sources might be edited for clarity, but the
-                                                    “Original Title” is retained.') }}</span>
+                                                <span>{{ _('Titles from sources might be edited for clarity, but the “Original Title” is retained.') }}</span>
                                             </v-tooltip>
                                             <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline"
                                                 @click="sjac_title__=!sjac_title__">
@@ -111,8 +108,7 @@
                                         </v-card>
                                     </v-col>
                                     <v-col cols="12" md="4">
-                                        <v-combobox small-chips multiple v-model="editedItem.ref" label="{{ _(" Ref")
-                                            }}">
+                                        <v-combobox small-chips multiple v-model="editedItem.ref" label="{{ _(" Ref") }}">
                                         </v-combobox>
                                     </v-col>
                                 </v-row>
@@ -122,8 +118,7 @@
                                             <template v-slot:activator="{ on }">
                                                 <div v-on="on">
                                                     <search-field v-model="editedItem.sources" api="/admin/api/sources/"
-                                                        item-text="title" item-value="id" :multiple="true" label="{{ _("
-                                                        Sources") }}"></search-field>
+                                                        item-text="title" item-value="id" :multiple="true" label="{{ _("Sources") }}"></search-field>
                                                 </div>
                                             </template>
                                             <span>{{ _('Sources are profiles of the original creators and publishers of
@@ -185,8 +180,7 @@
                                                     <search-field v-model="editedItem.verLabels"
                                                         api="/admin/api/labels/"
                                                         :query-params="{ fltr: 'verified', typ: 'for_bulletin' }"
-                                                        item-text="title" item-value="id" :multiple="true" label="{{ _("
-                                                        Verified Labels") }}">
+                                                        item-text="title" item-value="id" :multiple="true" label="{{ _("Verified Labels") }}">
                                                     </search-field>
                                                 </div>
                                             </template>
@@ -217,8 +211,7 @@
                                                 </div>
                                             </template>
                                             <span>
-                                                {{ _('Locations is a central list of entries for the adminstrative
-                                                centers (cities, towns, villages, etc).')}}
+                                                {{ _('Locations is a central list of entries for the adminstrative centers (cities, towns, villages, etc).')}}
                                             </span>
                                         </v-tooltip>
                                     </v-col>
@@ -241,8 +234,7 @@
                                                 </div>
                                             </template>
                                             <span>
-                                                {{ _('Geo Markers are geographical markers or landmarks that help
-                                                describe the Primary Record.') }}
+                                                {{ _('Geo Markers are geographical markers or landmarks that help describe the Primary Record.') }}
                                             </span>
                                         </v-tooltip>
                                     </v-col>
@@ -355,8 +347,7 @@
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
                                                         <v-text-field v-on="on" class="mx-5"
-                                                            v-model="relateBulletinTerm" label="{{ _(" Search & Relate
-                                                            Primary Records") }}"
+                                                            v-model="relateBulletinTerm" label="{{ _(" Search & Relate Primary Records") }}"
                                                             @keydown.enter="searchRelatedBulletins"
                                                             @click:append="searchRelatedBulletins"
                                                             append-icon="mdi-magnify"></v-text-field>
@@ -434,8 +425,8 @@
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
                                                         <v-text-field v-on="on" class="mx-5"
-                                                            v-model="relateIncidentTerm" label="{{ _(" Search & Relate
-                                                            Investigations") }}" @keydown.enter="searchRelatedIncidents"
+                                                            v-model="relateIncidentTerm" label="{{ _(" Search & Relate Investigations") }}" 
+                                                            @keydown.enter="searchRelatedIncidents"
                                                             @click:append="searchRelatedIncidents"
                                                             append-icon="mdi-magnify"></v-text-field>
                                                     </template>
@@ -523,8 +514,7 @@
                                                     <template v-slot:activator="{ on }">
                                                         <div v-on="on">
                                                             <v-text-field class="mx-2" :disabled="source_disabled"
-                                                                v-model="editedItem.source_link" label="{{ _(" Source
-                                                                Link") }}">
+                                                                v-model="editedItem.source_link" label="{{ _("Source Link") }}">
                                                                 <template #label>
                                                                     {{ _("Source Link") }}
                                                                 </template>
@@ -543,7 +533,7 @@
                                             <!-- <v-checkbox small class="mx-2" label="{{ _(" Not Available") }}"
                                                 v-model="source_alt" small>
                                             </v-checkbox> -->
-                                            <v-switch small class="mx-2" label="{{ _(" Private") }}"
+                                            <v-switch small class="mx-2" label="{{ _("Private") }}"
                                                 v-model="editedItem.source_link_type" small>
                                             </v-switch>
                                         </v-sheet>
@@ -551,26 +541,22 @@
                                             <v-tooltip top max-width=500 open-delay=1500>
                                                 <template v-slot:activator="{ on }">
                                                     <v-text-field v-on="on" v-model="editedItem.discovery_file_name"
-                                                        class="mx-2" label="{{ _(" Discovery File name")
-                                                        }}"></v-text-field>
+                                                        class="mx-2" label="{{ _("Discovery File name")}}"></v-text-field>
                                                 </template>
-                                                <span>{{ _('Name of the Hunchly/WebRecorder/RecRoom file from which data
-                                                    item was extracted') }}</span>
+                                                <span>{{ _('Name of the Hunchly/WebRecorder/RecRoom file from which data item was extracted') }}</span>
                                             </v-tooltip>
                                         </v-sheet>
                                     </v-col>
                                     <v-col cols="12" md="6">
                                         <v-row>
                                             <v-col cols="12">
-                                                <pop-date-time-field time-label="{{ _(" Time (UTC)") }}" label="{{ _("
-                                                    Publish Date") }}" v-model="editedItem.publish_date">
+                                                <pop-date-time-field time-label="{{ _(" Time (UTC)") }}" label="{{ _("Publish Date") }}" v-model="editedItem.publish_date">
                                                 </pop-date-time-field>
                                             </v-col>
                                         </v-row>
                                         <v-row>
                                             <v-col cols="12">
-                                                <pop-date-time-field time-label="{{ _(" Time (UTC)") }}" label="{{ _("
-                                                    Date Created") }}" v-model="editedItem.documentation_date">
+                                                <pop-date-time-field time-label="{{ _(" Time (UTC)") }}" label="{{ _("Date Created") }}" v-model="editedItem.documentation_date">
                                                 </pop-date-time-field>
                                             </v-col>
                                         </v-row>

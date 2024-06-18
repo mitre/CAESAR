@@ -9,8 +9,7 @@
                             {{ _("Events") }}
                         </span>
                     </template>
-                    <span>{{ _('Events are data forms to store time and location information related to Actors, Primary
-                        Records and Investigations. Users can attach one or more events.') }}</span>
+                    <span>{{ _('Events are data forms to store time and location information related to Actors, Primary Records and Investigations. Users can attach one or more events.') }}</span>
                 </v-tooltip>
                 <v-spacer></v-spacer>
                 <v-btn class="mx-2" depressed x-small fab right top color="accent lighten-2" dark
@@ -44,10 +43,8 @@
                 <v-row>
                     <v-col cols="12" md="12">
                         <v-card class="d-flex" flat>
-                            <v-text-field v-if="eventTitle__" v-model="editedEvent.title" label="{{ _(" Title")
-                                }}"></v-text-field>
-                            <v-text-field v-else v-model="editedEvent.title_ar" label="{{ _(" Title (Original
-                                Language)") }}" background-color="lime lighten-5"></v-text-field>
+                            <v-text-field v-if="eventTitle__" v-model="editedEvent.title" label="{{ _("Title") }}"></v-text-field>
+                            <v-text-field v-else v-model="editedEvent.title_ar" label="{{ _("Title (Original Language)") }}" background-color="lime lighten-5"></v-text-field>
                             <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline"
                                 @click="eventTitle__=!eventTitle__"><v-icon>mdi-web</v-icon></v-btn>
                         </v-card>
@@ -56,8 +53,7 @@
                 <v-row>
                     <v-col cols="12">
                         <location-search-field v-model="editedEvent.location" api="/admin/api/locations/"
-                            item-text="full_string" item-value="id" :multiple="false" label="{{ _(" Location")
-                            }}"></location-search-field>
+                            item-text="full_string" item-value="id" :multiple="false" label="{{ _("Location") }}"></location-search-field>
                     </v-col>
                     <!-- <v-col md="4">
                     <search-field v-model="editedEvent.eventtype" api="/admin/api/eventtypes/" :query-params="eventParams" item-text="title" item-value="id" :multiple="false" label="{{ _("Event Type") }}"></search-field>
