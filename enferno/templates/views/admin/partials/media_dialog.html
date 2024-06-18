@@ -3,7 +3,7 @@
         <v-card outlined>
             <v-card-title class="handle">
                 <v-icon left>mdi-folder-multiple-image</v-icon>
-                {% if media_scope == "actor" %}
+                {% if data_type == 'actor' %}
                 {{ _("Photos or Videos of Actor") }}
                 {% else %}
                 {{ _("Upload Data File") }}
@@ -32,7 +32,7 @@
     <v-card>
         <v-card-title>
             <span class="headline">
-                {% if media_scope == "actor" %}
+                {% if data_type == 'actor' %}
                 {{ _("Photo or Video of Actor") }}
                 {% else %}
                 {{ _("Upload Data File") }}
