@@ -6,7 +6,11 @@
                     <template v-slot:activator="{ on }">
                         <span v-on="on">
                             <v-icon left>mdi-calendar</v-icon>
+                            {% if data_type == "actor" %}
+                            {{ _("Locations of Reported Activity") }}
+                            {% else %}
                             {{ _("Events") }}
+                            {% endif %}
                         </span>
                     </template>
                     <span>{{ _('Events are data forms to store time and location information related to Actors, Primary Records and Investigations. Users can attach one or more events.') }}</span>
@@ -33,7 +37,13 @@
 </template>
 <v-card>
     <v-card-title>
-        <span class="headline">{{ _("Event") }}</span>
+        <span class="headline">
+            {% if data_type == 'actor' %}
+            {{ _("Location of Reported Activity") }}
+            {% else %}
+            {{ _("Event") }}
+            {% endif %}
+        </span>
     </v-card-title>
     <v-card-text>
         <v-container>
