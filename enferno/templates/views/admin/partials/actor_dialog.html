@@ -1,3 +1,4 @@
+{% set data_type = 'actor' %}
 <validation-observer v-slot="{invalid}">
     <v-dialog :retain-focus="false" no-click-animation persistent v-model="dialog" fullscreen>
         <v-card v-if="dialog" class="overflow-hidden">
@@ -459,18 +460,14 @@
                                 <span class="anchor" id="events"></span>
                                 <h2 class="form-section-header">{{ _("Events") }}</h2>
                                 <v-row>
-                                    <v-col col="12">
-                                        {% include 'views/admin/partials/event_dialog.html' %}
-                                    </v-col>
+                                    <v-col col="12">{% include 'views/admin/partials/event_dialog.html' %}</v-col>
                                 </v-row>
                                 <!-- Media -->
                                 <span class="anchor" id="media"></span>
                                 <h2 class="form-section-header">{{ _("Media") }}</h2>
                                 <v-row>
                                     <v-col col="12">
-                                        {% with media_scope='actor' %}
                                         {% include 'views/admin/partials/media_dialog.html' %}
-                                        {% endwith %}
                                         {% if config.MISSING_PERSONS %}
                                         <v-card color="yellow lighten-5" class="my-6">
                                             <v-card-title>
@@ -999,7 +996,7 @@
                                 <v-row>
                                     <v-col cols="12" md="8">
                                         <validation-provider name="Comments" rules="required" v-slot="{ errors }">
-                                            <v-textarea outlined rows="7" v-model="editedItem.comments">
+                                            <v-textarea outlined rows="7" v-model="editedItem.comments" hint="{{ _("Every time the Actor is updated, the user must provide a comment about the nature of the update. These comments are saved as part of the Actor history. E.g. 'Related a Primary Record' or 'Added new media'.")}}" persistent-hint>
                                                 <template #label>
                                                     {{ _("Comments") }} <span
                                                         class="red--text"><strong>*</strong></span>
