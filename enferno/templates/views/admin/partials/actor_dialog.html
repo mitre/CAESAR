@@ -41,6 +41,11 @@
                                             </v-list-item-content>
                                         </v-list-item>
                                         <v-list-item>
+                                            <v-list-item-content @click="anchorScroll('sanctions')">
+                                                <v-list-item-title>{{ _("Sanctions") }}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                        <v-list-item>
                                             <v-list-item-content @click="anchorScroll('tags')">
                                                 <v-list-item-title>{{ _("Tags") }}</v-list-item-title>
                                             </v-list-item-content>
@@ -361,6 +366,32 @@
                                   <v-col cols="12" md="12">
                                     <v-btn @click="addSocialMediaHandle" :disabled="isLastSocialMediaHandleEmpty()" color="primary" small><v-icon dense>mdi-plus</v-icon></v-btn>
                                   </v-col>
+                                </v-row>
+                                <!-- Sanction Regimes -->
+                                <span class="anchor" id="sanctions"></span>
+                                <h2 class="form-section-header">{{ _("Sanction Regimes") }}</h2>
+                                <v-row v-for="(regime, index) in editedItem.sanction_regimes" align="center" justify="center">
+                                    <v-col>
+                                        <v-select v-if="regime.sanction_regime" v-model="regime.sanction_regime.id" 
+                                            hide-details :items="sanctionRegimes" item-text="title" item-value="id" label="{{ _("Regime") }}">
+                                        </v-select>
+                                        <v-select v-else v-model="regime.sanction_regime_id" hide-details 
+                                            :items="sanctionRegimes" item-text="title" item-value="id" label="{{ _("Regime") }}">
+                                        </v-select>
+                                    </v-col>
+                                    <!-- <v-col>
+                                        <v-text-field v-model="regime.title" hide-details placeholder="@title" label="{{ _("Title") }}"></v-text-field>
+                                    </v-col> -->
+                                    <v-col>
+                                        <v-col cols="1" class="mt-3">
+                                            <v-btn @click="editedItem.sanction_regimes.splice(index, 1)" color="error" small> <v-icon dense>mdi-alpha-x-circle-outline</v-icon> </v-btn>
+                                        </v-col>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="12" md="12">
+                                        <v-btn @click="addSanctionRegime" :disabled="isLastSanctionRegimeEmpty()" color="primary" small><v-icon dense>mdi-plus</v-icon></v-btn>
+                                    </v-col>
                                 </v-row>
                                 <!-- Tags -->
                                 <span class="anchor" id="tags"></span>
