@@ -96,6 +96,7 @@ Vue.component("global-map", {
         style: style,
         center: [this.lng, this.lat],
         zoom: this.zoom,
+        maxZoom: 18
       });
   
       this.map.addControl(new maplibregl.NavigationControl());
@@ -116,7 +117,7 @@ Vue.component("global-map", {
               color: '#D20C0C',
               haloColor: '#fff',
               haloWidth: 0,
-              font: 'Klokantech Noto Sans Bold',
+              font: 'Noto Sans Bold',
           },
           common: {
               midPointRadius: 5,

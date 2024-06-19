@@ -130,14 +130,17 @@ Vue.component("geo-map", {
   
       this.fixMap();
       this.broadcast();
-  
+
       let mlMapContainer = this.$refs.mapContainer
       let mlMap = {};
+
+      const style = mapUtils.loadBaseLayer();
       mlMap.value = new maplibregl.Map({
         container: mlMapContainer,
-        style: this.mapsApiEndpoint,
+        style: style,
         center: [this.mapCenter.lng, this.mapCenter.lat],
         zoom: this.mapZoom,
+        maxZoom: 18
       });
       
       this.map = mlMap.value;
