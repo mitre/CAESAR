@@ -54,6 +54,9 @@
                                         <v-tab class="justify-start">
                                           {{ _("Social Media Platforms") }}
                                         </v-tab>
+                                        <v-tab class="justify-start">
+                                          {{ _("Sanction Regimes") }}
+                                        </v-tab>
                                     </v-card>
                                     <v-tab-item class="pa-1">
                                         <v-card class="pa-3">
@@ -215,6 +218,14 @@
                                         </v-card-text>
                                       </v-card>
                                     </v-tab-item>
+                                    <v-tab-item class="pa-1">
+                                      <v-card class="pa-3">
+                                        <v-card-text>
+                                          <editable-table title="{{ _("Sanction Regimes") }}" :item-headers="regimeHeaders" :editable-columns="['title','title_tr']" delete-endpoint="/admin/api/sanction-regimes" save-endpoint="/admin/api/sanction-regimes" load-endpoint="/admin/api/sanction-regimes/" extra-delete-message="This will delete all related sanction regimes on actors.">
+                                          </editable-table>
+                                        </v-card-text>
+                                      </v-card>
+                                    </v-tab-item>
                                 </v-tabs>
                             </v-container>
                         </div>
@@ -349,6 +360,16 @@
                 value: "actions"
             },],
             platformHeaders: [{
+                text: "{{_('ID')}}",
+                value: "id"
+            }, {
+                text: "{{_('Title')}}",
+                value: "title"
+            }, {
+                text: "{{_('Actions')}}",
+                value: "actions"
+            }, ],
+            regimeHeaders: [{
                 text: "{{_('ID')}}",
                 value: "id"
             }, {

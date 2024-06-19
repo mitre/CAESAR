@@ -25,7 +25,8 @@ from enferno.admin.models import (Bulletin, Label, Source, Location, Eventtype, 
                                   ClaimedViolation,
                                   Activity, Query, LocationAdminLevel, LocationType, AppConfig,
                                   AtobInfo, AtoaInfo, BtobInfo, ItoiInfo, ItoaInfo, ItobInfo, Country, Ethnography,
-                                  MediaCategory, GeoLocationType, WorkflowStatus, SocialMediaPlatform, SocialMediaHandle)
+                                  MediaCategory, GeoLocationType, WorkflowStatus, SocialMediaPlatform, SocialMediaHandle,
+                                  SanctionRegime)
 from enferno.extensions import bouncer, rds
 from enferno.extensions import cache
 from enferno.tasks import bulk_update_bulletins, bulk_update_actors, bulk_update_incidents
@@ -2488,7 +2489,6 @@ def api_social_media_platforms():
     return Response(json.dumps(response),
                     content_type='application/json'), 200
 
-
 @admin.post('/api/socialmediaplatform/')
 def api_social_media_platform_create():
     """
@@ -2635,6 +2635,81 @@ def api_social_media_handle_delete(id):
     else:
         return HTTPResponse.NOT_FOUND
 
+@admin.route('/api/sanction-regimes/', methods=['GET'])
+def api_sanction_regimes():
+    """
+    Endpoint to get all sanction regimes
+    :return: sanction regimes in json format + success or error in case of failure
+    """
+    result = SanctionRegime.query.all()
+    response = {'items': [item.to_dict() for item in result]}
+    return Response(json.dumps(response),
+                    content_type='application/json'), 200
+
+@admin.post('/api/sanction-regimes/')
+def api_sanction_regimes_create():
+    """
+    Endpoint to create a sanction regime
+    :return: success/error based on operation's result
+    """
+    regime = SanctionRegime()
+    regime.from_json(request.json['item'])
+    result = regime.save()
+    if result:
+        return Response(json.dumps(result.to_dict()), content_type='application/json'), 200
+    else:
+        return 'There was an error creating the sanction regime', 500
+    
+@admin.get('/api/sanction-regimes/<int:id>')
+def api_sanction_regime_get(id):
+    """
+    Endpoint to get a single sanction regime
+    :param id: id of the sanction regime
+    :return: sanction regime data in json format + success or error in case of failure
+    """
+    regime = SanctionRegime.query.get(id)
+
+    if not regime:
+        return HTTPResponse.NOT_FOUND
+    else:
+        return Response(json.dumps(regime.to_dict()),
+                        content_type='application/json'), 200
+
+@admin.put('/api/sanction-regimes/<int:id>')
+def api_sanction_regime_update(id):
+    """
+    Endpoint to update a sanction regime
+    :param id: id of the sanction regime to be updated
+    :return: sanction regime data in json format + success or error in case of failure
+    """
+    regime = SanctionRegime.query.get(id)
+    if regime is not None:
+        regime = regime.from_json(request.json['item'])
+        result = regime.save()
+        if result:
+            return json.dumps(result.to_dict()), 200
+        else:
+            return 'Error saving the sanction regime', 417
+    else:
+        return  HTTPResponse.NOT_FOUND
+    
+@admin.delete('/api/sanction-regimes/<int:id>')
+def api_sanction_regime_delete(id):
+    """
+    Endpoint to delete a sanction regime
+    :param id: id of the sanction regime to be deleted
+    :return: success/error based on operation's result
+    """
+    regime = SanctionRegime.query.get(id)
+    if regime is not None:
+        result = regime.delete()
+        Activity.create(current_user, Activity.ACTION_DELETE, regime.to_mini(), 'sanction regime')
+        if result:
+            return 'Deleted!', 200
+        else:
+            return 'Error deleting the sanction regime', 417
+    else:
+        return HTTPResponse.NOT_FOUND
 
 @admin.route('/api/actormp/<int:id>', methods=['GET'])
 def api_actor_mp_get(id):
