@@ -72,15 +72,10 @@
                                 </template>
                                 <v-spacer></v-spacer>
                                 <div>
-                                    <v-tooltip top>
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-chip v-on="on" label small close color="yellow lighten-4"
-                                                class="grey--text text--darken-2" @click:close="allActors">{{ _("About") }} ${itemsLength} {{ _("results") }}
-                                                (${searchTime} {{ _("seconds") }})
-                                            </v-chip>
-                                        </template>
-                                        <span>${search}</span>
-                                    </v-tooltip>
+                                    <v-chip label small close color="yellow lighten-4" v-if="resultsChip"
+                                        class="grey--text text--darken-2" @click:close="resultsChip = false">{{ _("About") }} ${itemsLength} {{ _("results") }}
+                                        (${searchTime} {{ _("seconds") }})
+                                    </v-chip>
                                 </div>
                                 <v-spacer></v-spacer>
                                 <v-chip small color="accent" v-if="selected.length">
@@ -248,6 +243,9 @@
     VeeValidate.extend('oneisnull', {
         computesRequired: true,
         validate: (value, param) => {
+            if (!param[1]) {
+              return true;
+            }
             if (['', null, undefined].indexOf(value) !== -1 && ['', null, undefined].indexOf(param[0]) !== -1) {
                 return 'Either Name or Name(Original Language) should not be empty'
             }
@@ -308,6 +306,7 @@
                     done();
                 }
             },
+            resultsChip: true,
             currentUser: JSON.parse(`{{ current_user.to_dict()|tojson }}`),
             users: JSON.parse(`{{users|tojson}}`),
             // advanced search
@@ -457,7 +456,8 @@
                 actor_relations: [],
                     bulletin_relations: [],
                     social_media_handles: [],
-                        incident_relations: [],
+                    sanction_regimes: [],
+                    incident_relations: [],
           aliases: []
     },
     defaultItem: {
@@ -474,11 +474,13 @@
                                 // related incidents
                                 incident_relations: [],
                                 social_media_handles: [],
+                                sanction_regimes: [],
                                 aliases: [],
                                     publish_date: '',
                                         documentation_date: new Date().toISOString().substr(0, 16),
                 },
     socialMediaPlatforms: [],
+    sanctionRegimes: [],
     //events
     editedEventIndex: -1,
         editedEvent: {
@@ -573,6 +575,7 @@
     mounted: function() {
         this.statusDisabled = !this.has_role(this.currentUser, 'Admin')
         this.getSocialMediaPlatforms();
+        this.getSanctionRegimes();
         // populate roles for advanced search for admins
         {% if current_user.has_role('Admin') %}
         axios.get('/admin/api/roles/').then(res => {
@@ -627,6 +630,16 @@
             this.socialMediaPlatforms = res.data.items;
           }).catch(e => {
               this.socialMediaPlatforms = [];
+              console.log(e.message);
+            });
+        },
+        getSanctionRegimes() {
+          axios.get('/admin/api/sanction-regimes/')
+            .then(res => {
+                this.sanctionRegimes = res.data.items;
+            })
+            .catch(e => {
+              this.sanctionRegimes = [];
               console.log(e.message);
             });
         },
@@ -794,6 +807,7 @@
                 this.searchTime = (endTime - startTime) / 1000;
                 this.itemsLength = response.data.total;
                 this.items = response.data.items;
+                this.resultsChip = true;
             });
         },
         removeQueryAt(i) {
@@ -1260,11 +1274,22 @@
             platform_id: null
           });
         },
+        addSanctionRegime() {
+          this.editedItem.sanction_regimes.push({
+            sanction_regime_id: null
+          });
+        },
         isLastSocialMediaHandleEmpty() {
           if (this.editedItem.social_media_handles.length) {
             return this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].handle_name === '' ||
               ((this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform_id === null || !this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform_id) &&
                 (!this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform || this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform === null));
+          }
+          return false;
+        },
+        isLastSanctionRegimeEmpty() {
+          if (this.editedItem.sanction_regimes.length) {
+            return this.editedItem.sanction_regimes[this.editedItem.sanction_regimes.length - 1].sanction_regime_id === null;
           }
           return false;
         },

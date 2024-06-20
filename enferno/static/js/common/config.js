@@ -191,6 +191,19 @@ VeeValidate.extend("url", {
   },
 });
 
+VeeValidate.extend("oneIsNullTitle", {
+  computesRequired: true,
+  validate: (value, param) => {
+    if (!param[1]) {
+      return true;
+    }
+    if (['', null, undefined].indexOf(value) !== -1 && ['', null, undefined].indexOf(param[0]) !== -1) {
+      return 'Either Title or Title(Original Language) should not be empty'
+    }
+    return true
+  },
+});
+
 // change to true for dev mode
 Vue.config.devtools = false;
 

@@ -72,6 +72,63 @@ def check_relation_roles(method):
 
 ######  -----  ######
 
+class SanctionRegime(db.Model, BaseMixin):
+    """
+    SQL Alchemy model for Sanction Regimes
+    """
+    
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    sanction_regimes_to_actors = db.relationship("SanctionRegimeToActor", back_populates="sanction_regime", cascade="all, delete-orphan")
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+        }
+    
+    def from_json(self, jsn):
+        self.title = jsn.get('title')
+        return self
+    
+class SanctionRegimeToActor(db.Model, BaseMixin):
+    """
+    SQL Alchemy model for Sanction Regime to Actors
+    Join table to match Actors to Sanction Regimes
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    
+    sanction_regime_id = db.Column(db.Integer, db.ForeignKey('sanction_regime.id'))
+    sanction_regime = db.relationship("SanctionRegime", back_populates="sanction_regimes_to_actors", foreign_keys=[sanction_regime_id])
+
+    actor_id = db.Column(db.Integer, db.ForeignKey('actor.id'), nullable=True)
+    actor = db.relationship("Actor", back_populates="sanction_regimes", foreign_keys=[actor_id])
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'sanction_regime': self.sanction_regime.to_dict() if self.sanction_regime else None,
+            'actor': self.actor.to_dict() if self.actor else None
+        }
+    
+    def to_dict_actor(self):
+        return {
+            'id': self.id,
+            'sanction_regime': self.sanction_regime.to_dict() if self.sanction_regime else None
+        }
+    
+    def from_json(self, jsn):
+        if jsn.get('sanction_regime_id'):
+            self.sanction_regime_id = jsn.get('sanction_regime_id')
+        elif jsn.get('sanction_regime'):
+            self.sanction_regime_id = jsn.get('sanction_regime').get('id')
+        if jsn.get('actor_id'):
+            self.actor_id = jsn.get('actor_id')
+        elif jsn.get('actor'):
+            self.actor_id = jsn.get('actor').get('id')
+        return self
+
+
 class SocialMediaPlatform(db.Model, BaseMixin):
     """
     SQL Alchemy model for social media platforms
@@ -2285,6 +2342,8 @@ class Actor(db.Model, BaseMixin):
     )
 
     social_media_handles = db.relationship('SocialMediaHandle', back_populates='actor')
+    
+    sanction_regimes = db.relationship('SanctionRegimeToActor', back_populates='actor')
 
     sources = db.relationship(
         "Source", secondary=actor_sources, backref=db.backref("actors", lazy="dynamic")
@@ -2584,7 +2643,7 @@ class Actor(db.Model, BaseMixin):
             ver_labels = Label.query.filter(Label.id.in_(ids)).all()
             self.ver_labels = ver_labels
 
-        if "sex" in json:
+        if "sex" in json and json["sex"]:
             if Sex.is_valid(json["sex"]):
                 self.sex = Sex.get_name(json["sex"])
             else:
@@ -2666,6 +2725,23 @@ class Actor(db.Model, BaseMixin):
                     h.save()
                 new_handles.append(h)
             self.social_media_handles = new_handles
+
+        if "sanction_regimes" in json:
+            new_sanction_regime_to_actors = []
+            sanction_regimes = json["sanction_regimes"]
+            for regime in sanction_regimes:
+                if "id" not in regime:
+                    # new sanction_regime_to_actor
+                    sr_to_a = SanctionRegimeToActor()
+                    sr_to_a = sr_to_a.from_json(regime)
+                    sr_to_a.save()
+                else:
+                    # sanction_regime_to_actor already exists, get a db instance and update it with new data
+                    sr_to_a = SanctionRegimeToActor.query.get(regime["id"])
+                    sr_to_a.from_json(regime)
+                    sr_to_a.save()
+                new_sanction_regime_to_actors.append(sr_to_a)
+            self.sanction_regimes = new_sanction_regime_to_actors
 
         if "roles" in json:
             ids = [role["id"] for role in json["roles"]]
@@ -3115,6 +3191,12 @@ class Actor(db.Model, BaseMixin):
         if self.social_media_handles and len(self.social_media_handles):
             for handle in self.social_media_handles:
                 handles_json.append(handle.to_dict_actor())
+        
+        # Sanction Regime json 
+        regimes_json = []
+        if self.sanction_regimes and len(self.sanction_regimes):
+            for regime in self.sanction_regimes:
+                regimes_json.append(regime.to_dict_actor())
 
         # medias json
         medias_json = []
@@ -3194,6 +3276,7 @@ class Actor(db.Model, BaseMixin):
             "verLabels": ver_labels_json,
             "events": events_json,
             "social_media_handles": handles_json,
+            "sanction_regimes": regimes_json,
             "aliases": aliases_json,
             "medias": medias_json,
             "actor_relations": actor_relations_dict,

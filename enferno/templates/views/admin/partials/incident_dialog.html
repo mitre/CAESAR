@@ -5,7 +5,8 @@
                 <v-toolbar-title>${formTitle} <span class="gv--text" v-if="editedItem.id">${editedItem.id}</span>
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn @click="save" :disabled="invalid" dark color="accent" small class="mx-2" depressed>{{ _("Save Investigation") }}
+                <v-btn @click="save" :disabled="invalid" dark color="accent" small class="mx-2" depressed>{{ _("Save
+                    Investigation") }}
                 </v-btn>
                 <v-btn @click="confirmClose" icon>
                     <v-icon>mdi-close</v-icon>
@@ -54,10 +55,35 @@
                                 <v-row>
                                     <v-col cols="12">
                                         <v-card class="d-flex" flat>
-                                            <v-text-field v-if="title__" v-model="editedItem.title" label="{{ _("Title") }}"></v-text-field>
-                                            <v-text-field v-else v-model="editedItem.title_ar" label="{{ _(" Title (Original 
-                                            Language)") }}" background-color="lime lighten-5">
-                                            </v-text-field>
+
+                                            <div style="flex:auto" v-if="title__">
+                                                <validation-provider name="Title"
+                                                    :rules="{oneIsNullTitle: [editedItem.title_ar, true]}"
+                                                    v-slot="{errors}">
+                                                    <v-text-field v-model="editedItem.title">
+                                                        <template #label>
+                                                            {{ _("Title") }} <span
+                                                                class="red--text"><strong>*</strong></span>
+                                                        </template>
+                                                    </v-text-field>
+                                                    <span class="red--text">${errors[0]}</span>
+                                                </validation-provider>
+                                            </div>
+
+                                            <div style="flex:auto" v-else>
+                                                <validation-provider name="Title (Original Language)"
+                                                    :rules="{oneIsNullTitle: [editedItem.title, true]}"
+                                                    v-slot="{errors}">
+                                                    <v-text-field v-model="editedItem.title_ar">
+                                                        <template #label>
+                                                            {{ _("Title (Original Language)") }} <span
+                                                                class="red--text"><strong>*</strong></span>
+                                                        </template>
+                                                    </v-text-field>
+                                                    <span class="red--text">${errors[0]}</span>
+                                                </validation-provider>
+                                            </div>
+
                                             <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline"
                                                 @click="title__=!title__">
                                                 <v-icon>mdi-web</v-icon>
@@ -74,7 +100,8 @@
                                                     <div v-on="on" class="ml-2 mb-1">
                                                         <v-icon>mdi-information-outline</v-icon>
                                                 </template>
-                                                <span>{{ _('A full description of the Investigation as well as notes and additional resources.') }}</span>
+                                                <span>{{ _('A full description of the Investigation as well as notes and
+                                                    additional resources.') }}</span>
                                             </v-tooltip>
                                         </div>
                                         <tinymce-editor :init="tinyConfig"
@@ -162,7 +189,12 @@
                                                             @click:append="searchRelatedActors"
                                                             append-icon="mdi-magnify"></v-text-field>
                                                     </template>
-                                                    <span>{{ _('Actors are items of documentation about persons or bodies of interest that can be related to other Actors, Primary Records, or Investigations, usually coming from a single source. The Actor profile contains fields to identify the person or body, relate the Actor to other items in the database, add labels and create Events.') }}</span>
+                                                    <span>{{ _('Actors are items of documentation about persons or
+                                                        bodies of interest that can be related to other Actors, Primary
+                                                        Records, or Investigations, usually coming from a single source.
+                                                        The Actor profile contains fields to identify the person or
+                                                        body, relate the Actor to other items in the database, add
+                                                        labels and create Events.') }}</span>
                                                 </v-tooltip>
                                             </v-card-title>
                                             <!--  Grid of Actors Items -->
@@ -204,7 +236,8 @@
                                                                         </div>
                                                                         <v-text-field class="mt-2"
                                                                             v-model="editedItem.actor_relations[index].comment"
-                                                                            dense outlined label="{{ _("Comments") }}"></v-text-field>
+                                                                            dense outlined label="{{ _(" Comments")
+                                                                            }}"></v-text-field>
                                                                     </v-card-text>
                                                                 </v-card>
                                                             </template>
@@ -231,7 +264,8 @@
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
                                                         <v-text-field v-on="on" class="mx-5"
-                                                            v-model="relateBulletinTerm" label="{{ _(" Search & Relate Primary Records") }}"
+                                                            v-model="relateBulletinTerm" label="{{ _(" Search & Relate
+                                                            Primary Records") }}"
                                                             @keydown.enter="searchRelatedBulletins"
                                                             @click:append="searchRelatedBulletins"
                                                             append-icon="mdi-magnify"></v-text-field>
@@ -281,7 +315,8 @@
                                                                         </div>
                                                                         <v-text-field class="mt-2"
                                                                             v-model="editedItem.bulletin_relations[index].comment"
-                                                                            dense outlined label="{{ _(" Comments") }}"></v-text-field>
+                                                                            dense outlined label="{{ _(" Comments")
+                                                                            }}"></v-text-field>
                                                                     </v-card-text>
                                                                 </v-card>
                                                             </template>
@@ -308,7 +343,8 @@
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
                                                         <v-text-field v-on="on" class="mx-5"
-                                                            v-model="relateIncidentTerm" label="{{ _(" Search & Relate Investigations") }}" @keydown.enter="searchRelatedIncidents"
+                                                            v-model="relateIncidentTerm" label="{{ _(" Search & Relate
+                                                            Investigations") }}" @keydown.enter="searchRelatedIncidents"
                                                             @click:append="searchRelatedIncidents"
                                                             append-icon="mdi-magnify"></v-text-field>
                                                     </template>
@@ -358,7 +394,8 @@
                                                                         </v-chip-group>
                                                                         <v-text-field class="mt-2"
                                                                             v-model="editedItem.incident_relations[index].comment"
-                                                                            dense outlined label="{{ _(" Comments") }}"></v-text-field>
+                                                                            dense outlined label="{{ _(" Comments")
+                                                                            }}"></v-text-field>
                                                                     </v-card-text>
                                                                 </v-card>
                                                             </template>
@@ -383,7 +420,11 @@
                                 <v-row>
                                     <v-col cols="12" md="8">
                                         <validation-provider name="Comments" rules="required" v-slot="{ errors }">
-                                            <v-textarea v-model="editedItem.comments" outlined rows="7">
+                                            <v-textarea v-model="editedItem.comments" outlined rows="7" hint="{{ _("
+                                                Every time the Investigation is updated, the user must provide a comment
+                                                about the nature of the update. These comments are saved as part of the
+                                                Investigation history. E.g. 'Related an Actor' or 'Added new labels'
+                                                .")}}" persistent-hint>
                                                 <template #label>
                                                     {{ _("Comments") }} <span
                                                         class="red--text"><strong>*</strong></span>

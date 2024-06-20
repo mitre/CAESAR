@@ -73,12 +73,28 @@
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
                                                         <v-text-field v-if="title__" v-on="on"
-                                                            v-model="editedItem.title" label="{{ _(" Original Title") }}"></v-text-field>
+                                                            v-model="editedItem.title"
+                                                            label="{{ _('Original Title')}}"></v-text-field>
                                                         <v-text-field v-else v-on="on" v-model="editedItem.title_ar"
-                                                            label="{{ _(" Original Title (Original Language)") }}"
+                                                            label="{{ _('Original Title (Original Language)') }}"
                                                             background-color="lime lighten-5"></v-text-field>
+
+                                                        <div style="flex:auto" v-else>
+                                                            <validation-provider name="Title (Original Language)"
+                                                                :rules="{oneIsNullTitle: [editedItem.title_ar, true]}"
+                                                                v-slot="{errors}">
+                                                                <v-text-field v-model="editedItem.title_ar">
+                                                                    <template #label>
+                                                                        {{ _("Title (Original Language)") }} <span
+                                                                            class="red--text"><strong>*</strong></span>
+                                                                    </template>
+                                                                </v-text-field>
+                                                                <span class="red--text">${errors[0]}</span>
+                                                            </validation-provider>
+                                                        </div>
                                                     </template>
-                                                    <span>{{ _('Titles from sources might be edited for clarity, but the “Original Title” is retained.') }}</span>
+                                                    <span>{{ _('Titles from sources might be edited for clarity, but the
+                                                        “Original Title” is retained.') }}</span>
                                                 </v-tooltip>
                                                 <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline"
                                                     @click="title__=!title__">
@@ -93,13 +109,14 @@
                                             <v-tooltip top max-width=500 open-delay=1500>
                                                 <template v-slot:activator="{ on }">
                                                     <v-text-field v-if="sjac_title__" v-on="on"
-                                                        v-model="editedItem.sjac_title" label="{{ _(" Title") }}">
+                                                        v-model="editedItem.sjac_title" label="{{ _('Title') }}">
                                                     </v-text-field>
                                                     <v-text-field v-else v-on="on" v-model="editedItem.sjac_title_ar"
-                                                        label="{{ _(" Title (Original Language)") }}"
+                                                        label="{{ _('Title (Original Language)') }}"
                                                         background-color="lime lighten-5"></v-text-field>
                                                 </template>
-                                                <span>{{ _('Titles from sources might be edited for clarity, but the “Original Title” is retained.') }}</span>
+                                                <span>{{ _('Titles from sources might be edited for clarity, but the
+                                                    “Original Title” is retained.') }}</span>
                                             </v-tooltip>
                                             <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline"
                                                 @click="sjac_title__=!sjac_title__">
@@ -108,7 +125,8 @@
                                         </v-card>
                                     </v-col>
                                     <v-col cols="12" md="4">
-                                        <v-combobox small-chips multiple v-model="editedItem.ref" label="{{ _(" Ref") }}">
+                                        <v-combobox small-chips multiple v-model="editedItem.ref"
+                                            label="{{ _('Ref') }}">
                                         </v-combobox>
                                     </v-col>
                                 </v-row>
@@ -118,7 +136,8 @@
                                             <template v-slot:activator="{ on }">
                                                 <div v-on="on">
                                                     <search-field v-model="editedItem.sources" api="/admin/api/sources/"
-                                                        item-text="title" item-value="id" :multiple="true" label="{{ _("Sources") }}"></search-field>
+                                                        item-text="title" item-value="id" :multiple="true"
+                                                        label="{{ _(' Sources') }}"></search-field>
                                                 </div>
                                             </template>
                                             <span>{{ _('Sources are profiles of the original creators and publishers of
@@ -160,7 +179,7 @@
                                                 <div v-on="on">
                                                     <search-field v-model="editedItem.labels" api="/admin/api/labels/"
                                                         :query-params="{ typ: 'for_bulletin' }" item-text="title"
-                                                        item-value="id" :multiple="true" label="{{ _(" Labels") }}">
+                                                        item-value="id" :multiple="true" label="{{ _('Labels') }}">
                                                     </search-field>
                                                 </div>
                                             </template>
@@ -180,7 +199,7 @@
                                                     <search-field v-model="editedItem.verLabels"
                                                         api="/admin/api/labels/"
                                                         :query-params="{ fltr: 'verified', typ: 'for_bulletin' }"
-                                                        item-text="title" item-value="id" :multiple="true" label="{{ _("Verified Labels") }}">
+                                                        item-text="title" item-value="id" :multiple="true" label="{{ _('Verified Labels') }}">
                                                     </search-field>
                                                 </div>
                                             </template>
@@ -206,12 +225,13 @@
                                                 <div v-on="on">
                                                     <location-search-field v-model="editedItem.locations"
                                                         api="/admin/api/locations/" item-text="full_string"
-                                                        item-value="id" :multiple="true" label="{{ _(" Locations") }}">
+                                                        item-value="id" :multiple="true" label="{{ _('Locations') }}">
                                                     </location-search-field>
                                                 </div>
                                             </template>
                                             <span>
-                                                {{ _('Locations is a central list of entries for the adminstrative centers (cities, towns, villages, etc).')}}
+                                                {{ _('Locations is a central list of entries for the adminstrative
+                                                centers (cities, towns, villages, etc).')}}
                                             </span>
                                         </v-tooltip>
                                     </v-col>
@@ -234,7 +254,8 @@
                                                 </div>
                                             </template>
                                             <span>
-                                                {{ _('Geo Markers are geographical markers or landmarks that help describe the Primary Record.') }}
+                                                {{ _('Geo Markers are geographical markers or landmarks that help
+                                                describe the Primary Record.') }}
                                             </span>
                                         </v-tooltip>
                                     </v-col>
@@ -269,7 +290,7 @@
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
                                                         <v-text-field v-on="on" class="mx-5" v-model="relateActorTerm"
-                                                            label="{{ _(" Search & Relate Actors") }}"
+                                                            label="{{ _('Search & Relate Actors') }}"
                                                             @keydown.enter="searchRelatedActors"
                                                             @click:append="searchRelatedActors"
                                                             append-icon="mdi-magnify"></v-text-field>
@@ -321,7 +342,7 @@
                                                                         </div>
                                                                         <v-text-field class="mt-2"
                                                                             v-model="editedItem.actor_relations[index].comment"
-                                                                            dense outlined label="{{ _(" Comments") }}">
+                                                                            dense outlined label="{{ _('Comments') }}">
                                                                         </v-text-field>
                                                                     </v-card-text>
                                                                 </v-card>
@@ -347,7 +368,8 @@
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
                                                         <v-text-field v-on="on" class="mx-5"
-                                                            v-model="relateBulletinTerm" label="{{ _(" Search & Relate Primary Records") }}"
+                                                            v-model="relateBulletinTerm"
+                                                            label="{{ _('Search & Relate Primary Records') }}"
                                                             @keydown.enter="searchRelatedBulletins"
                                                             @click:append="searchRelatedBulletins"
                                                             append-icon="mdi-magnify"></v-text-field>
@@ -399,7 +421,7 @@
                                                                         </div>
                                                                         <v-text-field class="mt-2"
                                                                             v-model="editedItem.bulletin_relations[index].comment"
-                                                                            dense outlined label="{{ _(" Comments") }}">
+                                                                            dense outlined label="{{ _('Comments') }}">
                                                                         </v-text-field>
                                                                     </v-card-text>
                                                                 </v-card>
@@ -425,7 +447,8 @@
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
                                                         <v-text-field v-on="on" class="mx-5"
-                                                            v-model="relateIncidentTerm" label="{{ _(" Search & Relate Investigations") }}" 
+                                                            v-model="relateIncidentTerm"
+                                                            label="{{ _('Search & Relate Investigations') }}"
                                                             @keydown.enter="searchRelatedIncidents"
                                                             @click:append="searchRelatedIncidents"
                                                             append-icon="mdi-magnify"></v-text-field>
@@ -483,7 +506,7 @@
                                                                         </div>
                                                                         <v-text-field class="mt-2"
                                                                             v-model="editedItem.incident_relations[index].comment"
-                                                                            dense outlined label="{{ _(" Comments") }}">
+                                                                            dense outlined label="{{ _('Comments') }}">
                                                                         </v-text-field>
                                                                     </v-card-text>
                                                                 </v-card>
@@ -514,7 +537,8 @@
                                                     <template v-slot:activator="{ on }">
                                                         <div v-on="on">
                                                             <v-text-field class="mx-2" :disabled="source_disabled"
-                                                                v-model="editedItem.source_link" label="{{ _("Source Link") }}">
+                                                                v-model="editedItem.source_link"
+                                                                label="{{ _('Source Link') }}">
                                                                 <template #label>
                                                                     {{ _("Source Link") }}
                                                                 </template>
@@ -530,10 +554,10 @@
                                                 </v-tooltip>
                                                 <span class="red--text">${errors[0]}</span>
                                             </validation-provider>
-                                            <!-- <v-checkbox small class="mx-2" label="{{ _(" Not Available") }}"
+                                            <!-- <v-checkbox small class="mx-2" label="{{ _('Not Available') }}"
                                                 v-model="source_alt" small>
                                             </v-checkbox> -->
-                                            <v-switch small class="mx-2" label="{{ _("Private") }}"
+                                            <v-switch small class="mx-2" label="{{ _('Private') }}"
                                                 v-model="editedItem.source_link_type" small>
                                             </v-switch>
                                         </v-sheet>
@@ -541,22 +565,27 @@
                                             <v-tooltip top max-width=500 open-delay=1500>
                                                 <template v-slot:activator="{ on }">
                                                     <v-text-field v-on="on" v-model="editedItem.discovery_file_name"
-                                                        class="mx-2" label="{{ _("Discovery File name")}}"></v-text-field>
+                                                        class="mx-2"
+                                                        label="{{ _('Discovery File name') }}"></v-text-field>
                                                 </template>
-                                                <span>{{ _('Name of the Hunchly/WebRecorder/RecRoom file from which data item was extracted') }}</span>
+                                                <span>{{ _('Name of the Hunchly/WebRecorder/RecRoom file from which data
+                                                    item was extracted') }}</span>
                                             </v-tooltip>
                                         </v-sheet>
                                     </v-col>
                                     <v-col cols="12" md="6">
                                         <v-row>
                                             <v-col cols="12">
-                                                <pop-date-time-field time-label="{{ _(" Time (UTC)") }}" label="{{ _("Publish Date") }}" v-model="editedItem.publish_date">
+                                                <pop-date-time-field time-label="{{ _('Time (UTC)') }}"
+                                                    label="{{ _('Publish Date') }}" v-model="editedItem.publish_date">
                                                 </pop-date-time-field>
                                             </v-col>
                                         </v-row>
                                         <v-row>
                                             <v-col cols="12">
-                                                <pop-date-time-field time-label="{{ _(" Time (UTC)") }}" label="{{ _("Date Created") }}" v-model="editedItem.documentation_date">
+                                                <pop-date-time-field time-label="{{ _('Time (UTC)') }}"
+                                                    label="{{ _('Date Created') }}"
+                                                    v-model="editedItem.documentation_date">
                                                 </pop-date-time-field>
                                             </v-col>
                                         </v-row>
@@ -565,7 +594,9 @@
                                 <v-row>
                                     <v-col cols="12" md="8">
                                         <validation-provider name="Comments" rules="required" v-slot="{ errors }">
-                                            <v-textarea outlined rows="7" v-model="editedItem.comments">
+                                            <v-textarea outlined rows="7" v-model="editedItem.comments"
+                                                hint="{{ _('Every time the Primary Record is updated, the user must provide a comment about the nature of the update. These comments are saved as part of the Primary Record history.')}}"
+                                                persistent-hint>
                                                 <template #label>
                                                     {{ _("Comments") }} <span
                                                         class="red--text"><strong>*</strong></span>
@@ -576,34 +607,33 @@
                                     </v-col>
                                     <v-col cols="12" md="4">
                                         <v-select :disabled="statusDisabled" item-text="tr" item-value="en"
-                                            :items="statusItems" v-model="editedItem.status" label="{{ _(" Status") }}">
+                                            :items="statusItems" v-model="editedItem.status" label="{{ _('Status') }}">
                                         </v-select>
-                                        <v-autocomplete v-if="statusForbidsAssignment" label="{{ _(" Assigned To") }}"
+                                        <v-autocomplete v-if="statusForbidsAssignment" label="{{ _('Assigned To') }}"
                                             :disabled="true" prepend-inner-icon="mdi-magnify"
                                             item-color="secondary"></v-autocomplete>
                                         <validation-provider v-else-if="statusRequiresAssignment" name="Assigned To"
                                             rules="required" v-slot="{ errors }">
                                             <v-autocomplete :value="editedItem.assigned_to" @input="assignItemByUserId"
-                                                label="{{ _(" Assigned To") }}" :items="users" item-text="name"
+                                                label="{{ _('Assigned To') }}" :items="users" item-text="name"
                                                 item-value="id" :disabled="false" prepend-inner-icon="mdi-magnify"
                                                 hide-no-data no-filter small-chips clearable :return-object="false"
                                                 item-color="secondary"></v-autocomplete>
                                             <span class="red--text">${errors[0]}</span>
                                         </validation-provider>
                                         <v-autocomplete v-else :value="editedItem.assigned_to"
-                                            @input="assignItemByUserId" label="{{ _(" Assigned To") }}" :items="users"
+                                            @input="assignItemByUserId" label="{{ _('Assigned To') }}" :items="users"
                                             item-text="name" item-value="id" :disabled="false"
                                             prepend-inner-icon="mdi-magnify" hide-no-data no-filter small-chips
                                             clearable :return-object="false" item-color="secondary"></v-autocomplete>
                                         <search-field v-if="has_role(currentUser, 'Mod') || has_role(currentUser, 'DA')"
                                             api="/admin/api/roles/?custom=true&my_roles_only=true" item-text="name"
-                                            item-value="id" :multiple="true" label="{{ _(" Access Roles") }}"
+                                            item-value="id" :multiple="true" label="{{ _('Access Roles') }}"
                                             v-model="editedItem.roles">
                                         </search-field>
                                         <search-field v-else-if="has_role(currentUser, 'Admin')"
                                             api="/admin/api/roles/?custom=true" item-text="name" item-value="id"
-                                            :multiple="true" label="{{ _(" Access Roles") }}"
-                                            v-model="editedItem.roles">
+                                            :multiple="true" label="{{ _('Access Roles') }}" v-model="editedItem.roles">
                                         </search-field>
                                     </v-col>
                                 </v-row>
