@@ -79,16 +79,11 @@
                                 </template>
                                 <v-spacer></v-spacer>
                                 <div>
-                                    <v-tooltip top>
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-chip v-on="on" label small close color="yellow lighten-4"
-                                                class="grey--text text--darken-2" @click:close="allBulletins">{{
-                                                _("About") }} ${itemsLength} {{ _("results") }}
-                                                (${searchTime} {{ _("seconds") }})
-                                            </v-chip>
-                                        </template>
-                                        <span>${search}</span>
-                                    </v-tooltip>
+                                    <v-chip label small close color="yellow lighten-4"
+                                        class="grey--text text--darken-2" @click:close="resultsChip = false" v-if="resultsChip">{{
+                                        _("About") }} ${itemsLength} {{ _("results") }}
+                                        (${searchTime} {{ _("seconds") }})
+                                    </v-chip>
                                 </div>
                                 <v-spacer></v-spacer>
                                 <v-chip small color="accent" v-if="selected.length">${selected.length} {{ _("Selected items") }}</v-chip>
@@ -305,6 +300,7 @@
                 }
             },
             assignBulletin: {},
+            resultsChip: true,
             selfAssignDialog: false,
             assignDialog: false,
             //global preview dialog
@@ -794,6 +790,7 @@
                 this.loading = false;
                 this.itemsLength = response.data.total;
                 this.items = response.data.items;
+                this.resultsChip = true;
             });
         },
         removeQueryAt(i) {
