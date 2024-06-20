@@ -248,6 +248,9 @@
     VeeValidate.extend('oneisnull', {
         computesRequired: true,
         validate: (value, param) => {
+            if (!param[1]) {
+              return true;
+            }
             if (['', null, undefined].indexOf(value) !== -1 && ['', null, undefined].indexOf(param[0]) !== -1) {
                 return 'Either Name or Name(Original Language) should not be empty'
             }

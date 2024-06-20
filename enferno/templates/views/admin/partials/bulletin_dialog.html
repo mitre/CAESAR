@@ -72,11 +72,31 @@
                                             <v-card class="d-flex" flat>
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
-                                                        <v-text-field v-if="title__" v-on="on"
-                                                            v-model="editedItem.title" label="{{ _("Original Title") }}"></v-text-field>
-                                                        <v-text-field v-else v-on="on" v-model="editedItem.title_ar"
-                                                            label="{{ _("Original Title (Original Language)") }}"
-                                                            background-color="lime lighten-5"></v-text-field>
+                                                        <div style="flex:auto" v-if="title__">
+                                                            <validation-provider name="Title" :rules="{oneIsNullTitle: [editedItem.title_ar, true]}"
+                                                              v-slot="{errors}">
+                                                              <v-text-field v-model="editedItem.title">
+                                                                <template #label>
+                                                                  {{ _("Title") }} <span
+                                                                    class="red--text"><strong>*</strong></span>
+                                                                </template>
+                                                              </v-text-field>
+                                                              <span class="red--text">${errors[0]}</span>
+                                                            </validation-provider>
+                                                        </div>
+
+                                                        <div style="flex:auto" v-else>
+                                                          <validation-provider name="Title (Original Language)" :rules="{oneIsNullTitle: [editedItem.title_ar, true]}"
+                                                            v-slot="{errors}">
+                                                            <v-text-field v-model="editedItem.title_ar">
+                                                              <template #label>
+                                                                {{ _("Title (Original Language)") }} <span
+                                                                  class="red--text"><strong>*</strong></span>
+                                                              </template>
+                                                            </v-text-field>
+                                                            <span class="red--text">${errors[0]}</span>
+                                                          </validation-provider>
+                                                        </div>
                                                     </template>
                                                     <span>{{ _('Titles from sources might be edited for clarity, but the “Original Title” is retained.') }}</span>
                                                 </v-tooltip>
