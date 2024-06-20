@@ -749,7 +749,7 @@ class Location(db.Model, BaseMixin):
     title_ar = db.Column(db.String)
     location_type_id = db.Column(db.Integer, db.ForeignKey('location_type.id'))
     location_type = db.relationship("LocationType", foreign_keys=[location_type_id])
-    latlng = db.Column(Geometry('POINT', srid=4326))
+    latlng = db.Column(Geometry('GEOMETRY', srid=4326))
     admin_level_id = db.Column(db.Integer, db.ForeignKey('location_admin_level.id'))
     admin_level = db.relationship("LocationAdminLevel", foreign_keys=[admin_level_id])
     description = db.Column(db.Text)
