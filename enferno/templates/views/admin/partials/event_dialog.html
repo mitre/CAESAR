@@ -1,5 +1,5 @@
 <v-dialog v-model="eventDialog" max-width="850px">
-    <template v-slot:activator="{ on }">
+  <template v-slot:activator="{ on }">
         <v-card outlined>
             <v-card-title>
                 <v-tooltip top max-width=500 open-delay=1500>
@@ -35,6 +35,7 @@
         </v-card-text>
     </v-card>
 </template>
+<validation-observer v-slot="{invalid}">
 <v-card>
     <v-card-title>
         <span class="headline">
@@ -50,8 +51,31 @@
             <v-row>
                 <v-col cols="12" md="12">
                     <v-card class="d-flex" flat>
-                        <v-text-field v-if="eventTitle__" v-model="editedEvent.title" label="{{ _("Title") }}"></v-text-field>
-                        <v-text-field v-else v-model="editedEvent.title_ar" label="{{ _("Title (Original Language)") }}" background-color="lime lighten-5"></v-text-field>
+                          <div style="flex:auto" v-if="eventTitle__">
+                              <validation-provider name="Title" :rules="{oneIsNullTitle: [editedEvent.title_ar, eventDialog]}"
+                                v-slot="{errors}">
+                                <v-text-field v-model="editedEvent.title">
+                                  <template #label>
+                                    {{ _("Title") }} <span
+                                      class="red--text"><strong>*</strong></span>
+                                  </template>
+                                </v-text-field>
+                                <span class="red--text">${errors[0]}</span>
+                              </validation-provider>
+                          </div>
+
+                          <div style="flex:auto" v-else>
+                            <validation-provider name="Title (Original Language)" :rules="{oneIsNullTitle: [editedEvent.title, eventDialog]}"
+                              v-slot="{errors}">
+                              <v-text-field v-model="editedEvent.title_ar">
+                                <template #label>
+                                  {{ _("Title (Original Language)") }} <span
+                                    class="red--text"><strong>*</strong></span>
+                                </template>
+                              </v-text-field>
+                              <span class="red--text">${errors[0]}</span>
+                            </validation-provider>
+                          </div>
                         <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline" @click="eventTitle__=!eventTitle__"><v-icon>mdi-web</v-icon></v-btn>
                     </v-card>
                 </v-col>
@@ -80,16 +104,17 @@
                     <v-textarea outlined rows="7" v-model="editedEvent.comments">
                       <template #label>
                         {{ _("Description of Event") }}
-                      </template>
-                    </v-textarea>
-                </v-col>
-            </v-row>
-        </v-container>
-    </v-card-text>
-    <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn text @click="closeEvent">{{ _("Close") }}</v-btn>
-        <v-btn color="accent" text @click="saveEvent">{{ _("Save") }}</v-btn>
-    </v-card-actions>
-</v-card>
+                        </template>
+                      </v-textarea>
+                  </v-col>
+              </v-row>
+          </v-container>
+      </v-card-text>
+      <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text @click="closeEvent">{{ _("Close") }}</v-btn>
+          <v-btn :disabled="invalid" color="accent" text @click="saveEvent">{{ _("Save") }}</v-btn>
+      </v-card-actions>
+  </v-card>
+</validation-observer>
 </v-dialog>

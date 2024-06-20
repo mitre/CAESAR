@@ -86,7 +86,7 @@
                                     <v-col cols="12" md="6">
                                         <v-card class="d-flex" flat>
                                             <div style="flex:auto" v-if="name__">
-                                                <validation-provider name="Name" :rules="{oneisnull:editedItem.name_ar}"
+                                                <validation-provider name="Name" :rules="{oneisnull: [editedItem.title_ar, true]}"
                                                     v-slot="{errors}">
                                                     <v-text-field v-model="editedItem.name">
                                                         <template #label>
@@ -99,7 +99,7 @@
                                             </div>
                                             <div v-else style="flex:auto">
                                                 <validation-provider name="Name(Original Language)"
-                                                    :rules="{oneisnull:editedItem.name}" v-slot="{errors}">
+                                                    :rules="{oneisnull: [editedItem.name, true]}" v-slot="{errors}">
                                                     <v-text-field v-model="editedItem.name_ar"
                                                         background-color="lime lighten-5">
                                                         <template #label>
