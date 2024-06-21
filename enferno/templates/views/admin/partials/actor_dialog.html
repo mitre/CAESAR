@@ -176,13 +176,11 @@
                                     </v-col>
                                     <v-col cols="12" md="3">
                                         <v-select :items="translations.actorAge" item-text="tr" item-value="en"
-                                            v-model="editedItem.age" clearable label="{{ _(" Minor/Adult")
-                                            }}"></v-select>
+                                            v-model="editedItem.age" clearable label="{{ _(" Minor/Adult") }}"></v-select>
                                     </v-col>
                                     <v-col cols="12" md="3">
                                         <v-select :items="translations.actorCivilian" v-model="editedItem.civilian"
-                                            item-text="tr" item-value="en" clearable label="{{ _(" Civilian/Non
-                                            Civilian") }}">
+                                            item-text="tr" item-value="en" clearable label="{{ _(" Civilian/Non Civilian") }}">
                                         </v-select>
                                     </v-col>
                                     <v-col md="3">
@@ -408,8 +406,7 @@
                                     <v-col cols="12" md="6">
                                         <location-search-field v-model="editedItem.birth_place"
                                             api="/admin/api/locations/" item-text="full_string" item-value="id"
-                                            :multiple="false" label="{{ _(" Place of Birth")
-                                            }}"></location-search-field>
+                                            :multiple="false" label="{{ _(" Place of Birth") }}"></location-search-field>
                                     </v-col>
                                     <v-col cols="12" md="6">
                                         <v-tooltip top max-width=500 open-delay=1500>
@@ -528,8 +525,7 @@
                                                         </v-col>
                                                         <v-col md="6">
                                                             <mix-i v-model="editedItem.injured" :i18n="translations"
-                                                                title="{{ _(" Injured around time of disappearance?")
-                                                                }}">
+                                                                title="{{ _(" Injured around time of disappearance?") }}">
                                                             </mix-i>
                                                         </v-col>
                                                         <v-col md="6">
@@ -686,8 +682,7 @@
                                                     </v-row>
                                                     <v-row>
                                                         <v-col md="6">
-                                                            <v-textarea rows="1" label="{{ _(" Pain and/or ailments")
-                                                                }}" v-model="editedItem.pain"></v-textarea>
+                                                            <v-textarea rows="1" label="{{ _(" Pain and/or ailments") }}" v-model="editedItem.pain"></v-textarea>
                                                         </v-col>
                                                         <v-col md="6">
                                                             <v-textarea rows="1" label="{{ _(" Other medical conditions
@@ -850,8 +845,7 @@
                                                                         </div>
                                                                         <v-text-field class="mt-2"
                                                                             v-model="editedItem.actor_relations[index].comment"
-                                                                            dense outlined label="{{ _(" Comments")
-                                                                            }}"></v-text-field>
+                                                                            dense outlined label="{{ _(" Comments") }}"></v-text-field>
                                                                     </v-card-text>
                                                                 </v-card>
                                                             </template>
