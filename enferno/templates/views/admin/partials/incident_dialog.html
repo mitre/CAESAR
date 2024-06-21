@@ -5,8 +5,7 @@
                 <v-toolbar-title>${formTitle} <span class="gv--text" v-if="editedItem.id">${editedItem.id}</span>
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn @click="save" :disabled="invalid" dark color="accent" small class="mx-2" depressed>{{ _("Save
-                    Investigation") }}
+                <v-btn @click="save" :disabled="invalid" dark color="accent" small class="mx-2" depressed>{{ _("Save Investigation") }}
                 </v-btn>
                 <v-btn @click="confirmClose" icon>
                     <v-icon>mdi-close</v-icon>
@@ -100,8 +99,7 @@
                                                     <div v-on="on" class="ml-2 mb-1">
                                                         <v-icon>mdi-information-outline</v-icon>
                                                 </template>
-                                                <span>{{ _('A full description of the Investigation as well as notes and
-                                                    additional resources.') }}</span>
+                                                <span>{{ _('A full description of the Investigation as well as notes and additional resources.') }}</span>
                                             </v-tooltip>
                                         </div>
                                         <tinymce-editor :init="tinyConfig"
