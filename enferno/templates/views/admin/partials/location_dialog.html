@@ -6,7 +6,8 @@
                     <span class="gv--text" v-if="editedItem.id">${editedItem.id}</span>
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn @click="save" :disabled="invalid || !latlngValid" dark color="accent" small class="mx-2" depressed>
+                <v-btn @click="save" :disabled="invalid || !latlngValid" dark color="accent" small class="mx-2"
+                    depressed>
                     {{ _("Save Location") }}
                 </v-btn>
                 <v-btn icon @click="confirmClose">
@@ -30,16 +31,16 @@
                                             <v-list-item-title>{{ _("Location Details") }}</v-list-item-title>
                                         </v-list-item-content>
                                     </v-list-item>
-                                    <v-list-item>
+                                    <!-- <v-list-item>
                                         <v-list-item-content @click="anchorScroll('tags')">
                                             <v-list-item-title>{{ _("Tags") }}</v-list-item-title>
                                         </v-list-item-content>
-                                    </v-list-item>
+                                    </v-list-item> -->
                                 </v-list-item-group>
                             </v-list>
                         </v-col>
                         <v-col>
-<!-- General -->
+                            <!-- General -->
                             <span class="anchor" id="general"></span>
                             <h2 class="form-section-header">{{ _("General") }}</h2>
                             <v-row>
@@ -53,69 +54,85 @@
                                         <span class="red--text">${errors[0]}</span>
                                     </validation-provider>
                                 </v-col>
-<!-- <v-col cols="12" md="3">
+                                <!-- <v-col cols="12" md="3">
                                     <v-text-field v-model="editedItem.title_ar" label="{{ _('Title (Original Language)') }}">
                                     </v-text-field>
 </v-col> -->
                                 <v-col cols="12" md="6">
-                                    <v-text-field disabled v-model="editedItem.full_string" label="{{ _("Full Location") }}">
+                                    <v-text-field disabled v-model="editedItem.full_string" label="{{ _(" Full Location") }}">
                                     </v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col cols="12" md="12">
-                                    <tinymce-editor :key="locationKey" :init="tinyConfig" v-model="editedItem.description">
+                                    <h3>{{ _("Description") }}</h3>
+                                    <tinymce-editor :key="locationKey" :init="tinyConfig"
+                                        v-model="editedItem.description">
                                     </tinymce-editor>
                                 </v-col>
                             </v-row>
-<!-- Location Details -->
+                            <!-- Location Details -->
                             <span class="anchor" id="location-details"></span>
                             <h2 class="form-section-header">{{ _("Location Details") }}</h2>
                             <v-row>
                                 <v-col cols="12" md="5">
                                     <validation-provider name="Location Type" rules="required" v-slot="{ errors }">
-                                        <search-field v-model="editedItem.location_type" api="/admin/api/location-types/" item-text="title" item-value="id" @input="checkLevel" label="{{ _("Location Type") }}" :multiple="false" :required="true">
+                                        <search-field v-model="editedItem.location_type"
+                                            api="/admin/api/location-types/" item-text="title" item-value="id"
+                                            @input="checkLevel" label="{{ _(" Location Type") }}" :multiple="false"
+                                            :required="true">
                                         </search-field>
                                         <span class="red--text">${errors[0]}</span>
                                     </validation-provider>
                                 </v-col>
                                 <v-col cols="12" md="4">
-                                    <validation-provider name="Administration Level" :rules="checkAdminLevel" v-slot="{ errors }">
-                                        <search-field api="/admin/api/location-admin-levels/" item-text="title" item-value="id" :disabled="editedItem.location_type?.title!=='Administrative Location'" v-model="editedItem.admin_level" @change="restrictSearch" :return-object="false" :multiple="false" label="{{ _("Admin Level") }}">
+                                    <validation-provider name="Administration Level" :rules="checkAdminLevel"
+                                        v-slot="{ errors }">
+                                        <search-field api="/admin/api/location-admin-levels/" item-text="title"
+                                            item-value="id"
+                                            :disabled="editedItem.location_type?.title!=='Administrative Location'"
+                                            v-model="editedItem.admin_level" @change="restrictSearch"
+                                            :return-object="false" :multiple="false" label="{{ _(" Admin Level") }}">
                                         </search-field>
                                         <span class="red--text">${errors[0]}</span>
                                     </validation-provider>
                                 </v-col>
                                 <v-col cols="12" md="3">
-                                    <search-field clearable api="/admin/api/countries/" :items="translations.countries" item-text="title" item-value="title" :return-object="false" v-model="editedItem.country" label="{{ _("Country") }}">
+                                    <search-field clearable api="/admin/api/countries/" :items="translations.countries"
+                                        item-text="title" item-value="title" :return-object="false"
+                                        v-model="editedItem.country" label="{{ _(" Country") }}">
                                     </search-field>
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col cols="12" md="8">
-                                    <location-search-field :disabled="editedItem.admin_level?.code == 1" v-model="editedItem.parent" api="/admin/api/locations/" :query-params="locQueryParams" item-text="full_string" item-value="id" :return-object="true" :multiple="false" label="{{ _("Parent Location") }}">
+                                    <location-search-field :disabled="editedItem.admin_level?.code == 1"
+                                        v-model="editedItem.parent" api="/admin/api/locations/"
+                                        :query-params="locQueryParams" item-text="full_string" item-value="id"
+                                        :return-object="true" :multiple="false" label="{{ _(" Parent Location") }}">
                                     </location-search-field>
                                 </v-col>
                                 <v-col cols="12" md="4">
-                                    <v-text-field v-model="editedItem.postal_code" label="{{ _("Postal Code") }}">
+                                    <v-text-field v-model="editedItem.postal_code" label="{{ _(" Postal Code") }}">
                                     </v-text-field>
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col cols="12" md="12">
-                                    <geo-map edit-mode="true" class="flex-grow-1" v-model="editedItem.latlng" map-height="300" :required="true">
+                                    <geo-map edit-mode="true" class="flex-grow-1" v-model="editedItem.latlng"
+                                        map-height="300" :required="true">
                                     </geo-map>
                                 </v-col>
                             </v-row>
-<!-- Tags -->
-                            <span class="anchor" id="tags"></span>
+                            <!-- Tags -->
+                            <!-- <span class="anchor" id="tags"></span>
                             <h2 class="form-section-header">{{ _("Tags") }}</h2>
                             <v-row>
                                 <v-col cols="12" md="12">
                                     <v-combobox small-chips multiple v-model="editedItem.tags" label="{{ _("Tags") }}">
                                     </v-combobox>
                                 </v-col>
-                            </v-row>
+                            </v-row> -->
                         </v-col>
                     </v-row>
                 </v-container>

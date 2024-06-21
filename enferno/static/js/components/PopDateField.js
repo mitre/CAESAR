@@ -89,7 +89,6 @@ Vue.component("pop-date-field", {
       <template v-slot:activator="{ on, attrs }">
         <v-text-field
             @click:prepend="menu=true"
-            dense
             v-model="textDate"
             type="date"
             min="1900-01-01"

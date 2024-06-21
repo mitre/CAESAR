@@ -36,8 +36,8 @@
                                 <v-text-field flat dense outlined small v-model.trim="search[0].tsv"
                                     @keydown.enter="doSearch()" hide-details append-outer-icon="mdi-ballot"
                                     append-icon="mdi-close" @click:append="resetSearch"
-                                    @click:append-outer="toggleAdvSearch" prepend-inner-icon="mdi-magnify" 
-                                    label="{{ _("Search") }}" :background-color="searchBg"></v-text-field>
+                                    @click:append-outer="toggleAdvSearch" prepend-inner-icon="mdi-magnify"
+                                    label="{{ _('Search') }}" :background-color="searchBg"></v-text-field>
                                 <v-btn @click="searchBulletins(false)" icon>
                                     <v-icon>mdi-refresh</v-icon>
                                 </v-btn>
@@ -79,14 +79,14 @@
                                 </template>
                                 <v-spacer></v-spacer>
                                 <div>
-                                    <v-chip label small close color="yellow lighten-4"
-                                        class="grey--text text--darken-2" @click:close="resultsChip = false" v-if="resultsChip">{{
+                                    <v-chip label small close color="yellow lighten-4" class="grey--text text--darken-2"
+                                        @click:close="resultsChip = false" v-if="resultsChip">{{
                                         _("About") }} ${itemsLength} {{ _("results") }}
                                         (${searchTime} {{ _("seconds") }})
                                     </v-chip>
                                 </div>
                                 <v-spacer></v-spacer>
-                                <v-chip small color="accent" v-if="selected.length">${selected.length} {{ _("Selected items") }}</v-chip>
+                                <v-chip small color="accent" v-if="selected.length">${selected.length}> {{ _("Selected items") }}</v-chip>
                             </v-toolbar>
                         </template>
                         <template v-slot:item.assigned_to.name="{ item }">
@@ -168,7 +168,7 @@
                         <v-card class="pa-3">
                             <v-card-title>Self Assign Bulletin #${assignBulletin.id}</v-card-title>
                             <v-card-text>
-                                <v-combobox small-chips multiple v-model="assignBulletin.ref" label="{{ _("Ref") }}"
+                                <v-combobox small-chips multiple v-model="assignBulletin.ref" label="{{ _('Ref') }}"
                                     class="mr-2"></v-combobox>
                                 <v-textarea v-model="assignBulletin.comments" label="Comments"></v-textarea>
                             </v-card-text>
@@ -186,10 +186,10 @@
                                 <validation-provider name="Assigned To" rules="required" v-slot="{ errors }">
                                     <search-field-single v-model="assignBulletin.assigned_to_id" api="/admin/api/users/"
                                         item-text="name" item-value="id" :return-object="false" :multiple="false"
-                                        label="{{ _("Assigned To") }}"></search-field-single>
+                                        label="{{ _(" Assigned To") }}"></search-field-single>
                                     <span class="red--text">${errors[0]}</span>
                                 </validation-provider>
-                                <v-combobox small-chips multiple v-model="assignBulletin.ref" label="{{ _("Ref") }}"></v-combobox>
+                                <v-combobox small-chips multiple v-model="assignBulletin.ref" label="{{ _('Ref') }}"></v-combobox>
                                 <validation-provider name="Comments" rules="required" v-slot="{ errors }">
                                     <v-textarea v-model="assignBulletin.comments" label="Comments"></v-textarea>
                                     <span class="red--text">${errors[0]}</span>
@@ -442,24 +442,24 @@
                         actor_relations: [],
                             incident_relations: []
     },
-        defaultItem: {
-            title: "",
+    defaultItem: {
+        title: "",
             status: "",
-            description: "",
-            // related events
-            events: [],
-            // related media
-            medias: [],
-            // related bulletins
-            bulletin_relations: [],
-            // related actors
-            actor_relations: [],
-            // related incidents
-            incident_relations: [],
+                description: "",
+                    // related events
+                    events: [],
+                        // related media
+                        medias: [],
+                            // related bulletins
+                            bulletin_relations: [],
+                                // related actors
+                                actor_relations: [],
+                                    // related incidents
+                                    incident_relations: [],
 
-            publish_date: '',
-            documentation_date: new Date().toISOString().substr(0, 16),
-            discovery_file_name: "",
+                                        publish_date: '',
+                                            documentation_date: new Date().toISOString().substr(0, 16),
+                                                discovery_file_name: "",
         },
     reviewItem: { },
     // bulk actions
