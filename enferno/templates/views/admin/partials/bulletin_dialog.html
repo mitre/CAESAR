@@ -93,7 +93,8 @@
                                                             </validation-provider>
                                                         </div>
                                                     </template>
-                                                    <span>{{ _('Titles from sources might be edited for clarity, but the “Original Title” is retained.') }}</span>
+                                                    <span>{{ _('Titles from sources might be edited for clarity, but the
+                                                        “Original Title” is retained.') }}</span>
                                                 </v-tooltip>
                                                 <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline"
                                                     @click="title__=!title__">
@@ -114,7 +115,8 @@
                                                         label="{{ _('Title (Original Language)') }}"
                                                         background-color="lime lighten-5"></v-text-field>
                                                 </template>
-                                                <span>{{ _('Titles from sources might be edited for clarity, but the “Original Title” is retained.') }}</span>
+                                                <span>{{ _('Titles from sources might be edited for clarity, but the
+                                                    “Original Title” is retained.') }}</span>
                                             </v-tooltip>
                                             <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline"
                                                 @click="sjac_title__=!sjac_title__">
@@ -228,7 +230,8 @@
                                                 </div>
                                             </template>
                                             <span>
-                                                {{ _('Locations is a central list of entries for the adminstrative centers (cities, towns, villages, etc).')}}
+                                                {{ _('Locations is a central list of entries for the adminstrative
+                                                centers (cities, towns, villages, etc).')}}
                                             </span>
                                         </v-tooltip>
                                     </v-col>
@@ -251,7 +254,8 @@
                                                 </div>
                                             </template>
                                             <span>
-                                                {{ _('Geo Markers are geographical markers or landmarks that help describe the Primary Record.') }}
+                                                {{ _('Geo Markers are geographical markers or landmarks that help
+                                                describe the Primary Record.') }}
                                             </span>
                                         </v-tooltip>
                                     </v-col>
@@ -526,37 +530,39 @@
                                 <h2 class="form-section-header">{{ _("Data Details") }}</h2>
                                 <v-row>
                                     <v-col cols="12" md="6">
-                                        <v-sheet class="d-flex align-center">
-                                            <validation-provider name="Source Link"
-                                                :rules="source_disabled? 'required': 'required|url'" v-slot="{errors}">
-                                                <v-tooltip top max-width=500 open-delay=1500>
-                                                    <template v-slot:activator="{ on }">
-                                                        <div v-on="on">
-                                                            <v-text-field class="mx-2" :disabled="source_disabled"
-                                                                v-model="editedItem.source_link"
-                                                                label="{{ _('Source Link') }}">
-                                                                <template #label>
-                                                                    {{ _("Source Link") }}
-                                                                </template>
-                                                            </v-text-field>
-                                                        </div>
-                                                    </template>
-                                                    <span>
-                                                        {{ _('The URL to the original source from which the information
-                                                        was obtained. ‘Private’ slider can be used if
-                                                        the URL is not reachable anymore. The field validates the entry
-                                                        and will not accept an invalid URL.')}}
-                                                    </span>
-                                                </v-tooltip>
-                                                <span class="red--text">${errors[0]}</span>
-                                            </validation-provider>
-                                            <!-- <v-checkbox small class="mx-2" label="{{ _('Not Available') }}"
+                                        <validation-provider name="Source Link"
+                                            :rules="source_disabled? 'required': 'required|url'" v-slot="{errors}">
+                                            <v-tooltip top max-width=500 open-delay=1500>
+                                                <template v-slot:activator="{ on }">
+                                                    <div v-on="on">
+                                                        <v-text-field :disabled="source_disabled"
+                                                            v-model="editedItem.source_link"
+                                                            label="{{ _('Source Link') }}">
+                                                            <template #label>
+                                                                {{ _("Source Link") }}
+                                                            </template>
+                                                        </v-text-field>
+                                                    </div>
+                                                </template>
+                                                <span>
+                                                    {{ _('The URL to the original source from which the information
+                                                    was obtained. ‘Private’ slider can be used if
+                                                    the URL is not reachable anymore. The field validates the entry
+                                                    and will not accept an invalid URL.')}}
+                                                </span>
+                                            </v-tooltip>
+                                            <span class="red--text">${errors[0]}</span>
+                                        </validation-provider>
+                                        <!-- <v-checkbox small class="mx-2" label="{{ _('Not Available') }}"
                                                 v-model="source_alt" small>
                                             </v-checkbox> -->
-                                            <v-switch small class="mx-2" label="{{ _('Private') }}"
-                                                v-model="editedItem.source_link_type" small>
-                                            </v-switch>
-                                        </v-sheet>
+                                    </v-col>
+                                    <v-col cols="12" md="6">
+                                        <v-switch small class="mx-2" label="{{ _(" Sensitive Data") }}"
+                                            v-model="editedItem.sensitive_data" small>
+                                        </v-switch>
+                                    </v-col>
+                                    <v-col cols="12">
                                         <v-sheet class="d-flex align-center mb-4">
                                             <v-tooltip top max-width=500 open-delay=1500>
                                                 <template v-slot:activator="{ on }">
@@ -564,26 +570,20 @@
                                                         class="mx-2"
                                                         label="{{ _('Discovery File name') }}"></v-text-field>
                                                 </template>
-                                                <span>{{ _('Name of the Hunchly/WebRecorder/RecRoom file from which data item was extracted') }}</span>
+                                                <span>{{ _('Name of the Hunchly/WebRecorder/RecRoom file from which data
+                                                    item was extracted') }}</span>
                                             </v-tooltip>
                                         </v-sheet>
                                     </v-col>
                                     <v-col cols="12" md="6">
-                                        <v-row>
-                                            <v-col cols="12">
-                                                <pop-date-time-field time-label="{{ _('Time (UTC)') }}"
-                                                    label="{{ _('Publish Date') }}" v-model="editedItem.publish_date">
-                                                </pop-date-time-field>
-                                            </v-col>
-                                        </v-row>
-                                        <v-row>
-                                            <v-col cols="12">
-                                                <pop-date-time-field time-label="{{ _('Time (UTC)') }}"
-                                                    label="{{ _('Date Created') }}"
-                                                    v-model="editedItem.documentation_date">
-                                                </pop-date-time-field>
-                                            </v-col>
-                                        </v-row>
+                                        <pop-date-time-field time-label="{{ _(" Time (UTC)") }}" label="{{ _(" Publish
+                                            Date") }}" v-model="editedItem.publish_date">
+                                        </pop-date-time-field>
+                                    </v-col>
+                                    <v-col cols="12" md="6">
+                                        <pop-date-time-field time-label="{{ _(" Time (UTC)") }}" label="{{ _(" Date
+                                            Created") }}" v-model="editedItem.documentation_date">
+                                        </pop-date-time-field>
                                     </v-col>
                                 </v-row>
                                 <v-row>

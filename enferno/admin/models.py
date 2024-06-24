@@ -1611,7 +1611,8 @@ class Bulletin(db.Model, BaseMixin):
 
     status = db.Column(db.String(255))
     source_link = db.Column(db.String(255))
-    source_link_type = db.Column(db.Boolean, default=False)
+    
+    sensitive_data = db.Column(db.Boolean, default=False)
 
     # ref field : used for etl tagging etc ..
     ref = db.Column(ARRAY(db.String))
@@ -1710,7 +1711,7 @@ class Bulletin(db.Model, BaseMixin):
         self.description = json["description"] if "description" in json else None
         self.comments = json["comments"] if "comments" in json else None
         self.source_link = json["source_link"] if "source_link" in json else None
-        self.source_link_type = json.get('source_link_type', False)
+        self.sensitive_data = json.get('sensitive_data', False)
         self.discovery_file_name = json["discovery_file_name"] if "discovery_file_name" in json else None
         self.ref = json["ref"] if "ref" in json else []
 
@@ -1921,7 +1922,7 @@ class Bulletin(db.Model, BaseMixin):
             "sources": sources_json,
             "description": self.description or None,
             "source_link": self.source_link or None,
-            "source_link_type": getattr(self, 'source_link_type', False),
+            "sensitive_data": getattr(self, 'sensitive_data', False),
             "discovery_file_name": self.discovery_file_name or None,
             "publish_date": DateHelper.serialize_datetime(self.publish_date),
             "documentation_date": DateHelper.serialize_datetime(self.documentation_date),
@@ -2141,7 +2142,7 @@ class Bulletin(db.Model, BaseMixin):
             "description": self.description or None,
             "comments": self.comments or None,
             "source_link": self.source_link or None,
-            "source_link_type": self.source_link_type or None,
+            "sensitive_data": self.sensitive_data or None,
             "discovery_file_name": self.discovery_file_name or None,
             "ref": self.ref or None,
             "publish_date": DateHelper.serialize_datetime(self.publish_date),
@@ -2436,7 +2437,7 @@ class Actor(db.Model, BaseMixin):
 
     status = db.Column(db.String(255))
     source_link = db.Column(db.String(255))
-    source_link_type = db.Column(db.Boolean, default=False)
+    sensitive_data = db.Column(db.Boolean, default=False)
     comments = db.Column(db.Text)
     # review fields
     review = db.Column(db.Text)
@@ -2610,7 +2611,7 @@ class Actor(db.Model, BaseMixin):
         )
 
         self.source_link = json["source_link"] if "source_link" in json else None
-        self.source_link_type = json.get('source_link_type')
+        self.sensitive_data = json.get('sensitive_data')
 
         # Ethnographies
         if "ethnography" in json:
@@ -3022,7 +3023,7 @@ class Actor(db.Model, BaseMixin):
             "sources": sources_json,
             "description": self.description or None,
             "source_link": self.source_link or None,
-            "source_link_type": getattr(self, "source_link_type"),
+            "sensitive_data": getattr(self, "sensitive_data"),
             "publish_date": DateHelper.serialize_datetime(self.publish_date),
             "documentation_date": DateHelper.serialize_datetime(self.documentation_date),
         }
@@ -3269,7 +3270,7 @@ class Actor(db.Model, BaseMixin):
             if self.first_peer_reviewer
             else None,
             "source_link": self.source_link or None,
-            "source_link_type": getattr(self, "source_link_type"),
+            "sensitive_data": getattr(self, "sensitive_data"),
             "comments": self.comments or None,
             "sources": sources_json,
             "labels": labels_json,
