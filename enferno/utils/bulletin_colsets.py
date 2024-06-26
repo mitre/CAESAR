@@ -22,7 +22,7 @@ class BulletinColsets(object):
                      'description',
                      'comments',
                      'source_link',
-                     'source_link_type',
+                     'sensitive_data',
                      'ref',
                      'publish_date',
                      'documentation_date',

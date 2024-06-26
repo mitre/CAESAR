@@ -73,6 +73,25 @@ def check_relation_roles(method):
 
 ######  -----  ######
 
+class ActorSubType(db.Model, BaseMixin):
+    """
+    SQL Alchemy model for Actor Sub Types
+    """
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    actors = db.relationship("Actor", back_populates="sub_type")
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+        }
+
+    def from_json(self, jsn):
+        self.title = jsn.get('title')
+        return self
+
 class SanctionRegime(db.Model, BaseMixin):
     """
     SQL Alchemy model for Sanction Regimes
@@ -1612,7 +1631,8 @@ class Bulletin(db.Model, BaseMixin):
 
     status = db.Column(db.String(255))
     source_link = db.Column(db.String(255))
-    source_link_type = db.Column(db.Boolean, default=False)
+    
+    sensitive_data = db.Column(db.Boolean, default=False)
 
     # ref field : used for etl tagging etc ..
     ref = db.Column(ARRAY(db.String))
@@ -1711,7 +1731,7 @@ class Bulletin(db.Model, BaseMixin):
         self.description = json["description"] if "description" in json else None
         self.comments = json["comments"] if "comments" in json else None
         self.source_link = json["source_link"] if "source_link" in json else None
-        self.source_link_type = json.get('source_link_type', False)
+        self.sensitive_data = json.get('sensitive_data', False)
         self.discovery_file_name = json["discovery_file_name"] if "discovery_file_name" in json else None
         self.ref = json["ref"] if "ref" in json else []
 
@@ -1922,7 +1942,7 @@ class Bulletin(db.Model, BaseMixin):
             "sources": sources_json,
             "description": self.description or None,
             "source_link": self.source_link or None,
-            "source_link_type": getattr(self, 'source_link_type', False),
+            "sensitive_data": getattr(self, 'sensitive_data', False),
             "discovery_file_name": self.discovery_file_name or None,
             "publish_date": DateHelper.serialize_datetime(self.publish_date),
             "documentation_date": DateHelper.serialize_datetime(self.documentation_date),
@@ -2142,7 +2162,7 @@ class Bulletin(db.Model, BaseMixin):
             "description": self.description or None,
             "comments": self.comments or None,
             "source_link": self.source_link or None,
-            "source_link_type": self.source_link_type or None,
+            "sensitive_data": self.sensitive_data or None,
             "discovery_file_name": self.discovery_file_name or None,
             "ref": self.ref or None,
             "publish_date": DateHelper.serialize_datetime(self.publish_date),
@@ -2346,6 +2366,9 @@ class Actor(db.Model, BaseMixin):
     
     sanction_regimes = db.relationship('SanctionRegimeToActor', back_populates='actor')
 
+    sub_type_id = db.Column(db.Integer, db.ForeignKey(ActorSubType.id))
+    sub_type = db.relationship("ActorSubType", back_populates="actors", foreign_keys=[sub_type_id])
+
     sources = db.relationship(
         "Source", secondary=actor_sources, backref=db.backref("actors", lazy="dynamic")
     )
@@ -2437,7 +2460,7 @@ class Actor(db.Model, BaseMixin):
 
     status = db.Column(db.String(255))
     source_link = db.Column(db.String(255))
-    source_link_type = db.Column(db.Boolean, default=False)
+    sensitive_data = db.Column(db.Boolean, default=False)
     comments = db.Column(db.Text)
     # review fields
     review = db.Column(db.Text)
@@ -2611,7 +2634,10 @@ class Actor(db.Model, BaseMixin):
         )
 
         self.source_link = json["source_link"] if "source_link" in json else None
-        self.source_link_type = json.get('source_link_type')
+        self.sensitive_data = json.get('sensitive_data')
+
+        if "sub_type" in json and json["sub_type"] and "id" in json["sub_type"]:
+            self.sub_type_id = json["sub_type"]["id"]
 
         # Ethnographies
         if "ethnography" in json:
@@ -3023,7 +3049,7 @@ class Actor(db.Model, BaseMixin):
             "sources": sources_json,
             "description": self.description or None,
             "source_link": self.source_link or None,
-            "source_link_type": getattr(self, "source_link_type"),
+            "sensitive_data": getattr(self, "sensitive_data"),
             "publish_date": DateHelper.serialize_datetime(self.publish_date),
             "documentation_date": DateHelper.serialize_datetime(self.documentation_date),
         }
@@ -3053,6 +3079,7 @@ class Actor(db.Model, BaseMixin):
 
             'publish_date': self.serialize_column('publish_date'),
             'documentation_date': self.serialize_column('documentation_date'),
+            'sub_type': self.serialize_column('sub_type'),
 
             'aliases': convert_simple_relation(self.aliases),
             'labels': convert_simple_relation(self.labels),
@@ -3270,7 +3297,7 @@ class Actor(db.Model, BaseMixin):
             if self.first_peer_reviewer
             else None,
             "source_link": self.source_link or None,
-            "source_link_type": getattr(self, "source_link_type"),
+            "sensitive_data": getattr(self, "sensitive_data"),
             "comments": self.comments or None,
             "sources": sources_json,
             "labels": labels_json,
@@ -3278,6 +3305,7 @@ class Actor(db.Model, BaseMixin):
             "events": events_json,
             "social_media_handles": handles_json,
             "sanction_regimes": regimes_json,
+            "sub_type": self.sub_type.to_dict() if self.sub_type else None,
             "aliases": aliases_json,
             "medias": medias_json,
             "actor_relations": actor_relations_dict,

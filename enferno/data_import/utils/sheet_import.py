@@ -55,7 +55,7 @@ opts_list = ['seen_in_detention_opts',
 bool_list = ['dental_record', 
             'family_notified', 
             'missing_relatives', 
-            'source_link_type']
+            'sensitive_data']
 
 location_list = ['birth_place', 'origin_place', 'residence_place']
 date_list = ['birth_date', 'documentation_date', 'publish_date']
