@@ -11,6 +11,7 @@ from flask_babel import gettext
 from flask_login import current_user
 from geoalchemy2 import Geometry, Geography
 from geoalchemy2.shape import to_shape
+from shapely import centroid, to_geojson
 from sqlalchemy import JSON, ARRAY, text, and_, or_, func, Enum
 from sqlalchemy.dialects.postgresql import TSVECTOR, JSONB
 from sqlalchemy.orm.attributes import flag_modified
@@ -801,7 +802,6 @@ class Location(db.Model, BaseMixin):
             if not self.parent.admin_level:
                 print(self.parent, ' <-')
 
-
         return {
             "id": self.id,
             "title": self.title,
@@ -809,13 +809,14 @@ class Location(db.Model, BaseMixin):
             "description": self.description,
             "location_type": self.location_type.to_dict() if self.location_type else '',
             "admin_level": self.admin_level.to_dict() if self.admin_level else '',
-            "latlng": {"lng": to_shape(self.latlng).x, "lat": to_shape(self.latlng).y} if self.latlng else None,
+            "latlng": {"lng": centroid(to_shape(self.latlng)).x, "lat": centroid(to_shape(self.latlng)).y} if self.latlng else None,
             "postal_code": self.postal_code,
             "country": self.country.to_dict() if self.country else None ,
             "parent": self.to_parent_dict(),
             "tags": self.tags or [],
-            "lat": to_shape(self.latlng).y if self.latlng else None,
-            "lng": to_shape(self.latlng).x if self.latlng else None,
+            "lat": centroid(to_shape(self.latlng)).y if self.latlng else None,
+            "lng": centroid(to_shape(self.latlng)).x if self.latlng else None,
+            "geometry": json.loads(to_geojson(to_shape(self.latlng))) if self.latlng else None,
             "full_location": self.full_location,
             "full_string": '{} | {}'.format(self.full_location or '', self.title_ar or ''),
             "updated_at": DateHelper.serialize_datetime(self.updated_at)
