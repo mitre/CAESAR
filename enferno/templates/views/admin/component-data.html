@@ -57,6 +57,9 @@
                                         <v-tab class="justify-start">
                                           {{ _("Sanction Regimes") }}
                                         </v-tab>
+                                        <v-tab class="justify-start">
+                                          {{ _("Actor Sub Types") }}
+                                        </v-tab>
                                     </v-card>
                                     <v-tab-item class="pa-1">
                                         <v-card class="pa-3">
@@ -226,6 +229,14 @@
                                         </v-card-text>
                                       </v-card>
                                     </v-tab-item>
+                                    <v-tab-item class="pa-1">
+                                      <v-card class="pa-3">
+                                        <v-card-text>
+                                          <editable-table title="{{ _("Actor Sub Types") }}" :item-headers="subTypeHeaders" :editable-columns="['title','title_tr']" delete-endpoint="/admin/api/sub-types" save-endpoint="/admin/api/sub-types" load-endpoint="/admin/api/sub-types/">
+                                          </editable-table>
+                                        </v-card-text>
+                                      </v-card>
+                                    </v-tab-item>
                                 </v-tabs>
                             </v-container>
                         </div>
@@ -370,6 +381,16 @@
                 value: "actions"
             }, ],
             regimeHeaders: [{
+                text: "{{_('ID')}}",
+                value: "id"
+            }, {
+                text: "{{_('Title')}}",
+                value: "title"
+            }, {
+                text: "{{_('Actions')}}",
+                value: "actions"
+            }, ],
+            subTypeHeaders: [{
                 text: "{{_('ID')}}",
                 value: "id"
             }, {

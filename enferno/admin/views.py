@@ -20,7 +20,7 @@ from sqlalchemy import and_, desc, or_, cast, String
 from werkzeug.utils import safe_join
 from werkzeug.utils import secure_filename
 
-from enferno.admin.models import (Bulletin, Label, Source, Location, Eventtype, Media, Actor, Incident,
+from enferno.admin.models import (ActorSubType, Bulletin, Label, Source, Location, Eventtype, Media, Actor, Incident,
                                   IncidentHistory, BulletinHistory, ActorHistory, LocationHistory, PotentialViolation,
                                   ClaimedViolation,
                                   Activity, Query, LocationAdminLevel, LocationType, AppConfig,
@@ -2708,6 +2708,82 @@ def api_sanction_regime_delete(id):
             return 'Deleted!', 200
         else:
             return 'Error deleting the sanction regime', 417
+    else:
+        return HTTPResponse.NOT_FOUND
+
+@admin.route('/api/sub-types/', methods=['GET'])
+def api_sub_types():
+    """
+    Endpoint to get all sub types
+    :return: sub types in json format + success or error in case of failure
+    """
+    result = ActorSubType.query.all()
+    response = {'items': [item.to_dict() for item in result]}
+    return Response(json.dumps(response),
+                    content_type='application/json'), 200
+
+@admin.post('/api/sub-types/')
+def api_sub_type_create():
+    """
+    Endpoint to create a sub type
+    :return: success/error based on operation's result
+    """
+    sub_type = ActorSubType()
+    sub_type.from_json(request.json['item'])
+    result = sub_type.save()
+    if result:
+        return Response(json.dumps(result.to_dict()), content_type='application/json'), 200
+    else:
+        return 'There was an error creating the sub type', 500
+
+@admin.get('/api/sub-types/<int:id>')
+def api_sub_type_get(id):
+    """
+    Endpoint to get a single sub type
+    :param id: id of the sub type
+    :return: sub type data in json format + success or error in case of failure
+    """
+    sub_type = ActorSubType.query.get(id)
+
+    if not sub_type:
+        return HTTPResponse.NOT_FOUND
+    else:
+        return Response(json.dumps(sub_type.to_dict()),
+                        content_type='application/json'), 200
+
+@admin.put('/api/sub-types/<int:id>')
+def api_sub_type_update(id):
+    """
+    Endpoint to update a sub type
+    :param id: id of the sub type to be updated
+    :return: sub type data in json format + success or error in case of failure
+    """
+    sub_type = ActorSubType.query.get(id)
+    if sub_type is not None:
+        sub_type = sub_type.from_json(request.json['item'])
+        result = sub_type.save()
+        if result:
+            return json.dumps(result.to_dict()), 200
+        else:
+            return 'Error saving the sub type', 417
+    else:
+        return  HTTPResponse.NOT_FOUND
+
+@admin.delete('/api/sub-types/<int:id>')
+def api_sub_type_delete(id):
+    """
+    Endpoint to delete a sub type
+    :param id: id of the sub type to be deleted
+    :return: success/error based on operation's result
+    """
+    sub_type = ActorSubType.query.get(id)
+    if sub_type is not None:
+        result = sub_type.delete()
+        Activity.create(current_user, Activity.ACTION_DELETE, sub_type.to_mini(), 'sub type')
+        if result:
+            return 'Deleted!', 200
+        else:
+            return 'Error deleting the sub type', 417
     else:
         return HTTPResponse.NOT_FOUND
 
