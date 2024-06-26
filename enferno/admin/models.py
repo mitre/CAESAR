@@ -72,6 +72,25 @@ def check_relation_roles(method):
 
 ######  -----  ######
 
+class ActorSubType(db.Model, BaseMixin):
+    """
+    SQL Alchemy model for Actor Sub Types
+    """
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    actors = db.relationship("Actor", back_populates="sub_type")
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+        }
+
+    def from_json(self, jsn):
+        self.title = jsn.get('title')
+        return self
+
 class SanctionRegime(db.Model, BaseMixin):
     """
     SQL Alchemy model for Sanction Regimes
@@ -2346,6 +2365,9 @@ class Actor(db.Model, BaseMixin):
     
     sanction_regimes = db.relationship('SanctionRegimeToActor', back_populates='actor')
 
+    sub_type_id = db.Column(db.Integer, db.ForeignKey(ActorSubType.id))
+    sub_type = db.relationship("ActorSubType", back_populates="actors", foreign_keys=[sub_type_id])
+
     sources = db.relationship(
         "Source", secondary=actor_sources, backref=db.backref("actors", lazy="dynamic")
     )
@@ -2612,6 +2634,9 @@ class Actor(db.Model, BaseMixin):
 
         self.source_link = json["source_link"] if "source_link" in json else None
         self.sensitive_data = json.get('sensitive_data')
+
+        if "sub_type" in json and json["sub_type"] and "id" in json["sub_type"]:
+            self.sub_type_id = json["sub_type"]["id"]
 
         # Ethnographies
         if "ethnography" in json:
@@ -3053,6 +3078,7 @@ class Actor(db.Model, BaseMixin):
 
             'publish_date': self.serialize_column('publish_date'),
             'documentation_date': self.serialize_column('documentation_date'),
+            'sub_type': self.serialize_column('sub_type'),
 
             'aliases': convert_simple_relation(self.aliases),
             'labels': convert_simple_relation(self.labels),
@@ -3278,6 +3304,7 @@ class Actor(db.Model, BaseMixin):
             "events": events_json,
             "social_media_handles": handles_json,
             "sanction_regimes": regimes_json,
+            "sub_type": self.sub_type.to_dict() if self.sub_type else None,
             "aliases": aliases_json,
             "medias": medias_json,
             "actor_relations": actor_relations_dict,

@@ -481,6 +481,7 @@
                 },
     socialMediaPlatforms: [],
     sanctionRegimes: [],
+    subTypes: [],
     //events
     editedEventIndex: -1,
         editedEvent: {
@@ -576,6 +577,7 @@
         this.statusDisabled = !this.has_role(this.currentUser, 'Admin')
         this.getSocialMediaPlatforms();
         this.getSanctionRegimes();
+        this.getActorSubTypes();
         // populate roles for advanced search for admins
         {% if current_user.has_role('Admin') %}
         axios.get('/admin/api/roles/').then(res => {
@@ -640,6 +642,16 @@
             })
             .catch(e => {
               this.sanctionRegimes = [];
+              console.log(e.message);
+            });
+        },
+        getActorSubTypes() {
+          axios.get('/admin/api/sub-types/')
+            .then(res => {
+                this.subTypes = res.data.items;
+            })
+            .catch(e => {
+              this.subTypes = [];
               console.log(e.message);
             });
         },
