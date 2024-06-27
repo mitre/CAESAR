@@ -37,11 +37,19 @@
                                 create a
                                 unified workflow for all C.O. members.
                             </p>
-                            <a href="https://docs.bayanat.org/en/home" target="_blank"
-                                class="v-btn v-btn--outlined theme--light v-size--default secondary--text">Bayanat
-                                Documentation
-                                <v-icon small class="ml-2">mdi-open-in-new</v-icon></a>
                         </div>
+                        {% if (config.BUG_FORM) and (config.FEATURE_FORM) %}
+                        <div class="feedback-area">
+                            <h3>Thank you for using CAESAR. <br /> We want to hear from you.</h3>
+                            <div class="reporting pt-3">
+                                <div class="">Experiencing an issue? Report it <a href="{{ config.BUG_FORM }}">here.</a>
+                                </div>
+                                <div class="">Have an idea for a feature? Submit your <a
+                                        href="{{ config.FEATURE_FORM }}">request</a>.
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
                     </v-col>
                 </v-row>
             </v-layout>
