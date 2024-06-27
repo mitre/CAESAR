@@ -28,11 +28,14 @@
                         </template>
                         <template v-slot:top>
                             <v-toolbar flat color="white">
-                                <v-btn class="hidden-sm-and-down" small @click="allBulletins" text>{{ _('All Primary Records') }}</v-btn>
+                                <v-btn class="hidden-sm-and-down" small @click="allBulletins" text>{{ _('All Primary
+                                    Records') }}</v-btn>
                                 <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
-                                <v-btn class="hidden-sm-and-down" small @click="myAssigned" text>{{ _('Assigned to me') }}</v-btn>
+                                <v-btn class="hidden-sm-and-down" small @click="myAssigned" text>{{ _('Assigned to me')
+                                    }}</v-btn>
                                 <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
-                                <v-btn small @click="myReview" class="mr-2 hidden-sm-and-down" text>{{ _('My Review List') }}</v-btn>
+                                <v-btn small @click="myReview" class="mr-2 hidden-sm-and-down" text>{{ _('My Review
+                                    List') }}</v-btn>
                                 <v-text-field flat dense outlined small v-model.trim="search[0].tsv"
                                     @keydown.enter="doSearch()" hide-details append-outer-icon="mdi-ballot"
                                     append-icon="mdi-close" @click:append="resetSearch"
@@ -43,7 +46,8 @@
                                 </v-btn>
                                 <v-spacer></v-spacer>
                                 {% if current_user.roles_in(['Admin','DA']) %}
-                                <v-btn @click="editItem" color="accent" dark class="ma-2">{{ _("New Primary Record") }}</v-btn>
+                                <v-btn @click="editItem" color="accent" dark class="ma-2">{{ _("New Primary Record")
+                                    }}</v-btn>
                                 {% endif %}
                                 {% include
                                 'views/admin/partials/bulletin_dialog.html' %}
@@ -86,7 +90,8 @@
                                     </v-chip>
                                 </div>
                                 <v-spacer></v-spacer>
-                                <v-chip small color="accent" v-if="selected.length">${selected.length}> {{ _("Selected items") }}</v-chip>
+                                <v-chip small color="accent" v-if="selected.length">${selected.length}> {{ _("Selected
+                                    items") }}</v-chip>
                             </v-toolbar>
                         </template>
                         <template v-slot:item.assigned_to.name="{ item }">
@@ -186,10 +191,11 @@
                                 <validation-provider name="Assigned To" rules="required" v-slot="{ errors }">
                                     <search-field-single v-model="assignBulletin.assigned_to_id" api="/admin/api/users/"
                                         item-text="name" item-value="id" :return-object="false" :multiple="false"
-                                        label="{{ _(" Assigned To") }}"></search-field-single>
+                                        label="{{ _('Assigned To') }}"></search-field-single>
                                     <span class="red--text">${errors[0]}</span>
                                 </validation-provider>
-                                <v-combobox small-chips multiple v-model="assignBulletin.ref" label="{{ _('Ref') }}"></v-combobox>
+                                <v-combobox small-chips multiple v-model="assignBulletin.ref"
+                                    label="{{ _('Ref') }}"></v-combobox>
                                 <validation-provider name="Comments" rules="required" v-slot="{ errors }">
                                     <v-textarea v-model="assignBulletin.comments" label="Comments"></v-textarea>
                                     <span class="red--text">${errors[0]}</span>
