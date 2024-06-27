@@ -52,19 +52,19 @@
                                             {{ _("Geo Location Types") }}
                                         </v-tab>
                                         <v-tab class="justify-start">
-                                          {{ _("Social Media Platforms") }}
+                                            {{ _("Social Media Platforms") }}
                                         </v-tab>
                                         <v-tab class="justify-start">
-                                          {{ _("Sanction Regimes") }}
+                                            {{ _("Sanction Regimes") }}
                                         </v-tab>
                                         <v-tab class="justify-start">
-                                          {{ _("Actor Sub Types") }}
+                                            {{ _("Actor Sub Types") }}
                                         </v-tab>
                                     </v-card>
                                     <v-tab-item class="pa-1">
                                         <v-card class="pa-3">
                                             <v-card-text>
-                                                <editable-table title="{{ _("Location Administrative Levels") }}"
+                                                <editable-table title="{{ _('Location Administrative Levels') }}"
                                                     :item-headers="alHeaders" :allow-add="false"
                                                     save-endpoint="/admin/api/location-admin-level"
                                                     load-endpoint="/admin/api/location-admin-levels/?per_page=1000">
@@ -75,7 +75,7 @@
                                     <v-tab-item class="pa-1">
                                         <v-card class="pa-3">
                                             <v-card-text>
-                                                <editable-table title="{{ _("Location Types") }}"
+                                                <editable-table title="{{ _('Location Types') }}"
                                                     :item-headers="ltHeaders" no-action-ids="[1,2]"
                                                     delete-endpoint="/admin/api/location-type"
                                                     save-endpoint="/admin/api/location-type"
@@ -87,7 +87,7 @@
                                     <v-tab-item class="pa-1">
                                         <v-card class="pa-3">
                                             <v-card-text>
-                                                <editable-table title="{{ _("Countries") }}"
+                                                <editable-table title="{{ _('Countries') }}"
                                                     :item-headers="countryHeaders"
                                                     :editable-columns="['title','title_tr']"
                                                     delete-endpoint="/admin/api/country"
@@ -100,7 +100,7 @@
                                     <v-tab-item>
                                         <v-card class="pa-3">
                                             <v-card-text>
-                                                <editable-table title="{{ _("Ethnographic Information") }}"
+                                                <editable-table title="{{ _('Ethnographic Information') }}"
                                                     :item-headers="ethnoHeaders"
                                                     :editable-columns="['title','title_tr']"
                                                     delete-endpoint="/admin/api/ethnography"
@@ -113,7 +113,7 @@
                                     <v-tab-item class="pa-1">
                                         <v-card class="pa-3">
                                             <v-card-text>
-                                                <editable-table title="{{ _("Actor to Actor Relations") }}"
+                                                <editable-table title="{{ _('Actor to Actor Relations') }}"
                                                     :item-headers="revRelationHeaders"
                                                     :editable-columns="['title','title_tr', 'reverse_title', 'reverse_title_tr']"
                                                     delete-endpoint="/admin/api/atoainfo"
@@ -126,7 +126,7 @@
                                     <v-tab-item class="pa-1">
                                         <v-card class="pa-3">
                                             <v-card-text>
-                                                <editable-table title="{{ _("Actor to Primary Record Relations") }}"
+                                                <editable-table title="{{ _('Actor to Primary Record Relations') }}"
                                                     :item-headers="relationHeaders"
                                                     :editable-columns="['title','title_tr']"
                                                     delete-endpoint="/admin/api/atobinfo"
@@ -139,7 +139,8 @@
                                     <v-tab-item class="pa-1">
                                         <v-card class="pa-3">
                                             <v-card-text>
-                                                <editable-table title="{{ _("Primary Record to Primary Record Relations") }}"
+                                                <editable-table
+                                                    title="{{ _('Primary Record to Primary Record Relations') }}"
                                                     :item-headers="relationHeaders"
                                                     :editable-columns="['title','title_tr']"
                                                     delete-endpoint="/admin/api/btobinfo"
@@ -152,7 +153,8 @@
                                     <v-tab-item class="pa-1">
                                         <v-card class="pa-3">
                                             <v-card-text>
-                                                <editable-table title="{{ _("Investigation to Primary Record Relations") }}"
+                                                <editable-table
+                                                    title="{{ _('Investigation to Primary Record Relations') }}"
                                                     :item-headers="relationHeaders"
                                                     :editable-columns="['title','title_tr']"
                                                     delete-endpoint="/admin/api/itobinfo"
@@ -165,7 +167,7 @@
                                     <v-tab-item class="pa-1">
                                         <v-card class="pa-3">
                                             <v-card-text>
-                                                <editable-table title="{{ _("Investigation to Actor Relations") }}"
+                                                <editable-table title="{{ _('Investigation to Actor Relations') }}"
                                                     :item-headers="relationHeaders"
                                                     :editable-columns="['title','title_tr']"
                                                     delete-endpoint="/admin/api/itoainfo"
@@ -178,7 +180,8 @@
                                     <v-tab-item class="pa-1">
                                         <v-card class="pa-3">
                                             <v-card-text>
-                                                <editable-table title="{{ _("Investigation to Investigation Relations") }}"
+                                                <editable-table
+                                                    title="{{ _('Investigation to Investigation Relations') }}"
                                                     :item-headers="relationHeaders"
                                                     :editable-columns="['title','title_tr']"
                                                     delete-endpoint="/admin/api/itoiinfo"
@@ -191,7 +194,7 @@
                                     <v-tab-item class="pa-1">
                                         <v-card class="pa-3">
                                             <v-card-text>
-                                                <editable-table title="{{ _("Media Categories") }}"
+                                                <editable-table title="{{ _('Media Categories') }}"
                                                     :item-headers="mediaHeaders"
                                                     :editable-columns="['title','title_tr']"
                                                     delete-endpoint="/admin/api/mediacategory"
@@ -204,7 +207,7 @@
                                     <v-tab-item class="pa-1">
                                         <v-card class="pa-3">
                                             <v-card-text>
-                                                <editable-table title="{{ _("Geo Location Types") }}"
+                                                <editable-table title="{{ _('Geo Location Types') }}"
                                                     :item-headers="geoHeaders" :editable-columns="['title','title_tr']"
                                                     delete-endpoint="/admin/api/geolocationtype"
                                                     save-endpoint="/admin/api/geolocationtype"
@@ -214,28 +217,45 @@
                                         </v-card>
                                     </v-tab-item>
                                     <v-tab-item class="pa-1">
-                                      <v-card class="pa-3">
-                                        <v-card-text>
-                                          <editable-table title="{{ _("Social Media Platforms") }}" :item-headers="platformHeaders" :editable-columns="['title','title_tr']" delete-endpoint="/admin/api/socialmediaplatform" save-endpoint="/admin/api/socialmediaplatform" load-endpoint="/admin/api/socialmediaplatforms/" extra-delete-message="This will delete all related social media handles.">
-                                          </editable-table>
-                                        </v-card-text>
-                                      </v-card>
+                                        <v-card class="pa-3">
+                                            <v-card-text>
+                                                <editable-table title="{{ _('Social Media Platforms') }}"
+                                                    :item-headers="platformHeaders"
+                                                    :editable-columns="['title','title_tr']"
+                                                    delete-endpoint="/admin/api/socialmediaplatform"
+                                                    save-endpoint="/admin/api/socialmediaplatform"
+                                                    load-endpoint="/admin/api/socialmediaplatforms/"
+                                                    extra-delete-message="This will delete all related social media handles.">
+                                                </editable-table>
+                                            </v-card-text>
+                                        </v-card>
                                     </v-tab-item>
                                     <v-tab-item class="pa-1">
-                                      <v-card class="pa-3">
-                                        <v-card-text>
-                                          <editable-table title="{{ _("Sanction Regimes") }}" :item-headers="regimeHeaders" :editable-columns="['title','title_tr']" delete-endpoint="/admin/api/sanction-regimes" save-endpoint="/admin/api/sanction-regimes" load-endpoint="/admin/api/sanction-regimes/" extra-delete-message="This will delete all related sanction regimes on actors.">
-                                          </editable-table>
-                                        </v-card-text>
-                                      </v-card>
+                                        <v-card class="pa-3">
+                                            <v-card-text>
+                                                <editable-table title="{{ _('Sanction Regimes') }}"
+                                                    :item-headers="regimeHeaders"
+                                                    :editable-columns="['title','title_tr']"
+                                                    delete-endpoint="/admin/api/sanction-regimes"
+                                                    save-endpoint="/admin/api/sanction-regimes"
+                                                    load-endpoint="/admin/api/sanction-regimes/"
+                                                    extra-delete-message="This will delete all related sanction regimes on actors.">
+                                                </editable-table>
+                                            </v-card-text>
+                                        </v-card>
                                     </v-tab-item>
                                     <v-tab-item class="pa-1">
-                                      <v-card class="pa-3">
-                                        <v-card-text>
-                                          <editable-table title="{{ _("Actor Sub Types") }}" :item-headers="subTypeHeaders" :editable-columns="['title','title_tr']" delete-endpoint="/admin/api/sub-types" save-endpoint="/admin/api/sub-types" load-endpoint="/admin/api/sub-types/">
-                                          </editable-table>
-                                        </v-card-text>
-                                      </v-card>
+                                        <v-card class="pa-3">
+                                            <v-card-text>
+                                                <editable-table title="{{ _('Actor Sub Types') }}"
+                                                    :item-headers="subTypeHeaders"
+                                                    :editable-columns="['title','title_tr']"
+                                                    delete-endpoint="/admin/api/sub-types"
+                                                    save-endpoint="/admin/api/sub-types"
+                                                    load-endpoint="/admin/api/sub-types/">
+                                                </editable-table>
+                                            </v-card-text>
+                                        </v-card>
                                     </v-tab-item>
                                 </v-tabs>
                             </v-container>
@@ -379,7 +399,7 @@
             }, {
                 text: "{{_('Actions')}}",
                 value: "actions"
-            }, ],
+            },],
             regimeHeaders: [{
                 text: "{{_('ID')}}",
                 value: "id"
@@ -389,7 +409,7 @@
             }, {
                 text: "{{_('Actions')}}",
                 value: "actions"
-            }, ],
+            },],
             subTypeHeaders: [{
                 text: "{{_('ID')}}",
                 value: "id"
@@ -399,7 +419,7 @@
             }, {
                 text: "{{_('Actions')}}",
                 value: "actions"
-            }, ],
+            },],
         }),
         mounted() { },
         methods: {}
