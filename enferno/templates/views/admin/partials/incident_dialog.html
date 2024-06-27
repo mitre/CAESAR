@@ -132,7 +132,7 @@
                                                 <div v-on="on">
                                                     <search-field v-model="editedItem.claimed_violations"
                                                         api="/admin/api/claimedviolation/" item-text="title"
-                                                        item-value="id" :multiple="true" label="{{ _(' Claimed Violations Categories') }}">
+                                                        item-value="id" :multiple="true" label="{{ _('Claimed Violations Categories') }}">
                                                     </search-field>
                                                 </div>
                                             </template>
@@ -147,7 +147,7 @@
                                                 <div v-on="on">
                                                     <search-field v-model="editedItem.labels" api="/admin/api/labels/"
                                                         :query-params="{ typ: 'for_incident' }" item-text="title"
-                                                        item-value="id" :multiple="true" label="{{ _(' Labels') }}"></search-field>
+                                                        item-value="id" :multiple="true" label="{{ _('Labels') }}"></search-field>
                                                 </div>
                                             </template>
                                             <span>{{ _('Labels allow for easy search and filter of the database. Labels
@@ -162,7 +162,7 @@
                                                 <div v-on="on">
                                                     <location-search-field v-model="editedItem.locations"
                                                         api="/admin/api/locations/" item-text="full_string"
-                                                        item-value="id" :multiple="true" label="{{ _(' Locations') }}"></location-search-field>
+                                                        item-value="id" :multiple="true" label="{{ _('Locations') }}"></location-search-field>
                                                 </div>
                                             </template>
                                             <span>{{ _('Locations is a central list of entries for the adminstrative centers (cities, towns, villages, etc).') }}</span>
@@ -274,7 +274,7 @@
                                                         provide data about events, actors, or context. Primary Records
                                                         could be from almost any type of content, such as videos, audio,
                                                         pictures, documents, interviews, reports, text files,
-                                                        etc.}}</span>
+                                                        etc.') }}</span>
                                                 </v-tooltip>
                                             </v-card-title>
                                             <!--  Grid of Bulletins Items -->
