@@ -13,8 +13,16 @@
                             {% endif %}
                         </span>
                     </template>
-                    <span>{{ _('Events are data forms to store time and location information related to Actors, Primary
-                        Records and Investigations. Users can attach one or more events.') }}</span>
+                    <span>
+                        {% if data_type == "actor" %}
+                        {{ _('Location is where the event is identfied as having occurred. The locations can be selected
+                        with varying levels of specificity. Select the most localized options possible (e.g., village
+                        name versus oblast if it is available).') }}
+                        {% else %}
+                        {{ _('Events are data forms to store time and location information related to events recounted
+                        in the Primary Record piece of data. Users can attach one or more events.') }}
+                        {% endif %}
+                    </span>
                 </v-tooltip>
                 <v-spacer></v-spacer>
                 <v-btn class="mx-2" depressed x-small fab right top color="accent lighten-2" dark
