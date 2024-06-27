@@ -1,7 +1,7 @@
 """change location type from point to geometry
 
 Revision ID: 2ee3f48f476a
-Revises: d010e7127040
+Revises: 6dd1ac87ad7e
 Create Date: 2024-06-20 20:23:30.652601
 
 """
@@ -13,7 +13,7 @@ from geoalchemy2 import Geometry
 
 # revision identifiers, used by Alembic.
 revision = '2ee3f48f476a'
-down_revision = 'd010e7127040'
+down_revision = '6dd1ac87ad7e'
 branch_labels = None
 depends_on = None
 

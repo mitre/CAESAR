@@ -26,11 +26,6 @@ Vue.component("geo-map", {
   },
 
   computed: {
-    // map() {
-    //    //return this.$refs.map.mapObject;
-    //   //  return this.$refs.mapContainer.map;
-    //    return this.map;
-    // },
 
     mapCenter() {
       if (this.lat !== undefined && this.lng !== undefined) {
@@ -42,7 +37,6 @@ Vue.component("geo-map", {
     extra() {
       // computed property to display other markers, it should exclude the main marker
       if (this.others && this.value) {
-        // console.log(this.others.filter(x=> x.lat!=this.value.lat && x.lng != this.value.lng));
         return this.others.filter(
           (x) => x.lat != this.value.lat && x.lng != this.value.lng,
         )
@@ -56,13 +50,13 @@ Vue.component("geo-map", {
       mapKey: 0,
       lat: this.value && this.value.lat,
       lng: this.value && this.value.lng,
-      geometry: this.value && this.value.geometry,
       radius: this.value && this.value.radius ? this.value.radius : 1000, // Default to 1000
 
       subdomains: null,
       mapsApiEndpoint: mapsApiEndpoint,
 
       location: null,
+      geometry: null,
       attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       osmAttribution:
@@ -76,7 +70,7 @@ Vue.component("geo-map", {
   },
 
   watch: {
-    value(val) {
+    value(val, old) {
       if (!val) {
         this.lat = undefined;
         this.lng = undefined;
@@ -97,9 +91,11 @@ Vue.component("geo-map", {
         this.lng = val.lng;
         this.geometry = val.geometry;
         this.location = val;
+        if(this.map && this.map.isStyleLoaded()) {
+          // I have yet to see this statement reached
+          this.updateMarker();
+        }
       }
-
-      if(this.map && this.map.isStyleLoaded())  this.updateMarker();
     },
 
     lat: {
@@ -137,57 +133,47 @@ Vue.component("geo-map", {
       window.addEventListener("resize", this.fixMap);
   
       this.fixMap();
-      this.broadcast();
-
-      let mlMapContainer = this.$refs.mapContainer
-      let mlMap = {};
 
       mapUtils.loadBaseLayer().then((style) => {
 
-        mlMap.value = new maplibregl.Map({
-          container: mlMapContainer,
+        this.map = new maplibregl.Map({
+          container: this.$refs.mapContainer,
           style: style,
           center: [this.mapCenter.lng, this.mapCenter.lat],
           zoom: this.mapZoom,
           maxZoom: 18
         });
-        
-        this.map = mlMap.value;
-    
+
         this.map.addControl(new maplibregl.NavigationControl());
         this.map.addControl(new maplibregl.FullscreenControl());
-        this.map.on('click', (e) => {this.updateMarker(e)});
-    
-        // this.map.once('render', async () => {
-        //   this.updateMarker();
-        //   this.addPolygon();
-        // });
-
-        // this.map.once('style.load', () => {
-        //   this.updateMarker();
-        // });
+        if(this.editMode) this.map.on('click', (e) => {this.updateMarker(e)});
 
         this.map.once('idle', () => {
+          // this.clearAll();
           this.updateMarker();
+          if (this.others) {
+            this.others.filter(
+              (x) => !this.value || (x.lat != this.value.lat && x.lng != this.value.lng),
+            ).forEach((marker)=>{
+              new maplibregl.Marker({color: "#DDDDDD"})
+                .setLngLat([marker.lng, marker.lat])
+                .addTo(this.map);
+            });
+          }
         });
-
-        // if (this.value) {
-        //   this.$nextTick(() => {
-        //     this.updateMarker();
-        //   });
-        // }
-    
-        if (this.others) {
-          this.others.filter(
-            (x) => !this.value || (x.lat != this.value.lat && x.lng != this.value.lng),
-          ).forEach((marker)=>{
-            new maplibregl.Marker({color: "#DDDDDD"})
-              .setLngLat([marker.lng, marker.lat])
-              .addTo(this.map);
-          });
-        }
       });
     },
+
+    // clearAll() {
+    //   if(this.marker) {
+    //     this.marker.remove();
+    //     this.marker = null;
+    //   }
+    //   if (this.map.getSource('location_polygon')) {
+    //     this.map.removeLayer('location_polygon');
+    //     this.map.removeSource('location_polygon');
+    //   }
+    // },
 
     fixMap() {
       this.$nextTick(() => {
@@ -231,6 +217,21 @@ Vue.component("geo-map", {
         loc = [this.lng, this.lat];
       }
 
+      if(this.geometry && this.geometry.type == "Point") {
+        this.addMarker(loc);
+      } else if(this.geometry && this.geometry.type == "MultiPolygon") {
+        this.addPolygon(loc);
+      } else if(loc && this.editMode) {
+        this.addMarker(loc);
+      }
+
+      if (this.editMode) {
+        this.lat = loc[1];
+        this.lng = loc[0];
+      }
+    },
+    
+    addMarker(loc) {
       if(!this.marker) {
         this.marker = new maplibregl.Marker({
           id: 'editing-geolocation',
@@ -248,61 +249,39 @@ Vue.component("geo-map", {
           }
         })
         .addTo(this.map);
-
-        this.addPolygon();
-
       } else {
         this.marker.setLngLat(loc);
       }
-
-      if (this.editMode) {
-        // this.map.flyTo({
-        //   center: loc
-        // });
-        this.lat = loc[1];
-        this.lng = loc[0];
-      }
-
-      // this.map.flyTo({
-      //   animate: false, 
-      //   center: loc
-      // });
     },
 
-    addPolygon() {
-      if(!this.map.getSource("location_polygon")) {
-        if(this.geometry && this.geometry.type == "Polygon") {
-          this.map.addSource('location_polygon', {
-            'type': 'geojson',
-            'data': {
-                'type': 'Feature',
-                'geometry': this.geometry
-            }
-          });
-        }
+    addPolygon(loc) {
+      if(!this.map.getSource("location_polygon")) {  
+        this.map.addSource('location_polygon', {
+          'type': 'geojson',
+          'data': {
+              'type': 'Feature',
+              'geometry': this.geometry
+          }
+        });
       }
       if(!this.map.getLayer("location_polygon")) {
-        if(this.geometry && this.geometry.type == "Polygon") {
-          this.map.addLayer({
-            'id': 'location_polygon',
-            'type': 'fill',
-            'source': 'location_polygon',
-            'layout': {},
-            'paint': {
-                'fill-color': '#088',
-                'fill-opacity': 0.6
-            }
-          });
-        }
-      }
-      
-      if(this.geometry && this.geometry.type == "Polygon") {
-        this.map.fitBounds(
-          mapUtils.getFeatureBounds(this.geometry.coordinates[0]), {
-            padding: 10
+        this.map.addLayer({
+          'id': 'location_polygon',
+          'type': 'fill',
+          'source': 'location_polygon',
+          'layout': {},
+          'paint': {
+              'fill-color': '#088',
+              'fill-opacity': 0.5
           }
-        );
+        });
       }
+      this.map.fitBounds(
+        mapUtils.getFeatureBounds(this.geometry), {
+          padding: 10,
+          animate: false
+        }
+      );
     },
 
     clearAddRadiusCircle() {

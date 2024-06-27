@@ -2,22 +2,6 @@ class MapUtils {
 
     constructor() {}
 
-    // static initMap(mapOptions) {
-    //     return new Promise((resolve, reject) => {
-    //         const map = new maplibregl.Map(mapOptions);
-    //         map.on('style.load', () => {
-    //             const waiting = () => {
-    //               if (!map.isStyleLoaded()) {
-    //                 setTimeout(waiting, 200);
-    //               } else {
-    //                 resolve(map);
-    //               }
-    //             };
-    //             waiting();
-    //         });
-    //     });
-    // }
-
     loadBaseLayer() {
         return new Promise((resolve, reject) => {
             if(mapsApiEndpoint) {
@@ -57,14 +41,9 @@ class MapUtils {
         });
     }
 
-    getFeatureBounds(coordinates) {
-        if (coordinates.length) {  
-          var bounds = coordinates.reduce(function(bounds, coord) {
-            return bounds.extend(coord);
-          }, new maplibregl.LngLatBounds(coordinates[0], coordinates[0]));
-          return bounds;
-        }
-        return null;
+    getFeatureBounds(polygons) {
+        const turfBounds = turf.bbox(polygons);
+        return turfBounds;
     }
 }
 
