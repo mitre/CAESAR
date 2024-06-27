@@ -33,7 +33,8 @@ render_field_errors %}
                                 {{ _("Two-factor authentication adds an extra layer of security to your account") }}
                             </v-card-title>
                             <v-card-text>
-                                {{ _("In addition to your username and password, you'll need to use a code that your phone will generate") }}
+                                {{ _("In addition to your username and password, you'll need to use a code that your
+                                phone will generate") }}
                             </v-card-text>
                             <v-card-text>
                                 <form action="{{ url_for_security('two_factor_setup') }}" method="POST"
@@ -51,17 +52,18 @@ render_field_errors %}
                                     <hr>
                                     <div class="center">
                                         <div>
-                                            {{ _("Open an authenticator app on your device and scan the following QRcode, or enter the code below manually:") }}
+                                            {{ _("Open an authenticator app on your device and scan the following
+                                            QRcode, or enter the code below manually:") }}
                                         </div>
                                         <div>
-                                            <img alt="{{ _("Two factor authentication code") }}" id="qrcode"
+                                            <img alt="{{ _('Two factor authentication code') }}" id="qrcode"
                                                 src="{{ authr_qrcode }}">
                                         </div>
                                         <div>{{ authr_key }}</div>
                                     </div>
                                     {% endif %}
                                     {% if chosen_method=="sms" and chosen_method in choices %}
-                                    <p>{{ _("To Which Phone Number Should We Send Code To?") }}</p>
+                                    <p>{{ _('To Which Phone Number Should We Send Code To?') }}</p>
                                     {{ two_factor_setup_form.hidden_tag() }}
                                     {{ render_field_with_errors(two_factor_setup_form.phone, placeholder="enter phone
                                     number") }}
