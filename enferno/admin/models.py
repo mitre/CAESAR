@@ -878,9 +878,12 @@ class Location(db.Model, BaseMixin):
         self.title_ar = jsn.get('title_ar')
         self.description = jsn.get('description')
         if jsn.get('latlng'):
-            lng = jsn.get('latlng').get('lng')
-            lat = jsn.get('latlng').get('lat')
-            self.latlng = f"SRID=4326;POINT({lng} {lat})"
+            if jsn.get('latlng').get('lat'):
+                lng = jsn.get('latlng').get('lng')
+                lat = jsn.get('latlng').get('lat')
+                self.latlng = f"SRID=4326;POINT({lng} {lat})"
+            else:
+                self.latlng = func.ST_GeomFromGeoJSON(f"{jsn.get('latlng')}")
         else:
             self.latlng = None
 

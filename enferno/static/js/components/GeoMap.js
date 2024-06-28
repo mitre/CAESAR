@@ -12,7 +12,6 @@ Vue.component("geo-map", {
     },
     editMode: {
       type: Boolean,
-      default: true,
     },
     radiusControls: {
       type: Boolean,
@@ -23,6 +22,7 @@ Vue.component("geo-map", {
       type: Boolean,
       default: false,
     },
+    location: {}
   },
 
   computed: {
@@ -55,8 +55,7 @@ Vue.component("geo-map", {
       subdomains: null,
       mapsApiEndpoint: mapsApiEndpoint,
 
-      location: null,
-      geometry: null,
+      geometry: (this.value && this.value.geometry) || (this.location && this.location.geometry),
       attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       osmAttribution:
@@ -65,7 +64,7 @@ Vue.component("geo-map", {
       defaultTile: true,
       satellite: null,
 
-      radiusCircle: null,
+      radiusCircle: null,      
     };
   },
 
@@ -76,7 +75,7 @@ Vue.component("geo-map", {
         this.lng = undefined;
         this.radius = 100; // reset
         this.geometry = undefined;
-        this.location = undefined;
+        // this.location = undefined;
         return;
       }
       // Prevent string or negative radius on backend
@@ -89,13 +88,17 @@ Vue.component("geo-map", {
       if (val.lat && val.lng) {
         this.lat = val.lat;
         this.lng = val.lng;
-        this.geometry = val.geometry;
-        this.location = val;
+        if(val.geometry) this.geometry = val.geometry;
+        // this.location = val;
         if(this.map && this.map.isStyleLoaded()) {
           // I have yet to see this statement reached
-          this.updateMarker();
+          this.updateLocations(true);
         }
       }
+    },
+
+    location(val, old) {
+      if(this.location.geometry) this.geometry = location.geometry;
     },
 
     lat: {
@@ -115,17 +118,17 @@ Vue.component("geo-map", {
     },
   },
 
-  unmounted() {
-    mlMap.value?.remove();
-  },
-
   mounted() {
     this.initMap();
   },
 
   // clean up resize event listener
   beforeDestroy() {
-    window.removeEventListener("resize", this.fixMap);
+    // this.geometry = null;
+    // // this.value = {};
+    // console.log("before destroy");
+    // window.removeEventListener("resize", this.fixMap);
+    // this.map?.remove();
   },
 
   methods: {
@@ -146,11 +149,11 @@ Vue.component("geo-map", {
 
         this.map.addControl(new maplibregl.NavigationControl());
         this.map.addControl(new maplibregl.FullscreenControl());
-        if(this.editMode) this.map.on('click', (e) => {this.updateMarker(e)});
+        if(this.editMode) this.map.on('click', (e) => {this.updateLocationsFromEvent(e)});
 
         this.map.once('idle', () => {
           // this.clearAll();
-          this.updateMarker();
+          this.updateLocations(true);
           if (this.others) {
             this.others.filter(
               (x) => !this.value || (x.lat != this.value.lat && x.lng != this.value.lng),
@@ -164,16 +167,16 @@ Vue.component("geo-map", {
       });
     },
 
-    // clearAll() {
-    //   if(this.marker) {
-    //     this.marker.remove();
-    //     this.marker = null;
-    //   }
-    //   if (this.map.getSource('location_polygon')) {
-    //     this.map.removeLayer('location_polygon');
-    //     this.map.removeSource('location_polygon');
-    //   }
-    // },
+    clearAllLocations() {
+      if(this.marker) {
+        this.marker.remove();
+        this.marker = null;
+      }
+      if (this.map.getSource('location_polygon')) {
+        this.map.removeLayer('location_polygon');
+        this.map.removeSource('location_polygon');
+      }
+    },
 
     fixMap() {
       this.$nextTick(() => {
@@ -209,13 +212,27 @@ Vue.component("geo-map", {
       }
     },
 
-    updateMarker(evt) {
+    updateLocationsFromEvent(mapEvent, forceRefresh=false) {
+      if (mapEvent && mapEvent.lngLat) {
+        this.addLocations(mapEvent.lngLat, forceRefresh);
+      }
+    },
+
+    updateLocations(forceRefresh=false) {
+      this.addLocations(null, forceRefresh);
+    },
+
+    addLocations(eventLocation, forceRefresh=false) {
       let loc = [this.mapCenter.lng, this.mapCenter.lat];
-      if (evt && evt.lngLat) {
-        loc = [evt.lngLat.lng, evt.lngLat.lat];
+      if (eventLocation) {
+        loc = [eventLocation.lng, eventLocation.lat];
       } else if (this.lat !== undefined && this.lng !== undefined && !isNaN(parseFloat(this.lat)) && !isNaN(parseFloat(this.lng))) {
         loc = [this.lng, this.lat];
       }
+
+      // if(forceRefresh) this.clearAllLocations();
+      
+      //this.clearAllLocations();
 
       if(this.geometry && this.geometry.type == "Point") {
         this.addMarker(loc);
@@ -279,7 +296,7 @@ Vue.component("geo-map", {
       this.map.fitBounds(
         mapUtils.getFeatureBounds(this.geometry), {
           padding: 10,
-          animate: false
+          duration: 600
         }
       );
     },
@@ -339,6 +356,7 @@ Vue.component("geo-map", {
     },
 
     broadcast() {
+      if(!this.editMode) return;
       // Only return obj if both lat,lng values present
       if (this.lat !== undefined && this.lng !== undefined && !isNaN(parseFloat(this.lat)) && !isNaN(parseFloat(this.lng))) {
         const obj = { lat: this.lat, lng: this.lng };
@@ -358,12 +376,12 @@ Vue.component("geo-map", {
           <v-card-text>
             <h3 v-if="title" class=" mb-5">{{ title }}</h3>
             <div v-if="editMode" class="d-flex" style="column-gap: 20px;">
-              <v-text-field dense type="number" min="-90" max="90" v-model.number="lat" @keyup="updateMarker">
+              <v-text-field dense type="number" min="-90" max="90" v-model.number="lat" @keyup="updateLocations">
                 <template #label>
                     {{ translations.latitude_ }} <span class="red--text" v-if="required"><strong>* </strong></span>
                 </template>
               </v-text-field>
-              <v-text-field dense type="number" min="-180" max="180" :label="translations.longitude_" v-model.number="lng" @keyup="updateMarker">
+              <v-text-field dense type="number" min="-180" max="180" :label="translations.longitude_" v-model.number="lng" @keyup="updateLocations">
                 <template #label>
                     {{ translations.longitude_ }} <span class="red--text" v-if="required"><strong>* </strong></span>
                 </template>            
