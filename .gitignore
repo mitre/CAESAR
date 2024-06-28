@@ -19,7 +19,7 @@ enferno/media/*
 *.xls
 *.xlsx
 .aws
-config.json
+config.json*
 .venv/
 db/
 pgdata/
