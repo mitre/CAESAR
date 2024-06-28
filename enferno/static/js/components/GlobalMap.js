@@ -254,10 +254,15 @@ Vue.component("global-map", {
         this.map.removeLayer('unclustered-point');
         this.map.removeSource('markers');
       }
+      if (this.map.getSource('location_polygon')) {
+        this.map.removeLayer('location_polygon');
+        this.map.removeSource('location_polygon');
+      }
 
       if (this.locations.length) {
         let allLocations = [];
         let eventLocations = [];
+        let polygonLocations = [];
 
         for (loc of this.locations) {
           if(!this.category[loc.markerType].visible) {
@@ -268,6 +273,7 @@ Vue.component("global-map", {
             "type": "Feature", 
             "properties": {
               "color": loc.color + 'A5',
+              "fillColor": loc.color + '80',
               "number": loc.number || "",
               "parentId": loc.parentId || "",
               "title": loc.title || "",
@@ -284,12 +290,23 @@ Vue.component("global-map", {
               "coordinates": [ loc.lng, loc.lat, 0.0 ] 
             } 
           }
-          allLocations.push(event);
+
+          if(loc.geometry && loc.geometry.type == 'Point') {
+            event.geometry = loc.geometry;
+            allLocations.push(event);
+          } else if(loc.geometry && loc.geometry.type == 'MultiPolygon') {
+            event.geometry = loc.geometry; 
+            polygonLocations.push(event);
+          } else {
+            allLocations.push(event);
+          }
 
           if (loc.type === "Event") {  
             eventLocations.push(loc);
           }
         }
+
+        if(polygonLocations.length) this.addPolygons(polygonLocations);
 
         this.addEventRoutes(eventLocations);
 
@@ -324,6 +341,36 @@ Vue.component("global-map", {
             }
         });
       }
+    },
+
+    addPolygons(features) {
+      if(!this.map.getSource("location_polygon")) {  
+        this.map.addSource('location_polygon', {
+          'type': 'geojson',
+          'data': {
+            'type': 'FeatureCollection',
+            'features': features
+          },
+        });
+      }
+      if(!this.map.getLayer("location_polygon")) {
+        this.map.addLayer({
+          'id': 'location_polygon',
+          'type': 'fill',
+          'source': 'location_polygon',
+          'layout': {},
+          'paint': {
+              'fill-color': ["get", "fillColor"],
+              'fill-opacity': 0.5
+          }
+        });
+      }
+      // this.map.fitBounds(
+      //   mapUtils.getFeatureBounds(this.geometry), {
+      //     padding: 10,
+      //     duration: 600
+      //   }
+      // );
     },
 
     updateMarkers() {
@@ -541,9 +588,9 @@ Vue.component("global-map", {
         "source": "route",
         "type": "line",
         "paint": {
-          "line-width": 7,
+          "line-width": 5,
           "line-color": "#00f166",
-          "line-opacity": 0.2,
+          "line-opacity": 0.4,
         }
       });
       this.map.addLayer({
@@ -561,7 +608,7 @@ Vue.component("global-map", {
         "paint": {
           "icon-color": "#00ff66",
         },
-        minzoom: 8,
+        minzoom: 4,
       });
 
       // potential method for animating feature layer: https://docs.mapbox.com/mapbox-gl-js/example/animate-ant-path/
