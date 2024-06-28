@@ -52,6 +52,7 @@ Vue.component("global-map", {
           visible: true
         }
       },
+      allFeatures: [],
     };
   },
 
@@ -263,6 +264,7 @@ Vue.component("global-map", {
         let allLocations = [];
         let eventLocations = [];
         let polygonLocations = [];
+        this.allFeatures = [];
 
         for (loc of this.locations) {
           if(!this.category[loc.markerType].visible) {
@@ -300,6 +302,8 @@ Vue.component("global-map", {
           } else {
             allLocations.push(event);
           }
+
+          this.allFeatures.push(event);
 
           if (loc.type === "Event") {  
             eventLocations.push(loc);
@@ -344,13 +348,13 @@ Vue.component("global-map", {
     },
 
     addPolygons(features) {
+
+      const featureCollection = turf.featureCollection(features);
+
       if(!this.map.getSource("location_polygon")) {  
         this.map.addSource('location_polygon', {
           'type': 'geojson',
-          'data': {
-            'type': 'FeatureCollection',
-            'features': features
-          },
+          'data': featureCollection,
         });
       }
       if(!this.map.getLayer("location_polygon")) {
@@ -365,12 +369,6 @@ Vue.component("global-map", {
           }
         });
       }
-      // this.map.fitBounds(
-      //   mapUtils.getFeatureBounds(this.geometry), {
-      //     padding: 10,
-      //     duration: 600
-      //   }
-      // );
     },
 
     updateMarkers() {
@@ -532,15 +530,24 @@ Vue.component("global-map", {
     },
 
     fitMarkers(animate = true) {
-      let bounds = this.getLocationBounds();
-
-      if (bounds) {
-        this.map.fitBounds(bounds, {
-          padding: 50,
-          duration: 3000,
-          animate: animate
-        });
+      if(this.allFeatures.length) {
+        const featureCollection = turf.featureCollection(this.allFeatures);
+        this.map.fitBounds(
+          mapUtils.getFeatureBounds(featureCollection), {
+            padding: 10,
+            duration: 600
+          }
+        );
       }
+      // let bounds = this.getLocationBounds();
+
+      // if (bounds) {
+      //   this.map.fitBounds(bounds, {
+      //     padding: 50,
+      //     duration: 3000,
+      //     animate: animate
+      //   });
+      // }
     },
 
     getBSplineCurve(eventLocations) {
