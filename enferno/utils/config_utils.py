@@ -42,6 +42,9 @@ class ConfigManager:
         'OAUTH_DISCOVERY_URL': os.environ.get('OAUTH_DISCOVERY_URL', 'https://accounts.google.com/.well-known/openid-configuration'),
         'OAUTHLIB_INSECURE_TRANSPORT': os.environ.get('OAUTHLIB_INSECURE_TRANSPORT'),
 
+        'FEATURE_FORM': os.environ.get('FEATURE_FORM', ''),
+        'BUG_FORM': os.environ.get('BUG_FORM', ''),
+
         'FILESYSTEM_LOCAL': defBool('FILESYSTEM_LOCAL', True),
 
         'AWS_ACCESS_KEY_ID': os.environ.get('AWS_ACCESS_KEY_ID', ''),
@@ -113,6 +116,9 @@ class ConfigManager:
         'OAUTH_CLIENT_SECRET': 'OAuth Client Secret',
         'OAUTH_DISCOVERY_URL': 'OAuth Discovery Url',
         'OAUTHLIB_INSECURE_TRANSPORT': 'Allow Insecure OAuth connections',
+
+        'FEATURE_FORM': 'URL for the New Feature Request form',
+        'BUG_FORM': 'URL for the Bug Report form',
 
         'FILESYSTEM_LOCAL': 'Filesystem Local',
 
