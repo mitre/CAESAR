@@ -20,7 +20,7 @@
                             <v-card-text>
                                 <div class="login-wrapper">
                                     <div class="login-block" v-if="!showAdminPanel && oauthEnable">
-                                        <v-btn v-if="oauthEnable " block class="mt-4">
+                                        <v-btn v-if="oauthEnable" block class="mt-4">
                                             <a href="/auth">Single Sign-On (SSO)</a>
                                         </v-btn>
                                     </div>
@@ -39,8 +39,10 @@
                                             <validation-provider name="Password" rules="required|min:6"
                                                 v-slot="{ errors }">
                                                 <v-text-field id="password" autocomplete="chrome-off" v-model="password"
-                                                    label="Password" name="password" prepend-icon="mdi-lock-question" :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                                                    :type="showPassword ? 'text' : 'password'" @keyup.enter="!invalid && submit()"
+                                                    label="Password" name="password" prepend-icon="mdi-lock-question"
+                                                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                                                    :type="showPassword ? 'text' : 'password'"
+                                                    @keyup.enter="!invalid && submit()"
                                                     @click:append="showPassword = !showPassword"></v-text-field>
                                                 <span class="red--text">${errors[0]}</span>
                                             </validation-provider>
