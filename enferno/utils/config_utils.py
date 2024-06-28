@@ -52,7 +52,7 @@ class ConfigManager:
         'S3_BUCKET': os.environ.get('S3_BUCKET', ''),
         'AWS_REGION': os.environ.get('AWS_REGION', ''),
 
-        'MEDIA_ALLOWED_EXTENSIONS': defList('MEDIA_ALLOWED_EXTENSIONS', '.mp4,.webm,.jpg,.gif,.png,.pdf,.doc,.txt'),
+        'MEDIA_ALLOWED_EXTENSIONS': defList('MEDIA_ALLOWED_EXTENSIONS', '.mp4,.webm,.jpg,.jpeg,.gif,.png,.pdf,.doc,.txt'),
         'MEDIA_UPLOAD_MAX_FILE_SIZE': int(os.environ.get('MEDIA_UPLOAD_MAX_FILE_SIZE', 1000)),
 
         'SHEETS_ALLOWED_EXTENSIONS': defList('SHEETS_ALLOWED_EXTENSIONS', 'csv,xls,xlsx'),
