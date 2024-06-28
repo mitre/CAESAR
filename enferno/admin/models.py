@@ -865,8 +865,8 @@ class Location(db.Model, BaseMixin):
             "id": self.id,
             "title": self.title,
             "full_string": self.get_full_string(),
-            "lat": to_shape(self.latlng).y if self.latlng else None,
-            "lng": to_shape(self.latlng).x if self.latlng else None
+            "lat": centroid(to_shape(self.latlng)).y if self.latlng else None,
+            "lng": centroid(to_shape(self.latlng)).x if self.latlng else None,
         }
 
     def to_json(self):
@@ -1109,10 +1109,12 @@ class GeoLocation(db.Model, BaseMixin):
             'title': self.title,
             'type': self.type.to_dict() if self.type else None,
             'main': self.main,
-            'lat': to_shape(self.latlng).y,
-            'lng': to_shape(self.latlng).x,
+            "latlng": {"lng": centroid(to_shape(self.latlng)).x, "lat": centroid(to_shape(self.latlng)).y} if self.latlng else None,
+            'lat': centroid(to_shape(self.latlng)).y if self.latlng else None,
+            'lng': centroid(to_shape(self.latlng)).x if self.latlng else None,
             'comment': self.comment,
-            'updated_at': DateHelper.serialize_datetime(self.updated_at)
+            'updated_at': DateHelper.serialize_datetime(self.updated_at),
+            'geometry': json.loads(to_geojson(to_shape(self.latlng))) if self.latlng else None,
         }
 
 

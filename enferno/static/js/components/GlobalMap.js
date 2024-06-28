@@ -89,81 +89,80 @@ Vue.component("global-map", {
         this.lng = bounds.getCenter().lng;
       }
 
-      const style = mapUtils.loadBaseLayer();
-
-      this.map = new maplibregl.Map({
-        container: mlMapContainer,
-        style: style,
-        center: [this.lng, this.lat],
-        zoom: this.zoom,
-        maxZoom: 18
-      });
-  
-      this.map.addControl(new maplibregl.NavigationControl());
-  
-      this.map.addControl(new maplibregl.FullscreenControl());
-  
-      this.map.addControl(new maplibreGLMeasures.default({
-        lang: {
-          areaMeasurementButtonTitle: 'Measure area',
-          lengthMeasurementButtonTitle: 'Measure length',
-          clearMeasurementsButtonTitle:  'Clear measurements',
-        },
-        units: 'imperial',
-        style: {
-          text: {
-              radialOffset:  0.9,
-              letterSpacing: 0.05,
-              color: '#D20C0C',
-              haloColor: '#fff',
-              haloWidth: 0,
-              font: 'Noto Sans Bold',
+      mapUtils.loadBaseLayer().then((style) => {
+        this.map = new maplibregl.Map({
+          container: mlMapContainer,
+          style: style,
+          center: [this.lng, this.lat],
+          zoom: this.zoom,
+          maxZoom: 18
+        });
+    
+        this.map.addControl(new maplibregl.NavigationControl());
+    
+        this.map.addControl(new maplibregl.FullscreenControl());
+    
+        this.map.addControl(new maplibreGLMeasures.default({
+          lang: {
+            areaMeasurementButtonTitle: 'Measure area',
+            lengthMeasurementButtonTitle: 'Measure length',
+            clearMeasurementsButtonTitle:  'Clear measurements',
           },
-          common: {
-              midPointRadius: 5,
-              midPointColor: '#D20C0C',
-              midPointHaloRadius: 5,
-              midPointHaloColor: '#FFF',
-          },
-          areaMeasurement: {
-              fillColor: '#D20C0C',
-              fillOutlineColor: '#D20C0C',
-              fillOpacity: 0.01,
-              lineWidth: 2,
-          },
-          lengthMeasurement: {
-              lineWidth: 2,
-              lineColor: "#D20C0C",
-          },
-        }
-      }))
-  
-      this.map.once('render', () => {
-        this.map.resize();
-        this.fitMarkers(false); 
+          units: 'imperial',
+          style: {
+            text: {
+                radialOffset:  0.9,
+                letterSpacing: 0.05,
+                color: '#D20C0C',
+                haloColor: '#fff',
+                haloWidth: 0,
+                font: 'Noto Sans Bold',
+            },
+            common: {
+                midPointRadius: 5,
+                midPointColor: '#D20C0C',
+                midPointHaloRadius: 5,
+                midPointHaloColor: '#FFF',
+            },
+            areaMeasurement: {
+                fillColor: '#D20C0C',
+                fillOutlineColor: '#D20C0C',
+                fillOpacity: 0.01,
+                lineWidth: 2,
+            },
+            lengthMeasurement: {
+                lineWidth: 2,
+                lineColor: "#D20C0C",
+            },
+          }
+        }))
+    
+        this.map.once('render', () => {
+          this.map.resize();
+          this.fitMarkers(false); 
+        });
+        // see https://github.com/mapbox/mapbox-gl-js/issues/9779, https://github.com/mapbox/mapbox-gl-js/issues/8691
+        this.map.once('idle', () => {
+          this.addMarkers();
+          this.fitMarkers(false);
+        });
+        this.map.on('render', () => {
+          this.updateMarkers();
+        });
+    
+        this.map.on('click', 'clusters', this.onClusterClick);
+    
+        this.map.on('click', 'unclustered-point', this.onUnclusteredClick);
+    
+        this.map.on('resize', () => {
+          this.fitMarkers();
+        });
+        
+        this.map.on('styleimagemissing', (e) => {
+          this.loadEventLinkArrowImage();
+        });
       });
-      // see https://github.com/mapbox/mapbox-gl-js/issues/9779, https://github.com/mapbox/mapbox-gl-js/issues/8691
-      this.map.once('style.load', () => {
-        this.addMarkers();
-        this.fitMarkers(false);
-      });
-      this.map.on('render', () => {
-        this.updateMarkers();
-      });
-  
-      this.map.on('click', 'clusters', this.onClusterClick);
-  
-      this.map.on('click', 'unclustered-point', this.onUnclusteredClick);
-  
-      this.map.on('resize', () => {
-        this.fitMarkers();
-      });
-      
-      this.map.on('styleimagemissing', (e) => {
-        this.loadEventLinkArrowImage();
-      });
-
-      // replace google sattelite maps with mapbox maps: https://docs.mapbox.com/mapbox-gl-js/example/satellite-map/
+        // replace google sattelite maps with mapbox maps: https://docs.mapbox.com/mapbox-gl-js/example/satellite-map/
     },
 
     loadEventLinkArrowImage() {
