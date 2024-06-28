@@ -135,6 +135,10 @@ class Config(object):
     OAUTH_DISCOVERY_URL = manager.get_config('OAUTH_DISCOVERY_URL')
     OAUTHLIB_INSECURE_TRANSPORT = manager.get_config('OAUTHLIB_INSECURE_TRANSPORT')
 
+    # Forms for feedback
+    FEATURE_FORM = manager.get_config('FEATURE_FORM')
+    BUG_FORM = manager.get_config('BUG_FORM')
+
     # File Upload Settings: switch to True to store files privately within the enferno/media directory
     FILESYSTEM_LOCAL = manager.get_config('FILESYSTEM_LOCAL')
 

@@ -2,19 +2,26 @@
     <v-col cols="12" class="text-center p-1">
         <span>
             <small class="caption d-flex justify-center align-center">
-                <a href="https://mitre.org/"
-                   class="text-decoration-none pr-1"
-                   target="_blank">The MITRE Corporation</a>
+                <a href="https://mitre.org/" class="text-decoration-none pr-1" target="_blank">The MITRE Corporation</a>
                 &copy; 2024 {{ _("All rights reserved.") }}
                 <span class="px-3">|</span>
                 Powered by
-                <img src="/static/img/bayanat-h-v2-icon.svg"
-                     height="12"
-                     alt=""
-                     class="mx-1">
-                <a href="https://bayanat.org/"
-                   class="text-decoration-none"
-                   target="_blank">Bayanat</a>
+                <img src="/static/img/bayanat-h-v2-icon.svg" height="12" alt="" class="mx-1">
+                <a href="https://bayanat.org/" class="text-decoration-none" target="_blank">Bayanat</a>
+                {% if config.BUG_FORM %}
+                <span class="px-3">|</span>
+                <div class="caption d-flex justify-center align-center">Issue? &nbsp;<a
+                        href="{{ config.BUG_FORM }}">Report
+                        it
+                        here.</a>
+                </div>
+                {% endif %}
+                {% if config.FEATURE_FORM %}
+                <span class="px-3">|</span>
+                <div class="caption d-flex justify-center align-center"><a href="{{ config.FEATURE_FORM }}">Feature
+                        Requests</a>
+                </div>
+                {% endif %}
             </small>
         </span>
     </v-col>

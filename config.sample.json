@@ -58,6 +58,8 @@
   "OAUTH_CLIENT_SECRET": "",
   "OAUTH_DISCOVERY_URL": "https://accounts.google.com/.well-known/openid-configuration",
   "OAUTHLIB_INSECURE_TRANSPORT": "False",
+  "FEATURE_FORM": "#",
+  "BUG_FORM": "#",
   "GOOGLE_MAPS_API_KEY": "",
   "LANGUAGES": ["en", "ar", "uk"],
   "MAPS_API_ENDPOINT": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
