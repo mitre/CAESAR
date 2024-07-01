@@ -30,9 +30,9 @@
                             <v-toolbar flat color="white">
                                 <v-btn class="hidden-sm-and-down" small @click="allActors" text>{{ _("All Actors") }}</v-btn>
                                 <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
-                                <v-btn class="hidden-sm-and-down" small @click="myAssigned" text>{{ _("Assigned to me") }}</v-btn>
-                                <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
-                                <v-btn small @click="myReview" class="mr-2 hidden-sm-and-down" text>{{ _('My Review List') }}</v-btn>
+                                <v-btn class="hidden-sm-and-down mr-2" small @click="myAssigned" text>{{ _("Assigned to me") }}</v-btn>
+                                <!-- <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
+                                <v-btn small @click="myReview" class="mr-2 hidden-sm-and-down" text>{{ _('My Review List') }}</v-btn> -->
                                 <v-text-field flat dense outlined small v-model.trim="search[0].tsv"
                                     @keydown.enter="doSearch" hide-details append-outer-icon="mdi-ballot"
                                     append-icon="mdi-close" @click:append-outer="toggleAdvSearch"
@@ -908,7 +908,6 @@
             q = {};
             this.options.page = 1;
             q.assigned = [this.currentUser.id];
-            q.statuses = ["Assigned"];
             this.search = [q];
             this.searchActors();
         },
