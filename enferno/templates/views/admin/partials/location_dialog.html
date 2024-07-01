@@ -120,8 +120,9 @@
                             </v-row>
                             <v-row>
                                 <v-col cols="12" md="12">
-                                    <geo-map edit-mode="true" class="flex-grow-1" v-model="editedItem.latlng"
-                                        map-height="300" :required="true">
+                                    <geo-map :edit-mode="editedItem.geometry == undefined || (location.geometry && location.geometry.type == 'Point')" 
+                                        class="flex-grow-1" v-model="editedItem.latlng" :location="editedItem" map-height="300" 
+                                        :required="true">
                                     </geo-map>
                                 </v-col>
                             </v-row>

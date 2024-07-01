@@ -52,6 +52,7 @@ Vue.component("global-map", {
           visible: true
         }
       },
+      allFeatures: [],
     };
   },
 
@@ -89,81 +90,80 @@ Vue.component("global-map", {
         this.lng = bounds.getCenter().lng;
       }
 
-      const style = mapUtils.loadBaseLayer();
-
-      this.map = new maplibregl.Map({
-        container: mlMapContainer,
-        style: style,
-        center: [this.lng, this.lat],
-        zoom: this.zoom,
-        maxZoom: 18
-      });
-  
-      this.map.addControl(new maplibregl.NavigationControl());
-  
-      this.map.addControl(new maplibregl.FullscreenControl());
-  
-      this.map.addControl(new maplibreGLMeasures.default({
-        lang: {
-          areaMeasurementButtonTitle: 'Measure area',
-          lengthMeasurementButtonTitle: 'Measure length',
-          clearMeasurementsButtonTitle:  'Clear measurements',
-        },
-        units: 'imperial',
-        style: {
-          text: {
-              radialOffset:  0.9,
-              letterSpacing: 0.05,
-              color: '#D20C0C',
-              haloColor: '#fff',
-              haloWidth: 0,
-              font: 'Noto Sans Bold',
+      mapUtils.loadBaseLayer().then((style) => {
+        this.map = new maplibregl.Map({
+          container: mlMapContainer,
+          style: style,
+          center: [this.lng, this.lat],
+          zoom: this.zoom,
+          maxZoom: 18
+        });
+    
+        this.map.addControl(new maplibregl.NavigationControl());
+    
+        this.map.addControl(new maplibregl.FullscreenControl());
+    
+        this.map.addControl(new maplibreGLMeasures.default({
+          lang: {
+            areaMeasurementButtonTitle: 'Measure area',
+            lengthMeasurementButtonTitle: 'Measure length',
+            clearMeasurementsButtonTitle:  'Clear measurements',
           },
-          common: {
-              midPointRadius: 5,
-              midPointColor: '#D20C0C',
-              midPointHaloRadius: 5,
-              midPointHaloColor: '#FFF',
-          },
-          areaMeasurement: {
-              fillColor: '#D20C0C',
-              fillOutlineColor: '#D20C0C',
-              fillOpacity: 0.01,
-              lineWidth: 2,
-          },
-          lengthMeasurement: {
-              lineWidth: 2,
-              lineColor: "#D20C0C",
-          },
-        }
-      }))
-  
-      this.map.once('render', () => {
-        this.map.resize();
-        this.fitMarkers(false); 
+          units: 'imperial',
+          style: {
+            text: {
+                radialOffset:  0.9,
+                letterSpacing: 0.05,
+                color: '#D20C0C',
+                haloColor: '#fff',
+                haloWidth: 0,
+                font: 'Noto Sans Bold',
+            },
+            common: {
+                midPointRadius: 5,
+                midPointColor: '#D20C0C',
+                midPointHaloRadius: 5,
+                midPointHaloColor: '#FFF',
+            },
+            areaMeasurement: {
+                fillColor: '#D20C0C',
+                fillOutlineColor: '#D20C0C',
+                fillOpacity: 0.01,
+                lineWidth: 2,
+            },
+            lengthMeasurement: {
+                lineWidth: 2,
+                lineColor: "#D20C0C",
+            },
+          }
+        }))
+    
+        this.map.once('render', () => {
+          this.map.resize();
+          this.fitMarkers(false); 
+        });
+        // see https://github.com/mapbox/mapbox-gl-js/issues/9779, https://github.com/mapbox/mapbox-gl-js/issues/8691
+        this.map.once('idle', () => {
+          this.addMarkers();
+          this.fitMarkers(false);
+        });
+        this.map.on('render', () => {
+          this.updateMarkers();
+        });
+    
+        this.map.on('click', 'clusters', this.onClusterClick);
+    
+        this.map.on('click', 'unclustered-point', this.onUnclusteredClick);
+    
+        this.map.on('resize', () => {
+          this.fitMarkers();
+        });
+        
+        this.map.on('styleimagemissing', (e) => {
+          this.loadEventLinkArrowImage();
+        });
       });
-      // see https://github.com/mapbox/mapbox-gl-js/issues/9779, https://github.com/mapbox/mapbox-gl-js/issues/8691
-      this.map.once('style.load', () => {
-        this.addMarkers();
-        this.fitMarkers(false);
-      });
-      this.map.on('render', () => {
-        this.updateMarkers();
-      });
-  
-      this.map.on('click', 'clusters', this.onClusterClick);
-  
-      this.map.on('click', 'unclustered-point', this.onUnclusteredClick);
-  
-      this.map.on('resize', () => {
-        this.fitMarkers();
-      });
-      
-      this.map.on('styleimagemissing', (e) => {
-        this.loadEventLinkArrowImage();
-      });
-
-      // replace google sattelite maps with mapbox maps: https://docs.mapbox.com/mapbox-gl-js/example/satellite-map/
+        // replace google sattelite maps with mapbox maps: https://docs.mapbox.com/mapbox-gl-js/example/satellite-map/
     },
 
     loadEventLinkArrowImage() {
@@ -255,10 +255,16 @@ Vue.component("global-map", {
         this.map.removeLayer('unclustered-point');
         this.map.removeSource('markers');
       }
+      if (this.map.getSource('location_polygon')) {
+        this.map.removeLayer('location_polygon');
+        this.map.removeSource('location_polygon');
+      }
 
       if (this.locations.length) {
         let allLocations = [];
         let eventLocations = [];
+        let polygonLocations = [];
+        this.allFeatures = [];
 
         for (loc of this.locations) {
           if(!this.category[loc.markerType].visible) {
@@ -269,6 +275,7 @@ Vue.component("global-map", {
             "type": "Feature", 
             "properties": {
               "color": loc.color + 'A5',
+              "fillColor": loc.color + '80',
               "number": loc.number || "",
               "parentId": loc.parentId || "",
               "title": loc.title || "",
@@ -285,12 +292,25 @@ Vue.component("global-map", {
               "coordinates": [ loc.lng, loc.lat, 0.0 ] 
             } 
           }
-          allLocations.push(event);
+
+          if(loc.geometry && loc.geometry.type == 'Point') {
+            event.geometry = loc.geometry;
+            allLocations.push(event);
+          } else if(loc.geometry && loc.geometry.type == 'MultiPolygon') {
+            event.geometry = loc.geometry; 
+            polygonLocations.push(event);
+          } else {
+            allLocations.push(event);
+          }
+
+          this.allFeatures.push(event);
 
           if (loc.type === "Event") {  
             eventLocations.push(loc);
           }
         }
+
+        if(polygonLocations.length) this.addPolygons(polygonLocations);
 
         this.addEventRoutes(eventLocations);
 
@@ -323,6 +343,30 @@ Vue.component("global-map", {
                 'circle-stroke-width': 1,
                 'circle-stroke-color': '#fff'
             }
+        });
+      }
+    },
+
+    addPolygons(features) {
+
+      const featureCollection = turf.featureCollection(features);
+
+      if(!this.map.getSource("location_polygon")) {  
+        this.map.addSource('location_polygon', {
+          'type': 'geojson',
+          'data': featureCollection,
+        });
+      }
+      if(!this.map.getLayer("location_polygon")) {
+        this.map.addLayer({
+          'id': 'location_polygon',
+          'type': 'fill',
+          'source': 'location_polygon',
+          'layout': {},
+          'paint': {
+              'fill-color': ["get", "fillColor"],
+              'fill-opacity': 0.5
+          }
         });
       }
     },
@@ -486,15 +530,24 @@ Vue.component("global-map", {
     },
 
     fitMarkers(animate = true) {
-      let bounds = this.getLocationBounds();
-
-      if (bounds) {
-        this.map.fitBounds(bounds, {
-          padding: 50,
-          duration: 3000,
-          animate: animate
-        });
+      if(this.allFeatures.length) {
+        const featureCollection = turf.featureCollection(this.allFeatures);
+        this.map.fitBounds(
+          mapUtils.getFeatureBounds(featureCollection), {
+            padding: 10,
+            duration: 600
+          }
+        );
       }
+      // let bounds = this.getLocationBounds();
+
+      // if (bounds) {
+      //   this.map.fitBounds(bounds, {
+      //     padding: 50,
+      //     duration: 3000,
+      //     animate: animate
+      //   });
+      // }
     },
 
     getBSplineCurve(eventLocations) {
@@ -542,9 +595,9 @@ Vue.component("global-map", {
         "source": "route",
         "type": "line",
         "paint": {
-          "line-width": 7,
+          "line-width": 5,
           "line-color": "#00f166",
-          "line-opacity": 0.2,
+          "line-opacity": 0.4,
         }
       });
       this.map.addLayer({
@@ -562,7 +615,7 @@ Vue.component("global-map", {
         "paint": {
           "icon-color": "#00ff66",
         },
-        minzoom: 8,
+        minzoom: 4,
       });
 
       // potential method for animating feature layer: https://docs.mapbox.com/mapbox-gl-js/example/animate-ant-path/

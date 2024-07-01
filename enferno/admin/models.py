@@ -11,6 +11,7 @@ from flask_babel import gettext
 from flask_login import current_user
 from geoalchemy2 import Geometry, Geography
 from geoalchemy2.shape import to_shape
+from shapely import centroid, to_geojson
 from sqlalchemy import JSON, ARRAY, text, and_, or_, func, Enum
 from sqlalchemy.dialects.postgresql import TSVECTOR, JSONB
 from sqlalchemy.orm.attributes import flag_modified
@@ -768,7 +769,7 @@ class Location(db.Model, BaseMixin):
     title_ar = db.Column(db.String)
     location_type_id = db.Column(db.Integer, db.ForeignKey('location_type.id'))
     location_type = db.relationship("LocationType", foreign_keys=[location_type_id])
-    latlng = db.Column(Geometry('POINT', srid=4326))
+    latlng = db.Column(Geometry('GEOMETRY', srid=4326))
     admin_level_id = db.Column(db.Integer, db.ForeignKey('location_admin_level.id'))
     admin_level = db.relationship("LocationAdminLevel", foreign_keys=[admin_level_id])
     description = db.Column(db.Text)
@@ -820,7 +821,6 @@ class Location(db.Model, BaseMixin):
             if not self.parent.admin_level:
                 print(self.parent, ' <-')
 
-
         return {
             "id": self.id,
             "title": self.title,
@@ -828,13 +828,14 @@ class Location(db.Model, BaseMixin):
             "description": self.description,
             "location_type": self.location_type.to_dict() if self.location_type else '',
             "admin_level": self.admin_level.to_dict() if self.admin_level else '',
-            "latlng": {"lng": to_shape(self.latlng).x, "lat": to_shape(self.latlng).y} if self.latlng else None,
+            "latlng": {"lng": centroid(to_shape(self.latlng)).x, "lat": centroid(to_shape(self.latlng)).y} if self.latlng else None,
             "postal_code": self.postal_code,
             "country": self.country.to_dict() if self.country else None ,
             "parent": self.to_parent_dict(),
             "tags": self.tags or [],
-            "lat": to_shape(self.latlng).y if self.latlng else None,
-            "lng": to_shape(self.latlng).x if self.latlng else None,
+            "lat": centroid(to_shape(self.latlng)).y if self.latlng else None,
+            "lng": centroid(to_shape(self.latlng)).x if self.latlng else None,
+            "geometry": json.loads(to_geojson(to_shape(self.latlng))) if self.latlng else None,
             "full_location": self.full_location,
             "full_string": '{} | {}'.format(self.full_location or '', self.title_ar or ''),
             "updated_at": DateHelper.serialize_datetime(self.updated_at)
@@ -864,8 +865,8 @@ class Location(db.Model, BaseMixin):
             "id": self.id,
             "title": self.title,
             "full_string": self.get_full_string(),
-            "lat": to_shape(self.latlng).y if self.latlng else None,
-            "lng": to_shape(self.latlng).x if self.latlng else None
+            "lat": centroid(to_shape(self.latlng)).y if self.latlng else None,
+            "lng": centroid(to_shape(self.latlng)).x if self.latlng else None,
         }
 
     def to_json(self):
@@ -877,9 +878,12 @@ class Location(db.Model, BaseMixin):
         self.title_ar = jsn.get('title_ar')
         self.description = jsn.get('description')
         if jsn.get('latlng'):
-            lng = jsn.get('latlng').get('lng')
-            lat = jsn.get('latlng').get('lat')
-            self.latlng = f"SRID=4326;POINT({lng} {lat})"
+            if jsn.get('latlng').get('lat'):
+                lng = jsn.get('latlng').get('lng')
+                lat = jsn.get('latlng').get('lat')
+                self.latlng = f"SRID=4326;POINT({lng} {lat})"
+            else:
+                self.latlng = func.ST_GeomFromGeoJSON(f"{jsn.get('latlng')}")
         else:
             self.latlng = None
 
@@ -1105,10 +1109,12 @@ class GeoLocation(db.Model, BaseMixin):
             'title': self.title,
             'type': self.type.to_dict() if self.type else None,
             'main': self.main,
-            'lat': to_shape(self.latlng).y,
-            'lng': to_shape(self.latlng).x,
+            "latlng": {"lng": centroid(to_shape(self.latlng)).x, "lat": centroid(to_shape(self.latlng)).y} if self.latlng else None,
+            'lat': centroid(to_shape(self.latlng)).y if self.latlng else None,
+            'lng': centroid(to_shape(self.latlng)).x if self.latlng else None,
             'comment': self.comment,
-            'updated_at': DateHelper.serialize_datetime(self.updated_at)
+            'updated_at': DateHelper.serialize_datetime(self.updated_at),
+            'geometry': json.loads(to_geojson(to_shape(self.latlng))) if self.latlng else None,
         }
 
 

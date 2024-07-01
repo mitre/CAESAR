@@ -492,7 +492,8 @@ Vue.component("actor-search-box", {
                      class="flex-grow-1"
                      v-model="q.latlng"
                      map-height="200"
-                     radius-controls="true"/>
+                     radius-controls="true"
+                     edit-mode/>
           </v-sheet>
 
           <v-row>

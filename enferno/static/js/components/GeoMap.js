@@ -1,4 +1,3 @@
-// const maplibreGl = require("../maplibre-gl");
 
 Vue.component("geo-map", {
   props: {
@@ -13,7 +12,6 @@ Vue.component("geo-map", {
     },
     editMode: {
       type: Boolean,
-      default: true,
     },
     radiusControls: {
       type: Boolean,
@@ -24,14 +22,10 @@ Vue.component("geo-map", {
       type: Boolean,
       default: false,
     },
+    location: {}
   },
 
   computed: {
-    // map() {
-    //    //return this.$refs.map.mapObject;
-    //   //  return this.$refs.mapContainer.map;
-    //    return this.map;
-    // },
 
     mapCenter() {
       if (this.lat !== undefined && this.lng !== undefined) {
@@ -43,7 +37,6 @@ Vue.component("geo-map", {
     extra() {
       // computed property to display other markers, it should exclude the main marker
       if (this.others && this.value) {
-        // console.log(this.others.filter(x=> x.lat!=this.value.lat && x.lng != this.value.lng));
         return this.others.filter(
           (x) => x.lat != this.value.lat && x.lng != this.value.lng,
         )
@@ -62,7 +55,7 @@ Vue.component("geo-map", {
       subdomains: null,
       mapsApiEndpoint: mapsApiEndpoint,
 
-      location: null,
+      geometry: (this.value && this.value.geometry) || (this.location && this.location.geometry),
       attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       osmAttribution:
@@ -71,16 +64,18 @@ Vue.component("geo-map", {
       defaultTile: true,
       satellite: null,
 
-      radiusCircle: null,
+      radiusCircle: null,      
     };
   },
 
   watch: {
-    value(val) {
+    value(val, old) {
       if (!val) {
         this.lat = undefined;
         this.lng = undefined;
         this.radius = 100; // reset
+        this.geometry = undefined;
+        // this.location = undefined;
         return;
       }
       // Prevent string or negative radius on backend
@@ -93,9 +88,17 @@ Vue.component("geo-map", {
       if (val.lat && val.lng) {
         this.lat = val.lat;
         this.lng = val.lng;
+        if(val.geometry) this.geometry = val.geometry;
+        // this.location = val;
+        if(this.map && this.map.isStyleLoaded()) {
+          // I have yet to see this statement reached
+          this.updateLocations(true);
+        }
       }
+    },
 
-      this.updateMarker();
+    location(val, old) {
+      if(this.location && this.location.geometry) this.geometry = location.geometry;
     },
 
     lat: {
@@ -109,10 +112,10 @@ Vue.component("geo-map", {
     radius: {
       handler: "broadcast",
     },
-  },
 
-  unmounted() {
-    mlMap.value?.remove();
+    geometry: {
+      handler: "broadcast",
+    },
   },
 
   mounted() {
@@ -121,7 +124,10 @@ Vue.component("geo-map", {
 
   // clean up resize event listener
   beforeDestroy() {
-    window.removeEventListener("resize", this.fixMap);
+    // this.geometry = undefined;
+    // console.log("before destroy");
+    // window.removeEventListener("resize", this.fixMap);
+    // this.map?.remove();
   },
 
   methods: {
@@ -129,44 +135,45 @@ Vue.component("geo-map", {
       window.addEventListener("resize", this.fixMap);
   
       this.fixMap();
-      this.broadcast();
 
-      let mlMapContainer = this.$refs.mapContainer
-      let mlMap = {};
+      mapUtils.loadBaseLayer().then((style) => {
 
-      const style = mapUtils.loadBaseLayer();
-      mlMap.value = new maplibregl.Map({
-        container: mlMapContainer,
-        style: style,
-        center: [this.mapCenter.lng, this.mapCenter.lat],
-        zoom: this.mapZoom,
-        maxZoom: 18
-      });
-      
-      this.map = mlMap.value;
-  
-      this.map.addControl(new maplibregl.NavigationControl());
-      this.map.addControl(new maplibregl.FullscreenControl());
-      this.map.on('click', (e) => {this.updateMarker(e)});
-  
-      this.map.once('render', async () => {
-        this.updateMarker();
-      });
-
-      if (this.value) {
-        this.$nextTick(() => {
-          this.updateMarker();
+        this.map = new maplibregl.Map({
+          container: this.$refs.mapContainer,
+          style: style,
+          center: [this.mapCenter.lng, this.mapCenter.lat],
+          zoom: this.mapZoom,
+          maxZoom: 18
         });
+
+        this.map.addControl(new maplibregl.NavigationControl());
+        this.map.addControl(new maplibregl.FullscreenControl());
+        if(this.editMode) this.map.on('click', (e) => {this.updateLocationsFromEvent(e)});
+
+        this.map.once('idle', () => {
+          // this.clearAll();
+          this.updateLocations(true);
+          if (this.others) {
+            this.others.filter(
+              (x) => !this.value || (x.lat != this.value.lat && x.lng != this.value.lng),
+            ).forEach((marker)=>{
+              new maplibregl.Marker({color: "#DDDDDD"})
+                .setLngLat([marker.lng, marker.lat])
+                .addTo(this.map);
+            });
+          }
+        });
+      });
+    },
+
+    clearAllLocations() {
+      if(this.marker) {
+        this.marker.remove();
+        this.marker = null;
       }
-  
-      if (this.others) {
-        this.others.filter(
-          (x) => !this.value || (x.lat != this.value.lat && x.lng != this.value.lng),
-        ).forEach((marker)=>{
-          new maplibregl.Marker({color: "#DDDDDD"})
-            .setLngLat([marker.lng, marker.lat])
-            .addTo(this.map);
-        });
+      if (this.map.getSource('location_polygon')) {
+        this.map.removeLayer('location_polygon');
+        this.map.removeSource('location_polygon');
       }
     },
 
@@ -204,14 +211,43 @@ Vue.component("geo-map", {
       }
     },
 
-    updateMarker(evt) {
+    updateLocationsFromEvent(mapEvent, forceRefresh=false) {
+      if (mapEvent && mapEvent.lngLat) {
+        this.addLocations(mapEvent.lngLat, forceRefresh);
+      }
+    },
+
+    updateLocations(forceRefresh=false) {
+      this.addLocations(null, forceRefresh);
+    },
+
+    addLocations(eventLocation, forceRefresh=false) {
       let loc = [this.mapCenter.lng, this.mapCenter.lat];
-      if (evt && evt.lngLat) {
-        loc = [evt.lngLat.lng, evt.lngLat.lat];
+      if (eventLocation) {
+        loc = [eventLocation.lng, eventLocation.lat];
       } else if (this.lat !== undefined && this.lng !== undefined && !isNaN(parseFloat(this.lat)) && !isNaN(parseFloat(this.lng))) {
         loc = [this.lng, this.lat];
       }
 
+      // if(forceRefresh) this.clearAllLocations();
+      
+      //this.clearAllLocations();
+
+      if(this.geometry && this.geometry.type == "Point") {
+        this.addMarker(loc);
+      } else if(this.geometry && this.geometry.type == "MultiPolygon") {
+        this.addPolygon(loc);
+      } else if(loc && this.editMode) {
+        this.addMarker(loc);
+      }
+
+      if (this.editMode) {
+        this.lat = loc[1];
+        this.lng = loc[0];
+      }
+    },
+    
+    addMarker(loc) {
       if(!this.marker) {
         this.marker = new maplibregl.Marker({
           id: 'editing-geolocation',
@@ -232,19 +268,36 @@ Vue.component("geo-map", {
       } else {
         this.marker.setLngLat(loc);
       }
+    },
 
-      if (this.editMode) {
-        // this.map.flyTo({
-        //   center: loc
-        // });
-        this.lat = loc[1];
-        this.lng = loc[0];
+    addPolygon(loc) {
+      if(!this.map.getSource("location_polygon")) {  
+        this.map.addSource('location_polygon', {
+          'type': 'geojson',
+          'data': {
+              'type': 'Feature',
+              'geometry': this.geometry
+          }
+        });
       }
-
-      this.map.flyTo({
-        animate: false, 
-        center: loc
-      });
+      if(!this.map.getLayer("location_polygon")) {
+        this.map.addLayer({
+          'id': 'location_polygon',
+          'type': 'fill',
+          'source': 'location_polygon',
+          'layout': {},
+          'paint': {
+              'fill-color': '#088',
+              'fill-opacity': 0.5
+          }
+        });
+      }
+      this.map.fitBounds(
+        mapUtils.getFeatureBounds(this.geometry), {
+          padding: 10,
+          duration: 600
+        }
+      );
     },
 
     clearAddRadiusCircle() {
@@ -302,6 +355,7 @@ Vue.component("geo-map", {
     },
 
     broadcast() {
+      if(!this.editMode) return;
       // Only return obj if both lat,lng values present
       if (this.lat !== undefined && this.lng !== undefined && !isNaN(parseFloat(this.lat)) && !isNaN(parseFloat(this.lng))) {
         const obj = { lat: this.lat, lng: this.lng };
@@ -321,12 +375,12 @@ Vue.component("geo-map", {
           <v-card-text>
             <h3 v-if="title" class=" mb-5">{{ title }}</h3>
             <div v-if="editMode" class="d-flex" style="column-gap: 20px;">
-              <v-text-field dense type="number" min="-90" max="90" v-model.number="lat" @keyup="updateMarker">
+              <v-text-field dense type="number" min="-90" max="90" v-model.number="lat" @keyup="updateLocations">
                 <template #label>
                     {{ translations.latitude_ }} <span class="red--text" v-if="required"><strong>* </strong></span>
                 </template>
               </v-text-field>
-              <v-text-field dense type="number" min="-180" max="180" :label="translations.longitude_" v-model.number="lng" @keyup="updateMarker">
+              <v-text-field dense type="number" min="-180" max="180" :label="translations.longitude_" v-model.number="lng" @keyup="updateLocations">
                 <template #label>
                     {{ translations.longitude_ }} <span class="red--text" v-if="required"><strong>* </strong></span>
                 </template>            
