@@ -43,8 +43,7 @@
                                 </v-btn>
                                 <v-spacer></v-spacer>
                                 {% if current_user.roles_in(['Admin','DA']) %}
-                                <v-btn @click="editItem" color="accent" dark class="ma-2">{{ _("New Primary Record")
-                                    }}</v-btn>
+                                <v-btn @click="editItem" color="accent" dark class="ma-2">{{ _("New Primary Record") }}</v-btn>
                                 {% endif %}
                                 {% include
                                 'views/admin/partials/bulletin_dialog.html' %}
