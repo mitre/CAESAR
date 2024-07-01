@@ -92,8 +92,8 @@
                                                                     @click:append="showPassword = !showPassword"></v-text-field>
                                                                 <span
                                                                     v-if="!disablePassword && editedItem.password.length > 1 && !errors?.length"
-                                                                    class="green--text">{{ _("Strong Password")
-                                                                    }}</span>
+                                                                    class="green--text">{{ _("Strong Password")}}
+                                                                </span>
                                                                 <span class="red--text">${errors[0]}</span>
                                                             </validation-provider>
                                                             <v-btn @click.stop="enablePassword" v-if="editedItem.id"
