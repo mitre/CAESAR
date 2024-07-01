@@ -59,7 +59,8 @@
                                     </v-text-field>
 </v-col> -->
                                 <v-col cols="12" md="6">
-                                    <v-text-field disabled v-model="editedItem.full_string" label="{{ _(" Full Location") }}">
+                                    <v-text-field disabled v-model="editedItem.full_string"
+                                        label="{{ _('Full Location') }}">
                                     </v-text-field>
                                 </v-col>
                             </v-row>
@@ -79,7 +80,7 @@
                                     <validation-provider name="Location Type" rules="required" v-slot="{ errors }">
                                         <search-field v-model="editedItem.location_type"
                                             api="/admin/api/location-types/" item-text="title" item-value="id"
-                                            @input="checkLevel" label="{{ _(" Location Type") }}" :multiple="false"
+                                            @input="checkLevel" label="{{ _('Location Type') }}" :multiple="false"
                                             :required="true">
                                         </search-field>
                                         <span class="red--text">${errors[0]}</span>
@@ -92,7 +93,7 @@
                                             item-value="id"
                                             :disabled="editedItem.location_type?.title!=='Administrative Location'"
                                             v-model="editedItem.admin_level" @change="restrictSearch"
-                                            :return-object="false" :multiple="false" label="{{ _(" Admin Level") }}">
+                                            :return-object="false" :multiple="false" label="{{ _('Admin Level') }}">
                                         </search-field>
                                         <span class="red--text">${errors[0]}</span>
                                     </validation-provider>
@@ -100,7 +101,7 @@
                                 <v-col cols="12" md="3">
                                     <search-field clearable api="/admin/api/countries/" :items="translations.countries"
                                         item-text="title" item-value="title" :return-object="false"
-                                        v-model="editedItem.country" label="{{ _(" Country") }}">
+                                        v-model="editedItem.country" label="{{ _('Country') }}">
                                     </search-field>
                                 </v-col>
                             </v-row>
@@ -109,11 +110,11 @@
                                     <location-search-field :disabled="editedItem.admin_level?.code == 1"
                                         v-model="editedItem.parent" api="/admin/api/locations/"
                                         :query-params="locQueryParams" item-text="full_string" item-value="id"
-                                        :return-object="true" :multiple="false" label="{{ _(" Parent Location") }}">
+                                        :return-object="true" :multiple="false" label="{{ _('Parent Location') }}">
                                     </location-search-field>
                                 </v-col>
                                 <v-col cols="12" md="4">
-                                    <v-text-field v-model="editedItem.postal_code" label="{{ _(" Postal Code") }}">
+                                    <v-text-field v-model="editedItem.postal_code" label="{{ _('Postal Code') }}">
                                     </v-text-field>
                                 </v-col>
                             </v-row>
@@ -129,7 +130,7 @@
                             <h2 class="form-section-header">{{ _("Tags") }}</h2>
                             <v-row>
                                 <v-col cols="12" md="12">
-                                    <v-combobox small-chips multiple v-model="editedItem.tags" label="{{ _("Tags") }}">
+                                    <v-combobox small-chips multiple v-model="editedItem.tags" label="{{ _('Tags') }}">
                                     </v-combobox>
                                 </v-col>
                             </v-row> -->

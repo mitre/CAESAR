@@ -186,10 +186,11 @@
                                 <validation-provider name="Assigned To" rules="required" v-slot="{ errors }">
                                     <search-field-single v-model="assignBulletin.assigned_to_id" api="/admin/api/users/"
                                         item-text="name" item-value="id" :return-object="false" :multiple="false"
-                                        label="{{ _(" Assigned To") }}"></search-field-single>
+                                        label="{{ _('Assigned To') }}"></search-field-single>
                                     <span class="red--text">${errors[0]}</span>
                                 </validation-provider>
-                                <v-combobox small-chips multiple v-model="assignBulletin.ref" label="{{ _('Ref') }}"></v-combobox>
+                                <v-combobox small-chips multiple v-model="assignBulletin.ref"
+                                    label="{{ _('Ref') }}"></v-combobox>
                                 <validation-provider name="Comments" rules="required" v-slot="{ errors }">
                                     <v-textarea v-model="assignBulletin.comments" label="Comments"></v-textarea>
                                     <span class="red--text">${errors[0]}</span>

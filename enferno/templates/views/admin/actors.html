@@ -28,15 +28,19 @@
                         </template>
                         <template v-slot:top>
                             <v-toolbar flat color="white">
-                                <v-btn class="hidden-sm-and-down" small @click="allActors" text>{{ _("All Actors") }}</v-btn>
+                                <v-btn class="hidden-sm-and-down" small @click="allActors" text>{{ _("All Actors")
+                                    }}</v-btn>
                                 <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
-                                <v-btn class="hidden-sm-and-down" small @click="myAssigned" text>{{ _("Assigned to me") }}</v-btn>
+                                <v-btn class="hidden-sm-and-down" small @click="myAssigned" text>{{ _("Assigned to me")
+                                    }}</v-btn>
                                 <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
-                                <v-btn small @click="myReview" class="mr-2 hidden-sm-and-down" text>{{ _('My Review List') }}</v-btn>
+                                <v-btn small @click="myReview" class="mr-2 hidden-sm-and-down" text>{{ _('My Review
+                                    List') }}</v-btn>
                                 <v-text-field flat dense outlined small v-model.trim="search[0].tsv"
                                     @keydown.enter="doSearch" hide-details append-outer-icon="mdi-ballot"
                                     append-icon="mdi-close" @click:append-outer="toggleAdvSearch"
-                                    @click:append="resetSearch" prepend-inner-icon="mdi-magnify" label="{{ _("Search") }}"></v-text-field>
+                                    @click:append="resetSearch" prepend-inner-icon="mdi-magnify"
+                                    label="{{ _('Search') }}"></v-text-field>
                                 <v-btn @click="searchActors(false)" icon>
                                     <v-icon>mdi-refresh</v-icon>
                                 </v-btn>
@@ -73,7 +77,8 @@
                                 <v-spacer></v-spacer>
                                 <div>
                                     <v-chip label small close color="yellow lighten-4" v-if="resultsChip"
-                                        class="grey--text text--darken-2" @click:close="resultsChip = false">{{ _("About") }} ${itemsLength} {{ _("results") }}
+                                        class="grey--text text--darken-2" @click:close="resultsChip = false">{{
+                                        _("About") }} ${itemsLength} {{ _("results") }}
                                         (${searchTime} {{ _("seconds") }})
                                     </v-chip>
                                 </div>
@@ -177,7 +182,7 @@
                                 <validation-provider name="Assigned To" rules="required" v-slot="{ errors }">
                                     <search-field-single v-model="assignActor.assigned_to_id" api="/admin/api/users/"
                                         item-text="name" item-value="id" :return-object="false" :multiple="false"
-                                        label="{{ _("Assigned To") }}"></search-field-single>
+                                        label="{{ _('Assigned To') }}"></search-field-single>
                                     <span class="red--text">${errors[0]}</span>
                                 </validation-provider>
                                 <validation-provider name="Comments" rules="required" v-slot="{ errors }">
@@ -244,7 +249,7 @@
         computesRequired: true,
         validate: (value, param) => {
             if (!param[1]) {
-              return true;
+                return true;
             }
             if (['', null, undefined].indexOf(value) !== -1 && ['', null, undefined].indexOf(param[0]) !== -1) {
                 return 'Either Name or Name(Original Language) should not be empty'
@@ -455,10 +460,10 @@
             medias: [],
                 actor_relations: [],
                     bulletin_relations: [],
-                    social_media_handles: [],
-                    sanction_regimes: [],
-                    incident_relations: [],
-          aliases: []
+                        social_media_handles: [],
+                            sanction_regimes: [],
+                                incident_relations: [],
+                                    aliases: []
     },
     defaultItem: {
         description: "",
@@ -473,18 +478,18 @@
                             bulletin_relations: [],
                                 // related incidents
                                 incident_relations: [],
-                                social_media_handles: [],
-                                sanction_regimes: [],
-                                aliases: [],
-                                    publish_date: '',
-                                        documentation_date: new Date().toISOString().substr(0, 16),
+                                    social_media_handles: [],
+                                        sanction_regimes: [],
+                                            aliases: [],
+                                                publish_date: '',
+                                                    documentation_date: new Date().toISOString().substr(0, 16),
                 },
     socialMediaPlatforms: [],
-    sanctionRegimes: [],
-    subTypes: [],
-    //events
-    editedEventIndex: -1,
-        editedEvent: {
+        sanctionRegimes: [],
+            subTypes: [],
+                //events
+                editedEventIndex: -1,
+                    editedEvent: {
         title: ""
     },
     defaultEvent: {
@@ -628,32 +633,32 @@
             this.editedItem.assigned_to = this.users.find(x => x.id == userId);
         },
         getSocialMediaPlatforms() {
-          axios.get('/admin/api/socialmediaplatforms/').then(res => {
-            this.socialMediaPlatforms = res.data.items;
-          }).catch(e => {
-              this.socialMediaPlatforms = [];
-              console.log(e.message);
+            axios.get('/admin/api/socialmediaplatforms/').then(res => {
+                this.socialMediaPlatforms = res.data.items;
+            }).catch(e => {
+                this.socialMediaPlatforms = [];
+                console.log(e.message);
             });
         },
         getSanctionRegimes() {
-          axios.get('/admin/api/sanction-regimes/')
-            .then(res => {
-                this.sanctionRegimes = res.data.items;
-            })
-            .catch(e => {
-              this.sanctionRegimes = [];
-              console.log(e.message);
-            });
+            axios.get('/admin/api/sanction-regimes/')
+                .then(res => {
+                    this.sanctionRegimes = res.data.items;
+                })
+                .catch(e => {
+                    this.sanctionRegimes = [];
+                    console.log(e.message);
+                });
         },
         getActorSubTypes() {
-          axios.get('/admin/api/sub-types/')
-            .then(res => {
-                this.subTypes = res.data.items;
-            })
-            .catch(e => {
-              this.subTypes = [];
-              console.log(e.message);
-            });
+            axios.get('/admin/api/sub-types/')
+                .then(res => {
+                    this.subTypes = res.data.items;
+                })
+                .catch(e => {
+                    this.subTypes = [];
+                    console.log(e.message);
+                });
         },
         // form anchors for scrolling
         anchorScroll(id) {
@@ -1131,8 +1136,8 @@
             }, 300);
         },
         save() {
-          // Remove empty social media handles
-          this.editedItem.social_media_handles = this.editedItem.social_media_handles.filter(x => x.handle_name && (x.platform_id || x.platform?.id));
+            // Remove empty social media handles
+            this.editedItem.social_media_handles = this.editedItem.social_media_handles.filter(x => x.handle_name && (x.platform_id || x.platform?.id));
             if (this.editedItem.id) {
                 //update record
                 this.loading = true;
@@ -1281,42 +1286,42 @@
             }
         },
         addSocialMediaHandle() {
-          this.editedItem.social_media_handles.push({
-            handle_name: '',
-            platform_id: null
-          });
+            this.editedItem.social_media_handles.push({
+                handle_name: '',
+                platform_id: null
+            });
         },
         addSanctionRegime() {
-          this.editedItem.sanction_regimes.push({
-            sanction_regime_id: null
-          });
+            this.editedItem.sanction_regimes.push({
+                sanction_regime_id: null
+            });
         },
         isLastSocialMediaHandleEmpty() {
-          if (this.editedItem.social_media_handles.length) {
-            return this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].handle_name === '' ||
-              ((this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform_id === null || !this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform_id) &&
-                (!this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform || this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform === null));
-          }
-          return false;
+            if (this.editedItem.social_media_handles.length) {
+                return this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].handle_name === '' ||
+                    ((this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform_id === null || !this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform_id) &&
+                        (!this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform || this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform === null));
+            }
+            return false;
         },
         isLastSanctionRegimeEmpty() {
-          if (this.editedItem.sanction_regimes.length) {
-            return this.editedItem.sanction_regimes[this.editedItem.sanction_regimes.length - 1].sanction_regime_id === null;
-          }
-          return false;
+            if (this.editedItem.sanction_regimes.length) {
+                return this.editedItem.sanction_regimes[this.editedItem.sanction_regimes.length - 1].sanction_regime_id === null;
+            }
+            return false;
         },
         addAlias() {
-          this.editedItem.aliases.push({
-            name: '',
-            actor_id: this.editedItem.id
-          });
+            this.editedItem.aliases.push({
+                name: '',
+                actor_id: this.editedItem.id
+            });
         },
         isLastAliasEmpty() {
-          if (this.editedItem.aliases.length) {
-            const lastIndex = this.editedItem.aliases.length - 1;
-            return this.editedItem.aliases[lastIndex].name === '';
-          }
-          return false;
+            if (this.editedItem.aliases.length) {
+                const lastIndex = this.editedItem.aliases.length - 1;
+                return this.editedItem.aliases[lastIndex].name === '';
+            }
+            return false;
         },
     }
         });

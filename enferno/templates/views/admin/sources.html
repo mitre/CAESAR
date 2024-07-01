@@ -38,23 +38,23 @@
                                                         <v-row>
                                                             <v-col cols="12" md="4">
                                                                 <v-text-field v-model="editedItem.title"
-                                                                label="{{ _("Title") }}"></v-text-field>
+                                                                    label="{{ _('Title') }}"></v-text-field>
                                                             </v-col>
                                                             <v-col cols="12" md="6">
                                                                 <search-field v-model="editedItem.parent"
                                                                     api="/admin/api/sources/" item-text="title"
                                                                     item-value="id" :multiple="false"
-                                                                    label="{{ _("Parent") }}"></search-field>
+                                                                    label="{{ _('Parent') }}"></search-field>
                                                             </v-col>
                                                             <v-col cols="12" md="2">
                                                                 <v-text-field v-model="editedItem.etl_id"
-                                                                    label="{{ _("ETL ID") }}" disabled></v-text-field>
+                                                                    label="{{ _('ETL ID') }}" disabled></v-text-field>
                                                             </v-col>
                                                         </v-row>
                                                         <v-row>
                                                             <v-col cols="12" md="12">
                                                                 <v-textarea outlined v-model="editedItem.comments"
-                                                                    label="{{ _("Comments") }}"></v-textarea>
+                                                                    label="{{ _('Comments') }}"></v-textarea>
                                                             </v-col>
                                                         </v-row>
                                                     </v-container>
@@ -84,7 +84,7 @@
                                                         <v-row>
                                                             <v-col cols="12" md="12">
                                                                 <v-file-input v-model="csvFile" show-size accept=".csv"
-                                                                    label="{{ _("Select CSV File") }}"></v-file-input>
+                                                                    label="{{ _('Select CSV File') }}"></v-file-input>
                                                             </v-col>
                                                         </v-row>
                                                     </v-container>
