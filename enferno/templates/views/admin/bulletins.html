@@ -30,9 +30,9 @@
                             <v-toolbar flat color="white">
                                 <v-btn class="hidden-sm-and-down" small @click="allBulletins" text>{{ _('All Primary Records') }}</v-btn>
                                 <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
-                                <v-btn class="hidden-sm-and-down" small @click="myAssigned" text>{{ _('Assigned to me') }}</v-btn>
-                                <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
-                                <v-btn small @click="myReview" class="mr-2 hidden-sm-and-down" text>{{ _('My Review List') }}</v-btn>
+                                <v-btn class="hidden-sm-and-down mr-2" small @click="myAssigned" text>{{ _('Assigned to me') }}</v-btn>
+                                <!-- <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
+                                <v-btn small @click="myReview" class="mr-2 hidden-sm-and-down" text>{{ _('My Review List') }}</v-btn> -->
                                 <v-text-field flat dense outlined small v-model.trim="search[0].tsv"
                                     @keydown.enter="doSearch()" hide-details append-outer-icon="mdi-ballot"
                                     append-icon="mdi-close" @click:append="resetSearch"
@@ -132,7 +132,7 @@
                                         mdi-account-box-outline
                                     </v-icon>
                                 </template>
-                                <span>Assign Bulletin</span>
+                                <span>Assign Primary Record</span>
                             </v-tooltip>
                             <v-tooltip top>
                                 <template v-slot:activator="{ on }">
@@ -181,7 +181,7 @@
                     </v-dialog>
                     <v-dialog width="600" v-model="assignDialog">
                         <v-card class="pa-3">
-                            <v-card-title>Assign Bulletin #${assignBulletin.id}</v-card-title>
+                            <v-card-title>Assign Primary Record #${assignBulletin.id}</v-card-title>
                             <v-card-text>
                                 <validation-provider name="Assigned To" rules="required" v-slot="{ errors }">
                                     <search-field-single v-model="assignBulletin.assigned_to_id" api="/admin/api/users/"
@@ -198,7 +198,7 @@
                             </v-card-text>
                             <v-card-actions>
                                 <v-btn :disabled="!assignBulletin.comments || !assignBulletin.assigned_to_id"
-                                    class="ma-auto" @click="assignOther()" color="primary">Assign Bulletin
+                                    class="ma-auto" @click="assignOther()" color="primary">Assign Primary Record
                                 </v-btn>
                             </v-card-actions>
                         </v-card>
@@ -880,7 +880,6 @@
             q = {};
             this.options.page = 1;
             q.assigned = [this.currentUser.id];
-            q.statuses = ["Assigned"];
             this.search = [q];
             this.searchBulletins();
         },
