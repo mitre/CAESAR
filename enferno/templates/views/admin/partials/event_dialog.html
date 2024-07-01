@@ -13,13 +13,21 @@
                             {% endif %}
                         </span>
                     </template>
-                    <span>{{ _('Events are data forms to store time and location information related to Actors, Primary Records and Investigations. Users can attach one or more events.') }}</span>
+                    <span>
+                        {% if data_type == "actor" %}
+                        {{ _('Location is where the event is identfied as having occurred. The locations can be selected
+                        with varying levels of specificity. Select the most localized options possible (e.g., village
+                        name versus oblast if it is available).') }}
+                        {% else %}
+                        {{ _('Events are data forms to store time and location information related to events recounted
+                        in the Primary Record piece of data. Users can attach one or more events.') }}
+                        {% endif %}
+                    </span>
                 </v-tooltip>
                 <v-spacer></v-spacer>
                 <v-btn class="mx-2" depressed x-small fab right top color="accent lighten-2" dark
                     v-on="on"><v-icon>mdi-plus-circle</v-icon></v-btn>
             </v-card-title>
-            </v-tooltip>
             <v-card-text>
                 <v-layout wrap>
                     <v-flex class="pa-2" md6 v-for="(item,index) in editedItem.events" :key="index">
@@ -87,7 +95,8 @@
                     <v-row>
                         <v-col cols="12">
                             <location-search-field v-model="editedEvent.location" api="/admin/api/locations/"
-                                item-text="full_string" item-value="id" :multiple="false" label="{{ _('Location') }}"></location-search-field>
+                                item-text="full_string" item-value="id" :multiple="false"
+                                label="{{ _('Location') }}"></location-search-field>
                         </v-col>
                         <!-- <v-col md="4">
                             <search-field v-model="editedEvent.eventtype" api="/admin/api/eventtypes/"

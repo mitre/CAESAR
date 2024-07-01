@@ -97,43 +97,42 @@
                       <v-row>
                         <v-col cols="12" md="4">
                           <search-field api="/admin/api/roles/" item-text="name" item-value="id" :multiple="true"
-                            label="{{ _("Access Roles") }}" v-model="roles"></search-field>
+                            label="{{ _('Access Roles') }}" v-model="roles"></search-field>
                         </v-col>
                         <v-col cols="12" md="4">
                           <search-field api="/admin/api/labels/" :query-params="{ typ: 'for_bulletin' }"
-                            item-text="title" item-value="id" :multiple="true" label="{{ _("Labels") }}"
+                            item-text="title" item-value="id" :multiple="true" label="{{ _('Labels') }}"
                             v-model="labels"></search-field>
                         </v-col>
                         <v-col cols="12" md="4">
                           <search-field api="/admin/api/labels/"
                             :query-params="{ fltr: 'verified', typ: 'for_bulletin' }" item-text="title" item-value="id"
-                            :multiple="true" label="{{ _("Verified Labels") }} " v-model=" verLabels"></search-field>
+                            :multiple="true" label="{{ _('Verified Labels') }} " v-model=" verLabels"></search-field>
                         </v-col>
                       </v-row>
                       <v-row>
                         <v-col cols="12" md="4">
                           <location-search-field api="/admin/api/locations/" item-text="full_string" item-value="id"
-                            :multiple="true" label="{{ _("Locations") }}" v-model="locations"></location-search-field>
+                            :multiple="true" label="{{ _('Locations') }}" v-model="locations"></location-search-field>
                         </v-col>
                         <v-col cols="12" md="4">
                           <search-field api="/admin/api/sources/" item-text="title" item-value="id" :multiple="true"
-                            label="{{ _("Sources") }}" v-model="sources"></search-field>
+                            label="{{ _('Sources') }}" v-model="sources"></search-field>
                         </v-col>
                         <v-col cols="12" md="4">
-                          <v-combobox small-chips multiple label="{{ _("Refs") }}" v-model="refs"
+                          <v-combobox small-chips multiple label="{{ _('Refs') }}" v-model="refs"
                             hint="Type and enter free tags"></v-combobox>
                         </v-col>
                       </v-row>
                       <v-row>
                         <v-col cols="12" md="4">
-                          <v-switch v-model="optimize" label="{{ _("Optimize videos") }}"></v-switch>
+                          <v-switch v-model="optimize" label="{{ _('Optimize videos') }}"></v-switch>
                         </v-col>
                         <v-col cols="12" md="4">
-                          <v-switch v-model="parse" label="{{ _("Parse PDF & MS Word files") }}"></v-switch>
+                          <v-switch v-model="parse" label="{{ _('Parse PDF & MS Word files') }}"></v-switch>
                         </v-col>
                         <v-col cols="12" md="4">
-                          <v-switch v-model="ocr" :disabled="!__OCR_ENABLED__" 
-                            label="{{ _("Scan images for text") }}">
+                          <v-switch v-model="ocr" :disabled="!__OCR_ENABLED__" label="{{ _('Scan images for text') }}">
                           </v-switch>
                           <div v-if="!__OCR_ENABLED__">
                             <v-icon left>mdi-information-outline</v-icon>

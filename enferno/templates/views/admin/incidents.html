@@ -29,7 +29,8 @@
                                 <v-text-field flat dense outlined small v-model="search.tsv"
                                     @keydown.enter="searchIncidents" hide-details append-outer-icon="mdi-ballot"
                                     append-icon="mdi-close" @click:append-outer="toggleAdvSearch"
-                                    @click:append="resetSearch" prepend-inner-icon="mdi-magnify" label="{{ _("Search") }}"></v-text-field>
+                                    @click:append="resetSearch" prepend-inner-icon="mdi-magnify"
+                                    label="{{ _('Search') }}"></v-text-field>
                                 <v-btn @click="searchIncidents(false)" icon>
                                     <v-icon>mdi-refresh</v-icon>
                                 </v-btn>
@@ -173,7 +174,7 @@
                                 <validation-provider name="Assigned To" rules="required" v-slot="{ errors }">
                                     <search-field-single v-model="assignIncident.assigned_to_id" api="/admin/api/users/"
                                         item-text="name" item-value="id" :return-object="false" :multiple="false"
-                                        label="{{ _("Assigned To") }}"></search-field-single>
+                                        label="{{ _('Assigned To') }}"></search-field-single>
                                     <span class="red--text">${errors[0]}</span>
                                 </validation-provider>
                                 <validation-provider name="Comments" rules="required" v-slot="{ errors }">
