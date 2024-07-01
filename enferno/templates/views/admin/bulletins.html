@@ -132,7 +132,7 @@
                                         mdi-account-box-outline
                                     </v-icon>
                                 </template>
-                                <span>Assign Bulletin</span>
+                                <span>Assign Primary Record</span>
                             </v-tooltip>
                             <v-tooltip top>
                                 <template v-slot:activator="{ on }">
@@ -181,7 +181,7 @@
                     </v-dialog>
                     <v-dialog width="600" v-model="assignDialog">
                         <v-card class="pa-3">
-                            <v-card-title>Assign Bulletin #${assignBulletin.id}</v-card-title>
+                            <v-card-title>Assign Primary Record #${assignBulletin.id}</v-card-title>
                             <v-card-text>
                                 <validation-provider name="Assigned To" rules="required" v-slot="{ errors }">
                                     <search-field-single v-model="assignBulletin.assigned_to_id" api="/admin/api/users/"
@@ -197,7 +197,7 @@
                             </v-card-text>
                             <v-card-actions>
                                 <v-btn :disabled="!assignBulletin.comments || !assignBulletin.assigned_to_id"
-                                    class="ma-auto" @click="assignOther()" color="primary">Assign Bulletin
+                                    class="ma-auto" @click="assignOther()" color="primary">Assign Primary Record
                                 </v-btn>
                             </v-card-actions>
                         </v-card>
