@@ -22,4 +22,4 @@ enferno/media/*
 config.json*
 .venv/
 db/
-pgdata/
+pgdata*/
