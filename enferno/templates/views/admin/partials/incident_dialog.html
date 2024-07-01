@@ -5,8 +5,7 @@
                 <v-toolbar-title>${formTitle} <span class="gv--text" v-if="editedItem.id">${editedItem.id}</span>
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn @click="save" :disabled="invalid" dark color="accent" small class="mx-2" depressed>{{ _("Save
-                    Investigation") }}
+                <v-btn @click="save" :disabled="invalid" dark color="accent" small class="mx-2" depressed>{{ _("Save Investigation") }}
                 </v-btn>
                 <v-btn @click="confirmClose" icon>
                     <v-icon>mdi-close</v-icon>
