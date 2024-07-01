@@ -98,7 +98,7 @@ Vue.component("geo-map", {
     },
 
     location(val, old) {
-      if(this.location.geometry) this.geometry = location.geometry;
+      if(this.location && this.location.geometry) this.geometry = location.geometry;
     },
 
     lat: {
@@ -124,8 +124,7 @@ Vue.component("geo-map", {
 
   // clean up resize event listener
   beforeDestroy() {
-    // this.geometry = null;
-    // // this.value = {};
+    // this.geometry = undefined;
     // console.log("before destroy");
     // window.removeEventListener("resize", this.fixMap);
     // this.map?.remove();
