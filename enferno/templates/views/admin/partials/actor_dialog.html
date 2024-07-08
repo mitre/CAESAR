@@ -896,6 +896,61 @@
                                                 </v-tooltip>
                                             </v-card-title>
                                             <!--  Grid of Bulletins Items -->
+                                            <v-card-text>
+                                              <v-layout wrap>
+                                                <v-flex class="pa-1" md6
+                                                  v-for="(item,index) in editedItem.bulletin_relations"
+                                                  :key="index">
+                                                  <!--  Related Bulletin  Card -->
+                                                  <bulletin-result :i18n="translations" :bulletin="item.bulletin">
+                                                    <!--  attach relationship form -->
+                                                    <template v-slot:header>
+                                                      <v-card outlined color="lime lighten-5">
+                                                        <v-card-title class="subtitle-2">
+                                                          <v-icon left>mdi-link</v-icon>
+                                                          {{ _("Relationship Information") }}
+                                                        </v-card-title>
+                                                        <v-card-text>
+                                                          <div>
+                                                            <div class="caption">{{ _("Probability") }}
+                                                            </div>
+                                                            <v-chip-group
+                                                              v-model="editedItem.bulletin_relations[index].probability"
+                                                              column active-class="primary dark">
+                                                              <v-chip v-for="r in translations.probs"
+                                                                small> ${r.tr}
+                                                              </v-chip>
+                                                            </v-chip-group>
+                                                            <div class="caption">{{ _("Related As") }}
+                                                            </div>
+                                                            <v-chip-group
+                                                              v-model="editedItem.bulletin_relations[index].related_as"
+                                                              column multiple
+                                                              active-class="primary dark">
+                                                              <v-chip v-for="rel in atobInfo"
+                                                                :value="rel.id" :key="rel.id" small>
+                                                                ${rel.title}
+                                                              </v-chip>
+                                                            </v-chip-group>
+                                                          </div>
+                                                          <v-text-field class="mt-2"
+                                                            v-model="editedItem.bulletin_relations[index].comment"
+                                                            dense outlined label="{{ _('Comments') }}">
+                                                          </v-text-field>
+                                                        </v-card-text>
+                                                      </v-card>
+                                                    </template>
+                                                    <template v-slot:actions>
+                                                      <v-btn class="mx-auto"
+                                                        @click="removeBulletin($event,index)" x-small fab
+                                                        outlined color="red lighten-3">
+                                                        <v-icon>mdi-delete-sweep</v-icon>
+                                                      </v-btn>
+                                                    </template>
+                                                  </bulletin-result>
+                                                </v-flex>
+                                              </v-layout>
+                                            </v-card-text>
                                         </v-card>
                                         <!---     End Relate bulletin base card   ---->
                                         <v-card outlined class="my-5">
