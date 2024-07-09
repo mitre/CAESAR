@@ -1438,8 +1438,8 @@ def api_geolocationtype_delete(id):
 
 
 # Bulletin routes
-@admin.route('/bulletins/', defaults={'id': None})
-@admin.route('/bulletins/<int:id>')
+@admin.route('/primary-records/', defaults={'id': None})
+@admin.route('/primary-records/<int:id>')
 def bulletins(id):
     """Endpoint for bulletins management."""
     # Pass relationship information
@@ -3227,8 +3227,8 @@ def api_role_import():
 
 
 # Incident routes
-@admin.route('/incidents/', defaults={'id': None})
-@admin.route('/incidents/<int:id>')
+@admin.route('/investigations/', defaults={'id': None})
+@admin.route('/investigations/<int:id>')
 def incidents(id):
     """
     Endpoint to render incidents backend page

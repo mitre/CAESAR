@@ -309,7 +309,7 @@ Vue.component("incident-card", {
           <div  class="pa-2 title header-sticky black--text">{{ i18n.relatedIncidents_ }}
           <v-tooltip top>
               <template v-slot:activator="{on,attrs}">
-                <a :href="'/admin/incidents/?reltoi='+incident.id" target="_self">
+                <a :href="'/admin/investigations/?reltoi='+incident.id" target="_self">
                   <v-icon v-on="on" small color="grey" class="mb-1">
                     mdi-image-filter-center-focus-strong
                   </v-icon>
@@ -345,7 +345,7 @@ Vue.component("incident-card", {
           <div class="pa-2 header-sticky title black--text">{{ i18n.relatedBulletins_ }}
           <v-tooltip top>
               <template v-slot:activator="{on,attrs}">
-                <a :href="'/admin/bulletins/?reltoi='+incident.id" target="_self">
+                <a :href="'/admin/primary-records/?reltoi='+incident.id" target="_self">
                   <v-icon v-on="on" small color="grey" class="mb-1">
                     mdi-image-filter-center-focus-strong
                   </v-icon>

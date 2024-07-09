@@ -440,7 +440,7 @@ Vue.component("bulletin-card", {
               <v-tooltip top>
                 <template v-slot:activator="{on,attrs}">
 
-                  <a :href="'/admin/bulletins/?reltob='+bulletin.id" target="_self">
+                  <a :href="'/admin/primary-records/?reltob='+bulletin.id" target="_self">
                     <v-icon v-on="on" small color="grey" class="mb-1">
                       mdi-image-filter-center-focus-strong
                     </v-icon>
@@ -533,7 +533,7 @@ Vue.component("bulletin-card", {
             <div class="pa-2 header-sticky title black--text">{{ i18n.relatedIncidents_ }}
               <v-tooltip top>
                 <template v-slot:activator="{on,attrs}">
-                  <a :href="'/admin/incidents/?reltob='+bulletin.id" target="_self">
+                  <a :href="'/admin/investigations/?reltob='+bulletin.id" target="_self">
                     <v-icon v-on="on" small color="grey" class="mb-1">
                       mdi-image-filter-center-focus-strong
                     </v-icon>
