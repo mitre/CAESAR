@@ -121,7 +121,11 @@
                         <v-col cols="12" md="12">
                             <v-textarea outlined rows="7" v-model="editedEvent.comments">
                                 <template #label>
-                                    {{ _("Description of Event") }}
+                                    {% if data_type == 'actor' %}
+                                        {{ _("Notes") }}
+                                    {% else %}
+                                        {{ _("Description of Event") }}
+                                    {% endif %}
                                 </template>
                             </v-textarea>
                         </v-col>
