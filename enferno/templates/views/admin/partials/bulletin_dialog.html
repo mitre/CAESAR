@@ -514,7 +514,7 @@
                                 <span class="anchor" id="data-details"></span>
                                 <h2 class="form-section-header">{{ _("Data Details") }}</h2>
                                 <v-row>
-                                    <v-col cols="12" md="6">
+                                    <v-col cols="12" md="9">
                                         <validation-provider name="Source Link"
                                             :rules="source_disabled? 'required': 'required|url'" v-slot="{errors}">
                                             <v-tooltip top max-width=500 open-delay=1500>
@@ -542,23 +542,30 @@
                                                 v-model="source_alt" small>
                                             </v-checkbox> -->
                                     </v-col>
-                                    <v-col cols="12" md="6">
-                                        <v-switch small class="mx-2" label="{{ _('Sensitive Data') }}"
+                                    <v-col cols="12" md="3">
+                                        <v-switch small label="{{ _('Sensitive Data') }}"
                                             v-model="editedItem.sensitive_data" small>
                                         </v-switch>
                                     </v-col>
-                                    <v-col cols="12">
+                                    <v-col cols="12" md="9">
                                         <v-sheet class="d-flex align-center mb-4">
                                             <v-tooltip top max-width=500 open-delay=1500>
                                                 <template v-slot:activator="{ on }">
                                                     <v-text-field v-on="on" v-model="editedItem.discovery_file_name"
-                                                        class="mx-2"
                                                         label="{{ _('Discovery File name') }}"></v-text-field>
                                                 </template>
                                                 <span>{{ _('Name of the website capture tool (e.g., Hunchly or
                                                     WebRecorder) file from which data item was extracted') }}</span>
                                             </v-tooltip>
                                         </v-sheet>
+                                    </v-col>
+                                    <v-col cols="12" md="3">
+                                        <v-select label="Credibility" 
+                                            :items="credibilityItems" 
+                                            item-text="label" 
+                                            item-value="value" 
+                                            v-model="editedItem.credibility"
+                                        ></v-select>
                                     </v-col>
                                     <v-col cols="12" md="6">
                                         <pop-date-time-field time-label="{{ _('Time (UTC)') }}"

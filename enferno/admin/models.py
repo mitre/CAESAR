@@ -16,7 +16,7 @@ from sqlalchemy import JSON, ARRAY, text, and_, or_, func, Enum
 from sqlalchemy.dialects.postgresql import TSVECTOR, JSONB
 from sqlalchemy.orm.attributes import flag_modified
 from werkzeug.utils import secure_filename
-from enferno.admin.choices import Sex
+from enferno.admin.choices import Reliability, Sex
 
 from enferno.extensions import db
 from enferno.settings import Config as cfg
@@ -222,6 +222,7 @@ class Source(db.Model, BaseMixin):
     comments = db.Column(db.Text)
     comments_ar = db.Column(db.Text)
     parent_id = db.Column(db.Integer, db.ForeignKey("source.id"), index=True)
+    reliability = db.Column(Enum(Reliability))
     parent = db.relationship("Source", remote_side=id, backref="sub_source")
 
     # populate object from json dict
@@ -233,6 +234,12 @@ class Source(db.Model, BaseMixin):
             self.comments = json["comments"]
         if "comments_ar" in json:
             self.comments = json["comments_ar"]
+        if "reliability" in json and json["reliability"]:
+            if Reliability.is_valid(json["reliability"]):
+                self.reliability = Reliability.get_name(json["reliability"])
+            else:
+                raise ValueError(f"{json['reliability']} is not a valid option for a source's reliability")
+
         parent = json.get('parent')
         if parent:
             self.parent_id = parent.get("id")
@@ -246,11 +253,10 @@ class Source(db.Model, BaseMixin):
             "id": self.id,
             "title": self.title,
             "etl_id": self.etl_id,
-            "parent": {"id": self.parent.id, "title": self.parent.title}
-            if self.parent
-            else None,
+            "parent": {"id": self.parent.id, "title": self.parent.title} if self.parent else None,
             "comments": self.comments,
-            "updated_at": DateHelper.serialize_datetime(self.updated_at) if self.updated_at else None
+            "updated_at": DateHelper.serialize_datetime(self.updated_at) if self.updated_at else None,
+            "reliability": self.reliability.__str__() if self.reliability else None
         }
 
     def __repr__(self):
@@ -1555,6 +1561,8 @@ class Bulletin(db.Model, BaseMixin):
 
     discovery_file_name = db.Column(db.String(255))
 
+    credibility = db.Column(db.Integer)
+    
     reliability_score = db.Column(db.Integer, default=0)
 
     first_peer_reviewer_id = db.Column(db.Integer, db.ForeignKey("user.id"))
@@ -1738,6 +1746,7 @@ class Bulletin(db.Model, BaseMixin):
         self.source_link = json["source_link"] if "source_link" in json else None
         self.sensitive_data = json.get('sensitive_data', False)
         self.discovery_file_name = json["discovery_file_name"] if "discovery_file_name" in json else None
+        self.credibility = json["credibility"] if "credibility" in json else None
         self.ref = json["ref"] if "ref" in json else []
 
         # Locations
@@ -1949,6 +1958,7 @@ class Bulletin(db.Model, BaseMixin):
             "source_link": self.source_link or None,
             "sensitive_data": getattr(self, 'sensitive_data', False),
             "discovery_file_name": self.discovery_file_name or None,
+            "credibility": self.credibility or None,
             "publish_date": DateHelper.serialize_datetime(self.publish_date),
             "documentation_date": DateHelper.serialize_datetime(self.documentation_date),
             "comments": self.comments or "",
@@ -1963,6 +1973,7 @@ class Bulletin(db.Model, BaseMixin):
             'origin_id': self.serialize_column('originid'),
             'source_link': self.serialize_column('source_link'),
             'discovery_file_name': self.serialize_column('discovery_file_name'),
+            'credibility': self.serialize_column('credibility'),
             'sjac_title': self.serialize_column('sjac_title'),
             'sjac_title_ar': self.serialize_column('sjac_title_ar'),
             'description': self.serialize_column('description'),
@@ -2169,6 +2180,7 @@ class Bulletin(db.Model, BaseMixin):
             "source_link": self.source_link or None,
             "sensitive_data": self.sensitive_data or None,
             "discovery_file_name": self.discovery_file_name or None,
+            "credibility": self.credibility or None,
             "ref": self.ref or None,
             "publish_date": DateHelper.serialize_datetime(self.publish_date),
             "documentation_date": DateHelper.serialize_datetime(self.documentation_date),
@@ -2208,6 +2220,7 @@ class Bulletin(db.Model, BaseMixin):
             "comments": self.comments or None,
             "source_link": self.source_link or None,
             "discovery_file_name": self.discovery_file_name or None,
+            "credibility": self.credibility or None,
             "publish_date": DateHelper.serialize_datetime(self.publish_date),
             "documentation_date": DateHelper.serialize_datetime(self.documentation_date),
 

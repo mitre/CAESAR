@@ -52,6 +52,16 @@
                                                             </v-col>
                                                         </v-row>
                                                         <v-row>
+                                                            <v-col cols="12" md="6">
+                                                                <v-select label="Reliability" 
+                                                                    :items="reliabilityItems" 
+                                                                    item-text="label" 
+                                                                    item-value="value" 
+                                                                    v-model="editedItem.reliability"
+                                                                ></v-select>
+                                                            </v-col>
+                                                        </v-row>
+                                                        <v-row>
                                                             <v-col cols="12" md="12">
                                                                 <v-textarea outlined v-model="editedItem.comments"
                                                                     label="{{ _('Comments') }}"></v-textarea>
@@ -150,6 +160,15 @@
                 itemsPerPageOptions: itemsPerPageOptions,
                 itemsPerPageText: "{{ _('Rows per page')}}"
             },
+            // reliabilityItems: ['A', 'B', 'C', 'D', 'E', 'F'],
+            reliabilityItems: [
+                { label: 'A - Completely reliable', value: 'A'},
+                { label: 'B - Usually reliable', value: 'B'},
+                { label: 'C - Fairly reliable', value: 'C'},
+                { label: 'D - Not usually reliable', value: 'D'},
+                { label: 'E - Unreliable', value: 'E'},
+                { label: 'F - Reliability cannot be judged', value: 'F'},
+            ],
             headers: [{
                 text: "{{('ID')}}",
                 value: "id"
