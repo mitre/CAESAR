@@ -19,3 +19,11 @@ class Sex(BaseChoices):
     Non_Binary = 'Non-Binary'
     Transgender_Man = 'Transgender Man'
     Transgender_Woman = 'Transgender Woman'
+
+class Reliability(BaseChoices):
+    A = 'A'
+    B = 'B'
+    C = 'C'
+    D = 'D'
+    E = 'E'
+    F = 'F'
