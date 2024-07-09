@@ -1,7 +1,7 @@
 """Add reliability to source and credibility to primary record
 
 Revision ID: 5ed276f106be
-Revises: 6dd1ac87ad7e
+Revises: 2ee3f48f476a
 Create Date: 2024-06-26 12:56:36.035010
 
 """
@@ -12,7 +12,7 @@ from migrations.utils import column_exists
 
 # revision identifiers, used by Alembic.
 revision = '5ed276f106be'
-down_revision = '6dd1ac87ad7e'
+down_revision = '2ee3f48f476a'
 branch_labels = None
 depends_on = None
 
