@@ -72,7 +72,7 @@ const sideNav = [
   {
     icon: "mdi-library-books",
     text: "Primary Records",
-    href: "/admin/bulletins/",
+    href: "/admin/primary-records/",
   },
 
   {
@@ -83,7 +83,7 @@ const sideNav = [
   {
     icon: "mdi-hazard-lights",
     text: "Investigations",
-    href: "/admin/bulletins/",
+    href: "/admin/primary-records/",
   },
 
   {
@@ -234,13 +234,13 @@ function handleRequestError(error) {
   }
 }
 
-//  in-page router for bulletins/actors/incidents pages
+//  in-page router for primary-records/actors/incidents pages
 const router = new VueRouter({
   mode: "history",
   routes: [
-    { path: "/admin/bulletins/:id" },
+    { path: "/admin/primary-records/:id" },
     { path: "/admin/actors/:id" },
-    { path: "/admin/incidents/:id" },
+    { path: "/admin/investigations/:id" },
     { path: "/admin/locations/:id" },
     { path: "/export/dashboard/:id" },
     { path: "/import/log/:id" },

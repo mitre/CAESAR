@@ -536,7 +536,7 @@
     watch: {
         bulletinDrawer: function(val) {
             if (val == false) {
-                if (this.$route.path != '/admin/bulletins/') this.$router.push('/admin/bulletins/')
+                if (this.$route.path != '/admin/primary-records/') this.$router.push('/admin/primary-records/')
             }
         },
         selected: function(val) {
@@ -909,7 +909,7 @@
                 this.showSnack('This item is restricted.')
                 return
             }
-            path = `/admin/bulletins/${item.id}`;
+            path = `/admin/primary-records/${item.id}`;
             if (this.$route.path !== path) this.$router.push(path);
         },
         showBulletin(id) {

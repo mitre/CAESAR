@@ -493,7 +493,7 @@
     watch: {
         incidentDrawer: function(val) {
             if (val == false) {
-                if (this.$route.path != '/admin/incidents/') this.$router.push('/admin/incidents/')
+                if (this.$route.path != '/admin/investigations/') this.$router.push('/admin/investigations/')
             }
         },
         selected: function(val) {
@@ -831,7 +831,7 @@
                 this.showSnack('This item is restricted.')
                 return
             }
-            path = `/admin/incidents/${item.id}`;
+            path = `/admin/investigations/${item.id}`;
             if (this.$route.path !== path) this.$router.push(path);
         },
         showIncident(id) {

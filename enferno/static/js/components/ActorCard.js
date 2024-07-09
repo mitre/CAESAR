@@ -452,7 +452,7 @@ Vue.component("actor-card", {
           <v-tooltip top>
               <template v-slot:activator="{on,attrs}">
 
-                <a :href="'/admin/bulletins/?reltoa='+actor.id" target="_self"><v-icon v-on="on" small color="grey" class="mb-1">
+                <a :href="'/admin/primary-records/?reltoa='+actor.id" target="_self"><v-icon v-on="on" small color="grey" class="mb-1">
               mdi-image-filter-center-focus-strong
             </v-icon></a>
               </template>
@@ -486,7 +486,7 @@ Vue.component("actor-card", {
           <div class="pa-2  header-sticky title black--text">{{ i18n.relatedIncidents_ }}
           <v-tooltip top>
               <template v-slot:activator="{on,attrs}">
-                <a :href="'/admin/incidents/?reltoa='+actor.id" target="_self">
+                <a :href="'/admin/investigations/?reltoa='+actor.id" target="_self">
                   <v-icon v-on="on" small color="grey" class="mb-1">
                     mdi-image-filter-center-focus-strong
                   </v-icon>
