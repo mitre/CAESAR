@@ -269,8 +269,8 @@ Vue.component("actor-card", {
       </v-card-text>
 
       <v-btn v-if="deleteAllowed()" class="ml-2 red darken-3" @click="deleteActor" small outlined>
-        <v-icon color="white" left>mdi-delete-sweep</v-icon>
-        <span class="white--text">{{ i18n.delete_ }}</span>
+        <v-icon color="white" left>mdi-archive</v-icon>
+        <span class="white--text">{{ i18n.archive_ }}</span>
       </v-btn>
 
       <v-chip color="blue-grey lighten-5" label small class="pa-2 mx-2 my-2" v-if="actor.assigned_to" ><v-icon left>mdi-account-circle-outline</v-icon>

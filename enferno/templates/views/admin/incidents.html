@@ -137,10 +137,10 @@
                                 <template v-slot:activator="{ on }">
                                     <v-icon v-on="on" v-if="has_role(currentUser, 'Admin')"
                                         @click.stop="deleteItem(item)" color="primary lighten-1"
-                                        class="mr-2">mdi-delete-sweep
+                                        class="mr-2">mdi-archive
                                     </v-icon>
                                 </template>
-                                <span>Delete Investigation</span>
+                                <span>Archive Investigation</span>
                             </v-tooltip>
                         </template>
                         <template v-slot:no-data></template>

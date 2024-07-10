@@ -1,50 +1,50 @@
 <v-dialog v-model="eventDialog" max-width="850px">
     <template v-slot:activator="{ on }">
-        <v-card outlined>
-            <v-card-title>
-                <v-tooltip top max-width=500 open-delay=1500>
-                    <template v-slot:activator="{ on }">
-                        <span v-on="on">
-                            <v-icon left>mdi-calendar</v-icon>
-                            {% if data_type == "actor" %}
-                            {{ _("Locations of Reported Activity") }}
-                            {% else %}
-                            {{ _("Events") }}
-                            {% endif %}
-                        </span>
-                    </template>
-                    <span>
+        <div>
+            {% if data_type == "actor" %}
+            <span class="anchor" id="locations-of-reported-activity"></span>
+            {% else %}
+            <span class="anchor" id="events"></span>
+            {% endif %}
+            <v-tooltip top max-width=500 open-delay=1500>
+                <template v-slot:activator="{ on }">
+                    <span v-on="on">
                         {% if data_type == "actor" %}
-                        {{ _('Location is where the event is identfied as having occurred. The locations can be selected
-                        with varying levels of specificity. Select the most localized options possible (e.g., village
-                        name versus oblast if it is available).') }}
+                        <h3 class="mb-2">{{ _("Locations of Reported Activity") }}</h3>
                         {% else %}
-                        {{ _('Events are data forms to store time and location information related to events recounted
-                        in the Primary Record piece of data. Users can attach one or more events.') }}
+                        <h2 class="form-section-header">{{ _("Events") }}</h2>
                         {% endif %}
                     </span>
-                </v-tooltip>
-                <v-spacer></v-spacer>
-                <v-btn class="mx-2" depressed x-small fab right top color="accent lighten-2" dark
-                    v-on="on"><v-icon>mdi-plus-circle</v-icon></v-btn>
-            </v-card-title>
-            <v-card-text>
-                <v-layout wrap>
-                    <v-flex class="pa-2" md6 v-for="(item,index) in editedItem.events" :key="index">
-                        <event-card :number="index+1" :event="item">
-                            <template v-slot:actions>
-                                <v-card-actions>
-                                    <v-btn @click="editEvent($event,item,index)" x-small fab outlined
-                                        color="grey"><v-icon>mdi-pencil</v-icon></v-btn>
-                                    <v-btn @click="removeEvent($event,index)" x-small fab outlined
-                                        color="red lighten-3"><v-icon>mdi-delete-sweep</v-icon></v-btn>
-                                </v-card-actions>
-                            </template>
-                        </event-card>
-                    </v-flex>
-                </v-layout>
-            </v-card-text>
-        </v-card>
+                </template>
+                <span>
+                    {% if data_type == "actor" %}
+                    {{ _('Location is where the event is identfied as having occurred. The locations can be selected
+                    with varying levels of specificity. Select the most localized options possible (e.g., village
+                    name versus oblast if it is available).') }}
+                    {% else %}
+                    {{ _('Events are data forms to store time and location information related to events recounted
+                    in the Primary Record piece of data. Users can attach one or more events.') }}
+                    {% endif %}
+                </span>
+            </v-tooltip>
+            <v-btn v-on="on" color="primary" small><v-icon dense>mdi-plus</v-icon></v-btn>
+        </div>
+        <div class="mt-2">
+            <v-layout wrap>
+                <v-flex md6 v-for="(item,index) in editedItem.events" :key="index">
+                    <event-card :number="index+1" :event="item">
+                        <template v-slot:actions>
+                            <v-card-actions>
+                                <v-btn @click="editEvent($event,item,index)" x-small fab outlined
+                                    color="grey lighten-1"><v-icon>mdi-pencil</v-icon></v-btn>
+                                <v-btn @click="removeEvent($event,index)" x-small fab outlined
+                                    color="red lighten-3"><v-icon>mdi-delete-sweep</v-icon></v-btn>
+                            </v-card-actions>
+                        </template>
+                    </event-card>
+                </v-flex>
+            </v-layout>
+        </div>
     </template>
     <validation-observer v-slot="{invalid}">
         <v-card>

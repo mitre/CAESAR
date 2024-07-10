@@ -103,8 +103,8 @@ tbody tr td:nth-child(4) {
   font-family: "Tajawal Bold", sans-serif !important;
 }
 
-.v-chip {
-  /* font-family: "Tajawal", sans-serif !important; */
+.search-relate {
+  max-width: 400px;
 }
 
 button.swh {

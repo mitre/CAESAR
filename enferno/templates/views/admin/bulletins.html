@@ -146,10 +146,10 @@
                                 <template v-slot:activator="{ on }">
                                     <v-icon v-on="on" v-if="has_role(currentUser, 'Admin')"
                                         @click.stop="deleteItem(item)" color="primary lighten-1"
-                                        class="mr-2">mdi-delete-sweep
+                                        class="mr-2">mdi-archive
                                     </v-icon>
                                 </template>
-                                <span>Delete Bulletin</span>
+                                <span>Archive Primary Record</span>
                             </v-tooltip>
                         </template>
                         <template v-slot:no-data></template>
@@ -417,33 +417,32 @@
                 sortable: true
             },
             {% if(current_user.has_role('Admin') or current_user.has_role('DA')) %} {
-        text: "{{_('Assigned To')}}",
-        value: "assigned_to.name",
-        width: 130,
-        sortable: true
-    }, {
-        text: "{{_('Roles')}}",
-        value: "roles",
-        width: 130,
-        sortable: true
-    },
-        {% endif %} {
-        text: "{{_('Status')}}",
-            value: "_status",
+                text: "{{_('Assigned To')}}",
+                value: "assigned_to.name",
+                width: 130,
+                sortable: true
+            }, {
+                text: "{{_('Roles')}}",
+                value: "roles",
+                width: 130,
+                sortable: true
+            },
+            {% endif %} {
+                text: "{{_('Status')}}",
+                value: "_status",
                 width: 150,
-                    sortable: true
-    }, {
-        text: "{{_('Actions')}}",
-            value: "action",
+                sortable: true
+            }, {
+                text: "{{_('Actions')}}",
+                value: "action",
                 sortable: false,
-                    width: 100
-    }
-                ],
-    items: [],
-        selected: [],
+                width: 100
+            }],
+            items: [],
+            selected: [],
             itemsLength: 10,
-                editedIndex: -1,
-                    editedItem: {
+            editedIndex: -1,
+            editedItem: {
         title: "",
             events: [],
                 medias: [],
@@ -451,157 +450,146 @@
                         actor_relations: [],
                             incident_relations: []
     },
-    defaultItem: {
-        title: "",
-            status: "",
+            defaultItem: {
+                title: "",
+                status: "",
                 description: "",
-                    // related events
-                    events: [],
-                        // related media
-                        medias: [],
-                            // related bulletins
-                            bulletin_relations: [],
-                                // related actors
-                                actor_relations: [],
-                                    // related incidents
-                                    incident_relations: [],
-
-                                        publish_date: '',
-                                            documentation_date: new Date().toISOString().substr(0, 16),
-                                                discovery_file_name: "",
-        },
-    reviewItem: { },
-    // bulk actions
-    bulk: { },
-    bulkIcons: false,
-        jobs: [],
+                // related events
+                events: [],
+                // related media
+                medias: [],
+                // related bulletins
+                bulletin_relations: [],
+                // related actors
+                actor_relations: [],
+                // related incidents
+                incident_relations: [],
+                publish_date: '',
+                documentation_date: new Date().toISOString().substr(0, 16),
+                discovery_file_name: "",
+            },
+            reviewItem: { },
+            // bulk actions
+            bulk: { },
+            bulkIcons: false,
+            jobs: [],
             bulkTimer: 0,
-                //events
-                editedEventIndex: -1,
-                    editedEvent: {
-        title: ""
-    },
-    defaultEvent: {
-        title: "",
-            from_date: '',
-                to_date: ''
-    },
-    bulletin: { },
-    bulletinLoader: false
-            }),
-    computed: {
-        statusForbidsAssignment() {
-            if (this.statusDisabled) {
-                return true;
-            }
-            statusesPreventingAssignment = ["Machine Created", "Human Created"];
-            assignmentDisabled = statusesPreventingAssignment.includes(this.editedItem.status);
-            return assignmentDisabled;
-        },
-        statusRequiresAssignment() {
-            statusesRequiringAssignment = ["Assigned", "Second Peer Review", "Peer Review Assigned"];
-            return statusesRequiringAssignment.includes(this.editedItem.status);
-        },
-        compLocations() {
-            return aggregateBulletinLocations(this.editedItem);
-        },
-        exBulletins() {
-            let ids = [this.editedItem.id];
-            if (this.editedItem.bulletin_relations) {
-                ids = ids.concat(this.editedItem.bulletin_relations.map(x => x.bulletin.id))
-            }
-            return ids;
-        },
-        exActors() {
-            let ids = [];
-            if (this.editedItem.actor_relations) {
-                ids = ids.concat(this.editedItem.actor_relations.map(x => x.actor.id))
-            }
-            return ids;
-        },
-        exIncidents() {
-            let ids = [];
-            if (this.editedItem.incident_relations) {
-                ids = ids.concat(this.editedItem.incident_relations.map(x => x.incident.id))
-            }
-            return ids;
-        },
-        searchBg() {
-            for (const s of this.search) {
-                let props = Object.values(s);
-                for (const v of props) {
-                    if (v) {
-                        return 'yellow lighten-5';
+            //events
+            editedEventIndex: -1,
+            editedEvent: {
+                title: ""
+            },
+            defaultEvent: {
+                title: "",
+                    from_date: '',
+                        to_date: ''
+            },
+            bulletin: { },
+            bulletinLoader: false
+        }),
+        computed: {
+            statusForbidsAssignment() {
+                if (this.statusDisabled) {
+                    return true;
+                }
+                statusesPreventingAssignment = ["Machine Created", "Human Created"];
+                assignmentDisabled = statusesPreventingAssignment.includes(this.editedItem.status);
+                return assignmentDisabled;
+            },
+            statusRequiresAssignment() {
+                statusesRequiringAssignment = ["Assigned", "Second Peer Review", "Peer Review Assigned"];
+                return statusesRequiringAssignment.includes(this.editedItem.status);
+            },
+            compLocations() {
+                return aggregateBulletinLocations(this.editedItem);
+            },
+            exBulletins() {
+                let ids = [this.editedItem.id];
+                if (this.editedItem.bulletin_relations) {
+                    ids = ids.concat(this.editedItem.bulletin_relations.map(x => x.bulletin.id))
+                }
+                return ids;
+            },
+            exActors() {
+                let ids = [];
+                if (this.editedItem.actor_relations) {
+                    ids = ids.concat(this.editedItem.actor_relations.map(x => x.actor.id))
+                }
+                return ids;
+            },
+            exIncidents() {
+                let ids = [];
+                if (this.editedItem.incident_relations) {
+                    ids = ids.concat(this.editedItem.incident_relations.map(x => x.incident.id))
+                }
+                return ids;
+            },
+            searchBg() {
+                for (const s of this.search) {
+                    let props = Object.values(s);
+                    for (const v of props) {
+                        if (v) {
+                            return 'yellow lighten-5';
+                        }
                     }
                 }
+                return ''
+            },
+            formTitle() {
+                return this.editedItem.id ? this.translations.editBulletin_ : this.translations.newBulletin_;
+            },
+        },
+        watch: {
+            bulletinDrawer: function(val) {
+                if (val == false) {
+                    if (this.$route.path != '/admin/primary-records/') this.$router.push('/admin/primary-records/')
+                }
+            },
+            selected: function(val) {
+                this.bulkIcons = val.length ? true : false;
+            },
+            source_alt: function(val) {
+                if (val) {
+                    this.editedItem.source_link = 'NA';
+                    this.source_disabled = true;
+                } else {
+                    //this.editedItem.source_link = '';
+                    this.source_disabled = false;
+                }
+            },
+            eventDialog(val) {
+                val || this.closeEvent();
+            },
+            mediaDialog(val) {
+                val || this.closeMedia();
+            },
+            options: {
+                handler: "refresh"
             }
-            return ''
         },
-        formTitle() {
-            return this.editedItem.id ? this.translations.editBulletin_ : this.translations.newBulletin_;
-        },
-    },
-    watch: {
-        bulletinDrawer: function(val) {
-            if (val == false) {
-                if (this.$route.path != '/admin/primary-records/') this.$router.push('/admin/primary-records/')
+        mounted: function() {
+            this.statusDisabled = !this.has_role(this.currentUser, 'Admin')
+            // populate roles for advanced search for admins
+            {% if current_user.has_role('Admin') %}
+            axios.get('/admin/api/roles/').then(res => {
+                this.roles = res.data.items;
+            }).catch(e => {
+                this.roles = [];
+                console.error(e.message);
+            });
+            {% endif %}
+            // display confirmation alert if edit dialog is open.
+            let self = this;
+            window.addEventListener("beforeunload", function (e) {
+                if (self.dialog) {
+                    var confirmationMessage = 'It looks like you have been editing something. ' + 'If you leave before saving, your changes will be lost.';
+                    (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+                    return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+                }
+            });
+            if (this.$route.params.id) {
+                this.showBulletin(this.$route.params.id);
             }
-        },
-        selected: function(val) {
-            this.bulkIcons = val.length ? true : false;
-        },
-        source_alt: function(val) {
-            if (val) {
-                this.editedItem.source_link = 'NA';
-                this.source_disabled = true;
-            } else {
-                //this.editedItem.source_link = '';
-                this.source_disabled = false;
-            }
-        },
-        eventDialog(val) {
-            val || this.closeEvent();
-        },
-        mediaDialog(val) {
-            val || this.closeMedia();
-        },
-        options: {
-            handler: "refresh"
-        }
-    },
-    mounted: function() {
-        this.statusDisabled = !this.has_role(this.currentUser, 'Admin')
-        // populate roles for advanced search for admins
-        {% if current_user.has_role('Admin') %}
-        axios.get('/admin/api/roles/').then(res => {
-            this.roles = res.data.items;
-        }).catch(e => {
-            this.roles = [];
-            console.error(e.message);
-        });
-        {% endif %}
-        // display confirmation alert if edit dialog is open.
-        let self = this;
-        window.addEventListener("beforeunload", function (e) {
-            if (self.dialog) {
-                var confirmationMessage = 'It looks like you have been editing something. ' + 'If you leave before saving, your changes will be lost.';
-                (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-                return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
-            }
-        });
-        if (this.$route.params.id) {
-            this.showBulletin(this.$route.params.id);
-        }
-        if (this.$route.query.reltob) {
-            this.filter_related_to_bulletin(this.$route.query.reltob);
-        }
-        if (this.$route.query.reltoa) {
-            this.filter_related_to_actor(this.$route.query.reltoa);
-        }
-        if (this.$route.query.reltoi) {
-            this.filter_related_to_incident(this.$route.query.reltoi);
-        }
-        this.$router.afterEach((to, from, next) => {
             if (this.$route.query.reltob) {
                 this.filter_related_to_bulletin(this.$route.query.reltob);
             }
@@ -611,14 +599,24 @@
             if (this.$route.query.reltoi) {
                 this.filter_related_to_incident(this.$route.query.reltoi);
             }
-            if (this.$route.params.id) {
-                this.showBulletin(this.$route.params.id);
-            } else {
-                this.bulletinDrawer = false;
-            }
-        })
-    },
-    methods: {
+            this.$router.afterEach((to, from, next) => {
+                if (this.$route.query.reltob) {
+                    this.filter_related_to_bulletin(this.$route.query.reltob);
+                }
+                if (this.$route.query.reltoa) {
+                    this.filter_related_to_actor(this.$route.query.reltoa);
+                }
+                if (this.$route.query.reltoi) {
+                    this.filter_related_to_incident(this.$route.query.reltoi);
+                }
+                if (this.$route.params.id) {
+                    this.showBulletin(this.$route.params.id);
+                } else {
+                    this.bulletinDrawer = false;
+                }
+            })
+        },
+        methods: {
         assignItemByUserId(userId) {
             this.editedItem.assigned_to = this.users.find(x => x.id == userId);
         },
@@ -799,6 +797,7 @@
                 this.loading = false;
                 this.itemsLength = response.data.total;
                 this.items = response.data.items;
+                console.log(this.items)
                 this.resultsChip = true;
             });
         },
@@ -1096,7 +1095,7 @@
         },
         deleteItem(item) {
             const index = this.items.indexOf(item);
-            const cfm = confirm("Are you sure you want to delete this item?") && this.items.splice(index, 1);
+            const cfm = confirm("Are you sure you want to archive this item?") && this.items.splice(index, 1);
             if (cfm) {
                 axios.delete(`/admin/api/bulletin/${item.id}`).then(response => {
                     this.showSnack(response.data);

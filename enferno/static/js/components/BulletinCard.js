@@ -313,8 +313,8 @@ Vue.component("bulletin-card", {
             </v-btn>
 
             <v-btn v-if="deleteAllowed()" class="ml-2 red darken-3" @click="deleteBulletin" small outlined>
-              <v-icon color="white" left>mdi-delete-sweep</v-icon>
-              <span class="white--text">{{ i18n.delete_ }}</span>
+              <v-icon color="white" left>mdi-archive</v-icon>
+              <span class="white--text">{{ i18n.archive_  }}</span>
             </v-btn>
 
           </v-card-text>

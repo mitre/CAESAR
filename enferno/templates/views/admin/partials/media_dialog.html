@@ -1,33 +1,33 @@
 <v-dialog v-model="mediaDialog" max-width="500px">
     <template v-slot:activator="{ on }">
-        <v-card outlined>
-            <v-card-title class="handle">
-                <v-icon left>mdi-folder-multiple-image</v-icon>
-                {% if data_type == 'actor' %}
-                {{ _("Photos or Videos of Actor") }}
-                {% else %}
-                {{ _("Upload Data File") }}
-                {% endif %}
-                <v-spacer></v-spacer>
-                <v-btn class="mx-2 white--text" x-small fab dark depressed color="accent lighten-2" @click="addMedia">
-                    <v-icon dark>mdi-plus-circle</v-icon></v-btn>
-            </v-card-title>
-    <!--  Grid of Media Items -->
-            <v-card-text id="medias">
-                <v-layout wrap>
-                    <v-flex class="pa-2" md3 v-for="(item,index) in editedItem.medias" :key="index">
-                        <media-card conf="simple" @thumb-click="viewImage" @video-click="viewPlayer" :media="item" :key="index+editedItem.medias.length">
-                            <template v-slot:actions>
-                                <v-spacer></v-spacer>
-                                <v-btn v-if="!item.main" @click="removeMedia($event,index)" x-small depressed fab outlined color="red lighten-1">
-                                    <v-icon>mdi-delete-sweep</v-icon>
-                                </v-btn>
-                            </template>
-                        </media-card>
-                    </v-flex>
-                </v-layout>
-            </v-card-text>
-        </v-card>
+        <div>
+            <span class="anchor" id="media"></span>
+            <h2 class="form-section-header">{{ _("Media") }}</h2>
+            <div>
+                <v-btn @click="addMedia" color="primary" small><v-icon dense>mdi-plus</v-icon></v-btn>
+                <span class="ml-2 font-italic">
+                    {% if data_type == 'actor' %}
+                    {{ _("Photos or Videos of Actor") }}
+                    {% else %}
+                    {{ _("Upload Data File") }}
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        <div class="mt-2">
+            <v-layout wrap>
+                <v-flex class="pa-2" md3 v-for="(item,index) in editedItem.medias" :key="index">
+                    <media-card conf="simple" @thumb-click="viewImage" @video-click="viewPlayer" :media="item" :key="index+editedItem.medias.length">
+                        <template v-slot:actions>
+                            <v-spacer></v-spacer>
+                            <v-btn v-if="!item.main" @click="removeMedia($event,index)" x-small depressed fab outlined color="red lighten-1">
+                                <v-icon>mdi-delete-sweep</v-icon>
+                            </v-btn>
+                        </template>
+                    </media-card>
+                </v-flex>
+            </v-layout>
+        </div>
     </template>
     <v-card>
         <v-card-title>
@@ -59,7 +59,6 @@
                     </v-col>
                     <v-col cols="12" md="6">
                         <v-card class="d-flex" flat>
-<!-- category -->
                             <search-field label="Media Category" api="/admin/api/mediacategories" v-model="editedMedia.category" item-text="title" item-value="id" :return-object="false">
                             </search-field>
                         </v-card>
@@ -77,7 +76,7 @@
         </v-card-text>
         <v-card-actions class="pa-5">
             <v-spacer></v-spacer>
-            <v-btn color="grey lighten-1" text @click="closeMedia">Cancel</v-btn>
+            <v-btn color="grey" text @click="closeMedia">Cancel</v-btn>
             <v-btn color="primary"  :disabled="!enableAttach"  @click="attachMedia">Attach Media
             </v-btn>
         </v-card-actions>
