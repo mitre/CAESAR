@@ -29,19 +29,14 @@
                                                 <v-list-item-title>{{ _("General") }}</v-list-item-title>
                                             </v-list-item-content>
                                         </v-list-item>
-                                        <!-- <v-list-item>
-                                            <v-list-item-content @click="anchorScroll('tags')">
-                                                <v-list-item-title>{{ _("Tags") }}</v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item> -->
-                                        <v-list-item>
-                                            <v-list-item-content @click="anchorScroll('events')">
-                                                <v-list-item-title>{{ _("Events") }}</v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item>
                                         <v-list-item>
                                             <v-list-item-content @click="anchorScroll('media')">
                                                 <v-list-item-title>{{ _("Media") }}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                        <v-list-item>
+                                            <v-list-item-content @click="anchorScroll('events')">
+                                                <v-list-item-title>{{ _("Events") }}</v-list-item-title>
                                             </v-list-item-content>
                                         </v-list-item>
                                         <v-list-item>
@@ -50,8 +45,8 @@
                                             </v-list-item-content>
                                         </v-list-item>
                                         <v-list-item>
-                                            <v-list-item-content @click="anchorScroll('data-details')">
-                                                <v-list-item-title>{{ _("Data Details") }}</v-list-item-title>
+                                            <v-list-item-content @click="anchorScroll('administrative-information')">
+                                                <v-list-item-title>{{ _("Administrative Information") }}</v-list-item-title>
                                             </v-list-item-content>
                                         </v-list-item>
                                     </v-list-item-group>
@@ -62,7 +57,7 @@
                                 <span class="anchor" id="general"></span>
                                 <h2 class="form-section-header">{{ _("General") }}</h2>
                                 <v-row>
-                                    <v-col cols="12" md="4">
+                                    <v-col cols="12" md="6">
                                         <validation-provider name="Title" rules="" v-slot="{ errors }">
                                             <v-card class="d-flex" flat>
                                                 <v-tooltip top max-width=500 open-delay=1500>
@@ -98,7 +93,7 @@
                                             <span class="red--text">${errors[0]}</span>
                                         </validation-provider>
                                     </v-col>
-                                    <v-col cols="12" md="4">
+                                    <v-col cols="12" md="6">
                                         <v-card class="d-flex" flat>
                                             <v-tooltip top max-width=500 open-delay=1500>
                                                 <template v-slot:activator="{ on }">
@@ -118,14 +113,9 @@
                                             </v-btn>
                                         </v-card>
                                     </v-col>
-                                    <v-col cols="12" md="4">
-                                        <v-combobox small-chips multiple v-model="editedItem.ref"
-                                            label="{{ _('Ref') }}">
-                                        </v-combobox>
-                                    </v-col>
                                 </v-row>
                                 <v-row>
-                                    <v-col cols="12" md="12">
+                                    <v-col cols="12" md="6">
                                         <v-tooltip top max-width=500 open-delay=1500>
                                             <template v-slot:activator="{ on }">
                                                 <div v-on="on">
@@ -140,6 +130,40 @@
                                                 }}</span>
                                         </v-tooltip>
                                     </v-col>
+                                    <v-col cols="12" md="6">
+                                        <validation-provider name="Source Link" :rules="source_disabled? 'required': 'required|url'" v-slot="{errors}">
+                                            <v-tooltip top max-width=500 open-delay=1500>
+                                                <template v-slot:activator="{ on }">
+                                                    <div v-on="on">
+                                                        <v-text-field :disabled="source_disabled" v-model="editedItem.source_link"
+                                                            label="{{ _('Source Link') }}">
+                                                            <template #label>
+                                                                {{ _("Source Link") }}
+                                                            </template>
+                                                        </v-text-field>
+                                                    </div>
+                                                </template>
+                                                <span>
+                                                    {{ _('The URL to the original source from which the information
+                                                    was obtained. \'Private\' slider can be used if
+                                                    the URL is not reachable anymore. The field validates the entry
+                                                    and will not accept an invalid URL.')}}
+                                                </span>
+                                            </v-tooltip>
+                                            <span class="red--text">${errors[0]}</span>
+                                        </validation-provider>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="12" md="6">
+                                        <pop-date-time-field time-label="{{ _('Time Published (UTC)') }}" label="{{ _('Date Published') }}"
+                                            v-model="editedItem.publish_date">
+                                        </pop-date-time-field>
+                                    </v-col>
+                                    <v-col cols="12" md="6">
+                                        <v-select label="Credibility" :items="credibilityItems" item-text="label" item-value="value"
+                                            v-model="editedItem.credibility"></v-select>
+                                    </v-col>
                                 </v-row>
                                 <v-row>
                                     <v-col cols="12">
@@ -147,8 +171,8 @@
                                             <h3>{{ _("Description") }}</h3>
                                             <v-tooltip top max-width=500 open-delay=500>
                                                 <template v-slot:activator="{ on }">
-                                                    <div v-on="on" class="ml-2 mb-1">
-                                                        <v-icon>mdi-information-outline</v-icon>
+                                                    <div v-on="on" class="ml-2 mb-2">
+                                                        <v-icon small>mdi-information-outline</v-icon>
                                                 </template>
                                                 <span>
                                                     {{ _('The Primary Record description should describe the nature of
@@ -162,55 +186,27 @@
                                             v-model="editedItem.description"></tinymce-editor>
                                     </v-col>
                                 </v-row>
-                                <!-- Tags -->
-                                <!-- <span class="anchor" id="tags"></span>
-                                <h2 class="form-section-header">{{ _("Tags") }}</h2>
+
+                                <!-- media  -->
                                 <v-row>
-                                    <v-col cols="12" md="12">
-                                        <v-tooltip top max-width=500 open-delay=1500>
-                                            <template v-slot:activator="{ on }">
-                                                <div v-on="on">
-                                                    <search-field v-model="editedItem.labels" api="/admin/api/labels/"
-                                                        :query-params="{ typ: 'for_bulletin' }" item-text="title"
-                                                        item-value="id" :multiple="true" label="{{ _('Labels') }}">
-                                                    </search-field>
-                                                </div>
-                                            </template>
-                                            <span>
-                                                {{ _('Labels allow for easy search and filter of the database. Labels
-                                                can be created by an admin to tag the content or metadata of an item.
-                                                Additionally, labels can be used for references or workflow control.')}}
-                                            </span>
-                                        </v-tooltip>
+                                    <v-col>
+                                        {% include 'views/admin/partials/media_dialog.html' %}
                                     </v-col>
                                 </v-row>
+
+                                <!-- events  -->
+                                <!-- <span class="anchor" id="events"></span>
+                                <h2 class="form-section-header">{{ _("Events") }}</h2> -->
+                                
                                 <v-row>
-                                    <v-col cols="12" md="12">
-                                        <v-tooltip top max-width=500 open-delay=1500>
-                                            <template v-slot:activator="{ on }">
-                                                <div v-on="on">
-                                                    <search-field v-model="editedItem.verLabels"
-                                                        api="/admin/api/labels/"
-                                                        :query-params="{ fltr: 'verified', typ: 'for_bulletin' }"
-                                                        item-text="title" item-value="id" :multiple="true" label="{{ _('Verified Labels') }}">
-                                                    </search-field>
-                                                </div>
-                                            </template>
-                                            <span>
-                                                {{ _('The Verified labels are a set of neutral labels added by the data
-                                                analyst based on observation and evidence found in the content.
-                                                Allegations made by the source or person(s) in the content must not
-                                                influence adding or not adding these labels. SJAC utilises this list of
-                                                Labels to tag the reliability, priority, metadata or the verified
-                                                content. The latter is utilized mainly in items with verifiable evidence
-                                                like video Primary Records.') }}
-                                            </span>
-                                        </v-tooltip>
+                                    <v-col col="12">
+                                        {% include 'views/admin/partials/event_dialog.html' %}
                                     </v-col>
-                                </v-row> -->
-                                <!-- locations -->
-                                <span class="anchor" id="events"></span>
-                                <h2 class="form-section-header">{{ _("Events") }}</h2>
+                                </v-row>
+                                
+                                <!-- events  -->
+                                <span class="anchor" id="locations-of-events"></span>
+                                <h3 class="mt-4 mb-2">{{ _("Locations of Events") }}</h3>
                                 <!-- <v-row>
                                     <v-col cols="12" md="12">
                                         <v-tooltip top max-width=500 open-delay=1500>
@@ -254,20 +250,56 @@
                                         </v-tooltip>
                                     </v-col>
                                 </v-row> -->
-                                <!-- events  -->
-                                <v-row>
-                                    <v-col col="12">
-                                        {% include 'views/admin/partials/event_dialog.html' %}
-                                    </v-col>
-                                </v-row>
-                                <!-- media  -->
-                                <span class="anchor" id="media"></span>
-                                <h2 class="form-section-header">{{ _("Media") }}</h2>
-                                <v-row>
-                                    <v-col>
-                                        {% include 'views/admin/partials/media_dialog.html' %}
-                                    </v-col>
-                                </v-row>
+                                
+                                
+                                
+                                <!-- Tags -->
+                                <!-- <span class="anchor" id="tags"></span>
+                                        <h2 class="form-section-header">{{ _("Tags") }}</h2>
+                                        <v-row>
+                                            <v-col cols="12" md="12">
+                                                <v-tooltip top max-width=500 open-delay=1500>
+                                                    <template v-slot:activator="{ on }">
+                                                        <div v-on="on">
+                                                            <search-field v-model="editedItem.labels" api="/admin/api/labels/"
+                                                                :query-params="{ typ: 'for_bulletin' }" item-text="title"
+                                                                item-value="id" :multiple="true" label="{{ _('Labels') }}">
+                                                            </search-field>
+                                                        </div>
+                                                    </template>
+                                                    <span>
+                                                        {{ _('Labels allow for easy search and filter of the database. Labels
+                                                        can be created by an admin to tag the content or metadata of an item.
+                                                        Additionally, labels can be used for references or workflow control.')}}
+                                                    </span>
+                                                </v-tooltip>
+                                            </v-col>
+                                        </v-row>
+                                        <v-row>
+                                            <v-col cols="12" md="12">
+                                                <v-tooltip top max-width=500 open-delay=1500>
+                                                    <template v-slot:activator="{ on }">
+                                                        <div v-on="on">
+                                                            <search-field v-model="editedItem.verLabels"
+                                                                api="/admin/api/labels/"
+                                                                :query-params="{ fltr: 'verified', typ: 'for_bulletin' }"
+                                                                item-text="title" item-value="id" :multiple="true" label="{{ _('Verified Labels') }}">
+                                                            </search-field>
+                                                        </div>
+                                                    </template>
+                                                    <span>
+                                                        {{ _('The Verified labels are a set of neutral labels added by the data
+                                                        analyst based on observation and evidence found in the content.
+                                                        Allegations made by the source or person(s) in the content must not
+                                                        influence adding or not adding these labels. SJAC utilises this list of
+                                                        Labels to tag the reliability, priority, metadata or the verified
+                                                        content. The latter is utilized mainly in items with verifiable evidence
+                                                        like video Primary Records.') }}
+                                                    </span>
+                                                </v-tooltip>
+                                            </v-col>
+                                        </v-row> -->
+                                
                                 <!-- Relationships -->
                                 <span class="anchor" id="data-relationships"></span>
                                 <h2 class="form-section-header">{{ _("Data Relationships") }}</h2>
@@ -281,7 +313,7 @@
                                                 <v-spacer></v-spacer>
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
-                                                        <v-text-field v-on="on" class="mx-5" v-model="relateActorTerm"
+                                                        <v-text-field v-on="on" class="mx-5 search-relate" v-model="relateActorTerm"
                                                             label="{{ _('Search & Relate Actors') }}"
                                                             @keydown.enter="searchRelatedActors"
                                                             @click:append="searchRelatedActors"
@@ -358,7 +390,7 @@
                                                 <v-spacer></v-spacer>
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
-                                                        <v-text-field v-on="on" class="mx-5"
+                                                        <v-text-field v-on="on" class="mx-5 search-relate"
                                                             v-model="relateBulletinTerm"
                                                             label="{{ _('Search & Relate Primary Records') }}"
                                                             @keydown.enter="searchRelatedBulletins"
@@ -437,7 +469,7 @@
                                                 <v-spacer></v-spacer>
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
-                                                        <v-text-field v-on="on" class="mx-5"
+                                                        <v-text-field v-on="on" class="mx-5 search-relate"
                                                             v-model="relateIncidentTerm"
                                                             label="{{ _('Search & Relate Investigations') }}"
                                                             @keydown.enter="searchRelatedIncidents"
@@ -510,76 +542,71 @@
                                         </v-card>
                                     </v-col>
                                 </v-row>
-                                <!-- Details -->
-                                <span class="anchor" id="data-details"></span>
-                                <h2 class="form-section-header">{{ _("Data Details") }}</h2>
+
+                                <!-- Administrative Information -->
+                                <span class="anchor" id="administrative-information"></span>
+                                <h2 class="form-section-header">{{ _("Administrative Information") }}</h2>
                                 <v-row>
-                                    <v-col cols="12" md="9">
-                                        <validation-provider name="Source Link"
-                                            :rules="source_disabled? 'required': 'required|url'" v-slot="{errors}">
-                                            <v-tooltip top max-width=500 open-delay=1500>
-                                                <template v-slot:activator="{ on }">
-                                                    <div v-on="on">
-                                                        <v-text-field :disabled="source_disabled"
-                                                            v-model="editedItem.source_link"
-                                                            label="{{ _('Source Link') }}">
-                                                            <template #label>
-                                                                {{ _("Source Link") }}
-                                                            </template>
-                                                        </v-text-field>
-                                                    </div>
-                                                </template>
-                                                <span>
-                                                    {{ _('The URL to the original source from which the information
-                                                    was obtained. \'Private\' slider can be used if
-                                                    the URL is not reachable anymore. The field validates the entry
-                                                    and will not accept an invalid URL.')}}
-                                                </span>
-                                            </v-tooltip>
-                                            <span class="red--text">${errors[0]}</span>
-                                        </validation-provider>
-                                        <!-- <v-checkbox small class="mx-2" label="{{ _('Not Available') }}"
-                                                v-model="source_alt" small>
-                                            </v-checkbox> -->
-                                    </v-col>
-                                    <v-col cols="12" md="3">
-                                        <v-switch small label="{{ _('Sensitive Data') }}"
-                                            v-model="editedItem.sensitive_data" small>
-                                        </v-switch>
-                                    </v-col>
-                                    <v-col cols="12" md="9">
-                                        <v-sheet class="d-flex align-center mb-4">
-                                            <v-tooltip top max-width=500 open-delay=1500>
-                                                <template v-slot:activator="{ on }">
-                                                    <v-text-field v-on="on" v-model="editedItem.discovery_file_name"
-                                                        label="{{ _('Discovery File name') }}"></v-text-field>
-                                                </template>
-                                                <span>{{ _('Name of the website capture tool (e.g., Hunchly or
-                                                    WebRecorder) file from which data item was extracted') }}</span>
-                                            </v-tooltip>
-                                        </v-sheet>
-                                    </v-col>
-                                    <v-col cols="12" md="3">
-                                        <v-select label="Credibility" 
-                                            :items="credibilityItems" 
-                                            item-text="label" 
-                                            item-value="value" 
-                                            v-model="editedItem.credibility"
-                                        ></v-select>
-                                    </v-col>
-                                    <v-col cols="12" md="6">
-                                        <pop-date-time-field time-label="{{ _('Time (UTC)') }}"
-                                            label="{{ _('Publish  Date') }}" v-model="editedItem.publish_date">
-                                        </pop-date-time-field>
-                                    </v-col>
-                                    <v-col cols="12" md="6">
-                                        <pop-date-time-field time-label="{{ _('Time (UTC)') }}"
-                                            label="{{ _('Date Created') }}" v-model="editedItem.documentation_date">
+                                    <v-col cols="12">
+                                        <pop-date-time-field time-label="{{ _('Time Created  (UTC)') }}" label="{{ _('Date Created') }}"
+                                            v-model="editedItem.documentation_date">
                                         </pop-date-time-field>
                                     </v-col>
                                 </v-row>
                                 <v-row>
+                                    <v-col cols="12">
+                                        <v-tooltip top max-width=500 open-delay=1500>
+                                            <template v-slot:activator="{ on }">
+                                                <v-text-field v-on="on" v-model="editedItem.discovery_file_name"
+                                                    label="{{ _('Discovery File name') }}"></v-text-field>
+                                            </template>
+                                            <span>{{ _('Name of the website capture tool (e.g., Hunchly or
+                                                WebRecorder) file from which data item was extracted') }}</span>
+                                        </v-tooltip>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
                                     <v-col cols="12" md="8">
+                                        <v-combobox small-chips multiple v-model="editedItem.ref" label="{{ _('Investigation Ref') }}">
+                                        </v-combobox>
+                                    </v-col>
+                                    <v-col cols="12" md="4">
+                                        <v-switch small class="mx-2" label="{{ _('Sensitive Data') }}"
+                                            v-model="editedItem.sensitive_data" small>
+                                        </v-switch>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="12" md="4">
+                                        <v-select :disabled="statusDisabled" item-text="tr" item-value="en" :items="statusItems" v-model="editedItem.status"
+                                            label="{{ _('Status') }}">
+                                        </v-select>
+                                    </v-col>
+                                    <v-col cols="12" md="4">
+                                        <v-autocomplete v-if="statusForbidsAssignment" label="{{ _('Assigned To') }}" :disabled="true"
+                                            prepend-inner-icon="mdi-magnify" item-color="secondary"></v-autocomplete>
+                                        <validation-provider v-else-if="statusRequiresAssignment" name="Assigned To" rules="required" v-slot="{ errors }">
+                                            <v-autocomplete :value="editedItem.assigned_to" @input="assignItemByUserId" label="{{ _('Assigned To') }}"
+                                                :items="users" item-text="name" item-value="id" :disabled="false" prepend-inner-icon="mdi-magnify"
+                                                hide-no-data no-filter small-chips clearable :return-object="false" item-color="secondary"></v-autocomplete>
+                                            <span class="red--text">${errors[0]}</span>
+                                        </validation-provider>
+                                    </v-col>
+                                    <v-col cols="12" md="4">
+                                        <v-autocomplete v-else :value="editedItem.assigned_to" @input="assignItemByUserId" label="{{ _('Assigned To') }}"
+                                            :items="users" item-text="name" item-value="id" :disabled="false" prepend-inner-icon="mdi-magnify" hide-no-data
+                                            no-filter small-chips clearable :return-object="false" item-color="secondary"></v-autocomplete>
+                                        <search-field v-if="has_role(currentUser, 'Mod') || has_role(currentUser, 'DA')"
+                                            api="/admin/api/roles/?custom=true&my_roles_only=true" item-text="name" item-value="id" :multiple="true"
+                                            label="{{ _('Access Roles') }}" v-model="editedItem.roles">
+                                        </search-field>
+                                        <search-field v-else-if="has_role(currentUser, 'Admin')" api="/admin/api/roles/?custom=true" item-text="name"
+                                            item-value="id" :multiple="true" label="{{ _('Access Groups') }}" v-model="editedItem.roles">
+                                        </search-field>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="12">
                                         <validation-provider name="Comments" rules="required" v-slot="{ errors }">
                                             <v-textarea outlined rows="7" v-model="editedItem.comments"
                                                 hint="{{ _('Every time the Primary Record is updated, the user must provide a comment about the nature of the update. These comments are saved as part of the Primary Record history.')}}"
@@ -592,38 +619,8 @@
                                             <span class="red--text">${errors[0]}</span>
                                         </validation-provider>
                                     </v-col>
-                                    <v-col cols="12" md="4">
-                                        <v-select :disabled="statusDisabled" item-text="tr" item-value="en"
-                                            :items="statusItems" v-model="editedItem.status" label="{{ _('Status') }}">
-                                        </v-select>
-                                        <v-autocomplete v-if="statusForbidsAssignment" label="{{ _('Assigned To') }}"
-                                            :disabled="true" prepend-inner-icon="mdi-magnify"
-                                            item-color="secondary"></v-autocomplete>
-                                        <validation-provider v-else-if="statusRequiresAssignment" name="Assigned To"
-                                            rules="required" v-slot="{ errors }">
-                                            <v-autocomplete :value="editedItem.assigned_to" @input="assignItemByUserId"
-                                                label="{{ _('Assigned To') }}" :items="users" item-text="name"
-                                                item-value="id" :disabled="false" prepend-inner-icon="mdi-magnify"
-                                                hide-no-data no-filter small-chips clearable :return-object="false"
-                                                item-color="secondary"></v-autocomplete>
-                                            <span class="red--text">${errors[0]}</span>
-                                        </validation-provider>
-                                        <v-autocomplete v-else :value="editedItem.assigned_to"
-                                            @input="assignItemByUserId" label="{{ _('Assigned To') }}" :items="users"
-                                            item-text="name" item-value="id" :disabled="false"
-                                            prepend-inner-icon="mdi-magnify" hide-no-data no-filter small-chips
-                                            clearable :return-object="false" item-color="secondary"></v-autocomplete>
-                                        <search-field v-if="has_role(currentUser, 'Mod') || has_role(currentUser, 'DA')"
-                                            api="/admin/api/roles/?custom=true&my_roles_only=true" item-text="name"
-                                            item-value="id" :multiple="true" label="{{ _('Access Roles') }}"
-                                            v-model="editedItem.roles">
-                                        </search-field>
-                                        <search-field v-else-if="has_role(currentUser, 'Admin')"
-                                            api="/admin/api/roles/?custom=true" item-text="name" item-value="id"
-                                            :multiple="true" label="{{ _('Access Roles') }}" v-model="editedItem.roles">
-                                        </search-field>
-                                    </v-col>
                                 </v-row>
+                                
                                 <v-row v-if="editedItem.review">
                                     <v-col cols="12" md="12">
                                         <v-card color="light-green lighten-5" elevation="0">
