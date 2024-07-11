@@ -2,7 +2,7 @@
     <v-col cols="12" class="text-center p-1">
         <span>
             <small class="caption d-flex justify-center align-center">
-                <a href="https://mitre.org/" class="text-decoration-none pr-1" target="_blank">The MITRE Corporation</a>
+                <span id="caesar-version"></span> <span class="px-3">|</span> <a href="https://mitre.org/" class="text-decoration-none pr-1" target="_blank">The MITRE Corporation</a>
                 &copy; 2024 {{ _("All rights reserved.") }}
                 <span class="px-3">|</span>
                 Powered by
@@ -26,3 +26,14 @@
         </span>
     </v-col>
 </v-footer>
+
+<script>
+    function getCaesarVersion() {
+      return fetch('/admin/api/info/')
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('caesar-version').innerText = `v${data.version}`;
+        });
+    }
+    getCaesarVersion();
+</script>
