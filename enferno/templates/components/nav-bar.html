@@ -4,7 +4,7 @@
         <a href="/" class="toolbar-title">
             <img src="/static/img/co-logo.png" height="40" class="white-img" contain>
             </img>
-            <span style="margin-top: 7px;">Conflict Observatory Bayanat</span>
+            <span style="margin-top: 7px;">Conflict Observatory Bayanat <span id="caesar-version"> </span></span>
         </a>
     </v-toolbar-title>
     <v-spacer></v-spacer>
@@ -94,5 +94,14 @@
             }, 1000)
         })
     }
+
+    function getCaesarVersion() {
+      return fetch('/admin/api/info/')
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('caesar-version').innerText = `V${data.version}`;
+        });
+    }
+    getCaesarVersion();
 </script>
 <style></style>

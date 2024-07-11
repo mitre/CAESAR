@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import pandas as pd
+import os
 from flask import Flask, render_template, current_app, request
 from flask_security import current_user
 from flask_login import user_logged_in, user_logged_out
@@ -83,6 +84,7 @@ def create_app(config_object=Config):
     register_shellcontext(app)
     register_commands(app)
     register_signals(app)
+    register_version(app)
     return app
 
 def register_extensions(app):
@@ -210,3 +212,11 @@ def register_openapi_docs(app):
 
     app.register_blueprint(swaggerui_blueprint)
     app.config['SPEC_FORMAT'] = 'yaml'
+
+def register_version(app):
+    try:
+        version_file_path = os.path.abspath('__version__')
+        with open(version_file_path) as file:
+            app.config['CAESAR_VERSION'] = file.read()
+    except FileNotFoundError:
+        app.config['CAESAR_VERSION'] = '1.0.0'

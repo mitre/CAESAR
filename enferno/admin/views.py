@@ -3752,6 +3752,18 @@ def api_config_write():
         return 'Unable to Save Configuration', 417
 
 
+@admin.get('/api/info/')
+def api_info():
+    """
+    :return: serialized app information
+    """
+    response = {
+        'version': current_app.config['CAESAR_VERSION']
+    }
+    return Response(json.dumps(response),
+                    content_type='application/json'), 200
+
+
 @admin.app_template_filter('to_config')
 def to_config(items):
     output = [
