@@ -13,8 +13,7 @@
                         </div>
                         <v-card>
                             <v-toolbar color="primary" dark text>
-                                <v-toolbar-title>Login <span v-if="showAdminPanel">as admin
-                                        user</span></v-toolbar-title>
+                                <v-toolbar-title>Login</v-toolbar-title>
                                 <v-spacer></v-spacer>
                             </v-toolbar>
                             <v-card-text>
@@ -66,9 +65,9 @@
                             <div class="v-card__text" v-if="oauthEnable">
                                 <hr>
                                 <div class="login-block help">
-                                    <h3 v-if="!showAdminPanel">Admin user? Click for <button @click="showAdmin()">admin
-                                            login</button></h3>
-                                    <h3 v-else>Not an admin user? Click for <button @click="hideAdmin()"> Single
+                                    <h3 v-if="!showAdminPanel">Want to use username and password? <button @click="showAdmin()">
+                                        Login here</button></h3>
+                                    <h3 v-else>Click for <button @click="hideAdmin()"> Single
                                             Sign-on (SSO)</button></h3>
                                 </div>
                             </div>
