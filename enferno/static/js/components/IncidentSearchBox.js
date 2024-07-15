@@ -113,6 +113,21 @@ Vue.component("incident-search-box", {
               </v-col>
           </v-row>
         
+          <v-row v-if="extraFilters">
+            <v-col cols="12">
+              <span class="caption">{{ i18n.createdBy_ }}</span>
+              <v-chip-group
+                  column
+                  multiple
+                  v-model="q.created_by"
+              >
+                <v-chip :value="user.id" label small v-for="user in users" filter
+                        outlined>{{ user.name }}
+                </v-chip>
+              </v-chip-group>
+            </v-col>
+          </v-row>
+
           <v-row>
           <v-col md="12">
             <v-alert text color="grey lighten-1" class="pa-5 my-3">

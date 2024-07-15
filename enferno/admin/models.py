@@ -1642,6 +1642,11 @@ class Bulletin(db.Model, BaseMixin):
         db.DateTime, index=True
     )
 
+    created_by_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    created_by = db.relationship(
+        "User", backref="create_by_bulletins", foreign_keys=[created_by_id]
+    )
+
     status = db.Column(db.String(255))
     source_link = db.Column(db.String(255))
     
@@ -1734,6 +1739,10 @@ class Bulletin(db.Model, BaseMixin):
         # assigned to
         if "assigned_to" in json and json["assigned_to"] and "id" in json["assigned_to"]:
             self.assigned_to_id = json["assigned_to"]["id"]
+
+        # created by
+        if "created_by" in json and json["created_by"] and "id" in json["created_by"]:
+            self.created_by_id = json["created_by"]["id"]
 
         # first_peer_reviewer
         if "first_peer_reviewer" in json:
@@ -2158,9 +2167,8 @@ class Bulletin(db.Model, BaseMixin):
             "sjac_title_ar": self.sjac_title_ar or None,
             "originid": self.originid or None,
             # assigned to
-            "assigned_to": self.assigned_to.to_compact()
-            if self.assigned_to
-            else None,
+            "assigned_to": self.assigned_to.to_compact() if self.assigned_to else None,
+            "created_by": self.created_by.to_compact() if self.created_by else None,
             # first peer reviewer
             "first_peer_reviewer": self.first_peer_reviewer.to_compact()
             if self.first_peer_reviewer_id
@@ -2476,6 +2484,11 @@ class Actor(db.Model, BaseMixin):
     publish_date = db.Column(db.DateTime, index=True)
     documentation_date = db.Column(db.DateTime, index=True)
 
+    created_by_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    created_by = db.relationship(
+        "User", backref="create_by_actors", foreign_keys=[created_by_id]
+    )
+
     status = db.Column(db.String(255))
     source_link = db.Column(db.String(255))
     sensitive_data = db.Column(db.Boolean, default=False)
@@ -2612,6 +2625,10 @@ class Actor(db.Model, BaseMixin):
         # assigned to
         if "assigned_to" in json and json["assigned_to"] and "id" in json["assigned_to"]:
             self.assigned_to_id = json["assigned_to"]["id"]
+
+        # created by
+        if "created_by" in json and json["created_by"] and "id" in json["created_by"]:
+            self.created_by_id = json["created_by"]["id"]
 
         self.originid = json["originid"] if "originid" in json else None
         self.name = json["name"] if "name" in json else None
@@ -3307,9 +3324,8 @@ class Actor(db.Model, BaseMixin):
             "nationality": [country.to_dict() for country in getattr(self, 'nationalities', [])],
             "national_id_card": self.national_id_card or None,
             # assigned to
-            "assigned_to": self.assigned_to.to_compact()
-            if self.assigned_to
-            else None,
+            "assigned_to": self.assigned_to.to_compact() if self.assigned_to else None,
+            "created_by": self.created_by.to_compact() if self.created_by else None,
             # first peer reviewer
             "first_peer_reviewer": self.first_peer_reviewer.to_compact()
             if self.first_peer_reviewer
@@ -3932,6 +3948,11 @@ class Incident(db.Model, BaseMixin):
         "User", backref="assigned_to_incidents", foreign_keys=[assigned_to_id]
     )
 
+    created_by_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    created_by = db.relationship(
+        "User", backref="create_by_incidents", foreign_keys=[created_by_id]
+    )
+
     first_peer_reviewer_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     second_peer_reviewer_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
@@ -4065,6 +4086,10 @@ class Incident(db.Model, BaseMixin):
         # assigned to
         if "assigned_to" in json and json["assigned_to"] and "id" in json["assigned_to"]:
             self.assigned_to_id = json["assigned_to"]["id"]
+
+        # created by
+        if "created_by" in json and json["created_by"] and "id" in json["created_by"]:
+            self.created_by_id = json["created_by"]["id"]
 
         self.title = json["title"] if "title" in json else None
         self.title_ar = json["title_ar"] if "title_ar" in json else None
@@ -4353,9 +4378,8 @@ class Incident(db.Model, BaseMixin):
             "title_ar": self.title_ar or None,
             "description": self.description or None,
             # assigned to
-            "assigned_to": self.assigned_to.to_compact()
-            if self.assigned_to
-            else None,
+            "assigned_to": self.assigned_to.to_compact() if self.assigned_to else None,
+            "created_by": self.created_by.to_compact() if self.created_by else None,
             # first peer reviewer
             "first_peer_reviewer": self.first_peer_reviewer.to_compact()
             if self.first_peer_reviewer

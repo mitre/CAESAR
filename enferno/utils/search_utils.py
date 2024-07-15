@@ -293,6 +293,11 @@ class SearchUtils:
         if (created := q.get('created', None)):
             query.append(date_between_query(Bulletin.created_at, created))
 
+        # created by
+        created_by_id = q.get('created_by', [])
+        if (created_by_id):
+            query.append(Bulletin.created_by_id.in_(created_by_id))
+
         # modified date
         if (updated := q.get('updated', None)):
             query.append(date_between_query(Bulletin.updated_at, updated))
@@ -549,6 +554,11 @@ class SearchUtils:
         if (created := q.get('created', None)):
             query.append(date_between_query(Actor.created_at, created))
 
+        # created by
+        created_by = q.get('created_by', [])
+        if (created_by):
+            query.append(Actor.created_by_id.in_(created_by))
+
         # modified date
         if (updated := q.get('updated', None)):
             query.append(date_between_query(Actor.updated_at, updated))
@@ -787,6 +797,11 @@ class SearchUtils:
         # creation date
         if (created := q.get('created', None)):
             query.append(date_between_query(Incident.created_at, created))
+
+        # created by
+        created_by_id = q.get('created_by', [])
+        if (created_by_id):
+            query.append(Incident.created_by_id.in_(created_by_id))
 
         # modified date
         if (updated := q.get('updated', None)):

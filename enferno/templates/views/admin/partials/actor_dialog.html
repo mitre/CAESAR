@@ -1029,6 +1029,11 @@
                                         </pop-date-time-field>
                                     </v-col>
                                     <v-col cols="12" md="4">
+                                        <v-text-field v-if="editedItem.created_by" items="users" v-model="editedItem.created_by.name"
+                                            disabled label="{{ _('Created By') }}"></v-text-field>
+                                        <v-text-field v-else readonly label="{{ _('Created By') }}"></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" md="4">
                                         <v-switch style="margin-left: auto" label="{{ _('Sensitive Data') }}" v-model="editedItem.sensitive_data">
                                         </v-switch>
                                     </v-col>
