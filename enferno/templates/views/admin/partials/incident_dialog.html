@@ -91,6 +91,16 @@
                                     </v-col>
                                 </v-row>
                                 <v-row>
+                                    <v-col v-if="editedItem.created_at" cols="12" md="6">
+                                        <v-text-field
+                                            v-model="get_formatted_created_at_datetime"
+                                            label="{{ _('Date Created') }}"
+                                            prepend-icon="mdi-calendar"
+                                            disabled
+                                        />
+                                    </v-col>
+                                </v-row>
+                                <v-row>
                                     <v-col cols="12">
                                         <div class="d-flex align-center">
                                             <h3>{{ _("Description") }}</h3>
@@ -438,16 +448,6 @@
                                         <search-field v-else-if="has_role(currentUser, 'Admin')" api="/admin/api/roles/?custom=true" item-text="name"
                                             item-value="id" :multiple="true" label="{{ _('Access Groups') }}" v-model="editedItem.roles">
                                         </search-field>
-                                    </v-col>
-                                </v-row>
-                                <v-row>
-                                    <v-col v-if="editedItem.created_at" cols="12" md="6">
-                                        <v-text-field
-                                            v-model="get_formatted_created_at_datetime"
-                                            label="{{ _('Date Created') }}"
-                                            prepend-icon="mdi-calendar"
-                                            disabled
-                                        />
                                     </v-col>
                                 </v-row>
                                 <v-row>

@@ -160,6 +160,14 @@
                                             v-model="editedItem.publish_date">
                                         </pop-date-time-field>
                                     </v-col>
+                                    <v-col v-if="editedItem.created_at" cols="12" md="6">
+                                        <v-text-field
+                                            v-model="get_formatted_created_at_datetime"
+                                            label="{{ _('Date Created') }}"
+                                            prepend-icon="mdi-calendar"
+                                            disabled
+                                        />
+                                    </v-col>
                                     <v-col cols="12" md="6">
                                         <v-select label="Credibility" :items="credibilityItems" item-text="label" item-value="value"
                                             v-model="editedItem.credibility"></v-select>
@@ -548,14 +556,6 @@
                                 <span class="anchor" id="administrative-information"></span>
                                 <h2 class="form-section-header">{{ _("Administrative Information") }}</h2>
                                 <v-row>
-                                    <v-col v-if="editedItem.created_at" cols="12" md="6">
-                                        <v-text-field
-                                            v-model="get_formatted_created_at_datetime"
-                                            label="{{ _('Date Created') }}"
-                                            prepend-icon="mdi-calendar"
-                                            disabled
-                                        />
-                                    </v-col>
                                     <v-col cols="4">
                                         <v-text-field v-if="editedItem.created_by" items="users" v-model="editedItem.created_by.name"
                                             disabled label="{{ _('Created By') }}"></v-text-field>
