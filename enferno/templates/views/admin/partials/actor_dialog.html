@@ -237,14 +237,6 @@
                                             v-model="editedItem.birth_date">
                                         </pop-date-field>
                                     </v-col>
-                                    <v-col v-if="editedItem.created_at" cols="12" md="6">
-                                        <v-text-field
-                                            v-model="get_formatted_created_at_datetime"
-                                            label="{{ _('Date Created') }}"
-                                            prepend-icon="mdi-calendar"
-                                            disabled
-                                        />
-                                    </v-col>
                                     <v-col cols="12" md="6" class="align-center d-flex">
                                         <v-text-field v-if="position__" v-model="editedItem.position"
                                             label="{{ _('Position / Rank') }}"></v-text-field>
@@ -1042,6 +1034,14 @@
                                     </v-col>
                                 </v-row>
                                 <v-row>
+                                    <v-col v-if="editedItem.created_at" cols="12" md="4">
+                                        <v-text-field
+                                            v-model="get_formatted_created_at_datetime"
+                                            label="{{ _('Date Created') }}"
+                                            prepend-icon="mdi-calendar"
+                                            disabled
+                                        />
+                                    </v-col>
                                     <v-col cols="12" md="4">
                                         <v-select  :disabled="statusDisabled" item-text="tr" item-value="en" :items="statusItems" v-model="editedItem.status"
                                             label="{{ _('Status') }}">

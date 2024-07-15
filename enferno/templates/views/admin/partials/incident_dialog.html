@@ -91,16 +91,6 @@
                                     </v-col>
                                 </v-row>
                                 <v-row>
-                                    <v-col v-if="editedItem.created_at" cols="12" md="6">
-                                        <v-text-field
-                                            v-model="get_formatted_created_at_datetime"
-                                            label="{{ _('Date Created') }}"
-                                            prepend-icon="mdi-calendar"
-                                            disabled
-                                        />
-                                    </v-col>
-                                </v-row>
-                                <v-row>
                                     <v-col cols="12">
                                         <div class="d-flex align-center">
                                             <h3>{{ _("Description") }}</h3>
@@ -422,6 +412,14 @@
                                 <span class="anchor" id="administrative-information"></span>
                                 <h2 class="form-section-header">{{ _("Administrative Information") }}</h2>
                                 <v-row>
+                                    <v-col v-if="editedItem.created_at" cols="12" md="4">
+                                        <v-text-field
+                                            v-model="get_formatted_created_at_datetime"
+                                            label="{{ _('Date Created') }}"
+                                            prepend-icon="mdi-calendar"
+                                            disabled
+                                        />
+                                    </v-col>
                                     <v-col cols="12" md="4">
                                         <v-select :disabled="statusDisabled" item-text="tr" item-value="en" :items="statusItems" v-model="editedItem.status"
                                             label="{{ _('Status') }}">
