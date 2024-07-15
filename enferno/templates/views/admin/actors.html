@@ -500,7 +500,12 @@
             }),
     computed: {
         get_formatted_created_at_datetime(){
-            return dateFns.format(this.editedItem.created_at, "YYYY-MM-DD h:m A");
+            if(this.editedItem.created_at){
+                return dateFns.format(this.editedItem.created_at, "YYYY-MM-DD h:m A");
+            }
+            else{
+                return '';
+            }
         },
         statusForbidsAssignment() {
             if (this.statusDisabled) {
