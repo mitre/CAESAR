@@ -1018,6 +1018,7 @@
             if (!item.id) {
                 // new incident
                 this.editedItem = JSON.parse(JSON.stringify(this.defaultItem));
+                this.editedItem.created_by = this.users.find(x => x.id == this.currentUser.id)
                 this.editedItem.check_br = true;
                 this.br_loaded = true;
                 this.editedItem.check_ir = true;

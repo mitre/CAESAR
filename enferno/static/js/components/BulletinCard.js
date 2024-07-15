@@ -597,6 +597,7 @@ Vue.component("bulletin-card", {
         <div class="d-flex">
           <uni-field :caption="i18n.publishDate_" :english="bulletin.publish_date"></uni-field>
           <uni-field :caption="i18n.documentationDate_" :english="bulletin.documentation_date"></uni-field>
+          <uni-field v-if="bulletin.created_by" :caption="i18n.createdBy_" :english="bulletin.created_by.name"></uni-field>
         </div>
 
         <uni-field :caption="i18n.sourceLink_" :english="bulletin.source_link"></uni-field>

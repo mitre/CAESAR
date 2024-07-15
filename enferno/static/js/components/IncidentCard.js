@@ -414,6 +414,10 @@ Vue.component("incident-card", {
         </v-card-actions>
       </v-card>
 
+      <div class="d-flex">
+        <uni-field v-if="incident.created_by" :caption="i18n.createdBy_" :english="incident.created_by.name"></uni-field>
+      </div>
+      
       <v-card v-if="incident.status==='Peer Reviewed'" outline elevation="0" class="ma-3" color="light-green lighten-5">
         <v-card-text>
           <div class="px-1 title black--text">{{ i18n.review_ }}</div>
@@ -423,7 +427,6 @@ Vue.component("incident-card", {
           <v-chip small label color="lime">{{ incident.review_action }}</v-chip>
         </v-card-text>
       </v-card>
-
 
       <v-card v-if="logAllowed()" outline elevation="0" color="grey lighten-5" class="ma-2">
         <v-card-text>

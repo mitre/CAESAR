@@ -1080,6 +1080,7 @@
             this.actorDrawer = false;
             if (!item.id) {
                 this.editedItem = JSON.parse(JSON.stringify(this.defaultItem));
+                this.editedItem.created_by = this.users.find(x => x.id == this.currentUser.id)
                 this.source_alt = null;
                 this.dialog = true;
                 this.handleStatus(item);
