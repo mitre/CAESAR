@@ -519,7 +519,7 @@ Vue.component("actor-card", {
 
       <div class="d-flex">
         <uni-field :caption="i18n.publishDate_" :english="actor.publish_date"></uni-field>
-        <uni-field :caption="i18n.documentationDate_" :english="actor.documentation_date"></uni-field>
+        <uni-field :caption="i18n.createdDate_" :english="actor.created_at"></uni-field>
         <uni-field v-if="actor.created_by" :caption="i18n.createdBy_" :english="actor.created_by.name"></uni-field>
       </div>
       <uni-field :caption="i18n.sourceLink_" :english="actor.source_link"></uni-field>

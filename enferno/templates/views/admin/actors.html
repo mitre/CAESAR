@@ -410,12 +410,6 @@
             eventLocationLoading: false,
             labelsLoading: false,
             eventtypeLoading: false,
-            //event dates popups
-            eventFromMenu: false,
-            eventToMenu: false,
-            //actor dates popups
-            publishDateMenu: false,
-            documentationDateMenu: false,
             footerProps: {
                 itemsPerPageOptions: itemsPerPageOptions,
                 itemsPerPageText: "{{ _('Rows per page')}}"
@@ -480,7 +474,7 @@
                                         sanction_regimes: [],
                                             aliases: [],
                                                 publish_date: '',
-                                                    documentation_date: new Date().toISOString().substr(0, 16),
+                                                    created_at: '',
                 },
     socialMediaPlatforms: [],
         sanctionRegimes: [],
@@ -505,6 +499,9 @@
     actorLoader: false
             }),
     computed: {
+        get_formatted_created_at_datetime(){
+            return dateFns.format(this.editedItem.created_at, "YYYY-MM-DD h:m A");
+        },
         statusForbidsAssignment() {
             if (this.statusDisabled) {
                 return true;

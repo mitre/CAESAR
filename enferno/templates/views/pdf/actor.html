@@ -17,7 +17,7 @@
                     <p class="meta">
                         Publish Date: {{ actor.publish_date.strftime("%Y-%m-%d %H:%M") if actor.publish_date else '' }}
                         <br>
-                        Date Created: {{ actor.documentation_date if actor.documentation_date else '' }}
+                        Date Created: {{ actor.created_at.strftime("%Y-%m-%d %H:%M") if actor.created_at else '' }}
                     </p>
                 </div>
             </header>
