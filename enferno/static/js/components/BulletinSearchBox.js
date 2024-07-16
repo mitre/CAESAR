@@ -495,8 +495,7 @@ Vue.component("bulletin-search-box", {
                         class="flex-grow-1"
                         v-model="q.latlng"
                         map-height="200"
-                        :radius-controls="true"
-                        edit-mode />
+                        search-mode />
                 </v-sheet>
 
             </v-container>

@@ -6,7 +6,7 @@
                     <span class="gv--text" v-if="editedItem.id">${editedItem.id}</span>
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn @click="save" :disabled="invalid || !latlngValid" dark color="accent" small class="mx-2"
+                <v-btn @click="save" :disabled="invalid" dark color="accent" small class="mx-2"
                     depressed>
                     {{ _("Save Location") }}
                 </v-btn>
@@ -120,8 +120,8 @@
                             </v-row>
                             <v-row>
                                 <v-col cols="12" md="12">
-                                    <geo-map :edit-mode="editedItem.geometry == undefined || (location.geometry && location.geometry.type == 'Point')" 
-                                        class="flex-grow-1" v-model="editedItem.latlng" :location="editedItem" map-height="300" 
+                                    <geo-map :edit-mode="true"                                
+                                        class="flex-grow-1" v-model="editedItem.geometry" map-height="350" 
                                         :required="true">
                                     </geo-map>
                                 </v-col>

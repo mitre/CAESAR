@@ -775,7 +775,7 @@ class Location(db.Model, BaseMixin):
     title_ar = db.Column(db.String)
     location_type_id = db.Column(db.Integer, db.ForeignKey('location_type.id'))
     location_type = db.relationship("LocationType", foreign_keys=[location_type_id])
-    latlng = db.Column(Geometry('GEOMETRY', srid=4326))
+    geometry = db.Column(Geometry('GEOMETRY', srid=4326))
     admin_level_id = db.Column(db.Integer, db.ForeignKey('location_admin_level.id'))
     admin_level = db.relationship("LocationAdminLevel", foreign_keys=[admin_level_id])
     description = db.Column(db.Text)
@@ -834,14 +834,11 @@ class Location(db.Model, BaseMixin):
             "description": self.description,
             "location_type": self.location_type.to_dict() if self.location_type else '',
             "admin_level": self.admin_level.to_dict() if self.admin_level else '',
-            "latlng": {"lng": centroid(to_shape(self.latlng)).x, "lat": centroid(to_shape(self.latlng)).y} if self.latlng else None,
+            "geometry": json.loads(to_geojson(to_shape(self.geometry))) if self.geometry else None,
             "postal_code": self.postal_code,
             "country": self.country.to_dict() if self.country else None ,
             "parent": self.to_parent_dict(),
             "tags": self.tags or [],
-            "lat": centroid(to_shape(self.latlng)).y if self.latlng else None,
-            "lng": centroid(to_shape(self.latlng)).x if self.latlng else None,
-            "geometry": json.loads(to_geojson(to_shape(self.latlng))) if self.latlng else None,
             "full_location": self.full_location,
             "full_string": '{} | {}'.format(self.full_location or '', self.title_ar or ''),
             "updated_at": DateHelper.serialize_datetime(self.updated_at)
@@ -871,8 +868,9 @@ class Location(db.Model, BaseMixin):
             "id": self.id,
             "title": self.title,
             "full_string": self.get_full_string(),
-            "lat": centroid(to_shape(self.latlng)).y if self.latlng else None,
-            "lng": centroid(to_shape(self.latlng)).x if self.latlng else None,
+            "lat_centroid": centroid(to_shape(self.geometry)).y if self.geometry else None,
+            "lng_centroid": centroid(to_shape(self.geometry)).x if self.geometry else None,
+            "geometry_type": self.geometry.type if self.geometry else None,
         }
 
     def to_json(self):
@@ -883,15 +881,10 @@ class Location(db.Model, BaseMixin):
         self.title = jsn.get('title')
         self.title_ar = jsn.get('title_ar')
         self.description = jsn.get('description')
-        if jsn.get('latlng'):
-            if jsn.get('latlng').get('lat'):
-                lng = jsn.get('latlng').get('lng')
-                lat = jsn.get('latlng').get('lat')
-                self.latlng = f"SRID=4326;POINT({lng} {lat})"
-            else:
-                self.latlng = func.ST_GeomFromGeoJSON(f"{jsn.get('latlng')}")
+        if jsn.get('geometry'):
+            self.geometry = func.ST_GeomFromGeoJSON(f"{jsn.get('geometry')}")
         else:
-            self.latlng = None
+            self.geometry = None
 
         # little validation doesn't hurt
         allowed_location_types = [l.title for l in LocationType.query.all()]
@@ -988,7 +981,7 @@ class Location(db.Model, BaseMixin):
         point = func.ST_SetSRID(func.ST_MakePoint(target_point.get('lng'), target_point.get('lat')), 4326)
 
         return func.ST_DWithin(
-            func.cast(Location.latlng, Geography),
+            func.cast(Location.geometry, Geography),
             func.cast(point, Geography),
             radius_in_meters)
 
@@ -1095,7 +1088,7 @@ class GeoLocation(db.Model, BaseMixin):
     type_id = db.Column(db.Integer, db.ForeignKey('geo_location_types.id'))
     type = db.relationship("GeoLocationType", backref="geolocations")  # Added a relationship
     main = db.Column(db.Boolean)
-    latlng = db.Column(Geometry('POINT', srid=4326))
+    geometry = db.Column(Geometry('GEOMETRY', srid=4326))
     comment = db.Column(db.Text)
     bulletin_id = db.Column(db.Integer, db.ForeignKey('bulletin.id'))
 
@@ -1105,7 +1098,10 @@ class GeoLocation(db.Model, BaseMixin):
         if type and (id := type.get('id')):
             self.type_id = id
         self.main = jsn.get('main')
-        self.latlng = f'POINT({jsn.get("lng")} {jsn.get("lat")})'
+        if jsn.get('geometry'):
+            self.geometry = func.ST_GeomFromGeoJSON(f"{jsn.get('geometry')}")
+        else:
+            self.geometry = None
         self.comment = jsn.get('comment')
         return self
 
@@ -1115,12 +1111,9 @@ class GeoLocation(db.Model, BaseMixin):
             'title': self.title,
             'type': self.type.to_dict() if self.type else None,
             'main': self.main,
-            "latlng": {"lng": centroid(to_shape(self.latlng)).x, "lat": centroid(to_shape(self.latlng)).y} if self.latlng else None,
-            'lat': centroid(to_shape(self.latlng)).y if self.latlng else None,
-            'lng': centroid(to_shape(self.latlng)).x if self.latlng else None,
+            "geometry": json.loads(to_geojson(to_shape(self.geometry))) if self.geometry else None,
             'comment': self.comment,
             'updated_at': DateHelper.serialize_datetime(self.updated_at),
-            'geometry': json.loads(to_geojson(to_shape(self.latlng))) if self.latlng else None,
         }
 
 
@@ -2252,7 +2245,7 @@ class Bulletin(db.Model, BaseMixin):
             db.session.query(bulletin_locations.c.bulletin_id)
             .join(Location, bulletin_locations.c.location_id == Location.id)
             .filter(func.ST_DWithin(
-                func.cast(Location.latlng, Geography),
+                func.cast(Location.geometry, Geography),
                 func.cast(point, Geography),
                 radius_in_meters))
         )
@@ -2264,7 +2257,7 @@ class Bulletin(db.Model, BaseMixin):
         return Bulletin.id.in_(
             db.session.query(GeoLocation.bulletin_id)
             .filter(func.ST_DWithin(
-                func.cast(GeoLocation.latlng, Geography),
+                func.cast(GeoLocation.geometry, Geography),
                 func.cast(point, Geography),
                 radius_in_meters))
         )
@@ -2279,7 +2272,7 @@ class Bulletin(db.Model, BaseMixin):
             .join(Event, bulletin_events.c.event_id == Event.id)
             .join(Location, Event.location_id == Location.id)
             .filter(func.ST_DWithin(
-                func.cast(Location.latlng, Geography),
+                func.cast(Location.geometry, Geography),
                 func.cast(point, Geography),
                 radius_in_meters))
         )
@@ -3401,7 +3394,7 @@ class Actor(db.Model, BaseMixin):
             db.session.query(Actor.id)
             .join(Location, Actor.origin_place_id == Location.id)
             .filter(func.ST_DWithin(
-                func.cast(Location.latlng, Geography),
+                func.cast(Location.geometry, Geography),
                 func.cast(point, Geography),
                 radius_in_meters))
         )
@@ -3414,7 +3407,7 @@ class Actor(db.Model, BaseMixin):
             db.session.query(Actor.id)
             .join(Location, Actor.birth_place_id == Location.id)
             .filter(func.ST_DWithin(
-                func.cast(Location.latlng, Geography),
+                func.cast(Location.geometry, Geography),
                 func.cast(point, Geography),
                 radius_in_meters))
         )
@@ -3427,7 +3420,7 @@ class Actor(db.Model, BaseMixin):
             db.session.query(Actor.id)
             .join(Location, Actor.residence_place_id == Location.id)
             .filter(func.ST_DWithin(
-                func.cast(Location.latlng, Geography),
+                func.cast(Location.geometry, Geography),
                 func.cast(point, Geography),
                 radius_in_meters))
         )
@@ -3441,7 +3434,7 @@ class Actor(db.Model, BaseMixin):
             .join(Event, actor_events.c.event_id == Event.id)
             .join(Location, Event.location_id == Location.id)
             .filter(func.ST_DWithin(
-                func.cast(Location.latlng, Geography),
+                func.cast(Location.geometry, Geography),
                 func.cast(point, Geography),
                 radius_in_meters))
         )

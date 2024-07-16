@@ -404,12 +404,6 @@
             }, 300);
         },
         save() {
-            if (!this.editedItem.latlng?.lat) {
-                this.editedItem.latlng = null;
-            }
-            if(this.editedItem.geometry && this.editedItem.geometry.type == 'MultiPolygon') {
-                this.editedItem.latlng = this.editedItem.geometry;
-            }
             if (this.editedItem.id) {
                 axios.put(`/admin/api/location/${this.editedItem.id}`, {
                     item: this.editedItem
