@@ -187,7 +187,7 @@ Vue.component("geo-locations", {
 
           </v-card-text>
           <v-card-text>
-            <geo-map :radius-controls="false" :others="others" v-model="e.latlng" map-height="300" edit-mode></geo-map>
+            <geo-map :others="others" v-model="e.geometry" map-height="300" edit-mode></geo-map>
           </v-card-text>
           <v-card-actions class="pb-3">
             <v-spacer></v-spacer>

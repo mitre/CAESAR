@@ -404,12 +404,10 @@ var aggregateActorLocations = function (actor) {
   let locations = [];
 
   const addLocation = (place, type) => {
-    if (place && place.latlng) {
+    if (place && place.geometry) {
       place.type = type;
       place.color = "#00a1f1";
       place.parentId = actor.id;
-      place.lat = place.latlng.lat;
-      place.lng = place.latlng.lng;
       locations.push(place);
     }
   };
@@ -428,7 +426,7 @@ var aggregateActorLocations = function (actor) {
 };
 
 function prepareEventLocations(parentId, events) {
-  let output = events.filter((x) => x.location && x.location.latlng);
+  let output = events.filter((x) => x.location && x.location.geometry);
   // sort events by from/to date and leave null date events at the end
   output.sort((a, b) => {
     const aDate = a.from_date || a.to_date;
@@ -451,8 +449,6 @@ function prepareEventLocations(parentId, events) {
     x.location.type = "Event";
     x.location.parentId = parentId;
     x.location.color = "#00f166";
-    x.location.lat = x.location.latlng.lat;
-    x.location.lng = x.location.latlng.lng;
     x.location.zombie = x.from_date === null && x.to_date === null;
     x.location.eventtype = x.eventtype?.title;
     return x.location;

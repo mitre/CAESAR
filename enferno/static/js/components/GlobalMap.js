@@ -96,7 +96,7 @@ Vue.component("global-map", {
           style: style,
           center: [this.lng, this.lat],
           zoom: this.zoom,
-          maxZoom: 18
+          maxZoom: 18,
         });
     
         this.map.addControl(new maplibregl.NavigationControl());
@@ -154,6 +154,10 @@ Vue.component("global-map", {
         this.map.on('click', 'clusters', this.onClusterClick);
     
         this.map.on('click', 'unclustered-point', this.onUnclusteredClick);
+
+        this.map.on('click', 'location_points', this.onUnclusteredClick);
+        this.map.on('click', 'location_line_strings', this.onUnclusteredClick);
+        this.map.on('click', 'location_polygon', this.onUnclusteredClick);
     
         this.map.on('resize', () => {
           this.fitMarkers();
@@ -189,27 +193,23 @@ Vue.component("global-map", {
     },
 
     redraw() {
-      // this.$refs.map.mapObject.invalidateSize();
       this.map.resize();
     },
 
     async onClusterClick(e) {
-      // const features = this.map.queryRenderedFeatures(e.point);
-      // const clusterId = features[0].properties.cluster_id;
       const el = e.currentTarget;
       const clusterId = el.getAttribute('cluster_id');
       const zoom = await this.map.getSource('markers').getClusterExpansionZoom(parseInt(clusterId));
       const coords = el.getAttribute('cluster_loc').split(',')
       const loc = new maplibregl.LngLat(coords[0],coords[1]);
       this.map.easeTo({
-          // center: features[0].geometry.coordinates,
           center: loc,
           zoom
       });
     },
 
     async onUnclusteredClick(e) {
-      const coordinates = e.features[0].geometry.coordinates.slice();
+      const coordinates = turf.centerOfMass(turf.featureCollection(e.features)).geometry.coordinates;
 
       const loc = e.features[0].properties;
 
@@ -221,7 +221,7 @@ Vue.component("global-map", {
       }
 
       new maplibregl.Popup()
-          .setLngLat(coordinates)
+          .setLngLat(e.lngLat)
           .setHTML(
             `<div>
               <span title="No." class="map-bid">${loc.number || ""}</span>
@@ -230,7 +230,7 @@ Vue.component("global-map", {
               <div class="body-2 font-weight-bold">${loc.title || ""}</div>
 
               <div class="subtitle">
-              ${loc.lat.toFixed(6)}, ${loc.lng.toFixed(6)}
+              ${loc.lat ? loc.lat.toFixed(6) + "," : ""} ${loc.lng ? loc.lng.toFixed(6) : ""}
               </div>
 
               <span class="mt-1 subtitle">${loc.full_string || ""}</span>
@@ -251,19 +251,9 @@ Vue.component("global-map", {
     },
 
     addMarkers() {
-      if (this.map.getSource('markers')) {
-        this.map.removeLayer('unclustered-point');
-        this.map.removeSource('markers');
-      }
-      if (this.map.getSource('location_polygon')) {
-        this.map.removeLayer('location_polygon');
-        this.map.removeSource('location_polygon');
-      }
-
       if (this.locations.length) {
-        let allLocations = [];
         let eventLocations = [];
-        let polygonLocations = [];
+        let geometryLocations = [];
         this.allFeatures = [];
 
         for (loc of this.locations) {
@@ -279,29 +269,18 @@ Vue.component("global-map", {
               "number": loc.number || "",
               "parentId": loc.parentId || "",
               "title": loc.title || "",
-              "lat": loc.lat,
-              "lng": loc.lng,
               "full_string": loc.full_string || "",
               "mainStr": (loc.mainStr?loc.mainStr:""),
               "type": (loc.type?loc.type:""),
               "eventtype": (loc.eventtype?loc.eventtype:""),
               "markerType": loc.markerType
             }, 
-            "geometry": { 
-              "type": "Point", 
-              "coordinates": [ loc.lng, loc.lat, 0.0 ] 
-            } 
+            "geometry": loc.geometry
           }
 
-          if(loc.geometry && loc.geometry.type == 'Point') {
-            event.geometry = loc.geometry;
-            allLocations.push(event);
-          } else if(loc.geometry && loc.geometry.type == 'MultiPolygon') {
-            event.geometry = loc.geometry; 
-            polygonLocations.push(event);
-          } else {
-            allLocations.push(event);
-          }
+          if(loc.geometry) {
+            geometryLocations.push(event);
+          } 
 
           this.allFeatures.push(event);
 
@@ -310,65 +289,15 @@ Vue.component("global-map", {
           }
         }
 
-        if(polygonLocations.length) this.addPolygons(polygonLocations);
+        if(geometryLocations.length) this.addGeometryLocations(geometryLocations);
 
         this.addEventRoutes(eventLocations);
-
-        this.map.addSource('markers', {
-          type: 'geojson',
-          data: {
-            "type": "FeatureCollection",
-            "features": allLocations
-          },
-          cluster: true,
-          clusterMaxZoom: 16, // Max zoom to cluster points on
-          clusterRadius: 15, // Radius of each cluster when clustering points (defaults to 30)
-          clusterProperties: {
-            // keep separate counts for each category in a cluster
-            'locations': ['+', ['case', this.category.location.filter, 1, 0]],
-            'geomarkers': ['+', ['case', this.category.geomarker.filter, 1, 0]],
-            'events': ['+', ['case', this.category.event.filter, 1, 0]],
-          }
-        });
-
-        this.map.addLayer({
-            id: 'unclustered-point',
-            type: 'circle',
-            source: 'markers',
-            filter: ['!', ['has', 'point_count']],
-            paint: {
-                'circle-color': ["get", "color"],
-                //'circle-opacity': 0.65, // this seems to have no effect on opacity.
-                'circle-radius': 8,
-                'circle-stroke-width': 1,
-                'circle-stroke-color': '#fff'
-            }
-        });
       }
     },
 
-    addPolygons(features) {
-
+    addGeometryLocations(features) {
       const featureCollection = turf.featureCollection(features);
-
-      if(!this.map.getSource("location_polygon")) {  
-        this.map.addSource('location_polygon', {
-          'type': 'geojson',
-          'data': featureCollection,
-        });
-      }
-      if(!this.map.getLayer("location_polygon")) {
-        this.map.addLayer({
-          'id': 'location_polygon',
-          'type': 'fill',
-          'source': 'location_polygon',
-          'layout': {},
-          'paint': {
-              'fill-color': ["get", "fillColor"],
-              'fill-opacity': 0.5
-          }
-        });
-      }
+      mapUtils.addGeometries(this.map, featureCollection);
     },
 
     updateMarkers() {
@@ -493,20 +422,6 @@ Vue.component("global-map", {
       return this.hasMarkers() && this.locations.some((location) => {return location.markerType == this.category.location.id });
     },
 
-    addLocationMarkerTypes(){
-      for (loc of this.locations) {
-        if(loc.color == this.category.location.color) {
-          loc.markerType = this.category.location.id;
-        } else if(loc.color == this.category.geomarker.color) {
-          loc.markerType = this.category.geomarker.id;
-        } else if(loc.color == this.category.event.color) {
-          loc.markerType = this.category.event.id;
-        } else {
-          continue;
-        }
-      } 
-    },
-
     hasGeomarkers() {
       return this.hasMarkers() && this.locations.some((location) => {return location.markerType == this.category.geomarker.id });
     },
@@ -517,14 +432,15 @@ Vue.component("global-map", {
 
     getLocationBounds() {
       if (this.locations.length) {
+        try {
+          var coordinates = this.locations;
 
-        var coordinates = this.locations;
+          var bounds = coordinates.reduce(function(bounds, coord) {
+            return bounds.extend(coord);
+          }, new maplibregl.LngLatBounds(coordinates[0], coordinates[0]));
 
-        var bounds = coordinates.reduce(function(bounds, coord) {
-          return bounds.extend(coord);
-        }, new maplibregl.LngLatBounds(coordinates[0], coordinates[0]));
-
-        return bounds;
+          return bounds;
+        } catch(e) {}
       }
       return null;
     },
@@ -534,38 +450,41 @@ Vue.component("global-map", {
         const featureCollection = turf.featureCollection(this.allFeatures);
         this.map.fitBounds(
           mapUtils.getFeatureBounds(featureCollection), {
-            padding: 10,
+            padding: 50,
             duration: 600
           }
         );
       }
-      // let bounds = this.getLocationBounds();
-
-      // if (bounds) {
-      //   this.map.fitBounds(bounds, {
-      //     padding: 50,
-      //     duration: 3000,
-      //     animate: animate
-      //   });
-      // }
     },
 
     getBSplineCurve(eventLocations) {
       var data = [];
       for (let i = 0; i < eventLocations.length - 1; i++) {
         if (eventLocations[i].zombie || eventLocations[i + 1].zombie) continue;
-        const startCoord = [eventLocations[i].lng, eventLocations[i].lat];
-        const endCoord = [eventLocations[i + 1].lng, eventLocations[i + 1].lat];
-        var start = turf.point(startCoord);
-        var end = turf.point(endCoord);
-
+        // get start and end point at the center of mass of each feature
+        let start = turf.centerOfMass(eventLocations[i].geometry);
+        let end = turf.centerOfMass(eventLocations[i + 1].geometry);
+        // extra logic to attempt to get start and end points that are touching the feature
+        if ((eventLocations[i].geometry.type.includes("Polygon") || eventLocations[i].geometry.type.includes("LineString")) && !turf.booleanTouches(start, eventLocations[i].geometry)) {
+          start = turf.pointOnFeature(eventLocations[i].geometry);
+        }
+        if (eventLocations[i].geometry.type == "MultiPoint") {
+          start = turf.point(eventLocations[i].geometry.coordinates[0]);
+        }
+        if ((eventLocations[i + 1].geometry.type.includes("Polygon") || eventLocations[i + 1].geometry.type.includes("LineString")) && !turf.booleanTouches(end, eventLocations[i + 1].geometry)) {
+          end = turf.pointOnFeature(eventLocations[i + 1].geometry);
+        }
+        if (eventLocations[i + 1].geometry.type == "MultiPoint") {
+          start = turf.point(eventLocations[i + 1].geometry.coordinates[0]);
+        }
+        // get the points for the bspline curve that connects the start and end points
         const distance = turf.distance(start, end, { units: 'miles' });
         const bearing = turf.bearing(start, end);
         const midpoint = turf.midpoint(start, end);
         const leftSideArc = bearing + 90 > 180 ? -180 + (bearing + 90 - 180) : bearing + 90;
         const destination = turf.destination(midpoint, distance / 5, leftSideArc, { units: 'miles' });
         const curvedLine = turf.bezierSpline(
-          turf.lineString([startCoord, destination.geometry.coordinates, endCoord]),
+          turf.lineString([start.geometry.coordinates, destination.geometry.coordinates, end.geometry.coordinates]),
           {sharpness:1.0}
         );
         
@@ -575,24 +494,21 @@ Vue.component("global-map", {
     },
     
     addEventRoutes(eventLocations) {
-
-      // https://stackoverflow.com/questions/68021824/give-curved-line-a-deeper-arc-in-turf-js-and-mapbox
-
-      if (this.map.getSource('route')) {
-        this.map.removeLayer('routes');
-        this.map.removeLayer('arrows');
-        this.map.removeSource('route');
+      if (this.map.getSource('event-route')) { 
+        this.map.removeLayer('event-routes');
+        this.map.removeLayer('event-arrows');
+        this.map.removeSource('event-route');
       }
 
       if (eventLocations.length == 0) return;
-         
-      this.map.addSource('route', {
+
+      this.map.addSource('event-route', {
         "type": "geojson",
         "data": this.getBSplineCurve(eventLocations)
       });
       this.map.addLayer({
-        "id": "routes",
-        "source": "route",
+        "id": "event-routes",
+        "source": "event-route",
         "type": "line",
         "paint": {
           "line-width": 5,
@@ -601,9 +517,9 @@ Vue.component("global-map", {
         }
       });
       this.map.addLayer({
-        "id": "arrows",
+        "id": "event-arrows",
         "type": "symbol",
-        "source": "route",
+        "source": "event-route",
         "layout": {
           "symbol-placement": "line",
           "symbol-spacing": 20,
@@ -617,8 +533,6 @@ Vue.component("global-map", {
         },
         minzoom: 4,
       });
-
-      // potential method for animating feature layer: https://docs.mapbox.com/mapbox-gl-js/example/animate-ant-path/
     },
   },
 

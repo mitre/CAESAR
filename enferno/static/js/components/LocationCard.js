@@ -147,7 +147,7 @@ Vue.component("location-card", {
 
       <!-- Map -->
       <v-card outlined class="ma-2 pa-2" color="grey lighten-5">
-        <geo-map :edit-mode="false" :i18n="i18n" :value="location" :legend="false"></geo-map>
+        <geo-map :edit-mode="false" :i18n="i18n" v-model="location.geometry" :legend="false"></geo-map>
       </v-card>
 
       <!-- Description -->

@@ -1,7 +1,7 @@
 """upgrade tables to add a created_by field
 
 Revision ID: 2a87f2bcf52a
-Revises: 5ed276f106be
+Revises: f87bf63ebb11
 Create Date: 2024-07-09 21:12:42.412801
 
 """
@@ -12,7 +12,7 @@ from migrations.utils import column_exists
 
 # revision identifiers, used by Alembic.
 revision = '2a87f2bcf52a'
-down_revision = '5ed276f106be'
+down_revision = 'f87bf63ebb11'
 branch_labels = None
 depends_on = None
 
