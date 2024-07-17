@@ -207,6 +207,71 @@ class SocialMediaHandle(db.Model, BaseMixin):
             self.actor_id = jsn.get('actor_id')
         return self
 
+class ConsentUse(db.Model, BaseMixin):
+    """
+    SQL Alchemy model for consented uses
+    """
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    consent_use_to_bulletins = db.relationship("ConsentUseToBulletin", back_populates="consent_use")
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+        }
+
+    def from_json(self, jsn):
+        self.title = jsn.get('title')
+        return self
+
+class ConsentUseToBulletin(db.Model, BaseMixin):
+    """
+    SQL Alchemy model for Consent Use to Bulletins
+    Join table to match Consent Use to Bulletins
+    """
+    id = db.Column(db.Integer, primary_key=True)
+
+    consent_use_id = db.Column(db.Integer, db.ForeignKey('consent_use.id'))
+    consent_use = db.relationship("ConsentUse", back_populates="consent_use_to_bulletins", foreign_keys=[consent_use_id])
+
+    bulletin_id = db.Column(db.Integer, db.ForeignKey('bulletin.id'), nullable=True)
+    bulletin = db.relationship("Bulletin", back_populates="bulletin_to_consent_uses", foreign_keys=[bulletin_id])
+
+    date = db.Column(db.DateTime)
+    status = db.Column(db.String)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'consent_use': self.consent_use.to_dict() if self.consent_use else None,
+            'bulletin': self.bulletin.to_dict() if self.bulletin else None
+        }
+
+    def to_dict_bulletin(self):
+        return {
+            'id': self.id,
+            'consent_use': self.consent_use.to_dict() if self.consent_use else None,
+            'date': DateHelper.serialize_datetime(self.date),
+            'status': self.status
+        }
+
+    def from_json(self, jsn):
+        if jsn.get('consent_use_id'):
+            self.consent_use_id = jsn.get('consent_use_id')
+        elif jsn.get('consent_use'):
+            self.consent_use_id = jsn.get('consent_use').get('id')
+        if jsn.get('bulletin_id'):
+            self.bulletin_id = jsn.get('bulletin_id')
+        elif jsn.get('bulletin'):
+            self.bulletin_id = jsn.get('bulletin').get('id')
+        if jsn.get('date'):
+            self.date = DateHelper.parse_date(jsn.get('date'))
+        if jsn.get('status'):
+            self.status = jsn.get('status')
+        return self
+
 
 class Source(db.Model, BaseMixin):
     """
@@ -1561,6 +1626,8 @@ class Bulletin(db.Model, BaseMixin):
     first_peer_reviewer_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     second_peer_reviewer_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
+    bulletin_to_consent_uses = db.relationship("ConsentUseToBulletin", back_populates="bulletin")
+
     first_peer_reviewer = db.relationship(
         "User", backref="first_rev_bulletins", foreign_keys=[first_peer_reviewer_id]
     )
@@ -1774,6 +1841,26 @@ class Bulletin(db.Model, BaseMixin):
                     g.save()
                 final_locations.append(g)
             self.geo_locations = final_locations
+
+        #Consent uses
+        if "bulletin_to_consent_uses" in json:
+            new_consent_use_relations = []
+            for bulletin_to_consent_use in json["bulletin_to_consent_uses"]:
+                if "id" not in bulletin_to_consent_use:
+                    consent_use_to_bulletin = ConsentUseToBulletin()
+                    consent_use_to_bulletin = consent_use_to_bulletin.from_json(bulletin_to_consent_use)
+                    consent_use_to_bulletin.save()
+                else:
+                    # sanction_regime_to_actor already exists, get a db instance and update it with new data
+                    consent_use_to_bulletin = ConsentUseToBulletin.query.get(bulletin_to_consent_use["id"])
+                    consent_use_to_bulletin.from_json(bulletin_to_consent_use)
+                    consent_use_to_bulletin.save()
+                new_consent_use_relations.append(consent_use_to_bulletin)
+            # remove old relations
+            for consent_use_to_bulletin in self.bulletin_to_consent_uses:
+                if consent_use_to_bulletin not in new_consent_use_relations:
+                    consent_use_to_bulletin.delete()
+            self.bulletin_to_consent_uses = new_consent_use_relations
 
         # Sources
         if "sources" in json:
@@ -2133,6 +2220,12 @@ class Bulletin(db.Model, BaseMixin):
             for media in self.medias:
                 medias_json.append(media.to_dict())
 
+        #consent uses json
+        consent_uses_json = []
+        if self.bulletin_to_consent_uses and len(self.bulletin_to_consent_uses):
+            for consent_use_relation in self.bulletin_to_consent_uses:
+                consent_uses_json.append(consent_use_relation.to_dict_bulletin())
+
         # Related bulletins json (actually the associated relationships)
         # - in this case the other bulletin carries the relationship
         bulletin_relations_dict = []
@@ -2173,6 +2266,7 @@ class Bulletin(db.Model, BaseMixin):
             "sources": sources_json,
             "events": events_json,
             "medias": medias_json,
+            "bulletin_to_consent_uses": consent_uses_json,
             "bulletin_relations": bulletin_relations_dict,
             "actor_relations": actor_relations_dict,
             "incident_relations": incident_relations_dict,

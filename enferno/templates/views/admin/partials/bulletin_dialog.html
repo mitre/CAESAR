@@ -193,6 +193,7 @@
                                         {% include 'views/admin/partials/media_dialog.html' %}
                                     </v-col>
                                 </v-row>
+                                
 
                                 <!-- events  -->
                                 <!-- <span class="anchor" id="events"></span>
@@ -579,6 +580,42 @@
                                         <v-switch small class="mx-2" label="{{ _('Sensitive Data') }}"
                                             v-model="editedItem.sensitive_data" small>
                                         </v-switch>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                  <v-col>
+                                    <h3 class="mt-4 mb-2">{{ _("Consented Uses") }}</h3>
+                                  </v-col>
+                                </v-row>
+                                <v-row v-for="(consent_use_relation, index) in editedItem.bulletin_to_consent_uses" :key="index">
+                                  <v-col>
+                                    <v-select v-if="consent_use_relation.consent_use" v-model="consent_use_relation.consent_use.id" hide-details
+                                      :items="consentUses" item-text="title" item-value="id"
+                                      label="{{ _('Consented Uses') }}"></v-select>
+                                    <v-select v-else v-model="consent_use_relation.consent_use_id" hide-details
+                                      :items="consentUses" item-text="title" item-value="id"
+                                      label="{{ _('Consented Uses') }}"></v-select>
+                                  </v-col>
+                                  <v-col>
+                                    <v-select v-model="consent_use_relation.status" hide-details
+                                      :items="consentUseStatuses" 
+                                      @change="handleConsentUseStatusChange(index, consent_use_relation.status)"
+                                      label="{{ _('Status') }}"></v-select>
+                                  </v-col>
+                                  <v-col>
+                                    <pop-date-time-field time-label="{{ _('Time (UTC)') }}"
+                                      label="{{ _('Date') }}" v-model="consent_use_relation.date">
+                                    </pop-date-time-field>
+                                  </v-col>
+                                  <v-col cols="1" class="mt-3">
+                                    <v-btn @click="editedItem.bulletin_to_consent_uses.splice(index, 1)" color="error"
+                                      small> <v-icon dense>mdi-alpha-x-circle-outline</v-icon> </v-btn>
+                                  </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="12" md="12">
+                                        <v-btn @click="addConsentUseRelation" :disabled="isLastConsentUseRelationEmpty()"
+                                            color="primary" small><v-icon dense>mdi-plus</v-icon></v-btn>
                                     </v-col>
                                 </v-row>
                                 <v-row>
