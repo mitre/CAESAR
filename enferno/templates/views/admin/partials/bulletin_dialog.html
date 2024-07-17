@@ -548,21 +548,6 @@
                                 <span class="anchor" id="administrative-information"></span>
                                 <h2 class="form-section-header">{{ _("Administrative Information") }}</h2>
                                 <v-row>
-                                    <v-col cols="4">
-                                        <v-text-field v-if="editedItem.created_by" items="users" v-model="editedItem.created_by.name"
-                                            disabled label="{{ _('Created By') }}"></v-text-field>
-                                        <v-text-field v-else readonly label="{{ _('Created By') }}"></v-text-field>
-                                    </v-col>
-                                </v-row>
-                                <v-row>
-                                    <v-col cols="12" md="4">
-                                        <v-text-field
-                                            v-model="get_formatted_created_at_datetime"
-                                            label="{{ _('Date Created') }}"
-                                            prepend-icon="mdi-calendar"
-                                            disabled
-                                        />
-                                    </v-col>
                                     <v-col cols="12" md="8">
                                         <v-tooltip top max-width=500 open-delay=1500>
                                             <template v-slot:activator="{ on }">
@@ -578,6 +563,19 @@
                                     <v-col cols="12" md="8">
                                         <v-combobox small-chips multiple v-model="editedItem.ref" label="{{ _('Investigation Ref') }}">
                                         </v-combobox>
+                                    </v-col>
+                                    <v-col cols="12" md="4">
+                                        <v-text-field
+                                            v-model="get_formatted_created_at_datetime"
+                                            label="{{ _('Date Created') }}"
+                                            prepend-icon="mdi-calendar"
+                                            disabled
+                                        />
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-text-field v-if="editedItem.created_by" items="users" v-model="editedItem.created_by.name"
+                                            disabled label="{{ _('Created By') }}"></v-text-field>
+                                        <v-text-field v-else disabled label="{{ _('Created By') }}"></v-text-field>
                                     </v-col>
                                     <v-col cols="12" md="4">
                                         <v-switch small class="mx-2" label="{{ _('Sensitive Data') }}"

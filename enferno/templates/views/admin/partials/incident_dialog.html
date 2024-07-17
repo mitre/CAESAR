@@ -421,6 +421,11 @@
                                         />
                                     </v-col>
                                     <v-col cols="12" md="4">
+                                        <v-text-field v-if="editedItem.created_by" items="users" v-model="editedItem.created_by.name"
+                                        disabled label="{{ _('Created By') }}"></v-text-field>
+                                        <v-text-field v-else disabled label="{{ _('Created By') }}"></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" md="4">
                                         <v-select :disabled="statusDisabled" item-text="tr" item-value="en" :items="statusItems" v-model="editedItem.status"
                                             label="{{ _('Status') }}">
                                         </v-select>
@@ -446,13 +451,6 @@
                                         <search-field v-else-if="has_role(currentUser, 'Admin')" api="/admin/api/roles/?custom=true" item-text="name"
                                             item-value="id" :multiple="true" label="{{ _('Access Groups') }}" v-model="editedItem.roles">
                                         </search-field>
-                                    </v-col>
-                                </v-row>
-                                <v-row>
-                                    <v-col cols="12" md="4">
-                                        <v-text-field v-if="editedItem.created_by" items="users" v-model="editedItem.created_by.name"
-                                            readonly label="{{ _('Created By') }}"></v-text-field>
-                                        <v-text-field v-else readonly label="{{ _('Created By') }}"></v-text-field>
                                     </v-col>
                                 </v-row>
                                 <v-row>
