@@ -694,7 +694,7 @@ def api_locations():
     per_page = options.get('itemsPerPage', PER_PAGE)
 
     result = result.paginate(page=page, per_page=per_page, count=True)
-    response = {'items': [item.to_dict() for item in result.items], 'perPage': per_page, 'total': result.total}
+    response = {'items': [item.to_dict_without_geometry() for item in result.items], 'perPage': per_page, 'total': result.total}
 
     return Response(json.dumps(response),
                     content_type='application/json'), 200
