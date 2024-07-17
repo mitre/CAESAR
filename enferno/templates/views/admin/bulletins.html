@@ -325,6 +325,8 @@
             currentUser: JSON.parse(`{{ current_user.to_dict()|tojson }}`),
             users: JSON.parse(`{{users|tojson}}`),
             roles: [],
+            consentUses: [],
+            consentUseStatuses: ["Approved", "Rejected", "Pending"],
             // advanced search
             q: {},
             advSearchExpand: false,
@@ -448,6 +450,7 @@
                 medias: [],
                     bulletin_relations: [],
                         actor_relations: [],
+                        bulletin_to_consent_uses: [],
                             incident_relations: []
     },
             defaultItem: {
@@ -464,6 +467,7 @@
                 actor_relations: [],
                 // related incidents
                 incident_relations: [],
+                bulletin_to_consent_uses: [],
                 publish_date: '',
                 documentation_date: new Date().toISOString().substr(0, 16),
                 discovery_file_name: "",
@@ -568,6 +572,7 @@
             }
         },
         mounted: function() {
+            this.getConsentUses();
             this.statusDisabled = !this.has_role(this.currentUser, 'Admin')
             // populate roles for advanced search for admins
             {% if current_user.has_role('Admin') %}
@@ -1253,6 +1258,35 @@
             if (confirm("Are you sure?")) {
                 this.editedItem.incident_relations.splice(index, 1);
             }
+        },
+        getConsentUses(){
+          axios.get('/admin/api/consent-uses/').then(res => {
+            this.consentUses = res.data.items;
+          }).catch(e => {
+            this.consentUses = [];
+            console.error(e.message);
+          });
+        },
+        isLastConsentUseRelationEmpty() {
+            if (this.editedItem.bulletin_to_consent_uses.length) {
+                return this.editedItem.bulletin_to_consent_uses[this.editedItem.bulletin_to_consent_uses.length - 1].consent_use_id === null;
+            }
+            return false;
+        },
+        addConsentUseRelation() {
+            if (!this.isLastConsentUseRelationEmpty()) {
+                this.editedItem.bulletin_to_consent_uses.push({
+                    consent_use_id: null,
+                    status: 'Pending'
+                });
+            }
+        },
+        handleConsentUseStatusChange(index, status) {
+          if (status !== 'Pending') {
+            this.editedItem.bulletin_to_consent_uses[index].date = new Date().toISOString().substr(0, 16);
+          } else {
+            this.editedItem.bulletin_to_consent_uses[index].date = null;
+          }
         },
     }
         });

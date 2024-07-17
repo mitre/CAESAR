@@ -22,6 +22,10 @@ Vue.component("pop-date-time-field", {
     dt: function () {
       this.emitInput();
     },
+    value: function () {
+      this.dt = this.value ? dateFns.format(this.value, "YYYY-MM-DD") : null;
+      this.tm = this.value ? dateFns.format(this.value, "HH:mm") : null;
+    }
   },
   created() {
     //this.emitInput();

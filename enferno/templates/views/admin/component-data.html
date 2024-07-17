@@ -60,6 +60,9 @@
                                         <v-tab class="justify-start">
                                             {{ _("Actor Sub Types") }}
                                         </v-tab>
+                                        <v-tab class="justify-start">
+                                          {{ _("Consent Uses") }}
+                                        </v-tab>
                                     </v-card>
                                     <v-tab-item class="pa-1">
                                         <v-card class="pa-3">
@@ -257,6 +260,14 @@
                                             </v-card-text>
                                         </v-card>
                                     </v-tab-item>
+                                    <v-tab-item class="pa-1">
+                                      <v-card class="pa-3">
+                                        <v-card-text>
+                                            <editable-table title="{{ _("Consent Uses") }}" :item-headers="consentUseHeaders" :editable-columns="['title','title_tr']" delete-endpoint="/admin/api/consent-uses/" save-endpoint="/admin/api/consent-uses/" load-endpoint="/admin/api/consent-uses/" extra-delete-message="This will delete all related consent uses on primary records.">
+                                            </editable-table>
+                                        </v-card-text>
+                                      </v-card>
+                                    </v-tab-item>
                                 </v-tabs>
                             </v-container>
                         </div>
@@ -420,6 +431,16 @@
                 text: "{{_('Actions')}}",
                 value: "actions"
             },],
+            consentUseHeaders: [{
+                text: "{{_('ID')}}",
+                value: "id"
+            }, {
+                text: "{{_('Title')}}",
+                value: "title"
+            }, {
+                text: "{{_('Actions')}}",
+                value: "actions"
+            }, ],
         }),
         mounted() { },
         methods: {}

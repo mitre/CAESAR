@@ -20,7 +20,7 @@ from sqlalchemy import and_, desc, or_, cast, String
 from werkzeug.utils import safe_join
 from werkzeug.utils import secure_filename
 
-from enferno.admin.models import (ActorSubType, Bulletin, Label, Source, Location, Eventtype, Media, Actor, Incident,
+from enferno.admin.models import (ActorSubType, Bulletin, ConsentUse, Label, Source, Location, Eventtype, Media, Actor, Incident,
                                   IncidentHistory, BulletinHistory, ActorHistory, LocationHistory, PotentialViolation,
                                   ClaimedViolation,
                                   Activity, Query, LocationAdminLevel, LocationType, AppConfig,
@@ -2784,6 +2784,80 @@ def api_sub_type_delete(id):
             return 'Deleted!', 200
         else:
             return 'Error deleting the sub type', 417
+
+@admin.route('/api/consent-uses/', methods=['GET'])
+def api_consent_uses():
+    """
+    Endpoint to get all consent uses
+    :return: consent uses in json format + success or error in case of failure
+    """
+    result = ConsentUse.query.all()
+    response = {'items': [item.to_dict() for item in result]}
+    return Response(json.dumps(response),
+                    content_type='application/json'), 200
+
+@admin.post('/api/consent-uses/')
+def api_consent_uses_create():
+    """
+    Endpoint to create a consent use
+    :return: success/error based on operation's result
+    """
+    consent_use = ConsentUse()
+    consent_use.from_json(request.json['item'])
+    result = consent_use.save()
+    if result:
+        return Response(json.dumps(result.to_dict()), content_type='application/json'), 200
+    else:
+        return 'There was an error creating the consent use', 500
+
+@admin.get('/api/consent-uses/<int:id>')
+def api_consent_use_get(id):
+    """
+    Endpoint to get a single consent use
+    :param id: id of the consent use
+    :return: consent use data in json format + success or error in case of failure
+    """
+    consent_use = ConsentUse.query.get(id)
+
+    if not consent_use:
+        return HTTPResponse.NOT_FOUND
+    else:
+        return Response(json.dumps(consent_use.to_dict()),
+                        content_type='application/json'), 200
+
+@admin.put('/api/consent-uses/<int:id>')
+def api_consent_use_update(id):
+    """
+    Endpoint to update a consent use
+    :param id: id of the consent use to be updated
+    :return: consent use data in json format + success or error in case of failure
+    """
+    consent_use = ConsentUse.query.get(id)
+    if consent_use is not None:
+        consent_use = consent_use.from_json(request.json['item'])
+        result = consent_use.save()
+        if result:
+            return json.dumps(result.to_dict()), 200
+        else:
+            return 'Error saving the consent use', 417
+    else:
+        return  HTTPResponse.NOT_FOUND
+
+@admin.delete('/api/consent-uses/<int:id>')
+def api_consent_use_delete(id):
+    """
+    Endpoint to delete a consent use
+    :param id: id of the consent use to be deleted
+    :return: success/error based on operation's result
+    """
+    consent_use = ConsentUse.query.get(id)
+    if consent_use is not None:
+        result = consent_use.delete()
+        Activity.create(current_user, Activity.ACTION_DELETE, consent_use.to_mini(), 'consent use')
+        if result:
+            return 'Deleted!', 200
+        else:
+            return 'Error deleting the consent use', 417
     else:
         return HTTPResponse.NOT_FOUND
 
