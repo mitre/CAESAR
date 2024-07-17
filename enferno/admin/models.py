@@ -925,14 +925,6 @@ class Location(db.Model, BaseMixin):
             "full_string": '{} | {}'.format(self.full_location or '', self.title_ar or ''),
         }
 
-    # custom compact serialization method
-    def min_json(self):
-        return {
-            'id': self.id,
-            'location_type': self.location_type.to_dict() if self.location_type else '',
-            'full_string': '{} | {}'.format(self.full_location, self.title_ar)
-        }
-
     def to_parent_dict(self):
         if not self.parent:
             return None
@@ -943,6 +935,14 @@ class Location(db.Model, BaseMixin):
                 "full_string": '{} | {}'.format(self.parent.full_location or '', self.parent.title_ar or ''),
                 "admin_level": self.parent.admin_level.to_dict() if self.parent.admin_level else ''
             }
+
+    # custom compact serialization method
+    def min_json(self):
+        return {
+            'id': self.id,
+            'location_type': self.location_type.to_dict() if self.location_type else '',
+            'full_string': '{} | {}'.format(self.full_location, self.title_ar)
+        }
 
     def to_compact(self):
         return {
