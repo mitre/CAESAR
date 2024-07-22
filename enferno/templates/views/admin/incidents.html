@@ -361,12 +361,6 @@
             eventLocationLoading: false,
             labelsLoading: false,
             eventtypeLoading: false,
-            //event dates popups
-            eventFromMenu: false,
-            eventToMenu: false,
-            //incident dates popups
-            publishDateMenu: false,
-            documentationDateMenu: false,
             footerProps: {
                 itemsPerPageOptions: itemsPerPageOptions,
                 itemsPerPageText: "{{ _('Rows per page')}}"
@@ -429,7 +423,7 @@
                                 // related actors
                                 actor_relations: [],
                                     publish_date: '',
-                                        documentation_date: new Date().toISOString().substr(0, 16),
+                                        created_at: '',
                 },
     reviewItem: { },
     // bulk actions
@@ -450,6 +444,14 @@
     incidentLoader: false
             }),
     computed: {
+        get_formatted_created_at_datetime(){
+            if(this.editedItem.created_at){
+                return dateFns.format(this.editedItem.created_at, "YYYY-MM-DD h:m A");
+            }
+            else{
+                return '';
+            }
+        },
         statusForbidsAssignment() {
             if (this.statusDisabled) {
                 return true;

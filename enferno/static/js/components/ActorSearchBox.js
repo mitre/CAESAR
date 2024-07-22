@@ -106,15 +106,6 @@ Vue.component("actor-search-box", {
                 />
               </div>
             </v-col>
-
-            <v-col md="6">
-              <div class="d-flex flex-wrap">
-                <pop-date-range-field
-                    :label="i18n.documentationDate_"
-                    v-model="q.docdate"
-                />
-              </div>
-            </v-col>
           </v-row>
 
           <v-row>

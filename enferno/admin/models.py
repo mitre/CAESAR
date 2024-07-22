@@ -2049,7 +2049,7 @@ class Bulletin(db.Model, BaseMixin):
             "discovery_file_name": self.discovery_file_name or None,
             "credibility": self.credibility or None,
             "publish_date": DateHelper.serialize_datetime(self.publish_date),
-            "documentation_date": DateHelper.serialize_datetime(self.documentation_date),
+            "created_at": DateHelper.serialize_datetime(self.created_at),
             "comments": self.comments or "",
         }
 
@@ -2067,8 +2067,7 @@ class Bulletin(db.Model, BaseMixin):
             'sjac_title_ar': self.serialize_column('sjac_title_ar'),
             'description': self.serialize_column('description'),
             'publish_date': self.serialize_column('publish_date'),
-            'documentation_date': self.serialize_column('documentation_date'),
-
+            'created_at': self.serialize_column('created_at'),
             'labels': convert_simple_relation(self.labels),
             'verified_labels': convert_simple_relation(self.ver_labels),
             'sources': convert_simple_relation(self.sources),
@@ -2278,7 +2277,7 @@ class Bulletin(db.Model, BaseMixin):
             "credibility": self.credibility or None,
             "ref": self.ref or None,
             "publish_date": DateHelper.serialize_datetime(self.publish_date),
-            "documentation_date": DateHelper.serialize_datetime(self.documentation_date),
+            "created_at": DateHelper.serialize_datetime(self.created_at),
             "status": self.status,
             "review": self.review if self.review else None,
             "review_action": self.review_action if self.review_action else None,
@@ -2317,7 +2316,7 @@ class Bulletin(db.Model, BaseMixin):
             "discovery_file_name": self.discovery_file_name or None,
             "credibility": self.credibility or None,
             "publish_date": DateHelper.serialize_datetime(self.publish_date),
-            "documentation_date": DateHelper.serialize_datetime(self.documentation_date),
+            "created_at": DateHelper.serialize_datetime(self.created_at),
 
         }
 
@@ -3440,7 +3439,7 @@ class Actor(db.Model, BaseMixin):
 
             "birth_date": DateHelper.serialize_datetime(self.birth_date) if self.birth_date else None,
             "publish_date": DateHelper.serialize_datetime(self.publish_date),
-            "documentation_date": DateHelper.serialize_datetime(self.documentation_date),
+            "created_at": DateHelper.serialize_datetime(self.created_at),
             "status": self.status,
             "review": self.review if self.review else None,
             "review_action": self.review_action if self.review_action else None,
@@ -4484,6 +4483,7 @@ class Incident(db.Model, BaseMixin):
             "review": self.review if self.review else None,
             "review_action": self.review_action if self.review_action else None,
             "updated_at": DateHelper.serialize_datetime(self.get_modified_date()),
+            "created_at": DateHelper.serialize_datetime(self.created_at),
             "roles": [role.to_dict() for role in self.roles] if self.roles else []
         }
 

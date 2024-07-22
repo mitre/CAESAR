@@ -17,7 +17,7 @@
                     <p class="meta">
                         Publish Date: {{ bulletin.publish_date.strftime("%Y-%m-%d %H:%M") if bulletin.publish_date else '' }}
                         <br>
-                        Date Created: {{ bulletin.documentation_date if bulletin.documentation_date else '' }}
+                        Date Created: {{ bulletin.created_at.strftime("%Y-%m-%d %H:%M") if bulletin.created_at else '' }}
                     </p>
                 </div>
             </header>

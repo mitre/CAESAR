@@ -1023,22 +1023,23 @@
                                 <span class="anchor" id="administrative-information"></span>
                                 <h2 class="form-section-header">{{ _("Administrative Information") }}</h2>
                                 <v-row>
-                                    <v-col cols="12"  md="8">
-                                        <pop-date-time-field time-label="{{ _('Time Created (UTC)') }}"
-                                            label="{{ _('Date Created') }}" v-model="editedItem.documentation_date">
-                                        </pop-date-time-field>
+                                    <v-col cols="12" md="4">
+                                        <v-text-field
+                                            v-model="get_formatted_created_at_datetime"
+                                            label="{{ _('Date Created') }}"
+                                            prepend-icon="mdi-calendar"
+                                            disabled
+                                        />
                                     </v-col>
                                     <v-col cols="12" md="4">
                                         <v-text-field v-if="editedItem.created_by" items="users" v-model="editedItem.created_by.name"
                                             disabled label="{{ _('Created By') }}"></v-text-field>
-                                        <v-text-field v-else readonly label="{{ _('Created By') }}"></v-text-field>
+                                        <v-text-field v-else disabled label="{{ _('Created By') }}"></v-text-field>
                                     </v-col>
                                     <v-col cols="12" md="4">
                                         <v-switch style="margin-left: auto" label="{{ _('Sensitive Data') }}" v-model="editedItem.sensitive_data">
                                         </v-switch>
                                     </v-col>
-                                </v-row>
-                                <v-row>
                                     <v-col cols="12" md="4">
                                         <v-select  :disabled="statusDisabled" item-text="tr" item-value="en" :items="statusItems" v-model="editedItem.status"
                                             label="{{ _('Status') }}">

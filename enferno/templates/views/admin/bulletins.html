@@ -397,12 +397,6 @@
                 second: false,
                 third: false
             },
-            //event dates popups
-            eventFromMenu: false,
-            eventToMenu: false,
-            //bulletin dates popups
-            publishDateMenu: false,
-            documentationDateMenu: false,
             footerProps: {
                 itemsPerPageOptions: itemsPerPageOptions,
                 itemsPerPageText: "{{ _('Rows per page')}}"
@@ -469,7 +463,7 @@
                 incident_relations: [],
                 bulletin_to_consent_uses: [],
                 publish_date: '',
-                documentation_date: new Date().toISOString().substr(0, 16),
+                created_at: '',
                 discovery_file_name: "",
             },
             reviewItem: { },
@@ -492,6 +486,14 @@
             bulletinLoader: false
         }),
         computed: {
+            get_formatted_created_at_datetime(){
+                if(this.editedItem.created_at){
+                    return dateFns.format(this.editedItem.created_at, "YYYY-MM-DD h:m A");
+                }
+                else{
+                    return '';
+                }
+            },
             statusForbidsAssignment() {
                 if (this.statusDisabled) {
                     return true;
@@ -1054,16 +1056,6 @@
                 this.showSnack(response.data);
                 this.searchBulletins();
             });
-        },
-        adjustDates() {
-            if (this.editedItem.publish_date) {
-                this.editedItem.publish_time = dateFns.format(this.editedItem.publish_date, 'HH:mm');
-                this.editedItem.publish_date = dateFns.format(this.editedItem.publish_date, 'YYYY-MM-DD')
-            }
-            if (this.editedItem.documentation_date) {
-                this.editedItem.documentation_time = dateFns.format(this.editedItem.documentation_date, 'HH:mm');
-                this.editedItem.documentation_date = dateFns.format(this.editedItem.documentation_date, 'YYYY-MM-DD');
-            }
         },
         editItem(item) {
             this.bulletinDrawer = false;
