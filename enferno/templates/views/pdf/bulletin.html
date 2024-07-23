@@ -13,7 +13,7 @@
                      src="{{ config.BASE_URL }}static/img/bayanat-h-v2.png"
                      alt="">
                 <div>
-                    <div class="id">Bulletin {{ bulletin.id }}</div>
+                    <div class="id">Primary Record {{ bulletin.id }}</div>
                     <p class="meta">
                         Publish Date: {{ bulletin.publish_date.strftime("%Y-%m-%d %H:%M") if bulletin.publish_date else '' }}
                         <br>
@@ -179,7 +179,7 @@
                 </article>
             </section>
             <section class="related">
-                <h4>Related Incidents</h4>
+                <h4>Related Investigations</h4>
                 <article>
                     {% for rel in bulletin.incident_relations_dict %}
                         <table class="no-break">

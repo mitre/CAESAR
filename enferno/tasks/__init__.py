@@ -532,16 +532,21 @@ def generate_json_file(export_id: int):
     try:
         with open(f'{file_path}.json', 'a') as file:
             file.write('{ \n')
-            file.write(f'"{export_type}s": [ \n')
+            export_type_renamed = export_type
+            if export_type == 'bulletin':
+                export_type_renamed = 'primary_record'
+            elif export_type == 'incident':
+                export_type_renamed = 'investigation'
+            file.write(f'"{export_type_renamed}s": [ \n')
             for group in chunks:
                 if export_type == 'bulletin':
-                    batch = ','.join(bulletin.to_json() for bulletin in Bulletin.query.filter(Bulletin.id.in_(group)))
+                    batch = ','.join(bulletin.to_json(export=True) for bulletin in Bulletin.query.filter(Bulletin.id.in_(group)))
                     file.write(f'{batch}\n')
                 elif export_type == 'actor':
-                    batch = ','.join(actor.to_json() for actor in Actor.query.filter(Actor.id.in_(group)))
+                    batch = ','.join(actor.to_json(export=True) for actor in Actor.query.filter(Actor.id.in_(group)))
                     file.write(f'{batch}\n')
                 elif export_type == 'incident':
-                    batch = ','.join(incident.to_json() for incident in Incident.query.filter(Incident.id.in_(group)))
+                    batch = ','.join(incident.to_json(export=True) for incident in Incident.query.filter(Incident.id.in_(group)))
                     file.write(f'{batch}\n')
                 # less db overhead
                 time.sleep(0.2)

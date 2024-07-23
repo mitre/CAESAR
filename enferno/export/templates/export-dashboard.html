@@ -22,6 +22,9 @@
                                             <v-spacer></v-spacer>
                                         </v-toolbar>
                                     </template>
+                                    <template v-slot:item.table="{item}">
+                                        ${tableRenameHandler(item.table)}
+                                    </template>
                                     <template v-slot:item.expires_on="{item}">
                                         ${item.expires_on|localDate}
                                     </template>
@@ -187,6 +190,11 @@
             })
         },
         methods: {
+            tableRenameHandler(table) {
+                if (table === 'bulletin') return 'primary record';
+                if (table === 'incident') return 'investigation';
+                return table;
+            },
             rowClick(item) {
                 path = `/export/dashboard/${item.id}`;
                 if (this.$route.path !== path) this.$router.push(path);
