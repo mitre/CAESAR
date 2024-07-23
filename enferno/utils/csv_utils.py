@@ -33,8 +33,9 @@ def convert_complex_relation(relation, table_name):
     if relation:
         for i, v in enumerate(relation):
             if table_name in ['bulletin', 'incident']:
+                renamed_table_name = 'primary_record' if table_name == 'bulletin' else 'investigation'
                 output[
-                    f'{table_name}-{i + 1}'] = f'{v.get(f"{table_name}").get("id")}-{v.get(f"{table_name}").get("title")}'
+                    f'{renamed_table_name}-{i + 1}'] = f'{v.get(f"{table_name}").get("id")}-{v.get(f"{table_name}").get("title")}'
             elif table_name == 'actor':
                 output[
                     f'{table_name}-{i + 1}'] = f'{v.get(f"{table_name}").get("id")}-{v.get(f"{table_name}").get("name")}'

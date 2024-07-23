@@ -19,4 +19,9 @@ class PDFUtil:
 
     @property
     def filename(self):
-        return f'{self.model.__tablename__}-{self.model.id}.pdf'
+        renamed_table_name = self.model.__tablename__
+        if self.model.__tablename__ == 'bulletin':
+            renamed_table_name = 'primary_record'
+        elif self.model.__tablename__ == 'incident':
+            renamed_table_name = 'investigation'
+        return f'{renamed_table_name}-{self.model.id}.pdf'

@@ -24,7 +24,7 @@ from enferno.user.models import Role
 from enferno.utils.base import BaseMixin
 from enferno.utils.csv_utils import convert_simple_relation, convert_complex_relation
 from enferno.utils.date_helper import DateHelper
-
+from enferno.utils.rename_utils import export_json_rename_handler
 
 # Load configurations based on environment settings
 
@@ -2076,9 +2076,9 @@ class Bulletin(db.Model, BaseMixin):
             'geo_locations': convert_simple_relation(self.geo_locations),
             'media': convert_simple_relation(self.medias),
             'events': convert_simple_relation(self.events),
-            'related_bulletins': convert_complex_relation(self.bulletin_relations_dict, Bulletin.__tablename__),
+            'related_primary_records': convert_complex_relation(self.bulletin_relations_dict, Bulletin.__tablename__),
             'related_actors': convert_complex_relation(self.actor_relations_dict, Actor.__tablename__),
-            'related_incidents': convert_complex_relation(self.incident_relations_dict, Incident.__tablename__),
+            'related_investigations': convert_complex_relation(self.incident_relations_dict, Incident.__tablename__),
 
         }
         return output
@@ -2321,8 +2321,11 @@ class Bulletin(db.Model, BaseMixin):
 
         }
 
-    def to_json(self):
-        return json.dumps(self.to_dict())
+    def to_json(self, export=False):
+        bulletin_to_dict = self.to_dict()
+        if export:
+            bulletin_to_dict = export_json_rename_handler(bulletin_to_dict)
+        return json.dumps(bulletin_to_dict)
 
     @staticmethod
     def get_columns():
@@ -3209,9 +3212,9 @@ class Actor(db.Model, BaseMixin):
             'sources': convert_simple_relation(self.sources),
             'media': convert_simple_relation(self.medias),
             'events': convert_simple_relation(self.events),
-            'related_bulletins': convert_complex_relation(self.bulletin_relations_dict, Bulletin.__tablename__),
+            'related_primary_records': convert_complex_relation(self.bulletin_relations_dict, Bulletin.__tablename__),
             'related_actors': convert_complex_relation(self.actor_relations_dict, Actor.__tablename__),
-            'related_incidents': convert_complex_relation(self.incident_relations_dict, Incident.__tablename__),
+            'related_investigations': convert_complex_relation(self.incident_relations_dict, Incident.__tablename__),
 
         }
         return output
@@ -3477,8 +3480,11 @@ class Actor(db.Model, BaseMixin):
 
         }
 
-    def to_json(self):
-        return json.dumps(self.to_dict())
+    def to_json(self, export=False):
+        actor_to_dict = self.to_dict()
+        if export:
+            actor_to_dict = export_json_rename_handler(actor_to_dict)
+        return json.dumps(actor_to_dict)
 
     @staticmethod
     def geo_query_origin_place(target_point, radius_in_meters):
@@ -4513,8 +4519,11 @@ class Incident(db.Model, BaseMixin):
             "status": self.status if self.status else None,
         }
 
-    def to_json(self):
-        return json.dumps(self.to_dict())
+    def to_json(self, export=False):
+        incident_to_dict = self.to_dict()
+        if export:
+            incident_to_dict = export_json_rename_handler(incident_to_dict)
+        return json.dumps(incident_to_dict)
 
     def get_modified_date(self):
         if self.history:
