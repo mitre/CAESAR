@@ -909,6 +909,22 @@ class Location(db.Model, BaseMixin):
             "updated_at": DateHelper.serialize_datetime(self.updated_at)
         }
 
+    def to_dict_without_geometry(self):
+        if self.parent:
+            if not self.parent.admin_level:
+                print(self.parent, ' <-')
+
+        return {
+            "id": self.id,
+            "title": self.title,
+            "title_ar": self.title_ar,
+            "location_type": self.location_type.to_dict() if self.location_type else '',
+            "admin_level": self.admin_level.to_dict() if self.admin_level else '',
+            "parent": self.to_parent_dict(),
+            "full_location": self.full_location,
+            "full_string": '{} | {}'.format(self.full_location or '', self.title_ar or ''),
+        }
+
     def to_parent_dict(self):
         if not self.parent:
             return None
