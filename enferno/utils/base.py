@@ -64,6 +64,7 @@ class BaseMixin(object):
         output = {
             'id': self.id,
             'title': getattr(self, 'title', ''),
+            'sjac_title': getattr(self, 'sjac_title', ''),
             'name': getattr(self, 'name', ''),
             'assigned_to': at,
             'first_peer_reviewer': fp,
