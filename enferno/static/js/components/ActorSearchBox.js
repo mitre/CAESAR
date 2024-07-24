@@ -26,6 +26,9 @@ Vue.component("actor-search-box", {
       type: Boolean,
       default: false,
     },
+    socialMediaPlatforms: {
+      type: Array
+    }
   },
 
   data: () => {
@@ -246,6 +249,24 @@ Vue.component("actor-search-box", {
               ></v-text-field>
             </v-col>
           </v-row>
+
+      <v-row>
+        <v-col md="12">
+          <v-text-field
+            v-model="q.social_media_handle"
+            label="Social Media Handle"
+            clearable
+          ></v-text-field>
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col md="12">
+          <v-select v-if="socialMediaPlatforms" v-model="q.social_media_platform" hide-details
+            :items="socialMediaPlatforms" item-text="title" item-value="id" clearable
+            label="Social Media Platform"></v-select>
+        </v-col>
+      </v-row>
 
           <v-row v-if="isAdmin">
             <v-col md="9">

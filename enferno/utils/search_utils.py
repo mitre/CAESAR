@@ -7,6 +7,8 @@ from enferno.admin.models import (
     Actor,
     Incident,
     Label,
+    SocialMediaHandle,
+    SocialMediaPlatform,
     Source,
     Location,
     Event,
@@ -448,6 +450,12 @@ class SearchUtils:
                 Actor.mother_name_ar.ilike(f"%{search}%")
             )
             )
+
+        if search := q.get("social_media_handle"):
+            query.append(Actor.social_media_handles.any(SocialMediaHandle.handle_name.ilike(f"%{search}%")))
+
+        if search := q.get("social_media_platform"):
+            query.append(Actor.social_media_handles.any(SocialMediaHandle.platform.has(SocialMediaPlatform.id == search)))
 
         ethno = q.get('ethnography')
         op = q.get('opEthno')
