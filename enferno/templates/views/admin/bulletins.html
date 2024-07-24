@@ -413,8 +413,14 @@
                 width: 12,
                 sortable: true
             }, {
-                text: "{{_('Title')}}",
+                text: "{{_('Original Title')}}",
                 value: "title",
+                width: 300,
+                sortable: true
+            },
+            {
+                text: "{{_('Title')}}",
+                value: "sjac_title",
                 width: 300,
                 sortable: true
             },
@@ -429,12 +435,8 @@
                 width: 130,
                 sortable: true
             },
-            {% endif %} {
-                text: "{{_('Status')}}",
-                value: "_status",
-                width: 150,
-                sortable: true
-            }, {
+            {% endif %}  
+            {
                 text: "{{_('Actions')}}",
                 value: "action",
                 sortable: false,
