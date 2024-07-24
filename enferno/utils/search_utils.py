@@ -14,7 +14,8 @@ from enferno.admin.models import (
     PotentialViolation,
     ClaimedViolation,
     Ethnography,
-    Country
+    Country,
+    Media
 )
 from enferno.user.models import Role
 
@@ -222,6 +223,9 @@ class SearchUtils:
         if len(exvlabels):
             ids = [item.get('id') for item in exvlabels]
             query.append(~Bulletin.ver_labels.any(Label.id.in_(ids)))
+
+        if media_title_search := q.get('media_title', None):
+            query.append(Bulletin.medias.any(Media.title.ilike(f"%{media_title_search}%")))
 
         sources = q.get('sources', [])
         if len(sources):
@@ -606,6 +610,9 @@ class SearchUtils:
         review_action = q.get('reviewAction', None)
         if review_action:
             query.append(Actor.review_action == review_action)
+
+        if media_title_search := q.get('media_title', None):
+            query.append(Actor.medias.any(Media.title.ilike(f"%{media_title_search}%")))
 
         # Geospatial search
         loc_types = q.get('locTypes')
