@@ -352,6 +352,15 @@ Vue.component("actor-search-box", {
             </v-col>
           </v-row>
           <v-row>
+            <v-col cols="12">
+              <v-text-field
+                v-model="q.media_title"
+                label="Media Title"
+                clearable
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
 
             <v-col>
               <div class="d-flex">
