@@ -9,6 +9,7 @@ from flask_security.forms import LoginForm
 from oauthlib.oauth2 import WebApplicationClient
 from sqlalchemy.orm.attributes import flag_modified
 from apiflask import APIBlueprint
+from uuid import uuid4
 
 from enferno.settings import Config as cfg
 from enferno.user.forms import ExtendedLoginForm
@@ -140,7 +141,8 @@ def auth_callback():
         u.name = users_name
         u.active = True
         u.password = os.urandom(32).hex()
-        u.save()
+        u.fs_uniquifier = uuid4().hex
+        u.save(raise_exception=True)
 
     login_user(u)
     return redirect(cfg.SECURITY_POST_LOGIN_VIEW)
