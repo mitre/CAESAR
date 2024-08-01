@@ -31,9 +31,11 @@ Vue.component("preview-card", {
 
                 <bulletin-card :i18n="i18n" v-if="item && item.class=='bulletin'" :close="false"
                                :bulletin="item"></bulletin-card>
-                <actor-card :i18n="i18n" v-if="item && item.class=='actor'" :close="false" :actor="item"></actor-card>
-                <incident-card :i18n="i18n" v-if="item && item.class=='incident'" :close="false"
+                <actor-card :i18n="i18n" v-else-if="item && item.class=='actor'" :close="false" :actor="item"></actor-card>
+                <incident-card :i18n="i18n" v-else-if="item && item.class=='incident'" :close="false"
                                :incident="item"></incident-card>
+                <location-card :i18n="i18n" v-else-if="item" :close="false"
+                               :location="item"></location-card>
 
             </v-card>
 
