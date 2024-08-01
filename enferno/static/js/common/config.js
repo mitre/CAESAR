@@ -445,7 +445,7 @@ function prepareEventLocations(parentId, events) {
   return output.map((x, i) => {
     //attach serial number to events for map reference
     x.location.number = i + 1;
-    x.location.title = x.title;
+    if (!x.location.title) x.location.title = x.title;
     x.location.type = "Event";
     x.location.parentId = parentId;
     x.location.color = "#00f166";
