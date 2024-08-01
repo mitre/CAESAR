@@ -27,7 +27,6 @@ Vue.component("actor-card", {
         this.mediasReady == this.actor.medias.length &&
         this.mediasReady > 0
       ) {
-        console.log("ready");
         this.prepareImagesForPhotoswipe().then((res) => {
           this.initLightbox();
         });

@@ -14,6 +14,7 @@ Vue.component("visualization", {
     BULLETINCOLOR: "#4a9bed",
     INCIDENTCOLOR: "#f4be39",
     LOCATIONCOLOR: "#ff663366",
+    EVENTLOCATIONCOLOR: "#F24236",
   }),
   mounted() {},
 
@@ -36,6 +37,10 @@ Vue.component("visualization", {
     },
 
     find_relation_type(item, relation, target) {
+      if (!relation?.related_as) {
+        return "";
+      }
+
       if (item.class === "bulletin" && target.toLowerCase() === "bulletin") {
         const relatedTitles = [];
 
@@ -71,31 +76,27 @@ Vue.component("visualization", {
       }
 
       if (item.class === "actor" && target.toLowerCase() === "actor") {
-        if (relation.related_as) {
-          // Directly find the atoaInfo object with the matching id
-          const atoaInfo = this.$root.atoaInfo.find(
-            (info) => info.id === relation.related_as,
-          );
+        // Directly find the atoaInfo object with the matching id
+        const atoaInfo = this.$root.atoaInfo.find(
+          (info) => info.id === relation.related_as,
+        );
 
-          // Return the title, checking which one to return based on the id comparison
-          if (atoaInfo) {
-            if (relation.actor.id > item.id) {
-              return atoaInfo.title;
-            } else {
-              return atoaInfo.reverse_title;
-            }
+        // Return the title, checking which one to return based on the id comparison
+        if (atoaInfo) {
+          if (relation.actor.id > item.id) {
+            return atoaInfo.title;
+          } else {
+            return atoaInfo.reverse_title;
           }
         }
       }
 
       if (item.class === "incident" && target.toLowerCase() === "incident") {
-        if (relation.related_as) {
-          const itoiInfo = this.$root.itoiInfo.find(
-            (info) => info.id === relation.related_as,
-          );
-          if (itoiInfo) {
-            return itoiInfo.title;
-          }
+        const itoiInfo = this.$root.itoiInfo.find(
+          (info) => info.id === relation.related_as,
+        );
+        if (itoiInfo) {
+          return itoiInfo.title;
         }
       }
 
@@ -103,13 +104,11 @@ Vue.component("visualization", {
         (item.class === "incident" && target.toLowerCase() === "bulletin") ||
         (item.class === "bulletin" && target.toLowerCase() === "incident")
       ) {
-        if (relation.related_as) {
-          const itobInfo = this.$root.itobInfo.find(
-            (info) => info.id === relation.related_as,
-          );
-          if (itobInfo) {
-            return itobInfo.title;
-          }
+        const itobInfo = this.$root.itobInfo.find(
+          (info) => info.id === relation.related_as,
+        );
+        if (itobInfo) {
+          return itobInfo.title;
         }
       }
 
@@ -186,19 +185,19 @@ Vue.component("visualization", {
       });
 
       // event locations
-      //helper method
-      let elocations = [];
-      if (item.events && item.events > 0) {
-        elocations = item.events.map((x) => x.location);
-      }
-
-      locations = locations.map((x) => {
+      let elocations = item.events.reduce((acc, event) => {
+        if (event.location) {
+          acc.push(event.location);
+        }
+        return acc;
+      }, []);
+      elocations = elocations.map((x) => {
         return {
           id: "L" + x.id,
-          related_as: "location",
+          related_as: "Event Location",
           title: x.title,
-          color: "#ff663366",
-          type: "Location",
+          color: this.EVENTLOCATIONCOLOR,
+          type: "Event Location",
           collapsed: false,
           childLinks: [],
         };
@@ -445,6 +444,10 @@ Vue.component("visualization", {
               this.$root.previewItem(
                 `/admin/api/${type}/${node.id.substring(1)}`,
               );
+            } else if (type === "event location") {
+              this.$root.previewItem(
+                `/admin/api/location/${node.id.substring(1)}`,
+              );
             }
           } else if (node.collapsed) {
             this.loadNode(node);
@@ -562,6 +565,10 @@ Vue.component("visualization", {
               <div class="caption mr-3">
                 <v-icon small :color="this.LOCATIONCOLOR" left> mdi-checkbox-blank-circle</v-icon>
                 {{ i18n.locations_ }}
+              </div>
+              <div class="caption mr-3">
+                <v-icon small :color="this.EVENTLOCATIONCOLOR" left> mdi-checkbox-blank-circle</v-icon>
+                Event Locations
               </div>
               <div>
               </div>
