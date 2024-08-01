@@ -260,6 +260,10 @@
                 <div class="description">{{ actor.description|safe }}</div>
             </section>
             <section>
+                <h4>Credibility</h4>
+                <div>{{ actor.to_dict()._credibility }}</div>
+            </section>
+            <section>
                 <h4>Labels</h4>
                 {% for label in actor.labels %}<span class="tag">{{ label.title }}</span>{% endfor %}
             </section>

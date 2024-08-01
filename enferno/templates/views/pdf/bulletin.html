@@ -76,6 +76,10 @@
                 <div class="description">{{ bulletin.description|safe }}</div>
             </section>
             <section>
+                <h4>Credibility</h4>
+                <div>{{ bulletin.to_dict()._credibility }}</div>
+            </section>
+            <section>
                 <h4>Labels</h4>
                 {% for label in bulletin.labels %}<span class="tag">{{ label.title }}</span>{% endfor %}
             </section>

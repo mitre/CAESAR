@@ -290,7 +290,12 @@ Vue.component("actor-card", {
 
         <div class="actor-description" v-html="actor.description"></div>
       </v-card-text>
-    </v-card>
+
+      </v-card>
+      
+      <div class="d-flex" v-if="actor.credibility">
+        <uni-field :caption="i18n.credibility_" :english="actor._credibility"></uni-field>
+      </div>
 
 
       <uni-field :caption="i18n.fullName_" :english="actor.name" :arabic="actor.name_ar"></uni-field>
