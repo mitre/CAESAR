@@ -242,14 +242,6 @@ Vue.component("bulletin-card", {
         this.diffResult = jsondiffpatch.formatters.html.format(delta);
       }
     },
-
-    getCredibilityLabel(value) {
-      const credibilityRating = this.credibilityRatings.find(rating => {
-        return rating.value === value;
-      });
-
-      return credibilityRating?.label;
-    }
   },
 
   data: function () {
@@ -275,14 +267,6 @@ Vue.component("bulletin-card", {
       bulletinLM: false,
       actorLM: false,
       incidentLM: false,
-      credibilityRatings: [
-        {label: '1 - Confirmed', value: 1},
-        {label: '2 - Probably True', value: 2},
-        {label: '3 - Possibly True', value: 3},
-        {label: '4 - Doubtful', value: 4},
-        {label: '5 - Improbable', value: 5},
-        {label: '6 - Truth cannot be judged', value: 6},
-      ],
     };
   },
 
@@ -359,7 +343,7 @@ Vue.component("bulletin-card", {
 
         <!-- Credibility -->
         <div class="d-flex" v-if="bulletin.credibility">
-          <uni-field :caption="i18n.credibility_" :english="getCredibilityLabel(bulletin.credibility)"></uni-field>
+          <uni-field :caption="i18n.credibility_" :english="bulletin._credibility"></uni-field>
         </div>
 
 

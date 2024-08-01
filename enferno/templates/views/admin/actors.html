@@ -284,6 +284,15 @@
             btobInfo: JSON.parse(document.querySelector('[data-btob]').dataset.btob),
             atoaInfo: JSON.parse(document.querySelector('[data-atoa]').dataset.atoa),
             assignActor: {},
+            credibilityItems: [
+                {label: '-', value: undefined},
+                {label: '1 - Confirmed', value: 1},
+                {label: '2 - Probably True', value: 2},
+                {label: '3 - Possibly True', value: 3},
+                {label: '4 - Doubtful', value: 4},
+                {label: '5 - Improbable', value: 5},
+                {label: '6 - Truth cannot be judged', value: 6},
+            ],
             selfAssignDialog: false,
             assignDialog: false,
             // missing person toggle

@@ -70,6 +70,17 @@ def check_relation_roles(method):
 
     return _impl
 
+def getCredibility(credibility):
+    creds = {
+        1: '1 - Confirmed',
+        2: '2 - Probably True',
+        3: '3 - Possibly True',
+        4: '4 - Doubtful',
+        5: '5 - Improbable',
+        6: '6 - Truth cannot be judged'
+    }
+
+    return creds.get(credibility)
 
 ######  -----  ######
 
@@ -2291,6 +2302,7 @@ class Bulletin(db.Model, BaseMixin):
             "sensitive_data": self.sensitive_data or None,
             "discovery_file_name": self.discovery_file_name or None,
             "credibility": self.credibility or None,
+            "_credibility": getCredibility(self.credibility) if self.credibility else None,
             "ref": self.ref or None,
             "publish_date": DateHelper.serialize_datetime(self.publish_date),
             "created_at": DateHelper.serialize_datetime(self.created_at),
@@ -2462,6 +2474,8 @@ class Actor(db.Model, BaseMixin):
 
     description = db.Column(db.Text)
 
+    credibility = db.Column(db.Integer)
+    
     aliases = db.relationship('Alias', back_populates='actor', cascade='all, delete-orphan')
 
     first_name = db.Column(db.String(255))
@@ -2756,6 +2770,7 @@ class Actor(db.Model, BaseMixin):
         )
 
         self.description = json["description"] if "description" in json else None
+        self.credibility = json["credibility"] if "credibility" in json else None
 
         self.occupation = json["occupation"] if "occupation" in json else None
         self.occupation_ar = json["occupation_ar"] if "occupation_ar" in json else None
@@ -3216,6 +3231,8 @@ class Actor(db.Model, BaseMixin):
             'birth_place': self.serialize_column('birth_place'),
 
             'description': self.serialize_column('description'),
+            
+            'credibility': self.serialize_column('credibility'),
 
             'publish_date': self.serialize_column('publish_date'),
             'documentation_date': self.serialize_column('documentation_date'),
@@ -3400,6 +3417,8 @@ class Actor(db.Model, BaseMixin):
             "name": self.name or None,
             "name_ar": getattr(self, 'name_ar'),
             "description": self.description or None,
+            "credibility": self.credibility or None,
+            "_credibility": getCredibility(self.credibility) if self.credibility else None,
             "first_name": self.first_name or None,
             "first_name_ar": self.first_name_ar or None,
             "middle_name": self.middle_name or None,
@@ -3487,6 +3506,7 @@ class Actor(db.Model, BaseMixin):
             "originid": self.originid or None,
             "name": self.name or None,
             "description": self.description or None,
+            "credibility": self.credibility or None,
             "comments": self.comments or None,
             "sources": sources_json,
             "publish_date": DateHelper.serialize_datetime(self.publish_date),
