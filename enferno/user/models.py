@@ -156,6 +156,9 @@ class User(UserMixin, db.Model, BaseMixin):
     can_edit_locations = db.Column(db.Boolean, default=False)
     can_export = db.Column(db.Boolean, default=False)
 
+    assigned_to_organizations = db.relationship('Organization', back_populates='assigned_to', foreign_keys='Organization.assigned_to_id')
+    created_organizations = db.relationship('Organization', back_populates='created_by', foreign_keys='Organization.created_by_id')
+    first_peer_reviewer_organizations = db.relationship('Organization', back_populates='first_peer_reviewer', foreign_keys='Organization.first_peer_reviewer_id')
     # oauth
     oauth_id = db.Column(db.String(255))
 
