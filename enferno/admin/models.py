@@ -2458,6 +2458,952 @@ actor_ethnographies = db.Table('actor_ethnographies',
     db.Column('ethnography_id', db.Integer, db.ForeignKey('ethnographies.id'), primary_key=True)
 )
 
+class OrganizationRoleActor(db.Model, BaseMixin):
+    """
+    SQL Alchemy model for organization roles to actor map
+    """
+    extend_existing = True
+
+    id = db.Column(db.Integer, primary_key=True)
+    currently_active = db.Column(db.Boolean, default=True)
+    from_date = db.Column(db.Date)
+    to_date = db.Column(db.Date)
+
+    actor_id = db.Column(db.Integer, db.ForeignKey('actor.id'))
+    actor = db.relationship('Actor', back_populates='organization_roles', foreign_keys=[actor_id])
+
+    organization_role_id = db.Column(db.Integer, db.ForeignKey('organization_role.id'))
+    organization_role = db.relationship('OrganizationRole', back_populates='actors', foreign_keys=[organization_role_id])
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "actor_id": self.actor_id,
+            "currently_active": self.currently_active,
+            "from_date": self.from_date,
+            "to_date": self.to_date,
+            "organization_role_id": self.organization_role_id
+        }
+    
+    def from_json(self, jsn):
+        self.actor_id = jsn.get('actor_id', self.actor_id)
+        self.currently_active = jsn.get('currently_active', self.currently_active)
+        self.from_date = jsn.get('from_date', self.from_date)
+        self.to_date = jsn.get('to_date', self.to_date)
+        self.organization_role_id = jsn.get('organization_role_id', self.organization_role_id)
+        return self
+
+
+class OrganizationRole(db.Model, BaseMixin):
+    """
+    SQL Alchemy model for organization roles
+    """
+    extend_existing = True
+
+    __table_args__ = (db.CheckConstraint('id != reports_to_id', name='organization_role_no_self_relation'),)
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    title = db.Column(db.String(255))
+    currently_active = db.Column(db.Boolean, default=True)
+    from_date = db.Column(db.Date)
+    to_date = db.Column(db.Date)
+
+    organization_id = db.Column(db.Integer, db.ForeignKey('organization.id'))
+    organization = db.relationship('Organization', back_populates='roles_within', foreign_keys=[organization_id])
+
+    actors = db.relationship('OrganizationRoleActor', back_populates='organization_role', cascade='all, delete-orphan')
+
+    reports_to_id = db.Column(db.Integer, db.ForeignKey('organization_role.id'), nullable=True)
+    reports_to = db.relationship('OrganizationRole', back_populates='reportees', remote_side=[id])
+
+    reportees = db.relationship('OrganizationRole', back_populates='reports_to')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "currently_active": self.currently_active,
+            "from_date": self.from_date,
+            "to_date": self.to_date,
+            "organization_id": self.organization_id,
+            "reports_to_id": self.reports_to_id,
+            "reportees": [r.to_dict() for r in self.reportees]
+        }
+    
+    def from_json(self, jsn):
+        self.title = jsn.get('title', self.title)
+        self.currently_active = jsn.get('currently_active', self.currently_active)
+        self.from_date = jsn.get('from_date', self.from_date)
+        self.to_date = jsn.get('to_date', self.to_date)
+        self.organization_id = jsn.get('organization_id', self.organization_id)
+        self.reports_to_id = jsn.get('reports_to_id', self.reports_to_id)
+        if "actors" in jsn:
+            new_actors = []
+            for actor in jsn["actors"]:
+                if "id" not in actor:
+                    # new actor
+                    a = OrganizationRoleActor()
+                    a = a.from_json(actor)
+                    a.save()
+                else:
+                    # actor already exists, get a db instance and update it with new data
+                    a = OrganizationRoleActor.query.get(actor["id"])
+                    a.from_json(actor)
+                    a.save()
+                new_actors.append(a)
+            # remove old actors
+            for actor in self.actors:
+                if actor not in new_actors:
+                    actor.delete()
+            self.actors = new_actors
+        return self
+
+
+class OrganizationAlias(db.Model, BaseMixin):
+    """
+    SQL Alchemy model for organization aliases
+    """
+    extend_existing = True
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    name_ar = db.Column(db.String, nullable=True)
+    organization_id = db.Column(db.Integer, db.ForeignKey('organization.id'), nullable=False)
+    organization = db.relationship('Organization', back_populates='aliases')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "name_ar": self.name_ar,
+            "organization_id": self.organization_id
+        }
+
+    def from_json(self, jsn):
+        self.name = jsn['name'] if 'name' in jsn else self.name
+        self.name_ar = jsn['name_ar'] if 'name_ar' in jsn else self.name_ar
+        if 'organization_id' in jsn:
+            self.organization_id = jsn['organization_id']
+        elif 'organization' in jsn:
+            self.organization_id = jsn['organization']['id']
+        return self
+
+
+organization_locations = db.Table('organization_locations',
+                                  db.Column('organization_id', db.Integer, db.ForeignKey('organization.id'), primary_key=True),
+                                  db.Column('location_id', db.Integer, db.ForeignKey('location.id'), primary_key=True)
+                                  )
+# This is for ACCESS ROLES, different from the organization roles that relate to actors
+organization_roles = db.Table('organization_roles',
+                              db.Column('organization_id', db.Integer, db.ForeignKey('organization.id'), primary_key=True),
+                              db.Column('role_id', db.Integer, db.ForeignKey('role.id'), primary_key=True)
+                              )
+
+class Organization(db.Model, BaseMixin):
+    """
+    SQL Alchemy model for organizations
+    """
+    extend_existing = True
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    name = db.Column(db.String(255))
+    name_ar = db.Column(db.String(255))
+
+    founded_date = db.Column(db.Date)
+    description = db.Column(db.Text)
+    status = db.Column(db.String(255))
+    comments = db.Column(db.Text)
+
+    created_by_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    created_by = db.relationship('User', back_populates='created_organizations', foreign_keys=[created_by_id])
+
+    first_peer_reviewer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    first_peer_reviewer = db.relationship('User', back_populates='first_peer_reviewer_organizations', foreign_keys=[first_peer_reviewer_id])
+
+    aliases = db.relationship('OrganizationAlias', back_populates='organization', cascade='all, delete-orphan')
+    roles_within = db.relationship('OrganizationRole', back_populates='organization', cascade='all, delete-orphan')
+
+    assigned_to_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    assigned_to = db.relationship("User", back_populates="assigned_to_organizations", foreign_keys=[assigned_to_id])
+
+    locations = db.relationship('Location',
+                                secondary=organization_locations,
+                                backref=db.backref('organizations', lazy='dynamic')
+                                )
+
+    roles = db.relationship('Role',
+                            secondary=organization_roles,
+                            backref=db.backref('organizations', lazy='dynamic')
+                            )
+
+    organizations_to = db.relationship(
+        "Otoo", backref="organization_from", foreign_keys="Otoo.organization_id"
+    )
+
+    organizations_from = db.relationship(
+        "Otoo", backref="organization_to", foreign_keys="Otoo.related_organization_id"
+    )
+
+    related_incidents = db.relationship(
+        "Otoi", backref="organization", foreign_keys="Otoi.organization_id"
+    )
+    related_bulletins = db.relationship(
+        "Otob", backref="organization", foreign_keys="Otob.organization_id"
+    )
+
+    # review fields
+    review = db.Column(db.Text)
+    review_action = db.Column(db.String)
+
+    # metadata
+    meta = db.Column(JSONB)
+
+    tsv = db.Column(TSVECTOR)
+
+    search = db.Column(db.Text, db.Computed("""
+         (id)::text || ' ' ||
+         COALESCE(name, ''::character varying) || ' ' ||
+         COALESCE(name_ar, ''::character varying) || ' ' ||
+         COALESCE(description, ''::text) || ' ' ||
+         COALESCE(comments, ''::text)
+        """))
+
+    __table_args__ = (
+        db.Index('ix_organization_search', 'search', postgresql_using="gin", postgresql_ops={'search': 'gin_trgm_ops'}),
+    )
+
+    # custom method to create new revision in history table
+    def create_revision(self, user_id=None, created=None):
+        if not user_id:
+            user_id = getattr(current_user, 'id', 1)
+        b = OrganizationHistory(
+            organization_id=self.id, data=self.to_dict(), user_id=user_id
+        )
+        if created:
+            b.created_at = created
+            b.updated_at = created
+        b.save()
+
+        print("created organization revision")
+
+    # helper property returns all organization relations
+    @property
+    def organization_relations(self):
+        return self.organizations_to + self.organizations_from
+
+    @property
+    def organization_relations_dict(self):
+        return [relation.to_dict(exclude=self) for relation in self.organization_relations]
+
+    # helper property returns all incident relations
+    @property
+    def incident_relations(self):
+        return self.related_incidents
+
+    @property
+    def incident_relations_dict(self):
+        return [relation.to_dict() for relation in self.incident_relations]
+
+    @property
+    def bulletin_relations(self):
+        return self.related_bulletins
+
+    @property
+    def bulletin_relations_dict(self):
+        return [relation.to_dict() for relation in self.bulletin_relations]
+
+    def from_json(self, json):
+
+        self.name = json["name"] if "name" in json else None
+        self.name_ar = json["name_ar"] if "name_ar" in json else None
+        self.founded_date = json["founded_date"] if "founded_date" in json else None
+        self.description = json["description"] if "description" in json else None
+
+        # assigned to
+        if "assigned_to" in json and json["assigned_to"] and "id" in json["assigned_to"]:
+            self.assigned_to_id = json["assigned_to"]["id"]
+
+        # created by
+        if "created_by" in json and json["created_by"] and "id" in json["created_by"]:
+            self.created_by_id = json["created_by"]["id"]
+
+        # first_peer_reviewer
+        if "first_peer_reviewer" in json:
+            if json["first_peer_reviewer"]:
+                if "id" in json["first_peer_reviewer"]:
+                    self.first_peer_reviewer_id = json["first_peer_reviewer"]["id"]
+
+        # Locations
+        if "locations" in json:
+            ids = [location["id"] for location in json["locations"]]
+            locations = Location.query.filter(Location.id.in_(ids)).all()
+            self.locations = locations
+
+        if "roles" in json:
+            ids = [role["id"] for role in json["roles"]]
+            roles = Role.query.filter(Role.id.in_(ids)).all()
+            self.roles = roles
+
+        #aliases
+        if "aliases" in json:
+            new_aliases = []
+            aliases = json["aliases"]
+            for alias in aliases:
+                if "id" not in alias:
+                    # new alias
+                    a = OrganizationAlias()
+                    a = a.from_json(alias)
+                    a.save()
+                else:
+                    # alias already exists, get a db instance and update it with new data
+                    a = OrganizationAlias.query.get(alias["id"])
+                    a.from_json(alias)
+                    a.save()
+                new_aliases.append(a)
+            self.aliases = new_aliases
+
+        # Organization Roles Within
+        if "roles_within" in json:
+            new_roles = []
+            roles_within = json["roles_within"]
+            for role in roles_within:
+                if "id" not in role:
+                    # new role
+                    r = OrganizationRole()
+                    r = r.from_json(role)
+                    r.save()
+                else:
+                    # role already exists, get a db instance and update it with new data
+                    r = OrganizationRole.query.get(role["id"])
+                    r.from_json(role)
+                    r.save()
+                new_roles.append(r)
+            self.roles_within = new_roles
+
+        # Related Organizations (organization)
+        if "organization_relations" in json:
+            # collect related organization ids (helps with finding removed ones)
+            rel_ids = []
+            for relation in json["organization_relations"]:
+                organization = Organization.query.get(relation["organization"]["id"])
+                # Extra (check those organization exit)
+
+                if organization:
+                    rel_ids.append(organization.id)
+                    # this will update/create the relationship (will flush to db)
+                    self.relate_organization(organization, relation=relation)
+
+                # Find out removed relations and remove them
+            # just loop existing relations and remove if the destination organization no in the related ids
+
+            for r in self.organization_relations:
+                # get related organization (in or out)
+                rid = r.get_other_id(self.id)
+                if not (rid in rel_ids):
+                    r.delete()
+
+                    # ------- create revision on the other side of the relationship
+                    Organization.query.get(rid).create_revision()
+
+        # Related Bulletins (bulletin_relations)
+        if "bulletin_relations" in json:
+            # collect related bulletin ids (helps with finding removed ones)
+            rel_ids = []
+            for relation in json["bulletin_relations"]:
+                bulletin = Bulletin.query.get(relation["bulletin"]["id"])
+                if bulletin:
+                    rel_ids.append(bulletin.id)
+                    # helper method to update/create the relationship (will flush to db)
+                    self.relate_bulletin(bulletin, relation=relation)
+
+            # Find out removed relations and remove them
+            # just loop existing relations and remove if the destination bulletin no in the related ids
+
+            for r in self.bulletin_relations:
+                # get related bulletin (in or out)
+                if not (r.bulletin_id in rel_ids):
+                    rel_bulletin = r.bulletin
+                    r.delete()
+
+                    # --revision relation
+                    rel_bulletin.create_revision()
+
+        # Related Incidents (incidents_relations)
+        if "incident_relations" in json:
+            # collect related incident ids (helps with finding removed ones)
+            rel_ids = []
+            for relation in json["incident_relations"]:
+                incident = Incident.query.get(relation["incident"]["id"])
+                if incident:
+                    rel_ids.append(incident.id)
+                    # helper method to update/create the relationship (will flush to db)
+                    self.relate_incident(incident, relation=relation)
+
+            # Find out removed relations and remove them
+            # just loop existing relations and remove if the destination incident no in the related ids
+
+            for r in self.incident_relations:
+                # get related bulletin (in or out)
+                if not (r.incident_id in rel_ids):
+                    rel_incident = r.incident
+                    r.delete()
+
+                    # --revision relation
+                    rel_incident.create_revision()
+
+        if "comments" in json:
+            self.comments = json["comments"]
+
+        if "status" in json:
+            self.status = json["status"]
+
+        return self
+
+    # Compact dict for relationships
+    @check_roles
+    def to_compact(self):
+        # locations json
+        locations_json = []
+        if self.locations and len(self.locations):
+            for location in self.locations:
+                locations_json.append(location.to_compact())
+
+        #aliases json
+        aliases_json = []
+        if self.aliases and len(self.aliases):
+            for alias in self.aliases:
+                aliases_json.append(alias.to_dict())
+
+        #roles within json
+        roles_within_json = []
+        if self.roles_within and len(self.roles_within):
+            for role in self.roles_within:
+                roles_within_json.append(role.to_dict())
+
+        return {
+            "id": self.id,
+            "name": self.name,
+            "name_ar": self.name_ar,
+            "locations": locations_json,
+            "aliases": aliases_json,
+            "roles_within": roles_within_json,
+            "founded_date": DateHelper.serialize_datetime(self.founded_date),
+            "description": self.description or None,
+            "created_at": DateHelper.serialize_datetime(self.created_at),
+            "comments": self.comments or "",
+        }
+
+    def to_csv_dict(self):
+
+        output = {
+            'id': self.id,
+            'name': self.serialize_column('name'),
+            'name_ar': self.serialize_column('name_ar'),
+            'description': self.serialize_column('description'),
+            'created_at': self.serialize_column('created_at'),
+            'locations': convert_simple_relation(self.locations),
+            'roles_within': convert_simple_relation(self.roles_within),
+            'aliases': convert_simple_relation(self.aliases),
+            'related_primary_records': convert_complex_relation(self.bulletin_relations_dict, Bulletin.__tablename__),
+            'related_organizations': convert_complex_relation(self.organization_relations_dict, Actor.__tablename__),
+            'related_investigations': convert_complex_relation(self.incident_relations_dict, Incident.__tablename__),
+        }
+        return output
+
+    # Helper method to handle logic of relating organizations  (from organization)
+    def relate_organization(self, organization, relation=None, create_revision=True):
+        # if a new organization is being created, we must save it to get the id
+        if not self.id:
+            self.save()
+
+        # Relationships are alwasy forced to go from the lower id to the bigger id (to prevent duplicates)
+        # Enough to look up the relationship from the lower to the upper
+
+        # reject self relation
+        if self == organization:
+            # Cant relate organization to itself
+            return
+
+        existing_relation = Otoo.are_related(self.id, organization.id)
+
+        if existing_relation:
+            existing_relation.from_json(relation)
+            existing_relation.save()
+
+        else:
+            # Create new relation (possible from or to the organization based on the id comparison)
+            new_relation = Otoo.relate(self, organization)
+
+            # update relation data
+            new_relation.from_json(relation)
+            new_relation.save()
+
+            # ------- create revision on the other side of the relationship
+            if create_revision:
+                organization.create_revision()
+
+    # Helper method to handle logic of relating incidents (from a organization)
+
+    def relate_incident(self, incident, relation=None, create_revision=True):
+        # if current organization is new, save it to get the id
+        if not self.id:
+            self.save()
+
+        # query order : (incident_id,organization_id)
+        existing_relation = Otoi.query.get((incident.id, self.id))
+
+        if existing_relation:
+            # Relationship exists :: Updating the attributes
+            existing_relation.from_json(relation)
+            existing_relation.save()
+
+        else:
+            # Create new relation
+            new_relation = Otoi(incident_id=incident.id, organization_id=self.id)
+            # update relation data
+            new_relation.from_json(relation)
+            new_relation.save()
+
+            # --revision relation
+            if create_revision:
+                incident.create_revision()
+
+    # helper method to relate bulletins
+    def relate_bulletin(self, bulletin, relation=None, create_revision=True):
+        # if current bulletin is new, save it to get the id
+        if not self.id:
+            self.save()
+
+        # query order : (organization_id,bulletin_id)
+        existing_relation = Otob.query.get((self.id, bulletin.id))
+
+        if existing_relation:
+            # Relationship exists :: Updating the attributes
+            existing_relation.from_json(relation)
+            existing_relation.save()
+
+        else:
+            # Create new relation
+            new_relation = Otob(organization_id=self.id, bulletin_id=bulletin.id)
+            # update relation data
+            new_relation.from_json(relation)
+            new_relation.save()
+
+            # --revision relation
+            if create_revision:
+                bulletin.create_revision()
+
+    # custom serialization method
+    @check_roles
+    def to_dict(self, mode=None):
+        if mode == '2':
+            return self.to_mode2()
+        if mode == '1':
+            return self.min_json()
+
+        # locations json
+        locations_json = []
+        if self.locations and len(self.locations):
+            for location in self.locations:
+                locations_json.append(location.to_compact())
+
+        # Related bulletins json (actually the associated relationships)
+        # - in this case the other bulletin carries the relationship
+        organization_relations_dict = []
+        bulletin_relations_dict = []
+        incident_relations_dict = []
+
+        if str(mode) != '3':
+            for relation in self.organization_relations:
+                organization_relations_dict.append(relation.to_dict(exclude=self))
+
+            # Related bulletin json (actually the associated relationships)
+            for relation in self.bulletin_relations:
+                bulletin_relations_dict.append(relation.to_dict())
+
+            # Related incidents json (actually the associated relationships)
+            for relation in self.incident_relations:
+                incident_relations_dict.append(relation.to_dict())
+
+        return {
+            "class": self.__tablename__,
+            "id": self.id,
+            "name": self.name,
+            "name_ar": self.name_ar,
+            "found_date": DateHelper.serialize_datetime(self.founded_date),
+            "aliases": [alias.to_dict() for alias in self.aliases] if self.aliases else [],
+            # assigned to
+            "assigned_to": self.assigned_to.to_compact() if self.assigned_to else None,
+            "created_by": self.created_by.to_compact() if self.created_by else None,
+            # first peer reviewer
+            "first_peer_reviewer": self.first_peer_reviewer.to_compact()
+            if self.first_peer_reviewer_id
+            else None,
+            "locations": locations_json,
+            "roles_within": [role.to_dict() for role in self.roles_within] if self.roles_within else [],
+            "bulletin_relations": bulletin_relations_dict,
+            "organization_relations": organization_relations_dict,
+            "incident_relations": incident_relations_dict,
+            "description": self.description or None,
+            "comments": self.comments or None,
+            "created_at": DateHelper.serialize_datetime(self.created_at),
+            "status": self.status,
+            "review": self.review if self.review else None,
+            "review_action": self.review_action if self.review_action else None,
+            "updated_at": DateHelper.serialize_datetime(self.get_modified_date()),
+            "roles": [role.to_dict() for role in self.roles] if self.roles else [],
+        }
+
+    # custom serialization mode
+    def to_mode2(self):
+        locations_json = []
+        if self.locations and len(self.locations):
+            for location in self.locations:
+                locations_json.append(location.to_compact())
+
+        return {
+            "class": "Organization",
+            "id": self.id,
+            "name": self.name,
+            "name_ar": self.name_ar,
+            # assigned to
+            "locations": locations_json,
+            "aliases": [alias.to_dict() for alias in self.aliases] if self.aliases else [],
+            "roles_within": [role.to_dict() for role in self.roles_within] if self.roles_within else [],
+            "description": self.description or None,
+            "comments": self.comments or None,
+            "created_at": DateHelper.serialize_datetime(self.created_at),
+
+        }
+
+    def to_json(self, export=False):
+        organization_to_dict = self.to_dict()
+        if export:
+            organization_to_dict = export_json_rename_handler(organization_to_dict)
+        return json.dumps(organization_to_dict)
+
+    @staticmethod
+    def get_columns():
+        columns = []
+        for column in Bulletin.__table__.columns:
+            columns.append(column.name)
+        return columns
+
+    def get_modified_date(self):
+
+        if self.history:
+            return self.history[-1].updated_at
+        else:
+            return self.updated_at
+
+
+class OtooInfo(db.Model, BaseMixin):
+    """
+    SQL Alchemy model for organization to organization relationship info
+    """
+    extend_existing = True
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    reverse_title = db.Column(db.String, nullable=True)
+    title_tr = db.Column(db.String)
+    reverse_title_tr = db.Column(db.String)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "reverse_title": self.reverse_title,
+            "title_tr": self.title_tr,
+            "reverse_title_tr": self.reverse_title_tr
+        }
+
+    def from_json(self, jsn):
+        self.title = jsn.get('title', self.title)
+        self.reverse_title = jsn.get('reverse_title', self.reverse_title)
+        self.title_tr = jsn.get('title_tr', self.title_tr)
+        self.reverse_title_tr = jsn.get('reverse_title_tr', self.reverse_title_tr)
+
+
+class Otoo(db.Model, BaseMixin):
+    """
+    Organization to organization relationship model
+    """
+    extend_existing = True
+
+    # This constraint will make sure only one relationship exists across organizations (and prevent self relation)
+    __table_args__ = (db.CheckConstraint("organization_id < related_organization_id"),)
+
+    # Source organization
+    # Available Backref: organization_from
+    organization_id = db.Column(db.Integer, db.ForeignKey("organization.id"), primary_key=True)
+
+    # Target organization
+    # Available Backref: organization_to
+    related_organization_id = db.Column(
+        db.Integer, db.ForeignKey("organization.id"), primary_key=True
+    )
+
+    # Relationship extra fields
+    related_as = db.Column(ARRAY(db.Integer))
+    probability = db.Column(db.Integer)
+    comment = db.Column(db.Text)
+
+    # user tracking
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    user = db.relationship("User", backref="user_otoos", foreign_keys=[user_id])
+
+    @property
+    def relation_info(self):
+        related_infos = OtooInfo.query.filter(OtooInfo.id.in_(self.related_as)).all() if self.related_as else []
+        # Return the to_dict representation of each of them
+        return [info.to_dict() for info in related_infos]
+
+    # Check if two organizations are related , if so return the relation, otherwise false
+    @staticmethod
+    def are_related(a_id, b_id):
+
+        if a_id == b_id:
+            return False
+
+        # with our id constraint set, just check if there is relation from the lower id to the upper id
+        f, t = (a_id, b_id) if a_id < b_id else (b_id, a_id)
+        relation = OtooInfo.query.get((f, t))
+        if relation:
+            return relation
+        else:
+            return False
+
+    # Give an id, get the other organization id (relating in or out)
+    def get_other_id(self, id):
+        if id in (self.organization_id, self.related_organization_id):
+            return (
+                self.organization_id
+                if id == self.related_organization_id
+                else self.related_organization_id
+            )
+        return None
+
+    # Create and return a relation between two organizations making sure the relation goes from the lower id to the upper id
+    @staticmethod
+    def relate(a, b):
+        f, t = min(a.id, b.id), max(a.id, b.id)
+        return Otoo(organization_id=f, related_organization_id=t)
+
+    @staticmethod
+    def relate_by_id(a, b):
+        f, t = min(a, b), max(a, b)
+        return Otoo(organization_id=f, related_organization_id=t)
+
+    # Exclude the primary organization from output to get only the related/relating organization
+    @check_relation_roles
+    def to_dict(self, exclude=None):
+        if not exclude:
+            return {
+                "organization_from": self.organization_from.to_compact(),
+                "organization_to": self.organization_to.to_compact(),
+                "related_as": self.related_as,
+                "probability": self.probability,
+                "comment": self.comment,
+                "user_id": self.user_id,
+            }
+        else:
+            organization = self.organization_to if exclude == self.organization_from else self.organization_from
+
+            return {
+                "organization": organization.to_compact(),
+                "related_as": self.related_as,
+                "probability": self.probability,
+                "comment": self.comment,
+                "user_id": self.user_id,
+            }
+
+    # this will update only relationship data
+    def from_json(self, relation=None):
+        if relation:
+            self.probability = (
+                relation["probability"] if "probability" in relation else None
+            )
+            self.related_as = (
+                relation["related_as"] if "related_as" in relation else None
+            )
+            self.comment = relation["comment"] if "comment" in relation else None
+            print("Relation has been updated.")
+        else:
+            print("Relation was not updated.")
+        return self
+
+
+class OtobInfo(db.Model, BaseMixin):
+    """
+    SQL Alchemy model for organization to bulletin relationship info
+    """
+    extend_existing = True
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    reverse_title = db.Column(db.String, nullable=True)
+    title_tr = db.Column(db.String)
+    reverse_title_tr = db.Column(db.String)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "reverse_title": self.reverse_title,
+            "title_tr": self.title_tr,
+            "reverse_title_tr": self.reverse_title_tr
+        }
+
+    def from_json(self, jsn):
+        self.title = jsn.get('title', self.title)
+        self.reverse_title = jsn.get('reverse_title', self.reverse_title)
+        self.title_tr = jsn.get('title_tr', self.title_tr)
+        self.reverse_title_tr = jsn.get('reverse_title_tr', self.reverse_title_tr)
+
+
+class Otob(db.Model, BaseMixin):
+    """
+    Organization to bulletin relationship model
+    """
+    extend_existing = True
+
+    # Available Backref: bulletin
+    bulletin_id = db.Column(db.Integer, db.ForeignKey("bulletin.id"), primary_key=True)
+
+    # Available Backref: organization
+    organization_id = db.Column(db.Integer, db.ForeignKey("organization.id"), primary_key=True)
+
+    # Relationship extra fields
+    # enabling multiple relationship types
+    related_as = db.Column(ARRAY(db.Integer))
+    probability = db.Column(db.Integer)
+    comment = db.Column(db.Text)
+
+    # user tracking
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    user = db.relationship("User", backref="user_otobs", foreign_keys=[user_id])
+
+    # Exclude the primary bulletin from output to get only the related/relating bulletin
+    @property
+    def relation_info(self):
+        # Query the AtobInfo table based on the related_as list
+        related_infos = OtobInfo.query.filter(OtobInfo.id.in_(self.related_as)).all() if self.related_as else []
+        # Return the to_dict representation of each of them
+        return [info.to_dict() for info in related_infos]
+
+    # custom serialization method
+    def to_dict(self):
+
+        return {
+            "bulletin": self.bulletin.to_compact(),
+            "organization": self.organization.to_compact(),
+            "related_as": self.related_as or [],
+            "probability": self.probability,
+            "comment": self.comment,
+            "user_id": self.user_id,
+        }
+
+    # this will update only relationship data
+    def from_json(self, relation=None):
+        if relation:
+            self.probability = (
+                relation["probability"] if "probability" in relation else None
+            )
+            self.related_as = (
+                relation["related_as"] if "related_as" in relation else None
+            )
+            self.comment = relation["comment"] if "comment" in relation else None
+            print("Relation has been updated.")
+        else:
+            print("Relation was not updated.")
+        return self
+
+
+class OtoiInfo(db.Model, BaseMixin):
+    """
+    Otoi Relation Information Model
+    """
+    extend_existing = True
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    reverse_title = db.Column(db.String, nullable=True)
+    title_tr = db.Column(db.String)
+    reverse_title_tr = db.Column(db.String)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "reverse_title": self.reverse_title,
+            "title_tr": self.title_tr,
+            "reverse_title_tr": self.reverse_title_tr
+        }
+
+    def from_json(self, jsn):
+        self.title = jsn.get('title', self.title)
+        self.reverse_title = jsn.get('reverse_title', self.reverse_title)
+        self.title_tr = jsn.get('title_tr', self.title_tr)
+        self.reverse_title_tr = jsn.get('reverse_title_tr', self.reverse_title_tr)
+
+
+class Otoi(db.Model, BaseMixin):
+    """
+    Organization to investigation relationship model
+    """
+    extend_existing = True
+
+    # Available Backref: organization
+    organization_id = db.Column(db.Integer, db.ForeignKey("organization.id"), primary_key=True)
+
+    # Available Backref: incident
+    incident_id = db.Column(db.Integer, db.ForeignKey("incident.id"), primary_key=True)
+
+    # Relationship extra fields
+    related_as = db.Column(ARRAY(db.Integer))
+    probability = db.Column(db.Integer)
+    comment = db.Column(db.Text)
+
+    # user tracking
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    user = db.relationship("User", backref="user_otois", foreign_keys=[user_id])
+
+    @property
+    def relation_info(self):
+        # Query the AtobInfo table based on the related_as list
+        related_infos = OtoiInfo.query.filter(OtoiInfo.id.in_(self.related_as)).all() if self.related_as else []
+        # Return the to_dict representation of each of them
+        return [info.to_dict() for info in related_infos]
+
+    # custom serialization method
+    def to_dict(self):
+
+        return {
+            "organization": self.organization.to_compact(),
+            "incident": self.incident.to_compact(),
+            "related_as": self.related_as,
+            "probability": self.probability,
+            "comment": self.comment,
+            "user_id": self.user_id,
+        }
+
+    # this will update only relationship data, (populates it from json dict)
+    def from_json(self, relation=None):
+        if relation:
+            self.probability = (
+                relation["probability"] if "probability" in relation else None
+            )
+            self.related_as = (
+                relation["related_as"] if "related_as" in relation else None
+            )
+            self.comment = relation["comment"] if "comment" in relation else None
+            print("Relation has been updated.")
+        else:
+            print("Relation was not updated.")
+        return self
 
 
 class Actor(db.Model, BaseMixin):
@@ -2578,6 +3524,8 @@ class Actor(db.Model, BaseMixin):
     origin_place = db.relationship(
         "Location", backref="actors_origin_place", foreign_keys=[origin_place_id]
     )
+
+    organization_roles = db.relationship('OrganizationRoleActor', back_populates='actor', foreign_keys='OrganizationRoleActor.actor_id')
 
     occupation = db.Column(db.String(255))
     occupation_ar = db.Column(db.String(255))
@@ -4688,6 +5636,35 @@ class LocationHistory(db.Model, BaseMixin):
 
     def __repr__(self):
         return '<LocationHistory {} -- Target {}>'.format(self.id, self.location_id)
+
+class OrganizationHistory(db.Model, BaseMixin):
+    """
+    SQL Alchemy model for organization revisions
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    organization_id = db.Column(db.Integer, db.ForeignKey("organization.id"), index=True)
+    organization = db.relationship(
+        "Organization", backref=db.backref("history", order_by='OrganizationHistory.updated_at'), foreign_keys=[organization_id]
+    )
+    data = db.Column(JSON)
+    # user tracking
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    user = db.relationship("User", backref="organization_revisions", foreign_keys=[user_id])
+
+    # serialize
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "data": self.data,
+            "created_at": DateHelper.serialize_datetime(self.created_at),
+            "user": self.user.to_compact() if self.user else None,
+        }
+
+    def to_json(self):
+        return json.dumps(self.to_dict(), sort_keys=True)
+
+    def __repr__(self):
+        return '<OrganizationHistory {} -- Target {}>'.format(self.id, self.organization_id)
 
 
 class Activity(db.Model, BaseMixin):
