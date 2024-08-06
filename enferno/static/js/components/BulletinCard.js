@@ -22,6 +22,8 @@ Vue.component("bulletin-card", {
 
   mounted() {
     this.removeVideo();
+
+    if(this.bulletin) this.mapLocations = aggregateBulletinLocations(this.bulletin);
   },
 
   methods: {

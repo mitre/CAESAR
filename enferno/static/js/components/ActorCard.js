@@ -20,6 +20,10 @@ Vue.component("actor-card", {
     },
   },
 
+  mounted() {
+    if(this.actor) this.mapLocations = aggregateActorLocations(this.actor);
+  },
+
   methods: {
     updateMediaState() {
       this.mediasReady += 1;
