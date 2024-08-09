@@ -161,10 +161,10 @@ Vue.component("visualization", {
       const incidents = item.incident_relations.map((x) => {
         return {
           id: "i" + x.incident.id,
-          related_as: this.find_relation_type(item, x, "Investigation"),
+          related_as: this.find_relation_type(item, x, "Incident"),
           title: x.incident.title,
           color: this.INCIDENTCOLOR,
-          type: "Investigation",
+          type: "Incident",
           collapsed: x.collapsed || true,
           childLinks: [],
         };
@@ -255,6 +255,7 @@ Vue.component("visualization", {
           }, index * 0.1);
         });
       });
+      this.$root.preview = false
     },
 
     show() {
