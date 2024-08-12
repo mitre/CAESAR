@@ -1165,8 +1165,8 @@
                 this.editedEventIndex = -1;
             }, 300);
         },
-        saveEvent() {
-            if (this.editedEventIndex > -1) {
+        doSaveEvent() {
+            if (this.editedEventIndex > -1) {   
                 Object.assign(this.editedItem.events[this.editedEventIndex], this.editedEvent);
                 //update record
             } else {
@@ -1174,6 +1174,18 @@
                 //create new record
             }
             this.closeEvent();
+        },
+        saveEvent() {
+            if(this.editedEvent.location) {
+                axios.get(`/admin/api/location/${this.editedEvent.location.id}`).then(response => {
+                    this.editedEvent.location = response.data;
+                    this.doSaveEvent();
+                }).catch(error => {
+                    this.showSnack('Oops! We couldn\'t find the selected location.');
+                });
+            } else {
+                this.doSaveEvent();
+            }
         },
         // related bulletins functions --------------------
         searchRelatedBulletins() {

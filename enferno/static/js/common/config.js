@@ -426,7 +426,7 @@ var aggregateActorLocations = function (actor) {
 };
 
 function prepareEventLocations(parentId, events) {
-  let output = events.filter((x) => x.location && x.location.geometry);
+  let output = events.filter((x) => x.location);
   // sort events by from/to date and leave null date events at the end
   output.sort((a, b) => {
     const aDate = a.from_date || a.to_date;
