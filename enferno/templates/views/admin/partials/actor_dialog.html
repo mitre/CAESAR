@@ -411,16 +411,16 @@
                                 <h3></h3>
                                 <v-row>
                                     <v-col cols="12" md="6">
-                                        <location-search-field v-model="editedItem.birth_place"
+                                        <location-search-field v-model="editedItem.birth_place" @change="updateBirthPlace"
                                             api="/admin/api/locations/" item-text="full_string" item-value="id"
-                                            :multiple="false" label="{{ _('Place of Birth')
-                                            }}"></location-search-field>
+                                            :multiple="false" label="{{ _('Place of Birth')}}">
+                                        </location-search-field>
                                     </v-col>
                                     <v-col cols="12" md="6">
                                         <v-tooltip top max-width=500 open-delay=1500>
                                             <template v-slot:activator="{ on }">
                                                 <div v-on="on">
-                                                    <location-search-field v-model="editedItem.residence_place"
+                                                    <location-search-field v-model="editedItem.residence_place" @change="updateResidencePlace"
                                                         api="/admin/api/locations/" item-text="full_string"
                                                         item-value="id" :multiple="false"
                                                         label="{{ _('Location of Residence') }}">

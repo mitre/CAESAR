@@ -1195,7 +1195,7 @@
                 this.editedEventIndex = -1;
             }, 300);
         },
-        saveEvent() {
+        doSaveEvent() {
             if (this.editedEventIndex > -1) {
                 Object.assign(this.editedItem.events[this.editedEventIndex], this.editedEvent);
                 //update record
@@ -1204,6 +1204,36 @@
                 //create new record
             }
             this.closeEvent();
+        },
+        saveEvent() {
+            if(this.editedEvent.location) {
+                axios.get(`/admin/api/location/${this.editedEvent.location.id}`).then(response => {
+                    this.editedEvent.location = response.data;
+                    this.doSaveEvent();
+                }).catch(error => {
+                    this.showSnack('Oops! We couldn\'t find the selected location.');
+                });
+            } else {
+                this.doSaveEvent();
+            }
+        },
+        updateBirthPlace() {
+            if(this.editedItem.birth_place) {
+                axios.get(`/admin/api/location/${this.editedItem.birth_place.id}`).then(response => {
+                    this.editedItem.birth_place = response.data;
+                }).catch(error => {
+                    this.showSnack('Oops! We couldn\'t find the selected location.');
+                });
+            }
+        },
+        updateResidencePlace() {
+            if(this.editedItem.residence_place) {
+                axios.get(`/admin/api/location/${this.editedItem.residence_place.id}`).then(response => {
+                    this.editedItem.residence_place = response.data;
+                }).catch(error => {
+                    this.showSnack('Oops! We couldn\'t find the selected location.');
+                });
+            }
         },
         // related actors functions --------------------
         detectDirection(editedItem, actor) {
