@@ -47,16 +47,22 @@ Vue.component("event-card", {
       <span class="caption font-italic">{{event.location.full_string}}</span>
       </v-chip>
     
-      
+      <!-- From Date & Time -->
       <div v-if="event.from_date||event.to_date">
         <v-divider class="my-2"></v-divider>
-      <v-icon small left>mdi-calendar</v-icon>
-      <span class="mr-1 caption" v-if="event.from_date">
-        {{event.from_date}}
-      </span>
-      <span class="caption" v-if="event.to_date">
-        -> {{event.to_date}}
-      </span>
+        <v-icon small left>mdi-calendar</v-icon>
+        <span class="mr-1 caption" v-if="event.from_date">
+          {{event.from_date}}
+        </span>
+        <span class="mr-1 caption" v-if="event.from_time">
+          {{event.from_time}}
+        </span>
+        <span class="caption" v-if="event.to_date">
+          -> {{event.to_date}}
+        </span>
+        <span class="caption" v-if="event.to_time">
+          {{event.to_time}}
+        </span>
       </div>
     </v-card-text>
 

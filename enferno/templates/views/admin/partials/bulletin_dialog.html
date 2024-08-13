@@ -155,10 +155,13 @@
                                     </v-col>
                                 </v-row>
                                 <v-row>
-                                    <v-col cols="12" md="6">
-                                        <pop-date-time-field time-label="{{ _('Time Published (UTC)') }}" label="{{ _('Date Published') }}"
+                                    <v-col cols="12" md="3">
+                                        <pop-date-field label="{{ _('Date Published') }}"
                                             v-model="editedItem.publish_date">
-                                        </pop-date-time-field>
+                                        </pop-date-field>
+                                    </v-col>
+                                    <v-col cols="12" md="3">
+                                        <v-text-field v-model="editedItem.publish_time" type="time" label="{{ _('Time Published (UTC)') }}"></v-text-field>
                                     </v-col>
                                     <v-col cols="12" md="6">
                                         <v-select label="Credibility" :items="credibilityItems" item-text="label" item-value="value"

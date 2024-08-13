@@ -8,7 +8,7 @@ sleep 10
 
 # Start Bayanat and Celery and give them 10 seconds to start running
 BAYANAT_EXTERNAL_PORT=5001 POSTGRES_EXTERNAL_PORT=5433 REDIS_EXTERNAL_PORT=6380 docker compose -p $test_run_project_name up -d celery bayanat
-sleep 10
+sleep 20
 
 # Install the test-specific requirements
 docker compose -p $test_run_project_name exec --user root bayanat pip install -r tests/requirements-test.txt

@@ -15,8 +15,8 @@ def new_bulletin():
         "bulletin_relations": [],
         "actor_relations": [],
         "incident_relations": [],
-        "publish_date": datetime.date(randint(2005,2025), randint(1,12),randint(1,28)).strftime("%Y-%m-%dT%H:%M"),
-        "documentation_date": datetime.date(randint(2005,2025), randint(1,12),randint(1,28)).strftime("%Y-%m-%dT%H:%M"),
+        "publish_date": datetime.date(randint(2005,2025), randint(1,12),randint(1,28)).strftime("%Y-%m-%d"),
+        "publish_time": datetime.time(randint(0,24), randint(0,59),randint(0,59)).strftime("%H:%M:%S"),
         "sjac_title": str(uuid.uuid4()),
         "comments": str(uuid.uuid4()),
         "discovery_file_name": str(uuid.uuid4())
@@ -89,7 +89,7 @@ def assert_bulletins_match(first, second):
   assert first["status"] == second["status"]
   assert first["description"] == second["description"]
   assert first["publish_date"] == second["publish_date"]
-  assert first["documentation_date"] == second["documentation_date"]
+  assert first["publish_time"] == second["publish_time"]
   assert first["sjac_title"] == second["sjac_title"]
   assert first["comments"] == second["comments"]
   assert first["discovery_file_name"] == second["discovery_file_name"]

@@ -672,8 +672,10 @@ class Event(db.Model, BaseMixin):
     eventtype = db.relationship(
         "Eventtype", backref="eventtype_events", foreign_keys=[eventtype_id]
     )
-    from_date = db.Column(db.DateTime)
-    to_date = db.Column(db.DateTime)
+    from_date = db.Column(db.Date)
+    from_time = db.Column(db.Time)
+    to_date = db.Column(db.Date)
+    to_time = db.Column(db.Time)
     estimated = db.Column(db.Boolean)
 
     @staticmethod
@@ -708,8 +710,10 @@ class Event(db.Model, BaseMixin):
             "comments_ar": self.comments_ar if self.comments_ar else None,
             "location": self.location.to_dict() if self.location else None,
             "eventtype": self.eventtype.to_dict() if self.eventtype else None,
-            "from_date": DateHelper.serialize_datetime(self.from_date) if self.from_date else None,
-            "to_date": DateHelper.serialize_datetime(self.to_date) if self.to_date else None,
+            "from_date": DateHelper.serialize_date(self.from_date) if self.from_date else None,
+            "from_time": DateHelper.serialize_time(self.from_time) if self.from_time else None,
+            "to_date": DateHelper.serialize_date(self.to_date) if self.to_date else None,
+            "to_time": DateHelper.serialize_time(self.to_time) if self.to_time else None,
             "estimated": self.estimated if self.estimated else None,
             "updated_at": DateHelper.serialize_datetime(self.updated_at)
         }
@@ -730,8 +734,16 @@ class Event(db.Model, BaseMixin):
         from_date = json.get('from_date', None)
         self.from_date = DateHelper.parse_date(from_date) if from_date else None
 
+        self.from_time = json.get('from_time', None)
+        if self.from_time == '':
+            self.from_time = None
+
         to_date = json.get('to_date', None)
         self.to_date = DateHelper.parse_date(to_date) if to_date else None
+
+        self.to_time = json.get('to_time', None)
+        if self.to_time == '':
+            self.to_time = None
 
         self.estimated = json["estimated"] if "estimated" in json else None
 
@@ -1723,8 +1735,12 @@ class Bulletin(db.Model, BaseMixin):
     )
 
     publish_date = db.Column(
-        db.DateTime, index=True
+        db.Date, index=True
     )
+    publish_time = db.Column(
+        db.Time, index=True
+    )
+
     documentation_date = db.Column(
         db.DateTime, index=True
     )
@@ -2035,6 +2051,9 @@ class Bulletin(db.Model, BaseMixin):
         self.publish_date = json.get('publish_date', None)
         if self.publish_date == '':
             self.publish_date = None
+        self.publish_time = json.get('publish_time', None)
+        if self.publish_time == '':
+            self.publish_time = None
         self.documentation_date = json.get('documentation_date', None)
         if self.documentation_date == '':
             self.documentation_date = None
@@ -2075,7 +2094,8 @@ class Bulletin(db.Model, BaseMixin):
             "sensitive_data": getattr(self, 'sensitive_data', False),
             "discovery_file_name": self.discovery_file_name or None,
             "credibility": self.credibility or None,
-            "publish_date": DateHelper.serialize_datetime(self.publish_date),
+            "publish_date": DateHelper.serialize_date(self.publish_date),
+            "publish_time": DateHelper.serialize_time(self.publish_time) or None,
             "created_at": DateHelper.serialize_datetime(self.created_at),
             "comments": self.comments or "",
         }
@@ -2094,6 +2114,7 @@ class Bulletin(db.Model, BaseMixin):
             'sjac_title_ar': self.serialize_column('sjac_title_ar'),
             'description': self.serialize_column('description'),
             'publish_date': self.serialize_column('publish_date'),
+            'publish_time': self.serialize_column('publish_time'),
             'created_at': self.serialize_column('created_at'),
             'labels': convert_simple_relation(self.labels),
             'verified_labels': convert_simple_relation(self.ver_labels),
@@ -2304,7 +2325,8 @@ class Bulletin(db.Model, BaseMixin):
             "credibility": self.credibility or None,
             "_credibility": getCredibility(self.credibility) if self.credibility else None,
             "ref": self.ref or None,
-            "publish_date": DateHelper.serialize_datetime(self.publish_date),
+            "publish_date": DateHelper.serialize_date(self.publish_date),
+            "publish_time": DateHelper.serialize_time(self.publish_time) or None,
             "created_at": DateHelper.serialize_datetime(self.created_at),
             "status": self.status,
             "review": self.review if self.review else None,
@@ -2343,7 +2365,8 @@ class Bulletin(db.Model, BaseMixin):
             "source_link": self.source_link or None,
             "discovery_file_name": self.discovery_file_name or None,
             "credibility": self.credibility or None,
-            "publish_date": DateHelper.serialize_datetime(self.publish_date),
+            "publish_date": DateHelper.serialize_date(self.publish_date),
+            "publish_time": DateHelper.serialize_time(self.publish_time) or None,
             "created_at": DateHelper.serialize_datetime(self.created_at),
 
         }

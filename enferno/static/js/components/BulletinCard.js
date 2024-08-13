@@ -579,9 +579,14 @@ Vue.component("bulletin-card", {
           </v-card-actions>
         </v-card>
 
-        <!-- Pub/Doc Dates -->
+        <!-- Publish Date & Time -->
         <div class="d-flex">
-          <uni-field :caption="i18n.publishDate_" :english="bulletin.publish_date"></uni-field>
+        <uni-field :caption="i18n.publishDate_" :english="bulletin.publish_date"></uni-field>
+        <uni-field :caption="i18n.publishTime_" :english="bulletin.publish_time"></uni-field>
+        </div>
+        
+        <!-- Documentation Dates -->
+        <div class="d-flex">
           <uni-field :caption="i18n.createdDate_" :english="bulletin.created_at"></uni-field>
           <uni-field v-if="bulletin.created_by" :caption="i18n.createdBy_" :english="bulletin.created_by.name"></uni-field>
         </div>
