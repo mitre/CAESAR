@@ -20,7 +20,7 @@ from sqlalchemy import and_, desc, or_, cast, String
 from werkzeug.utils import safe_join
 from werkzeug.utils import secure_filename
 
-from enferno.admin.models import (ActorSubType, Bulletin, ConsentUse, Label, Source, Location, Eventtype, Media, Actor, Incident,
+from enferno.admin.models import (ActorSubType, Bulletin, ConsentUse, Label, Organization, Source, Location, Eventtype, Media, Actor, Incident,
                                   IncidentHistory, BulletinHistory, ActorHistory, LocationHistory, PotentialViolation,
                                   ClaimedViolation,
                                   Activity, Query, LocationAdminLevel, LocationType, AppConfig,
@@ -3573,6 +3573,149 @@ def api_incident_import():
         return 'Success', 200
     else:
         return 'Error', 417
+
+
+#Organization routes
+@admin.route('/api/organizations/', methods=['POST', 'GET'])
+def api_organizations():
+    """Returns organizations in JSON format, allows search and paging."""
+    # TODO  implement organization search utils
+    if request.method == 'POST':
+        su = SearchUtils(request.json, cls='Organization')
+        queries, ops = su.get_query()
+        result = Organization.query.filter(or_(Organization.deleted == False, Organization.deleted.is_(None))).filter(*queries.pop(0))
+
+        # nested queries
+        if len(queries) > 0:
+            while queries:
+                nextOp = ops.pop(0)
+                nextQuery = queries.pop(0)
+                if nextOp == 'union':
+                    result = result.union(Organization.query.filter(*nextQuery))
+                elif nextOp == 'intersect':
+                    result = result.intersect(Organization.query.filter(*nextQuery))
+    else:
+        result = Organization.query.filter(or_(Organization.deleted == False, Organization.deleted.is_(None)))
+
+    #Sort by request property
+    sort_by = request.args.get('sort_by', 'id')
+    sort_desc = request.args.get('sort_desc', 'false').lower() == 'true'
+    if sort_by == '':
+        sort_by = 'id'
+    elif sort_by == '_status':
+        sort_by = 'status'
+
+    #Adjust query for sorting by a field in a related model if needed
+    if sort_by == "assigned_to.name":
+        result = result.outerjoin(User, Organization.assigned_to_id == User.id)
+        result = result.order_by(User.name.desc() if sort_desc else User.name)
+    elif sort_by == 'roles':
+        #Organizations to Roles is a many-many relationship so get association table then sort
+        role_alias = aliased(Role)
+        result = result.outerjoin(role_alias, Organization.roles)
+        result = result.order_by(role_alias.name.desc() if sort_desc else role_alias.name)
+    else:
+        if hasattr(Organization, sort_by):
+            result = result.order_by(getattr(Organization, sort_by).desc() if sort_desc else getattr(Organization, sort_by))
+        else:
+            return {'error': 'Invalid sort_by fied'}, 400
+
+    page = request.args.get('page', 1, int)
+    per_page = request.args.get('per_page', PER_PAGE, int)
+    result = result.paginate(page=page, per_page=per_page, count=True)
+
+    # Select json encoding type
+    mode = request.args.get('mode', '1')
+    response = {'items': [item.to_dict(mode=mode) for item in result.items], 'perPage': per_page, 'total': result.total}
+
+    return Response(json.dumps(response),
+                    content_type='application/json'), 200
+
+@admin.get('/api/organization/<int:id>')
+def api_organization_get(id):
+    """
+    Endpoint to get a single organization by id
+    :param id: id of the organization item
+    :return: successful organization item in json format or error
+    """
+    organization = Organization.query.get(id)
+    if not organization:
+        return HTTPResponse.NOT_FOUND
+    else:
+        return json.dumps(organization.to_dict()), 200
+
+@admin.post('/api/organization/')
+@roles_accepted('Admin', 'DA')
+def api_organization_create():
+    """
+    Endpoint to create an organization item
+    :return: success/error based on the operation's result
+    """
+    organization = Organization()
+    # assign organization to creator by default
+    organization.assigned_to_id = current_user.id
+    # assignment will be overwritten if it is specified in the creation request
+    try:
+        organization.from_json(request.json['item'])
+    except Exception as e:
+        return f'Error creating organization: {e}', 400
+    result = organization.save()
+    if result:
+        # the below will create the first revision by default
+        organization.create_revision()
+        # Record activity
+        Activity.create(current_user, Activity.ACTION_CREATE, organization.to_mini(), 'organization')
+        return F'Created Organization #{organization.id}', 200
+    else:
+        return 'Error creating organization', 417
+
+@admin.put('/api/organization/<int:id>')
+@roles_accepted('Admin', 'DA')
+def api_organization_update(id):
+    """
+    Endpoint to update an Organization item
+    :param id: id of the organization to be updated
+    :return: success/error
+    """
+    organization = Organization.query.get(id)
+    if organization is not None:
+        # check for restrictions
+        if not current_user.can_access(organization):
+            return 'Restricted Access', 403
+
+        try:
+            organization = organization.from_json(request.json['item'])
+        except Exception as e:
+            return f'Error updating organization: {e}', 400
+        # Create a revision using latest values
+        # this method automatically commits
+        # organization changes (referenced)
+        if organization:
+            organization.create_revision()
+            # Record activity
+            Activity.create(current_user, Activity.ACTION_UPDATE, organization.to_mini(), 'organization')
+            return F'Saved Organization #{organization.id}', 200
+        else:
+            return F'Error saving Organization #{id}', 417
+    else:
+        return HTTPResponse.NOT_FOUND
+
+@admin.delete('/api/organization/<int:id>')
+@roles_required('Admin')
+def api_organization_delete(id):
+    """
+    Endpoint to delete an organization
+    :param id: id of the organization to delete
+    :return: success/error based on operation's result
+    """
+    organization = Organization.query.get(id)
+    if organization is None:
+        return HTTPResponse.NOT_FOUND
+    # Record Activity
+    Activity.create(current_user, Activity.ACTION_DELETE, organization.to_mini(), 'organization')
+    organization.deleted = True
+    organization.create_revision()
+    return F'Deleted Organization #{organization.id}', 200
 
 
 # Activity routes
