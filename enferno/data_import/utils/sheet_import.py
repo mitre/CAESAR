@@ -340,9 +340,15 @@ class SheetImport:
                 from_date = event.get('from_date')
                 if from_date:
                     e.from_date = DateHelper.parse_date(from_date)
+                from_time = event.get('from_time')
+                if from_time:
+                    e.from_time = from_time
                 to_date = event.get('to_date')
                 if to_date:
                     e.to_date = DateHelper.parse_date(to_date)
+                to_time = event.get('to_time')
+                if to_time:
+                    e.to_time = to_time
 
                 # validate event here
                 if (from_date and not pd.isnull(from_date)) or loc:

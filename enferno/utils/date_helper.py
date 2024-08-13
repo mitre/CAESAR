@@ -5,6 +5,18 @@ class DateHelper:
     @staticmethod
     def serialize_datetime(dt):
         return arrow.get(dt).format('YYYY-MM-DDTHH:mm') if dt else None
+    
+    @staticmethod
+    def serialize_date(date):
+        return arrow.get(date).format('YYYY-MM-DD') if date else None
+    
+    @staticmethod
+    def serialize_time(time):
+        if (time):
+            if (isinstance(time, str)):
+                return time
+            
+            return time.strftime("%H:%M:%S")
 
     @staticmethod
     def file_date_parse(dt):

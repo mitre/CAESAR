@@ -25,6 +25,7 @@ class BulletinColsets(object):
                      'sensitive_data',
                      'ref',
                      'publish_date',
+                     'publish_info',
                      'documentation_date',
                      'status',
                      'review',

@@ -105,15 +105,21 @@
                         </v-col> -->
                     </v-row>
                     <v-row>
-                        <v-col cols="12" md="4" class="text-center">
-                            <pop-date-time-field time-label="{{ _('Time') }}" label="{{ _('From') }}"
-                                v-model="editedEvent.from_date"></pop-date-time-field>
+                        <v-col cols="12" md="3" class="text-center">
+                            <pop-date-field time-label="{{ _('Time') }}" label="{{ _('From') }}"
+                                v-model="editedEvent.from_date"></pop-date-field>
                         </v-col>
-                        <v-col cols="12" md="5">
-                            <pop-date-time-field time-label="{{ _('Time') }}" label="{{ _('To') }}"
-                                v-model="editedEvent.to_date"></pop-date-time-field>
+                        <v-col cols="12" md="2" class="text-center">
+                            <v-text-field v-model="editedEvent.from_time" type="time" label="{{ _('Time (UTC)') }}"></v-text-field>
                         </v-col>
-                        <v-col md="3">
+                        <v-col cols="12" md="3">
+                            <pop-date-field time-label="{{ _('Time') }}" label="{{ _('To') }}"
+                            v-model="editedEvent.to_date"></pop-date-field>
+                        </v-col>
+                        <v-col cols="12" md="2" class="text-center">
+                            <v-text-field v-model="editedEvent.to_time" type="time" label="{{ _('Time (UTC)') }}"></v-text-field>
+                        </v-col>
+                        <v-col cols="12" md="3">
                             <v-switch label="{{ _('Estimated Time') }}" v-model="editedEvent.estimated"></v-switch>
                         </v-col>
                     </v-row>
