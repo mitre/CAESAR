@@ -7,6 +7,7 @@ from enferno.admin.models import (
     Actor,
     Incident,
     Label,
+    Organization,
     SocialMediaHandle,
     SocialMediaPlatform,
     Source,
@@ -45,6 +46,8 @@ class SearchUtils:
             return self.build_incident_query()
         elif self.cls == 'Location':
             return self.build_location_query()
+        elif self.cls == 'Organization':
+            return self.build_organization_query()
         return []
 
     def to_dict(self):
@@ -92,6 +95,25 @@ class SearchUtils:
 
     def build_location_query(self):
         return self.location_query(self.search)
+
+    def build_organization_query(self):
+        main = self.organization_query(self.search[0])
+        if len(self.search) == 1:
+            return [main], []
+
+        # link queries starting from second item
+        ops = []
+        queries = [main]
+
+        for i in range(1, len(self.search)):
+            q = self.organization_query(self.search[i])
+            op = self.search[i].get('op', 'or')
+            if op == 'and':
+                ops.append('intersect')
+            elif op == 'or':
+                ops.append('union')
+            queries.append(q)
+        return queries, ops
 
     def bulletin_query(self, q):
         query = []
@@ -980,5 +1002,33 @@ class SearchUtils:
                 query.append(or_(func.array_to_string(Location.tags, '').ilike(r) for r in search))
             else:
                 query.append(and_(func.array_to_string(Location.tags, '').ilike(r) for r in search))
+
+        return query
+
+    def organization_query(self, q):
+        query = []
+
+        tsv = q.get('tsv')
+        if tsv:
+            words = tsv.split(' ')
+            qsearch = [Organization.search.ilike('%{}%'.format(word)) for word in words]
+            query.extend(qsearch)
+
+        # exclude  filter
+        extsv = q.get('extsv')
+        if extsv:
+            words = extsv.split(' ')
+            for word in words:
+                query.append(not_(Organization.search.ilike('%{}%'.format(word))))
+
+        if (title := q.get('name')):
+            words = title.split(' ')
+            # search for bilingual title columns
+            qsearch = [or_(
+                Organization.name.ilike('%{}%'.format(word)), 
+                Organization.name_ar.ilike('%{}%'.format(word))) 
+                for word in words]
+
+            query.extend(qsearch)
 
         return query

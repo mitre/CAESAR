@@ -5749,7 +5749,7 @@ class Query(db.Model, BaseMixin):
     SQL Alchemy model for saved searches
     """
 
-    TYPES = [Bulletin.__tablename__, Actor.__tablename__, Incident.__tablename__]
+    TYPES = [Bulletin.__tablename__, Actor.__tablename__, Incident.__tablename__, Organization.__tablename__]
 
     __table_args__ = (db.UniqueConstraint("user_id", "name", name="unique_user_queryname"),)
 

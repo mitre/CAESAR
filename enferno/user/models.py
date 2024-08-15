@@ -233,7 +233,7 @@ class User(UserMixin, db.Model, BaseMixin):
             return True
 
         # handle primary entities (bulletins, actors, incidents)
-        if obj.__tablename__ in ['bulletin', 'actor', 'incident']:
+        if obj.__tablename__ in ['bulletin', 'actor', 'incident', 'organization']:
             # intersect roles
             if not obj.roles or set(self.roles) & set(obj.roles):
                 return True

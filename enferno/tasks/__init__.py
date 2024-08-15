@@ -10,7 +10,7 @@ import pandas as pd
 from celery import Celery, chain
 from sqlalchemy import and_
 
-from enferno.admin.models import Bulletin, Actor, Incident, BulletinHistory, Activity, ActorHistory, IncidentHistory
+from enferno.admin.models import Bulletin, Actor, Incident, BulletinHistory, Activity, ActorHistory, IncidentHistory, Organization, OrganizationHistory
 from enferno.deduplication.models import DedupRelation
 from enferno.export.models import Export
 from enferno.extensions import db, rds
@@ -375,6 +375,94 @@ def bulk_update_incidents(ids, bulk, cur_user_id):
 
     print("Incidents Bulk Update Successful")
 
+@celery.task
+def bulk_update_organizations(ids, bulk, cur_user_id):
+    # build mappings
+    u = {'id': cur_user_id}
+    cur_user = namedtuple('cur_user', u.keys())(*u.values())
+    user = User.query.get(cur_user_id)
+    chunks = chunk_list(ids, BULK_CHUNK_SIZE)
+
+    for group in chunks:
+        # Fetch organizations
+        organizations = Organization.query.filter(Organization.id.in_(group))
+        for organization in organizations:
+            # check if user can access organization
+            if not user.can_access(organization):
+                # Log?
+                continue
+
+            # get Status initially
+            status = bulk.get('status')
+
+            # Assigned user
+            assigned_to_id = bulk.get('assigned_to_id')
+            if assigned_to_id:
+                organization.assigned_to_id = assigned_to_id
+                if not status:
+                    organization.status = 'Assigned'
+
+            # FPR user
+            first_peer_reviewer_id = bulk.get('first_peer_reviewer_id')
+            if first_peer_reviewer_id:
+                organization.first_peer_reviewer_id = first_peer_reviewer_id
+                if not status:
+                    organization.status = 'Peer Review Assigned'
+
+            if status:
+                organization.status = status
+
+            # Comment (required)
+            organization.comments = bulk.get('comments', '')
+
+            # Access Roles
+            roles = bulk.get('roles')
+            replace_roles = bulk.get('rolesReplace')
+            if replace_roles:
+                if roles:
+                    role_ids = list(map(lambda x: x.get('id'), roles))
+                    # get actual roles objects
+                    roles = Role.query.filter(Role.id.in_(role_ids)).all()
+                    # assign directly to the organization
+                    organization.roles = roles
+                else:
+                    # clear organization roles
+                    organization.roles = []
+            else:
+                if roles:
+                    # merge roles
+                    role_ids = list(map(lambda x: x.get('id'), roles))
+                    # get actual roles objects
+                    roles = Role.query.filter(Role.id.in_(role_ids)).all()
+                    # assign directly to the organization
+                    organization.roles = list(set(organization.roles + roles))
+
+            # add only to session
+            db.session.add(organization)
+
+        revmaps = []
+        organizations = Organization.query.filter(Organization.id.in_(group)).all()
+        for organization in organizations:
+            # this commits automatically
+            tmp = {
+                'organization_id': organization.id,
+                'user_id': cur_user.id,
+                'data': organization.to_dict()
+            }
+            revmaps.append(tmp)
+        db.session.bulk_insert_mappings(OrganizationHistory, revmaps)
+
+        # commit session when a batch of items and revisions are added
+        db.session.commit()
+
+        # Record Activity
+        updated = [o.to_mini() for o in organizations]
+        Activity.create(cur_user, Activity.ACTION_BULK_UPDATE, updated, 'organization')
+        # perhaps allow a little time out
+        time.sleep(.1)
+        print('Chunk Processed')
+
+    print("Bulletins Bulk Update Successful")
 
 @celery.task(rate_limit=10)
 def etl_process_file(batch_id, file, meta, user_id, data_import_id):
