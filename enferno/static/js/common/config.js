@@ -241,6 +241,7 @@ const router = new VueRouter({
     { path: "/admin/primary-records/:id" },
     { path: "/admin/actors/:id" },
     { path: "/admin/investigations/:id" },
+    { path: "/admin/organizations/:id" },
     { path: "/admin/locations/:id" },
     { path: "/export/dashboard/:id" },
     { path: "/import/log/:id" },
@@ -422,6 +423,20 @@ var aggregateActorLocations = function (actor) {
     locations = locations.concat(eventLocations);
   }
 
+  return locations;
+};
+
+var aggregateOrganizationLocations = function (organization) {
+  let locations = [];
+
+  if (organization.locations && organization.locations.length) {
+    let locs = organization.locations.filter((x) => x.lat && x.lng);
+    locs.map((x) => {
+      x.color = "#00a1f1";
+      return x;
+    });
+    locations = locations.concat(locs);
+  }
   return locations;
 };
 

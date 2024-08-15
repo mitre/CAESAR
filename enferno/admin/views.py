@@ -20,7 +20,7 @@ from sqlalchemy import and_, desc, or_, cast, String
 from werkzeug.utils import safe_join
 from werkzeug.utils import secure_filename
 
-from enferno.admin.models import (ActorSubType, Bulletin, ConsentUse, Label, Organization, Source, Location, Eventtype, Media, Actor, Incident,
+from enferno.admin.models import (ActorSubType, Bulletin, ConsentUse, Label, Organization, OtobInfo, OtoiInfo, OtooInfo, Source, Location, Eventtype, Media, Actor, Incident,
                                   IncidentHistory, BulletinHistory, ActorHistory, LocationHistory, PotentialViolation,
                                   ClaimedViolation,
                                   Activity, Query, LocationAdminLevel, LocationType, AppConfig,
@@ -29,7 +29,7 @@ from enferno.admin.models import (ActorSubType, Bulletin, ConsentUse, Label, Org
                                   SanctionRegime)
 from enferno.extensions import bouncer, rds
 from enferno.extensions import cache
-from enferno.tasks import bulk_update_bulletins, bulk_update_actors, bulk_update_incidents
+from enferno.tasks import bulk_update_bulletins, bulk_update_actors, bulk_update_incidents, bulk_update_organizations
 from enferno.user.models import User, Role
 from enferno.utils.config_utils import ConfigManager
 from enferno.utils.http_response import HTTPResponse
@@ -3576,6 +3576,36 @@ def api_incident_import():
 
 
 #Organization routes
+@admin.route('/organizations/', defaults={'id': None})
+@admin.route('/organizations/<int:id>')
+def organizations(id):
+    """
+    Endpoint to render organizations backend page
+    :return: html page of the organizations backend management
+    """
+    # Pass relationship information
+    atobInfo = [item.to_dict() for item in AtobInfo.query.all()]
+    btobInfo = [item.to_dict() for item in BtobInfo.query.all()]
+    atoaInfo = [item.to_dict() for item in AtoaInfo.query.all()]
+    itobInfo = [item.to_dict() for item in ItobInfo.query.all()]
+    itoaInfo = [item.to_dict() for item in ItoaInfo.query.all()]
+    itoiInfo = [item.to_dict() for item in ItoiInfo.query.all()]
+    otooInfo = [item.to_dict() for item in OtooInfo.query.all()]
+    otobInfo = [item.to_dict() for item in OtobInfo.query.all()]
+    otoiInfo = [item.to_dict() for item in OtoiInfo.query.all()]
+    statuses = [item.to_dict() for item in WorkflowStatus.query.all()]
+    return render_template('views/admin/organizations.html',
+                           atobInfo=atobInfo,
+                           btobInfo=btobInfo,
+                           atoaInfo=atoaInfo,
+                           itobInfo=itobInfo,
+                           itoaInfo=itoaInfo,
+                           itoiInfo=itoiInfo,
+                           otobInfo=otobInfo,
+                           otooInfo=otooInfo,
+                           otoiInfo=otoiInfo,
+                           statuses=statuses)
+
 @admin.route('/api/organizations/', methods=['POST', 'GET'])
 def api_organizations():
     """Returns organizations in JSON format, allows search and paging."""
@@ -3717,6 +3747,144 @@ def api_organization_delete(id):
     organization.create_revision()
     return F'Deleted Organization #{organization.id}', 200
 
+@admin.route('/api/organization/assignother/<int:id>', methods=['PUT'])
+@roles_accepted('Admin', 'DA')
+def api_organization_assign(id):
+    """assign an organization to another user"""
+    organization = Organization.query.get(id)
+
+    if not current_user.can_access(organization):
+        return 'Restricted Access', 403
+
+    if organization:
+        i = request.json.get('organization')
+        if not i or not i.get('assigned_to_id'):
+            return 'No user selected',  400
+        # update organization assignement
+        organization.assigned_to_id = i.get('assigned_to_id')
+        organization.comments = i.get('comments', '')
+
+        # Change status to assigned if needed
+        if organization.status == 'Machine Created' or organization.status == 'Human Created':
+            organization.status = 'Assigned'
+
+        # Create a revision using latest values
+        # this method automatically commits
+        # organization changes (referenced)
+        organization.create_revision()
+
+        # Record Activity
+        Activity.create(current_user, Activity.ACTION_UPDATE, organization.to_mini(), 'organization')
+        return F'Saved Organization #{organization.id}', 200
+    else:
+        return HTTPResponse.NOT_FOUND
+
+@admin.route('/api/organization/assign/<int:id>', methods=['PUT'])
+@roles_accepted('Admin', 'DA')
+def api_organization_self_assign(id):
+    """ self assign an organization to the user"""
+
+    # permission check
+    if not current_user.can_self_assign:
+        return 'User not allowed to self assign', 400
+
+    organization = Organization.query.get(id)
+
+    if not current_user.can_access(organization):
+        return 'Restricted Access', 403
+
+    if organization:
+        a = request.json.get('organization')
+        # workflow check
+        if organization.assigned_to_id and organization.assigned_to.active:
+            return 'Item already assigned to an active user', 400
+
+        # update bulletin assignement
+        organization.assigned_to_id = current_user.id
+        organization.comments = a.get('comments')
+
+        # Change status to assigned if needed
+        if organization.status == 'Machine Created' or organization.status == 'Human Created':
+            organization.status = 'Assigned'
+
+        organization.create_revision()
+
+        # Record Activity
+        Activity.create(current_user, Activity.ACTION_UPDATE, organization.to_mini(), 'organization')
+        return F'Saved Organization #{organization.id}', 200
+    else:
+        return HTTPResponse.NOT_FOUND
+
+@admin.put('/api/organization/bulk/')
+@roles_accepted('Admin', 'Mod')
+def api_organization_bulk_update():
+    """
+    Endpoint to bulk update organizations
+    :return: success/error
+    """
+
+    ids = request.json['items']
+    bulk = request.json['bulk']
+
+    # non-intrusive hard validation for access roles based on user
+    if not current_user.has_role('Admin') and not current_user.has_role('Mod'):
+        # silently discard access roles
+        bulk.pop('roles', None)
+
+    if ids and len(bulk):
+        job = bulk_update_organizations.delay(ids, bulk, current_user.id)
+        # store job id in user's session for status monitoring
+        key = F'user{current_user.id}:{job.id}'
+        rds.set(key, job.id)
+        # expire in 3 hour
+        rds.expire(key, 60 * 60 * 3)
+        return 'Bulk update queued successfully.', 200
+    else:
+        return 'No items selected, or nothing to update', 417
+
+# Add/Update review organization endpoint
+@admin.put('/api/organization/review/<int:id>')
+@roles_accepted('Admin', 'DA')
+def api_organization_review_update(id):
+    """
+    Endpoint to update a organization review
+    :param id: id of the organization
+    :return: success/error based on the outcome
+    """
+    organization = Organization.query.get(id)
+    if organization is not None:
+        if not current_user.can_access(organization):
+            return 'Restricted Access', 403
+
+        organization.review = request.json['item']['review'] if 'review' in request.json['item'] else ''
+        organization.review_action = request.json['item']['review_action'] if 'review_action' in request.json[
+            'item'] else ''
+
+        if organization.status == 'Peer Review Assigned':
+            organization.comments = 'Added Peer Review'
+        if organization.status == 'Peer Reviewed':
+            organization.comments = 'Updated Peer Review'
+
+        organization.status = 'Peer Reviewed'
+
+        # append refs
+        refs = request.json.get('item', {}).get('revrefs', [])
+
+        organization.ref = organization.ref + refs
+
+        if organization.save():
+            # Create a revision using latest values
+            # this method automatically commits
+            #  organization changes (referenced)           
+            organization.create_revision()
+
+            # Record Activity
+            Activity.create(current_user, Activity.ACTION_UPDATE, organization.to_mini(), 'organization')
+            return F'Organization review updated #{organization.id}', 200
+        else:
+            return F'Error saving Organization #{id}', 417
+    else:
+        return HTTPResponse.NOT_FOUND
 
 # Activity routes
 @admin.route('/activity/')
@@ -3781,6 +3949,8 @@ def bulk_status():
             status = bulk_update_incidents.AsyncResult(id).status
         elif type == 'incident':
             status = bulk_update_actors.AsyncResult(id).status
+        elif type == 'organization':
+            status = bulk_update_organizations.AsyncResult(id).status
         else:
             return HTTPResponse.NOT_FOUND
 

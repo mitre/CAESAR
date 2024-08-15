@@ -1,0 +1,1180 @@
+{% extends "layouts/layout.html" %}
+{% block css %}
+<link rel="stylesheet" href="/static/js/dropzone/vue2Dropzone.min.css" />
+<link rel="stylesheet" href="/static/js/dropzone/basic.css" />
+{% endblock %}
+{% block content %}
+<div id="app">
+  <v-app id="organizations" v-cloak>
+    {% include 'components/nav-drawer.html' %}
+    {% include "components/nav-bar.html" %}
+    {% include
+    'views/admin/partials/bulk_organization_drawer.html' %}
+    {% include
+    'views/admin/partials/organization_drawer.html' %}
+    {% include
+    'views/admin/partials/export_drawer.html' %}
+    <v-main>
+      {% include 'views/admin/partials/organization_advsearch.html' %}
+      <v-container class="container--fluid">
+        <div>
+          <v-data-table 
+            fixed-header height="calc(100vh - 355px)" 
+            id="organizations-dt" 
+            v-model="selected"
+            :headers="headers" @click:row="rowClick" 
+            :item-class="rowClass" show-select 
+            :items="items"
+            :options.sync="options" :footer-props.sync="footerProps" 
+            :loading="loading"
+            :server-items-length="itemsLength" class="" 
+            @toggle-select-all="selectAllRestrict"
+          >
+            <template v-slot:item.data-table-select="{ item, isSelected, select }">
+              <v-simple-checkbox :value="isSelected" :readonly="item.restricted"
+                :disabled="item.restricted" @input="select($event)"></v-simple-checkbox>
+            </template>
+            <template v-slot:top>
+              <v-toolbar flat color="white">
+                <v-btn class="hidden-sm-and-down" small @click="allOrganizations" text>{{ _("All Organizations")
+                  }}</v-btn>
+                <v-divider class="mx-2 hidden-sm-and-down" inset vertical></v-divider>
+                <v-btn class="hidden-sm-and-down mr-2" small @click="myAssigned" text>{{ _("Assigned to me") }}</v-btn>
+                <v-text-field flat dense outlined small v-model.trim="search[0].tsv"
+                  @keydown.enter="doSearch" hide-details append-outer-icon="mdi-ballot"
+                  append-icon="mdi-close" @click:append-outer="toggleAdvSearch"
+                  @click:append="resetSearch" prepend-inner-icon="mdi-magnify"
+                  label="{{ _('Search') }}"></v-text-field>
+                <v-btn @click="searchOrganizations(false)" icon>
+                  <v-icon>mdi-refresh</v-icon>
+                </v-btn>
+                <v-spacer></v-spacer>
+                {% if current_user.roles_in(['Admin','DA']) %}
+                <v-btn @click="editItem" color="accent" dark class="ma-2">{{ _("New Organization") }}</v-btn>
+                {% endif %}
+                {% include 'views/admin/partials/organization_dialog.html' %}
+                {% include 'views/admin/partials/review_dialog.html' %}
+              </v-toolbar>
+              <v-toolbar v-if="bulkAllowed() || exportAllowed()" dense color="white" flat>
+                <template v-if="bulkIcons">
+                  <v-btn @click="selected=[]" x-small fab class="mr-3" elevation="0" color="white">
+                    <v-icon>mdi-checkbox-blank-outline</v-icon>
+                  </v-btn>
+                  <v-btn @click="bulkOrganizationDrawer=true" small color="primary" depressed
+                    v-if="bulkAllowed()">
+                    <v-icon small left>mdi-circle-edit-outline</v-icon>
+                    {{ _("Bulk update") }}</v-btn>
+                  <v-btn @click="exportDrawer=true" small color="primary" class="mx-2" depressed
+                    v-if="exportAllowed()">
+                    <v-icon small left>mdi-file-export-outline
+                    </v-icon>
+                    {{ _("Export") }}
+                  </v-btn>
+                </template>
+                <template>
+                  <v-progress-circular v-for="job in jobs" size="20" small
+                    :indeterminate="job.status!='SUCCESS'"
+                    :color="job.status=='SUCCESS' ? 'success': 'amber'"
+                    :value="job.status=='SUCCESS'?100:null" class="mx-1"
+                    stroke="1"></v-progress-circular>
+                </template>
+                <v-spacer></v-spacer>
+                <div>
+                  <v-chip label small close color="yellow lighten-4" v-if="resultsChip"
+                    class="grey--text text--darken-2" @click:close="resultsChip = false">{{
+                    _("About") }} ${itemsLength} {{ _("results") }}
+                    (${searchTime} {{ _("seconds") }})
+                  </v-chip>
+                </div>
+                <v-spacer></v-spacer>
+                <v-chip small color="accent" v-if="selected.length">
+                  ${selected.length} {{ _("Selected items") }}</v-chip>
+              </v-toolbar>
+            </template>
+            <template v-slot:item.assigned_to.name="{ item }">
+              <div v-if="item.assigned_to">
+                <span
+                  :class="{'flex assigned-to-me': currentUser.id == item.assigned_to.id}">${item.assigned_to.name}</span>
+              </div>
+            </template>
+            <template v-slot:item.roles="{item}">
+              <v-chip class="mx-2" small style="scale:0.7" v-tippy :content="role.name"
+                v-for="role in item.roles" :color="role.color">
+              </v-chip>
+            </template>
+            <template v-slot:item.status="{ item }">
+              ${item.status}
+              <v-chip x-small v-if="item.review_action" color="grey lighten-4"
+                class="secondary--text">${item.review_action}
+              </v-chip>
+            </template>
+            <template v-slot:item.action="{ item }">
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <v-icon v-on="on" color="primary lighten-1" class="mr-2"
+                    @click.stop="editItem(item)" v-if="editAllowed(item)">
+                    mdi-pencil
+                  </v-icon>
+                </template>
+                <span>Edit</span>
+              </v-tooltip>
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <v-icon v-on="on" color="primary lighten-1" class="mr-2"
+                    @click.stop="openSelfAssign(item)" v-if="selfAssignAllowed(item)">
+                    mdi-arrow-left-thin-circle-outline
+                  </v-icon>
+                </template>
+                <span>Assign to self</span>
+              </v-tooltip>
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <v-icon v-on="on" color="primary lighten-1" class="mr-2"
+                    @click.stop="openAssignOther(item)" v-if="bulkAllowed() && !item.restricted">
+                    mdi-account-box-outline
+                  </v-icon>
+                </template>
+                <span>Assign Organization</span>
+              </v-tooltip>
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <v-icon v-on="on" v-if="reviewAllowed(item)" @click.stop="addReview(item)"
+                    color="gv darken-1" class="mr-2">mdi-message-draw
+                  </v-icon>
+                </template>
+                <span>Add Review</span>
+              </v-tooltip>
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <v-icon v-on="on" v-if="has_role(currentUser, 'Admin')"
+                    @click.stop="deleteItem(item)" color="primary lighten-1"
+                    class="mr-2">mdi-archive
+                  </v-icon>
+                </template>
+                <span>Archive Organization</span>
+              </v-tooltip>
+            </template>
+            <template v-slot:no-data></template>
+          </v-data-table>
+          <v-overlay :value="loading">
+            <v-progress-circular indeterminate size="64"></v-progress-circular>
+          </v-overlay>
+          <relate-bulletins :i18n="translations" @relate="relateBulletin" :exids="exBulletins"
+            ref="relateBulletins"></relate-bulletins>
+          <relate-organizations :i18n="translations" @relate="relateOrganization" :exids="exOrganizations"
+            ref="relateOrganizations"></relate-organizations>
+          <relate-incidents :i18n="translations" @relate="relateIncident" :exids="exIncidents"
+            ref="relateIncidents"></relate-incidents>
+          <v-dialog width="600" v-model="selfAssignDialog">
+            <v-card class="pa-3">
+              <v-card-title>Self Assign Organization #${assignOrganization.id}</v-card-title>
+              <v-card-text>
+                <v-textarea v-model="assignOrganization.comments" label="Comments"></v-textarea>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn :disabled="!assignOrganization.comments" class="ma-auto" @click="selfAssign"
+                  color="primary">Assign to self
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <v-dialog width="600" v-model="assignDialog">
+            <v-card class="pa-3">
+              <v-card-title>Assign Organization #${assignOrganization.id}</v-card-title>
+              <v-card-text>
+                <validation-provider name="Assigned To" rules="required" v-slot="{ errors }">
+                  <search-field-single v-model="assignOrganization.assigned_to_id" api="/admin/api/users/"
+                    item-text="name" item-value="id" :return-object="false" :multiple="false"
+                    label="{{ _('Assigned To') }}"></search-field-single>
+                  <span class="red--text">${errors[0]}</span>
+                </validation-provider>
+                <validation-provider name="Comments" rules="required" v-slot="{ errors }">
+                  <v-textarea v-model="assignOrganization.comments" label="Comments"></v-textarea>
+                  <span class="red--text">${errors[0]}</span>
+                </validation-provider>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn :disabled="!assignOrganization.comments || !assignOrganization.assigned_to_id" class="ma-auto"
+                  @click="assignOther()" color="primary">Assign Organization
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <v-snackbar v-model="snackbar">
+            <div class="d-flex justify-space-between align-center">
+              <span class="text-subtitle-1">${snackMessage}</span>
+              <v-btn color="white" fab small color="secondary" text @click="snackbar = false">
+                <v-icon small>mdi-close</v-icon>
+              </v-btn>
+            </div>
+          </v-snackbar>
+        </div>
+      </v-container>
+    </v-main>
+    {% include "components/footer.html" %}
+  </v-app>
+</div>
+<div class="d-none" data-itob='{{ itobInfo|tojson }}'></div>
+<div class="d-none" data-itoa='{{ itoaInfo|tojson }}'></div>
+<div class="d-none" data-atob='{{ atobInfo|tojson }}'></div>
+<div class="d-none" data-atoa='{{ atoaInfo|tojson }}'></div>
+<div class="d-none" data-btob='{{ btobInfo|tojson }}'></div>
+<div class="d-none" data-itoi='{{ itoiInfo|tojson }}'></div>
+<div class="d-none" data-otoo='{{ otooInfo|tojson }}'></div>
+<div class="d-none" data-otob='{{ otobInfo|tojson }}'></div>
+<div class="d-none" data-otoi='{{ otoiInfo|tojson }}'></div>
+<div class="d-none" data-statuses='{{ statuses|tojson }}'></div>
+{% endblock %}
+{% block js %}
+<script src="/static/js/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="/static/js/tinymce-vue.min.js"></script>
+<script src="/static/js/dropzone/vue2Dropzone.js"></script>
+<script src="/static/js/components/OrganizationResult.js"></script>
+<script src="/static/js/components/ActorResult.js"></script>
+<script src="/static/js/components/BulletinResult.js"></script>
+<script src="/static/js/components/IncidentResult.js"></script>
+<script src="/static/js/components/UniField.js"></script>
+<script src="/static/js/components/Visualization.js"></script>
+<script src="/static/js/element-resize-detector.min.js"></script>
+<script src="/static/js/force-graph.min.js"></script>
+<script src="/static/js/components/GlobalMap.js"></script>
+{#Missing Persons Components#}
+<script src="/static/js/components/Address.js"></script>
+<script src="/static/js/components/MixI.js"></script>
+<script src="/static/js/components/MixII.js"></script>
+<script src="/static/js/components/MixIII.js"></script>
+<script src="/static/js/components/MPCard.js"></script>
+<script src="/static/js/components/MPField.js"></script>
+<script src="/static/js/components/PdfViewer.js"></script>
+<script>
+window.__GOOGLE_MAPS_API_KEY__ = '{{ config.GOOGLE_MAPS_API_KEY }}';
+window.__EXPORT_TOOL__ = ('{{ config.EXPORT_TOOL }}' === 'True');
+VeeValidate.extend('oneisnull', {
+  computesRequired: true,
+  validate: (value, param) => {
+    if (!param[1]) {
+      return true;
+    }
+    if (['', null, undefined].indexOf(value) !== -1 && ['', null, undefined].indexOf(param[0]) !== -1) {
+      return 'Either Name or Name(Original Language) should not be empty'
+    }
+    return true
+  },
+});
+VeeValidate.extend("uniqueQueryName", {
+  validate: async (str) => {
+    try {
+      await axios.get(`/admin/api/query/${str}/exists`);
+      return true;
+    } catch (error) {
+      return error?.response?.data ?? 'An error occurred.';
+    }
+  },
+});
+let app = new Vue({
+  el: "#app",
+  vuetify: vuetify,
+  delimiters: delimiters,
+  router,
+  components: {
+    "tinymce-editor": Editor,
+    vueDropzone: vue2Dropzone
+  },
+  data: () => ({
+    translations: translations,
+    // TODO change to organizaiton relations
+    itobInfo: JSON.parse(document.querySelector('[data-itob]').dataset.itob),
+    itoaInfo: JSON.parse(document.querySelector('[data-itoa]').dataset.itoa),
+    itoiInfo: JSON.parse(document.querySelector('[data-itoi]').dataset.itoi),
+    atobInfo: JSON.parse(document.querySelector('[data-atob]').dataset.atob),
+    btobInfo: JSON.parse(document.querySelector('[data-btob]').dataset.btob),
+    atoaInfo: JSON.parse(document.querySelector('[data-atoa]').dataset.atoa),
+    otooInfo: JSON.parse(document.querySelector('[data-otoo]').dataset.otoo),
+    otobInfo: JSON.parse(document.querySelector('[data-otob]').dataset.otob),
+    otoiInfo: JSON.parse(document.querySelector('[data-otoi]').dataset.otoi),
+    assignOrganization: {},
+    credibilityItems: [
+      {label: '-', value: undefined},
+      {label: '1 - Confirmed', value: 1},
+      {label: '2 - Probably True', value: 2},
+      {label: '3 - Possibly True', value: 3},
+      {label: '4 - Doubtful', value: 4},
+      {label: '5 - Improbable', value: 5},
+      {label: '6 - Truth cannot be judged', value: 6},
+    ],
+    selfAssignDialog: false,
+    assignDialog: false,
+    // missing person toggle
+    profile: false,
+    resultsChip: true,
+    currentUser: JSON.parse(`{{ current_user.to_dict()|tojson }}`),
+    users: JSON.parse(`{{users|tojson}}`),
+    // advanced search
+    advSearchExpand: false,
+    //global preview dialog
+    preview: false,
+    pitem: null,
+    search: [{}],
+    queryName: null,
+    saveQueryDialog: false,
+    searchPanels: 0,
+    searchTime: null,
+    searches: [],
+    savedSearchSelection: null,
+    roles: [],
+    fsloading: true,
+    // Load organization config
+    drawer: drawer,
+    sideNav: sideNav,
+    dialog: dialog,
+    //load advsearch constants
+    reviewDialog: false,
+    reviewKey: 0,
+    videoDialog: false,
+    playerOptions: {},
+    // search and relate organization dialog vars
+    relateOrganizationDialog: false,
+    relateOrganizationLoader: true,
+    relateOrganizationTerm: "",
+    relateOrganizationResults: [],
+    selectedRelatedOrganizations: [],
+    // search and relate bulletin dialog vars
+    relateBulletinDialog: false,
+    relateBulletinLoader: true,
+    relateBulletinTerm: "",
+    relateBulletinResults: [],
+    selectedRelatedBulletins: [],
+    // search and relate incident dialog vars
+    relateIncidentDialog: false,
+    relateIncidentLoader: true,
+    relateIncidentTerm: "",
+    relateIncidentResults: [],
+    selectedRelatedIncidents: [],
+    organizationDrawer: false,
+    bulkOrganizationDrawer: false,
+    exportDrawer: false,
+    exportConfig: {},
+    sources: [],
+    locations: [],
+    labels: [],
+    verLabels: [],
+    statuses: JSON.parse(document.querySelector('[data-statuses]').dataset.statuses).map(s => ({
+      en: s.title,
+      tr: s.title_tr
+    })),
+    statusItems: JSON.parse(document.querySelector('[data-statuses]').dataset.statuses).map(s => ({
+      en: s.title,
+      tr: s.title_tr
+    })),
+    statusDisabled: false,
+    //field language switchers
+    name__: true,
+    first_name__: true,
+    middle_name__: true,
+    mother_name__: true,
+    last_name__: true,
+    occupation__: true,
+    position__: true,
+    dialects__: true,
+    family_status__: true,
+    //source link extras
+    source_alt: null,
+    source_disabled: false,
+    //rich text config
+    tinyConfig: tinyConfig,
+    snackbar: false,
+    snackMessage: "",
+    loading: true,
+    parentLoading: false,
+    csvFile: null,
+    options: {},
+    searchLoading: {
+      assigned: false,
+      first: false,
+      second: false,
+      third: false
+    },
+    sourcesLoading: false,
+    locationsLoading: false,
+    labelsLoading: false,
+    footerProps: {
+      itemsPerPageOptions: itemsPerPageOptions,
+      itemsPerPageText: "{{ _('Rows per page')}}"
+    },
+    headers: [
+      {
+        text: "{{_('ID')}}",
+        value: "id",
+        width: 12
+      }, {
+        text: "{{_('Name')}}",
+        value: "name",
+        width: 300
+      },
+      {% if(current_user.has_role('Admin') or current_user.has_role('DA')) %} {
+        text: "{{_('Assigned To')}}",
+        value: "assigned_to.name",
+        width: 130
+      }, {
+        text: "{{_('Roles')}}",
+        value: "roles",
+        width: 130
+      },
+      {% endif %} {
+        text: "{{_('Status')}}",
+        value: "_status",
+        width: 150
+      }, {
+        text: "{{_('Actions')}}",
+        value: "action",
+        width: 100,
+        sortable: false
+      }
+    ],
+    items: [],
+    selected: [],
+    itemsLength: 10,
+    editedIndex: -1,
+    editedItem: {
+      organization_relations: [],
+      bulletin_relations: [],
+      incident_relations: [],
+    },
+    defaultItem: {
+      description: "",
+      status: "",
+      // related organizations
+      organizaiton_relations: [],
+      // related bulletins
+      bulletin_relations: [],
+      // related incidents
+      incident_relations: [],
+      created_at: '',
+    },
+    reviewItem: { },
+    // bulk actions
+    bulk: { },
+    bulkIcons: false,
+    jobs: [],
+    bulkTimer: 0,
+    organization: { },
+    organizationLoader: false
+  }),
+  computed: {
+    get_formatted_created_at_datetime(){
+      if(this.editedItem.created_at){
+        return dateFns.format(this.editedItem.created_at, "YYYY-MM-DD h:m A");
+      }
+      else{
+        return '';
+      }
+    },
+    statusForbidsAssignment() {
+      if (this.statusDisabled) {
+        return true;
+      }
+      statusesPreventingAssignment = ["Machine Created", "Human Created"];
+      var assignmentDisabled = statusesPreventingAssignment.includes(this.editedItem.status);
+      return assignmentDisabled;
+    },
+    statusRequiresAssignment() {
+      statusesRequiringAssignment = ["Assigned", "Second Peer Review", "Peer Review Assigned"];
+      return statusesRequiringAssignment.includes(this.editedItem.status);
+    },
+    compLocations() {
+      return aggregateOrganizationLocations(this.editedItem);
+    },
+    exBulletins() {
+      let ids = [];
+      if (this.editedItem.bulletin_relations) {
+        ids = ids.concat(this.editedItem.bulletin_relations.map(x => x.bulletin.id))
+      }
+      return ids;
+    },
+    exOrganizations() {
+      let ids = [this.editedItem.id];
+      if (this.editedItem.organization_relations) {
+        ids = ids.concat(this.editedItem.organization_relations.map(x => x.organization.id))
+      }
+      return ids;
+    },
+    exIncidents() {
+      let ids = [];
+      if (this.editedItem.incident_relations) {
+        ids = ids.concat(this.editedItem.incident_relations.map(x => x.incident.id))
+      }
+      return ids;
+    },
+    formTitle() {
+      return this.editedItem.id ? "Edit Organization" : "New Organization";
+    },
+    videoPlayer() {
+      return document.querySelector("#player");
+    }
+  },
+  watch: {
+    organizationDrawer: function(val) {
+      if (val == false) {
+        if (this.$route.path != '/admin/organizations/') this.$router.push('/admin/organizations/')
+      }
+    },
+    selected: function(val) {
+      this.bulkIcons = val.length ? true : false;
+    },
+    source_alt: function(val) {
+      if (val) {
+        this.editedItem.source_link = 'NA';
+        this.source_disabled = true;
+      } else {
+        //this.editedItem.source_link = '';
+        this.source_disabled = false;
+      }
+    },
+    options: {
+      handler: "refresh"
+    }
+  },
+  mounted: function() {
+    this.statusDisabled = !this.has_role(this.currentUser, 'Admin')
+    // populate roles for advanced search for admins
+  {% if current_user.has_role('Admin') %}
+    axios.get('/admin/api/roles/').then(res => {
+      this.roles = res.data.items;
+    }).catch(e => {
+        this.roles = [];
+        console.log(e.message);
+      });
+  {% endif %}
+    // display confirmation alert if edit dialog is open.
+    let self = this;
+    window.addEventListener("beforeunload", function (e) {
+      if (self.dialog) {
+        var confirmationMessage = 'It looks like you have been editing something. ' + 'If you leave before saving, your changes will be lost.';
+        (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+        return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+      }
+    });
+    if (this.$route.params.id) {
+      this.showOrganization(this.$route.params.id);
+    }
+    if (this.$route.query.reltob) {
+      this.filter_related_to_bulletin(this.$route.query.reltob);
+    }
+    if (this.$route.query.reltoo) {
+      this.filter_related_to_organization(this.$route.query.reltoo);
+    }
+    if (this.$route.query.reltoi) {
+      this.filter_related_to_incident(this.$route.query.reltoi);
+    }
+    this.$router.afterEach((to, from, next) => {
+      if (this.$route.query.reltob) {
+        this.filter_related_to_bulletin(this.$route.query.reltob);
+      }
+      if (this.$route.query.reltoo) {
+        this.filter_related_to_organization(this.$route.query.reltoo);
+      }
+      if (this.$route.query.reltoi) {
+        this.filter_related_to_incident(this.$route.query.reltoi);
+      }
+      if (this.$route.params.id) {
+        this.showOrganization(this.$route.params.id);
+      }
+    })
+  },
+  methods: {
+    assignItemByUserId(userId) {
+      this.editedItem.assigned_to = this.users.find(x => x.id == userId);
+    },
+    // form anchors for scrolling
+    anchorScroll(id) {
+      this.$nextTick(() => document.getElementById(id).scrollIntoView({
+        behavior: 'smooth'
+      }));
+    },
+    exportRequest() {
+      let ids = this.selected.map(x => x.id);
+      this.loading = true;
+      axios.post(`/export/api/organization/export`, {
+        items: ids,
+        config: this.exportConfig
+      }).then(response => {
+          this.showSnack(response.data);
+        }).catch(error => {
+          console.error(error.response?.data);
+          this.showSnack(error.response?.data)
+        }).finally(() => {
+          this.loading = false;
+          this.exportDrawer = false;
+          this.selected = [];
+          this.exportConfig = {};
+        });
+    },
+    selectAllRestrict(props) {
+      if (this.selected.length > 0) {
+        // untoggle on next tick
+        this.$nextTick(() => {
+          this.selected = [];
+        })
+      }
+      this.selected = props.items.filter(x => !x.restricted);
+    },
+    rowClass(item) {
+      if (item.restricted) {
+        return 'restricted'
+      }
+      return ''
+    },
+    openSelfAssign(organization) {
+      this.assignOrganization = {
+        id: organization.id
+      };
+      this.selfAssignDialog = true;
+    },
+    openAssignOther(organization) {
+      this.assignOrganization = {
+        id: organization.id
+      };
+      this.assignDialog = true;
+    },
+    assignOther() {
+      axios.put(`/admin/api/organization/assignother/${this.assignOrganization.id}`, {
+        organization: this.assignOrganization
+      }).then(res => {
+          this.showSnack('Organization assigned successfully.')
+          this.searchOrganizations(true)
+        }).catch(err => {
+          this.showSnack(err.response.data);
+        }).finally(() => {
+          this.assignDialog = false;
+          this.assignOrganization = {};
+        });
+    },
+    selfAssign() {
+      axios.put(`/admin/api/organization/assign/${this.assignOrganization.id}`, {
+        organization: this.assignOrganization
+      }).then(res => {
+          this.showSnack('Organization assigned successfully.')
+          this.searchOrganizations(true)
+        }).catch(err => {
+          this.showSnack(err.response.data);
+        }).finally(() => {
+          this.selfAssignDialog = false;
+          this.assignOrganization = {};
+        });
+    },
+    filter_related_to_bulletin(id) {
+      this.bulletinDrawer = false;
+      this.search = [{
+        rel_to_bulletin: id
+      }];
+      this.searchOrganizations();
+    },
+    filter_related_to_organization(id) {
+      this.bulletinDrawer = false;
+      this.search = [{
+        rel_to_organization: id
+      }];
+      this.searchOrganizations();
+    },
+    filter_related_to_incident(id) {
+      this.bulletinDrawer = false;
+      this.search = [{
+        rel_to_incident: id
+      }];
+      this.searchOrganizations();
+    },
+    previewItem(endpoint) {
+      axios.get(endpoint).then(res => {
+        this.pitem = res.data;
+        this.preview = true;
+      })
+    },
+    bulkStatus() {
+      axios.get('/admin/api/bulk/status/?type=organization').then(res => {
+        this.jobs = res.data;
+        if (!this.jobs.length) {
+          clearInterval(this.bulkTimer);
+          this.options.page = 1;
+          this.refresh();
+          this.showSnack('Bulk Update is finished!')
+        }
+      });
+    },
+    // bulk updates
+    bulk_update() {
+      let ids = this.selected.map(x => x.id);
+      this.loading = true;
+      axios.put(`/admin/api/organization/bulk/`, {
+        items: ids,
+        bulk: this.bulk
+      }).then(response => {
+          this.loading = false;
+          this.showSnack(response.data);
+          this.refresh(this.options);
+          //reset bulk drawer, and bulk data
+          this.bulkOrganizationDrawer = false;
+          this.selected = [];
+          this.bulk = {};
+          clearInterval(this.bulkTimer);
+          // if (!this.bulkProcInterval)
+          this.bulkTimer = setInterval(this.bulkStatus, 3000);
+        });
+    },
+    // ---------------- advanced search -----------------------
+    toggleAdvSearch() {
+      this.advSearchExpand = !this.advSearchExpand
+      this.advSearchMenu = !this.advSearchMenu;
+      this.$nextTick(() => {
+        // trick to just invoke the binding
+      })
+    },
+    doSearch() {
+      this.options.page = 1;
+      // some good UX
+      if (this.advSearchExpand) {
+        this.advSearchExpand = false;
+      } else {
+        //this.search = Object.assign({},{tsv:this.search.tsv})
+      }
+      this.searchOrganizations();
+    },
+    searchOrganizations() {
+      this.loading = true;
+      const startTime = new Date();
+      axios.post(`/admin/api/organizations/?page=${this.options.page}&per_page=${this.options.itemsPerPage}&sort_by=${this.options.sortBy}&sort_desc=${this.options.sortDesc}`, {
+        q: this.search
+      }).then(response => {
+          this.loading = false;
+          const endTime = new Date();
+          this.searchTime = (endTime - startTime) / 1000;
+          this.itemsLength = response.data.total;
+          this.items = response.data.items;
+          this.resultsChip = true;
+        });
+    },
+    removeQueryAt(i) {
+      this.search.splice(i, 1);
+    },
+    addQuery() {
+      this.search.push({})
+      this.searchPanels = this.search.length - 1;
+    },
+    resetSearch() {
+      this.savedSearchSelection = null;
+      this.search = [{}];
+      this.doSearch();
+    },
+    openSaveQueryDialog() {
+      // Separate method to include auto-focus on input
+      this.saveQueryDialog = true;
+      this.$nextTick(() => {
+        setTimeout(() => {
+          this.$refs.saveQueryInput.focus();
+        }, 0);
+      })
+    },
+    loadSearch(item) {
+      if (item) {
+        this.savedSearchSelection = Object.assign([], item);
+        this.search = Object.assign([], item.data);
+      }
+      this.$refs.savedSearchDropdown.blur()
+    },
+    loadSearchesFromAPI(selectLast = false) {
+      axios.get('/admin/api/queries/', {
+        params: {
+          type: 'organization'
+        }
+      }).then(res => {
+          this.searches = res.data;
+          if (selectLast === true) {
+            this.savedSearchSelection = this.searches.at(-1);
+          }
+        }).catch(error => {
+          this.showSnack(handleRequestError(error))
+        });
+    },
+    saveSearch() {
+      const newSearch = {
+        q: this.search,
+        name: this.queryName,
+        type: 'organization'
+      };
+      axios.post('/admin/api/query/', newSearch).then(res => {
+        this.showSnack(res.data);
+        this.saveQueryDialog = false;
+        this.queryName = null;
+        // just reload searches and select the last one
+        this.loadSearchesFromAPI(true);
+      }).catch(error => {
+          this.showSnack(handleRequestError(error));
+        });
+    },
+    updateSearch() {
+      axios.put('/admin/api/query/' + this.savedSearchSelection.name, {
+        q: this.search
+      }).then(res => {
+          this.showSnack(res.data);
+        }).catch(error => {
+          this.showSnack(handleRequestError(error));
+        });
+    },
+    deleteSearch(searchName) {
+      axios.delete('/admin/api/query/' + searchName).then(res => {
+        this.showSnack(res.data);
+        this.searches = this.searches.filter(item => item.name !== searchName);
+        this.resetSearch();
+      }).catch(error => {
+          this.showSnack(handleRequestError(error));
+        });
+    },
+    // ---------------- end advanced search -----------------------
+    /* Organization Custom Lists */
+    allOrganizations() {
+      this.search = [{}];
+      this.doSearch();
+    },
+    myAssigned() {
+      q = {};
+      this.options.page = 1;
+      q.assigned = [this.currentUser.id];
+      this.search = [q];
+      this.searchOrganizations();
+    },
+    myReview() {
+      q = {};
+      this.options.page = 1;
+      q.reviewer = [this.currentUser.id];
+      q.statuses = ["Peer Review Assigned"];
+      this.search = [q]
+      this.searchOrganizations();
+    },
+    //reset initial visible fields to english language
+    resetSwitchers: function() {
+      this.name__ = true;
+      this.first_name__ = true;
+      this.middle_name__ = true;
+      this.mother_name__ = true;
+      this.last_name__ = true;
+      this.occupation__ = true;
+      this.position__ = true;
+      this.dialects__ = true;
+      this.family_status__ = true;
+    },
+    refresh(options) {
+      this.searchOrganizations();
+    },
+    rowClick(item) {
+      if (item.restricted) {
+        this.showSnack('This item is restricted.')
+        return
+      }
+      path = `/admin/organizations/${item.id}`;
+      if (this.$route.path !== path) this.$router.push(path);
+    },
+    showOrganization(id) {
+      this.organizationLoader = true;
+      this.organizationDrawer = true;
+      axios.get(`/admin/api/organization/${id}?mode=3`).then(response => {
+        this.organization = response.data;
+      }).catch(error => {
+          this.organizationDrawer = false;
+          if (error.response) {
+            this.showSnack(error.response.data)
+            this.snackbar = true;
+          }
+        }).finally(() => {
+          this.organizationLoader = false;
+        });
+    },
+    searchUsers: debounce(function (evt) {
+      this.searchLoading[evt.target.dataset.loader] = true;
+      axios.get(`/admin/api/users/?q=${evt.target.value}`).then(response => {
+        this.users = response.data.items;
+        this.searchLoading[evt.target.dataset.loader] = false;
+      });
+    }, 350),
+    handleStatus(organization) {
+      if (!this.editedItem.id) {
+        this.editedItem.status = this.statusItems[1].en;
+      } else if (!this.has_role(this.currentUser, 'Admin')) {
+        this.statusItems = this.statuses;
+        if (this.editedItem.status == 'Assigned' || this.editedItem.status == 'Human Created') {
+          this.editedItem.status = this.statusItems[2].en;
+        }
+        if (this.editedItem.status == 'Peer Reviewed') {
+          this.editedItem.status = this.statusItems[9].en;
+        }
+      }
+    },
+    showSnack(message) {
+      this.snackMessage = message;
+      this.snackbar = true;
+    },
+    has_role(user, role) {
+      for (r of user.roles) {
+        if (r.name == role) {
+          return true
+        }
+      }
+      return false;
+    },
+    bulkAllowed() {
+      return this.has_role(this.currentUser, 'Admin') || this.has_role(this.currentUser, 'Mod');
+    },
+    exportAllowed() {
+      if (__EXPORT_TOOL__) {
+        if (this.has_role(this.currentUser, 'Admin')) {
+          return true;
+        }
+        if (this.currentUser.can_export) {
+          return true;
+        }
+      }
+      return false;
+    },
+    editAllowed(organization) {
+      if (organization.restricted) {
+        return false;
+      }
+      if (this.has_role(this.currentUser, 'Admin')) {
+        return true;
+      }
+      if (!this.has_role(this.currentUser, 'DA')) {
+        return false;
+      }
+      const statuses = ['Human Created', 'Assigned', 'Updated', 'Peer Reviewed', 'Revisited'];
+      if (organization.assigned_to && organization.assigned_to.id == this.currentUser.id && statuses.includes(organization.status)) {
+        return true
+      }
+      return false;
+    },
+    reviewAllowed(organization) {
+      if (organization.restricted) {
+        return false;
+      }
+      if (!this.currentUser.roles.length) {
+        return false;
+      }
+      const statuses = ['Peer Review Assigned', 'Peer Reviewed'];
+      if (organization.first_peer_reviewer && organization.first_peer_reviewer.id == this.currentUser.id && statuses.includes(organization.status)) {
+        return true
+      }
+      return false;
+    },
+    selfAssignAllowed(organization) {
+      if (organization.restricted) {
+        return false;
+      }
+      if (this.currentUser.can_self_assign) {
+        if ((!organization.assigned_to) || (organization.assigned_to && !organization.assigned_to.active)) {
+          return true
+        }
+      }
+      return false;
+    },
+    addReview(item) {
+      this.loading = true;
+      this.reviewDialog = true;
+      axios.get(`/admin/api/organization/${item.id}`).then(response => {
+        this.loading = false;
+        this.$nextTick(() => {
+          this.reviewItem = response.data;
+          this.reviewKey += 1;
+          if (!response.data.review) {
+            this.reviewItem.review = '';
+          }
+        })
+      })
+    },
+    saveReview() {
+      axios.put(`/admin/api/organization/review/${this.reviewItem.id}`, {
+        item: this.reviewItem
+      }).then(response => {
+          this.reviewDialog = false;
+          this.showSnack(response.data);
+          this.refresh(this.options);
+        });
+    },
+    editItem(item) {
+      this.organizationDrawer = false;
+      if (!item.id) {
+        this.editedItem = JSON.parse(JSON.stringify(this.defaultItem));
+        this.editedItem.created_by = this.users.find(x => x.id == this.currentUser.id)
+        this.source_alt = null;
+        this.dialog = true;
+        this.handleStatus(item);
+      } else {
+        this.loading = true;
+        axios.get(`/admin/api/organization/${item.id}`).then(response => {
+          this.dialog = true;
+          this.$nextTick(() => {
+            this.loading = false;
+            if (this.editedItem.source_link == 'NA') {
+              this.source_alt = true;
+            } else {
+              this.source_alt = false;
+            }
+            this.editedItem = response.data;
+            this.editedItem.comments = '';
+            this.editedItem.comments = '';
+            this.resetSwitchers();
+            this.handleStatus(item);
+          });
+        }).catch(error => {
+            this.showSnack('Oops! We couldn\'t find this item.')
+          });
+      }
+      //this.locations = this.editedItem.locations;
+    },
+    deleteItem(item) {
+      const index = this.items.indexOf(item);
+      const cfm = confirm("Are you sure you want to archive this item?") && this.items.splice(index, 1);
+      if (cfm) {
+        axios.delete(`/admin/api/organization/${item.id}`).then(response => {
+          this.showSnack(response.data);
+          this.refresh(this.options);
+        });
+      }
+    },
+    confirmClose() {
+      if (confirm('Are you sure?')) {
+        this.dialog = false;
+        setTimeout(() => {
+          this.editedItem = Object.assign({}, this.defaultItem);
+          this.editedIndex = -1;
+        }, 300);
+      }
+    },
+    close() {
+      this.dialog = false;
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      }, 300);
+    },
+    save() {
+      if (this.editedItem.id) {
+        //update record
+        this.loading = true;
+        axios.put(`/admin/api/organization/${this.editedItem.id}`, {
+          item: this.editedItem
+        }).then(response => {
+            this.showSnack(response.data);
+            this.refresh(this.options);
+          }).catch(err => {
+            console.log(err.response.data);
+            this.showSnack(err.response.data)
+          }).finally(() => {
+            this.loading = false;
+          });
+      } else {
+        //create new record
+        this.loading = true;
+        axios.post("/admin/api/organization/", {
+          item: this.editedItem
+        }).then(response => {
+            this.showSnack(response.data);
+            this.refresh(this.options);
+          }).catch(err => {
+            console.log(err.response.data);
+            this.showSnack(err.response.data)
+          }).finally(() => {
+            this.loading = false;
+          });
+      }
+      this.close();
+    },
+    // related organization functions --------------------
+    detectDirection(editedItem, organization) {
+      // Since relationships always enforced to flow from smaller id to bigger id
+      // this can be used to determine the relationship label displayed
+      // one special case needs handling is when a new organization is created (id is null) in this case
+      // new organization id will be definitely larger than any id in the system
+      if (!editedItem.id) {
+        return false;
+      } else {
+        return editedItem.id < organization.id
+      }
+    },
+    searchRelatedOrganizations() {
+      this.$refs.relateOrganizations.open();
+      this.$nextTick(() => {
+        this.$refs.relateOrganizations.q = {
+          tsv: this.relateOrganizationTerm
+        };
+        this.$refs.relateOrganizations.reSearch();
+      });
+    },
+    relateOrganization(organization) {
+      // get list of existing attached organizations
+      let ex = this.editedItem.organization_relations.map(x => x.organization.id);
+      if (!ex.includes(organization.id)) {
+        relation = {
+          organization: organization
+        };
+        this.editedItem.organization_relations.push(relation);
+        this.relateOrganizationResults.removeById(organization.id);
+      }
+    },
+    removeOrganization: function(evt, index) {
+      if (confirm("Are you sure?")) {
+        this.editedItem.organization_relations.splice(index, 1);
+      }
+    },
+    // related bulletins functions --------------------
+    searchRelatedBulletins() {
+      this.$refs.relateBulletins.open();
+      this.$nextTick(() => {
+        this.$refs.relateBulletins.q = {
+          tsv: this.relateBulletinTerm
+        };
+        this.$refs.relateBulletins.reSearch();
+      });
+    },
+    relateBulletin(bulletin) {
+      // get list of existing attached bulletins
+      let ex = this.editedItem.bulletin_relations.map(x => x.bulletin.id);
+      if (!ex.includes(bulletin.id)) {
+        relation = {
+          bulletin: bulletin
+        };
+        this.editedItem.bulletin_relations.push(relation);
+        this.relateBulletinResults.removeById(bulletin.id);
+      }
+    },
+    removeBulletin: function(evt, index) {
+      if (confirm("Are you sure?")) {
+        this.editedItem.bulletin_relations.splice(index, 1);
+      }
+    },
+    // related incidents functions ------------------------
+    searchRelatedIncidents() {
+      this.$refs.relateIncidents.open();
+      this.$nextTick(() => {
+        this.$refs.relateIncidents.q = {
+          tsv: this.relateIncidentTerm
+        };
+        this.$refs.relateIncidents.reSearch();
+      });
+    },
+    relateIncident(incident) {
+      // get list of existing attached organizations
+      let ex = this.editedItem.incident_relations.map(x => x.incident.id);
+      if (!ex.includes(incident.id)) {
+        relation = {
+          incident: incident
+        };
+        this.editedItem.incident_relations.push(relation);
+        this.relateIncidentResults.removeById(incident.id);
+      }
+    },
+    removeIncident: function(evt, index) {
+      if (confirm("Are you sure?")) {
+        this.editedItem.incident_relations.splice(index, 1);
+      }
+    },
+  }
+});
+</script>
+{% endblock %}
