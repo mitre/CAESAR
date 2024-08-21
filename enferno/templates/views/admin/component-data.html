@@ -46,6 +46,18 @@
                                             {{ _("Investigation to Investigation Relations") }}
                                         </v-tab>
                                         <v-tab class="justify-start">
+                                          {{ _("Organization to Primary Record Relations") }}
+                                        </v-tab>
+                                        <v-tab class="justify-start">
+                                            {{ _("Organization to Organization Relations") }}
+                                        </v-tab>
+                                        <v-tab class="justify-start">
+                                            {{ _("Organization to Actor Relations") }}
+                                        </v-tab>
+                                        <v-tab class="justify-start">
+                                            {{ _("Organization to Investigation Relations") }}
+                                        </v-tab>
+                                        <v-tab class="justify-start">
                                             {{ _("Media Categories") }}
                                         </v-tab>
                                         <v-tab class="justify-start">
@@ -190,6 +202,59 @@
                                                     delete-endpoint="/admin/api/itoiinfo"
                                                     save-endpoint="/admin/api/itoiinfo"
                                                     load-endpoint="/admin/api/itoiinfos/?per_page=1000">
+                                                </editable-table>
+                                            </v-card-text>
+                                        </v-card>
+                                    </v-tab-item>
+                                    <v-tab-item class="pa-1">
+                                        <v-card class="pa-3">
+                                            <v-card-text>
+                                                <editable-table
+                                                    title="{{ _('Organization to Primary Record Relations') }}"
+                                                    :item-headers="relationHeaders"
+                                                    :editable-columns="['title','title_tr']"
+                                                    delete-endpoint="/admin/api/otobinfo"
+                                                    save-endpoint="/admin/api/otobinfo"
+                                                    load-endpoint="/admin/api/otobinfos/?per_page=1000">
+                                                </editable-table>
+                                            </v-card-text>
+                                        </v-card>
+                                    </v-tab-item><v-tab-item class="pa-1">
+                                        <v-card class="pa-3">
+                                            <v-card-text>
+                                                <editable-table
+                                                    title="{{ _('Organization to Organization Relations') }}"
+                                                    :item-headers="relationHeaders"
+                                                    :editable-columns="['title','title_tr']"
+                                                    delete-endpoint="/admin/api/otooinfo"
+                                                    save-endpoint="/admin/api/otooinfo"
+                                                    load-endpoint="/admin/api/otooinfos/?per_page=1000">
+                                                </editable-table>
+                                            </v-card-text>
+                                        </v-card>
+                                    </v-tab-item><v-tab-item class="pa-1">
+                                        <v-card class="pa-3">
+                                            <v-card-text>
+                                                <editable-table
+                                                    title="{{ _('Organization to Actor Relations') }}"
+                                                    :item-headers="relationHeaders"
+                                                    :editable-columns="['title','title_tr']"
+                                                    delete-endpoint="/admin/api/otoainfo"
+                                                    save-endpoint="/admin/api/otoainfo"
+                                                    load-endpoint="/admin/api/otoainfos/?per_page=1000">
+                                                </editable-table>
+                                            </v-card-text>
+                                        </v-card>
+                                    </v-tab-item><v-tab-item class="pa-1">
+                                        <v-card class="pa-3">
+                                            <v-card-text>
+                                                <editable-table
+                                                    title="{{ _('Organization to Investigation Relations') }}"
+                                                    :item-headers="relationHeaders"
+                                                    :editable-columns="['title','title_tr']"
+                                                    delete-endpoint="/admin/api/otoiinfo"
+                                                    save-endpoint="/admin/api/otoiinfo"
+                                                    load-endpoint="/admin/api/otoiinfos/?per_page=1000">
                                                 </editable-table>
                                             </v-card-text>
                                         </v-card>

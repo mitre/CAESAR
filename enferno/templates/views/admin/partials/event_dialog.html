@@ -1,7 +1,7 @@
 <v-dialog v-model="eventDialog" max-width="850px">
     <template v-slot:activator="{ on }">
         <div>
-            {% if data_type == "actor" %}
+            {% if data_type == "actor" or data_type == "organization" %}
             <span class="anchor" id="locations-of-reported-activity"></span>
             {% else %}
             <span class="anchor" id="events"></span>
@@ -9,7 +9,7 @@
             <v-tooltip top max-width=500 open-delay=1500>
                 <template v-slot:activator="{ on }">
                     <span v-on="on">
-                        {% if data_type == "actor" %}
+                        {% if data_type == "actor" or data_type == "organization" %}
                         <h3 class="mb-2">{{ _("Locations of Reported Activity") }}</h3>
                         {% else %}
                         <h2 class="form-section-header">{{ _("Events") }}</h2>
@@ -17,7 +17,7 @@
                     </span>
                 </template>
                 <span>
-                    {% if data_type == "actor" %}
+                    {% if data_type == "actor" or data_type == "organization" %}
                     {{ _('Location is where the event is identfied as having occurred. The locations can be selected
                     with varying levels of specificity. Select the most localized options possible (e.g., village
                     name versus oblast if it is available).') }}
@@ -50,7 +50,7 @@
         <v-card>
             <v-card-title>
                 <span class="headline">
-                    {% if data_type == 'actor' %}
+                    {% if data_type == "actor" or data_type == "organization" %}
                     {{ _("Location of Reported Activity") }}
                     {% else %}
                     {{ _("Event") }}
@@ -127,7 +127,7 @@
                         <v-col cols="12" md="12">
                             <v-textarea outlined rows="7" v-model="editedEvent.comments">
                                 <template #label>
-                                    {% if data_type == 'actor' %}
+                                    {% if data_type == "actor" or data_type == "organization" %}
                                         {{ _("Notes") }}
                                     {% else %}
                                         {{ _("Description of Event") }}

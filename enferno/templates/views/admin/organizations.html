@@ -161,6 +161,8 @@
           </v-overlay>
           <relate-bulletins :i18n="translations" @relate="relateBulletin" :exids="exBulletins"
             ref="relateBulletins"></relate-bulletins>
+          <relate-actors :i18n="translations" @relate="relateActor" :exids="exActors"
+            ref="relateActors"></relate-actors>
           <relate-organizations :i18n="translations" @relate="relateOrganization" :exids="exOrganizations"
             ref="relateOrganizations"></relate-organizations>
           <relate-incidents :i18n="translations" @relate="relateIncident" :exids="exIncidents"
@@ -223,6 +225,7 @@
 <div class="d-none" data-otoo='{{ otooInfo|tojson }}'></div>
 <div class="d-none" data-otob='{{ otobInfo|tojson }}'></div>
 <div class="d-none" data-otoi='{{ otoiInfo|tojson }}'></div>
+<div class="d-none" data-otoa='{{ otoaInfo|tojson }}'></div>
 <div class="d-none" data-statuses='{{ statuses|tojson }}'></div>
 {% endblock %}
 {% block js %}
@@ -292,6 +295,7 @@ let app = new Vue({
     otooInfo: JSON.parse(document.querySelector('[data-otoo]').dataset.otoo),
     otobInfo: JSON.parse(document.querySelector('[data-otob]').dataset.otob),
     otoiInfo: JSON.parse(document.querySelector('[data-otoi]').dataset.otoi),
+    otoaInfo: JSON.parse(document.querySelector('[data-otoa]').dataset.otoa),
     assignOrganization: {},
     credibilityItems: [
       {label: '-', value: undefined},
@@ -304,6 +308,7 @@ let app = new Vue({
     ],
     selfAssignDialog: false,
     assignDialog: false,
+    rolesWithinDialog: false,
     // missing person toggle
     profile: false,
     resultsChip: true,
@@ -349,6 +354,12 @@ let app = new Vue({
     relateIncidentLoader: true,
     relateIncidentTerm: "",
     relateIncidentResults: [],
+    // search and relate actor dialog vars
+    relateActorDialog: false,
+    relateActorLoader: true,
+    relateActorTerm: "",
+    relateActorResults: [],
+
     selectedRelatedIncidents: [],
     organizationDrawer: false,
     bulkOrganizationDrawer: false,
@@ -435,23 +446,51 @@ let app = new Vue({
     selected: [],
     itemsLength: 10,
     editedIndex: -1,
+    socialMediaPlatforms: [],
     editedItem: {
+      aliases: [],
+      roles_within: [],
+      social_media_handles: [],
+      events: [],
       organization_relations: [],
       bulletin_relations: [],
+      actor_relations: [],
       incident_relations: [],
     },
     defaultItem: {
+      aliases: [],
+      roles_within: [],
+      social_media_handles: [],
+      events: [],
       description: "",
       status: "",
       // related organizations
-      organizaiton_relations: [],
+      organization_relations: [],
       // related bulletins
       bulletin_relations: [],
+      // related actors
+      actor_relations: [],
       // related incidents
       incident_relations: [],
       created_at: '',
     },
+    editedRole: {},
+    editedRoleIndex: -1,
+    actorChoices: [],
     reviewItem: { },
+    //events
+    eventTitle__: true,
+    eventComments__: true,
+    eventDialog: false,
+    editedEventIndex: -1,
+    editedEvent: {
+      title: ""
+    },
+    defaultEvent: {
+      title: "",
+      from_date: '',
+      to_date: ''
+    },
     // bulk actions
     bulk: { },
     bulkIcons: false,
@@ -491,6 +530,13 @@ let app = new Vue({
       }
       return ids;
     },
+    exActors() {
+      let ids = [];
+      if (this.editedItem.actor_relations) {
+        ids = ids.concat(this.editedItem.actor_relations.map(x => x.actor.id))
+      }
+      return ids;
+    },
     exOrganizations() {
       let ids = [this.editedItem.id];
       if (this.editedItem.organization_relations) {
@@ -510,9 +556,20 @@ let app = new Vue({
     },
     videoPlayer() {
       return document.querySelector("#player");
+    },
+    isLastActorEmptyInRoleWithin() {
+      if (!this.editedRole.actors) return false;
+      if (this.editedRole.actors.length <= 0) return false;
+      return !this.editedRole.actors[this.editedRole.actors.length - 1].actor_id;
+    },
+    reportsToChoices() {
+      return [...this.editedItem.roles_within.slice(0, this.editedRoleIndex), ...this.editedItem.roles_within.slice(this.editedRoleIndex + 1)]
     }
   },
   watch: {
+    eventDialog(val) {
+      val || this.closeEvent();
+    },
     organizationDrawer: function(val) {
       if (val == false) {
         if (this.$route.path != '/admin/organizations/') this.$router.push('/admin/organizations/')
@@ -535,6 +592,8 @@ let app = new Vue({
     }
   },
   mounted: function() {
+    this.getSocialMediaPlatforms();
+    this.getActorChoices();
     this.statusDisabled = !this.has_role(this.currentUser, 'Admin')
     // populate roles for advanced search for admins
   {% if current_user.has_role('Admin') %}
@@ -584,6 +643,14 @@ let app = new Vue({
   methods: {
     assignItemByUserId(userId) {
       this.editedItem.assigned_to = this.users.find(x => x.id == userId);
+    },
+    getSocialMediaPlatforms() {
+      axios.get('/admin/api/socialmediaplatforms/').then(res => {
+        this.socialMediaPlatforms = res.data.items;
+      }).catch(e => {
+          this.socialMediaPlatforms = [];
+          console.error(e.message);
+        });
     },
     // form anchors for scrolling
     anchorScroll(id) {
@@ -1148,6 +1215,23 @@ let app = new Vue({
         this.editedItem.bulletin_relations.splice(index, 1);
       }
     },
+
+    relateActor(actor) {
+      // get list of existing attached actors
+      let ex = this.editedItem.actor_relations.map(x => x.actor.id);
+      if (!ex.includes(actor.id)) {
+        relation = {
+          actor: actor
+        };
+        this.editedItem.actor_relations.push(relation);
+        this.relateActorResults.removeById(actor.id);
+      }
+    },
+    removeActor: function(evt, index) {
+      if (confirm("Are you sure?")) {
+        this.editedItem.actor_relations.splice(index, 1);
+      }
+    },
     // related incidents functions ------------------------
     searchRelatedIncidents() {
       this.$refs.relateIncidents.open();
@@ -1172,6 +1256,132 @@ let app = new Vue({
     removeIncident: function(evt, index) {
       if (confirm("Are you sure?")) {
         this.editedItem.incident_relations.splice(index, 1);
+      }
+    },
+    isLastSocialMediaHandleEmpty() {
+      if (this.editedItem.social_media_handles.length) {
+        return this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].handle_name === '' ||
+          ((this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform_id === null || !this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform_id) &&
+            (!this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform || this.editedItem.social_media_handles[this.editedItem.social_media_handles.length - 1].platform === null));
+      }
+      return false;
+    },
+    isLastAliasEmpty() {
+      if (this.editedItem.aliases.length > 0) {
+        const lastIndex = this.editedItem.aliases.length - 1;
+        return this.editedItem.aliases[lastIndex].name === '';
+      }
+      return false;
+    },
+    addAlias() {
+      this.editedItem.aliases.push({
+        name: '',
+        organization_id: this.editedItem.id
+      });
+    },
+    addSocialMediaHandle() {
+      this.editedItem.social_media_handles.push({
+        handle_name: '',
+        platform_id: null
+      });
+    },
+    addActorToEditedRole() {
+      if (!this.editedRole.actors) {
+        this.editedRole.actors = [];
+      }
+      this.editedRole.actors.push({
+        currently_active: true,
+      });
+      if (this.editedRole.id) {
+        this.editedRole.actors[this.editedRole.actors.length - 1].role_id = this.editedRole.id;
+      }
+    },
+    addRoleWithin() {
+      if (!this.editedItem.roles_within) {
+        this.editedItem.roles_within = [];
+      }
+      axios.post('/admin/api/organization-roles/', {
+        item: this.editedRole
+      }).then(response => {
+          this.editedItem.roles_within.push(response.data);
+        }).catch(error => {
+          console.error(error.message);
+        }).finally(() => {
+          this.editedRole = {};
+          this.rolesWithinDialog = false;
+        });
+    },
+    searchRelatedActors() {
+      this.$refs.relateActors.open();
+      this.$nextTick(() => {
+        this.$refs.relateActors.q = {
+          tsv: this.relateActorTerm
+        };
+        this.$refs.relateActors.reSearch();
+      });
+    },
+    openNewRoleWithinDialog() {
+      this.rolesWithinDialog = true;
+      this.editedRole = {title: "", actors: []};
+      this.editedRoleIndex = -1;
+    },
+    editRoleWithin(role, index) {
+      this.rolesWithinDialog = true;
+      this.editedRole = Object.assign({}, role);
+      this.editedRoleIndex = index;
+    },
+    saveRoleWithin() {
+      this.editedItem.roles_within[this.editedRoleIndex] = Object.assign({}, this.editedRole);
+      this.editedRoleIndex = -1;
+      this.rolesWithinDialog = false;
+    },
+    getActorChoices() {
+      axios.post(`/admin/api/actors/`, {
+        q: [{}]
+      }).then(response => {
+          this.actorChoices = response.data.items;
+        }).catch(error => {
+          this.actorChoices = [];
+          console.error(error.message);
+        });
+    },
+    editEvent(evt, item, index) {
+      this.editedEvent = Object.assign({}, item);
+      //console.log(this.editedEvent);
+      this.editedEventIndex = index;
+      //reset dual fields display to english
+      this.eventTitle__ = true;
+      this.eventComments__ = true;
+      this.eventDialog = true;
+      //this.locations = this.editedItem.locations;
+    },
+    closeEvent() {
+      this.eventDialog = false;
+      setTimeout(() => {
+        this.editedEvent = Object.assign({}, this.defaultEvent);
+        this.editedEventIndex = -1;
+      }, 300);
+    },
+    doSaveEvent() {
+      if (this.editedEventIndex > -1) {
+        Object.assign(this.editedItem.events[this.editedEventIndex], this.editedEvent);
+        //update record
+      } else {
+        this.editedItem.events.push(this.editedEvent);
+        //create new record
+      }
+      this.closeEvent();
+    },
+    saveEvent() {
+      if(this.editedEvent.location) {
+        axios.get(`/admin/api/location/${this.editedEvent.location.id}`).then(response => {
+          this.editedEvent.location = response.data;
+          this.doSaveEvent();
+        }).catch(error => {
+            this.showSnack('Oops! We couldn\'t find the selected location.');
+          });
+      } else {
+        this.doSaveEvent();
       }
     },
   }

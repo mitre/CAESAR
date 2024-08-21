@@ -168,6 +168,7 @@ class SocialMediaPlatform(db.Model, BaseMixin):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     handles = db.relationship("SocialMediaHandle", back_populates="platform", cascade="all, delete-orphan")
+    handles_organization = db.relationship("SocialMediaHandleOrganization", back_populates="platform", cascade="all, delete-orphan")
 
     def to_dict(self):
         return {
@@ -216,6 +217,43 @@ class SocialMediaHandle(db.Model, BaseMixin):
             self.platform_id = jsn.get('platform').get('id')
         if jsn.get('actor_id'):
             self.actor_id = jsn.get('actor_id')
+        return self
+
+class SocialMediaHandleOrganization(db.Model, BaseMixin):
+    """
+    SQL Alchemy model for social media handles for organizations
+    """
+
+    id = db.Column(db.Integer, primary_key=True)
+    handle_name = db.Column(db.String, nullable=False)
+    platform_id = db.Column(db.Integer, db.ForeignKey('social_media_platform.id'))
+    platform = db.relationship("SocialMediaPlatform", back_populates="handles_organization", foreign_keys=[platform_id])
+    organization_id = db.Column(db.Integer, db.ForeignKey('organization.id'), nullable=True)
+    organization = db.relationship("Organization", back_populates="social_media_handles", foreign_keys=[organization_id])
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'handle_name': self.handle_name,
+            'platform': self.platform.to_dict() if self.platform else None,
+            'organization': self.organization.to_dict() if self.organization else None
+        }
+
+    def to_dict_organization(self):
+        return {
+            'id': self.id,
+            'handle_name': self.handle_name,
+            'platform': self.platform.to_dict() if self.platform else None
+        }
+    
+    def from_json(self, jsn):
+        self.handle_name = jsn.get('handle_name')
+        if jsn.get('platform_id'):
+            self.platform_id = jsn.get('platform_id')
+        elif jsn.get('platform'):
+            self.platform_id = jsn.get('platform').get('id')
+        if jsn.get('organization_id'):
+            self.organization_id = jsn.get('organization_id')
         return self
 
 class ConsentUse(db.Model, BaseMixin):
@@ -1734,6 +1772,10 @@ class Bulletin(db.Model, BaseMixin):
         "Itob", backref="bulletin", foreign_keys="Itob.bulletin_id"
     )
 
+    related_organizations = db.relationship(
+        "Otob", backref="bulletin", foreign_keys="Otob.bulletin_id"
+    )
+
     publish_date = db.Column(
         db.Date, index=True
     )
@@ -2503,8 +2545,8 @@ class OrganizationRoleActor(db.Model, BaseMixin):
             "id": self.id,
             "actor_id": self.actor_id,
             "currently_active": self.currently_active,
-            "from_date": self.from_date,
-            "to_date": self.to_date,
+            "from_date": DateHelper.serialize_date(self.from_date),
+            "to_date": DateHelper.serialize_date(self.to_date),
             "organization_role_id": self.organization_role_id
         }
     
@@ -2547,11 +2589,12 @@ class OrganizationRole(db.Model, BaseMixin):
             "id": self.id,
             "title": self.title,
             "currently_active": self.currently_active,
-            "from_date": self.from_date,
-            "to_date": self.to_date,
+            "from_date": DateHelper.serialize_date(self.from_date),
+            "to_date": DateHelper.serialize_date(self.to_date),
             "organization_id": self.organization_id,
             "reports_to_id": self.reports_to_id,
-            "reportees": [r.to_dict() for r in self.reportees]
+            "reportees": [r.to_dict() for r in self.reportees],
+            "actors": [a.to_dict() for a in self.actors]
         }
     
     def from_json(self, jsn):
@@ -2617,6 +2660,12 @@ organization_locations = db.Table('organization_locations',
                                   db.Column('organization_id', db.Integer, db.ForeignKey('organization.id'), primary_key=True),
                                   db.Column('location_id', db.Integer, db.ForeignKey('location.id'), primary_key=True)
                                   )
+
+organization_events = db.Table(
+    "organization_events",
+    db.Column("event_id", db.Integer, db.ForeignKey("event.id"), primary_key=True),
+    db.Column("organization_id", db.Integer, db.ForeignKey("organization.id"), primary_key=True),
+)
 # This is for ACCESS ROLES, different from the organization roles that relate to actors
 organization_roles = db.Table('organization_roles',
                               db.Column('organization_id', db.Integer, db.ForeignKey('organization.id'), primary_key=True),
@@ -2651,10 +2700,19 @@ class Organization(db.Model, BaseMixin):
     assigned_to_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     assigned_to = db.relationship("User", back_populates="assigned_to_organizations", foreign_keys=[assigned_to_id])
 
+    social_media_handles = db.relationship('SocialMediaHandleOrganization', back_populates='organization')
+
     locations = db.relationship('Location',
                                 secondary=organization_locations,
                                 backref=db.backref('organizations', lazy='dynamic')
                                 )
+
+    events = db.relationship(
+        "Event",
+        secondary=organization_events,
+        backref=db.backref("organization", lazy="dynamic"),
+        order_by="Event.from_date"
+    )
 
     roles = db.relationship('Role',
                             secondary=organization_roles,
@@ -2671,6 +2729,9 @@ class Organization(db.Model, BaseMixin):
 
     related_incidents = db.relationship(
         "Otoi", backref="organization", foreign_keys="Otoi.organization_id"
+    )
+    related_actors = db.relationship(
+        "Otoa", backref="organization", foreign_keys="Otoa.organization_id"
     )
     related_bulletins = db.relationship(
         "Otob", backref="organization", foreign_keys="Otob.organization_id"
@@ -2737,6 +2798,14 @@ class Organization(db.Model, BaseMixin):
     def bulletin_relations_dict(self):
         return [relation.to_dict() for relation in self.bulletin_relations]
 
+    @property
+    def actor_relations(self):
+        return self.related_actors
+
+    @property
+    def actor_relations_dict(self):
+        return [relation.to_dict() for relation in self.actor_relations]
+
     def from_json(self, json):
 
         self.name = json["name"] if "name" in json else None
@@ -2787,6 +2856,24 @@ class Organization(db.Model, BaseMixin):
                 new_aliases.append(a)
             self.aliases = new_aliases
 
+        # Events
+        if "events" in json:
+            new_events = []
+            events = json["events"]
+            for event in events:
+                if "id" not in event:
+                    # new event
+                    e = Event()
+                    e = e.from_json(event)
+                    e.save()
+                else:
+                    # event already exists, get a db instance and update it with new data
+                    e = Event.query.get(event["id"])
+                    e.from_json(event)
+                    e.save()
+                new_events.append(e)
+            self.events = new_events
+
         # Organization Roles Within
         if "roles_within" in json:
             new_roles = []
@@ -2804,6 +2891,24 @@ class Organization(db.Model, BaseMixin):
                     r.save()
                 new_roles.append(r)
             self.roles_within = new_roles
+
+        # Social Media Handles
+        if "social_media_handles" in json:
+            new_handles = []
+            handles = json["social_media_handles"]
+            for handle in handles:
+                if "id" not in handle:
+                    # new handle
+                    h = SocialMediaHandleOrganization()
+                    h = h.from_json(handle)
+                    h.save()
+                else:
+                    # handle already exists, get a db instance and update it with new data
+                    h = SocialMediaHandleOrganization.query.get(handle["id"])
+                    h.from_json(handle)
+                    h.save()
+                new_handles.append(h)
+            self.social_media_handles = new_handles
 
         # Related Organizations (organization)
         if "organization_relations" in json:
@@ -2876,6 +2981,29 @@ class Organization(db.Model, BaseMixin):
                     # --revision relation
                     rel_incident.create_revision()
 
+        # Related actors (actors_relations)
+        if "actor_relations" in json:
+            # collect related actor ids (helps with finding removed ones)
+            rel_ids = []
+            for relation in json["actor_relations"]:
+                actor = Actor.query.get(relation["actor"]["id"])
+                if actor:
+                    rel_ids.append(actor.id)
+                    # helper method to update/create the relationship (will flush to db)
+                    self.relate_actor(actor, relation=relation)
+
+            # Find out removed relations and remove them
+            # just loop existing relations and remove if the destination actor no in the related ids
+
+            for r in self.actor_relations:
+                # get related bulletin (in or out)
+                if not (r.actor_id in rel_ids):
+                    rel_actor = r.actor
+                    r.delete()
+
+                    # --revision relation
+                    rel_actor.create_revision()
+
         if "comments" in json:
             self.comments = json["comments"]
 
@@ -2905,6 +3033,12 @@ class Organization(db.Model, BaseMixin):
             for role in self.roles_within:
                 roles_within_json.append(role.to_dict())
 
+        # Social media handles json 
+        handles_json = []
+        if self.social_media_handles and len(self.social_media_handles):
+            for handle in self.social_media_handles:
+                handles_json.append(handle.to_dict_organization())
+
         return {
             "id": self.id,
             "name": self.name,
@@ -2912,6 +3046,7 @@ class Organization(db.Model, BaseMixin):
             "locations": locations_json,
             "aliases": aliases_json,
             "roles_within": roles_within_json,
+            "social_media_handles": handles_json,
             "founded_date": DateHelper.serialize_datetime(self.founded_date),
             "description": self.description or None,
             "created_at": DateHelper.serialize_datetime(self.created_at),
@@ -2930,8 +3065,9 @@ class Organization(db.Model, BaseMixin):
             'roles_within': convert_simple_relation(self.roles_within),
             'aliases': convert_simple_relation(self.aliases),
             'related_primary_records': convert_complex_relation(self.bulletin_relations_dict, Bulletin.__tablename__),
-            'related_organizations': convert_complex_relation(self.organization_relations_dict, Actor.__tablename__),
+            'related_organizations': convert_complex_relation(self.organization_relations_dict, Organization.__tablename__),
             'related_investigations': convert_complex_relation(self.incident_relations_dict, Incident.__tablename__),
+            'related_actors': convert_complex_relation(self.actor_relations_dict, Actor.__tablename__),
         }
         return output
 
@@ -3018,6 +3154,31 @@ class Organization(db.Model, BaseMixin):
             if create_revision:
                 bulletin.create_revision()
 
+    # helper method to relate actors
+    def relate_actor(self, actor, relation=None, create_revision=True):
+        # if current actor is new, save it to get the id
+        if not self.id:
+            self.save()
+
+        # query order : (organization_id,actor_id)
+        existing_relation = Otoa.query.get((self.id, actor.id))
+
+        if existing_relation:
+            # Relationship exists :: Updating the attributes
+            existing_relation.from_json(relation)
+            existing_relation.save()
+
+        else:
+            # Create new relation
+            new_relation = Otoa(organization_id=self.id, actor_id=actor.id)
+            # update relation data
+            new_relation.from_json(relation)
+            new_relation.save()
+
+            # --revision relation
+            if create_revision:
+                actor.create_revision()
+
     # custom serialization method
     @check_roles
     def to_dict(self, mode=None):
@@ -3032,11 +3193,17 @@ class Organization(db.Model, BaseMixin):
             for location in self.locations:
                 locations_json.append(location.to_compact())
 
+        handles_json = []
+        if self.social_media_handles and len(self.social_media_handles):
+            for handle in self.social_media_handles:
+                handles_json.append(handle.to_dict_organization())
+
         # Related bulletins json (actually the associated relationships)
         # - in this case the other bulletin carries the relationship
         organization_relations_dict = []
         bulletin_relations_dict = []
         incident_relations_dict = []
+        actor_relations_dict = []
 
         if str(mode) != '3':
             for relation in self.organization_relations:
@@ -3050,12 +3217,15 @@ class Organization(db.Model, BaseMixin):
             for relation in self.incident_relations:
                 incident_relations_dict.append(relation.to_dict())
 
+            for relation in self.actor_relations:
+                actor_relations_dict.append(relation.to_dict())
+
         return {
             "class": self.__tablename__,
             "id": self.id,
             "name": self.name,
             "name_ar": self.name_ar,
-            "found_date": DateHelper.serialize_datetime(self.founded_date),
+            "founded_date": DateHelper.serialize_datetime(self.founded_date),
             "aliases": [alias.to_dict() for alias in self.aliases] if self.aliases else [],
             # assigned to
             "assigned_to": self.assigned_to.to_compact() if self.assigned_to else None,
@@ -3066,9 +3236,11 @@ class Organization(db.Model, BaseMixin):
             else None,
             "locations": locations_json,
             "roles_within": [role.to_dict() for role in self.roles_within] if self.roles_within else [],
+            "social_media_handles": handles_json,
             "bulletin_relations": bulletin_relations_dict,
             "organization_relations": organization_relations_dict,
             "incident_relations": incident_relations_dict,
+            "actor_relations": actor_relations_dict,
             "description": self.description or None,
             "comments": self.comments or None,
             "created_at": DateHelper.serialize_datetime(self.created_at),
@@ -3193,7 +3365,7 @@ class Otoo(db.Model, BaseMixin):
 
         # with our id constraint set, just check if there is relation from the lower id to the upper id
         f, t = (a_id, b_id) if a_id < b_id else (b_id, a_id)
-        relation = OtooInfo.query.get((f, t))
+        relation = Otoo.query.get((f, t))
         if relation:
             return relation
         else:
@@ -3428,6 +3600,89 @@ class Otoi(db.Model, BaseMixin):
             print("Relation was not updated.")
         return self
 
+class OtoaInfo(db.Model, BaseMixin):
+    """
+    Otoa Relation Information Model
+    """
+    extend_existing = True
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    reverse_title = db.Column(db.String, nullable=True)
+    title_tr = db.Column(db.String)
+    reverse_title_tr = db.Column(db.String)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "reverse_title": self.reverse_title,
+            "title_tr": self.title_tr,
+            "reverse_title_tr": self.reverse_title_tr
+        }
+
+    def from_json(self, jsn):
+        self.title = jsn.get('title', self.title)
+        self.reverse_title = jsn.get('reverse_title', self.reverse_title)
+        self.title_tr = jsn.get('title_tr', self.title_tr)
+        self.reverse_title_tr = jsn.get('reverse_title_tr', self.reverse_title_tr)
+
+
+class Otoa(db.Model, BaseMixin):
+    """
+    Organization to actor relationship model
+    """
+    extend_existing = True
+
+    # Available Backref: organization
+    organization_id = db.Column(db.Integer, db.ForeignKey("organization.id"), primary_key=True)
+
+    # Available Backref: actor
+    actor_id = db.Column(db.Integer, db.ForeignKey("actor.id"), primary_key=True)
+
+    # Relationship extra fields
+    related_as = db.Column(ARRAY(db.Integer))
+    probability = db.Column(db.Integer)
+    comment = db.Column(db.Text)
+
+    # user tracking
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    user = db.relationship("User", backref="user_otoas", foreign_keys=[user_id])
+
+    @property
+    def relation_info(self):
+        # Query the AtobInfo table based on the related_as list
+        related_infos = OtoaInfo.query.filter(OtoaInfo.id.in_(self.related_as)).all() if self.related_as else []
+        # Return the to_dict representation of each of them
+        return [info.to_dict() for info in related_infos]
+
+    # custom serialization method
+    def to_dict(self):
+
+        return {
+            "organization": self.organization.to_compact(),
+            "actor": self.actor.to_compact(),
+            "related_as": self.related_as,
+            "probability": self.probability,
+            "comment": self.comment,
+            "user_id": self.user_id,
+        }
+
+    # this will update only relationship data, (populates it from json dict)
+    def from_json(self, relation=None):
+        if relation:
+            self.probability = (
+                relation["probability"] if "probability" in relation else None
+            )
+            self.related_as = (
+                relation["related_as"] if "related_as" in relation else None
+            )
+            self.comment = relation["comment"] if "comment" in relation else None
+            print("Relation has been updated.")
+        else:
+            print("Relation was not updated.")
+        return self
+
 
 class Actor(db.Model, BaseMixin):
     """
@@ -3526,6 +3781,10 @@ class Actor(db.Model, BaseMixin):
     # Related Incidents
     related_incidents = db.relationship(
         "Itoa", backref="actor", foreign_keys="Itoa.actor_id"
+    )
+
+    related_organizations = db.relationship(
+        "Otoa", backref="actor", foreign_keys="Otoa.actor_id"
     )
 
     actor_type = db.Column(db.String(255))
@@ -5102,6 +5361,10 @@ class Incident(db.Model, BaseMixin):
     # Related Actors
     related_actors = db.relationship(
         "Itoa", backref="incident", foreign_keys="Itoa.incident_id"
+    )
+
+    related_organizations = db.relationship(
+        "Otoi", backref="incident", foreign_keys="Otoi.incident_id"
     )
 
     # Related Bulletins
