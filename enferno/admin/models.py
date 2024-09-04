@@ -3019,7 +3019,7 @@ class Organization(db.Model, BaseMixin):
         locations_json = []
         if self.locations and len(self.locations):
             for location in self.locations:
-                locations_json.append(location.to_compact())
+                locations_json.append(location.to_dict())
 
         #aliases json
         aliases_json = []
@@ -3039,12 +3039,19 @@ class Organization(db.Model, BaseMixin):
             for handle in self.social_media_handles:
                 handles_json.append(handle.to_dict_organization())
 
+        # Events json
+        events_json = []
+        if self.events and len(self.events):
+            for event in self.events:
+                events_json.append(event.to_dict())
+
         return {
             "id": self.id,
             "name": self.name,
             "name_ar": self.name_ar,
             "locations": locations_json,
             "aliases": aliases_json,
+            "events": events_json,
             "roles_within": roles_within_json,
             "social_media_handles": handles_json,
             "founded_date": DateHelper.serialize_datetime(self.founded_date),
@@ -3191,12 +3198,18 @@ class Organization(db.Model, BaseMixin):
         locations_json = []
         if self.locations and len(self.locations):
             for location in self.locations:
-                locations_json.append(location.to_compact())
+                locations_json.append(location.to_dict())
 
         handles_json = []
         if self.social_media_handles and len(self.social_media_handles):
             for handle in self.social_media_handles:
                 handles_json.append(handle.to_dict_organization())
+
+        # Events json
+        events_json = []
+        if self.events and len(self.events):
+            for event in self.events:
+                events_json.append(event.to_dict())
 
         # Related bulletins json (actually the associated relationships)
         # - in this case the other bulletin carries the relationship
@@ -3241,6 +3254,7 @@ class Organization(db.Model, BaseMixin):
             "organization_relations": organization_relations_dict,
             "incident_relations": incident_relations_dict,
             "actor_relations": actor_relations_dict,
+            "events": events_json,
             "description": self.description or None,
             "comments": self.comments or None,
             "created_at": DateHelper.serialize_datetime(self.created_at),
@@ -3256,7 +3270,7 @@ class Organization(db.Model, BaseMixin):
         locations_json = []
         if self.locations and len(self.locations):
             for location in self.locations:
-                locations_json.append(location.to_compact())
+                locations_json.append(location.to_dict())
 
         return {
             "class": "Organization",

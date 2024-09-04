@@ -1384,6 +1384,21 @@ let app = new Vue({
         this.doSaveEvent();
       }
     },
+    removeEvent: function(evt, index) {
+      if (confirm('Confirm deleting this event?')) {
+        this.editedItem.events.splice(index, 1);
+      }
+    },
+    updateAddedLocation(location) {
+      if(this.editedItem.locations.length > 0) {
+        const recentLocationAdded = location[location.length - 1];
+        axios.get(`/admin/api/location/${recentLocationAdded.id}`).then(response => {
+          this.editedItem.locations.splice(this.editedItem.locations.length - 1, 1, response.data);
+        }).catch(error => {
+            this.showSnack('Oops! We couldn\'t find the selected location.');
+          });
+      }
+    },
   }
 });
 </script>

@@ -430,13 +430,20 @@ var aggregateOrganizationLocations = function (organization) {
   let locations = [];
 
   if (organization.locations && organization.locations.length) {
-    let locs = organization.locations.filter((x) => x.lat && x.lng);
+    let locs = organization.locations.filter((x) => x.geometry);
     locs.map((x) => {
       x.color = "#00a1f1";
+      x.type = "Location";
       return x;
     });
     locations = locations.concat(locs);
   }
+  // event locations
+  if (organization.events && organization.events.length) {
+    const eventLocations = prepareEventLocations(organization.id, organization.events);
+    locations = locations.concat(eventLocations);
+  }
+
   return locations;
 };
 
