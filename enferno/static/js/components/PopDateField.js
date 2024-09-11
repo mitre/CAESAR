@@ -1,5 +1,5 @@
 Vue.component("pop-date-field", {
-  props: ["value", "label"],
+  props: ["value", "label", "disabled"],
 
   data() {
     return {
@@ -85,6 +85,7 @@ Vue.component("pop-date-field", {
           max-width="290px"
           min-width="290px"
           :close-on-content-click="false"
+          :disabled="disabled"
       >
       <template v-slot:activator="{ on, attrs }">
         <v-text-field
@@ -101,7 +102,7 @@ Vue.component("pop-date-field", {
             prepend-icon="mdi-calendar"
             clearable
             @blur="dateInputFieldEdited"
-
+            :disabled="disabled"
             :error-messages="errorMsg"
         />
       </template>
@@ -112,6 +113,7 @@ Vue.component("pop-date-field", {
           min="1900-01-01"
           max="2040-01-01"
           v-model="pickerDate"
+          :disabled="disabled"
           @input="menu = false">
       </v-date-picker>
       </v-menu>
