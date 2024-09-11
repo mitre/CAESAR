@@ -20,7 +20,7 @@ from sqlalchemy import and_, desc, or_, cast, String
 from werkzeug.utils import safe_join
 from werkzeug.utils import secure_filename
 
-from enferno.admin.models import (ActorSubType, Bulletin, ConsentUse, Label, Organization, OrganizationRole, OtoaInfo, OtobInfo, OtoiInfo, OtooInfo, Source, Location, Eventtype, Media, Actor, Incident,
+from enferno.admin.models import (ActorSubType, Bulletin, ConsentUse, Label, Organization, OrganizationRole, OrganizationType, OtoaInfo, OtobInfo, OtoiInfo, OtooInfo, Source, Location, Eventtype, Media, Actor, Incident,
                                   IncidentHistory, BulletinHistory, ActorHistory, LocationHistory, PotentialViolation,
                                   ClaimedViolation,
                                   Activity, Query, LocationAdminLevel, LocationType, AppConfig,
@@ -3914,6 +3914,80 @@ def api_organization_role_create():
         return result.to_dict(), 200
     else:
         return 'Error creating organization', 417
+
+@admin.route('/api/organization-types/', methods=['GET'])
+def api_organization_types():
+    """
+    Endpoint to get all organization types
+    :return: organizaiton types in json format + success or error in case of failure
+    """
+    result = OrganizationType.query.all()
+    response = {'items': [item.to_dict() for item in result]}
+    return Response(json.dumps(response),
+                    content_type='application/json'), 200
+
+@admin.post('/api/organization-types/')
+def api_organization_type_create():
+    """
+    Endpoint to create a organization type
+    :return: success/error based on operation's result
+    """
+    organization_type = OrganizationType()
+    organization_type.from_json(request.json['item'])
+    result = organization_type.save()
+    if result:
+        return Response(json.dumps(result.to_dict()), content_type='application/json'), 200
+    else:
+        return 'There was an error creating the organization type', 500
+
+@admin.get('/api/organization-types/<int:id>')
+def api_organization_type_get(id):
+    """
+    Endpoint to get a single organization type
+    :param id: id of the organization type
+    :return: organization type data in json format + success or error in case of failure
+    """
+    organization_type = OrganizationType.query.get(id)
+
+    if not organization_type:
+        return HTTPResponse.NOT_FOUND
+    else:
+        return Response(json.dumps(organization_type.to_dict()),
+                        content_type='application/json'), 200
+
+@admin.put('/api/organization-types/<int:id>')
+def api_organization_type_update(id):
+    """
+    Endpoint to update a organization type
+    :param id: id of the organization type to be updated
+    :return: organization type data in json format + success or error in case of failure
+    """
+    organization_type = OrganizationType.query.get(id)
+    if organization_type is not None:
+        organization_type = organization_type.from_json(request.json['item'])
+        result = organization_type.save()
+        if result:
+            return json.dumps(result.to_dict()), 200
+        else:
+            return 'Error saving the organization type', 417
+    else:
+        return  HTTPResponse.NOT_FOUND
+
+@admin.delete('/api/organization-types/<int:id>')
+def api_oganization_type_delete(id):
+    """
+    Endpoint to delete a organization type
+    :param id: id of the organization type to be deleted
+    :return: success/error based on operation's result
+    """
+    organization_type = OrganizationType.query.get(id)
+    if organization_type is not None:
+        result = organization_type.delete()
+        Activity.create(current_user, Activity.ACTION_DELETE, organization_type.to_mini(), 'organization type')
+        if result:
+            return 'Deleted!', 200
+        else:
+            return 'Error deleting the organization type', 417
 
 def api_base_info_route(cls):
     page = request.args.get('page', 1, int)

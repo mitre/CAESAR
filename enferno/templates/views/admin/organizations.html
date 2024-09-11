@@ -447,6 +447,7 @@ let app = new Vue({
     itemsLength: 10,
     editedIndex: -1,
     socialMediaPlatforms: [],
+    organizationTypes: [],
     editedItem: {
       aliases: [],
       roles_within: [],
@@ -594,6 +595,7 @@ let app = new Vue({
   mounted: function() {
     this.getSocialMediaPlatforms();
     this.getActorChoices();
+    this.getOrganizationTypes();
     this.statusDisabled = !this.has_role(this.currentUser, 'Admin')
     // populate roles for advanced search for admins
   {% if current_user.has_role('Admin') %}
@@ -1342,6 +1344,15 @@ let app = new Vue({
           this.actorChoices = response.data.items;
         }).catch(error => {
           this.actorChoices = [];
+          console.error(error.message);
+        });
+    },
+    getOrganizationTypes() {
+      axios.get(`/admin/api/organization-types/`).then(response => {
+        this.organizationTypes = response.data.items;
+        console.log(this.organizationTypes);
+      }).catch(error => {
+          this.organizationTypes = [];
           console.error(error.message);
         });
     },

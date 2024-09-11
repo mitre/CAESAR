@@ -88,8 +88,9 @@
                   <v-col cols="12" md="6">
                     <v-tooltip top max-width=500 open-delay=1500>
                       <template v-slot:activator="{ on }">
-                        <v-select v-on="on" v-model="editedItem.type" :items="['Government', 'Other']"
-                          label="{{ _('Type') }}"></v-select>
+                        <v-select :items="organizationTypes" label="{{ _('Type') }}"
+                          v-model="editedItem.organization_type" item-text="title" return-object
+                          clearable></v-select>
                       </template>
                       <span>{{ _('The type of organization') }}</span>
                     </v-tooltip>

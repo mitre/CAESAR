@@ -2523,6 +2523,26 @@ actor_ethnographies = db.Table('actor_ethnographies',
     db.Column('ethnography_id', db.Integer, db.ForeignKey('ethnographies.id'), primary_key=True)
 )
 
+class OrganizationType(db.Model, BaseMixin):
+    """
+    SQL Alchemy model for organization types
+    """
+    extend_existing = True
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), nullable=False)
+    organizations = db.relationship('Organization', back_populates='organization_type')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title
+        }
+
+    def from_json(self, jsn):
+        self.title = jsn.get('title', self.title)
+        return self
+
 class OrganizationRoleActor(db.Model, BaseMixin):
     """
     SQL Alchemy model for organization roles to actor map
@@ -2688,6 +2708,9 @@ class Organization(db.Model, BaseMixin):
     status = db.Column(db.String(255))
     comments = db.Column(db.Text)
 
+    organization_type_id = db.Column(db.Integer, db.ForeignKey('organization_type.id'), nullable=True)
+    organization_type = db.relationship('OrganizationType', back_populates='organizations', foreign_keys=[organization_type_id])
+
     created_by_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     created_by = db.relationship('User', back_populates='created_organizations', foreign_keys=[created_by_id])
 
@@ -2826,6 +2849,11 @@ class Organization(db.Model, BaseMixin):
             if json["first_peer_reviewer"]:
                 if "id" in json["first_peer_reviewer"]:
                     self.first_peer_reviewer_id = json["first_peer_reviewer"]["id"]
+
+        if "organization_type" in json and json["organization_type"] and "id" in json["organization_type"]:
+            self.organization_type_id = json["organization_type"]["id"]
+        else:
+            self.organization_type_id = None
 
         # Locations
         if "locations" in json:
@@ -3068,6 +3096,7 @@ class Organization(db.Model, BaseMixin):
             'name_ar': self.serialize_column('name_ar'),
             'description': self.serialize_column('description'),
             'created_at': self.serialize_column('created_at'),
+            'organization_type': self.serialize_column('organization_type'),
             'locations': convert_simple_relation(self.locations),
             'roles_within': convert_simple_relation(self.roles_within),
             'aliases': convert_simple_relation(self.aliases),
@@ -3249,6 +3278,7 @@ class Organization(db.Model, BaseMixin):
             else None,
             "locations": locations_json,
             "roles_within": [role.to_dict() for role in self.roles_within] if self.roles_within else [],
+            "organization_type": self.organization_type.to_dict() if self.organization_type else None,
             "social_media_handles": handles_json,
             "bulletin_relations": bulletin_relations_dict,
             "organization_relations": organization_relations_dict,
