@@ -20,7 +20,7 @@ from sqlalchemy import and_, desc, or_, cast, String
 from werkzeug.utils import safe_join
 from werkzeug.utils import secure_filename
 
-from enferno.admin.models import (ActorSubType, Bulletin, ConsentUse, Label, Organization, OrganizationRole, OrganizationType, OtoaInfo, OtobInfo, OtoiInfo, OtooInfo, Source, Location, Eventtype, Media, Actor, Incident,
+from enferno.admin.models import (ActorSubType, Bulletin, ConsentUse, Label, Organization, OrganizationHistory, OrganizationRole, OrganizationType, OtoaInfo, OtobInfo, OtoiInfo, OtooInfo, Source, Location, Eventtype, Media, Actor, Incident,
                                   IncidentHistory, BulletinHistory, ActorHistory, LocationHistory, PotentialViolation,
                                   ClaimedViolation,
                                   Activity, Query, LocationAdminLevel, LocationType, AppConfig,
@@ -41,6 +41,9 @@ admin = APIBlueprint('admin', __name__,
                   template_folder=os.path.join(root, 'templates'),
                   static_folder=os.path.join(root, 'static'),
                   url_prefix='/admin')
+
+#TODO: probably move this to somewhere else and import
+relation_classes = ['actor', 'incident', 'bulletin', 'organization']
 
 # default global items per page
 PER_PAGE = 30
@@ -2926,6 +2929,21 @@ def api_incidenthistory(incidentid):
     return Response(json.dumps(response),
                     content_type='application/json'), 200
 
+#Organization history
+
+@admin.route('/api/organizationhistory/<int:organizationid>')
+@requires('view', 'history')
+def api_organizationhistory(organizationid):
+    """
+        Endpoint to get revision history of an organization
+        :param organizationid: id of the organization item
+        :return: json feed of item's history , or error
+        """
+    result = OrganizationHistory.query.filter_by(organization_id=organizationid).order_by(desc(OrganizationHistory.created_at)).all()
+    # For standardization
+    response = {'items': [item.to_dict() for item in result]}
+    return Response(json.dumps(response),
+                    content_type='application/json'), 200
 
 # Location History Helpers
 
@@ -3887,6 +3905,46 @@ def api_organization_review_update(id):
             return F'Error saving Organization #{id}', 417
     else:
         return HTTPResponse.NOT_FOUND
+
+@admin.get('/api/organization/relations/<int:id>')
+def organization_relations(id):
+    """
+    Endpoint to return related entities of an Organization
+    :return:
+    """
+    cls = request.args.get('class', None)
+    page = request.args.get('page', 1, int)
+    per_page = request.args.get('per_page', REL_PER_PAGE, int)
+    if not cls or cls not in relation_classes:
+        return HTTPResponse.NOT_FOUND
+    organization = Organization.query.get(id)
+    if not organization:
+        return HTTPResponse.NOT_FOUND
+    items = []
+
+    if cls == 'bulletin':
+        items = organization.bulletin_relations
+    elif cls == 'actor':
+        items = organization.actor_relations
+    elif cls == 'incident':
+        items = organization.incident_relations
+    elif cls == 'organization':
+        items = organization.organization_relations
+
+    # pagination
+    start = (page - 1) * per_page
+    end = start + per_page
+    data = items[start:end]
+
+    load_more = False if end >= len(items) else True
+
+    if data:
+        if cls == 'organization':
+            data = [item.to_dict(exclude=organization) for item in data]
+        else:
+            data = [item.to_dict() for item in data]
+
+    return json.dumps({'items': data, 'more': load_more}), 200
 
 # Organization Role routes
 @admin.post('/api/organization-roles/')
