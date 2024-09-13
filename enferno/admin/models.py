@@ -2564,6 +2564,7 @@ class OrganizationRoleActor(db.Model, BaseMixin):
         return {
             "id": self.id,
             "actor_id": self.actor_id,
+            "actor_name": self.actor.name if self.actor else None,
             "currently_active": self.currently_active,
             "from_date": DateHelper.serialize_date(self.from_date),
             "to_date": DateHelper.serialize_date(self.to_date),
@@ -2613,6 +2614,7 @@ class OrganizationRole(db.Model, BaseMixin):
             "to_date": DateHelper.serialize_date(self.to_date),
             "organization_id": self.organization_id,
             "reports_to_id": self.reports_to_id,
+            "reports_to_title": self.reports_to.title if self.reports_to else None,
             "reportees": [r.to_dict() for r in self.reportees],
             "actors": [a.to_dict() for a in self.actors]
         }

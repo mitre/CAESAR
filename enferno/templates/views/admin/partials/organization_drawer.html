@@ -1,0 +1,11 @@
+<v-navigation-drawer v-model="organizationDrawer"  clipped fixed right temporary width="520" app disable-route-watcher>
+    <v-container v-if="organizationLoader" fluid fill-height>
+        <v-layout justify-center align-center>
+            <v-progress-circular indeterminate size="44"></v-progress-circular>
+        </v-layout>
+    </v-container>
+    <organization-card :i18n="translations" v-if="organizationDrawer" :show-edit="true" @edit="editItem" @delete="deleteItem" :active="organizationDrawer" v-if="organization" :log="true" :diff="true" @close="organizationDrawer=false" :organization="organization"></organization-card>
+<preview-card :i18n="translations" ref="prev" :item="pitem" v-model="preview"></preview-card>
+<pdf-viewer ref="pdfViewer"></pdf-viewer>
+<visualization ref="viz" :i18n="translations"></visualization>
+</v-navigation-drawer>

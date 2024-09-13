@@ -1350,7 +1350,6 @@ let app = new Vue({
     getOrganizationTypes() {
       axios.get(`/admin/api/organization-types/`).then(response => {
         this.organizationTypes = response.data.items;
-        console.log(this.organizationTypes);
       }).catch(error => {
           this.organizationTypes = [];
           console.error(error.message);
