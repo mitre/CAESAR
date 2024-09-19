@@ -119,9 +119,16 @@
                                         <v-tooltip top max-width=500 open-delay=1500>
                                             <template v-slot:activator="{ on }">
                                                 <div v-on="on">
-                                                    <search-field v-model="editedItem.sources" api="/admin/api/sources/"
-                                                        item-text="title" item-value="id" :multiple="true"
-                                                        label="{{ _(' Sources') }}"></search-field>
+                                                    <v-combobox
+                                                        v-model="editedItem.sources"
+                                                        :items="sources"
+                                                        item-text="title"
+                                                        label="{{ _('Sources') }}"
+                                                        multiple
+                                                        dense
+                                                        chips
+                                                        @change="createNewSource"
+                                                    ></v-combobox>
                                                 </div>
                                             </template>
                                             <span>{{ _('Sources are the original creators and publishers of the content

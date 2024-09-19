@@ -577,6 +577,7 @@
         },
         mounted: function() {
             this.getConsentUses();
+            this.getSources();
             this.statusDisabled = !this.has_role(this.currentUser, 'Admin')
             // populate roles for advanced search for admins
             {% if current_user.has_role('Admin') %}
@@ -1294,6 +1295,36 @@
             this.editedItem.bulletin_to_consent_uses[index].date = null;
           }
         },
+        async createNewSource(currentSources) {
+            const sourceList = []
+            for await (const source of currentSources) {
+                if (typeof source === "string") {
+                    const res = await axios.post('/admin/api/source/', { item: { title: source }})
+                        .catch(console.error);
+                    const id = res.data.replace('Created Source #', '');
+                    sourceList.push({ id, title: source });
+                } else {
+                    // Existing source, just add it to the list of sources
+                    sourceList.push(source);
+                }
+            }
+
+            this.editedItem.sources = sourceList;
+
+            const sourcesRes = await axios.get('/admin/api/sources')
+                .catch(console.error);
+
+            this.sources = sourcesRes.data.items;
+        },
+        getSources() {
+            axios.get('/admin/api/sources')
+                .then(res => {
+                    this.sources = res.data.items;
+                })
+                .catch(error => {
+                    console.error(error);
+                })
+        }
     }
         });
 </script>
