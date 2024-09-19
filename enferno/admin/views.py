@@ -588,7 +588,7 @@ def api_sources():
 
 
 @admin.post('/api/source/')
-@roles_accepted('Admin', 'Mod')
+@roles_accepted('Admin', 'Mod', 'DA')
 def api_source_create():
     """
     Endpoint to create a source
