@@ -1,5 +1,6 @@
 Vue.component("actor-card", {
   props: [
+    "searchDrawer",
     "actor",
     "close",
     "thumb-click",
@@ -12,6 +13,7 @@ Vue.component("actor-card", {
 
   watch: {
     actor: function (b, n) {
+      console.log("watch ", b)
       this.loadBulletinRelations();
       this.loadActorRelations();
       this.loadIncidentRelations();
@@ -22,6 +24,7 @@ Vue.component("actor-card", {
 
   mounted() {
     if(this.actor) this.mapLocations = aggregateActorLocations(this.actor);
+    console.log(this.actor)
   },
 
   methods: {
@@ -88,6 +91,7 @@ Vue.component("actor-card", {
     },
 
     loadBulletinRelations(page = 1) {
+      console.log("bulletin relations ", this.actor.id)
       // b2a
       axios
         .get(
@@ -271,7 +275,7 @@ Vue.component("actor-card", {
         <v-btn @click.stop="$root.$refs.viz.visualize(actor)" class="ml-2" outlined small elevation="0"><v-icon color="primary" left>mdi-graph-outline</v-icon> {{ i18n.visualize_ }}</v-btn>
       </v-card-text>
 
-      <v-btn v-if="deleteAllowed()" class="ml-2 red darken-3" @click="deleteActor" small outlined>
+      <v-btn v-if="deleteAllowed() && !searchDrawer" class="ml-2 red darken-3" @click="deleteActor" small outlined>
         <v-icon color="white" left>mdi-archive</v-icon>
         <span class="white--text">{{ i18n.archive_ }}</span>
       </v-btn>

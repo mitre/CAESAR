@@ -327,6 +327,7 @@
             preview: false,
             pitem: null,
             search: [{}],
+            searchDrawer: false,
             queryName: null,
             saveQueryDialog: false,
             searchPanels: 0,
@@ -423,42 +424,43 @@
                 itemsPerPageOptions: itemsPerPageOptions,
                 itemsPerPageText: "{{ _('Rows per page')}}"
             },
-            headers: [{
-                text: "{{_('ID')}}",
-                value: "id",
-                width: 12
-            }, {
-                text: "{{_('Name')}}",
-                value: "name",
-                width: 300
-            },
-            {% if(current_user.has_role('Admin') or current_user.has_role('DA')) %} {
-        text: "{{_('Assigned To')}}",
-        value: "assigned_to.name",
-        width: 130
-    }, {
-        text: "{{_('Roles')}}",
-        value: "roles",
-        width: 130
-    },
-        {% endif %} {
-        text: "{{_('Status')}}",
-            value: "_status",
-                width: 150
-    }, {
-        text: "{{_('Actions')}}",
-            value: "action",
-                width: 100,
+            headers: [
+                {
+                    text: "{{_('ID')}}",
+                    value: "id",
+                    width: 12
+                }, {
+                    text: "{{_('Name')}}",
+                    value: "name",
+                    width: 300
+                },
+                {% if(current_user.has_role('Admin') or current_user.has_role('DA')) %} {
+                    text: "{{_('Assigned To')}}",
+                    value: "assigned_to.name",
+                    width: 130
+                }, {
+                    text: "{{_('Roles')}}",
+                    value: "roles",
+                    width: 130
+                },
+                    {% endif %} {
+                    text: "{{_('Status')}}",
+                    value: "_status",
+                    width: 150
+                }, {
+                    text: "{{_('Actions')}}",
+                    value: "action",
+                    width: 100,
                     sortable: false
-    }
-                ],
-    items: [],
-        selected: [],
+                }
+            ],
+            items: [],
+            selected: [],
             itemsLength: 10,
-                editedIndex: -1,
-                    editedItem: {
-        events: [],
-            medias: [],
+            editedIndex: -1,
+            editedItem: {
+                events: [],
+                medias: [],
                 actor_relations: [],
                     bulletin_relations: [],
                         social_media_handles: [],
@@ -498,13 +500,13 @@
             from_date: '',
                 to_date: ''
     },
-    reviewItem: { },
+    reviewItem: {},
     // bulk actions
-    bulk: { },
+    bulk: {},
     bulkIcons: false,
-        jobs: [],
-            bulkTimer: 0,
-                actor: { },
+    jobs: [],
+    bulkTimer: 0,
+    actor: {},
     actorLoader: false
             }),
     computed: {

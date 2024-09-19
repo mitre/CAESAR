@@ -1,0 +1,345 @@
+{% extends "layouts/layout.html" %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/search.css" />
+{% endblock %}
+{% block content %}
+<div id="app">
+    <v-app id="inspire" v-cloak>
+        {% include 'components/nav-drawer.html' %}
+        {% include "components/nav-bar.html" %}
+        {% include
+        'views/admin/partials/actor_drawer.html' %}
+        {% include
+        'views/admin/partials/bulletin_drawer.html' %}
+        {% include
+        'views/admin/partials/incident_drawer.html' %}
+        <v-main>
+            <v-container class="container--fluid" style="height: 100%;">
+                <div class="search-box">
+                    <h1>Search CAESAR</h1>
+                    <div>
+                        <form @submit.prevent="search">
+                            <v-text-field v-model.trim="searchTerm[0].tsv" label="{{ _('Search') }}" outlined dense append-icon="mdi-magnify">
+                                <template v-slot:append-outer>
+                                    <v-btn color="primary" style="top: -8px; height: 40px" filled type="submit">Search</v-btn>
+                                </template>
+                            </v-text-field>
+                        </form>
+                    </div>
+                    <!-- <h2>Select data types</h2> -->
+                </div>
+                <div v-if="searchResults.length > 0" class="search-results">
+                    <div class="result-description">${startRecord} - ${endRecord} of ${resultLength} results <span v-if="restrictedRecordsLength > 0">|  ${restrictedRecordsLength} records matched your search, but you do not have access</span></div> 
+                    <v-card class="search-card" outlined shaped tile v-for="(result, i) in paginatedResults" :key="i" @click="resultClick(result, result.type)">
+                        <div class="header-row">
+                            <h3>
+                                <span v-if="result.type === 'actor'">${result.name}</span>
+                                <span v-else>${result.title}</span>
+                            </h3>
+                            <v-chip v-if="result.type == 'actor'">
+                                <v-icon small left>
+                                    mdi-account-multiple
+                                </v-icon>
+                                Actor
+                            </v-chip>
+                            <v-chip v-if="result.type == 'pr'">
+                                <v-icon small left>
+                                    mdi-file-document-multiple
+                                </v-icon>
+                                Primary Record
+                            </v-chip>
+                            <v-chip v-if="result.type == 'investigation'">
+                                <v-icon small left>
+                                    mdi-hazard-lights
+                                </v-icon>
+                                Investigation
+                            </v-chip>
+                        </div>
+                        <div class="footer-row">
+                            <div v-if="result.roles.length > 0">
+                                <div v-for="role in result.roles">
+                                    <v-chip style="scale:0.7" small v-tippy :content="role.name"
+                                        :color="role.color">
+                                    </v-chip>
+                                    ${role.name}
+                                </div>
+                            </div>
+                            <div v-else>
+                                Not restricted to a group
+                            </div>
+                            <div>Assigned to: ${result.assigned_to.name}</div>
+                        </div>
+                    </v-card>
+                </div>
+                <v-pagination v-if="searchResults.length > 0" v-model="pageNumber" rounded="circle" :length="pages"></v-pagination>
+            </v-container>
+            </v-layout>
+            </v-container>
+        </v-main>
+        {% include "components/footer.html" %}
+    </v-app>
+</div>
+{% endblock %}
+{% block js %}
+<script src="/static/js/mixins/media-mixin.js"></script>
+<script>
+    let app = new Vue({
+        el: "#app",
+        vuetify: vuetify,
+        delimiters: delimiters,
+        router,
+        data: () => ({
+            translations: translations,
+            currentUser: JSON.parse(`{{ current_user.to_dict()|tojson }}`),
+            // pagination
+            pages: 0,
+            pageNumber: 1,
+            size: 10,
+            start: 0,
+            end: 0,
+            // search
+            searched: false, // if there is a search executing
+            searchTerm: [{}],
+            // preview
+            searchDrawer: true,
+            // preview actor
+            actorResults: [],
+            actorDrawer: false,
+            actorLoader: false,
+            actor: {},
+            viewImage: null,
+            // preview investigation
+            incidentDrawer: false,
+            incidentLoader: false,
+            incident: {},
+            // preview primary record
+            bulletinDrawer: false,
+            bulletinLoader: false,
+            bulletin: {},
+            preview: false,
+            showSnack: false,
+            pitem: null, // preview item for result click
+            prResults: [],
+            investigationResults: [],
+            loading: false,
+            dataTypes: [
+                {
+                    type: "pr",
+                    label: "Primary Records",
+                    icon: "doc",
+                },
+                {
+                    type: "actors",
+                    label: "Actors",
+                    icon: "person"
+                },
+                {
+                    type: "investigations",
+                    label: "Investigations",
+                    icon: "person"
+                },
+            ],
+            options: {
+                page: 1,
+                itemsPerPage: 10,
+                sortBy: [],
+                sortDesc: [
+                    false
+                ],
+                groupBy: [],
+                groupDesc: [],
+                mustSort: false,
+                multiSort: false
+            }
+        }),
+        watch: {
+            pageNumber(newValue, oldValue) {
+                this.paginatedResults();
+            }
+        },
+        computed: {
+            /** 
+             * Computed search results
+             * Adds the search result type to the objects (actor, pr, investigation)
+             * For each type, filters to results that are not restricted to the user
+             * returns the final combined search results
+            */
+            searchResults() {
+                let ret = [];
+                let investigations = this.investigationResults;
+                if (this.actorResults.length > 0) {
+                    const actors = this.actorResults.map(actor => ({...actor, type: "actor"}));
+                    const nonRestrictedActors = actors.filter(actor => {
+                        return !actor.restricted
+                    });
+                    ret.push(...nonRestrictedActors);
+                }
+                if (this.prResults.length > 0) {
+                    const precords = this.prResults.map(pr => ({ ...pr, type: "pr" }));
+                    const nonRestrictedPr = precords.filter(pr => {
+                        return !pr.restricted
+                    });
+                    ret.push(...nonRestrictedPr);
+                }
+                if (this.investigationResults.length > 0) {
+                    const investigations = this.investigationResults.map(investigation => ({ ...investigation, type: "investigation" }));
+                    const nonRestrictedInvestigations = investigations.filter(inv => {
+                        return !inv.restricted
+                    });
+                    ret.push(...nonRestrictedInvestigations);
+                }
+                this.pages = Math.ceil(ret.length / this.size);
+                return ret;
+            },
+            paginatedResults() {
+                this.start = (this.pageNumber - 1) * this.size;
+                this.end = this.start + this.size;
+                return this.searchResults.slice(this.start,this.end);
+            },
+            resultLength() {
+                return this.searchResults.length;
+            },
+            restrictedRecordsLength() {
+                const total = this.actorResults.length + this.prResults.length + this.investigationResults.length;
+                return total - this.searchResults.length;
+            },
+            startRecord() {
+                return this.start + 1;
+            },
+            endRecord() {
+                return Math.min(this.end, this.searchResults.length);
+            }
+        },
+        methods: {
+            async search() {
+                this.loading = true;
+                this.options.page = 1;
+                const startTime = new Date();
+                this.actorResults = await this.searchActors();
+                this.prResults = await this.searchPrimaryRecords();
+                this.investigationResults = await this.searchInvestigations();
+                this.loading = false;
+            },
+            async searchActors() {
+                let ret = [];
+                await axios.post(`/admin/api/actors/?`, {
+                   q: this.searchTerm
+                }).then(response => {
+                    ret = response.data.items;
+                });
+                return ret;
+            },
+            async searchPrimaryRecords() {
+                let ret = [];
+                await axios.post(`/admin/api/bulletins/?page=${this.options.page}&per_page=${this.options.itemsPerPage}&sort_by=${this.options.sortBy}&sort_desc=${this.options.sortDesc}`, {
+                    q: this.searchTerm
+                }).then(response => {
+                    ret = response.data.items;
+                });
+                return ret;
+            },
+            async searchInvestigations() {
+                let ret = [];
+                const term = this.searchTerm[0];
+                await axios.post(`/admin/api/incidents/?`, {
+                    q: term
+                }).then(response => {
+                    ret = response.data.items;
+                                    console.log(ret)
+                });
+                return ret;
+            },
+            async previewActor(id) {
+                this.actorLoader = true;
+                await axios.get(`/admin/api/actor/${id}`).then(response => {
+                    console.log(response.data)
+                    this.actor = response.data;
+                    this.actorDrawer = true;
+                }).catch(error => {
+                    this.actorDrawer = false;
+                    if (error.response) {
+                        this.showSnack(error.response.data)
+                        this.snackbar = true;
+                    }
+                }).finally(() => {
+                    this.actorLoader = false;
+                });
+            },
+            async previewPR(id) {
+                this.bulletinLoader = true;
+                this.bulletinDrawer = true;
+                await axios.get(`/admin/api/bulletin/${id}`).then(response => {
+                    console.log(response.data)
+                    this.bulletin = response.data;
+                }).catch(error => {
+                    this.bulletinDrawer = false;
+                    if (error.response) {
+                        this.showSnack(error.response.data)
+                        this.snackbar = true;
+                    }
+                }).finally(() => {
+                    this.bulletinLoader = false;
+                });
+            },
+            async previewInvestigation(id) {
+                this.incidentLoader = true;
+                this.incidentDrawer = true;
+                await axios.get(`/admin/api/incident/${id}`).then(response => {
+                    this.incident = response.data;
+                }).catch(error => {
+                    this.incidentDrawer = false;
+                    if (error.response) {
+                        this.showSnack(error.response.data)
+                        this.snackbar = true;
+                    }
+                }).finally(() => {
+                    this.incidentLoader = false;
+                });
+            },
+            editItem() {},
+            deleteItem() {},
+            has_role(user, role) {
+                for (r of user.roles) {
+                    if (r.name == role) {
+                        return true
+                    }
+                }
+                return false;
+            },
+            editAllowed(actor) {
+                if (actor.restricted) {
+                    return false;
+                }
+                // if (this.has_role(this.currentUser, 'Admin')) {
+                //     return true;
+                // }
+                // if (!this.has_role(this.currentUser, 'DA')) {
+                //     return false;
+                // }
+                const statuses = ['Human Created', 'Assigned', 'Updated', 'Peer Reviewed', 'Revisited'];
+                if (actor.assigned_to && actor.assigned_to.id == this.currentUser.id && statuses.includes(actor.status)) {
+                    return true
+                }
+                return false;
+            },
+            resultClick(item, type) {
+                let path = "";
+                if (item.restricted) {
+                    this.showSnack('This item is restricted.')
+                    return
+                }
+                if (type === 'actor') {
+                    this.previewActor(item.id);
+                }
+                else if (type === 'pr') {
+                    this.previewPR(item.id);
+                }
+                else if (type === 'investigation') {
+                    this.previewInvestigation(item.id)
+                }
+                
+            },
+        }
+    });
+</script>
+{% endblock %}
