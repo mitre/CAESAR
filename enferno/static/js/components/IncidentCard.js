@@ -1,5 +1,5 @@
 Vue.component("incident-card", {
-  props: ["incident", "close", "log", "diff", "showEdit", "i18n"],
+  props: ["searchDrawer", "incident", "close", "log", "diff", "showEdit", "i18n"],
 
   watch: {
     incident: function (b, n) {
@@ -179,6 +179,10 @@ Vue.component("incident-card", {
         this.diffResult = jsondiffpatch.formatters.html.format(delta);
       }
     },
+    navigateToInvestigation() {
+      const url = new URL(`/admin/investigations/${this.incident.id}`, window.location.origin)
+      window.location.href = url.toString()
+    }
   },
 
   data: function () {
@@ -215,13 +219,15 @@ Vue.component("incident-card", {
       <v-card-text class="d-flex align-center">
         <v-chip small pill label color="gv darken-2" class="white--text">
           {{ i18n.id_ }} {{ incident.id }}</v-chip>
-        <v-btn v-if="editAllowed()" class="ml-2" @click="$emit('edit',incident)" small outlined><v-icon color="primary" left>mdi-pencil</v-icon> {{ i18n.edit_ }}</v-btn>
+        <v-btn v-if="editAllowed && !searchDrawer" class="ml-2" @click="$emit('edit',incident)" small outlined><v-icon color="primary" left>mdi-pencil</v-icon> {{ i18n.edit_ }}</v-btn>
         <v-btn @click.stop="$root.$refs.viz.visualize(incident)" class="ml-2" outlined small elevation="0"><v-icon color="primary" left>mdi-graph-outline</v-icon> {{ i18n.visualize_ }}</v-btn>
-        <v-btn v-if="deleteAllowed()" class="ml-2 red darken-3" @click="deleteIncident" small outlined>
+        <v-btn v-if="deleteAllowed  && !searchDrawer" class="ml-2 red darken-3" @click="deleteIncident" small outlined>
           <v-icon color="white" left>mdi-archive</v-icon>
           <span class="white--text">{{ i18n.archive_ }}</span>
         </v-btn>
+
       </v-card-text>
+      <v-chip label small class="pa-2 mx-2 my-2" v-if="searchDrawer && editAllowed" @click="navigateToInvestigation()"><v-icon left small>mdi-pencil</v-icon>To edit this item please go to the investigations page.</v-chip>
       
       <v-chip color="white lighten-3" small label class="pa-2 mx-2 my-2" v-if="incident.assigned_to" ><v-icon left>mdi-account-circle-outline</v-icon>
           {{ i18n.assignedUser_ }} {{incident.assigned_to['name']}}</v-chip>

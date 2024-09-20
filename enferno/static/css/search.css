@@ -15,9 +15,41 @@
         margin-top: -10px;
     }
 }
-.search-results {
+.search-col {
+    display: flex;
+    flex-direction: column;
     max-width: 600px;
+        width: 100%;
+}
+.search-row {
+    display: flex;
+    gap: 40px;
+    width: 100%;
+    max-width: 1000px;
     margin: 0 auto;
+}
+.filter-col {
+    display: flex;
+    flex-direction: column;
+    margin-right: auto;
+    margin-top: 200px;
+    width: 200px;
+    h3 {
+        border-bottom: 1px solid rgb(213, 213, 213);
+        margin-bottom: 0.3em;
+    }
+    h4 {
+        margin-top: 20px;
+    }
+    .v-input--selection-controls {
+        margin-top: 6px;
+    }
+    .update-btn {
+        margin-top: 30px;
+    }
+}
+.search-results {
+    width: 100%;
     .search-card {
         padding: 20px;
         margin-bottom: 10px;
