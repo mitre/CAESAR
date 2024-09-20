@@ -67,11 +67,14 @@
                                         </div>
                                     </div>
                                     <div v-else>
-                                        Not restricted to a group
+                                       Open Access
                                     </div>
                                     <div>Assigned to: ${result.assigned_to.name}</div>
                                 </div>
                             </v-card>
+                        </div>
+                        <div v-else>
+                            <p class="caption">Search title, name, description or comments across CAESAR.</p>
                         </div>
                         <v-pagination v-if="searched" v-model="pageNumber" rounded="circle" :length="pages"></v-pagination>
                     </div>

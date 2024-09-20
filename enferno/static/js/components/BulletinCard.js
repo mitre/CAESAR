@@ -299,7 +299,7 @@ Vue.component("bulletin-card", {
               {{ i18n.edit_ }}
             </v-btn>
 
-            <v-btn @click.stop="$root.$refs.viz.visualize(bulletin)" class="ml-2" outlined small elevation="0">
+            <v-btn v-if="!searchDrawer" @click.stop="$root.$refs.viz.visualize(bulletin)" class="ml-2" outlined small elevation="0">
               <v-icon color="primary" left>mdi-graph-outline</v-icon>
               {{ i18n.visualize_ }}
             </v-btn>

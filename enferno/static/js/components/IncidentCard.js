@@ -220,7 +220,7 @@ Vue.component("incident-card", {
         <v-chip small pill label color="gv darken-2" class="white--text">
           {{ i18n.id_ }} {{ incident.id }}</v-chip>
         <v-btn v-if="editAllowed && !searchDrawer" class="ml-2" @click="$emit('edit',incident)" small outlined><v-icon color="primary" left>mdi-pencil</v-icon> {{ i18n.edit_ }}</v-btn>
-        <v-btn @click.stop="$root.$refs.viz.visualize(incident)" class="ml-2" outlined small elevation="0"><v-icon color="primary" left>mdi-graph-outline</v-icon> {{ i18n.visualize_ }}</v-btn>
+        <v-btn v-if="!searchDrawer" @click.stop="$root.$refs.viz.visualize(incident)" class="ml-2" outlined small elevation="0"><v-icon color="primary" left>mdi-graph-outline</v-icon> {{ i18n.visualize_ }}</v-btn>
         <v-btn v-if="deleteAllowed  && !searchDrawer" class="ml-2 red darken-3" @click="deleteIncident" small outlined>
           <v-icon color="white" left>mdi-archive</v-icon>
           <span class="white--text">{{ i18n.archive_ }}</span>
