@@ -195,19 +195,11 @@
                             return element;
                         } else {
                             for (let i = 0; i < element.roles.length; i++) {
-                                console.log(this.accessGroupFilters);
-                                console.log(element.roles[i].name)
-                                console.log(this.accessGroupFilters.includes(element.roles[i].name))
                                 if (this.accessGroupFilters.includes(element.roles[i].name)) {
                                     console.log(element)
                                     return element;
                                 }
                             }
-                            // element.roles.forEach(role => {
-                            //     if (this.accessGroupFilters.includes(role.name)) {
-                            //         return element;
-                            //     }
-                            // })
                         }
                     })
                 }
