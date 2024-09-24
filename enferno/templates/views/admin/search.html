@@ -28,7 +28,6 @@
                                     </v-text-field>
                                 </form>
                             </div>
-                            <!-- <h2>Select data types</h2> -->
                         </div>
                         <div v-if="searched" class="search-results">
                             <div class="result-description">${startRecord} - ${endRecord} of ${resultLength} results <span v-if="restrictedRecordsLength > 0">|  ${restrictedRecordsLength} records matched your search, but you do not have access</span></div> 
@@ -126,6 +125,7 @@
         data: () => ({
             translations: translations,
             currentUser: JSON.parse(`{{ current_user.to_dict()|tojson }}`),
+            drawer: drawer,
             snackbar: false,
             snackMessage: "",
             // pagination
@@ -175,8 +175,6 @@
                 multiSort: false
             }
         }),
-        watch: {
-        },
         computed: {
             /** 
              * Computed search results
