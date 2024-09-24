@@ -356,6 +356,7 @@
             selectedRelatedIncidents: [],
             drawer: drawer,
             sideNav: sideNav,
+            searchDrawer: false,
             bulletinDrawer: false,
             bulkBulletinDrawer: false,
             exportDrawer: false,
@@ -807,7 +808,6 @@
                 this.loading = false;
                 this.itemsLength = response.data.total;
                 this.items = response.data.items;
-                console.log(this.items)
                 this.resultsChip = true;
             });
         },

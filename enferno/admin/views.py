@@ -104,6 +104,14 @@ def dashboard():
     """
     return render_template('index.html')
 
+@admin.route('/search/')
+def global_search():
+    """
+    Endpoint to render the global search.
+    :return: html template for global search.
+    """
+    return render_template('views/admin/search.html')
+
 
 # Labels routes
 @admin.route('/labels/')

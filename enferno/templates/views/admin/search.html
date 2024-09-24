@@ -1,0 +1,436 @@
+{% extends "layouts/layout.html" %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/search.css" />
+{% endblock %}
+{% block content %}
+<div id="app">
+    <v-app id="inspire" v-cloak>
+        {% include 'components/nav-drawer.html' %}
+        {% include "components/nav-bar.html" %}
+        {% include
+        'views/admin/partials/actor_drawer.html' %}
+        {% include
+        'views/admin/partials/bulletin_drawer.html' %}
+        {% include
+        'views/admin/partials/incident_drawer.html' %}
+        <v-main>
+            <v-container class="container--fluid" style="height: 100%;">
+                <div class="search-row">
+                    <div class="search-col">
+                        <div class="search-box">
+                            <h1>Search CAESAR</h1>
+                            <div>
+                                <form @submit.prevent="search">
+                                    <v-text-field v-model.trim="searchTerm[0].tsv" label="{{ _('Search') }}" outlined dense append-icon="mdi-magnify">
+                                        <template v-slot:append-outer>
+                                            <v-btn color="primary" style="top: -8px; height: 40px" filled type="submit">Search</v-btn>
+                                        </template>
+                                    </v-text-field>
+                                </form>
+                            </div>
+                        </div>
+                        <div v-if="searched" class="search-results">
+                            <div class="result-description">${startRecord} - ${endRecord} of ${resultLength} results <span v-if="restrictedRecordsLength > 0">|  ${restrictedRecordsLength} records matched your search, but you do not have access</span></div> 
+                            <v-card class="search-card" outlined shaped tile v-for="(result, i) in paginatedResults" :key="i" @click="resultClick(result, result.type)">
+                                <div class="header-row">
+                                    <h3>
+                                        <span v-if="result.type === 'actor'">${result.name}</span>
+                                        <span v-else>${result.title}</span>
+                                    </h3>
+                                    <v-chip v-if="result.type == 'actor'">
+                                        <v-icon small left>
+                                            mdi-account-multiple
+                                        </v-icon>
+                                        Actor
+                                    </v-chip>
+                                    <v-chip v-if="result.type == 'pr'">
+                                        <v-icon small left>
+                                            mdi-file-document-multiple
+                                        </v-icon>
+                                        Primary Record
+                                    </v-chip>
+                                    <v-chip v-if="result.type == 'investigation'">
+                                        <v-icon small left>
+                                            mdi-hazard-lights
+                                        </v-icon>
+                                        Investigation
+                                    </v-chip>
+                                </div>
+                                <div class="footer-row">
+                                    <div v-if="result.roles.length > 0">
+                                        <div v-for="role in result.roles">
+                                            <v-chip style="scale:0.7" small v-tippy :content="role.name"
+                                                :color="role.color">
+                                            </v-chip>
+                                            ${role.name}
+                                        </div>
+                                    </div>
+                                    <div v-else>
+                                       Open Access
+                                    </div>
+                                    <div>Assigned to: ${result.assigned_to.name}</div>
+                                </div>
+                            </v-card>
+                        </div>
+                        <div v-else>
+                            <p class="caption">Search title, name, description or comments across CAESAR.</p>
+                        </div>
+                        <v-pagination v-if="searched" v-model="pageNumber" rounded="circle" :length="pages"></v-pagination>
+                    </div>
+                    <div v-if="searched" class="filter-col">
+                        <h3>Quick Filters</h3>
+                        <h4>Data type</h4>
+                        <v-checkbox :disabled="data.count === 0" hide-details v-for="data in dataFacets" v-model="dataTypeFilters" :label="data.label + ' (' + data.count + ')'" :value="data.value"></v-checkbox>
+                        <h4>Access Group</h4>
+                        <v-checkbox :disabled="data.count === 0" hide-details v-for="data in assignedGroupFacets" v-model="accessGroupFilters" :label="data.label + ' (' + data.count + ')'" :value="data.value"></v-checkbox>
+                    </div>
+                </div>
+                <v-snackbar v-model="snackbar">
+                    <div class="d-flex justify-space-between align-center">
+                        <span class="text-subtitle-1">${snackMessage}</span>
+                        <v-btn color="white" fab small color="secondary" text @click="snackbar = false">
+                            <v-icon small>mdi-close</v-icon>
+                        </v-btn>
+                    </div>
+                </v-snackbar>
+            </v-container>
+            </v-layout>
+            </v-container>
+        </v-main>
+        {% include "components/footer.html" %}
+    </v-app>
+</div>
+{% endblock %}
+{% block js %}
+<script src="/static/js/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="/static/js/tinymce-vue.min.js"></script>
+<script src="/static/js/dropzone/vue2Dropzone.js"></script>
+<script src="/static/js/components/ActorResult.js"></script>
+<script src="/static/js/components/BulletinResult.js"></script>
+<script src="/static/js/components/IncidentResult.js"></script>
+<script src="/static/js/components/MediaCard.js"></script>
+<script src="/static/js/components/UniField.js"></script>
+<script src="/static/js/components/Visualization.js"></script>
+<script src="/static/js/element-resize-detector.min.js"></script>
+<script src="/static/js/force-graph.min.js"></script>
+<script src="/static/js/components/GlobalMap.js"></script>
+<script src="/static/js/mixins/media-mixin.js"></script>
+<script src="/static/js/components/PdfViewer.js"></script>
+<script>
+    let app = new Vue({
+        el: "#app",
+        vuetify: vuetify,
+        delimiters: delimiters,
+        router,
+        data: () => ({
+            translations: translations,
+            currentUser: JSON.parse(`{{ current_user.to_dict()|tojson }}`),
+            drawer: drawer,
+            snackbar: false,
+            snackMessage: "",
+            // pagination
+            pages: 0,
+            pageNumber: 1,
+            size: 10,
+            start: 0,
+            end: 0,
+            // search
+            searched: false, // if there is a search executing
+            searchTerm: [{}],
+            nonRestrictedResults: [],
+            // preview
+            searchDrawer: true,
+            // preview actor
+            actorResults: [],
+            actorDrawer: false,
+            actorLoader: false,
+            actor: {},
+            viewImage: null,
+            // preview investigation
+            incidentDrawer: false,
+            incidentLoader: false,
+            incident: {},
+            // preview primary record
+            bulletinDrawer: false,
+            bulletinLoader: false,
+            bulletin: {},
+            preview: false,
+            showSnack: false,
+            pitem: null, // preview item for result click
+            prResults: [],
+            investigationResults: [],
+            loading: false,
+            dataTypeFilters: [],
+            accessGroupFilters: [],
+            options: {
+                page: 1,
+                itemsPerPage: 500,
+                sortBy: [],
+                sortDesc: [
+                    false
+                ],
+                groupBy: [],
+                groupDesc: [],
+                mustSort: false,
+                multiSort: false
+            }
+        }),
+        computed: {
+            /** 
+             * Computed search results
+             * Adds the search result type to the objects (actor, pr, investigation)
+             * For each type, filters to results that are not restricted to the user
+             * returns the final combined search results
+            */
+            searchResults() {
+                let results = this.nonRestrictedResults;
+                // check if filtered by 
+                if (this.dataTypeFilters.length > 0) {
+                    results = results.filter(element => {
+                        if (this.dataTypeFilters.includes(element.type)) return element;
+                    });
+                } 
+                if (this.accessGroupFilters.length > 0) {
+                    results = results.filter(element => {
+                        if (this.accessGroupFilters.includes("openAccess") && element.roles.length === 0) {
+                            return element;
+                        } else {
+                            for (let i = 0; i < element.roles.length; i++) {
+                                if (this.accessGroupFilters.includes(element.roles[i].name)) {
+                                    console.log(element)
+                                    return element;
+                                }
+                            }
+                        }
+                    })
+                }
+                this.pages = Math.ceil(results.length / this.size);
+                return results;
+            },
+            paginatedResults() {
+                this.start = (this.pageNumber - 1) * this.size;
+                this.end = this.start + this.size;
+                return this.searchResults.slice(this.start,this.end);
+            },
+            resultLength() {
+                return this.searchResults.length;
+            },
+            restrictedRecordsLength() {
+                let ret = 0;
+                this.actorResults.forEach(actor => {
+                    if (actor.restricted) ret++;
+                });
+                this.prResults.forEach(pr => {
+                    if (pr.restricted) ret++;
+                });
+                this.investigationResults.forEach(inv => {
+                    if (inv.restricted) ret++;
+                })
+                return ret;
+            },
+            startRecord() {
+                return this.start + 1;
+            },
+            endRecord() {
+                return Math.min(this.end, this.searchResults.length);
+            },
+            dataFacets() {
+                let prFilterCount = 0;
+                let actorFilterCount = 0;
+                let investigationFilterCount = 0;
+                this.nonRestrictedResults.forEach(element => {
+                    if (element.type === 'pr') {
+                        prFilterCount++;
+                    } else if (element.type === 'actor') {
+                        actorFilterCount++;
+                    } else {
+                        investigationFilterCount++;
+                    }
+                });
+                return [
+                    {
+                        label: "Primary Records",
+                        count: prFilterCount,
+                        value: "pr"
+                    },
+                    {
+                        label: "Actors",
+                        count: actorFilterCount,
+                        value: "actor"
+                    },
+                    {
+                        label: "Investigations",
+                        count: investigationFilterCount,
+                        value: "investigation"
+                    },
+                ];
+            },
+            assignedGroupFacets() {
+                let groups = [{ label: "Open Access", count: 0, value: "openAccess"}];
+                let groupList = [];
+                let counts = {};
+                this.nonRestrictedResults.forEach(result => {
+                    if (result.roles.length == 0) {
+                        groups[0].count++;
+                    } else {
+                        result.roles.forEach(role => {
+                            groupList.push(role.name);
+                        })
+                    }
+                });
+                for (let num of groupList) {
+                    counts[num] = counts[num] ? counts[num] + 1 : 1;
+                }
+                for (const [key, value] of Object.entries(counts)) {
+                    groups.push({ label: key, count: value, value: key});
+                }
+                return groups;
+            }
+        },
+        methods: {
+            async search() {
+                this.searched = true;
+                this.loading = true;
+                this.options.page = 1;
+                const startTime = new Date();
+                this.nonRestrictedResults = [];
+                this.actorResults = await this.searchActors();
+                this.prResults = await this.searchPrimaryRecords();
+                this.investigationResults = await this.searchInvestigations();
+
+                let nonRestrictedPr = [];
+                let nonRestrictedActors = [];
+                let nonRestrictedInvestigations = [];
+                // set the non restricted results
+                if (this.prResults.length > 0) {
+                    const precords = this.prResults.map(pr => ({ ...pr, type: "pr" }));
+                    nonRestrictedPr = precords.filter(pr => {
+                        return !pr.restricted
+                    });
+                    this.nonRestrictedResults.push(...nonRestrictedPr);
+                }
+                if (this.actorResults.length > 0) {
+                    const actors = this.actorResults.map(actor => ({ ...actor, type: "actor" }));
+                    nonRestrictedActors = actors.filter(actor => {
+                        return !actor.restricted
+                    });
+                    this.nonRestrictedResults.push(...nonRestrictedActors);
+                }
+                if (this.investigationResults.length > 0) {
+                    const investigations = this.investigationResults.map(investigation => ({ ...investigation, type: "investigation" }));
+                    nonRestrictedInvestigations = investigations.filter(inv => {
+                        return !inv.restricted
+                    });
+                    this.nonRestrictedResults.push(...nonRestrictedInvestigations);
+                }
+                this.loading = false;
+            },
+            async searchActors() {
+                let ret = [];
+                await axios.post(`/admin/api/actors/?`, {
+                   q: this.searchTerm
+                }).then(response => {
+                    ret = response.data.items;
+                });
+                return ret;
+            },
+            async searchPrimaryRecords() {
+                let ret = [];
+                await axios.post(`/admin/api/bulletins/?page=${this.options.page}&per_page=${this.options.itemsPerPage}`, {
+                    q: this.searchTerm
+                }).then(response => {
+                    ret = response.data.items;
+                });
+                return ret;
+            },
+            async searchInvestigations() {
+                let ret = [];
+                const term = this.searchTerm[0];
+                await axios.post(`/admin/api/incidents/?`, {
+                    q: term
+                }).then(response => {
+                    ret = response.data.items;
+                });
+                return ret;
+            },
+            async previewActor(id) {
+                this.actorDrawer = true;
+                this.actor = {};
+                this.actorLoader = true;
+                await axios.get(`/admin/api/actor/${id}`).then(response => {
+                    this.actor = response.data;
+                }).catch(error => {
+                    this.actorDrawer = false;
+                    if (error.response) {
+                        this.showSnack(error.response.data)
+                        this.snackbar = true;
+                    }
+                }).finally(() => {
+                    this.actorLoader = false;
+                });
+            },
+            async previewPR(id) {
+                this.bulletinLoader = true;
+                this.bulletinDrawer = true;
+                await axios.get(`/admin/api/bulletin/${id}`).then(response => {
+                    this.bulletin = response.data;
+                }).catch(error => {
+                    this.bulletinDrawer = false;
+                    if (error.response) {
+                        this.showSnack(error.response.data)
+                        this.snackbar = true;
+                    }
+                }).finally(() => {
+                    this.bulletinLoader = false;
+                });
+            },
+            async previewInvestigation(id) {
+                this.incidentLoader = true;
+                this.incidentDrawer = true;
+                await axios.get(`/admin/api/incident/${id}`).then(response => {
+                    this.incident = response.data;
+                }).catch(error => {
+                    this.incidentDrawer = false;
+                    if (error.response) {
+                        this.showSnack(error.response.data)
+                        this.snackbar = true;
+                    }
+                }).finally(() => {
+                    this.incidentLoader = false;
+                });
+            },
+            editItem() {},
+            deleteItem() {},
+            has_role(user, role) {
+                for (r of user.roles) {
+                    if (r.name == role) {
+                        return true
+                    }
+                }
+                return false;
+            },
+            resultClick(item, type) {
+                let path = "";
+                if (item.restricted) {
+                    this.showSnack('This item is restricted.')
+                    return
+                }
+                if (type === 'actor') {
+                    this.previewActor(item.id);
+                }
+                else if (type === 'pr') {
+                    this.previewPR(item.id);
+                }
+                else if (type === 'investigation') {
+                    this.previewInvestigation(item.id)
+                }
+                
+            },
+            showSnack(message) {
+                this.snackMessage = message;
+                this.snackbar = true;
+            },
+        }
+    });
+</script>
+{% endblock %}

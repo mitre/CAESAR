@@ -1,5 +1,6 @@
 Vue.component("bulletin-card", {
   props: [
+    "searchDrawer",
     "bulletin",
     "close",
     "thumb-click",
@@ -244,6 +245,11 @@ Vue.component("bulletin-card", {
         this.diffResult = jsondiffpatch.formatters.html.format(delta);
       }
     },
+
+    navigateToPR() {
+      const url = new URL(`/admin/primary-records/${this.bulletin.id}`, window.location.origin)
+      window.location.href = url.toString()
+    }
   },
 
   data: function () {
@@ -288,22 +294,23 @@ Vue.component("bulletin-card", {
                     class="white--text ml-1">
               # {{ bulletin.originid }}
             </v-chip>
-            <v-btn v-if="editAllowed()" class="ml-2" @click="$emit('edit',bulletin)" small outlined>
+            <v-btn v-if="editAllowed && !searchDrawer" class="ml-2" @click="$emit('edit',bulletin)" small outlined>
               <v-icon color="primary" left>mdi-pencil</v-icon>
               {{ i18n.edit_ }}
             </v-btn>
 
-            <v-btn @click.stop="$root.$refs.viz.visualize(bulletin)" class="ml-2" outlined small elevation="0">
+            <v-btn v-if="!searchDrawer" @click.stop="$root.$refs.viz.visualize(bulletin)" class="ml-2" outlined small elevation="0">
               <v-icon color="primary" left>mdi-graph-outline</v-icon>
               {{ i18n.visualize_ }}
             </v-btn>
 
-            <v-btn v-if="deleteAllowed()" class="ml-2 red darken-3" @click="deleteBulletin" small outlined>
+            <v-btn v-if="deleteAllowed  && !searchDrawer" class="ml-2 red darken-3" @click="deleteBulletin" small outlined>
               <v-icon color="white" left>mdi-archive</v-icon>
               <span class="white--text">{{ i18n.archive_  }}</span>
             </v-btn>
 
           </v-card-text>
+          <v-chip label small class="pa-2 mx-2 my-2" v-if="searchDrawer && editAllowed" @click="navigateToPR()"><v-icon left small>mdi-pencil</v-icon>To edit this item please go to the primary records page.</v-chip>
 
 
           <v-chip color="white lighten-3" small label class="pa-2 mx-2 my-2" v-if="bulletin.assigned_to">

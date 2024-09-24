@@ -70,6 +70,11 @@ const delimiters = ["${", "}"];
 
 const sideNav = [
   {
+    icon: "mdi-search",
+    text: "Search CAESAR",
+    href: "/admin/search/",
+  },
+  {
     icon: "mdi-library-books",
     text: "Primary Records",
     href: "/admin/primary-records/",

@@ -4,7 +4,7 @@
             <v-progress-circular indeterminate size="44"></v-progress-circular>
         </v-layout>
     </v-container>
-    <bulletin-card :i18n="translations" v-if="bulletinDrawer" :show-edit="true" @edit="editItem" @delete="deleteItem" v-if="bulletin" :log="true" :diff="true" @thumb-click="viewImage" @close="bulletinDrawer=false" :bulletin="bulletin"></bulletin-card>
+    <bulletin-card :i18n="translations" v-if="bulletinDrawer" :search-drawer="searchDrawer" :show-edit="true" @edit="editItem" @delete="deleteItem" v-if="bulletin" :log="true" :diff="true" @thumb-click="viewImage" @close="bulletinDrawer=false" :bulletin="bulletin"></bulletin-card>
 <preview-card :i18n="translations" ref="prev" :item="pitem" v-model="preview"></preview-card>
 <pdf-viewer ref="pdfViewer"></pdf-viewer>
 <visualization ref="viz" :i18n="translations"></visualization>
