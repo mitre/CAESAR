@@ -92,7 +92,9 @@ services:
       context: .
       dockerfile: ./flask/Dockerfile
       args:
+        GROUP_ID: ${GROUP_ID:-1000}
         ROLE: celery
+        USER_ID: ${USER_ID:-1000}
     configs:
       - source: dotenv
         target: /app/.env
