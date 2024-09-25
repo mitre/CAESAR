@@ -1031,4 +1031,117 @@ class SearchUtils:
 
             query.extend(qsearch)
 
+        # founded date
+        if (founded_date := q.get('foundedDate', None)):
+            query.append(date_between_query(Organization.founded_date, founded_date))
+
+        # created by
+        created_by_id = q.get('created_by', [])
+        if (created_by_id):
+            query.append(Organization.created_by_id.in_(created_by_id))
+
+        single_event = q.get('singleEvent', None)
+        event_dates = q.get('edate', None)
+        event_location = q.get('elocation', None)
+
+        if event_dates or event_location:
+            event_location_id = event_location.get('id') if event_location else None
+            conditions = Event.get_event_filters(dates=event_dates, event_location_id=event_location_id)
+
+            if single_event:
+                query.append(Organization.events.any(and_(*conditions)))
+            else:
+                query.extend([Organization.events.any(condition) for condition in conditions])
+
+        # Access Roles
+        roles = q.get('roles')
+
+        if roles:
+            query.append(Organization.roles.any(Role.id.in_(roles)))
+        if q.get('norole'):
+            query.append(~Organization.roles.any())
+
+        # assigned user(s)
+        assigned = q.get('assigned', [])
+        if (assigned):
+            query.append(Organization.assigned_to_id.in_(assigned))
+
+        # unassigned
+        unassigned = q.get('unassigned', None)
+        if unassigned:
+            query.append(Organization.assigned_to == None)
+
+        # First peer reviewer
+        fpr = q.get('reviewer', [])
+        if fpr:
+            query.append(Organization.first_peer_reviewer_id.in_(fpr))
+
+        # workflow statuses
+        statuses = q.get('statuses', [])
+        if (statuses):
+            query.append(Organization.status.in_(statuses))
+
+        # review status
+        review_action = q.get('reviewAction', None)
+        if review_action:
+            query.append(Organization.review_action == review_action)
+
+        # Related to bulletin search
+        rel_to_bulletin = q.get('rel_to_bulletin')
+        if rel_to_bulletin:
+            bulletin = Bulletin.query.get(int(rel_to_bulletin))
+            if bulletin:
+                ids = [o.organization_id for o in bulletin.organization_relations]
+                query.append(Organization.id.in_(ids))
+
+        # Related to actor search
+        rel_to_actor = q.get('rel_to_actor')
+        if rel_to_actor:
+            actor = Actor.query.get(int(rel_to_actor))
+            if actor:
+                ids = [o.organization_id for o in actor.organization_relations]
+                query.append(Organization.id.in_(ids))
+
+        # Related to incident search
+        rel_to_incident = q.get('rel_to_incident')
+        if rel_to_incident:
+            incident = Incident.query.get(int(rel_to_incident))
+            if incident:
+                ids = [o.organization_id for o in incident.organization_relations]
+                query.append(Organization.id.in_(ids))
+
+        # Related to organization search
+        rel_to_organization = q.get('rel_to_organization')
+        if rel_to_organization:
+            organization = Organization.query.get(int(rel_to_organization))
+            if organization:
+                ids = [o.get_other_id(organization.id) for o in organization.organization_relations]
+                query.append(Organization.id.in_(ids))
+
+        locations = q.get('locations', [])
+        if locations:
+            ids = [item.get('id') for item in locations]
+            if q.get('oplocations'):
+                # get all child locations
+                locs = Location.query.with_entities(Location.id).filter(
+                    or_(*[Location.id_tree.like('%[{}]%'.format(x)) for x in ids])).all()
+                loc_ids = [loc.id for loc in locs]
+                query.append(Organization.locations.any(Location.id.in_(loc_ids)))
+            else:
+                # get combined lists of ids for each location
+                id_mix = [Location.get_children_by_id(id) for id in ids]
+                query.extend(Organization.locations.any(Location.id.in_(i)) for i in id_mix)
+
+        # Excluded locations
+        exlocations = q.get('exlocations', [])
+        if len(exlocations):
+            ids = [item.get('id') for item in exlocations]
+            query.append(~Organization.locations.any(Location.id.in_(ids)))
+
+        # types
+        types = q.get('types', [])
+        if types:
+            type_id = types.get('id')
+            query.append(Organization.organization_type_id == type_id)
+
         return query
