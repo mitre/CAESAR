@@ -41,8 +41,8 @@ messages.pot, messages.po, and messages.mo files should all show changes in sour
 ## Caesar Data
 1. Locations:
  - Import locations on startup by setting the LOCATIONS_FILENAME env variable in the .env file e.g. LOCATIONS_FILENAME=ukraine_locations.csv
- - Ukraine location data has been added to the default bayanat data set at /enferno/data in the ukraine_locations.csv file. https://www.oporaua.org/longrid/map_2020.html, referenced by https://assets.publishing.service.gov.uk/media/62b18c9dd3bf7f0afd0f8cd0/Ukraine_Toponymic_Factfile.pdf, has an interactive map that shows subdivisions. This map was the source of the Ukraine data
- - Sudan location data has been added to the default bayanat data set at /enferno/data in the sudan_locations.csv file. This file contains a list of Ukrainian cities that was pulled from https://simplemaps.com/data/ua-cities.
+ - Ukraine location data has been added to the default bayanat data set at /enferno/data in the ukraine_locations.csv file. This file contains a list of Ukrainian cities that was pulled from https://data.humdata.org/dataset/cod-ab-ukr.
+ - Sudan location data has been added to the default bayanat data set at /enferno/data in the sudan_locations.csv file. This file contains a list of Sudanese cities that was pulled from https://data.humdata.org/dataset/cod-ab-sdn.
 
 ## Local Development
 
