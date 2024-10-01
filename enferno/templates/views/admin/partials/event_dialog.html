@@ -94,8 +94,8 @@
                     </v-row>
                     <v-row>
                         <v-col cols="12">
-                            <location-search-field v-model="editedEvent.location" api="/admin/api/locations/"
-                                item-text="full_string" item-value="id" :multiple="false"
+                            <location-search-field :disabled="editedEvent.custom_location" v-model="editedEvent.location" api="/admin/api/locations/"
+                                item-text="full_string" item-value="id" :multiple="false" @input="clearActiveLocation" @change="setActiveLocation()"
                                 label="{{ _('Location') }}"></location-search-field>
                         </v-col>
                         <!-- <v-col md="4">
@@ -103,6 +103,17 @@
                                 :query-params="eventParams" item-text="title" item-value="id" :multiple="false"
                                 label="{{ _('Event Type') }}"></search-field>
                         </v-col> -->
+                    </v-row>
+                    <v-row>
+                        <v-col cols="12" md="12">
+                            <geo-map v-model="editedEventGeometry" :edit-mode="editedEvent.custom_location" map-height="300"></geo-map>
+                        </v-col>
+                    </v-row>
+                    
+                    <v-row>
+                        <v-col cols="12" md="3">
+                            <v-switch label="{{ _('Custom Location') }}" @click="toggleCustomEventLocation()" v-model="editedEvent.custom_location"></v-switch>
+                        </v-col>
                     </v-row>
                     <v-row>
                         <v-col cols="12" md="3" class="text-center">

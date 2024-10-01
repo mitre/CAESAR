@@ -186,6 +186,7 @@
                 title: ''
         }
     },
+    editedItemGeometry: {},
     defaultItem: {
         title: "",
             admin_level: null,
@@ -370,11 +371,37 @@
             this.locationDrawer = false;
             this.editedIndex = this.items.indexOf(item);
             this.editedItem = Object.assign({}, item);
+            this.setActiveLocation();
             this.restrictSearch()
             this.dialog = true;
             this.$nextTick(() => {
                 this.locationKey += 1;
             });
+        },
+        setActiveLocation() {
+            if(this.editedItem) {
+                let loc = this.editedItem;
+                let url = '/admin/api/location/'
+           
+                if(loc && loc.id !== null && loc !== undefined) {
+                    if(!loc.geometry || loc.geometry.coordinates === undefined) {
+                        axios.get(`${url}${loc.id}`).then(response => {
+                            if(response.data.geometry)
+                                loc.geometry = this.editedItemGeometry = response.data.geometry;
+                            else
+                                loc.geometry = this.editedItemGeometry = {};
+                        }).catch(error => {
+                            this.showSnack('Oops! We couldn\'t find the selected location.');
+                            loc.geometry = this.editedItemGeometry = {};
+                        });
+                    } else {
+                        this.editedItemGeometry = loc.geometry;
+                    }
+                } else {
+                    if(loc) loc.geometry = {};
+                    this.editedEventGeometry = {};
+                }
+            }
         },
         deleteItem(item) {
             const index = this.items.indexOf(item);
@@ -401,9 +428,12 @@
             setTimeout(() => {
                 this.editedItem = Object.assign({}, this.defaultItem);
                 this.editedIndex = -1;
+                this.editedItemGeometry = {};
             }, 300);
         },
         save() {
+            this.editedItem.geometry = this.editedItemGeometry;
+
             if (this.editedItem.id) {
                 axios.put(`/admin/api/location/${this.editedItem.id}`, {
                     item: this.editedItem

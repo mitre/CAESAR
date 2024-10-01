@@ -480,6 +480,8 @@
             editedEvent: {
                 title: ""
             },
+            editedEventGeometry: {},
+            refreshKey: 0,
             defaultEvent: {
                 title: "",
                     from_date: '',
@@ -510,6 +512,7 @@
                 return statusesRequiringAssignment.includes(this.editedItem.status);
             },
             compLocations() {
+                this.refreshKey;
                 return aggregateBulletinLocations(this.editedItem);
             },
             exBulletins() {
@@ -1129,7 +1132,7 @@
                     this.refresh(this.options);
                     this.close();
                 }).catch(err => {
-                    this.showSnack(err.response.data);
+                    this.showSnack(err.response);
                 }).then(() => {
                     this.close()
                 });
@@ -1142,33 +1145,58 @@
                     this.showSnack(response.data);
                     this.refresh(this.options);
                 }).catch(err => {
-                    this.showSnack(err.response.data);
+                    this.showSnack(err.response);
                 }).then(() => {
                     this.close();
                 });
             }
         },
         editEvent(evt, item, index) {
+            console.log("Editing event " + index);
+            
             this.eventDialog = true;
             this.$nextTick(() => {
                 this.editedEvent = Object.assign({}, item);
+
+                this.toggleCustomEventLocation();
+                this.setActiveLocation();
+
                 this.editedEventIndex = index;
                 //reset dual fields display to english
                 this.eventTitle__ = true;
                 this.eventComments__ = true;
             })
-            //this.locations = this.editedItem.locations;
+        },
+        toggleCustomEventLocation() {
+            if(this.editedEvent.custom_location) {
+                if(this.editedEvent.geo_location && this.editedEvent.geo_location.geometry) {
+                    this.editedEventGeometry = this.editedEvent.geo_location.geometry;   
+                } else {
+                    this.editedEventGeometry = {};
+                }
+            } else {
+                if(this.editedEvent.location && this.editedEvent.location.geometry) {
+                    this.editedEventGeometry = this.editedEvent.location.geometry;   
+                } else if(this.editedEvent.location && this.editedEvent.location.id) {
+                    this.setActiveLocation();
+                } else {
+                    this.editedEventGeometry = {};
+                }
+            }
         },
         closeEvent() {
             this.eventDialog = false;
             setTimeout(() => {
                 this.editedEvent = Object.assign({}, this.defaultEvent);
                 this.editedEventIndex = -1;
+                this.editedEventGeometry = {};
+                this.setActiveLocation();
             }, 300);
         },
         doSaveEvent() {
             if (this.editedEventIndex > -1) {   
                 Object.assign(this.editedItem.events[this.editedEventIndex], this.editedEvent);
+                this.refreshKey++;
                 //update record
             } else {
                 this.editedItem.events.push(this.editedEvent);
@@ -1177,15 +1205,56 @@
             this.closeEvent();
         },
         saveEvent() {
-            if(this.editedEvent.location) {
-                axios.get(`/admin/api/location/${this.editedEvent.location.id}`).then(response => {
-                    this.editedEvent.location = response.data;
-                    this.doSaveEvent();
-                }).catch(error => {
-                    this.showSnack('Oops! We couldn\'t find the selected location.');
-                });
+            if(this.editedEvent.custom_location) { //test
+
+                if(!this.editedEvent.geo_location) {
+                    this.editedEvent.geo_location = {}
+                }
+                this.editedEvent.geo_location.geometry = this.editedEventGeometry;
+                this.editedEvent.location = null;
             } else {
-                this.doSaveEvent();
+                if(!this.editedEvent.location) {
+                    this.editedEvent.location = {}
+                }
+                this.editedEvent.location.geometry = this.editedEventGeometry;
+                this.editedEvent.geo_location = null;
+            }
+            this.doSaveEvent();
+        },
+        clearActiveLocation(input) {
+            if(!input) {
+                this.editedEventGeometry = {};
+                this.editedEvent.location = null;
+            }
+        },
+        setActiveLocation() {
+            let loc = {};
+            let url = "";
+            if(this.editedEvent.custom_location) {
+                loc = this.editedEvent.geo_location;
+                url = '/admin/api/geo_location/'
+            } else {
+                loc = this.editedEvent.location;
+                url = '/admin/api/location/'
+            }
+
+            if(loc && loc.id !== null && loc !== undefined) {
+                if(!loc.geometry || loc.geometry.coordinates === undefined) {
+                    axios.get(`${url}${loc.id}`).then(response => {
+                        if(response.data.geometry)
+                            loc.geometry = this.editedEventGeometry = response.data.geometry;
+                        else
+                            loc.geometry = this.editedEventGeometry = {};
+                    }).catch(error => {
+                        this.showSnack('Oops! We couldn\'t find the selected location.');
+                        loc.geometry = this.editedEventGeometry = {};
+                    });
+                } else {
+                    this.editedEventGeometry = loc.geometry;
+                }
+            } else {
+                if(loc) loc.geometry = {};
+                this.editedEventGeometry = {};
             }
         },
         // related bulletins functions --------------------

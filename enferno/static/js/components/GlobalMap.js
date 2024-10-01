@@ -278,15 +278,14 @@ Vue.component("global-map", {
             "geometry": loc.geometry
           }
 
-          if(loc.geometry) {
+          if(loc.geometry && loc.geometry.coordinates) {
             geometryLocations.push(event);
+            if (loc.type === "Event") {  
+              eventLocations.push(loc);
+            }
           } 
 
           this.allFeatures.push(event);
-
-          if (loc.type === "Event") {  
-            eventLocations.push(loc);
-          }
         }
 
         if(geometryLocations.length) this.addGeometryLocations(geometryLocations);
@@ -446,8 +445,9 @@ Vue.component("global-map", {
     },
 
     fitMarkers(animate = true) {
-      if(this.allFeatures.length) {
-        const featureCollection = turf.featureCollection(this.allFeatures);
+      let locations = this.allFeatures.filter((feature) => {return (feature.geometry && feature.geometry.coordinates)});
+      if(locations.length) {
+        const featureCollection = turf.featureCollection(locations);
         this.map.fitBounds(
           mapUtils.getFeatureBounds(featureCollection), {
             padding: 50,

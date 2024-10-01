@@ -412,8 +412,6 @@ class SearchUtils:
             conditions = []
             if 'locations' in loc_types:
                 conditions.append(Bulletin.geo_query_location(latlng, radius))
-            if 'geomarkers' in loc_types:
-                conditions.append(Bulletin.geo_query_geo_location(latlng, radius))
             if 'events' in loc_types:
                 conditions.append(Bulletin.geo_query_event_location(latlng, radius))
 

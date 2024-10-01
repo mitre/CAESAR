@@ -453,7 +453,7 @@ var aggregateOrganizationLocations = function (organization) {
 };
 
 function prepareEventLocations(parentId, events) {
-  let output = events.filter((x) => x.location);
+  let output = events.filter((x) => (x.custom_location && x.geo_location) || x.location);
   // sort events by from/to date and leave null date events at the end
   output.sort((a, b) => {
     const aDate = a.from_date || a.to_date;
@@ -470,15 +470,27 @@ function prepareEventLocations(parentId, events) {
     }
   });
   return output.map((x, i) => {
-    //attach serial number to events for map reference
-    x.location.number = i + 1;
-    if (!x.location.title) x.location.title = x.title;
-    x.location.type = "Event";
-    x.location.parentId = parentId;
-    x.location.color = "#00f166";
-    x.location.zombie = x.from_date === null && x.to_date === null;
-    x.location.eventtype = x.eventtype?.title;
-    return x.location;
+    if(x.custom_location) {
+      //attach serial number to events for map reference
+      x.geo_location.number = i + 1;
+      if (!x.geo_location.title) x.geo_location.title = x.title;
+      x.geo_location.type = "Event";
+      //x.location.parentId = parentId;
+      x.geo_location.color = "#00f166";
+      x.geo_location.zombie = x.from_date === null && x.to_date === null;
+      x.geo_location.eventtype = x.eventtype?.title;
+      return x.geo_location;
+    } else {
+      //attach serial number to events for map reference
+      x.location.number = i + 1;
+      if (!x.location.title) x.location.title = x.title;
+      x.location.type = "Event";
+      x.location.parentId = parentId;
+      x.location.color = "#00f166";
+      x.location.zombie = x.from_date === null && x.to_date === null;
+      x.location.eventtype = x.eventtype?.title;
+      return x.location;
+    }
   });
 }
 

@@ -48,7 +48,7 @@ Vue.component("geo-map", {
 
       mapsApiEndpoint: mapsApiEndpoint,
 
-      geometry: this.value,
+      geometry: this.value && this.value.coordinates ? JSON.parse(JSON.stringify(this.value)) : null,
 
       /* TODO: need to fix attribution to pull from config */
       // attribution:
@@ -63,6 +63,8 @@ Vue.component("geo-map", {
       currentFeatureCount: 0,
 
       currecntActiveIds: [],
+
+      mapInitializedAndIdle: false,
     };
   },
 
@@ -88,6 +90,32 @@ Vue.component("geo-map", {
           this.lng = val.lng;
           this.addUpdateSearchMarker(null);
         }
+      } else {
+        if(!this.value.coordinates) {
+          this.removeGeometries();
+        // } else if(!this.value.geometry) {
+        //   this.loadFullLocation(this.value);
+        } else if(this.value.coordinates) {
+          this.geometry = JSON.parse(JSON.stringify(this.value));
+          this.$nextTick(() => {
+            if (this.mapInitializedAndIdle) {
+              this.addGeometries(JSON.parse(JSON.stringify(this.value)));
+            }
+          });
+        }
+      }
+    },
+
+    editMode(val, old) {
+      this.showHideDrawingTools();
+      if(this.editMode && old !== undefined)
+        this.removeGeometries();
+      else if(!this.editMode) {
+        this.$nextTick(() => {
+          if (this.mapInitializedAndIdle) {
+            this.addGeometries();
+          }
+        });
       }
     },
 
@@ -125,10 +153,14 @@ Vue.component("geo-map", {
         this.map.addControl(new maplibregl.NavigationControl());
         this.map.addControl(new maplibregl.FullscreenControl());
 
-        if (this.editMode) this.initDrawingTools();
-        else if (this.searchMode || this.pointEditMode) this.map.on("click", this.updateLocationFromEvent);
+        this.initDrawingTools();
+
+        this.showHideDrawingTools();
+
+        if (this.searchMode || this.pointEditMode) this.map.on("click", this.updateLocationFromEvent);
 
         this.map.once("idle", () => {
+          this.mapInitializedAndIdle = true;
           if (this.searchMode || this.pointEditMode) {
             this.addUpdateSearchMarker(null);
           } else {
@@ -147,6 +179,16 @@ Vue.component("geo-map", {
           // }
         });
       });
+    },
+
+    showHideDrawingTools() {
+      if(this.Draw) {
+        if(this.editMode && this.Draw && !this.map.hasControl(this.Draw)) {
+          this.map.addControl(this.Draw, "top-right");
+        } else if(!this.editMode && this.map.hasControl(this.Draw)) {
+          this.map.removeControl(this.Draw);
+        }
+      }
     },
 
     /* initializes the drawing tools and register drawing event listeners */
@@ -414,15 +456,12 @@ Vue.component("geo-map", {
       const features = this.Draw.getAll().features;
 
       if (features.length === 0) {
-        this.$emit("input", {});
         return;
       }
 
-      if (features.length < 2) {
-        this.$emit("input", {
-          type: features[0].geometry.type,
-          coordinates: features[0].geometry.coordinates,
-        });
+      if (features.length === 1) {
+        this.value.coordinates = features[0].geometry.coordinates;
+        this.value.type = features[0].geometry.type;
         return;
       }
 
@@ -442,10 +481,8 @@ Vue.component("geo-map", {
         }
       }
 
-      this.$emit("input", {
-        type: `Multi${featureType}`,
-        coordinates,
-      });
+      this.value.coordinates = coordinates;
+      this.value.type = `Multi${featureType}`;
     },
 
     /* returns all the ids for the features on the map, excluding any that are incomplete */
@@ -467,7 +504,9 @@ Vue.component("geo-map", {
       });
     },
 
-    addGeometries() {
+    addGeometries(geometry) {
+      if (geometry) 
+        this.geometry = geometry;
       if (this.geometry) {
         if (this.editMode) {
           this.addEditableGeometries();
@@ -485,6 +524,11 @@ Vue.component("geo-map", {
           mapUtils.addGeometries(this.map, turf.feature(this.geometry));
         }
       }
+    },
+
+    removeGeometries() {
+      mapUtils.removeGeometryLayers(this.map);
+      this.geometry = null;
     },
 
     clearSearchMarkerAndStyles(evt) {
