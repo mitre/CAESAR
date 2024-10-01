@@ -25,7 +25,7 @@ from enferno.admin.models import (ActorSubType, Bulletin, ConsentUse, Label, Org
                                   ClaimedViolation,
                                   Activity, Query, LocationAdminLevel, LocationType, AppConfig,
                                   AtobInfo, AtoaInfo, BtobInfo, ItoiInfo, ItoaInfo, ItobInfo, Country, Ethnography,
-                                  MediaCategory, GeoLocationType, WorkflowStatus, SocialMediaPlatform, SocialMediaHandle,
+                                  MediaCategory, GeoLocation, GeoLocationType, WorkflowStatus, SocialMediaPlatform, SocialMediaHandle,
                                   SanctionRegime)
 from enferno.extensions import bouncer, rds
 from enferno.extensions import cache
@@ -752,7 +752,6 @@ def api_location_update(id):
     else:
         return HTTPResponse.NOT_FOUND
 
-
 @admin.delete('/api/location/<int:id>')
 @roles_required('Admin')
 def api_location_delete(id):
@@ -790,6 +789,20 @@ def api_location_get(id):
     else:
         return json.dumps(location.to_dict()), 200
 
+# get one geolocation
+@admin.get('/api/geolocation/<int:id>')
+def api_geolocation_get(id):
+    """
+    Endpoint to get a single geolocation
+    :param id: id of the geolocation
+    :return: geolocation in json format / success or error
+    """
+    geolocation = GeoLocation.query.get(id)
+
+    if geolocation is None:
+        return HTTPResponse.NOT_FOUND
+    else:
+        return json.dumps(geolocation.to_dict()), 200
 
 @admin.route('/component-data/', defaults={'id': None})
 @roles_required('Admin')

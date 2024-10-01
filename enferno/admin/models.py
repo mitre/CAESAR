@@ -705,7 +705,13 @@ class Event(db.Model, BaseMixin):
     location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
     location = db.relationship(
         "Location", backref="location_events", foreign_keys=[location_id]
+    ) 
+    custom_location = db.Column(db.Boolean)
+    geo_location_id = db.Column(db.Integer, db.ForeignKey("geo_location.id"))
+    geo_location = db.relationship(
+        "GeoLocation", backref="geo_location_events", foreign_keys=[geo_location_id]
     )
+    
     eventtype_id = db.Column(db.Integer, db.ForeignKey("eventtype.id"))
     eventtype = db.relationship(
         "Eventtype", backref="eventtype_events", foreign_keys=[eventtype_id]
@@ -747,6 +753,8 @@ class Event(db.Model, BaseMixin):
             "comments": self.comments if self.comments else None,
             "comments_ar": self.comments_ar if self.comments_ar else None,
             "location": self.location.to_dict() if self.location else None,
+            "geo_location": self.geo_location.to_dict() if self.geo_location else None,
+            "custom_location": self.custom_location if self.custom_location else None,
             "eventtype": self.eventtype.to_dict() if self.eventtype else None,
             "from_date": DateHelper.serialize_date(self.from_date) if self.from_date else None,
             "from_time": DateHelper.serialize_time(self.from_time) if self.from_time else None,
@@ -765,8 +773,31 @@ class Event(db.Model, BaseMixin):
         self.title_ar = json["title_ar"] if "title_ar" in json else None
         self.comments = json["comments"] if "comments" in json else None
         self.comments_ar = json["comments_ar"] if "comments_ar" in json else None
-
-        self.location_id = json["location"]["id"] if "location" in json and json["location"] else None
+        
+        self.custom_location = json["custom_location"] if "custom_location" in json else None
+        if self.custom_location:
+            if "geo_location" in json:
+                geo_location = json["geo_location"]
+                if geo_location is not None:
+                    self.geo_location_id = geo_location.get("id", None)
+                    self.custom_location = True
+            else:
+                self.geo_location_id = None   
+            self.location = None    
+            self.location_id = None
+            
+        else:
+            if "location" in json:
+                location = json["location"]
+                if location is not None:
+                    self.location_id = location.get("id", None)
+                    self.custom_location = False
+            else:
+                self.location_id = None
+            self.geo_location = None
+            self.geo_location_id = None 
+             
+        # self.geo_location_id = json["geo_location"]["id"] if "geo_location" in json and json["geo_location"] else None
         self.eventtype_id = json["eventtype"]["id"] if "eventtype" in json and json["eventtype"] else None
 
         from_date = json.get('from_date', None)
@@ -1232,7 +1263,8 @@ class GeoLocation(db.Model, BaseMixin):
     main = db.Column(db.Boolean)
     geometry = db.Column(Geometry('GEOMETRY', srid=4326))
     comment = db.Column(db.Text)
-    bulletin_id = db.Column(db.Integer, db.ForeignKey('bulletin.id'))
+    # bulletin_id = db.Column(db.Integer, db.ForeignKey('bulletin.id'))
+    event_id = db.Column(db.Integer, db.ForeignKey("event.id"))
 
     def from_json(self, jsn):
         self.title = jsn.get('title')
@@ -1723,10 +1755,6 @@ class Bulletin(db.Model, BaseMixin):
         backref=db.backref("bulletins", lazy="dynamic"),
     )
 
-    geo_locations = db.relationship(
-        "GeoLocation", backref="bulletin",
-    )
-
     labels = db.relationship(
         "Label",
         secondary=bulletin_labels,
@@ -1909,24 +1937,6 @@ class Bulletin(db.Model, BaseMixin):
             locations = Location.query.filter(Location.id.in_(ids)).all()
             self.locations = locations
 
-        # geo_locations = json.get('geoLocations')
-        if "geoLocations" in json:
-            geo_locations = json["geoLocations"]
-            final_locations = []
-            for geo in geo_locations:
-                if id not in geo:
-                    # new geolocation
-                    g = GeoLocation()
-                    g.from_json(geo)
-                    g.save()
-                else:
-                    # geolocation exists // update
-                    g = GeoLocation.query.get(geo['id'])
-                    g.from_json(geo)
-                    g.save()
-                final_locations.append(g)
-            self.geo_locations = final_locations
-
         #Consent uses
         if "bulletin_to_consent_uses" in json:
             new_consent_use_relations = []
@@ -1971,17 +1981,51 @@ class Bulletin(db.Model, BaseMixin):
             events = json["events"]
 
             for event in events:
-                if "id" not in event:
-                    # new event
-                    e = Event()
-                    e = e.from_json(event)
-                    e.save()
+                g = None
+                #if event["geo_location"]:
+                if "geo_location" in event and "custom_location" in event and event["custom_location"] is True:
+                    geo_location = event["geo_location"]
+                    
+                    if "id" not in geo_location:
+                        # new geolocation
+                        g = GeoLocation()
+                        g.from_json(geo_location)
+                        g.save()
+                    else:
+                        # geolocation exists // update
+                        g = GeoLocation.query.get(geo_location['id'])
+                        g.from_json(geo_location)
+                        g.save()
+                
+                    if "id" not in event:
+                        # new event
+                        e = Event()
+                        e = e.from_json(event)
+                        if g is not None:
+                            e.geo_location = g
+                        e.save()
+                        new_events.append(e)
+                    else:
+                        # event already exists, get a db instnace and update it with new data
+                        e = Event.query.get(event["id"])
+                        e.from_json(event)
+                        if g is not None:
+                            e.geo_location = g
+                        e.save()
+                        new_events.append(e)
                 else:
-                    # event already exists, get a db instnace and update it with new data
-                    e = Event.query.get(event["id"])
-                    e.from_json(event)
-                    e.save()
-                new_events.append(e)
+                    if "id" not in event:
+                        # new event
+                        e = Event()
+                        e = e.from_json(event)
+                        e.save()
+                    else:
+                        # event already exists, get a db instnace and update it with new data
+                        e = Event.query.get(event["id"])
+                        e.from_json(event)
+                        e.save()
+                    new_events.append(e)
+                            
             self.events = new_events
 
         if "roles" in json:
@@ -2162,7 +2206,6 @@ class Bulletin(db.Model, BaseMixin):
             'verified_labels': convert_simple_relation(self.ver_labels),
             'sources': convert_simple_relation(self.sources),
             'locations': convert_simple_relation(self.locations),
-            'geo_locations': convert_simple_relation(self.geo_locations),
             'media': convert_simple_relation(self.medias),
             'events': convert_simple_relation(self.events),
             'related_primary_records': convert_complex_relation(self.bulletin_relations_dict, Bulletin.__tablename__),
@@ -2269,14 +2312,6 @@ class Bulletin(db.Model, BaseMixin):
             for location in self.locations:
                 locations_json.append(location.to_compact())
 
-        # locations json
-        geo_locations_json = []
-        if self.geo_locations:
-            for geo in self.geo_locations:
-                geo_locations_json.append(
-                    geo.to_dict()
-                )
-
         # sources json
         sources_json = []
         if self.sources and len(self.sources):
@@ -2349,7 +2384,6 @@ class Bulletin(db.Model, BaseMixin):
             if self.first_peer_reviewer_id
             else None,
             "locations": locations_json,
-            "geoLocations": geo_locations_json,
             "labels": labels_json,
             "verLabels": ver_labels_json,
             "sources": sources_json,
@@ -2456,15 +2490,27 @@ class Bulletin(db.Model, BaseMixin):
         """Condition for association between bulletin and location via events."""
         point = func.ST_SetSRID(func.ST_MakePoint(target_point.get('lng'), target_point.get('lat')), 4326)
 
-        return Bulletin.id.in_(
-            db.session.query(bulletin_events.c.bulletin_id)
-            .join(Event, bulletin_events.c.event_id == Event.id)
-            .join(Location, Event.location_id == Location.id)
-            .filter(func.ST_DWithin(
-                func.cast(Location.geometry, Geography),
-                func.cast(point, Geography),
-                radius_in_meters))
-        )
+        conditions = []
+        conditions.append(
+            Bulletin.id.in_(
+                db.session.query(bulletin_events.c.bulletin_id)
+                .join(Event, bulletin_events.c.event_id == Event.id)
+                .join(Location, Event.location_id == Location.id)
+                .filter(func.ST_DWithin(
+                    func.cast(Location.geometry, Geography),
+                    func.cast(point, Geography),
+                    radius_in_meters))))
+        conditions.append(
+            Bulletin.id.in_(
+                db.session.query(bulletin_events.c.bulletin_id)
+                .join(Event, bulletin_events.c.event_id == Event.id)
+                .join(GeoLocation, Event.geo_location_id == GeoLocation.id)
+                .filter(func.ST_DWithin(
+                    func.cast(GeoLocation.geometry, Geography),
+                    func.cast(point, Geography),
+                    radius_in_meters))))
+        return or_(*conditions)
+        
 
     def get_modified_date(self):
 
@@ -4135,18 +4181,53 @@ class Actor(db.Model, BaseMixin):
         if "events" in json:
             new_events = []
             events = json["events"]
+
             for event in events:
-                if "id" not in event:
-                    # new event
-                    e = Event()
-                    e = e.from_json(event)
-                    e.save()
+                g = None
+                #if event["geo_location"]:
+                if "geo_location" in event and "custom_location" in event and event["custom_location"] is True:
+                    geo_location = event["geo_location"]
+                    
+                    if "id" not in geo_location:
+                        # new geolocation
+                        g = GeoLocation()
+                        g.from_json(geo_location)
+                        g.save()
+                    else:
+                        # geolocation exists // update
+                        g = GeoLocation.query.get(geo_location['id'])
+                        g.from_json(geo_location)
+                        g.save()
+                
+                    if "id" not in event:
+                        # new event
+                        e = Event()
+                        e = e.from_json(event)
+                        if g is not None:
+                            e.geo_location = g
+                        e.save()
+                        new_events.append(e)
+                    else:
+                        # event already exists, get a db instnace and update it with new data
+                        e = Event.query.get(event["id"])
+                        e.from_json(event)
+                        if g is not None:
+                            e.geo_location = g
+                        e.save()
+                        new_events.append(e)
                 else:
-                    # event already exists, get a db instance and update it with new data
-                    e = Event.query.get(event["id"])
-                    e.from_json(event)
-                    e.save()
-                new_events.append(e)
+                    if "id" not in event:
+                        # new event
+                        e = Event()
+                        e = e.from_json(event)
+                        e.save()
+                    else:
+                        # event already exists, get a db instnace and update it with new data
+                        e = Event.query.get(event["id"])
+                        e.from_json(event)
+                        e.save()
+                    new_events.append(e)
+                            
             self.events = new_events
 
         if "aliases" in json:
@@ -4840,15 +4921,27 @@ class Actor(db.Model, BaseMixin):
     def geo_query_event_location(target_point, radius_in_meters):
         """Condition for association between actor and location via events."""
         point = func.ST_SetSRID(func.ST_MakePoint(target_point.get('lng'), target_point.get('lat')), 4326)
-        return Actor.id.in_(
-            db.session.query(actor_events.c.actor_id)
-            .join(Event, actor_events.c.event_id == Event.id)
-            .join(Location, Event.location_id == Location.id)
-            .filter(func.ST_DWithin(
-                func.cast(Location.geometry, Geography),
-                func.cast(point, Geography),
-                radius_in_meters))
-        )
+
+        conditions = []
+        conditions.append(
+            Actor.id.in_(
+                db.session.query(actor_events.c.actor_id)
+                .join(Event, actor_events.c.event_id == Event.id)
+                .join(Location, Event.location_id == Location.id)
+                .filter(func.ST_DWithin(
+                    func.cast(Location.geometry, Geography),
+                    func.cast(point, Geography),
+                    radius_in_meters))))
+        conditions.append(
+            Actor.id.in_(
+                db.session.query(actor_events.c.actor_id)
+                .join(Event, actor_events.c.event_id == Event.id)
+                .join(GeoLocation, Event.geo_location_id == GeoLocation.id)
+                .filter(func.ST_DWithin(
+                    func.cast(GeoLocation.geometry, Geography),
+                    func.cast(point, Geography),
+                    radius_in_meters))))
+        return or_(*conditions)
 
     def validate(self):
         """

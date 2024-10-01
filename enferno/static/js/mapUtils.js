@@ -42,7 +42,7 @@ class MapUtils {
     }
 
     removeGeometryLayers(map) {
-        if (map.getSource('location_geometries')) {
+        if (map && map.getSource('location_geometries')) {
             map.removeLayer('location_polygon');
             map.removeLayer('location_polygon_outline');
             map.removeLayer('location_line_strings');
@@ -118,12 +118,14 @@ class MapUtils {
                 },
             });
         }
-        map.fitBounds(
-            this.getFeatureBounds(geometry), {
-                padding: 50,
-                duration: 300
-            }
-        );
+        if(geometry) {
+            map.fitBounds(
+                this.getFeatureBounds(geometry), {
+                    padding: 50,
+                    duration: 300
+                }
+            );
+        }
     }
 
     getFeatureBounds(polygons) {
