@@ -41,11 +41,11 @@ def downgrade():
             batch_op.add_column(sa.Column('bulletin_id', sa.INTEGER(), autoincrement=False, nullable=True))
             batch_op.create_foreign_key('geo_location_bulletin_id_fkey', 'bulletin', ['bulletin_id'], ['id'])
         if column_exists('geo_location', 'event_id', op):
-            batch_op.drop_constraint(None, type_='foreignkey')
+            batch_op.drop_constraint('geo_location_event_id_fkey', type_='foreignkey')
             batch_op.drop_column('event_id')
 
     with op.batch_alter_table('event', schema=None) as batch_op:
         if column_exists('event', 'geo_location_id', op):
-            batch_op.drop_constraint(None, type_='foreignkey')
+            batch_op.drop_constraint('event_geo_location_id_fkey', type_='foreignkey')
             batch_op.drop_column('geo_location_id')
     # ### end Alembic commands ###
