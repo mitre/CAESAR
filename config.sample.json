@@ -71,7 +71,9 @@
     ".png",
     ".pdf",
     ".doc",
-    ".txt"
+    ".txt",
+    ".html",
+    ".ris"
   ],
   "MISSING_PERSONS": false,
   "OCR_ENABLED": false,
@@ -84,5 +86,6 @@
   "SECURITY_FRESHNESS_GRACE_PERIOD": 1800,
   "SHEETS_ALLOWED_EXTENSIONS": [".csv", ".xls", ".xlsx"],
   "SHEET_IMPORT": true,
+  "ZOTERO_IMPORT": true,
   "TESSERACT_CMD": "/opt/homebrew/bin/tesseract"
 }

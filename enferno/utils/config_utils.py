@@ -52,7 +52,7 @@ class ConfigManager:
         'S3_BUCKET': os.environ.get('S3_BUCKET', ''),
         'AWS_REGION': os.environ.get('AWS_REGION', ''),
 
-        'MEDIA_ALLOWED_EXTENSIONS': defList('MEDIA_ALLOWED_EXTENSIONS', '.mp4,.webm,.jpg,.jpeg,.gif,.png,.pdf,.doc,.txt'),
+        'MEDIA_ALLOWED_EXTENSIONS': defList('MEDIA_ALLOWED_EXTENSIONS', '.mp4,.webm,.jpg,.jpeg,.gif,.png,.pdf,.doc,.txt,.html,.ris'),
         'MEDIA_UPLOAD_MAX_FILE_SIZE': int(os.environ.get('MEDIA_UPLOAD_MAX_FILE_SIZE', 1000)),
 
         'SHEETS_ALLOWED_EXTENSIONS': defList('SHEETS_ALLOWED_EXTENSIONS', 'csv,xls,xlsx'),
@@ -68,7 +68,8 @@ class ConfigManager:
         'TESSERACT_CMD': os.environ.get('TESSERACT_CMD', '/usr/bin/tesseract'),
 
         'SHEET_IMPORT': defBool('SHEET_IMPORT'),
-
+        'ZOTERO_IMPORT': defBool('ZOTERO_IMPORT'),
+        
         'DEDUP_TOOL': defBool('DEDUP_TOOL'),
 
         'LANGUAGES': defList('LANGUAGES', 'en,ar,uk,fr'),
@@ -142,6 +143,7 @@ class ConfigManager:
         'TESSERACT_CMD': 'Tesseract Cmd',
 
         'SHEET_IMPORT': 'Sheet Import',
+        'ZOTERO_IMPORT': 'Zotero Import',
 
         'DEDUP_TOOL': 'Dedup Tool',
 
@@ -229,6 +231,7 @@ class ConfigManager:
             'TESSERACT_CMD': cfg.TESSERACT_CMD,
 
             'SHEET_IMPORT': cfg.SHEET_IMPORT,
+            'ZOTERO_IMPORT': cfg.ZOTERO_IMPORT,
 
             'DEDUP_TOOL': cfg.DEDUP_TOOL,
 

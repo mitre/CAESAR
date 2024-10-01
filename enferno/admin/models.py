@@ -1868,7 +1868,7 @@ class Bulletin(db.Model, BaseMixin):
         if created:
             b.created_at = created
             b.updated_at = created
-        b.save()
+        b.save(True)
 
         print("created bulletin revision")
 
@@ -2059,7 +2059,7 @@ class Bulletin(db.Model, BaseMixin):
             for media in to_be_created:
                 m = Media()
                 m = m.from_json(media)
-                m.save()
+                m.save(True)
                 new_medias.append(m)
 
             self.medias = main + others + new_medias
@@ -2069,7 +2069,7 @@ class Bulletin(db.Model, BaseMixin):
                 media.deleted = True
                 delete_comment = f'Removed from Bulletin #{self.id}'
                 media.comments = media.comments + '\n' + delete_comment if media.comments else delete_comment
-                media.save()
+                media.save(True)
 
         # Related Bulletins (bulletin_relations)
         if "bulletin_relations" in json:

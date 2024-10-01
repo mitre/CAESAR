@@ -2,6 +2,7 @@ from pathlib import Path
 
 import hashlib
 import os
+import arrow
 
 import shortuuid
 from flask import request, Response, current_app, json
@@ -187,6 +188,14 @@ def csv_dashboard():
     if not current_app.config.get('SHEET_IMPORT'):
         return HTTPResponse.NOT_FOUND
     return render_template('sheets-import.html')
+
+# Zotero Tool
+@imports.route('/zotero/')
+@roles_required('Admin')
+def zotero_import_dashboard():
+    if not current_app.config.get('ZOTERO_IMPORT'):
+        return HTTPResponse.NOT_FOUND
+    return render_template('zotero-import.html')
 
 
 @imports.post('/api/csv/upload')
@@ -380,3 +389,22 @@ def api_process_sheet():
             process_row.delay(filepath, sheet, row_id, data_import.id, map, batch_id, vmap, actor_config, lang, roles)
 
     return batch_id, 200
+
+@imports.post('/api/import-log')
+@roles_accepted('Admin')
+def write_import_log():
+    import_log = request.json['item']
+    data_import = DataImport(
+        user_id=current_user.id, 
+        table=import_log["table"] if "table" in import_log else None,
+        item_id = import_log["item_id"] if "item_id" in import_log else None,
+        status = import_log["status"] if "status" in import_log else None,
+        file=import_log["file"] if "file" in import_log else None,
+        file_hash=import_log["file_hash"] if "file_hash" in import_log else None,
+        file_format = import_log["file_format"] if "file_format" in import_log else None,
+        batch_id=import_log["batch_id"] if "batch_id" in import_log else None,
+        imported_at = arrow.utcnow().format('YYYY-MM-DD HH:mm:ss ZZ'),
+        data=import_log["data"] if "data" in import_log else None,
+        log=import_log["data"] if "data" in import_log else None)
+    data_import.save(True)
+    return "", 200

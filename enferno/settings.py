@@ -205,6 +205,8 @@ class Config(object):
 
     # Sheet import tool settings
     SHEET_IMPORT = manager.get_config('SHEET_IMPORT')
+    ZOTERO_IMPORT = manager.get_config('ZOTERO_IMPORT')
+
     IMPORT_DIR = 'enferno/imports'
 
     # Configurable default data

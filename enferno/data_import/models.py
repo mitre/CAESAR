@@ -32,14 +32,13 @@ class DataImport(db.Model, BaseMixin):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.log = ''
-
+    
     def to_dict(self):
         """
         Import Log Serializer.
         """
         return {
             "id": self.id,
-
             "class": self.__tablename__,
             "table": self.table,
             "item_id": self.item_id,
@@ -96,9 +95,9 @@ class DataImport(db.Model, BaseMixin):
             self.add_to_log(str(exception))
         self.save()
 
-    def save(self):
+    def save(self, raise_exception=False):
         try:
-            super().save()
+            super().save(raise_exception)
         except DatabaseException as e:
             if has_app_context():
                 current_app.logger.error(f'{e}')

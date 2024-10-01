@@ -1560,7 +1560,7 @@ def api_bulletin_create():
     bulletin.assigned_to_id = current_user.id
     # assignment will be overwritten if it is specified in the creation request
     bulletin.from_json(request.json['item'])
-    bulletin.save()
+    bulletin.save(True)
 
     # the below will create the first revision by default
     bulletin.create_revision()
