@@ -1128,8 +1128,8 @@ class SearchUtils:
             else:
                 # get combined lists of ids for each location
                 id_mix = [Location.get_children_by_id(id) for id in ids]
-                query.extend(Organization.locations.any(Location.id.in_(i)) for i in id_mix)
-
+                all_ids = list(set(ids + [i for sublist in id_mix for i in sublist]))
+                query.append(Organization.locations.any(Location.id.in_(all_ids)))
         # Excluded locations
         exlocations = q.get('exlocations', [])
         if len(exlocations):
