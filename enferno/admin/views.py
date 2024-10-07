@@ -1473,6 +1473,10 @@ def bulletins(id):
     itobInfo = [item.to_dict() for item in ItobInfo.query.all()]
     itoaInfo = [item.to_dict() for item in ItoaInfo.query.all()]
     itoiInfo = [item.to_dict() for item in ItoiInfo.query.all()]
+    otooInfo = [item.to_dict() for item in OtooInfo.query.all()]
+    otobInfo = [item.to_dict() for item in OtobInfo.query.all()]
+    otoiInfo = [item.to_dict() for item in OtoiInfo.query.all()]
+    otoaInfo = [item.to_dict() for item in OtoaInfo.query.all()]
     statuses = [item.to_dict() for item in WorkflowStatus.query.all()]
     return render_template('views/admin/bulletins.html',
                            atoaInfo=atoaInfo,
@@ -1481,6 +1485,10 @@ def bulletins(id):
                            atobInfo=atobInfo,
                            btobInfo=btobInfo,
                            itobInfo=itobInfo,
+                           otobInfo=otobInfo,
+                           otooInfo=otooInfo,
+                           otoiInfo=otoiInfo,
+                           otoaInfo=otoaInfo,
                            statuses=statuses)
 
 
@@ -1702,7 +1710,7 @@ def bulletin_relations(id):
     cls = request.args.get('class', None)
     page = request.args.get('page', 1, int)
     per_page = request.args.get('per_page', REL_PER_PAGE, int)
-    if not cls or cls not in ['bulletin', 'actor', 'incident']:
+    if not cls or cls not in relation_classes:
         return HTTPResponse.NOT_FOUND
     bulletin = Bulletin.query.get(id)
     if not bulletin:
@@ -1715,6 +1723,8 @@ def bulletin_relations(id):
         items = bulletin.actor_relations
     elif cls == 'incident':
         items = bulletin.incident_relations
+    elif cls == 'organization':
+        items = bulletin.organization_relations
 
     start = (page - 1) * per_page
     end = start + per_page
@@ -2237,6 +2247,10 @@ def actors(id):
     itobInfo = [item.to_dict() for item in ItobInfo.query.all()]
     itoaInfo = [item.to_dict() for item in ItoaInfo.query.all()]
     itoiInfo = [item.to_dict() for item in ItoiInfo.query.all()]
+    otooInfo = [item.to_dict() for item in OtooInfo.query.all()]
+    otobInfo = [item.to_dict() for item in OtobInfo.query.all()]
+    otoiInfo = [item.to_dict() for item in OtoiInfo.query.all()]
+    otoaInfo = [item.to_dict() for item in OtoaInfo.query.all()]
 
     statuses = [item.to_dict() for item in WorkflowStatus.query.all()]
     return render_template('views/admin/actors.html',
@@ -2245,6 +2259,10 @@ def actors(id):
                            itoiInfo=itoiInfo,
                            atobInfo=atobInfo,
                            atoaInfo=atoaInfo,
+                           otobInfo=otobInfo,
+                           otooInfo=otooInfo,
+                           otoiInfo=otoiInfo,
+                           otoaInfo=otoaInfo,
                            itoaInfo=itoaInfo, statuses=statuses)
 
 
@@ -2472,7 +2490,7 @@ def actor_relations(id):
     cls = request.args.get('class', None)
     page = request.args.get('page', 1, int)
     per_page = request.args.get('per_page', REL_PER_PAGE, int)
-    if not cls or cls not in ['bulletin', 'actor', 'incident']:
+    if not cls or cls not in relation_classes:
         return HTTPResponse.NOT_FOUND
     actor = Actor.query.get(id)
     if not actor:
@@ -2485,6 +2503,8 @@ def actor_relations(id):
         items = actor.actor_relations
     elif cls == 'incident':
         items = actor.incident_relations
+    elif cls == 'organization':
+        items = actor.organization_relations
 
     # pagination
     start = (page - 1) * per_page
@@ -3354,6 +3374,10 @@ def incidents(id):
     itobInfo = [item.to_dict() for item in ItobInfo.query.all()]
     itoaInfo = [item.to_dict() for item in ItoaInfo.query.all()]
     itoiInfo = [item.to_dict() for item in ItoiInfo.query.all()]
+    otooInfo = [item.to_dict() for item in OtooInfo.query.all()]
+    otobInfo = [item.to_dict() for item in OtobInfo.query.all()]
+    otoiInfo = [item.to_dict() for item in OtoiInfo.query.all()]
+    otoaInfo = [item.to_dict() for item in OtoaInfo.query.all()]
     statuses = [item.to_dict() for item in WorkflowStatus.query.all()]
     return render_template('views/admin/incidents.html',
                            atobInfo=atobInfo,
@@ -3362,6 +3386,10 @@ def incidents(id):
                            itobInfo=itobInfo,
                            itoaInfo=itoaInfo,
                            itoiInfo=itoiInfo,
+                           otobInfo=otobInfo,
+                           otooInfo=otooInfo,
+                           otoiInfo=otoiInfo,
+                           otoaInfo=otoaInfo,
                            statuses=statuses)
 
 
@@ -3561,7 +3589,7 @@ def incident_relations(id):
     cls = request.args.get('class', None)
     page = request.args.get('page', 1, int)
     per_page = request.args.get('per_page', REL_PER_PAGE, int)
-    if not cls or cls not in ['bulletin', 'actor', 'incident']:
+    if not cls or cls not in relation_classes:
         return HTTPResponse.NOT_FOUND
     incident = Incident.query.get(id)
     if not incident:
@@ -3574,6 +3602,8 @@ def incident_relations(id):
         items = incident.actor_relations
     elif cls == 'incident':
         items = incident.incident_relations
+    elif cls == 'organization':
+        items = incident.organization_relations
 
     # add support for loading all relations at once
     if page == 0:
@@ -4471,6 +4501,27 @@ def get_data(table):
 
     if table == 'itoi':
         items = ItoiInfo.query.all()
+        return [
+            {"en": item.title, "tr": item.title_tr or ''}
+            for item in items
+        ]
+
+    if table == 'otoo':
+        items = OtooInfo.query.all()
+        return [
+            {"en": item.title, "tr": item.title_tr or ''}
+            for item in items
+        ]
+
+    if table == 'otob':
+        items = OtobInfo.query.all()
+        return [
+            {"en": item.title, "tr": item.title_tr or ''}
+            for item in items
+        ]
+
+    if table == 'otoi':
+        items = OtoiInfo.query.all()
         return [
             {"en": item.title, "tr": item.title_tr or ''}
             for item in items

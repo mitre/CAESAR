@@ -142,6 +142,9 @@ Vue.component("geo-map", {
       this.fixMap();
 
       mapUtils.loadBaseLayer().then((style) => {
+        if (!this.$refs.mapContainer) {
+          return;
+        }
         this.map = new maplibregl.Map({
           container: this.$refs.mapContainer,
           style: style,

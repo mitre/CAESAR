@@ -11,6 +11,7 @@
         <v-sheet id="card-content" max-height="100vh" class="overflow-y-auto pt-16">
             <bulletin-card :i18n="translations" v-if="reviewItem.class=='bulletin'" @thumb-click="viewImage" :close="false" :bulletin="reviewItem"></bulletin-card>
             <actor-card :i18n="translations" v-if="reviewItem.class=='actor'" @thumb-click="viewImage" :close="false" :actor="reviewItem"></actor-card>
+            <organization-card :i18n="translations" v-if="reviewItem.class=='organization'" @thumb-click="viewImage" :close="false" :organization="reviewItem"></organization-card>
             <incident-card :i18n="translations" v-if="reviewItem.class=='incident'" :close="false" :incident="reviewItem"></incident-card>
             <v-card-text class="mt-5">
                 <tinymce-editor :key="reviewKey" :init="tinyConfig" v-model="reviewItem.review"> </tinymce-editor>
@@ -42,6 +43,8 @@
                             Related Primary Records</v-btn>
                         <v-btn class="mx-3" depressed @click="searchRelatedActors"> <v-icon left>mdi-magnify</v-icon>
                             Related Actors</v-btn>
+                        <v-btn class="mx-3" depressed @click="searchRelatedOrganizations"> <v-icon left>mdi-magnify</v-icon>
+                            Related Organizations</v-btn>
                         <v-btn class="mx-3" depressed @click="searchRelatedIncidents"> <v-icon left>mdi-magnify</v-icon>
                             Related Investigations</v-btn>
                     </div>

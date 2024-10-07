@@ -551,6 +551,85 @@
                                                 </v-layout>
                                             </v-card-text>
                                         </v-card>
+                                      <!-- Related Organizations -->
+                                        <v-card outlined class="my-5">
+                                            <v-card-title class="handle">
+                                                <v-icon left>mdi-hazard-lights</v-icon>
+                                                {{ _("Related Organizations") }}
+                                                <v-spacer></v-spacer>
+                                                <v-tooltip top max-width=500 open-delay=1500>
+                                                    <template v-slot:activator="{ on }">
+                                                        <v-text-field v-on="on" class="mx-5 search-relate"
+                                                            v-model="relateOrganizationTerm"
+                                                            label="{{ _('Search & Relate Organizations') }}"
+                                                            @keydown.enter="searchRelatedOrganizations"
+                                                            @click:append="searchRelatedOrganizations"
+                                                            append-icon="mdi-magnify"></v-text-field>
+                                                    </template>
+                                                    <span>
+                                                        {{ _('Organization allow for the evidence contained in
+                                                        individual Actors and Primary Records to be linked together and
+                                                        analyzed as a group.')}}
+                                                    </span>
+                                                </v-tooltip>
+                                            </v-card-title>
+                                            <v-card-text>
+                                                <v-layout wrap>
+                                                    <v-flex class="pa-1" md6
+                                                        v-for="(item,index) in editedItem.organization_relations"
+                                                        :key="index">
+                                                        <!--  Related organization  Card -->
+                                                        <organization-result :i18n="translations" :organization="item.organization">
+                                                            <!--  attach relationship form -->
+                                                            <template v-slot:header>
+                                                                <v-card outlined color="lime lighten-5">
+                                                                    <v-card-title class="subtitle-2">
+                                                                        <v-icon left>mdi-link</v-icon>
+                                                                        {{ _("Relationship Information") }}
+                                                                    </v-card-title>
+                                                                    <v-card-text>
+                                                                        <div>
+                                                                            <div class="caption">{{ _("Probability") }}
+                                                                            </div>
+                                                                            <v-chip-group
+                                                                                v-model="editedItem.organization_relations[index].probability"
+                                                                                column active-class="primary dark">
+                                                                                <v-chip v-for="r in translations.probs"
+                                                                                    small> ${ r.tr }
+                                                                                </v-chip>
+                                                                            </v-chip-group>
+                                                                            <div class="caption">{{ _("Related As") }}
+                                                                            </div>
+                                                                            <v-chip-group
+                                                                                v-model="editedItem.organization_relations[index].related_as"
+                                                                                column multiple
+                                                                                active-class="primary dark">
+                                                                                <v-chip v-for="rel in otobInfo"
+                                                                                    :value="rel.id" :key="rel.id" small>
+                                                                                    ${
+                                                                                    rel.title }
+                                                                                </v-chip>
+                                                                            </v-chip-group>
+                                                                        </div>
+                                                                        <v-text-field class="mt-2"
+                                                                            v-model="editedItem.organization_relations[index].comment"
+                                                                            dense outlined label="{{ _('Comments') }}">
+                                                                        </v-text-field>
+                                                                    </v-card-text>
+                                                                </v-card>
+                                                            </template>
+                                                            <template v-slot:actions>
+                                                                <v-btn class="mx-auto"
+                                                                    @click="removeOrganization($event,index)" x-small fab
+                                                                    outlined color="red lighten-3">
+                                                                    <v-icon>mdi-delete-sweep</v-icon>
+                                                                </v-btn>
+                                                            </template>
+                                                        </organization-result>
+                                                    </v-flex>
+                                                </v-layout>
+                                            </v-card-text>
+                                        </v-card>
                                     </v-col>
                                 </v-row>
 

@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{ incident.title }}</title>
+        <title>{{ organization.title }}</title>
         <link rel="stylesheet" href="{{ config.BASE_URL }}static/css/pdf.css">
     </head>
     <body>
@@ -13,7 +13,7 @@
                      src="{{ config.BASE_URL }}static/img/bayanat-h-v2.png"
                      alt="">
                 <div>
-                    <div class="id">Investigation {{ incident.id }}</div>
+                    <div class="id">Organization {{ organization.id }}</div>
                 </div>
             </header>
             <section>
@@ -21,40 +21,23 @@
                     <div>
                         <dt>Title</dt>
                         <dd>
-                            {{ incident.title }}
+                            {{ organization.title }}
                         </dd>
                     </div>
-                    <div>
-                        <dt>Title (Original Language)</dt>
-                        <dd>
-                            {{ incident.title_ar }}
-                        </dd>
-                    </div>
+                    
                 </dl>
             </section>
             <section>
                 <h4>Description</h4>
-                <div class="description">{{ incident.description|safe }}</div>
-            </section>
-            <section>
-                <h4>Potential Violations</h4>
-                {% for violation in incident.potential_violations %}<span class="tag">{{ violation.title }}</span>{% endfor %}
-            </section>
-            <section>
-                <h4>Claimed Violations</h4>
-                {% for violation in incident.claimed_violations %}<span class="tag">{{ violation.title }}</span>{% endfor %}
-            </section>
-            <section>
-                <h4>Labels</h4>
-                {% for label in incident.labels %}<span class="tag">{{ label.title }}</span>{% endfor %}
+                <div class="description">{{ organization.description|safe }}</div>
             </section>
             <section>
                 <h4>Locations</h4>
-                {% for location in incident.locations %}<span class="tag">{{ location.title }}</span>{% endfor %}
+                {% for location in organization.locations %}<span class="tag">{{ location.title }}</span>{% endfor %}
             </section>
             <section class="events">
                 <h4>Events</h4>
-                {% for event in incident.events %}
+                {% for event in organization.events %}
                     <table class="no-break">
                         <tr>
                             <th>Event Title</th>
@@ -88,7 +71,7 @@
             <section class="related">
                 <h4>Related Primary Records</h4>
                 <article>
-                    {% for rel in incident.bulletin_relations_dict %}
+                    {% for rel in organization.bulletin_relations_dict %}
                         <table class="no-break">
                             <tr>
                                 <th>ID</th>
@@ -115,7 +98,7 @@
             <section class="related">
                 <h4>Related Actors</h4>
                 <article>
-                    {% for rel in incident.actor_relations_dict %}
+                    {% for rel in organization.actor_relations_dict %}
                         <table class="no-break">
                             <tr>
                                 <th>ID</th>
@@ -142,7 +125,7 @@
             <section class="related">
                 <h4>Related Investigations</h4>
                 <article>
-                    {% for rel in incident.incident_relations_dict %}
+                    {% for rel in organization.incident_relations_dict %}
                         <table class="no-break">
                             <tr>
                                 <th>ID</th>
@@ -169,7 +152,7 @@
             <section class="related">
                 <h4>Related Organizations</h4>
                 <article>
-                    {% for rel in incident.organization_relations_dict %}
+                    {% for rel in organization.organization_relations_dict %}
                         <table class="no-break">
                             <tr>
                                 <th>ID</th>

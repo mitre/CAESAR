@@ -462,7 +462,7 @@ def bulk_update_organizations(ids, bulk, cur_user_id):
         time.sleep(.1)
         print('Chunk Processed')
 
-    print("Bulletins Bulk Update Successful")
+    print("Organizations Bulk Update Successful")
 
 @celery.task(rate_limit=10)
 def etl_process_file(batch_id, file, meta, user_id, data_import_id):
@@ -594,6 +594,11 @@ def generate_pdf_files(export_id):
                     pdf = PDFUtil(incident)
                     pdf.generate_pdf(f'{Export.export_dir}/{dir_id}/{pdf.filename}')
 
+            elif export_request.table == 'organization':
+                for organization in Organization.query.filter(Organization.id.in_(group)):
+                    pdf = PDFUtil(organization)
+                    pdf.generate_pdf(f'{Export.export_dir}/{dir_id}/{pdf.filename}')
+
             time.sleep(0.2)
 
         export_request.file_id = dir_id
@@ -635,6 +640,9 @@ def generate_json_file(export_id: int):
                     file.write(f'{batch}\n')
                 elif export_type == 'incident':
                     batch = ','.join(incident.to_json(export=True) for incident in Incident.query.filter(Incident.id.in_(group)))
+                    file.write(f'{batch}\n')
+                elif export_type == 'organization':
+                    batch = ','.join(organization.to_json(export=True) for organization in Organization.query.filter(Organization.id.in_(group)))
                     file.write(f'{batch}\n')
                 # less db overhead
                 time.sleep(0.2)
@@ -685,6 +693,17 @@ def generate_csv_file(export_id: int):
                 else:
                     csv_df = pd.merge(csv_df, df, how='outer')
 
+            elif export_type == 'organization':
+                organization = Organization.query.get(id)
+                # adjust list attributes to normal dicts
+                adjusted = convert_list_attributes(organization.to_csv_dict())
+                # normalize
+                df = pd.json_normalize(adjusted)
+                if csv_df.empty:
+                    csv_df = df
+                else:
+                    csv_df = pd.merge(csv_df, df, how='outer')
+
         csv_df.to_csv(f'{file_path}.csv')
 
         export_request.file_id = dir_id
@@ -719,8 +738,8 @@ def generate_export_media(previous_result: int):
         items = Bulletin.query.filter(Bulletin.id.in_(export_request.items))
     elif export_type == 'actor':
         items = Actor.query.filter(Actor.id.in_(export_request.items))
-    elif export_type == 'incident':
-        # incidents has no media
+    elif export_type == 'incident' or export_type == 'organization':
+        # incidents and organizations have no media
         # UI switch disabled, but just in case...
         return
 

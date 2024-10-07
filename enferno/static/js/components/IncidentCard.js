@@ -5,6 +5,7 @@ Vue.component("incident-card", {
     incident: function (b, n) {
       this.loadBulletinRelations();
       this.loadActorRelations();
+      this.loadOrganizationRelations();
       this.loadIncidentRelations();
     },
   },
@@ -86,6 +87,25 @@ Vue.component("incident-card", {
         });
     },
 
+    loadOrganizationRelations(page = 1) {
+      axios
+        .get(
+          `/admin/api/incident/relations/${this.incident.id}?class=organization&page=${page}`,
+        )
+        .then((res) => {
+          //console.log(this.bulletin.organization_relations, res.data.items);
+          this.incident.organization_relations.push.apply(
+            this.incident.organization_relations,
+            res.data.items,
+          );
+          this.organizationPage += 1;
+          this.organizationLM = res.data.more;
+        })
+        .catch((err) => {
+          console.log(err.toJSON());
+        });
+    },
+
     loadIncidentRelations(page = 1) {
       // b2i
       axios
@@ -111,6 +131,10 @@ Vue.component("incident-card", {
 
     actor_related_as(rid) {
       return translations.itoaRelateAs[rid].tr;
+    },
+
+    organization_related_as(rid) {
+      return translations.otoiRelateAs[rid].tr;
     },
 
     bulletin_related_as(item) {
@@ -200,11 +224,13 @@ Vue.component("incident-card", {
       // pagers for related entities
       bulletinPage: 1,
       actorPage: 1,
+      organizationPage: 1,
       incidentPage: 1,
 
       // load more buttons
       bulletinLM: false,
       actorLM: false,
+      organizationLM: false,
       incidentLM: false,
     };
   },
@@ -420,6 +446,41 @@ Vue.component("incident-card", {
         </v-card-actions>
       </v-card>
 
+      <v-card outlined color="grey lighten-5" class="ma-2" v-if="incident.organization_relations && incident.organization_relations.length">
+        <v-card-text>
+          <div class="pa-2 header-sticky title black--text">{{ i18n.relatedOrganizations_ }}
+          <v-tooltip top>
+              <template v-slot:activator="{on,attrs}">
+                <a :href="'/admin/organizations/?reltoi='+incident.id" target="_self">
+                  <v-icon v-on="on" small color="grey" class="mb-1">
+                    mdi-image-filter-center-focus-strong
+                  </v-icon>
+                </a>
+              </template>
+              <span>Filter and display related items in main table</span>
+            </v-tooltip>
+          </div>
+          <organization-result :i18n="i18n" class="mt-1" v-for="(item,index) in incident.organization_relations" :key="index"
+                        :organization="item.organization">
+            <template v-slot:header>
+
+              <v-sheet color="yellow lighten-5" class="pa-2">
+
+                <div class="caption ma-2">{{ i18n.relationshipInfo_ }}</div>
+                <v-chip v-if="item.probability!=null" color="grey lighten-4" small label>{{ probability(item) }}</v-chip>
+                
+                <v-chip class="ma-1" v-for="rel in extractValuesById($root.otoiInfo, item.related_as, 'title') " color="blue-grey lighten-5" small label>{{ rel }}</v-chip>
+                <v-chip v-if="item.comment" color="grey lighten-4" small label>{{ item.comment }}</v-chip>
+
+              </v-sheet>
+
+            </template>
+          </organization-result>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn class="ma-auto caption" small color="grey lighten-4" elevation="0" @click="loadOrganizationRelations(organizationPage)" v-if="organizationLM">Load More <v-icon right>mdi-chevron-down</v-icon> </v-btn>
+        </v-card-actions>
+      </v-card>
       <div class="d-flex">
         <uni-field :caption="i18n.createdDate_" :english="incident.created_at"></uni-field>
         <uni-field v-if="incident.created_by" :caption="i18n.createdBy_" :english="incident.created_by.name"></uni-field>

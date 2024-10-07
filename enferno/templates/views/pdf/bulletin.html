@@ -210,6 +210,33 @@
                     {% endfor %}
                 </article>
             </section>
+      <section class="related">
+        <h4>Related Organizations</h4>
+        <article>
+          {% for rel in bulletin.organization_relations_dict %}
+          <table class="no-break">
+            <tr>
+              <th>ID</th>
+              <th colspan="2">Title</th>
+            </tr>
+            <tr>
+              <td>{{ rel.incident.id }}</td>
+              <td colspan="2">{{ rel.incident.title }}</td>
+            </tr>
+            {#                <tr>#}
+              {#                    <th>Related as</th>#}
+              {#                    <th>Probability</th>#}
+              {#                    <th>Comment</th>#}
+              {#                </tr>#}
+            {#                <tr>#}
+              {#                    <td>{{ rel.related_as }}</td>#}
+              {#                    <td>{{ rel.probability }}</td>#}
+              {#                    <td>{{ rel.comment }}</td>#}
+              {#                </tr>#}
+          </table>
+          {% endfor %}
+        </article>
+      </section>
             <section class="medias">
                 <h4>Medias</h4>
                 <article>
