@@ -79,6 +79,21 @@ def export_incidents():
         return f'Export request created successfully, id:  {export_request.id} ', 200
     return 'Error creating export request', 417
 
+@export.post('/api/organization/export')
+def export_organizations():
+    """
+    just creates an export request
+    :return: success code / failure if something goes wrong
+    """
+    # create an export request
+    export_request = Export()
+    export_request.from_json('organization', request.json)
+    if export_request.save():
+        # Record activity
+        Activity.create(current_user, Activity.ACTION_CREATE, export_request.to_mini(), Export.__table__.name)
+        return f'Export request created successfully, id:  {export_request.id} ', 200
+    return 'Error creating export request', 417
+
 @export.get('/api/export/<int:id>')
 def api_export_get(id):
     """

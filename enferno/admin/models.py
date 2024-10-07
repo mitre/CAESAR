@@ -1889,6 +1889,10 @@ class Bulletin(db.Model, BaseMixin):
     def incident_relations_dict(self):
         return [relation.to_dict() for relation in self.incident_relations]
 
+    @property
+    def organization_relations_dict(self):
+        return [relation.to_dict() for relation in self.organization_relations]
+
     # helper property returns all actor relations
     @property
     def actor_relations(self):
@@ -1898,6 +1902,10 @@ class Bulletin(db.Model, BaseMixin):
     @property
     def incident_relations(self):
         return self.related_incidents
+
+    @property
+    def organization_relations(self):
+        return self.related_organizations
 
     # populate object from json dict
     def from_json(self, json):
@@ -2134,6 +2142,28 @@ class Bulletin(db.Model, BaseMixin):
                     # --revision relation
                     rel_incident.create_revision()
 
+        if "organization_relations" in json:
+            # collect related organization ids (helps with finding removed ones)
+            rel_ids = []
+            for relation in json["organization_relations"]:
+                organization = Organization.query.get(relation["organization"]["id"])
+                if organization:
+                    rel_ids.append(organization.id)
+                    # helper method to update/create the relationship (will flush to db)
+                    self.relate_organization(organization, relation=relation)
+
+            # Find out removed relations and remove them
+            # just loop existing relations and remove if the destination organization is not in the related ids
+
+            for r in self.organization_relations:
+                # get related bulletin (in or out)
+                if not (r.organization_id in rel_ids):
+                    rel_organization = r.organization
+                    r.delete()
+
+                    # --revision relation
+                    rel_organization.create_revision()
+
         self.publish_date = json.get('publish_date', None)
         if self.publish_date == '':
             self.publish_date = None
@@ -2211,6 +2241,7 @@ class Bulletin(db.Model, BaseMixin):
             'related_primary_records': convert_complex_relation(self.bulletin_relations_dict, Bulletin.__tablename__),
             'related_actors': convert_complex_relation(self.actor_relations_dict, Actor.__tablename__),
             'related_investigations': convert_complex_relation(self.incident_relations_dict, Incident.__tablename__),
+            'related_organizations': convert_complex_relation(self.organization_relations_dict, Organization.__tablename__),
 
         }
         return output
@@ -2272,6 +2303,30 @@ class Bulletin(db.Model, BaseMixin):
             # --revision relation
             if create_revision:
                 incident.create_revision()
+
+    def relate_organization(self, organization, relation=None, create_revision=True):
+        # if current bulletin is new, save it to get the id
+        if not self.id:
+            self.save()
+
+        # query order : (organization_id,bulletin_id)
+        existing_relation = Otob.query.get((organization.id, self.id))
+
+        if existing_relation:
+            # Relationship exists :: Updating the attributes
+            existing_relation.from_json(relation)
+            existing_relation.save()
+
+        else:
+            # Create new relation
+            new_relation = Otob(organization_id=organization.id, bulletin_id=self.id)
+            # update relation data
+            new_relation.from_json(relation)
+            new_relation.save()
+
+            # --revision relation
+            if create_revision:
+                organization.create_revision()
 
     # helper method to relate actors
     def relate_actor(self, actor, relation=None, create_revision=True):
@@ -2355,6 +2410,7 @@ class Bulletin(db.Model, BaseMixin):
         bulletin_relations_dict = []
         actor_relations_dict = []
         incident_relations_dict = []
+        organization_relations_dict = []
 
         if str(mode) != '3':
             for relation in self.bulletin_relations:
@@ -2367,6 +2423,10 @@ class Bulletin(db.Model, BaseMixin):
             # Related incidents json (actually the associated relationships)
             for relation in self.incident_relations:
                 incident_relations_dict.append(relation.to_dict())
+
+            # Related organizations json (actually the associated relationships)
+            for relation in self.organization_relations:
+                organization_relations_dict.append(relation.to_dict())
 
         return {
             "class": self.__tablename__,
@@ -2393,6 +2453,7 @@ class Bulletin(db.Model, BaseMixin):
             "bulletin_relations": bulletin_relations_dict,
             "actor_relations": actor_relations_dict,
             "incident_relations": incident_relations_dict,
+            "organization_relations": organization_relations_dict,
             "description": self.description or None,
             "comments": self.comments or None,
             "source_link": self.source_link or None,
@@ -3000,7 +3061,7 @@ class Organization(db.Model, BaseMixin):
                     self.relate_organization(organization, relation=relation)
 
                 # Find out removed relations and remove them
-            # just loop existing relations and remove if the destination organization no in the related ids
+            # just loop existing relations and remove if the destination organization is not in the related ids
 
             for r in self.organization_relations:
                 # get related organization (in or out)
@@ -4048,6 +4109,11 @@ class Actor(db.Model, BaseMixin):
     def incident_relations(self):
         return self.related_incidents
 
+    # returns all related organizations
+    @property
+    def organization_relations(self):
+        return self.related_organizations
+
     @property
     def actor_relations_dict(self):
         return [relation.to_dict(exclude=self) for relation in self.actor_relations]
@@ -4059,6 +4125,10 @@ class Actor(db.Model, BaseMixin):
     @property
     def incident_relations_dict(self):
         return [relation.to_dict() for relation in self.incident_relations]
+
+    @property
+    def organization_relations_dict(self):
+        return [relation.to_dict() for relation in self.organization_relations]
 
     # populate actor object from json dict
     def from_json(self, json):
@@ -4396,6 +4466,29 @@ class Actor(db.Model, BaseMixin):
                     # -revision related incident
                     rel_incident.create_revision()
 
+        # Related Organizations (organizations_relations)
+        if "organization_relations" in json:
+            # collect related organization ids (helps with finding removed ones)
+            rel_ids = []
+            for relation in json["organization_relations"]:
+                organization = Organization.query.get(relation["organization"]["id"])
+                if organization:
+                    rel_ids.append(organization.id)
+                    # helper method to update/create the relationship (will flush to db)
+                    self.relate_organization(organization, relation=relation)
+
+            # Find out removed relations and remove them
+            # just loop existing relations and remove if the destination organization is not in the related ids
+
+            for r in self.organization_relations:
+                # get related bulletin (in or out)
+                if not (r.organization_id in rel_ids):
+                    rel_organization = r.organization
+                    r.delete()
+
+                    # -revision related organization
+                    rel_organization.create_revision()
+
         if "comments" in json:
             self.comments = json["comments"]
 
@@ -4604,6 +4697,7 @@ class Actor(db.Model, BaseMixin):
             'related_primary_records': convert_complex_relation(self.bulletin_relations_dict, Bulletin.__tablename__),
             'related_actors': convert_complex_relation(self.actor_relations_dict, Actor.__tablename__),
             'related_investigations': convert_complex_relation(self.incident_relations_dict, Incident.__tablename__),
+            'related_organizations': convert_complex_relation(self.organization_relations_dict, Organization.__tablename__),
 
         }
         return output
@@ -4696,6 +4790,31 @@ class Actor(db.Model, BaseMixin):
             if create_revision:
                 incident.create_revision()
 
+    # Helper method to handle logic of relating organizations (from an actor)
+    def relate_organization(self, organization, relation=None, create_revision=True):
+        # if current bulletin is new, save it to get the id
+        if not self.id:
+            self.save()
+
+        # query order : (actor_id,organization_id)
+        existing_relation = Otoa.query.get((self.id, organization.id))
+
+        if existing_relation:
+            # Relationship exists :: Updating the attributes
+            existing_relation.from_json(relation)
+            existing_relation.save()
+
+        else:
+            # Create new relation
+            new_relation = Otoa(actor_id=self.id, organization_id=organization.id)
+            # update relation data
+            new_relation.from_json(relation)
+            new_relation.save()
+
+            # revision for related organization
+            if create_revision:
+                organization.create_revision()
+
     @check_roles
     def to_dict(self, mode=None):
 
@@ -4755,6 +4874,7 @@ class Actor(db.Model, BaseMixin):
         bulletin_relations_dict = []
         actor_relations_dict = []
         incident_relations_dict = []
+        organization_relations_dict = []
 
         if str(mode) != '3':
             # lazy load if mode is 3
@@ -4766,6 +4886,9 @@ class Actor(db.Model, BaseMixin):
 
             for relation in self.incident_relations:
                 incident_relations_dict.append(relation.to_dict())
+
+            for relation in self.organization_relations:
+                organization_relations_dict.append(relation.to_dict())
 
         actor = {
             "class": self.__tablename__,
@@ -4826,6 +4949,7 @@ class Actor(db.Model, BaseMixin):
             "actor_relations": actor_relations_dict,
             "bulletin_relations": bulletin_relations_dict,
             "incident_relations": incident_relations_dict,
+            "organization_relations": organization_relations_dict,
             "birth_place": self.birth_place.to_dict() if self.birth_place else None,
             "residence_place": self.residence_place.to_dict()
             if self.residence_place
@@ -5569,6 +5693,11 @@ class Incident(db.Model, BaseMixin):
     def actor_relations(self):
         return self.related_actors
 
+    # returns all related organizations
+    @property
+    def organization_relations(self):
+        return self.related_organizations
+
     @property
     def actor_relations_dict(self):
         return [relation.to_dict() for relation in self.actor_relations]
@@ -5580,6 +5709,10 @@ class Incident(db.Model, BaseMixin):
     @property
     def incident_relations_dict(self):
         return [relation.to_dict(exclude=self) for relation in self.incident_relations]
+
+    @property
+    def organization_relations_dict(self):
+        return [relation.to_dict() for relation in self.organization_relations]
 
     # populate model from json dict
     def from_json(self, json):
@@ -5668,6 +5801,31 @@ class Incident(db.Model, BaseMixin):
 
                     # -revision related actor
                     rel_actor.create_revision()
+
+        # Related Organizations (organization_relations)
+        if "organization_relations" in json and "check_ar" in json:
+            # collect related organizations ids (helps with finding removed ones)
+            rel_ids = []
+            for relation in json["organization_relations"]:
+                organization = Organization.query.get(relation["organization"]["id"])
+
+                # Extra (check those organizations exit)
+
+                if organization:
+                    rel_ids.append(organization.id)
+                    # this will update/create the relationship (will flush to db!)
+                    self.relate_organization(organization, relation=relation)
+
+                # Find out removed relations and remove them
+            # just loop existing relations and remove if the destination organization not in the related ids
+
+            for r in self.organization_relations:
+                if not (r.organization_id in rel_ids):
+                    rel_organization = r.organization
+                    r.delete()
+
+                    # -revision related organization
+                    rel_organization.create_revision()
 
         # Related Bulletins (bulletin_relations)
         if "bulletin_relations" in json and "check_br" in json:
@@ -5814,6 +5972,31 @@ class Incident(db.Model, BaseMixin):
             if create_revision:
                 bulletin.create_revision()
 
+    # Helper method to handle logic of relating actors
+    def relate_organization(self, organization, relation=None, create_revision=True):
+        # if current incident is new, save it to get the id
+        if not self.id:
+            self.save()
+
+        # query order : (organization_id, incident_id)
+        existing_relation = Otoi.query.get((organization.id, self.id))
+
+        if existing_relation:
+            # Relationship exists :: Updating the attributes
+            existing_relation.from_json(relation)
+            existing_relation.save()
+
+        else:
+            # Create new relation
+            new_relation = Otoi(incident_id=self.id, organization_id=organization.id)
+            # update relation data
+            new_relation.from_json(relation)
+            new_relation.save()
+
+            # -revision related organization
+            if create_revision:
+                organization.create_revision()
+
     @check_roles
     def to_dict(self, mode=None):
 
@@ -5860,6 +6043,7 @@ class Incident(db.Model, BaseMixin):
         bulletin_relations_dict = []
         actor_relations_dict = []
         incident_relations_dict = []
+        organization_relations_dict = []
 
         if str(mode) != '3':
             # lazy load if mode is 3
@@ -5868,6 +6052,9 @@ class Incident(db.Model, BaseMixin):
 
             for relation in self.actor_relations:
                 actor_relations_dict.append(relation.to_dict())
+
+            for relation in self.organization_relations:
+                organization_relations_dict.append(relation.to_dict())
 
             for relation in self.incident_relations:
                 incident_relations_dict.append(relation.to_dict(exclude=self))
@@ -5891,6 +6078,7 @@ class Incident(db.Model, BaseMixin):
             "claimed_violations": cv_json,
             "events": events_json,
             "actor_relations": actor_relations_dict,
+            "organization_relations": organization_relations_dict,
             "bulletin_relations": bulletin_relations_dict,
             "incident_relations": incident_relations_dict,
             "comments": self.comments if self.comments else None,

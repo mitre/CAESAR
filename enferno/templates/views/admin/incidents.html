@@ -154,9 +154,11 @@
                         ref="relateActors"></relate-actors>
                     <relate-incidents :i18n="translations" @relate="relateIncident" :exids="exIncidents"
                         ref="relateIncidents"></relate-incidents>
+                    <relate-organizations :i18n="translations" @relate="relateOrganization" :exids="exOrganizations"
+                        ref="relateOrganizations"></relate-organizations>
                     <v-dialog width="600" v-model="selfAssignDialog">
                         <v-card class="pa-3">
-                            <v-card-title>Self Assign Incidnet #${assignIncident.id}</v-card-title>
+                            <v-card-title>Self Assign Incident #${assignIncident.id}</v-card-title>
                             <v-card-text>
                                 <v-textarea v-model="assignIncident.comments" label="Comments"></v-textarea>
                             </v-card-text>
@@ -205,6 +207,7 @@
 </div>
 <div class="d-none" data-itob='{{ itobInfo|tojson }}'></div>
 <div class="d-none" data-itoa='{{ itoaInfo|tojson }}'></div>
+<div class="d-none" data-otoi='{{ otoiInfo|tojson }}'></div>
 <div class="d-none" data-atob='{{ atobInfo|tojson }}'></div>
 <div class="d-none" data-atoa='{{ atoaInfo|tojson }}'></div>
 <div class="d-none" data-btob='{{ btobInfo|tojson }}'></div>
@@ -217,6 +220,7 @@
 <script src="/static/js/components/IncidentResult.js"></script>
 <script src="/static/js/components/BulletinResult.js"></script>
 <script src="/static/js/components/ActorResult.js"></script>
+<script src="/static/js/components/OrganizationResult.js"></script>
 <script src="/static/js/components/MediaCard.js"></script>
 <script src="/static/js/components/UniField.js"></script>
 <script src="/static/js/components/Visualization.js"></script>
@@ -250,6 +254,7 @@
             translations: translations,
             itobInfo: JSON.parse(document.querySelector('[data-itob]').dataset.itob),
             itoaInfo: JSON.parse(document.querySelector('[data-itoa]').dataset.itoa),
+            otoiInfo: JSON.parse(document.querySelector('[data-otoi]').dataset.otoi),
             itoiInfo: JSON.parse(document.querySelector('[data-itoi]').dataset.itoi),
             atobInfo: JSON.parse(document.querySelector('[data-atob]').dataset.atob),
             btobInfo: JSON.parse(document.querySelector('[data-btob]').dataset.btob),
@@ -307,6 +312,12 @@
             relateActorTerm: "",
             relateActorResults: [],
             selectedRelatedActors: [],
+            // search and relate organization dialog vars
+            relateOrganizationDialog: false,
+            relateOrganizationLoader: true,
+            relateOrganizationTerm: "",
+            relateOrganizationResults: [],
+            selectedRelatedOrganizations: [],
             drawer: drawer,
             resultsChip: true,
             sideNav: sideNav,
@@ -409,7 +420,8 @@
             events: [],
                 incident_relations: [],
                     bulletin_relations: [],
-                        actor_relations: []
+                        actor_relations: [],
+                        organization_relations: []
     },
     defaultItem: {
         title: "",
@@ -423,6 +435,7 @@
                             bulletin_relations: [],
                                 // related actors
                                 actor_relations: [],
+                                organization_relations: [],
                                     publish_date: '',
                                         created_at: '',
                 },
@@ -476,6 +489,13 @@
             let ids = [];
             if (this.editedItem.actor_relations) {
                 ids = ids.concat(this.editedItem.actor_relations.map(x => x.actor.id))
+            }
+            return ids;
+        },
+        exOrganizations() {
+            let ids = [];
+            if (this.editedItem.organization_relations) {
+                ids = ids.concat(this.editedItem.organization_relations.map(x => x.organization.id))
             }
             return ids;
         },
@@ -538,6 +558,9 @@
         if (this.$route.query.reltoa) {
             this.filter_related_to_actor(this.$route.query.reltoa);
         }
+        if (this.$route.query.reltoo) {
+            this.filter_related_to_organization(this.$route.query.reltoo);
+        }
         if (this.$route.query.reltoi) {
             this.filter_related_to_incident(this.$route.query.reltoi);
         }
@@ -547,6 +570,9 @@
             }
             if (this.$route.query.reltoa) {
                 this.filter_related_to_actor(this.$route.query.reltoa);
+            }
+            if (this.$route.query.reltoo) {
+                this.filter_related_to_organization(this.$route.query.reltoo);
             }
             if (this.$route.query.reltoi) {
                 this.filter_related_to_incident(this.$route.query.reltoi);
@@ -649,6 +675,13 @@
             this.bulletinDrawer = false;
             this.search = {
                 rel_to_actor: id
+            };
+            this.searchIncidents();
+        },
+        filter_related_to_organization(id) {
+            this.bulletinDrawer = false;
+            this.search = {
+                rel_to_organization: id
             };
             this.searchIncidents();
         },
@@ -1001,6 +1034,22 @@
                 this.ar_loading = false;
             });
         },
+        loadOrganizationRelations() {
+            //UI feedback
+            this.ar_loading = true;
+            // pass page=0 to load all relations
+            axios.get(`/admin/api/incident/relations/${this.editedItem.id}?class=organization&page=0`).then(res => {
+                this.editedItem.organization_relations = res.data.items;
+                // update UI state / show related items
+                this.ar_loaded = true;
+                // smart trick to pass relation update flag : attach a variable to the payload itself
+                this.editedItem.check_ar = true;
+            }).catch(err => {
+                console.log(err.toJSON());
+            }).finally(() => {
+                this.ar_loading = false;
+            });
+        },
         loadIncidentRelations() {
             //UI Feedback
             this.ir_loading = true;
@@ -1206,6 +1255,32 @@
         removeActor: function(evt, index) {
             if (confirm("Are you sure?")) {
                 this.editedItem.actor_relations.splice(index, 1);
+            }
+        },
+        // related organizations functions ------------------------
+        searchRelatedOrganizations() {
+            this.$refs.relateOrganizations.open();
+            this.$nextTick(() => {
+                this.$refs.relateOrganizations.q = {
+                    tsv: this.relateOrganizationTerm
+                };
+                this.$refs.relateOrganizations.reSearch();
+            });
+        },
+        relateOrganization(organization) {
+            // get list of existing attached organizations
+            let ex = this.editedItem.organization_relations.map(x => x.organization.id);
+            if (!ex.includes(organization.id)) {
+                relation = {
+                    organization: organization
+                };
+                this.editedItem.organization_relations.push(relation);
+                this.relateOrganizationResults.removeById(organization.id);
+            }
+        },
+        removeOrganization: function(evt, index) {
+            if (confirm("Are you sure?")) {
+                this.editedItem.organization_relations.splice(index, 1);
             }
         },
     }

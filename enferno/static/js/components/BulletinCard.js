@@ -15,6 +15,7 @@ Vue.component("bulletin-card", {
     bulletin: function (val, old) {
       this.loadBulletinRelations();
       this.loadActorRelations();
+      this.loadOrganizationRelations();
       this.loadIncidentRelations();
 
       this.mapLocations = aggregateBulletinLocations(this.bulletin);
@@ -114,6 +115,26 @@ Vue.component("bulletin-card", {
           );
           this.actorPage += 1;
           this.actorLM = res.data.more;
+        })
+        .catch((err) => {
+          console.log(err.toJSON());
+        });
+    },
+
+    loadOrganizationRelations(page = 1) {
+      // b2a
+      axios
+        .get(
+          `/admin/api/bulletin/relations/${this.bulletin.id}?class=organization&page=${page}`,
+        )
+        .then((res) => {
+          //console.log(this.bulletin.organization_relations, res.data.items);
+          this.bulletin.organization_relations.push.apply(
+            this.bulletin.organization_relations,
+            res.data.items,
+          );
+          this.organizationPage += 1;
+          this.organizationLM = res.data.more;
         })
         .catch((err) => {
           console.log(err.toJSON());
@@ -269,11 +290,13 @@ Vue.component("bulletin-card", {
       // pagers for related entities
       bulletinPage: 1,
       actorPage: 1,
+      organizationPage: 1,
       incidentPage: 1,
 
       // load more buttons
       bulletinLM: false,
       actorLM: false,
+      organizationLM: false,
       incidentLM: false,
     };
   },
@@ -535,6 +558,54 @@ Vue.component("bulletin-card", {
           <v-card-actions>
             <v-btn class="ma-auto caption" small color="grey lighten-4" elevation="0"
                    @click="loadActorRelations(actorPage)" v-if="actorLM">Load More
+              <v-icon right>mdi-chevron-down</v-icon>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+
+        <!-- Related Organizations  -->
+        <v-card outlined color="grey lighten-5" class="ma-2"
+                v-if="bulletin.organization_relations && bulletin.organization_relations.length">
+          <v-card-text>
+            <div class="pa-2 header-sticky title black--text">{{ i18n.relatedOrganizations_ }}
+              <v-tooltip top>
+                <template v-slot:activator="{on,attrs}">
+
+                  <a :href="'/admin/organizations/?reltob='+bulletin.id" target="_self">
+                    <v-icon v-on="on" small color="grey" class="mb-1">
+                      mdi-image-filter-center-focus-strong
+                    </v-icon>
+                  </a>
+                </template>
+                <span>Filter and display related items in main table</span>
+              </v-tooltip>
+
+            </div>
+            <organization-result :i18n="i18n" class="mt-1" v-for="(item,index) in bulletin.organization_relations" :key="index"
+                          :organization="item.organization">
+              <template v-slot:header>
+
+                <v-sheet color="yellow lighten-5" class="pa-2">
+
+                  <div class="caption ma-2">{{ i18n.relationshipInfo_ }}</div>
+                  <v-chip v-if="item.probability!== null" class="ma-1" color="grey lighten-4" small label>
+                    {{ probability(item) }}
+                  </v-chip>
+                  <v-chip class="ma-1" v-for="r in extractValuesById($root.otobInfo, item.related_as, 'title')"
+                          color="grey lighten-4" small
+                          label>{{ r }}
+                  </v-chip>
+                  <v-chip v-if="item.comment" class="ma-1" color="grey lighten-4" small label>{{ item.comment }}
+                  </v-chip>
+
+                </v-sheet>
+
+              </template>
+            </organization-result>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn class="ma-auto caption" small color="grey lighten-4" elevation="0"
+                   @click="loadOrganizationRelations(organizationPage)" v-if="organizationLM">Load More
               <v-icon right>mdi-chevron-down</v-icon>
             </v-btn>
           </v-card-actions>

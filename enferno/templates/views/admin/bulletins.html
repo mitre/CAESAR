@@ -163,6 +163,8 @@
                         ref="relateActors"></relate-actors>
                     <relate-incidents :i18n="translations" @relate="relateIncident" :exids="exIncidents"
                         ref="relateIncidents"></relate-incidents>
+                    <relate-organizations :i18n="translations" @relate="relateOrganization" :exids="exOrganizations"
+                        ref="relateOrganizations"></relate-organizations>
                     {% include 'views/admin/partials/video_player_dialog.html' %}
                     <v-dialog width="600" v-model="selfAssignDialog">
                         <v-card class="pa-3">
@@ -220,6 +222,7 @@
 <div class="d-none" data-itob='{{ itobInfo|tojson }}'></div>
 <div class="d-none" data-itoa='{{ itoaInfo|tojson }}'></div>
 <div class="d-none" data-atob='{{ atobInfo|tojson }}'></div>
+<div class="d-none" data-otob='{{ otobInfo|tojson }}'></div>
 <div class="d-none" data-atoa='{{ atoaInfo|tojson }}'></div>
 <div class="d-none" data-btob='{{ btobInfo|tojson }}'></div>
 <div class="d-none" data-itoi='{{ itoiInfo|tojson }}'></div>
@@ -234,6 +237,7 @@
 <script src="/static/js/components/BulletinResult.js"></script>
 <script src="/static/js/components/ActorResult.js"></script>
 <script src="/static/js/components/IncidentResult.js"></script>
+<script src="/static/js/components/OrganizationResult.js"></script>
 <script src="/static/js/components/UniField.js"></script>
 <script src="/static/js/mixins/media-mixin.js"></script>
 <script src="/static/js/actorConfig.js"></script>
@@ -277,6 +281,7 @@
             itoaInfo: JSON.parse(document.querySelector('[data-itoa]').dataset.itoa),
             itoiInfo: JSON.parse(document.querySelector('[data-itoi]').dataset.itoi),
             atobInfo: JSON.parse(document.querySelector('[data-atob]').dataset.atob),
+            otobInfo: JSON.parse(document.querySelector('[data-otob]').dataset.otob),
             btobInfo: JSON.parse(document.querySelector('[data-btob]').dataset.btob),
             atoaInfo: JSON.parse(document.querySelector('[data-atoa]').dataset.atoa),
             dzOpts: {
@@ -348,6 +353,9 @@
             relateActorTerm: "",
             relateActorResults: [],
             selectedRelatedActors: [],
+            relateOrganizationTerm: "",
+            relateOrganizationResults: [],
+            selectedRelatedOrganizations: [],
             // search and relate incident dialog vars
             relateIncidentDialog: false,
             relateIncidentLoader: true,
@@ -447,6 +455,7 @@
                 medias: [],
                     bulletin_relations: [],
                         actor_relations: [],
+                        organization_relations: [],
                         bulletin_to_consent_uses: [],
                             incident_relations: []
     },
@@ -462,6 +471,8 @@
                 bulletin_relations: [],
                 // related actors
                 actor_relations: [],
+                // related organizations
+                organization_relations: [],
                 // related incidents
                 incident_relations: [],
                 bulletin_to_consent_uses: [],
@@ -533,6 +544,13 @@
                 let ids = [];
                 if (this.editedItem.incident_relations) {
                     ids = ids.concat(this.editedItem.incident_relations.map(x => x.incident.id))
+                }
+                return ids;
+            },
+            exOrganizations() {
+                let ids = [];
+                if (this.editedItem.organization_relations) {
+                    ids = ids.concat(this.editedItem.organization_relations.map(x => x.organization.id))
                 }
                 return ids;
             },
@@ -613,6 +631,9 @@
             if (this.$route.query.reltoi) {
                 this.filter_related_to_incident(this.$route.query.reltoi);
             }
+            if (this.$route.query.reltoo) {
+                this.filter_related_to_organization(this.$route.query.reltoo);
+            }
             this.$router.afterEach((to, from, next) => {
                 if (this.$route.query.reltob) {
                     this.filter_related_to_bulletin(this.$route.query.reltob);
@@ -621,7 +642,7 @@
                     this.filter_related_to_actor(this.$route.query.reltoa);
                 }
                 if (this.$route.query.reltoi) {
-                    this.filter_related_to_incident(this.$route.query.reltoi);
+                    this.filter_related_to_organization(this.$route.query.reltoo);
                 }
                 if (this.$route.params.id) {
                     this.showBulletin(this.$route.params.id);
@@ -729,6 +750,13 @@
             this.bulletinDrawer = false;
             this.search = [{
                 rel_to_incident: id
+            }];
+            this.searchBulletins();
+        },
+        filter_related_to_organization(id) {
+            this.bulletinDrawer = false;
+            this.search = [{
+                rel_to_organization: id
             }];
             this.searchBulletins();
         },
@@ -1333,6 +1361,32 @@
         removeIncident: function(evt, index) {
             if (confirm("Are you sure?")) {
                 this.editedItem.incident_relations.splice(index, 1);
+            }
+        },
+        // related organizations functions ------------------------
+        searchRelatedOrganizations() {
+            this.$refs.relateOrganizations.open();
+            this.$nextTick(() => {
+                this.$refs.relateOrganizations.q = {
+                    tsv: this.relateOrganizationTerm
+                };
+                this.$refs.relateOrganizations.reSearch();
+            });
+        },
+        relateOrganization(organization) {
+            // get list of existing attached actors
+            let ex = this.editedItem.organization_relations.map(x => x.organization.id);
+            if (!ex.includes(organization.id)) {
+                relation = {
+                    organization: organization
+                };
+                this.editedItem.organization_relations.push(relation);
+                this.relateOrganizationResults.removeById(organization.id);
+            }
+        },
+        removeOrganization: function(evt, index) {
+            if (confirm("Are you sure?")) {
+                this.editedItem.organization_relations.splice(index, 1);
             }
         },
         getConsentUses(){

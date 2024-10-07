@@ -12,6 +12,8 @@ class PDFUtil:
             html = render_template('views/pdf/actor.html', actor=self.model)
         elif self.model.__tablename__ == 'incident':
             html = render_template('views/pdf/incident.html', incident=self.model)
+        elif self.model.__tablename__ == 'organization':
+            html = render_template('views/pdf/organization.html', organization=self.model)
 
         if output:
             pdf = HTML(string=html).write_pdf(output)
