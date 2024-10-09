@@ -798,9 +798,14 @@ div.jsondiffpatch-child-node-type-array:after {
 .v-application .text-h5 {
   font-family: "Julius" !important;
 }
+
 .dashboard-page,
 .login-bg {
   background-color: #f5f5f5;
+}
+.theme--dark .dashboard-page,
+.login-bg {
+  background-color: #121212;
 }
 
 .login-msg {
