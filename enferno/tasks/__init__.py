@@ -726,24 +726,24 @@ def generate_export_media(previous_result: int):
 
     for item in items:
         if item.medias:
-            media = item.medias[0]
-            target_file = f'{Export.export_dir}/{export_request.file_id}/{media.media_file}'
+            for media in item.medias:
+                target_file = f'{Export.export_dir}/{export_request.file_id}/{media.media_file}'
 
-            if cfg.FILESYSTEM_LOCAL:
-                print('Downloading file locally')
-                # copy file (including metadata)
-                shutil.copy2(f'{media.media_dir}/{media.media_file}', target_file)
-            else:
-                print('Downloading S3 file')
-                s3 = boto3.client('s3',
-                                  aws_access_key_id=cfg.AWS_ACCESS_KEY_ID,
-                                  aws_secret_access_key=cfg.AWS_SECRET_ACCESS_KEY,
-                                  region_name=cfg.AWS_REGION
-                                  )
-                try:
-                    s3.download_file(cfg.S3_BUCKET, media.media_file, target_file)
-                except Exception as e:
-                    print(f"Error downloading file from s3: {e}")
+                if cfg.FILESYSTEM_LOCAL:
+                    print('Downloading file locally')
+                    # copy file (including metadata)
+                    shutil.copy2(f'{media.media_dir}/{media.media_file}', target_file)
+                else:
+                    print('Downloading S3 file')
+                    s3 = boto3.client('s3',
+                                    aws_access_key_id=cfg.AWS_ACCESS_KEY_ID,
+                                    aws_secret_access_key=cfg.AWS_SECRET_ACCESS_KEY,
+                                    region_name=cfg.AWS_REGION
+                                    )
+                    try:
+                        s3.download_file(cfg.S3_BUCKET, media.media_file, target_file)
+                    except Exception as e:
+                        print(f"Error downloading file from s3: {e}")
 
         time.sleep(0.05)
     return export_request.id
