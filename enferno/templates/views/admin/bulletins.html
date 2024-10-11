@@ -599,7 +599,10 @@
         },
         mounted: function() {
             this.getConsentUses();
-            this.getSources();
+            this.getSources()
+              .then((sources) => {
+                this.sources = sources;
+              });
             this.statusDisabled = !this.has_role(this.currentUser, 'Admin')
             // populate roles for advanced search for admins
             {% if current_user.has_role('Admin') %}
@@ -1439,15 +1442,22 @@
 
             this.sources = sourcesRes.data.items;
         },
-        getSources() {
-            axios.get('/admin/api/sources')
-                .then(res => {
-                    this.sources = res.data.items;
-                })
-                .catch(error => {
-                    console.error(error);
-                })
-        }
+        async getSources(page=1) {
+            try {
+                const res = await axios.get('/admin/api/sources', {params: { page }})
+                
+                // this.sources = res.data.items;
+                let sources = res.data.items;
+                if (res.data.total > (res.data.perPage * page)) {
+                    const moreSources = await this.getSources(page+1)
+                    sources = [...sources, ...moreSources];
+                }
+    
+                return sources;
+            } catch (error) {
+                console.error(error);
+            }
+        },
     }
         });
 </script>
