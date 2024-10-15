@@ -196,13 +196,25 @@
                 return table;
             },
             rowClick(item) {
+                if (item.table === 'group') {
+                    path = `/export/dashboard/${item.id}?group=true`;
+                    if (this.$route.path !== path) this.$router.push(path);
+                    return;
+                }
                 path = `/export/dashboard/${item.id}`;
                 if (this.$route.path !== path) this.$router.push(path);
             },
             showExport(id) {
+                const isGroupExport = this.$route.query.group === 'true';
+                let url = '';
+                if (isGroupExport) {
+                  url = `/export/api/group-export/${id}`;
+                } else {
+                  url = `/export/api/export/${id}`;
+                }
                 this.exportLoader = true;
                 this.exportDrawer = true;
-                axios.get(`/export/api/export/${id}`).then(response => {
+                axios.get(url).then(response => {
                     this.eitem = response.data;
                 }).catch(error => {
                     this.exportDrawer = false;
@@ -214,37 +226,55 @@
             showActions(item) {
                 return !(item.status === 'Approved' || item.status === 'Rejected' || item.status === 'Expired');
             },
-            approveExport(exportId) {
+            approveExport(exportId, isGroupExport) {
+                let url = '';
+                if (isGroupExport) {
+                  url = `/export/api/group-exports/status`;
+                } else {
+                  url = `/export/api/exports/status`;
+                }
                 const data = {
                     exportId: exportId,
                     action: 'approve'
                 }
-                axios.put('/export/api/exports/status', data).then(res => {
+                axios.put(url, data).then(res => {
                     // close drawer
                     this.exportDrawer = false;
                     this.refresh();
                     this.showSnack(res.data);
                 }).catch(error => { }).finally(() => { })
             },
-            rejectExport(exportId) {
+            rejectExport(exportId, isGroupExport) {
+                let url = '';
+                if (isGroupExport) {
+                  url = `/export/api/group-exports/status`;
+                } else {
+                  url = `/export/api/exports/status`;
+                }
                 const data = {
                     exportId: exportId,
                     action: 'reject'
                 }
-                axios.put('/export/api/exports/status', data).then(res => {
+                axios.put(url, data).then(res => {
                     // close drawer
                     this.exportDrawer = false;
                     this.refresh();
                     this.showSnack(res.data);
                 }).catch(error => { }).finally(() => { })
             },
-            setExpiry(exportId, newDate) {
+            setExpiry(exportId, newDate, isGroupExport) {
+                let url = '';
+                if (isGroupExport) {
+                  url = `/export/api/group-exports/expiry`;
+                } else {
+                  url = `/export/api/exports/expiry`;
+                }
                 const utc_expiry = new Date(newDate).toISOString();
                 const data = {
                     exportId: exportId,
                     expiry: utc_expiry
                 }
-                axios.put('/export/api/exports/expiry', data).then(res => {
+                axios.put(url, data).then(res => {
                     // close drawer
                     this.exportDrawer = false;
                     this.refresh();

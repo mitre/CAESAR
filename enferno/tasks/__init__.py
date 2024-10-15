@@ -12,7 +12,7 @@ from sqlalchemy import and_
 
 from enferno.admin.models import Bulletin, Actor, Incident, BulletinHistory, Activity, ActorHistory, IncidentHistory, Organization, OrganizationHistory
 from enferno.deduplication.models import DedupRelation
-from enferno.export.models import Export
+from enferno.export.models import Export, GroupExport
 from enferno.extensions import db, rds
 from enferno.settings import Config as cfg
 from enferno.user.models import Role, User
@@ -561,6 +561,27 @@ def generate_export(export_id):
         raise NotImplementedError
 
 
+def generate_group_export(export_id):
+    """
+    Main Group Export generator task.
+    """
+    export_request = GroupExport.query.get(export_id)
+
+    if export_request.file_format == 'json':
+        return chain(generate_group_json_file.s([export_id]), generate_export_media.s([True]), generate_export_zip.s(['GroupExport']))()
+    elif export_request.file_format == 'pdf':
+        return chain(generate_group_pdf_files.s([export_id]),
+                     generate_export_media.s([True]),
+                     generate_export_zip.s(['GroupExport']))()
+    elif export_request.file_format == 'csv':
+        return chain(generate_group_csv_export.s([export_id]),
+                     generate_export_media.s([True]),
+                     generate_export_zip.s('GroupExport'))()
+
+    elif export_request.file_format == 'csv':
+        raise NotImplementedError
+
+
 def clear_failed_export(export_request):
     shutil.rmtree(f'{Export.export_dir}/{export_request.file_id}')
     export_request.status = "Failed"
@@ -599,6 +620,46 @@ def generate_pdf_files(export_id):
                     pdf = PDFUtil(organization)
                     pdf.generate_pdf(f'{Export.export_dir}/{dir_id}/{pdf.filename}')
 
+            time.sleep(0.2)
+
+        export_request.file_id = dir_id
+        export_request.save()
+        print(f'---- Export generated successfully for Id: {export_request.id} ----')
+        # pass the ids to the next celery task
+        return export_id
+    except Exception as e:
+        print(f'Error writing export file: {e}')
+        clear_failed_export(export_request)
+        return False  # to stop chain
+
+
+@celery.task
+def generate_group_pdf_files(export_id):
+    """
+    PDF group export generator task.
+    """
+    export_request = GroupExport.query.get(export_id)
+
+    chunks = chunk_list(export_request.items, BULK_CHUNK_SIZE)
+    dir_id = GroupExport.generate_export_dir()
+    try:
+        for group in chunks:
+            bulletin_group_items = [group_item.item_id for group_item in group if group_item.table == 'bulletin']
+            actor_group_items = [group_item.item_id for group_item in group if group_item.table == 'actor']
+            incident_group_items = [group_item.item_id for group_item in group if group_item.table == 'incident']
+            organization_group_items = [group_item.item_id for group_item in group if group_item.table == 'organization']
+            for bulletin in Bulletin.query.filter(Bulletin.id.in_(bulletin_group_items)):
+                pdf = PDFUtil(bulletin)
+                pdf.generate_pdf(f'{Export.export_dir}/{dir_id}/{pdf.filename}')
+            for actor in Actor.query.filter(Actor.id.in_(actor_group_items)):
+                pdf = PDFUtil(actor)
+                pdf.generate_pdf(f'{Export.export_dir}/{dir_id}/{pdf.filename}')
+            for incident in Incident.query.filter(Incident.id.in_(incident_group_items)):
+                pdf = PDFUtil(incident)
+                pdf.generate_pdf(f'{Export.export_dir}/{dir_id}/{pdf.filename}')
+            for organization in Organization.query.filter(Organization.id.in_(organization_group_items)):
+                pdf = PDFUtil(organization)
+                pdf.generate_pdf(f'{Export.export_dir}/{dir_id}/{pdf.filename}')
             time.sleep(0.2)
 
         export_request.file_id = dir_id
@@ -656,6 +717,61 @@ def generate_json_file(export_id: int):
         print(f'Error writing export file: {e}')
         clear_failed_export(export_request)
         return False  # to stop chain
+
+
+@celery.task
+def generate_group_json_file(export_id: int):
+    """
+    JSON group export generator task.
+    """
+    export_request = GroupExport.query.get(export_id)
+    bulletin_items = [item for item in export_request.items if item.table == 'bulletin']
+    actor_items = [item for item in export_request.items if item.table == 'actor']
+    incident_items = [item for item in export_request.items if item.table == 'incident']
+    organization_items = [item for item in export_request.items if item.table == 'organization']
+    bulletin_chunks = chunk_list(bulletin_items, BULK_CHUNK_SIZE)
+    actor_chunks = chunk_list(actor_items, BULK_CHUNK_SIZE)
+    incident_chunks = chunk_list(incident_items, BULK_CHUNK_SIZE)
+    organization_chunks = chunk_list(organization_items, BULK_CHUNK_SIZE)
+
+    dir_id = GroupExport.generate_export_dir()
+    def generate_item_file(ItemModel, item_name, item_chunks):
+        file_name_renamed = item_name
+        if item_name == 'bulletin':
+            file_name_renamed = 'primary_record'
+        elif item_name == 'incident':
+            file_name_renamed = 'investigation'
+        item_file_path = f'{Export.export_dir}/{dir_id}/{file_name_renamed}s'
+        try:
+            with open(f'{item_file_path}.json', 'a') as file:
+                file.write('{ \n')
+                file.write(f'"{item_name}s": [ \n')
+                for group in item_chunks:
+                    batch = ','.join(item.to_json(export=True) for item in ItemModel.query.filter(ItemModel.id.in_([group_item.item_id for group_item in group])))
+                    file.write(f'{batch}\n')
+                    time.sleep(0.2)
+                file.write('] \n }')
+
+        except Exception as e:
+            print(f'Error writing {item_name} export file: {e}')
+            clear_failed_export(export_request)
+            return False  # to stop chain
+        return True
+
+    if len(bulletin_items) > 0 and not generate_item_file(Bulletin, 'bulletin', bulletin_chunks):
+        return False
+    if len(actor_items) > 0 and not generate_item_file(Actor, 'actor', actor_chunks):
+        return False
+    if len(incident_items) > 0 and not generate_item_file(Incident, 'incident', incident_chunks):
+        return False
+    if len(organization_items) > 0 and not generate_item_file(Organization, 'organization', organization_chunks):
+        return False
+
+    export_request.file_id = dir_id
+    export_request.save()
+    print(f'---- Export File generated successfully for Id: {export_request.id} ----')
+    # pass the ids to the next celery task
+    return export_id
 
 
 @celery.task
@@ -718,35 +834,105 @@ def generate_csv_file(export_id: int):
 
 
 @celery.task
-def generate_export_media(previous_result: int):
+def generate_group_csv_export(export_id: int):
+    """
+    CSV group export generator task.
+    """
+    export_request = GroupExport.query.get(export_id)
+    dir_id = GroupExport.generate_export_dir()
+    bulletin_csv_df = pd.DataFrame()
+    actor_csv_df = pd.DataFrame()
+    incident_csv_df = pd.DataFrame()
+    organization_csv_df = pd.DataFrame()
+    print('generating export file .....')
+    for item in export_request.items:
+        try:
+            if item.table == 'bulletin':
+                bulletin = Bulletin.query.get(item.item_id)
+                adjusted = convert_list_attributes(bulletin.to_csv_dict())
+                df = pd.json_normalize(adjusted)
+                if bulletin_csv_df.empty:
+                    bulletin_csv_df = df
+                else:
+                    bulletin_csv_df = pd.merge(bulletin_csv_df, df, how='outer')
+            elif item.table == 'actor':
+                actor = Actor.query.get(item.item_id)
+                adjusted = convert_list_attributes(actor.to_csv_dict())
+                df = pd.json_normalize(adjusted)
+                if actor_csv_df.empty:
+                    actor_csv_df = df
+                else:
+                    actor_csv_df = pd.merge(actor_csv_df, df, how='outer')
+            elif item.table == 'organization':
+                organization = Organization.query.get(item.item_id)
+                adjusted = convert_list_attributes(organization.to_csv_dict())
+                df = pd.json_normalize(adjusted)
+                if organization_csv_df.empty:
+                    organization_csv_df = df
+                else:
+                    organization_csv_df = pd.merge(organization_csv_df, df, how='outer')
+        except Exception as e:
+            print(f'Error writing export file: {e}')
+            clear_failed_export(export_request)
+            return False  # to stop chain
+
+    if not bulletin_csv_df.empty:
+        bulletin_csv_df.to_csv(f'{GroupExport.export_dir}/{dir_id}/primary_records.csv')
+    if not actor_csv_df.empty:
+        actor_csv_df.to_csv(f'{GroupExport.export_dir}/{dir_id}/actors.csv')
+    if not incident_csv_df.empty:
+        incident_csv_df.to_csv(f'{GroupExport.export_dir}/{dir_id}/investigations.csv')
+    if not organization_csv_df.empty:
+        organization_csv_df.to_csv(f'{GroupExport.export_dir}/{dir_id}/organizations.csv')
+
+    export_request.file_id = dir_id
+    export_request.save()
+    print(f'---- Export File generated successfully for Id: {export_request.id} ----')
+    # pass the ids to the next celery task
+    return export_id
+
+
+@celery.task
+def generate_export_media(previous_result: int, is_group_export: bool = False):
     """
     Task to attach media files to export.
     """
     if previous_result == False:
         return False
 
-    export_request = Export.query.get(previous_result)
+    if is_group_export:
+        export_request = GroupExport.query.get(previous_result)
+    else:
+        export_request = Export.query.get(previous_result)
 
     # check if we need to export media files
     if not export_request.include_media:
         return export_request.id
 
-    export_type = export_request.table
-    # get list of previous entity ids and export their medias
-    # dynamic query based on table
-    if export_type == 'bulletin':
-        items = Bulletin.query.filter(Bulletin.id.in_(export_request.items))
-    elif export_type == 'actor':
-        items = Actor.query.filter(Actor.id.in_(export_request.items))
-    elif export_type == 'incident' or export_type == 'organization':
-        # incidents and organizations have no media
-        # UI switch disabled, but just in case...
-        return
+    if is_group_export:
+        items = []
+        bulletin_items = [item.item_id for item in export_request.items if item.table == 'bulletin']
+        actor_items = [item.item_id for item in export_request.items if item.table == 'actor']
+        items.extend(Bulletin.query.filter(Bulletin.id.in_(bulletin_items)))
+        items.extend(Actor.query.filter(Actor.id.in_(actor_items)))
+    else:
+        export_type = export_request.table
+        # get list of previous entity ids and export their medias
+        # dynamic query based on table
+        if export_type == 'bulletin':
+            items = Bulletin.query.filter(Bulletin.id.in_(export_request.items))
+        elif export_type == 'actor':
+            items = Actor.query.filter(Actor.id.in_(export_request.items))
+        else:
+            # incidents and organizations have no media
+            # UI switch disabled, but just in case...
+            return
 
     for item in items:
         if item.medias:
             for media in item.medias:
                 target_file = f'{Export.export_dir}/{export_request.file_id}/{media.media_file}'
+                print(f'Exporting media file: {media.media_file}')
 
                 if cfg.FILESYSTEM_LOCAL:
                     print('Downloading file locally')
@@ -769,23 +955,25 @@ def generate_export_media(previous_result: int):
 
 
 @celery.task
-def generate_export_zip(previous_result: int):
+def generate_export_zip(previous_result: int, export_model='Export'):
     """
     Final export task to compress export folder
     into a zip archive.
     """
+    ExportModel = Export if export_model == 'Export' else GroupExport
+
     if previous_result == False:
         return False
 
     print("Generating zip archive")
-    export_request = Export.query.get(previous_result)
+    export_request = ExportModel.query.get(previous_result)
 
-    shutil.make_archive(f'{Export.export_dir}/{export_request.file_id}', 'zip',
-                        f'{Export.export_dir}/{export_request.file_id}')
+    shutil.make_archive(f'{ExportModel.export_dir}/{export_request.file_id}', 'zip',
+                        f'{ExportModel.export_dir}/{export_request.file_id}')
     print(f"Export Complete {export_request.file_id}.zip")
 
     # Remove export folder after completion
-    shutil.rmtree(f'{Export.export_dir}/{export_request.file_id}')
+    shutil.rmtree(f'{ExportModel.export_dir}/{export_request.file_id}')
 
     # update request state
     export_request.status = 'Ready'

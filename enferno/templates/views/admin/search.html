@@ -13,6 +13,8 @@
         'views/admin/partials/bulletin_drawer.html' %}
         {% include
         'views/admin/partials/incident_drawer.html' %}
+        {% include
+        'views/admin/partials/export_drawer.html' %}
         <v-main>
             <v-container class="container--fluid" style="height: 100%;">
                 <div class="search-row">
@@ -30,13 +32,29 @@
                             </div>
                         </div>
                         <div v-if="searched" class="search-results">
-                            <div class="result-description">${startRecord} - ${endRecord} of ${resultLength} results <span v-if="restrictedRecordsLength > 0">|  ${restrictedRecordsLength} records matched your search, but you do not have access</span></div> 
-                            <v-card class="search-card" outlined shaped tile v-for="(result, i) in paginatedResults" :key="i" @click="resultClick(result, result.type)">
+                            <v-row>
+                                <v-col>
+                                    <div class="result-description">${startRecord} - ${endRecord} of ${resultLength} results <span
+                                        v-if="restrictedRecordsLength > 0">| ${restrictedRecordsLength} records matched your search, but you do not have
+                                        access</span>
+                                    </div>
+                                </v-col>
+                                <v-col v-if="showExport" align="right">
+                                    <v-btn @click="exportDrawer=true" small color="primary" depressed v-if="exportAllowed()">
+                                    <v-icon small left>mdi-file-export-outline
+                                    </v-icon>
+                                    {{ _("Export") }}
+                                </v-btn></v-col>
+                            </v-row>
+                            <v-card class="search-card" outlined shaped tile v-for="(result, i) in paginatedResults" :key="`${result.id} ${result.type}`" @click="resultClick(result, result.type)">
                                 <div class="header-row">
-                                    <h3>
-                                        <span v-if="result.type === 'actor'">${result.name}</span>
-                                        <span v-else>${result.title}</span>
-                                    </h3>
+                                    <div class="d-flex">
+                                      <v-checkbox :input-value="selectedItems[[result.id, result.type]]" @change="selectItem(result.id, result.type)" @click.stop hide-details class="shrink mt-0 pt-0"></v-checkbox>
+                                      <h3>
+                                          <span v-if="result.type === 'actor'">${result.name}</span>
+                                          <span v-else>${result.title}</span>
+                                      </h3>
+                                    </div>
                                     <v-chip v-if="result.type == 'actor'">
                                         <v-icon small left>
                                             mdi-account-multiple
@@ -117,6 +135,9 @@
 <script src="/static/js/mixins/media-mixin.js"></script>
 <script src="/static/js/components/PdfViewer.js"></script>
 <script>
+
+    window.__GOOGLE_MAPS_API_KEY__ = '{{ config.GOOGLE_MAPS_API_KEY }}';
+    window.__EXPORT_TOOL__ = ('{{ config.EXPORT_TOOL }}' === 'True');
     let app = new Vue({
         el: "#app",
         vuetify: vuetify,
@@ -128,6 +149,10 @@
             drawer: drawer,
             snackbar: false,
             snackMessage: "",
+            //export
+            exportDrawer: false,
+            exportConfig: {},
+        selectedItems: {},
             // pagination
             pages: 0,
             pageNumber: 1,
@@ -155,7 +180,6 @@
             bulletinLoader: false,
             bulletin: {},
             preview: false,
-            showSnack: false,
             pitem: null, // preview item for result click
             prResults: [],
             investigationResults: [],
@@ -173,7 +197,8 @@
                 groupDesc: [],
                 mustSort: false,
                 multiSort: false
-            }
+            },
+            selectedItemsLength: 0,
         }),
         computed: {
             /** 
@@ -197,7 +222,6 @@
                         } else {
                             for (let i = 0; i < element.roles.length; i++) {
                                 if (this.accessGroupFilters.includes(element.roles[i].name)) {
-                                    console.log(element)
                                     return element;
                                 }
                             }
@@ -285,6 +309,9 @@
                     groups.push({ label: key, count: value, value: key});
                 }
                 return groups;
+            },
+            showExport() {
+                return this.exportAllowed() && this.selectedItemsLength > 0;
             }
         },
         methods: {
@@ -327,7 +354,7 @@
             },
             async searchActors() {
                 let ret = [];
-                await axios.post(`/admin/api/actors/?`, {
+                await axios.post(`/admin/api/actors/?page=${this.options.page}&per_page=${this.options.itemsPerPage}`, {
                    q: this.searchTerm
                 }).then(response => {
                     ret = response.data.items;
@@ -346,7 +373,7 @@
             async searchInvestigations() {
                 let ret = [];
                 const term = this.searchTerm[0];
-                await axios.post(`/admin/api/incidents/?`, {
+                await axios.post(`/admin/api/incidents/?page=${this.options.page}&per_page=${this.options.itemsPerPage}`, {
                     q: term
                 }).then(response => {
                     ret = response.data.items;
@@ -401,6 +428,17 @@
             },
             editItem() {},
             deleteItem() {},
+            exportAllowed() {
+                if (__EXPORT_TOOL__) {
+                    if (this.has_role(this.currentUser, 'Admin')) {
+                        return true;
+                    }
+                    if (this.currentUser.can_export) {
+                        return true;
+                    }
+                }
+                return false;
+            },
             has_role(user, role) {
                 for (r of user.roles) {
                     if (r.name == role) {
@@ -426,6 +464,44 @@
                 }
                 
             },
+
+            selectItem(id, type) {
+              this.selectedItems[[id, type]] = !this.selectedItems[[id, type]];
+              this.selectedItemsLength = Object.keys(this.selectedItems).filter(key => this.selectedItems[key]).length;
+            },
+
+            exportRequest() {
+              const items = Object.keys(this.selectedItems).reduce((acc, key) => {
+                keyParsed = key.split(',');
+                if (this.selectedItems[key]) {
+                  let table = keyParsed[1];
+                  if (table === 'pr') {
+                    table = 'bulletin';
+                  } else if (table === 'investigation') {
+                    table = 'incident';
+                  }
+                  acc.push({item_id: keyParsed[0], table: table});
+                }
+                return acc;
+              }, []);
+              this.loading = true;
+              axios.post(`/export/api/group/export`, {
+                items: items,
+                config: this.exportConfig
+              }).then(response => {
+                  this.showSnack(response.data);
+                }).catch(error => {
+                  console.error(error.response?.data);
+                  this.showSnack(error.response?.data)
+                }).finally(() => {
+                  this.loading = false;
+                  this.exportDrawer = false;
+                  this.selectedItems = {};
+                  this.exportConfig = {};
+                });
+
+            },
+
             showSnack(message) {
                 this.snackMessage = message;
                 this.snackbar = true;
