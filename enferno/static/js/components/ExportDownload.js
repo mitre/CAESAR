@@ -15,6 +15,15 @@ Vue.component("export-download", {
     },
   },
 
+  computed: {
+    downloadUrl: function () {
+      if (this.item.table === 'group'){
+        return `/export/api/group-exports/download?exportId=${encodeURIComponent(this.item.uid)}`
+      }
+      return `/export/api/exports/download?exportId=${encodeURIComponent(this.item.uid)}`
+    }
+  },
+
   mounted: function () {
     this.setupInterval();
   },
@@ -71,7 +80,7 @@ Vue.component("export-download", {
             </v-icon>
 
             <v-btn @click.stop="" v-tippy content="Download"
-                   download :href="'/export/api/exports/download?exportId=' + encodeURIComponent(this.item.uid)"
+                   download :href="downloadUrl"
                    v-if="item.status === 'Ready'" icon color="success">
 
               <v-icon>mdi-download-circle</v-icon>

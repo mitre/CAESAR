@@ -16,7 +16,9 @@ Vue.component("export-card", {
     //convert expiry to localized date
     this.exp.expires_on = this.localDate(this.exp.expires_on, (format = false));
 
-    this.loadExportItems();
+    if (this.exp.table !== "group") {
+      this.loadExportItems();
+    }
   },
 
   methods: {
@@ -159,7 +161,7 @@ Vue.component("export-card", {
               v-if="showApprove(exp)"
               :disabled="exp.complete"
               class="ml-2"
-              @click.stop="$emit('approve', exp.id)"
+              @click.stop="$emit('approve', exp.id, exp.table === 'group')"
               small
               color="primary">
             <v-icon
@@ -173,7 +175,7 @@ Vue.component("export-card", {
           <v-btn
               v-if="showReject(exp)"
               class="ml-2"
-              @click.stop="$emit('reject', exp.id)"
+              @click.stop="$emit('reject', exp.id, exp.table === 'group')"
               small
               color="error">
             <v-icon
@@ -205,7 +207,7 @@ Vue.component("export-card", {
               v-if="!expiryFieldDisabled && showChangeExpiry(exp)"
               :disabled="exp.expired"
               class="ml-2"
-              @click.stop="$emit('change', exp.id, exp.expires_on)"
+              @click.stop="$emit('change', exp.id, exp.expires_on, exp.table === 'group')"
               small
               color="primary">
             <v-icon
