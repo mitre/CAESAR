@@ -1155,6 +1155,11 @@
             }, 300);
         },
         save() {
+            if (this.editedItem.sources) {
+                this.editedItem.sources = this.editedItem.sources.filter(source => {
+                    return typeof source !== 'string';
+                });
+            }
             if (this.editedItem.id) {
                 axios.put(`/admin/api/bulletin/${this.editedItem.id}`, {
                     item: this.editedItem
@@ -1421,26 +1426,45 @@
             this.editedItem.bulletin_to_consent_uses[index].date = null;
           }
         },
-        async createNewSource(currentSources) {
-            const sourceList = []
-            for await (const source of currentSources) {
-                if (typeof source === "string") {
-                    const res = await axios.post('/admin/api/source/', { item: { title: source }})
-                        .catch(console.error);
-                    const id = res.data.replace('Created Source #', '');
-                    sourceList.push({ id, title: source });
-                } else {
-                    // Existing source, just add it to the list of sources
-                    sourceList.push(source);
-                }
+        async createNewSource(event) {
+            if (event.key !== 'Enter') {
+                return;
             }
 
-            this.editedItem.sources = sourceList;
+            const newSourceTitle = event.srcElement._value;
 
-            const sourcesRes = await axios.get('/admin/api/sources')
+            const existingSource = this.sources.find(source => {
+                return source.title === newSourceTitle;
+            });
+
+            if (existingSource) {
+                return;
+            }
+
+            const res = await axios.post('/admin/api/source', { item: { title: newSourceTitle }})
                 .catch(console.error);
 
-            this.sources = sourcesRes.data.items;
+            const id = res.data.replace('Created Source #', '');
+
+            this.sources.push({ id, title: newSourceTitle });
+
+            const newSourceList = [];
+            this.editedItem.sources.map(selectedSource => {
+                if (typeof selectedSource === 'string') {
+                    const existingSource = this.sources.find(source => {
+                        return source.title === selectedSource;
+                    });
+
+                    if (existingSource) {
+                        newSourceList.push(existingSource);
+                    }
+                } else {
+                    newSourceList.push(selectedSource);
+                }
+            })
+            this.editedItem.sources = newSourceList;
+
+            return;
         },
         async getSources(page=1) {
             try {
