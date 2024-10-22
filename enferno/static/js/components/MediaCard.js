@@ -116,14 +116,12 @@ Vue.component("media-card", {
       </v-card>
 
 
+      <!-- PDF Media Card -->
       <v-card :disabled="!s3url" class="media-card" v-else-if="mediaType(media) == 'pdf'">
-
-
         <v-btn @click="showPDF" class="mt-2" text>
           <v-icon left color="red" size="32">mdi-file-pdf-box</v-icon>
           PDF
         </v-btn>
-
 
         <div class="caption pa-2">
           {{ media.title }}
