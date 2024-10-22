@@ -1028,6 +1028,14 @@ class SearchUtils:
                 for word in words]
 
             query.extend(qsearch)
+        
+        # Tax ID
+        if (title := q.get('tax_id')):
+            words = title.split(' ')
+            # search for bilingual title columns
+            qsearch = [Organization.tax_id.ilike('%{}%'.format(word)) for word in words]
+
+            query.extend(qsearch)
 
         # founded date
         if (founded_date := q.get('foundedDate', None)):

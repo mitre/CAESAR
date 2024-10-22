@@ -2816,6 +2816,7 @@ class Organization(db.Model, BaseMixin):
     description = db.Column(db.Text)
     status = db.Column(db.String(255))
     comments = db.Column(db.Text)
+    tax_id = db.Column(db.String(255))
 
     organization_type_id = db.Column(db.Integer, db.ForeignKey('organization_type.id'), nullable=True)
     organization_type = db.relationship('OrganizationType', back_populates='organizations', foreign_keys=[organization_type_id])
@@ -2944,6 +2945,7 @@ class Organization(db.Model, BaseMixin):
         self.name_ar = json["name_ar"] if "name_ar" in json else None
         self.founded_date = json["founded_date"] if "founded_date" in json else None
         self.description = json["description"] if "description" in json else None
+        self.tax_id = json["tax_id"] if "tax_id" in json else None
 
         # assigned to
         if "assigned_to" in json and json["assigned_to"] and "id" in json["assigned_to"]:
@@ -3195,6 +3197,7 @@ class Organization(db.Model, BaseMixin):
             "description": self.description or None,
             "created_at": DateHelper.serialize_datetime(self.created_at),
             "comments": self.comments or "",
+            "tax_id": self.tax_id,
         }
 
     def to_csv_dict(self):
@@ -3205,6 +3208,7 @@ class Organization(db.Model, BaseMixin):
             'name_ar': self.serialize_column('name_ar'),
             'description': self.serialize_column('description'),
             'created_at': self.serialize_column('created_at'),
+            'tax_id': self.serialize_column('tax_id'),
             'organization_type': self.serialize_column('organization_type'),
             'locations': convert_simple_relation(self.locations),
             'roles_within': convert_simple_relation(self.roles_within),
@@ -3381,6 +3385,7 @@ class Organization(db.Model, BaseMixin):
             # assigned to
             "assigned_to": self.assigned_to.to_compact() if self.assigned_to else None,
             "created_by": self.created_by.to_compact() if self.created_by else None,
+            "tax_id": self.tax_id,
             # first peer reviewer
             "first_peer_reviewer": self.first_peer_reviewer.to_compact()
             if self.first_peer_reviewer_id
@@ -3423,6 +3428,7 @@ class Organization(db.Model, BaseMixin):
             "description": self.description or None,
             "comments": self.comments or None,
             "created_at": DateHelper.serialize_datetime(self.created_at),
+            "tax_id": self.tax_id,
 
         }
 

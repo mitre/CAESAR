@@ -117,6 +117,17 @@ Vue.component("organization-search-box", {
             </div>
           </v-col>
         </v-row>
+        <v-row>
+          <v-col md="6">
+            <div class="d-flex flex-wrap">
+              <v-text-field
+                v-model="q.tax_id"
+                :label="i18n.taxId_"
+                clearable
+              ></v-text-field>
+            </div>
+          </v-col>
+        </v-row>
         <v-row v-if="extraFilters">
           <v-col cols="12">
             <span class="caption">{{ i18n.createdBy_ }}</span>
