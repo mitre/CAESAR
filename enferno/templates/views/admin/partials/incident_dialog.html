@@ -535,13 +535,13 @@
                                 </v-row>
                                 <v-row>
                                     <v-col cols="12" md="8">
-                                        <validation-provider name="Comments" rules="required" v-slot="{ errors }">
+                                        <validation-provider name="Comments" v-slot="{ errors }">
                                             <v-textarea v-model="editedItem.comments" outlined rows="7"
-                                                hint="{{ _('Every time the Investigation is updated, the user must provide a commentabout the nature of the update. These comments are saved as part of the Investigation history. E.g. \'Related an Actor\' or \'Added new labels\'.') }}"
+                                                hint="{{ _('Every time the Investigation is updated, the user should provide a comment about the nature of the update. These comments are saved as part of the Investigation history. E.g. \'Related an Actor\' or \'Added new labels\'.') }}"
                                                 persistent-hint>
                                                 <template #label>
-                                                    {{ _("Comments") }} <span
-                                                        class="red--text"><strong>*</strong></span>
+                                                    {{ _("Comments") }} 
+                                                    <!-- <span class="red--text"><strong>*</strong></span> -->
                                                 </template>
                                             </v-textarea>
                                             <span class="red--text">${errors[0]}</span>

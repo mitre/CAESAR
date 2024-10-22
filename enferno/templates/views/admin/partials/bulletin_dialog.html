@@ -739,13 +739,13 @@
                                 </v-row>
                                 <v-row>
                                     <v-col cols="12">
-                                        <validation-provider name="Comments" rules="required" v-slot="{ errors }">
+                                        <validation-provider name="Comments" v-slot="{ errors }">
                                             <v-textarea outlined rows="7" v-model="editedItem.comments"
-                                                hint="{{ _('Every time the Primary Record is updated, the user must provide a comment about the nature of the update. These comments are saved as part of the Primary Record history.')}}"
+                                                hint="{{ _('Every time the Primary Record is updated, the user should provide a comment about the nature of the update. These comments are saved as part of the Primary Record history.')}}"
                                                 persistent-hint>
                                                 <template #label>
-                                                    {{ _("Comments") }} <span
-                                                        class="red--text"><strong>*</strong></span>
+                                                    {{ _("Comments") }} 
+                                                    <!-- <span class="red--text"><strong>*</strong></span> -->
                                                 </template>
                                             </v-textarea>
                                             <span class="red--text">${errors[0]}</span>
