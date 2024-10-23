@@ -15,7 +15,7 @@
             <v-card>
                 <v-card-title>
                     <span class="headline">
-                        {{ _("Upload Zotero RDF Exported Files") }}
+                        {{ _("Upload Zotero Exported Files") }}
                     </span>
                 </v-card-title>
                 <v-card-text>
@@ -28,8 +28,28 @@
                             {{ _("You can drag and drop the export folder into the dropzone - all files in the folder will be attached. You can also click the dropzone to open a file selector. If you use the file selector, you must select files within the directory individually.") }}
                           </p>
                           <p>
-                            {{ _("Important!!! First, the directory path to each file added to the dropzone is preserved. Second, the .ris file is a manifest for all media files in the associated directories within the Zotero export, and the media files are identified in the manifest by their relative directory path.") }}
+                            {{ _("First, the directory path to each file added to the dropzone is preserved. Second, the .ris file is a manifest for all media files in the associated directories within the Zotero export, and the media files are identified in the manifest by their relative directory path.") }}
+                            <strong>{{ _("So adding files to the dropzone haphazardly, in an irregular way, can cause errors in the upload.") }}</strong>
                           </p>
+                          <p>
+                            {{ _("Each Zotero upload creates a hash from properties of the uploaded item. By default, a hash for a new upload is checked against these saved hashes before each upload to avoid repeat behavor. By default, 'skipped' import logs are not saved, though they can be. You can change those defaults below.") }}
+                          </p>
+                          <v-container>
+                            <v-row> 
+                              <v-col>
+                                <span class="caption">{{ _("Create Logs for Skipped Imports") }}</span>
+                                <v-switch v-model="shouldCreateLogsForSkippedImports"></v-switch>
+                            </v-col>
+                            <v-col>
+                                <span class="caption">{{ _("Check for Previous Upload (Strongly Recommended)") }}</span>
+                                <v-switch v-model="shouldCheckIfItemWasAlreadyImported"></v-switch>
+                              </v-col>
+                            </v-row>
+                          </v-container>
+                          <p>
+                            <strong>{{ _("Status of uploads can be viewed in the import logs, at Menu > Data Import > Import Log") }}</strong>
+                          </p>
+
                         </v-row>
                         <v-row>
                             <v-col cols="12">
@@ -37,7 +57,6 @@
                                 <vue-dropzone ref="dropzone" id="dropzone" class="ma-auto" :options="dzOpts"
                                   @vdropzone-sending="fileSending"
                                   @vdropzone-success="uploadSuccess"
-                                  @vdropzone-
                                   @vdropzone-removed-file="fileRemoved"
                                   @vdropzone-error="uploadError"
                                   @vdropzone-file-added="fileAdded"
@@ -80,7 +99,6 @@
 <script src="/static/js/dropzone/vue2Dropzone.js"></script>
 <script src="/static/js/RisParser.js"></script>
 <script src="/static/js/ZoteroToCaesar.js"></script>
-<script src="/static/js/ZoteroImportLogUtils.js"></script>
 <script>
   const app = new Vue({
     // el, vuetify are attributes are unreferenced but necessary are part of the vue component framework
@@ -88,6 +106,8 @@
     vuetify: vuetify,
     delimiters: delimiters,
     data: () => ({
+      shouldCheckIfItemWasAlreadyImported: true,
+      shouldCreateLogsForSkippedImports: false,
       snackbar: false,
       snackMessage: '',
       loading: false,
@@ -122,13 +142,16 @@
       fileManifestsById: new Map(),
       // mediaFilesById is a local store of the non-manifest Zotero-exported files a user has added to the dropzone
       mediaFilesById: new Map(),
+      zoteroItemByEtag: new Map(),
+      zoteroItemByFileId: new Map(),
+      importHashByFileId: new Map(),
       // etagByFileId lists the etag calculated for a file, generated on the client machine and at the server
-      etagByFileId: new Map(),
+      fileIdByEtag: new Map(),
       // mediaFileUploadResponseByEtag is list of returned metadata about media files that have been uploaded to CAESAR. The filepath of uploaded files is set on the server during the upload, returned, and made available via this dictionary
       mediaFileUploadResponseByEtag: new Map(),
+      mediaFileIdsBySimplified: new Map(),
       // zoteroItems is a list of Zotero 'item' objects read from the Zotero exported manifest file
       zoteroItems: [],
-      countOfPendingMediaFileUploads: -1,
       //etl additional tags
       labels: [],
       verLabels: [],
@@ -189,21 +212,11 @@
       // The Zotero manifest identifies media files with a relative directory path.
       // Depending on how files are added to the dropzone, these two values (the path of the file as seen by the dropzone and the path as listed in the Zotero manifest) can be different.
       // We need these two values to be reconciled so that the correct files are uploaded for a given manifest.
-      getMediaFileIdsAssociatedWithFileLinksFromTheZoteroManifest(urlsFromManifest){
-        mediaFileIdsBySimplified = new Map()
-        correctedFileIds = []
-        // console.error("mediafilesbyid " + JSON.stringify(Object.fromEntries(this.mediaFilesById)))
-        for(i = 0; i < urlsFromManifest.length; i++){
-          correctedFileIds.push(this.getMediaFileIdAssociatedWithFileLink(urlsFromManifest[i]))
-        }
-
-        return correctedFileIds
-      },
       getMediaFileIdAssociatedWithFileLink(url){
-        if(this.mediaFilesById.has(url)){ // there's no issue if the link listed inthe manifest is the id of an uploaded file
+        if(this.mediaFilesById.has(url)){ // there's no issue if the link listed in the manifest is the id of an uploaded file
           return url
         }
-        
+
         // if the file is uploaded via the file selector, it will not have a path beyond the filename
         // remediation is to update that
         filename = url.split('/').at(-1)
@@ -213,18 +226,19 @@
 
         // if the file is drag-dropped into the dropzone from anywhere other than the local directory of the manifest file, its path will differ from what the manifest file lists
         // this logic just fixes the common drag-the-top-level-folder scenario
-        if(mediaFileIdsBySimplified.size == 0){ // lazy initialization
-          mediaFileIdsBySimplified = this.getMappingFromOriginalPathToSimplifiedPath()
+        if(this.mediaFileIdsBySimplified.size == 0){ // lazy initialization
+          this.mediaFileIdsBySimplified = this.getMappingFromOriginalPathToSimplifiedPath()
         }
         // console.error("mediaFileIdsBySimplified " + JSON.stringify(Object.fromEntries(mediaFileIdsBySimplified)))
-        if(mediaFileIdsBySimplified.has(url)){
-          return mediaFileIdsBySimplified.get(url)
+        if(this.mediaFileIdsBySimplified.has(url)){
+          return this.mediaFileIdsBySimplified.get(url)
         }
         
         // It is an error state to not find any variation of the URL in the list of uploaded media files.
-        console.error("It appears that media file " + url + " included in the Zotero manifest (.ris file) has not been added to the dropzone.")
+        log_message = "It appears that media file " + url + " included in the Zotero manifest (.ris file) has not been added to the dropzone."
+        error_log = getMediaImportLog(0, filename, "", "", "", this.batch_id, failed_import_status, "", log_message)
+        this.save_log(error_log)
       },
-      // See the comments on getMediaFileIdsAssociatedWithFileLinksFromTheZoteroManifest
       getMappingFromOriginalPathToSimplifiedPath()
       {
         mediaFileIdsBySimplified = new Map()
@@ -258,20 +272,19 @@
         // pick file from dropzone files list
         needle = this.$refs.dropzone.getAcceptedFiles().filter(x => x.status === 'success').filter(x => parseResponse(x).uuid === dzfile.upload.uuid).pop();
         file = parseResponse(needle);
-        this.mediaFileUploadResponseByEtag.set(file["etag"], file)
-        this.countOfPendingMediaFileUploads = this.countOfPendingMediaFileUploads - 1;
+        filename = file["filename"]
+        etag = file["etag"]
+        this.mediaFileUploadResponseByEtag.set(etag, file)
 
-        if(this.countOfPendingMediaFileUploads < 0){
-          console.error("This is unexpected error condition.");
-        }
+        fileId = this.fileIdByEtag.get(etag)
+        zoteroItem = this.zoteroItemByFileId.get(fileId)
+        importHash = this.importHashByFileId.get(fileId)
 
-        file_extension = this.getFileExtension(file["filename"])
-        import_log = getMediaImportLog(0, file["filename"], file_extension, file["etag"], this.batch_id, getImportStatusFromStatusCode(200), "", "")
+        file_extension = this.getFileExtension(filename)
+        import_log = getMediaImportLog(0, filename, file_extension, etag, importHash, this.batch_id, ready_import_status, "", "")
         this.save_log(import_log)
 
-        if(this.countOfPendingMediaFileUploads == 0){
-          this.buildCaesarObjectsAfterMediaUploadsComplete(this.batch_id);
-        }
+        this.buildPrimaryRecordAfterMediaUploadCompletes(this.batch_id, fileId, importHash, zoteroItem, etag);
       },
       // vdropzone-removed-file fires after a file has been removed from the dropzone
       fileAdded(file) {
@@ -306,23 +319,17 @@
       },
       // vdropzone-error is fired when an error occurs. Receives the error message as second parameter and if the error was due to the XMLHttpRequest the xhr object as third.
       showSnack(message) {
-        console.log("SNACK: " + this.snackMessage)
         this.snackbar = true
         this.snackMessage = message
       },
-      uploadError(err, message) {
+      uploadError(file, message) {
         try{
-          // console.error("errorlog " + JSON.stringify(err))
-          // console.error("message " + JSON.stringify(message))
-          import_log = getMediaImportLog(0, "fileId", "file_extension", "etag", this.batch_id, getImportStatusFromStatusCode(500), "", "err + message")
-          // console.error("import log " + JSON.stringify(import_log))
+          import_log = getMediaImportLog(0, file.name, this.getFileExtension(file.name), file.etagClient, "", this.batch_id, failed_import_status, "", JSON.stringify(message))
           this.save_log(import_log)
-          console.error(err)
-          console.error(message)
           this.showSnack(message)
         }
         catch(error){
-          console.error("error!: " + error)
+          console.error(rror)
         }
       },
       executeZoteroImport(){
@@ -338,57 +345,122 @@
       // this method is called after filereader asynchronously opens/reads the manifest file
       processFileManifestCallback(zoteroItems){
         this.zoteroItems = zoteroItems
-        urlsListedInTheZoteroManifest = getMediaFilesListedInTheZoteroManifest(zoteroItems)
-        mediaFileIds = this.getMediaFileIdsAssociatedWithFileLinksFromTheZoteroManifest(urlsListedInTheZoteroManifest)
-
-        // we're going to wait for all of these uploads to complete to build CAESAR objects
-        this.countOfPendingMediaFileUploads = mediaFileIds.length;
-
-        for(i = 0; i <mediaFileIds.length; i++){
-          fileId = mediaFileIds[i]
-          if(this.mediaFilesById.has(fileId)){
-            file = this.mediaFilesById.get(fileId)
-            etag = file["etagClient"]
-            this.etagByFileId.set(fileId, etag)
-            result = this.$refs.dropzone.dropzone.processFile(file)
+        for(i = 0; i < zoteroItems.length; i++){
+          this.startProcessingZoteroItem(zoteroItems[i])
+        }
+      },
+      startProcessingZoteroItem(item){
+        this.getImportHashFromItem(item).then(hash => {
+          if(this.shouldCheckIfItemWasAlreadyImported){
+            this.checkIfItemWasAlreadyImported(hash).then(itemWasImported => {
+              if(!itemWasImported){
+                this.processZoteroItem(item, hash)
+              }
+              else{
+                if(this.shouldCreateLogsForSkippedImports){
+                  import_log = getImportLog(item, hash, this.batch_id, skipped_import_status, "", "Skipping import because an item with this import hash has already been imported.")
+                  this.save_log(import_log)
+                }
+              }
+            })
           }
           else{
-            console.error("Media file " + fileId + " was expected for upload but was not added to the dropzone.")
+            this.processZoteroItem(item, hash)
           }
+        })
+      },
+      async getImportHashFromItem(item){
+        title = getTitle(item)
+        media_title = getMediaTitle(item)
+        buffer = new TextEncoder("utf-8").encode("" + title + media_title)
+        const hash = await crypto.subtle.digest("SHA-256", buffer)
+        const hashArray = Array.from(new Uint8Array(hash))
+        var hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("")
+        return hashHex
+      },
+      async checkIfItemWasAlreadyImported(importHash){
+        // if the media item has been uploaded, skip
+        return axios.get("/import/api/import-log?import_hash=" + importHash.toString()).then(
+          response => {
+            console.log(response.data);
+            console.error("Expected either a 302 or 404 when checking for import logs.")
+          }
+        ).catch(err => {
+          if(err.response.status == 302){
+            return true
+          }
+          if(err.response.status == 404){
+            return false
+          }
+
+          console.error(err)
+        })
+      },
+      processZoteroItem(item, importHash){
+        try{
+          mediaForZoteroItem = getMediaFileFromZoteroItem(item)
+  
+          if(mediaForZoteroItem){
+            mediaFileId = this.getMediaFileIdAssociatedWithFileLink(mediaForZoteroItem)
+            this.zoteroItemByFileId.set(mediaFileId, item)
+            this.importHashByFileId.set(mediaFileId, importHash)
+            this.pushMediaFile(mediaForZoteroItem, mediaFileId, item)
+          }
+          else{
+            this.buildPrimaryRecordWithoutMediaFile(item, importHash)
+          }
+        }
+        catch(error){
+          import_log = getImportLog(item, hash, this.batch_id, failed_import_status, JSON.stringify(item), error.toString())
+          this.save_log(import_log)
+          throw error
+        }
+      },
+      pushMediaFile(mediaFile, fileId, zoteroItem){
+        if(this.mediaFilesById.has(fileId)){
+          file = this.mediaFilesById.get(fileId)
+          etag = file["etagClient"]
+          this.fileIdByEtag.set(etag, fileId)
+          this.zoteroItemByEtag.set(etag, zoteroItem)
+          result = this.$refs.dropzone.dropzone.processFile(file)
         }
       },
       // once the files have been uploaded, we can look up the media path by an etag - but we need to wait for media uploads to complete to do this
-      buildCaesarObjectsAfterMediaUploadsComplete(batch_id){
-        for(i=0; i<this.zoteroItems.length; i++){
-          item = this.zoteroItems[i]
-          mediaFilePath = ""
-          try{
-            fileId = this.getMediaFileIdAssociatedWithFileLink(getMediaFileFromZoteroItem(item))
-            // console.error("etagByFileId " + JSON.stringify([...this.etagByFileId.entries()]))
-            etag = this.etagByFileId.get(fileId)
-            fileUploadInfo = this.mediaFileUploadResponseByEtag.get(etag)
-            mediaFilePath = fileUploadInfo["s3url"]
-          }
-          catch(error){
-            console.error("Error when trying to find uploaded file.")
-          }
-          bulletin = getBulletinFromZoteroItem(item, mediaFilePath)
+      buildPrimaryRecordAfterMediaUploadCompletes(batch_id, fileId, importHash, zotero_item, etag){
+        // console.error("asdf " + JSON.stringify([...this.asdf.entries()]))
+        fileUploadInfo = this.mediaFileUploadResponseByEtag.get(etag)
+        mediaFilePath = fileUploadInfo["s3url"]
+        bulletin = getPrimaryRecordWithMediaFromZoteroItem(zoteroItem, mediaFilePath)
 
-          // post bulletin
-          axios.post("/admin/api/bulletin/", {
-                item: bulletin
-            }).then(response => {
-                this.showSnack(response.data);
-                bulletin_id = response.data.substring(18)
-                file_extension = this.getFileExtension(this.mediaFilesById.get(fileId).name)
-                import_log = getBulletinImportLog(bulletin_id, fileId, file_extension, etag, batch_id, getImportStatusFromStatusCode(response.status), "", "")
-                this.save_log(import_log)
-            }).catch(err => {
-                this.showSnack(err.response.data);
-            }).then(() => {
-          });
-        }
-        this.batch_id = ''
+        // post bulletin
+        axios.post("/admin/api/bulletin/", {
+              item: bulletin
+          }).then(response => {
+              this.showSnack(response.data);
+              bulletin_id = response.data.substring(18)
+              file_extension = this.getFileExtension(this.mediaFilesById.get(fileId).name)
+              import_log = getBulletinImportLog(bulletin_id, fileId, file_extension, etag, importHash, batch_id, getImportStatusFromStatusCode(response.status), "", response.data)
+              this.save_log(import_log)
+          }).catch(err => {
+              import_log = getBulletinImportLog(0, fileId, "", etag, importHash, batch_id, failed_import_status, "", err.response.data)
+              this.save_log(import_log)
+          })
+      },
+      buildPrimaryRecordWithoutMediaFile(zoteroItem, importHash){
+        bulletin = getPrimaryRecordWithoutMediaFromZoteroItem(zoteroItem)
+
+        // post bulletin
+        axios.post("/admin/api/bulletin/", {
+              item: bulletin
+          }).then(response => {
+              this.showSnack(response.data);
+              bulletin_id = response.data.substring(18)
+              import_log = getBulletinImportLog(bulletin_id, "", "", "", importHash, this.batch_id, getImportStatusFromStatusCode(response.status), "", response.data)
+              this.save_log(import_log)
+          }).catch(err => {
+            import_log = getBulletinImportLog(0, "", "", "", importHash, batch_id, failed_import_status, "", err.response.data)
+            this.save_log(import_log)
+          })
       }
     }
   });

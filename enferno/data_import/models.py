@@ -23,6 +23,8 @@ class DataImport(db.Model, BaseMixin):
     file = db.Column(db.String)
     file_format = db.Column(db.String)
     file_hash = db.Column(db.String)
+    # import_hash is calculated at the source of the the import and is used to see if the import has already been run 
+    import_hash = db.Column(db.String)
     batch_id = db.Column(db.String)
     status = db.Column(db.String, nullable=False, default='Pending')
     imported_at = db.Column(db.DateTime)
@@ -31,7 +33,6 @@ class DataImport(db.Model, BaseMixin):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.log = ''
     
     def to_dict(self):
         """

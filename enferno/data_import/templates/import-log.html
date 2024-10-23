@@ -19,6 +19,11 @@
                                     <v-toolbar flat color="white">
                                         <v-toolbar-title>{{ _("Import Log") }}</v-toolbar-title>
                                         <v-divider class="ml-4" inset vertical></v-divider>
+                                        <v-text-field outlined dense class="mt-6" v-model="q.file"
+                                            @keydown.enter="refresh()" append-outer-icon="mdi-ballot"
+                                            @click:append-outer="toggleAdvSearch" @click:append="resetSearch"
+                                            append-icon="mdi-close" label="{{ _('Search') }}">
+                                        </v-text-field>
                                         <v-btn @click="refresh()" icon>
                                             <v-icon>mdi-refresh</v-icon>
                                         </v-btn>
@@ -50,6 +55,7 @@
                                     </v-btn>
                                 </template>
                             </v-data-table>
+                            {% include 'views/admin/partials/import-log_advsearch.html' %}
                         </div>
                         <preview-card :i18n="translations" ref="prev" :item="pitem" v-model="preview"></preview-card>
                         <v-snackbar v-model="snackbar" class="">
@@ -84,6 +90,7 @@
 <script src="/static/js/force-graph.min.js"></script>
 <script src="/static/js/components/LogStatus.js"></script>
 <script src="/static/js/components/LogCard.js"></script>
+<script src="/static/js/components/ImportLogSearchBox.js"></script>
 {% if config.GOOGLE_MAPS_API_KEY %}
 {{ '
 <script src="https://maps.googleapis.com/maps/api/js?key='|safe + config.GOOGLE_MAPS_API_KEY + '" async defer></script>
@@ -102,6 +109,7 @@
             currentUser: JSON.parse(`{{ current_user.to_dict()|tojson }}`),
             drawer: drawer,
             q: {},
+            advSearchOpen: false,
             logDialog: false,
             logLoader: true,
             preview: false,
@@ -118,6 +126,7 @@
             selected: [],
             options: {
                 page: 1,
+                sortDesc: true
             },
             footerProps: {
                 itemsPerPageOptions: itemsPerPageOptions,
@@ -126,43 +135,43 @@
             headers: [{
                 text: "{{_('ID')}}",
                 value: 'id',
-                sortable: false
+                sortable: true
             }, {
                 text: "{{_('User')}}",
                 value: 'user.name',
-                sortable: false
+                sortable: true
             }, {
                 text: "{{_('Table')}}",
                 value: 'table',
-                sortable: false
+                sortable: true
             }, {
                 text: "{{_('Item')}}",
                 value: 'preview',
-                sortable: false
+                sortable: true
             }, {
                 text: "{{_('Status')}}",
                 value: 'status',
-                sortable: false
+                sortable: true
             }, {
                 text: "{{_('File')}}",
                 value: 'file',
-                sortable: false
+                sortable: true
             }, {
                 text: "{{_('Format')}}",
                 value: 'file_format',
-                sortable: false
+                sortable: true
             }, {
                 text: "{{_('Batch ID')}}",
                 value: 'batch_id',
-                sortable: false
+                sortable: true
             }, {
                 text: "{{_('Requested time')}}",
                 value: 'created_at',
-                sortable: false
+                sortable: true
             }, {
                 text: "{{_('Import time')}}",
                 value: 'imported_at',
-                sortable: false
+                sortable: true
             },],
         }),
         watch: {
@@ -211,9 +220,13 @@
                 this.snackbar = true;
                 this.snackMessage = message
             },
-            searchLogs() {
+            resetSearch() {
+                this.q = {};
+                this.doSearch()
+            },
+            doSearch() {
                 this.loading = true;
-                let url = `/import/api/imports/?page=${this.options.page}&per_page=${this.options.itemsPerPage}`;
+                let url = `/import/api/imports/?page=${this.options.page}&per_page=${this.options.itemsPerPage}&sort_by=${this.options.sortBy}&sort_desc=${this.options.sortDesc}`;
                 axios.post(url, {
                     q: this.q,
                     options: this.options
@@ -225,20 +238,24 @@
                     console.error(error.response?.data);
                 }).finally(() => {
                     this.loading = false;
+                    this.advSearchOpen = false;
                 });
+            },
+            toggleAdvSearch() {
+                this.advSearchOpen = true;
             },
             filterBatch(batch_id) {
                 this.q = {
                     batch_id: batch_id
                 };
-                this.searchLogs()
+                this.doSearch()
             },
             rowClick(item) {
                 path = `/import/log/${item.id}`;
                 if (this.$route.path !== path) this.$router.push(path);
                 this.logLoader = true;
                 this.logDialog = true;
-                axios.get(`/import/api/imports/${item.id}`).then(response => {
+                axios.get(`/import/api/import/${item.id}`).then(response => {
                     this.eitem = response.data;
                 }).catch(error => {
                     this.logDialog = false;
@@ -250,7 +267,7 @@
             showLog(id) {
                 this.logLoader = true;
                 this.logDialog = true;
-                axios.get(`/import/api/imports/${id}`).then(response => {
+                axios.get(`/import/api/import/${id}`).then(response => {
                     this.eitem = response.data;
                 }).catch(error => {
                     this.logDialog = false;
@@ -275,7 +292,7 @@
                 }, 300);
             },
             refresh() {
-                this.searchLogs();
+                this.doSearch();
             }
         }
     });
