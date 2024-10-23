@@ -1512,16 +1512,15 @@
             }
         },
         async getAuthors() {
-            this.authorLoading = true;
-            await axios.get('/admin/api/authors')
-                .then(res => {
-                    this.authors = res.data.items;
-                })
-                .catch((error) => {
-                    console.log(error);
-                    this.showSnack("Could not fetch authors. Error: " + error, true)
-                });
-            this.authorLoading = false;
+            try {
+                this.authorLoading = true;
+                const res = await axios.get('/admin/api/authors')
+                this.authors = res.data.items;
+                this.authorLoading = false;
+            } catch (error) {
+                console.log(error);
+                this.showSnack("Could not fetch authors. Error: " + error, true)        
+            }
         },
         isExistingAuthor(authorName) {
             return this.authors.find(author => {
