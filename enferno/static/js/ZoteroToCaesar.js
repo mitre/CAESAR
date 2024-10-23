@@ -140,7 +140,7 @@ function getMediaFromZoteroItem(zoteroItem, mediaFilePath){
     return media
 }
 
-function getPrimaryRecordWithMediaFromZoteroItem(zoteroItem, mediaFilePath){
+function getPrimaryRecordWithMediaFromZoteroItem(zoteroItem, mediaFilePath, roles){
     media = getMediaFromZoteroItem(zoteroItem, mediaFilePath)
 
     bulletin = {
@@ -161,12 +161,13 @@ function getPrimaryRecordWithMediaFromZoteroItem(zoteroItem, mediaFilePath){
         publish_date: getPublishDate(zoteroItem),
         created_at: '',
         discovery_file_name: '',
+        roles: roles
     }
 
     return bulletin
 }
 
-function getPrimaryRecordWithoutMediaFromZoteroItem(zoteroItem){
+function getPrimaryRecordWithoutMediaFromZoteroItem(zoteroItem, roles){
     bulletin = {
         title: getTitle(zoteroItem),
         status: 'Machine Created',
@@ -185,6 +186,7 @@ function getPrimaryRecordWithoutMediaFromZoteroItem(zoteroItem){
         publish_date: getPublishDate(zoteroItem),
         created_at: '',
         discovery_file_name: '',
+        roles: roles
     }
 
     return bulletin

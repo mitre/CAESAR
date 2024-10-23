@@ -32,20 +32,26 @@
                             <strong>{{ _("So adding files to the dropzone haphazardly, in an irregular way, can cause errors in the upload.") }}</strong>
                           </p>
                           <p>
-                            {{ _("Each Zotero upload creates a hash from properties of the uploaded item. By default, a hash for a new upload is checked against these saved hashes before each upload to avoid repeat behavor. By default, 'skipped' import logs are not saved, though they can be. You can change those defaults below.") }}
+                            {{ _("Each Zotero upload creates a hash from properties of the uploaded item. By default, a hash for a new upload is checked against these saved hashes before each upload to avoid repeat behavor. By default, 'skipped' import logs are not saved, though they can be. You can change those defaults below. You can also assign an owner access group for all items to be imported in the upload.") }}
                           </p>
                           <v-container>
                             <v-row> 
                               <v-col>
                                 <span class="caption">{{ _("Create Logs for Skipped Imports") }}</span>
                                 <v-switch v-model="shouldCreateLogsForSkippedImports"></v-switch>
-                            </v-col>
-                            <v-col>
+                              </v-col>
+                              <v-col>
                                 <span class="caption">{{ _("Check for Previous Upload (Strongly Recommended)") }}</span>
                                 <v-switch v-model="shouldCheckIfItemWasAlreadyImported"></v-switch>
                               </v-col>
+                              <v-col>
+                                <span class="caption">{{ _("Assign Imported Files to a Group") }}</span>
+                                <search-field api="/admin/api/roles/?custom=true" item-text="name"
+                                    item-value="id" :multiple="true" label="{{ _('Access Groups') }}" v-model="roles">
+                                </search-field>
+                              </v-col>
                             </v-row>
-                          </v-container>
+                      </v-container>
                           <p>
                             <strong>{{ _("Status of uploads can be viewed in the import logs, at Menu > Data Import > Import Log") }}</strong>
                           </p>
@@ -108,6 +114,7 @@
     data: () => ({
       shouldCheckIfItemWasAlreadyImported: true,
       shouldCreateLogsForSkippedImports: false,
+      roles: [],
       snackbar: false,
       snackMessage: '',
       loading: false,
@@ -284,7 +291,7 @@
         import_log = getMediaImportLog(0, filename, file_extension, etag, importHash, this.batch_id, ready_import_status, "", "")
         this.save_log(import_log)
 
-        this.buildPrimaryRecordAfterMediaUploadCompletes(this.batch_id, fileId, importHash, zoteroItem, etag);
+        this.buildPrimaryRecordAfterMediaUploadCompletes(this.batch_id, fileId, importHash, zoteroItem, etag, this.roles);
       },
       // vdropzone-removed-file fires after a file has been removed from the dropzone
       fileAdded(file) {
@@ -426,11 +433,11 @@
         }
       },
       // once the files have been uploaded, we can look up the media path by an etag - but we need to wait for media uploads to complete to do this
-      buildPrimaryRecordAfterMediaUploadCompletes(batch_id, fileId, importHash, zotero_item, etag){
+      buildPrimaryRecordAfterMediaUploadCompletes(batch_id, fileId, importHash, zotero_item, etag, roles){
         // console.error("asdf " + JSON.stringify([...this.asdf.entries()]))
         fileUploadInfo = this.mediaFileUploadResponseByEtag.get(etag)
         mediaFilePath = fileUploadInfo["s3url"]
-        bulletin = getPrimaryRecordWithMediaFromZoteroItem(zoteroItem, mediaFilePath)
+        bulletin = getPrimaryRecordWithMediaFromZoteroItem(zoteroItem, mediaFilePath, roles)
 
         // post bulletin
         axios.post("/admin/api/bulletin/", {
@@ -447,7 +454,7 @@
           })
       },
       buildPrimaryRecordWithoutMediaFile(zoteroItem, importHash){
-        bulletin = getPrimaryRecordWithoutMediaFromZoteroItem(zoteroItem)
+        bulletin = getPrimaryRecordWithoutMediaFromZoteroItem(zoteroItem, this.roles)
 
         // post bulletin
         axios.post("/admin/api/bulletin/", {
