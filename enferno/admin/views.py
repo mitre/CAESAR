@@ -20,9 +20,10 @@ from sqlalchemy import and_, desc, or_, cast, String
 from werkzeug.utils import safe_join
 from werkzeug.utils import secure_filename
 
-from enferno.admin.models import (ActorSubType, Bulletin, ConsentUse, Label, Organization, OrganizationHistory, OrganizationRole, OrganizationType, OtoaInfo, OtobInfo, OtoiInfo, OtooInfo, Source, Location, Eventtype, Media, Actor, Incident,
-                                  IncidentHistory, BulletinHistory, ActorHistory, LocationHistory, PotentialViolation,
-                                  ClaimedViolation,
+from enferno.admin.models import (ActorSubType, Author, Bulletin, ConsentUse, Label, Organization, OrganizationHistory,
+                                  OrganizationRole, OrganizationType, OtoaInfo, OtobInfo, OtoiInfo, OtooInfo, Source, 
+                                  Location, Eventtype, Media, Actor, Incident, IncidentHistory, BulletinHistory, 
+                                  ActorHistory, LocationHistory, PotentialViolation, ClaimedViolation,
                                   Activity, Query, LocationAdminLevel, LocationType, AppConfig,
                                   AtobInfo, AtoaInfo, BtobInfo, ItoiInfo, ItoaInfo, ItobInfo, Country, Ethnography,
                                   MediaCategory, GeoLocation, GeoLocationType, WorkflowStatus, SocialMediaPlatform, SocialMediaHandle,
@@ -528,7 +529,7 @@ def api_claimedviolation_import():
         return 'Error', 400
 
 
-# Sources routes
+""" SOURCES ROUTES """
 @admin.route('/sources/')
 @roles_accepted('Admin', 'Mod')
 def sources():
@@ -587,7 +588,7 @@ def api_sources():
         if hasattr(Source, sort_by):
             result = result.order_by(getattr(Source, sort_by).desc() if sort_desc else getattr(Source, sort_by))
         else:
-            return {'error': 'Invalid sort_by fied'}, 400
+            return {'error': 'Invalid sort_by field'}, 400
 
     result = result.paginate(page=page, per_page=per_page, count=True)
     response = {'items': [item.to_dict() for item in result.items], 'perPage': per_page, 'total': result.total}
@@ -608,7 +609,6 @@ def api_source_create():
         return F'Created Source #{source.id}', 200
     else:
         return 'Save Failed', 417
-
 
 @admin.put('/api/source/<int:id>')
 @roles_accepted('Admin', 'Mod')
@@ -655,6 +655,116 @@ def api_source_import():
     else:
         return 'Error', 400
 
+""" /SOURCES ROUTES """
+
+""" AUTHORS ROUTES """
+
+@admin.route('/authors/')
+@roles_accepted('Admin', 'Mod')
+def authors():
+    """
+    Endpoint to render authors backend page
+    :return: html of the authors page
+    """
+    return render_template('views/admin/authors.html')
+
+@admin.route('/api/authors/')
+def api_authors():
+    """
+    API Endpoint to fetch Authors, supports paging and search
+    :return: json of authors or error code based on operation's result
+    """
+    query = []
+    q = request.args.get('q', None)
+
+    page = request.args.get('page', 1, int)
+    per_page = request.args.get('per_page', PER_PAGE, int)
+
+    if q is not None:
+        words = q.split(' ')
+        query.extend([Author.name.ilike(f'%{word}%') for word in words])
+
+    if q:
+        result = Author.query.filter(*query).all()
+    else:
+        result = Author.query.filter(*query)
+
+    # Sort by request property
+    sort_by = request.args.get('sort_by', 'id')
+    sort_desc = request.args.get('sort_desc', 'false').lower() == 'true'
+    if sort_by == '':
+        sort_by = 'id'
+
+    if hasattr(Author, sort_by):
+        result = result.order_by(getattr(Author, sort_by).desc() if sort_desc else getattr(Author, sort_by))
+    else:
+        return {'error': 'Invalid sort_by field'}, 400
+    
+    result = result.paginate(page=page, per_page=per_page, count=True)
+    response = {'items': [item.to_dict() for item in result.items], 'perPage': per_page, 'total': result.total}
+    return Response(json.dumps(response),
+                    content_type='application/json'),200
+
+@admin.post('/api/author/')
+@roles_accepted('Admin', 'Mod', 'DA')
+def api_author_create():
+    """ 
+    Endpoint to create an author
+    :return: success or error message based on operation's result
+    """
+    author = Author()
+    author.from_json(request.json['item'])
+    result = author.save()
+
+    if result:
+        return Response(json.dumps(result.to_dict()), content_type='application/json'), 200
+    else:
+        return 'Error creating author', 417
+
+@admin.put('/api/author/<int:id>')
+@roles_accepted('Admin', 'Mod')
+def api_author_update(id):
+    """
+    Endpoint to update an author
+    :param id: id of the author to update
+    :return: success/error based on the operation's result
+    """
+    author = Author.query.get(id)
+    if author is None:
+        return HTTPResponse.NOT_FOUND
+    
+    author = author.from_json(request.json['item'])
+    author.save()
+    return f'Saved Author #{author.id}', 200
+
+@admin.delete('/api/author/<int:id>')
+@roles_required('Admin')
+def api_author_delete(id):
+    """
+    Endopint to delete an author
+    :param id: id of the author to delete
+    :return: success/error based on operation's result
+    """
+    author = Author.query.get(id)
+    if author is None:
+        return HTTPResponse.NOT_FOUND
+    author.delete()
+    return f'Deleted Author #{author.id}', 200
+
+@admin.route('/api/author/import/', methods=['POST'])
+@roles_required('Admin')
+def api_author_import():
+    """
+    Endpoint to import authors from CSV data
+    :return: success/error based on operation's result
+    """
+    if 'csv' in request.files:
+        Author.import_csv(request.files.get('csv'))
+        return 'Success', 200
+    else:
+        return 'Error', 400
+
+""" /AUTHORS ROUTES """
 
 # locations routes
 

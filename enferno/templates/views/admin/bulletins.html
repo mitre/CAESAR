@@ -205,7 +205,7 @@
                             </v-card-actions>
                         </v-card>
                     </v-dialog>
-                    <v-snackbar v-model="snackbar">
+                    <v-snackbar v-model="snackbar" :color="snackError ? 'red' : ''">
                         <div class="d-flex justify-space-between align-center">
                             <span class="text-subtitle-1">${snackMessage}</span>
                             <v-btn color="white" fab small color="secondary" text @click="snackbar = false">
@@ -317,6 +317,10 @@
             resultsChip: true,
             selfAssignDialog: false,
             assignDialog: false,
+            searchAuthorInput: null, // for the author combobox 
+            authorLoading: false,
+            searchSourceInput: null, // for the source combobox 
+            sourceLoading: false,
             //global preview dialog
             preview: false,
             pitem: null,
@@ -396,6 +400,7 @@
             tinyConfig: tinyConfig,
             snackbar: false,
             snackMessage: "",
+            snackError: false,
             loading: true,
             parentLoading: false,
             csvFile: null,
@@ -499,7 +504,8 @@
                         to_date: ''
             },
             bulletin: { },
-            bulletinLoader: false
+            bulletinLoader: false,
+            authors: [],
         }),
         computed: {
             get_formatted_created_at_datetime(){
@@ -603,6 +609,7 @@
               .then((sources) => {
                 this.sources = sources;
               });
+            this.getAuthors();
             this.statusDisabled = !this.has_role(this.currentUser, 'Admin')
             // populate roles for advanced search for admins
             {% if current_user.has_role('Admin') %}
@@ -998,7 +1005,8 @@
                 }
             }
         },
-        showSnack(message) {
+        showSnack(message, error) {
+            this.snackError = error;
             this.snackMessage = message;
             this.snackbar = true;
         },
@@ -1155,11 +1163,20 @@
             }, 300);
         },
         save() {
+            // Filter out invalid sources
             if (this.editedItem.sources) {
                 this.editedItem.sources = this.editedItem.sources.filter(source => {
                     return typeof source !== 'string';
                 });
             }
+            
+            // Filter out invalid authors
+            if (this.editedItem.authors) {
+                this.editedItem.authors = this.editedItem.authors.filter(author => {
+                    return typeof author !== 'string';
+                });
+            }
+
             if (this.editedItem.id) {
                 axios.put(`/admin/api/bulletin/${this.editedItem.id}`, {
                     item: this.editedItem
@@ -1426,12 +1443,20 @@
             this.editedItem.bulletin_to_consent_uses[index].date = null;
           }
         },
+        
         async createNewSource(event) {
-            if (event.key !== 'Enter') {
+            const newSourceTitle = event.target._value;
+            // make sure is not a blank string or only spaces
+            const isWhitespaceString = newSourceTitle !== null ? this.isOnlySpaces(newSourceTitle) : true;
+            if (event.key !== 'Enter' && event.key !== 'Tab' || isWhitespaceString) {
+                if (isWhitespaceString) {
+                    this.searchSourceInput = '';
+                }
                 return;
             }
-
-            const newSourceTitle = event.srcElement._value;
+            
+            this.sourceLoading = true;
+            
 
             const existingSource = this.sources.find(source => {
                 return source.title === newSourceTitle;
@@ -1442,7 +1467,10 @@
             }
 
             const res = await axios.post('/admin/api/source', { item: { title: newSourceTitle }})
-                .catch(console.error);
+                .catch((error) => {
+                    console.log(error);
+                    this.showSnack("Could not add source. Error: " + error, true)
+                });
 
             const id = res.data.replace('Created Source #', '');
 
@@ -1463,11 +1491,12 @@
                 }
             })
             this.editedItem.sources = newSourceList;
-
+            this.sourceLoading = false;
             return;
         },
         async getSources(page=1) {
             try {
+                this.sourceLoading = true
                 const res = await axios.get('/admin/api/sources', {params: { page }})
                 
                 // this.sources = res.data.items;
@@ -1476,11 +1505,77 @@
                     const moreSources = await this.getSources(page+1)
                     sources = [...sources, ...moreSources];
                 }
-    
+                this.sourceLoading = false;
                 return sources;
             } catch (error) {
                 console.error(error);
             }
+        },
+        async getAuthors() {
+            this.authorLoading = true;
+            await axios.get('/admin/api/authors')
+                .then(res => {
+                    this.authors = res.data.items;
+                })
+                .catch((error) => {
+                    console.log(error);
+                    this.showSnack("Could not fetch authors. Error: " + error, true)
+                });
+            this.authorLoading = false;
+        },
+        isExistingAuthor(authorName) {
+            return this.authors.find(author => {
+                return author.name === authorName;
+            });
+        },
+        isOnlySpaces(str) {
+            return str.trim() === "";
+        },
+        async createNewAuthor(event) {
+            const newAuthorName = event.target._value;
+            // make sure is not a blank string or only spaces
+            const isWhitespaceString =  newAuthorName !== null ? this.isOnlySpaces(newAuthorName) : true;
+            if (event.key !== 'Enter' && event.key !== 'Tab' || isWhitespaceString) {
+                if (isWhitespaceString) {
+                    this.searchAuthorInput = '';
+                }
+                return;
+            }
+
+            this.authorLoading = true;
+            const existingAuthor = this.isExistingAuthor(newAuthorName);
+
+            if (existingAuthor) {
+                return;
+            }
+            const res = await axios.post('/admin/api/author/', { item: { name: newAuthorName }})
+                .catch((error) => {
+                    console.log(error);
+                    this.showSnack("Could not add author. Error: " + error, true)
+                });
+
+            const id = res.data.id;
+
+            this.authors.push({ id, name: newAuthorName });
+            this.showSnack(newAuthorName + " author created.")
+            const authorList = [];
+            this.editedItem.authors.map(author => {
+                if (typeof author === 'string') {
+                    const existingAuthor = this.authors.find(currentAuthor => {
+                        return currentAuthor.name === author;
+                    });
+
+                    if (existingAuthor) {
+                        authorList.push(existingAuthor);
+                    }
+                } else {
+                    authorList.push(author);
+                }
+            });
+
+            this.editedItem.authors = authorList;
+            this.authorLoading = false;
+            return;
         },
     }
         });

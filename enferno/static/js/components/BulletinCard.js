@@ -395,6 +395,18 @@ Vue.component("bulletin-card", {
             </v-chip-group>
           </v-card-text>
         </v-card>
+        
+        <!-- SourcesAuthors -->
+        <v-card outlined class="ma-2" color="grey lighten-5" v-if="bulletin.authors && bulletin.authors.length">
+          <v-card-text>
+            <div class="px-1 title black--text">{{ i18n.authors_ }}</div>
+            <v-chip-group column>
+              <v-chip small label color="blue-grey lighten-5" v-for="source in bulletin.authors"
+                      :key="source.id">{{ source.name }}
+              </v-chip>
+            </v-chip-group>
+          </v-card-text>
+        </v-card>
 
         <!-- Events -->
         <v-card outlined class="ma-2" color="grey lighten-5" v-if="bulletin.events && bulletin.events.length">
