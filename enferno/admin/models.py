@@ -443,6 +443,59 @@ class Source(db.Model, BaseMixin):
 
         return ""
 
+class Author(db.Model, BaseMixin):
+    """
+    SQL Alchemy model for Authors
+    """
+    __table_args__ = {"extend_existing": True}
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, index=True, unique=True, nullable=False)
+    reliability = db.Column(Enum(Reliability))
+    comments = db.Column(db.Text)
+
+    # custom serialization method
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "reliability": self.reliability.__str__() if self.reliability else None,
+            "comments": self.comments
+        }
+    
+    def to_json(self):
+        return json.dumps(self.to_dict())
+    
+    def from_json(self, json):
+        self.name = json.get('name', self.name)
+        if "reliability" in json and json["reliability"]:
+            if Reliability.is_valid(json["reliability"]):
+                self.reliability = Reliability.get_name(json["reliability"])
+            else:
+                raise ValueError(f"{json['reliability']} is not a valid option for a authors's reliability")
+        if "comments" in json:
+            self.comments = json["comments"]
+
+        return self
+    
+    # import csv data into db
+    @staticmethod
+    def import_csv(file_storage):
+        tmp = NamedTemporaryFile().name
+        file_storage.save(tmp)
+        df = pd.read_csv(tmp)
+        df.comments = df.comments.fillna("")
+        db.session.bulk_insert_mappings(Author, df.to_dict(orient="records"))
+        db.session.commit()
+
+        # reset id sequence counter
+        max_id = db.session.execute("select max(id)+1 from author").scalar()
+        db.session.execute(
+            "alter sequence author_id_seq restart with :m", {'m': max_id})
+        db.session.commit()
+        print("Author ID counter updated.")
+
+        return ""
 
 class Label(db.Model, BaseMixin):
     """
@@ -1347,6 +1400,12 @@ bulletin_roles = db.Table(
     ),
 )
 
+# join table
+bulletin_authors = db.Table(
+    "bulletin_authors",
+    db.Column("author_id", db.Integer, db.ForeignKey('author.id'), primary_key=True),
+    db.Column("bulletin_id", db.Integer, db.ForeignKey('bulletin.id', primary_key=True))
+)
 
 class Btob(db.Model, BaseMixin):
     """
@@ -1749,6 +1808,13 @@ class Bulletin(db.Model, BaseMixin):
         secondary=bulletin_sources,
         backref=db.backref("bulletins", lazy="dynamic"),
     )
+
+    authors = db.relationship(
+        "Author",
+        secondary=bulletin_authors,
+        backref=db.backref('bulletins', lazy='dynamic'),
+    )
+
     locations = db.relationship(
         "Location",
         secondary=bulletin_locations,
@@ -1970,6 +2036,11 @@ class Bulletin(db.Model, BaseMixin):
             ids = [source["id"] for source in json["sources"]]
             sources = Source.query.filter(Source.id.in_(ids)).all()
             self.sources = sources
+
+        if "authors" in json:
+            ids = [author["id"] for author in json["authors"]]
+            authors = Author.query.filter(Author.id.in_(ids)).all()
+            self.authors = authors
 
         # Labels
         if "labels" in json:
@@ -2196,6 +2267,12 @@ class Bulletin(db.Model, BaseMixin):
             for source in self.sources:
                 sources_json.append({"id": source.id, "title": source.title})
 
+        # authors json
+        authors_json = []
+        if self.authors and len(self.authors):
+            for author in self.autors:
+                authors_json.append({"id": author.id, "name": author.name})
+
         return {
             "id": self.id,
             "title": self.title,
@@ -2205,6 +2282,7 @@ class Bulletin(db.Model, BaseMixin):
             "originid": self.originid or None,
             "locations": locations_json,
             "sources": sources_json,
+            "authors": authors_json,
             "description": self.description or None,
             "source_link": self.source_link or None,
             "sensitive_data": getattr(self, 'sensitive_data', False),
@@ -2235,6 +2313,7 @@ class Bulletin(db.Model, BaseMixin):
             'labels': convert_simple_relation(self.labels),
             'verified_labels': convert_simple_relation(self.ver_labels),
             'sources': convert_simple_relation(self.sources),
+            'authors': convert_simple_relation(self.authors),
             'locations': convert_simple_relation(self.locations),
             'media': convert_simple_relation(self.medias),
             'events': convert_simple_relation(self.events),
@@ -2372,6 +2451,12 @@ class Bulletin(db.Model, BaseMixin):
         if self.sources and len(self.sources):
             for source in self.sources:
                 sources_json.append({"id": source.id, "title": source.title})
+        
+        # authors json
+        authors_json = []
+        if self.authors and len(self.authors):
+            for author in self.authors:
+                authors_json.append({"id": author.id, "name": author.name})
 
         # labels json
         labels_json = []
@@ -2447,6 +2532,7 @@ class Bulletin(db.Model, BaseMixin):
             "labels": labels_json,
             "verLabels": ver_labels_json,
             "sources": sources_json,
+            "authors": authors_json,
             "events": events_json,
             "medias": medias_json,
             "bulletin_to_consent_uses": consent_uses_json,
@@ -2485,6 +2571,12 @@ class Bulletin(db.Model, BaseMixin):
         if self.sources and len(self.sources):
             for source in self.sources:
                 sources_json.append({"id": source.id, "title": source.title})
+        
+        # authors json
+        authors_json = []
+        if self.authors and len(self.authors):
+            for author in self.authors:
+                authors_json.append({"id": author.id, "name": author.name})
 
         return {
             "class": "Bulletin",
@@ -2497,6 +2589,7 @@ class Bulletin(db.Model, BaseMixin):
             # assigned to
             "locations": locations_json,
             "sources": sources_json,
+            "authors": authors_json,
             "description": self.description or None,
             "comments": self.comments or None,
             "source_link": self.source_link or None,
