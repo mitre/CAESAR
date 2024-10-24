@@ -2270,7 +2270,7 @@ class Bulletin(db.Model, BaseMixin):
         # authors json
         authors_json = []
         if self.authors and len(self.authors):
-            for author in self.autors:
+            for author in self.authors:
                 authors_json.append({"id": author.id, "name": author.name})
 
         return {
