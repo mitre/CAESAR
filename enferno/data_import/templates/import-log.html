@@ -37,7 +37,7 @@
                                     <log-status :item="item"></log-status>
                                 </template>
                                 <template v-slot:item.preview="{item}">
-                                    <v-btn @click.stop="" v-if="item.table=='bulletin' && item.item_id > 0"
+                                    <v-btn @click.stop="" v-if="item.table=='primary record' && item.item_id > 0"
                                         @click="previewItem('/admin/api/bulletin/'+item.item_id)" color="grey lighten-2"
                                         elevation="0" class="mx-2">
                                         <v-icon color="grey darken-2" left>

@@ -1,6 +1,7 @@
 const ready_import_status = 'Ready'
 const skipped_import_status = 'Skipped'
 const failed_import_status = 'Failed'
+// https://support.clarivate.com/Endnote/s/article/EndNote-Directions-for-implementing-EndNote-Direct-Export?language=en_US
 
 function getImportStatusFromStatusCode(status_code){
     if(status_code == 200)
@@ -26,7 +27,7 @@ function getImportLog(zoteroItem, import_hash, batch_id, status, data, log){
 
 function getBulletinImportLog(bulletin_id, file, file_format, etag, import_hash, batch_id, status, data, log){
     return {
-        "table":"bulletin",
+        "table":"primary record",
         "item_id":bulletin_id,
         "file":file,
         "file_format":file_format,
@@ -86,15 +87,24 @@ function getPublishDate(zoteroItem){
 }
 
 function getDescription(zoteroItem){
+    primaryDescription = ""
+
     if("DA" in zoteroItem){
-        return zoteroItem["AB"]
+        primaryDescription = zoteroItem["AB"]
     }
     else if("PY" in zoteroItem){
-        zoteroItem["AB"]
+        primaryDescription = zoteroItem["AB"]
     }
-    else{
-        return ""
+
+    formattedRisFields = ""
+    for (const [key, value] of Object.entries(zoteroItem)) {
+        formattedRisFields = formattedRisFields + `${key}: ${value}<br>`;
     }
+
+    if(primaryDescription)
+        return primaryDescription + "<p>&nbsp;</p><p>&nbsp;</p>" + formattedRisFields
+    else
+        return formattedRisFields
 }
 
 function getMediaFilesListedInTheZoteroManifest(zoteroList){
