@@ -11,7 +11,7 @@ from flask_security.decorators import auth_required, current_user, roles_accepte
 from sqlalchemy.orm.attributes import flag_modified
 from werkzeug.utils import safe_join
 
-from enferno.admin.models import Media
+from enferno.admin.models import Media, ItobInfo
 from enferno.user.models import User
 from enferno.data_import.models import DataImport, Mapping
 from enferno.data_import.utils.sheet_import import SheetImport
@@ -215,9 +215,11 @@ def csv_dashboard():
 @imports.route('/zotero/')
 @roles_required('Admin')
 def zotero_import_dashboard():
+    itobInfo = [item.to_dict() for item in ItobInfo.query.all()]
     if not current_app.config.get('ZOTERO_IMPORT'):
         return HTTPResponse.NOT_FOUND
-    return render_template('zotero-import.html')
+    return render_template('zotero-import.html',
+                           itobInfo=itobInfo)
 
 
 @imports.post('/api/csv/upload')

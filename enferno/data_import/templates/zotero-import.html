@@ -10,6 +10,8 @@
     {% include "components/nav-bar.html" %}
     <v-main class="align-start ma-3">
       <v-container fluid fill-height>
+        <div class="d-none" data-itob='{{ itobInfo|tojson }}'></div>
+        <relate-incidents :i18n="translations" @relate="relateIncident" :exids=[] ref="relateIncidents"></relate-incidents>
         <v-row>
           <v-col cols="12">
             <v-card>
@@ -51,11 +53,10 @@
                                 </search-field>
                               </v-col>
                             </v-row>
-                      </v-container>
+                          </v-container>
                           <p>
                             <strong>{{ _("Status of uploads can be viewed in the import logs, at Menu > Data Import > Import Log") }}</strong>
                           </p>
-
                         </v-row>
                         <v-row>
                             <v-col cols="12">
@@ -68,6 +69,81 @@
                                   @vdropzone-file-added="fileAdded"
                                 ></vue-dropzone>
                             </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col cols="12">
+                            <v-card outlined class="my-5">
+                              <v-card-title class="handle">
+                                  <v-icon left>mdi-hazard-lights</v-icon>
+                                  <!-- <v-btn :loading="ir_loading" :disabled="ir_loaded" @click.stop="loadIncidentRelations" outlined>{{ _('Related Investigations') }}</v-btn> -->
+                                  {{ _("Related Investigations") }}
+                                  <v-spacer></v-spacer>
+                                    <v-text-field class="mx-5 search-relate"
+                                        v-model="relateIncidentTerm"
+                                        label="{{ _('Search & Relate Investigations') }}"
+                                        @keydown.enter="searchRelatedIncidents"
+                                        @click:append="searchRelatedIncidents"
+                                        append-icon="mdi-magnify"></v-text-field>
+                                  </v-tooltip>
+                              </v-card-title>
+                              <!--  Grid of Incident Items -->
+                              <v-card-text>
+                                <v-layout wrap>
+                                  <v-flex class="pa-1" md6
+                                      v-for="(item,index) in incident_relations"
+                                      :key="index">
+                                      <!--  Related incident  Card -->
+                                      <incident-result :i18n="translations" :incident="item.incident">
+                                          <!--  attach relationship form -->
+                                          <template v-slot:header>
+                                              <v-card outlined color="lime lighten-5">
+                                                  <v-card-title class="subtitle-2">
+                                                      <v-icon left>mdi-link</v-icon>
+                                                      {{ _("Relationship Information") }}
+                                                  </v-card-title>
+                                                  <v-card-text>
+                                                      <div>
+                                                          <div class="caption">{{ _("Probability") }}
+                                                          </div>
+                                                          <v-chip-group
+                                                              v-model="incident_relations[index].probability"
+                                                              column active-class="primary dark">
+                                                              <v-chip v-for="r in translations.probs"
+                                                                  small> ${ r.tr }
+                                                              </v-chip>
+                                                          </v-chip-group>
+                                                          <div class="caption">{{ _("Related As") }}
+                                                          </div>
+                                                          <v-chip-group
+                                                              v-model="incident_relations[index].related_as"
+                                                              column multiple
+                                                              active-class="primary dark">
+                                                              <v-chip v-for="rel in itobInfo"
+                                                                  :value="rel.id" :key="rel.id" small>
+                                                                  ${ rel.title }
+                                                              </v-chip>
+                                                          </v-chip-group>
+                                                      </div>
+                                                      <v-text-field class="mt-2"
+                                                          v-model="incident_relations[index].comment"
+                                                          dense outlined label="{{ _('Comments') }}">
+                                                      </v-text-field>
+                                                  </v-card-text>
+                                              </v-card>
+                                          </template>
+                                          <template v-slot:actions>
+                                              <v-btn class="mx-auto"
+                                                  @click="removeIncident($event,index)" x-small fab
+                                                  outlined color="red lighten-3">
+                                                  <v-icon>mdi-delete-sweep</v-icon>
+                                              </v-btn>
+                                          </template>
+                                      </incident-result>
+                                  </v-flex>
+                              </v-layout>
+                              </v-card-text>
+                            </v-card>
+                          </v-col>
                         </v-row>
                         <v-row></v-row>
                     </v-container>
@@ -105,6 +181,7 @@
 <script src="/static/js/dropzone/vue2Dropzone.js"></script>
 <script src="/static/js/RisParser.js"></script>
 <script src="/static/js/ZoteroToCaesar.js"></script>
+<script src="/static/js/components/IncidentResult.js"></script>
 <script>
   const app = new Vue({
     // el, vuetify are attributes are unreferenced but necessary are part of the vue component framework
@@ -112,6 +189,10 @@
     vuetify: vuetify,
     delimiters: delimiters,
     data: () => ({
+      translations: translations,
+      itobInfo: JSON.parse(document.querySelector('[data-itob]').dataset.itob),
+      incident_relations: [],
+      relateIncidentTerm: "",
       shouldCheckIfItemWasAlreadyImported: true,
       shouldCreateLogsForSkippedImports: false,
       roles: [],
@@ -196,6 +277,28 @@
       },
     },
     methods: {
+// related bulletins functions --------------------
+      searchRelatedIncidents() {
+          this.$refs.relateIncidents.open();
+          this.$nextTick(() => {
+              this.$refs.relateIncidents.q = {
+                  tsv: this.relateIncidentTerm
+              };
+              this.$refs.relateIncidents.reSearch();
+          });
+      },
+      relateIncident(incident) {
+          // get list of existing attached bulletins
+          relation = {
+              incident: incident
+          };
+          this.incident_relations.push(relation);
+      },
+      removeIncident: function(evt, index) {
+          if (confirm("Are you sure?")) {
+              this.incident_relations.splice(index, 1);
+          }
+      },
       // the vdropzone-sending event allows you to 'modify the request and add addtional parameters to request before sending'
       getFileExtension(filename)
       {
@@ -291,7 +394,7 @@
         import_log = getMediaImportLog(0, filename, file_extension, etag, importHash, this.batch_id, ready_import_status, "", "")
         this.save_log(import_log)
 
-        this.buildPrimaryRecordAfterMediaUploadCompletes(this.batch_id, fileId, importHash, zoteroItem, etag, this.roles);
+        this.buildPrimaryRecordAfterMediaUploadCompletes(this.batch_id, fileId, importHash, zoteroItem, etag, this.roles, this.incident_relations);
       },
       // vdropzone-removed-file fires after a file has been removed from the dropzone
       fileAdded(file) {
@@ -433,11 +536,11 @@
         }
       },
       // once the files have been uploaded, we can look up the media path by an etag - but we need to wait for media uploads to complete to do this
-      buildPrimaryRecordAfterMediaUploadCompletes(batch_id, fileId, importHash, zotero_item, etag, roles){
+      buildPrimaryRecordAfterMediaUploadCompletes(batch_id, fileId, importHash, zotero_item, etag, roles, incident_relations){
         // console.error("asdf " + JSON.stringify([...this.asdf.entries()]))
         fileUploadInfo = this.mediaFileUploadResponseByEtag.get(etag)
         mediaFilePath = fileUploadInfo["s3url"]
-        bulletin = getPrimaryRecordWithMediaFromZoteroItem(zoteroItem, mediaFilePath, roles)
+        bulletin = getPrimaryRecordWithMediaFromZoteroItem(zoteroItem, mediaFilePath, roles, this.incident_relations)
 
         // post bulletin
         axios.post("/admin/api/bulletin/", {
@@ -454,7 +557,7 @@
           })
       },
       buildPrimaryRecordWithoutMediaFile(zoteroItem, importHash){
-        bulletin = getPrimaryRecordWithoutMediaFromZoteroItem(zoteroItem, this.roles)
+        bulletin = getPrimaryRecordWithoutMediaFromZoteroItem(zoteroItem, this.roles, this.incident_relations)
 
         // post bulletin
         axios.post("/admin/api/bulletin/", {

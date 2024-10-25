@@ -150,7 +150,7 @@ function getMediaFromZoteroItem(zoteroItem, mediaFilePath){
     return media
 }
 
-function getPrimaryRecordWithMediaFromZoteroItem(zoteroItem, mediaFilePath, roles){
+function getPrimaryRecordWithMediaFromZoteroItem(zoteroItem, mediaFilePath, roles, incident_relations){
     media = getMediaFromZoteroItem(zoteroItem, mediaFilePath)
 
     bulletin = {
@@ -166,7 +166,7 @@ function getPrimaryRecordWithMediaFromZoteroItem(zoteroItem, mediaFilePath, role
         // related actors
         actor_relations: [],
         // related incidents
-        incident_relations: [],
+        incident_relations: incident_relations,
         bulletin_to_consent_uses: [],
         publish_date: getPublishDate(zoteroItem),
         created_at: '',
@@ -177,7 +177,7 @@ function getPrimaryRecordWithMediaFromZoteroItem(zoteroItem, mediaFilePath, role
     return bulletin
 }
 
-function getPrimaryRecordWithoutMediaFromZoteroItem(zoteroItem, roles){
+function getPrimaryRecordWithoutMediaFromZoteroItem(zoteroItem, roles, incident_relations){
     bulletin = {
         title: getTitle(zoteroItem),
         status: 'Machine Created',
@@ -191,7 +191,7 @@ function getPrimaryRecordWithoutMediaFromZoteroItem(zoteroItem, roles){
         // related actors
         actor_relations: [],
         // related incidents
-        incident_relations: [],
+        incident_relations: incident_relations,
         bulletin_to_consent_uses: [],
         publish_date: getPublishDate(zoteroItem),
         created_at: '',
