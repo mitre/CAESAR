@@ -1670,7 +1670,7 @@ def api_bulletin_create():
     bulletin.assigned_to_id = current_user.id
     # assignment will be overwritten if it is specified in the creation request
     bulletin.from_json(request.json['item'])
-    bulletin.save()
+    bulletin.save(True)
 
     # the below will create the first revision by default
     bulletin.create_revision()
@@ -2135,7 +2135,7 @@ def api_medias_chunk():
                 f.write((save_dir / str(file_number)).read_bytes())
 
         if os.stat(filepath).st_size != total_size:
-            raise abort(400, body=f"Error uploading the file")
+            raise abort(400, description=f"Error uploading the file")
 
         print(f"{file.filename} has been uploaded")
         shutil.rmtree(save_dir)

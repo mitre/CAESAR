@@ -38,7 +38,7 @@ Vue.component("log-status", {
 
       // else
       axios
-        .get(`/import/api/imports/${this.item.id}`)
+        .get(`/import/api/import/${this.item.id}`)
         .then((response) => {
           this.item = response.data;
         })
@@ -67,6 +67,10 @@ Vue.component("log-status", {
 
             <v-icon v-tippy content="Ready"
                 v-if="item.status==='Ready'" color="success">mdi-check-circle
+            </v-icon>
+            
+            <v-icon v-tippy content="Skipped"
+                v-if="item.status==='Skipped'" color="warning">mdi-cached
             </v-icon>
           </div>
         `,

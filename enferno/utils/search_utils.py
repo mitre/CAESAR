@@ -21,7 +21,7 @@ from enferno.admin.models import (
     Media
 )
 from enferno.user.models import Role
-
+from enferno.data_import.models import DataImport
 
 # helper methods
 
@@ -46,6 +46,8 @@ class SearchUtils:
             return self.build_incident_query()
         elif self.cls == 'Location':
             return self.build_location_query()
+        elif self.cls == 'DataImport':
+            return self.build_data_import_query()
         elif self.cls == 'Organization':
             return self.build_organization_query()
         return []
@@ -95,6 +97,9 @@ class SearchUtils:
 
     def build_location_query(self):
         return self.location_query(self.search)
+
+    def build_data_import_query(self):
+        return self.data_import_query(self.search)
 
     def build_organization_query(self):
         main = self.organization_query(self.search[0])
@@ -1001,6 +1006,35 @@ class SearchUtils:
             else:
                 query.append(and_(func.array_to_string(Location.tags, '').ilike(r) for r in search))
 
+        return query
+
+    def data_import_query(self, q):
+        query = []
+        if (file := q.get('file')):
+            file_words = file.split(' ')
+            qsearch = [
+                DataImport.file.ilike('%{}%'.format(word)) for word in file_words]
+            query.extend(qsearch)
+        if (table := q.get('table')):
+            table_words = table.split(' ')
+            qsearch = [
+                DataImport.table.ilike('%{}%'.format(word)) for word in table_words]
+            query.extend(qsearch)
+        if (status := q.get('status')):
+            status_words = status.split(' ')
+            qsearch = [
+                DataImport.status.ilike('%{}%'.format(word)) for word in status_words]
+            query.extend(qsearch)
+        if (batch_id := q.get('batch_id')):
+            batch_words = batch_id.split(' ')
+            qsearch = [
+                DataImport.batch_id.ilike('%{}%'.format(word)) for word in batch_words]
+            query.extend(qsearch)
+        if (format := q.get('format')):
+            format_words = format.split(' ')
+            qsearch = [
+                DataImport.format.ilike('%{}%'.format(word)) for word in format_words]
+            query.extend(qsearch)
         return query
 
     def organization_query(self, q):

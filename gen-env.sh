@@ -153,6 +153,7 @@ echo "ETL_PATH_IMPORT=True" >> ./.env
 echo "ETL_ALLOWED_PATH='/home/ubuntu/test'" >> ./.env
 echo "OCR_ENABLED=True" >> ./.env
 echo "SHEET_IMPORT=True" >> ./.env
+echo "ZOTERO_IMPORT=True" >> ./.env
 echo "" >> ./.env
 
 echo "MISSING_PERSONS=True" >> ./.env

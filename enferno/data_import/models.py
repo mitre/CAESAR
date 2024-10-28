@@ -23,6 +23,8 @@ class DataImport(db.Model, BaseMixin):
     file = db.Column(db.String)
     file_format = db.Column(db.String)
     file_hash = db.Column(db.String)
+    # import_hash is calculated at the source of the the import and is used to see if the import has already been run 
+    import_hash = db.Column(db.String)
     batch_id = db.Column(db.String)
     status = db.Column(db.String, nullable=False, default='Pending')
     imported_at = db.Column(db.DateTime)
@@ -31,15 +33,13 @@ class DataImport(db.Model, BaseMixin):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.log = ''
-
+    
     def to_dict(self):
         """
         Import Log Serializer.
         """
         return {
             "id": self.id,
-
             "class": self.__tablename__,
             "table": self.table,
             "item_id": self.item_id,
@@ -96,9 +96,9 @@ class DataImport(db.Model, BaseMixin):
             self.add_to_log(str(exception))
         self.save()
 
-    def save(self):
+    def save(self, raise_exception=False):
         try:
-            super().save()
+            super().save(raise_exception)
         except DatabaseException as e:
             if has_app_context():
                 current_app.logger.error(f'{e}')

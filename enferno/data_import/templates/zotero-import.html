@@ -1,0 +1,586 @@
+{% extends "layouts/layout.html" %}
+{% block css %}
+<link rel="stylesheet" href="/static/js/dropzone/vue2Dropzone.min.css" />
+<link rel="stylesheet" href="/static/js/dropzone/basic.css" />
+{% endblock %}
+{% block content %}
+<div id="app">
+  <v-app v-cloak>
+    {% include 'components/nav-drawer.html' %}
+    {% include "components/nav-bar.html" %}
+    <v-main class="align-start ma-3">
+      <v-container fluid fill-height>
+        <div class="d-none" data-itob='{{ itobInfo|tojson }}'></div>
+        <relate-incidents :i18n="translations" @relate="relateIncident" :exids=[] ref="relateIncidents"></relate-incidents>
+        <v-row>
+          <v-col cols="12">
+            <v-card>
+                <v-card-title>
+                    <span class="headline">
+                        {{ _("Upload Zotero Exported Files") }}
+                    </span>
+                </v-card-title>
+                <v-card-text>
+                    <v-container>
+                        <v-row>
+                          <p>
+                            {{ _("This Zotero upload function expects that Zotero files have been exported in the RIS format. This includes a .ris manifest file and additional exported files exported into a file tree. All these files should be uploaded.") }}
+                          </p>
+                          <p>
+                            {{ _("You can drag and drop the export folder into the dropzone - all files in the folder will be attached. You can also click the dropzone to open a file selector. If you use the file selector, you must select files within the directory individually.") }}
+                          </p>
+                          <p>
+                            {{ _("First, the directory path to each file added to the dropzone is preserved. Second, the .ris file is a manifest for all media files in the associated directories within the Zotero export, and the media files are identified in the manifest by their relative directory path.") }}
+                            <strong>{{ _("So adding files to the dropzone haphazardly, in an irregular way, can cause errors in the upload.") }}</strong>
+                          </p>
+                          <p>
+                            {{ _("Each Zotero upload creates a hash from properties of the uploaded item. By default, a hash for a new upload is checked against these saved hashes before each upload to avoid repeat behavor. By default, 'skipped' import logs are not saved, though they can be. You can change those defaults below. You can also assign an owner access group for all items to be imported in the upload.") }}
+                          </p>
+                          <v-container>
+                            <v-row> 
+                              <v-col>
+                                <span class="caption">{{ _("Create Logs for Skipped Imports") }}</span>
+                                <v-switch v-model="shouldCreateLogsForSkippedImports"></v-switch>
+                              </v-col>
+                              <v-col>
+                                <span class="caption">{{ _("Check for Previous Upload (Strongly Recommended)") }}</span>
+                                <v-switch v-model="shouldCheckIfItemWasAlreadyImported"></v-switch>
+                              </v-col>
+                              <v-col>
+                                <span class="caption">{{ _("Assign Imported Files to a Group") }}</span>
+                                <search-field api="/admin/api/roles/?custom=true" item-text="name"
+                                    item-value="id" :multiple="true" label="{{ _('Access Groups') }}" v-model="roles">
+                                </search-field>
+                              </v-col>
+                            </v-row>
+                          </v-container>
+                          <p>
+                            <strong>{{ _("Status of uploads can be viewed in the import logs, at Menu > Data Import > Import Log") }}</strong>
+                          </p>
+                        </v-row>
+                        <v-row>
+                            <v-col cols="12">
+                                <!-- https://docs.dropzone.dev/configuration/basics/configuration-options -->
+                                <vue-dropzone ref="dropzone" id="dropzone" class="ma-auto" :options="dzOpts"
+                                  @vdropzone-sending="fileSending"
+                                  @vdropzone-success="uploadSuccess"
+                                  @vdropzone-removed-file="fileRemoved"
+                                  @vdropzone-error="uploadError"
+                                  @vdropzone-file-added="fileAdded"
+                                ></vue-dropzone>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col cols="12">
+                            <v-card outlined class="my-5">
+                              <v-card-title class="handle">
+                                  <v-icon left>mdi-hazard-lights</v-icon>
+                                  <!-- <v-btn :loading="ir_loading" :disabled="ir_loaded" @click.stop="loadIncidentRelations" outlined>{{ _('Related Investigations') }}</v-btn> -->
+                                  {{ _("Related Investigations") }}
+                                  <v-spacer></v-spacer>
+                                    <v-text-field class="mx-5 search-relate"
+                                        v-model="relateIncidentTerm"
+                                        label="{{ _('Search & Relate Investigations') }}"
+                                        @keydown.enter="searchRelatedIncidents"
+                                        @click:append="searchRelatedIncidents"
+                                        append-icon="mdi-magnify"></v-text-field>
+                                  </v-tooltip>
+                              </v-card-title>
+                              <!--  Grid of Incident Items -->
+                              <v-card-text>
+                                <v-layout wrap>
+                                  <v-flex class="pa-1" md6
+                                      v-for="(item,index) in incident_relations"
+                                      :key="index">
+                                      <!--  Related incident  Card -->
+                                      <incident-result :i18n="translations" :incident="item.incident">
+                                          <!--  attach relationship form -->
+                                          <template v-slot:header>
+                                              <v-card outlined color="lime lighten-5">
+                                                  <v-card-title class="subtitle-2">
+                                                      <v-icon left>mdi-link</v-icon>
+                                                      {{ _("Relationship Information") }}
+                                                  </v-card-title>
+                                                  <v-card-text>
+                                                      <div>
+                                                          <div class="caption">{{ _("Probability") }}
+                                                          </div>
+                                                          <v-chip-group
+                                                              v-model="incident_relations[index].probability"
+                                                              column active-class="primary dark">
+                                                              <v-chip v-for="r in translations.probs"
+                                                                  small> ${ r.tr }
+                                                              </v-chip>
+                                                          </v-chip-group>
+                                                          <div class="caption">{{ _("Related As") }}
+                                                          </div>
+                                                          <v-chip-group
+                                                              v-model="incident_relations[index].related_as"
+                                                              column multiple
+                                                              active-class="primary dark">
+                                                              <v-chip v-for="rel in itobInfo"
+                                                                  :value="rel.id" :key="rel.id" small>
+                                                                  ${ rel.title }
+                                                              </v-chip>
+                                                          </v-chip-group>
+                                                      </div>
+                                                      <v-text-field class="mt-2"
+                                                          v-model="incident_relations[index].comment"
+                                                          dense outlined label="{{ _('Comments') }}">
+                                                      </v-text-field>
+                                                  </v-card-text>
+                                              </v-card>
+                                          </template>
+                                          <template v-slot:actions>
+                                              <v-btn class="mx-auto"
+                                                  @click="removeIncident($event,index)" x-small fab
+                                                  outlined color="red lighten-3">
+                                                  <v-icon>mdi-delete-sweep</v-icon>
+                                              </v-btn>
+                                          </template>
+                                      </incident-result>
+                                  </v-flex>
+                              </v-layout>
+                              </v-card-text>
+                            </v-card>
+                          </v-col>
+                        </v-row>
+                        <v-row></v-row>
+                    </v-container>
+                </v-card-text>
+                <v-card-actions class="pa-5">
+                    <v-spacer></v-spacer>
+                    <v-tooltip top open-delay=1500 >
+                      <template v-slot:activator="{ on }">
+                        <v-btn v-on="on" @click="executeZoteroImport" color="primary">{{ _("Upload") }}</v-btn>
+                      </template>
+                      <span>{{ _("CAESAR interprets the Zotero exports to build Primary Records.") }}</span>
+                    </v-tooltip>
+                    <v-spacer></v-spacer>
+                </v-card-actions>
+            </v-card>
+            <v-snackbar v-model="snackbar" class="">
+              <div class="d-flex justify-space-between align-center">
+                ${ snackMessage }
+                <v-btn icon fab small color="white" text @click="snackbar = false">
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+              </div>
+            </v-snackbar>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
+    {% include "components/footer.html" %}
+    <v-overlay v-model="loading">
+    </v-overlay>
+  </v-app>
+</div>
+{% endblock %}
+{% block js %}
+<script src="/static/js/dropzone/vue2Dropzone.js"></script>
+<script src="/static/js/RisParser.js"></script>
+<script src="/static/js/ZoteroToCaesar.js"></script>
+<script src="/static/js/components/IncidentResult.js"></script>
+<script>
+  const app = new Vue({
+    // el, vuetify are attributes are unreferenced but necessary are part of the vue component framework
+    el: "#app",
+    vuetify: vuetify,
+    delimiters: delimiters,
+    data: () => ({
+      translations: translations,
+      itobInfo: JSON.parse(document.querySelector('[data-itob]').dataset.itob),
+      incident_relations: [],
+      relateIncidentTerm: "",
+      shouldCheckIfItemWasAlreadyImported: true,
+      shouldCreateLogsForSkippedImports: false,
+      roles: [],
+      snackbar: false,
+      snackMessage: '',
+      loading: false,
+      status: '',
+      batch_id: '',
+      dzOpts: {
+        autoProcessQueue: false,
+        url: '/admin/api/media/chunk',
+        // accept any file
+        acceptedFiles: ETL_EXTENSIONS.toString(),
+        addRemoveLinks: true,
+        chunking: true,
+        forceChunking: true,
+        chunkSize: 500000, // Bytes
+        thumbnailWidth: 80, // px
+        thumbnailHeight: 80,
+        parallelUploads: 1,
+        accept: async function (file, done) {
+          // Create a hash of the file
+          const fileArrayBuffer = await file.arrayBuffer();
+          const hash = await crypto.subtle.digest("SHA-256", fileArrayBuffer);
+          const hashArray = Array.from(new Uint8Array(hash))
+          var hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+          file.etagClient = hashHex;
+          done();
+        }
+      },
+      selAllDisabled: true,
+      selectedPath: '',
+      recursive: false,
+      // fileManifestsById is a local store of the manifest (ris, rdf, etc.) files a user has added to the dropzone
+      fileManifestsById: new Map(),
+      // mediaFilesById is a local store of the non-manifest Zotero-exported files a user has added to the dropzone
+      mediaFilesById: new Map(),
+      zoteroItemByEtag: new Map(),
+      zoteroItemByFileId: new Map(),
+      importHashByFileId: new Map(),
+      // etagByFileId lists the etag calculated for a file, generated on the client machine and at the server
+      fileIdByEtag: new Map(),
+      // mediaFileUploadResponseByEtag is list of returned metadata about media files that have been uploaded to CAESAR. The filepath of uploaded files is set on the server during the upload, returned, and made available via this dictionary
+      mediaFileUploadResponseByEtag: new Map(),
+      mediaFileIdsBySimplified: new Map(),
+      // zoteroItems is a list of Zotero 'item' objects read from the Zotero exported manifest file
+      zoteroItems: [],
+      //etl additional tags
+      labels: [],
+      verLabels: [],
+      sources: [],
+      locations: [],
+      refs: [],
+      roles: [],
+      items: [],
+      optimize: null,
+      parse: null,
+      ocr: null,
+      selectedItems: [],
+      itemsLength: 100,
+      editedIndex: -1,
+      editedItem: {
+        title: ""
+      },
+      defaultItem: {
+        title: "",
+        active: false
+      },
+      medias: []
+    }),
+    components: {
+      vueDropzone: vue2Dropzone
+    },
+    computed: {},
+    watch: {
+      items(val) {
+        if (val.length) {
+          this.selAllDisabled = false;
+        } else {
+          this.selAllDisabled = true;
+        }
+      },
+    },
+    methods: {
+// related bulletins functions --------------------
+      searchRelatedIncidents() {
+          this.$refs.relateIncidents.open();
+          this.$nextTick(() => {
+              this.$refs.relateIncidents.q = {
+                  tsv: this.relateIncidentTerm
+              };
+              this.$refs.relateIncidents.reSearch();
+          });
+      },
+      relateIncident(incident) {
+          // get list of existing attached bulletins
+          relation = {
+              incident: incident
+          };
+          this.incident_relations.push(relation);
+      },
+      removeIncident: function(evt, index) {
+          if (confirm("Are you sure?")) {
+              this.incident_relations.splice(index, 1);
+          }
+      },
+      // the vdropzone-sending event allows you to 'modify the request and add addtional parameters to request before sending'
+      getFileExtension(filename)
+      {
+        return ".".concat(filename.split(".").pop().toLowerCase());
+      },
+      isManifestFile(file){
+        return this.getFileExtension(file.name) == ".ris"
+      },
+      isValidMediaFile(file){
+        return ETL_EXTENSIONS.includes(this.getFileExtension(file.name))
+      },
+      getFileFullPath(file){
+        if(file.fullPath){
+          return file.fullPath;
+        }
+        else{
+          return file.name
+        }
+      },
+      // The directory path to each file added to the dropzone is preserved as it is added. If you drag and drop a folder, the path includes each nested directory in which the file exists.
+      // The Zotero manifest identifies media files with a relative directory path.
+      // Depending on how files are added to the dropzone, these two values (the path of the file as seen by the dropzone and the path as listed in the Zotero manifest) can be different.
+      // We need these two values to be reconciled so that the correct files are uploaded for a given manifest.
+      getMediaFileIdAssociatedWithFileLink(context, url){
+        if(context.mediaFilesById.has(url)){ // there's no issue if the link listed in the manifest is the id of an uploaded file
+          return url
+        }
+
+        // if the file is uploaded via the file selector, it will not have a path beyond the filename
+        // remediation is to update that
+        filename = url.split('/').at(-1)
+        if(context.mediaFilesById.has(filename)){
+          return filename
+        }
+
+        // if the file is drag-dropped into the dropzone from anywhere other than the local directory of the manifest file, its path will differ from what the manifest file lists
+        // this logic just fixes the common drag-the-top-level-folder scenario
+        if(context.mediaFileIdsBySimplified.size == 0){ // lazy initialization
+          context.mediaFileIdsBySimplified = context.getMappingFromOriginalPathToSimplifiedPath()
+        }
+        // console.error("mediaFileIdsBySimplified " + JSON.stringify(Object.fromEntries(mediaFileIdsBySimplified)))
+        if(context.mediaFileIdsBySimplified.has(url)){
+          return context.mediaFileIdsBySimplified.get(url)
+        }
+        
+        const mediaFileIdBySimplifiedKey = context.mediaFileIdsBySimplified.keys().find(key => key.localeCompare(url) === 0)
+        if(mediaFileIdBySimplifiedKey){
+          return context.mediaFileIdsBySimplified.get(mediaFileIdBySimplifiedKey)
+        }
+        
+        // It is an error state to not find any variation of the URL in the list of uploaded media files.
+        log_message = "It appears that media file " + url + " included in the Zotero manifest (.ris file) has not been added to the dropzone."
+        error_log = getMediaImportLog(0, filename, "", "", "", context.batch_id, failed_import_status, "", log_message)
+        context.save_log(error_log)
+      },
+      getMappingFromOriginalPathToSimplifiedPath()
+      {
+        mediaFileIdsBySimplified = new Map()
+        for(fileId of this.mediaFilesById.keys()){
+          splitPath = fileId.split('/')
+          if(splitPath[0] != 'files' && splitPath[1] == 'files'){
+            splitPath.shift()
+            simplifiedPath = splitPath.join('/')
+            mediaFileIdsBySimplified.set(simplifiedPath, fileId)
+          }
+        }
+        return mediaFileIdsBySimplified
+      },
+      fileSending(file, xhr, formData) {
+        if(file.fullPath){
+            formData.append("fullPath", file.fullPath);
+        }
+        formData.set("etagClient", file.etagClient);
+      },
+      save_log(import_log){
+        axios.post("/import/api/import-log", {
+          item: import_log
+        }).then(response => {
+        }).catch(err => {
+          console.error("error saving log " + err)
+          this.showSnack(err?.response?.data);
+        })
+      },
+      // the vdropzone-success event allows you to respond to the server response after a file has been uploaded successfully
+      uploadSuccess(dzfile) {
+        // pick file from dropzone files list
+        needle = this.$refs.dropzone.getAcceptedFiles().filter(x => x.status === 'success').filter(x => parseResponse(x).uuid === dzfile.upload.uuid).pop();
+        file = parseResponse(needle);
+        filename = file["filename"]
+        etag = file["etag"]
+        this.mediaFileUploadResponseByEtag.set(etag, file)
+
+        fileId = this.fileIdByEtag.get(etag)
+        zoteroItem = this.zoteroItemByFileId.get(fileId)
+        importHash = this.importHashByFileId.get(fileId)
+
+        file_extension = this.getFileExtension(filename)
+        import_log = getMediaImportLog(0, filename, file_extension, etag, importHash, this.batch_id, ready_import_status, "", "")
+        this.save_log(import_log)
+
+        this.buildPrimaryRecordAfterMediaUploadCompletes(this, fileId, importHash, zoteroItem, etag);
+      },
+      // it seems like sometimes, intermittently, the dropzone component does not wait for the file to be added before calling @vdropzone-file-added, which can cause errors - my best fix right now is to reload the page and try again
+      fileAdded(file) {
+        file_id=this.getFileFullPath(file)
+        if(this.isManifestFile(file)){
+          this.fileManifestsById.set(file_id, file)
+          // console.error("fileManifestsById " + JSON.stringify(Object.fromEntries(this.fileManifestsById)))
+        }
+        // MEDIA_ALLOWED_EXTENSIONS is a config object that lives in flask, python-side.  ETL_EXTENSIONS is a duplicate config object defined in code, js-side? 
+        else if(this.isValidMediaFile(file)){
+          this.mediaFilesById.set(file_id, file)
+          // console.log("mediaFileIdsBySimplified: " + (context.mediaFileIdsBySimplified == null ? JSON.stringify(context.mediaFileIdsBySimplified) : ""))
+          // console.log("mediaFilesById: " + (context.mediaFilesById == null ? JSON.stringify(context.mediaFilesById) : ""))
+          // console.error("mediafilesbyid added " + JSON.stringify(Object.fromEntries(this.mediaFilesById)))
+        }
+        else{
+          console.error("File with invalid extension selected for upload.")
+        }
+      },
+      fileRemoved(file, error, xhr) {
+        if (error) {
+          console.error(error)
+        }
+
+        file_id=this.getFileFullPath(file)
+        if(this.isManifestFile(file)){
+          this.fileManifestsById.delete(file_id)
+          // console.error("fileManifestsById " + JSON.stringify(Object.fromEntries(this.fileManifestsById)))
+        }
+        else if(this.isValidMediaFile(file)){
+          this.mediaFilesById.delete(file_id)
+          // console.error("mediafilesbyid " + JSON.stringify(Object.fromEntries(this.mediaFilesById)))
+        }
+      },
+      // vdropzone-error is fired when an error occurs. Receives the error message as second parameter and if the error was due to the XMLHttpRequest the xhr object as third.
+      showSnack(message) {
+        this.snackbar = true
+        this.snackMessage = message
+      },
+      uploadError(file, message) {
+        try{
+          import_log = getMediaImportLog(0, file.name, this.getFileExtension(file.name), file.etagClient, "", this.batch_id, failed_import_status, "", "Error uploading media file: " + JSON.stringify(message))
+          this.save_log(import_log)
+          this.showSnack(message)
+        }
+        catch(error){
+          console.error(error)
+        }
+      },
+      executeZoteroImport(){
+        if(this.fileManifestsById.size == 0){
+          console.error('No manifest file attached.')
+        }
+        this.batch_id = crypto.randomUUID()
+
+        for(manifest of this.fileManifestsById.values()){
+          parseRisFile(manifest, this.processFileManifestCallback)
+        }
+      },
+      // this method is called after filereader asynchronously opens/reads the manifest file
+      processFileManifestCallback(zoteroItems){
+        this.zoteroItems = zoteroItems
+        for(i = 0; i < zoteroItems.length; i++){
+          this.startProcessingZoteroItem(this, zoteroItems[i])
+        }
+      },
+      startProcessingZoteroItem(context, item){
+        context.getImportHashFromItem(item).then(hash => {
+          if(context.shouldCheckIfItemWasAlreadyImported){
+            context.checkIfItemWasAlreadyImported(hash).then(itemWasImported => {
+              if(!itemWasImported){
+                context.processZoteroItem(context, item, hash)
+              }
+              else{
+                if(context.shouldCreateLogsForSkippedImports){
+                  import_log = getImportLog(item, hash == null ? hash : '', context.batch_id, skipped_import_status, "", "Skipping import because an item with this import hash has already been imported.")
+                  context.save_log(import_log)
+                }
+              }
+            })
+          }
+          else{
+            context.processZoteroItem(context, item, hash)
+          }
+        })
+      },
+      async getImportHashFromItem(item){
+        risDump = dumpFullRisItem(item)
+        buffer = new TextEncoder("utf-8").encode("" + risDump)
+        const hash = await crypto.subtle.digest("SHA-256", buffer)
+        const hashArray = Array.from(new Uint8Array(hash))
+        var hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("")
+        return hashHex
+      },
+      async checkIfItemWasAlreadyImported(importHash){
+        // if the media item has been uploaded, skip
+        return axios.get("/import/api/import-log?import_hash=" + importHash.toString()).then(
+          response => {
+            console.log(response.data);
+            console.error("Expected either a 302 or 404 when checking for import logs.")
+          }
+        ).catch(err => {
+          if(err.response.status == 302){
+            return true
+          }
+          if(err.response.status == 404){
+            return false
+          }
+
+          console.error(err)
+        })
+      },
+      processZoteroItem(context, item, importHash){
+        try{
+          mediaForZoteroItem = getMediaFileFromZoteroItem(item)
+  
+          if(mediaForZoteroItem){
+            mediaFileId = context.getMediaFileIdAssociatedWithFileLink(context, mediaForZoteroItem)
+            context.zoteroItemByFileId.set(mediaFileId, item)
+            context.importHashByFileId.set(mediaFileId, importHash)
+            context.pushMediaFile(mediaForZoteroItem, mediaFileId, item)
+          }
+          else{
+            context.buildPrimaryRecordWithoutMediaFile(context, item, importHash)
+          }
+        }
+        catch(error){
+          import_log = getImportLog(item, importHash, context.batch_id, failed_import_status, JSON.stringify(item), "Error processsing Zotero item." + error.toString())
+          context.save_log(import_log)
+          console.error(error)
+        }
+      },
+      pushMediaFile(mediaFile, fileId, zoteroItem){
+        if(this.mediaFilesById.has(fileId)){
+          file = this.mediaFilesById.get(fileId)
+          etag = file["etagClient"]
+          this.fileIdByEtag.set(etag, fileId)
+          this.zoteroItemByEtag.set(etag, zoteroItem)
+          result = this.$refs.dropzone.dropzone.processFile(file)
+        }
+      },
+      // once the files have been uploaded, we can look up the media path by an etag - but we need to wait for media uploads to complete to do this
+      buildPrimaryRecordAfterMediaUploadCompletes(context, fileId, importHash, zotero_item, etag){
+        // console.error("asdf " + JSON.stringify([...this.asdf.entries()]))
+        fileUploadInfo = this.mediaFileUploadResponseByEtag.get(etag)
+        mediaFilePath = fileUploadInfo["s3url"]
+        bulletin = getPrimaryRecordWithMediaFromZoteroItem(zoteroItem, mediaFilePath, context.roles, context.incident_relations)
+
+        // post bulletin
+        axios.post("/admin/api/bulletin/", {
+              item: bulletin
+          }).then(response => {
+              this.showSnack(response.data);
+              bulletin_id = response.data.substring(18)
+              file_extension = this.getFileExtension(this.mediaFilesById.get(fileId).name)
+              import_log = getBulletinImportLog(bulletin_id, fileId, file_extension, etag, importHash, context.batch_id, getImportStatusFromStatusCode(response.status), "", response.data)
+              this.save_log(import_log)
+          }).catch(err => {
+              import_log = getBulletinImportLog(0, fileId, "", etag, importHash, context.batch_id, failed_import_status, "", "Error creating primary record with associated media file: " + err?.response?.data)
+              this.save_log(import_log)
+              console.error(err)
+          })
+      },
+      buildPrimaryRecordWithoutMediaFile(context, zoteroItem, importHash){
+        bulletin = getPrimaryRecordWithoutMediaFromZoteroItem(zoteroItem, context.roles, context.incident_relations)
+
+        // post bulletin
+        axios.post("/admin/api/bulletin/", {
+              item: bulletin
+          }).then(response => {
+              context.showSnack(response.data);
+              bulletin_id = response.data.substring(18)
+              import_log = getBulletinImportLog(bulletin_id, "", "", "", importHash, context.batch_id, getImportStatusFromStatusCode(response.status), "", response.data)
+              context.save_log(import_log)
+          }).catch(err => {
+            import_log = getBulletinImportLog(0, "", "", "", importHash, context.batch_id, failed_import_status, "", "Error creating primary record with no associated media file: " + err?.response?.data)
+            context.save_log(import_log)
+            console.error(err)
+          })
+      }
+    }
+  });
+</script>
+{% endblock %}

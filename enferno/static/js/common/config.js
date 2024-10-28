@@ -625,6 +625,11 @@ const OCR_EXT = [
   ".bmp",
   ".pnm",
 ];
+const ZOTERO_EXT = [
+  ".ris",
+  ".html"
+]
 const ETL_EXTENSIONS = [".gif", ".doc", ".docx", ".pdf", ".txt", ".ttf"]
   .concat(VID_EXT)
-  .concat(OCR_EXT);
+  .concat(OCR_EXT)
+  .concat(ZOTERO_EXT);

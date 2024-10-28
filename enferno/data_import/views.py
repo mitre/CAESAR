@@ -2,6 +2,7 @@ from pathlib import Path
 
 import hashlib
 import os
+import arrow
 
 import shortuuid
 from flask import request, Response, current_app, json
@@ -10,12 +11,14 @@ from flask_security.decorators import auth_required, current_user, roles_accepte
 from sqlalchemy.orm.attributes import flag_modified
 from werkzeug.utils import safe_join
 
-from enferno.admin.models import Media
+from enferno.admin.models import Media, ItobInfo
+from enferno.user.models import User
 from enferno.data_import.models import DataImport, Mapping
 from enferno.data_import.utils.sheet_import import SheetImport
 from enferno.tasks import etl_process_file, process_row
 from enferno.utils.data_helpers import media_check_duplicates
 from enferno.utils.http_response import HTTPResponse
+from enferno.utils.search_utils import SearchUtils
 from apiflask import APIBlueprint
 
 imports = APIBlueprint('imports', __name__, static_folder='../static',
@@ -41,7 +44,7 @@ def data_import_dashboard(id=None):
     """
     return render_template('import-log.html')
 
-@imports.get('/api/imports/<int:id>')
+@imports.get('/api/import/<int:id>')
 def api_import_get(id):
     """
     Endpoint to get a single log item
@@ -64,15 +67,35 @@ def api_imports():
     """
     page = request.args.get('page', 1, int)
     per_page = request.args.get('per_page', PER_PAGE, int)
-    q = request.json.get('q', None)
-        
-    if q and (batch_id := q.get('batch_id')):
-        result = DataImport.query.filter(DataImport.batch_id == batch_id).order_by(-DataImport.id).paginate(
-            page=page, per_page=per_page, count=True)
-    else:
-        result = DataImport.query.order_by(-DataImport.id).paginate(
-            page=page, per_page=per_page, count=True)
+    su = SearchUtils(request.json, cls='DataImport')
+    query = su.get_query()
 
+    print([str(item) for item in query])
+
+    #Sort by request property
+    sort_by = request.args.get('sort_by', 'id')
+    sort_desc = request.args.get('sort_desc', 'false').lower() == 'true'
+    if sort_by == '':
+        sort_by = 'id'
+    elif sort_by == '_status':
+        sort_by = 'status'
+
+    if(query):
+        query = DataImport.query.filter(*query)     
+    else:
+        query = DataImport.query
+    # Adjust query for sorting by a field in a related model if needed
+    if sort_by == "user.name":
+        query = query.outerjoin(User, DataImport.user_id == User.id)
+        query = query.order_by(User.name.desc() if sort_desc else User.name)
+    else:
+        if hasattr(DataImport, sort_by):
+            query = query.order_by(getattr(DataImport, sort_by).desc() if sort_desc else getattr(DataImport, sort_by))
+        else:
+            return {'error': 'Invalid sort_by field'}, 400
+
+    result = query.paginate(page=page, per_page=per_page, count=True)
+        
     response = {'items': [item.to_dict() for item in result.items], 'perPage': PER_PAGE, 'total': result.total}
 
     return Response(json.dumps(response),
@@ -187,6 +210,16 @@ def csv_dashboard():
     if not current_app.config.get('SHEET_IMPORT'):
         return HTTPResponse.NOT_FOUND
     return render_template('sheets-import.html')
+
+# Zotero Tool
+@imports.route('/zotero/')
+@roles_required('Admin')
+def zotero_import_dashboard():
+    itobInfo = [item.to_dict() for item in ItobInfo.query.all()]
+    if not current_app.config.get('ZOTERO_IMPORT'):
+        return HTTPResponse.NOT_FOUND
+    return render_template('zotero-import.html',
+                           itobInfo=itobInfo)
 
 
 @imports.post('/api/csv/upload')
@@ -335,7 +368,6 @@ def api_mapping_update(id):
     else:
         return HTTPResponse.NOT_FOUND
 
-
 @imports.post('/api/process-sheet')
 @roles_accepted('Admin')
 def api_process_sheet():
@@ -380,3 +412,36 @@ def api_process_sheet():
             process_row.delay(filepath, sheet, row_id, data_import.id, map, batch_id, vmap, actor_config, lang, roles)
 
     return batch_id, 200
+
+@imports.post('/api/import-log')
+@roles_accepted('Admin')
+def write_import_log():
+    import_log = request.json['item']
+    data_import = DataImport(
+        user_id=current_user.id, 
+        table=import_log["table"] if "table" in import_log else None,
+        item_id = import_log["item_id"] if "item_id" in import_log else None,
+        status = import_log["status"] if "status" in import_log else None,
+        file=import_log["file"] if "file" in import_log else None,
+        file_hash=import_log["file_hash"] if "file_hash" in import_log else None,
+        file_format = import_log["file_format"] if "file_format" in import_log else None,
+        import_hash=import_log["import_hash"] if "import_hash" in import_log else None,
+        batch_id=import_log["batch_id"] if "batch_id" in import_log else None,
+        imported_at = arrow.utcnow().format('YYYY-MM-DD HH:mm:ss ZZ'),
+        data=import_log["data"] if "data" in import_log else None,
+        log=import_log["log"] if "log" in import_log else None)
+    data_import.save(True)
+    return str(data_import.id), 200
+
+@imports.get('/api/import-log')
+@roles_accepted('Admin')
+def check_for_previous_imports():
+    import_hash = request.args.get('import_hash')
+    if not (import_hash):
+        return "Invalid query for previous imports. An import hash is required.", 400
+    result = DataImport.query.filter(DataImport.import_hash == import_hash).first()
+    if(result):
+        return "The import was already run.", 302 
+    else:
+        return "No import found.", 404
+        
