@@ -101,6 +101,14 @@ function getPublishDate(zoteroItem){
     }
 }
 
+function dumpFullRisItem(zoteroItem){
+    formattedRisFields = ""
+    for (const [key, value] of Object.entries(zoteroItem)) {
+        formattedRisFields = formattedRisFields + `${key}: ${value}<br>`;
+    }
+    return formattedRisFields
+}
+
 function getDescription(zoteroItem){
     primaryDescription = ""
 
@@ -111,10 +119,7 @@ function getDescription(zoteroItem){
         primaryDescription = zoteroItem["AB"]
     }
 
-    formattedRisFields = ""
-    for (const [key, value] of Object.entries(zoteroItem)) {
-        formattedRisFields = formattedRisFields + `${key}: ${value}<br>`;
-    }
+    formattedRisFields = dumpFullRisItem(zoteroItem)
 
     if(primaryDescription)
         return primaryDescription + "<p>&nbsp;</p><p>&nbsp;</p>" + formattedRisFields

@@ -482,9 +482,8 @@
         })
       },
       async getImportHashFromItem(item){
-        title = getTitle(item)
-        media_title = getMediaTitle(item)
-        buffer = new TextEncoder("utf-8").encode("" + title + media_title)
+        risDump = dumpFullRisItem(item)
+        buffer = new TextEncoder("utf-8").encode("" + risDump)
         const hash = await crypto.subtle.digest("SHA-256", buffer)
         const hashArray = Array.from(new Uint8Array(hash))
         var hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("")
