@@ -8,8 +8,8 @@ function getRisItemDictionaries(filename, content){
     state = open_parsing_state
 
     current_dict = {}
-    for (let i = 0; i < lines.length; i++) {
-        if(lines[i].length == 0)
+    for (i = 0; i < lines.length; i++) {
+        if(!lines[i].trim())
         {
             continue;
         }

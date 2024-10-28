@@ -322,32 +322,32 @@
       // The Zotero manifest identifies media files with a relative directory path.
       // Depending on how files are added to the dropzone, these two values (the path of the file as seen by the dropzone and the path as listed in the Zotero manifest) can be different.
       // We need these two values to be reconciled so that the correct files are uploaded for a given manifest.
-      getMediaFileIdAssociatedWithFileLink(url){
-        if(this.mediaFilesById.has(url)){ // there's no issue if the link listed in the manifest is the id of an uploaded file
+      getMediaFileIdAssociatedWithFileLink(context, url){
+        if(context.mediaFilesById.has(url)){ // there's no issue if the link listed in the manifest is the id of an uploaded file
           return url
         }
 
         // if the file is uploaded via the file selector, it will not have a path beyond the filename
         // remediation is to update that
         filename = url.split('/').at(-1)
-        if(this.mediaFilesById.has(filename)){
+        if(context.mediaFilesById.has(filename)){
           return filename
         }
 
         // if the file is drag-dropped into the dropzone from anywhere other than the local directory of the manifest file, its path will differ from what the manifest file lists
         // this logic just fixes the common drag-the-top-level-folder scenario
-        if(this.mediaFileIdsBySimplified.size == 0){ // lazy initialization
-          this.mediaFileIdsBySimplified = this.getMappingFromOriginalPathToSimplifiedPath()
+        if(context.mediaFileIdsBySimplified.size == 0){ // lazy initialization
+          context.mediaFileIdsBySimplified = context.getMappingFromOriginalPathToSimplifiedPath()
         }
         // console.error("mediaFileIdsBySimplified " + JSON.stringify(Object.fromEntries(mediaFileIdsBySimplified)))
-        if(this.mediaFileIdsBySimplified.has(url)){
-          return this.mediaFileIdsBySimplified.get(url)
+        if(context.mediaFileIdsBySimplified.has(url)){
+          return context.mediaFileIdsBySimplified.get(url)
         }
         
         // It is an error state to not find any variation of the URL in the list of uploaded media files.
         log_message = "It appears that media file " + url + " included in the Zotero manifest (.ris file) has not been added to the dropzone."
-        error_log = getMediaImportLog(0, filename, "", "", "", this.batch_id, failed_import_status, "", log_message)
-        this.save_log(error_log)
+        error_log = getMediaImportLog(0, filename, "", "", "", context.batch_id, failed_import_status, "", log_message)
+        context.save_log(error_log)
       },
       getMappingFromOriginalPathToSimplifiedPath()
       {
@@ -374,7 +374,7 @@
         }).then(response => {
         }).catch(err => {
           console.error("error saving log " + err)
-          this.showSnack(err.response.data);
+          this.showSnack(err?.response?.data);
         })
       },
       // the vdropzone-success event allows you to respond to the server response after a file has been uploaded successfully
@@ -394,9 +394,9 @@
         import_log = getMediaImportLog(0, filename, file_extension, etag, importHash, this.batch_id, ready_import_status, "", "")
         this.save_log(import_log)
 
-        this.buildPrimaryRecordAfterMediaUploadCompletes(this.batch_id, fileId, importHash, zoteroItem, etag, this.roles, this.incident_relations);
+        this.buildPrimaryRecordAfterMediaUploadCompletes(this, fileId, importHash, zoteroItem, etag);
       },
-      // vdropzone-removed-file fires after a file has been removed from the dropzone
+      // it seems like sometimes, intermittently, the dropzone component does not wait for the file to be added before calling @vdropzone-file-added, which can cause errors - my best fix right now is to reload the page and try again
       fileAdded(file) {
         file_id=this.getFileFullPath(file)
         if(this.isManifestFile(file)){
@@ -406,7 +406,9 @@
         // MEDIA_ALLOWED_EXTENSIONS is a config object that lives in flask, python-side.  ETL_EXTENSIONS is a duplicate config object defined in code, js-side? 
         else if(this.isValidMediaFile(file)){
           this.mediaFilesById.set(file_id, file)
-          // console.error("mediafilesbyid " + JSON.stringify(Object.fromEntries(this.mediaFilesById)))
+          // console.log("mediaFileIdsBySimplified: " + (context.mediaFileIdsBySimplified == null ? JSON.stringify(context.mediaFileIdsBySimplified) : ""))
+          // console.log("mediaFilesById: " + (context.mediaFilesById == null ? JSON.stringify(context.mediaFilesById) : ""))
+          // console.error("mediafilesbyid added " + JSON.stringify(Object.fromEntries(this.mediaFilesById)))
         }
         else{
           console.error("File with invalid extension selected for upload.")
@@ -434,12 +436,12 @@
       },
       uploadError(file, message) {
         try{
-          import_log = getMediaImportLog(0, file.name, this.getFileExtension(file.name), file.etagClient, "", this.batch_id, failed_import_status, "", JSON.stringify(message))
+          import_log = getMediaImportLog(0, file.name, this.getFileExtension(file.name), file.etagClient, "", this.batch_id, failed_import_status, "", "Error uploading media file: " + JSON.stringify(message))
           this.save_log(import_log)
           this.showSnack(message)
         }
         catch(error){
-          console.error(rror)
+          console.error(error)
         }
       },
       executeZoteroImport(){
@@ -456,26 +458,26 @@
       processFileManifestCallback(zoteroItems){
         this.zoteroItems = zoteroItems
         for(i = 0; i < zoteroItems.length; i++){
-          this.startProcessingZoteroItem(zoteroItems[i])
+          this.startProcessingZoteroItem(this, zoteroItems[i])
         }
       },
-      startProcessingZoteroItem(item){
-        this.getImportHashFromItem(item).then(hash => {
-          if(this.shouldCheckIfItemWasAlreadyImported){
-            this.checkIfItemWasAlreadyImported(hash).then(itemWasImported => {
+      startProcessingZoteroItem(context, item){
+        context.getImportHashFromItem(item).then(hash => {
+          if(context.shouldCheckIfItemWasAlreadyImported){
+            context.checkIfItemWasAlreadyImported(hash).then(itemWasImported => {
               if(!itemWasImported){
-                this.processZoteroItem(item, hash)
+                context.processZoteroItem(context, item, hash)
               }
               else{
-                if(this.shouldCreateLogsForSkippedImports){
-                  import_log = getImportLog(item, hash, this.batch_id, skipped_import_status, "", "Skipping import because an item with this import hash has already been imported.")
-                  this.save_log(import_log)
+                if(context.shouldCreateLogsForSkippedImports){
+                  import_log = getImportLog(item, hash == null ? hash : '', context.batch_id, skipped_import_status, "", "Skipping import because an item with this import hash has already been imported.")
+                  context.save_log(import_log)
                 }
               }
             })
           }
           else{
-            this.processZoteroItem(item, hash)
+            context.processZoteroItem(context, item, hash)
           }
         })
       },
@@ -506,24 +508,24 @@
           console.error(err)
         })
       },
-      processZoteroItem(item, importHash){
+      processZoteroItem(context, item, importHash){
         try{
           mediaForZoteroItem = getMediaFileFromZoteroItem(item)
   
           if(mediaForZoteroItem){
-            mediaFileId = this.getMediaFileIdAssociatedWithFileLink(mediaForZoteroItem)
-            this.zoteroItemByFileId.set(mediaFileId, item)
-            this.importHashByFileId.set(mediaFileId, importHash)
-            this.pushMediaFile(mediaForZoteroItem, mediaFileId, item)
+            mediaFileId = context.getMediaFileIdAssociatedWithFileLink(context, mediaForZoteroItem)
+            context.zoteroItemByFileId.set(mediaFileId, item)
+            context.importHashByFileId.set(mediaFileId, importHash)
+            context.pushMediaFile(mediaForZoteroItem, mediaFileId, item)
           }
           else{
-            this.buildPrimaryRecordWithoutMediaFile(item, importHash)
+            context.buildPrimaryRecordWithoutMediaFile(context, item, importHash)
           }
         }
         catch(error){
-          import_log = getImportLog(item, hash, this.batch_id, failed_import_status, JSON.stringify(item), error.toString())
-          this.save_log(import_log)
-          throw error
+          import_log = getImportLog(item, importHash, context.batch_id, failed_import_status, JSON.stringify(item), "Error processsing Zotero item." + error.toString())
+          context.save_log(import_log)
+          console.error(error)
         }
       },
       pushMediaFile(mediaFile, fileId, zoteroItem){
@@ -536,11 +538,11 @@
         }
       },
       // once the files have been uploaded, we can look up the media path by an etag - but we need to wait for media uploads to complete to do this
-      buildPrimaryRecordAfterMediaUploadCompletes(batch_id, fileId, importHash, zotero_item, etag, roles, incident_relations){
+      buildPrimaryRecordAfterMediaUploadCompletes(context, fileId, importHash, zotero_item, etag){
         // console.error("asdf " + JSON.stringify([...this.asdf.entries()]))
         fileUploadInfo = this.mediaFileUploadResponseByEtag.get(etag)
         mediaFilePath = fileUploadInfo["s3url"]
-        bulletin = getPrimaryRecordWithMediaFromZoteroItem(zoteroItem, mediaFilePath, roles, this.incident_relations)
+        bulletin = getPrimaryRecordWithMediaFromZoteroItem(zoteroItem, mediaFilePath, context.roles, context.incident_relations)
 
         // post bulletin
         axios.post("/admin/api/bulletin/", {
@@ -549,27 +551,29 @@
               this.showSnack(response.data);
               bulletin_id = response.data.substring(18)
               file_extension = this.getFileExtension(this.mediaFilesById.get(fileId).name)
-              import_log = getBulletinImportLog(bulletin_id, fileId, file_extension, etag, importHash, batch_id, getImportStatusFromStatusCode(response.status), "", response.data)
+              import_log = getBulletinImportLog(bulletin_id, fileId, file_extension, etag, importHash, context.batch_id, getImportStatusFromStatusCode(response.status), "", response.data)
               this.save_log(import_log)
           }).catch(err => {
-              import_log = getBulletinImportLog(0, fileId, "", etag, importHash, batch_id, failed_import_status, "", err.response.data)
+              import_log = getBulletinImportLog(0, fileId, "", etag, importHash, context.batch_id, failed_import_status, "", "Error creating primary record with associated media file: " + err?.response?.data)
               this.save_log(import_log)
+              console.error(err)
           })
       },
-      buildPrimaryRecordWithoutMediaFile(zoteroItem, importHash){
-        bulletin = getPrimaryRecordWithoutMediaFromZoteroItem(zoteroItem, this.roles, this.incident_relations)
+      buildPrimaryRecordWithoutMediaFile(context, zoteroItem, importHash){
+        bulletin = getPrimaryRecordWithoutMediaFromZoteroItem(zoteroItem, context.roles, context.incident_relations)
 
         // post bulletin
         axios.post("/admin/api/bulletin/", {
               item: bulletin
           }).then(response => {
-              this.showSnack(response.data);
+              context.showSnack(response.data);
               bulletin_id = response.data.substring(18)
-              import_log = getBulletinImportLog(bulletin_id, "", "", "", importHash, this.batch_id, getImportStatusFromStatusCode(response.status), "", response.data)
-              this.save_log(import_log)
+              import_log = getBulletinImportLog(bulletin_id, "", "", "", importHash, context.batch_id, getImportStatusFromStatusCode(response.status), "", response.data)
+              context.save_log(import_log)
           }).catch(err => {
-            import_log = getBulletinImportLog(0, "", "", "", importHash, batch_id, failed_import_status, "", err.response.data)
-            this.save_log(import_log)
+            import_log = getBulletinImportLog(0, "", "", "", importHash, context.batch_id, failed_import_status, "", "Error creating primary record with no associated media file: " + err?.response?.data)
+            context.save_log(import_log)
+            console.error(err)
           })
       }
     }

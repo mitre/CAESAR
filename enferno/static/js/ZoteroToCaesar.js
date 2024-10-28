@@ -65,23 +65,38 @@ function reformatDateStringVariation1(dateString){
     return dateString.substring(0, 10) + dateString.substring(11)
 }
 
+function reformatDatestring(dateString){
+    parsedDate = new Date(dateString);
+    reformattedString = parsedDate.toISOString()
+    return reformattedString
+}
+
 function getPublishDate(zoteroItem){
-    if("DA" in zoteroItem){
-        dateString = zoteroItem["DA"]
-        // dates from Zotero seem to come back in this very specific bad format YYYY/MM/DD/Thh:mm:ssZ (we need YYYY/MM/DDThh:mm:ssZ)
-        // this method has a very specific resolution for this very specific issue
-        if(isDateStringVariation1(dateString)){
-            return reformatDateStringVariation1(dateString)
+    try{
+        if("DA" in zoteroItem){
+            dateString = zoteroItem["DA"]
+            // dates from Zotero seem to come back in this very specific bad format YYYY/MM/DD/Thh:mm:ssZ (we need YYYY/MM/DDThh:mm:ssZ)
+            // this method has a very specific resolution for this very specific issue
+            if(isDateStringVariation1(dateString)){
+                reformattedString = reformatDateStringVariation1(dateString)
+                return reformattedString
+            }
+            else{
+                reformattedString = reformatDatestring(dateString)
+                return reformattedString
+            }
         }
-        else{
-            return dateString
+    
+        if("PY" in zoteroItem){
+            dateString = zoteroItem["PY"] // this should just be a year
+            reformattedString = reformatDateString(dateString)
+            return reformattedString
         }
+    
+        return ""
     }
-    else if("PY" in zoteroItem){
-        dateString = zoteroItem["PY"] // this should just be a year
-        return dateString
-    }
-    else{
+    catch(error)
+    {
         return ""
     }
 }
