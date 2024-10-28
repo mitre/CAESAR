@@ -344,6 +344,11 @@
           return context.mediaFileIdsBySimplified.get(url)
         }
         
+        const mediaFileIdBySimplifiedKey = context.mediaFileIdsBySimplified.keys().find(key => key.localeCompare(url) === 0)
+        if(mediaFileIdBySimplifiedKey){
+          return context.mediaFileIdsBySimplified.get(mediaFileIdBySimplifiedKey)
+        }
+        
         // It is an error state to not find any variation of the URL in the list of uploaded media files.
         log_message = "It appears that media file " + url + " included in the Zotero manifest (.ris file) has not been added to the dropzone."
         error_log = getMediaImportLog(0, filename, "", "", "", context.batch_id, failed_import_status, "", log_message)

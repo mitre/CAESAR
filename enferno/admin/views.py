@@ -2025,7 +2025,7 @@ def api_medias_chunk():
                 f.write((save_dir / str(file_number)).read_bytes())
 
         if os.stat(filepath).st_size != total_size:
-            raise abort(400, body=f"Error uploading the file")
+            raise abort(400, description=f"Error uploading the file")
 
         print(f"{file.filename} has been uploaded")
         shutil.rmtree(save_dir)
