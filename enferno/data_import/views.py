@@ -439,9 +439,9 @@ def check_for_previous_imports():
     import_hash = request.args.get('import_hash')
     if not (import_hash):
         return "Invalid query for previous imports. An import hash is required.", 400
-    result = DataImport.query.filter(DataImport.import_hash == import_hash).first()
+    result = DataImport.query.filter(DataImport.import_hash == import_hash and DataImport.status == "Ready").first()
     if(result):
         return "The import was already run.", 302 
     else:
-        return "No import found.", 404
+        return "No successful import log found.", 404
         
