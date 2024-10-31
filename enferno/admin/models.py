@@ -1404,7 +1404,7 @@ bulletin_roles = db.Table(
 bulletin_authors = db.Table(
     "bulletin_authors",
     db.Column("author_id", db.Integer, db.ForeignKey('author.id'), primary_key=True),
-    db.Column("bulletin_id", db.Integer, db.ForeignKey('bulletin.id', primary_key=True))
+    db.Column("bulletin_id", db.Integer, db.ForeignKey('bulletin.id'), primary_key=True)
 )
 
 class Btob(db.Model, BaseMixin):
