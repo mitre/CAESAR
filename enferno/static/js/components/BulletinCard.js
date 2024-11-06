@@ -327,7 +327,7 @@ Vue.component("bulletin-card", {
               {{ i18n.visualize_ }}
             </v-btn>
 
-            <v-btn v-if="deleteAllowed  && !searchDrawer" class="ml-2 red darken-3" @click="deleteBulletin" small outlined>
+            <v-btn v-if="deleteAllowed()  && !searchDrawer" class="ml-2 red darken-3" @click="deleteBulletin" small outlined>
               <v-icon color="white" left>mdi-archive</v-icon>
               <span class="white--text">{{ i18n.archive_  }}</span>
             </v-btn>
