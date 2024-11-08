@@ -313,6 +313,7 @@
                 thumbnailHeight: 80,
                 parallelUploads: 1,
                 maxFilesize: mediaUploadMaxFileSize,
+                timeout: 2*60*1000,
                 accept: async function (file, done) {
                     // Create a hash of the file
                     const fileArrayBuffer = await file.arrayBuffer();
