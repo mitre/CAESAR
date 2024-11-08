@@ -245,10 +245,10 @@
         addRemoveLinks: true,
         chunking: true,
         forceChunking: true,
-        chunkSize: 2000000, // Bytes
+        chunkSize: 5000000, // Bytes
         thumbnailWidth: 80, // px
         thumbnailHeight: 80,
-        parallelUploads: 5,
+        parallelUploads: 1,
         accept: async function (file, done) {
           // Create a hash of the file
           const fileArrayBuffer = await file.arrayBuffer();
