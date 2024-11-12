@@ -234,8 +234,13 @@ Vue.component("visualization", {
       return { nodes: nodes, links: links };
     },
 
-    visualize(item) {
+    visualize(item, closeCallback) {
       this.show();
+      if (closeCallback) {
+        this.closeCallback = closeCallback;
+      } else {
+        this.closeCallback = () => {};
+      }
       this.item = item;
       // wait one tick for the component to render
       this.$nextTick(() => {
@@ -263,6 +268,7 @@ Vue.component("visualization", {
     },
     hide() {
       this.dlg = false;
+      this.closeCallback();
     },
 
     mergeGraphData(graphData) {
