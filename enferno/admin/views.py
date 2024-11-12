@@ -2147,10 +2147,6 @@ def api_medias_chunk():
         if Media.query.filter(Media.etag == etag).first():
             return 'Error, file already exists', 409
 
-        # Make sure the hash from the client matches the hash from the server
-        if etag != request.form.get('etagClient'):
-            return 'Error, the hash of the image from the client does not match the hash on the server', 409
-
         if not current_app.config.get('FILESYSTEM_LOCAL') and not 'etl' in request.referrer:
             print('uploading file to s3 :::>')
             s3 = boto3.resource('s3')
