@@ -5902,7 +5902,7 @@ class Incident(db.Model, BaseMixin):
                     rel_actor.create_revision()
 
         # Related Organizations (organization_relations)
-        if "organization_relations" in json and "check_ar" in json:
+        if "organization_relations" in json and "check_or" in json:
             # collect related organizations ids (helps with finding removed ones)
             rel_ids = []
             for relation in json["organization_relations"]:
@@ -5933,7 +5933,7 @@ class Incident(db.Model, BaseMixin):
             for relation in json["bulletin_relations"]:
                 bulletin = Bulletin.query.get(relation["bulletin"]["id"])
 
-                # Extra (check those bulletins exit)
+                # Extra (check those bulletins exist)
                 if bulletin:
                     rel_ids.append(bulletin.id)
                     # this will update/create the relationship (will flush to db!)

@@ -270,6 +270,140 @@ Vue.component("bulletin-card", {
     navigateToPR() {
       const url = new URL(`/admin/primary-records/${this.bulletin.id}`, window.location.origin)
       window.location.href = url.toString()
+    },
+    loadAllBulletinRelations(page = 1) {
+      if (page === 1) {
+        this.bulletin.bulletin_relations = [];
+      }
+      return axios
+        .get(
+          `/admin/api/bulletin/relations/${this.bulletin.id}?class=bulletin&page=${page}`,
+        )
+        .then((res) => {
+          this.bulletin.bulletin_relations.push.apply(
+            this.bulletin.bulletin_relations,
+            res.data.items,
+          );
+          if (res.data.more) {
+            page += 1;
+            return this.loadAllBulletinRelations(page);
+          } else {
+            this.bulletinLM = false;
+            this.bulletinPage = page;
+          }
+        })
+        .catch((err) => {
+          console.log(err.toJSON());
+        });
+    },
+    loadAllActorRelations(page = 1) {
+      if (page === 1) {
+        this.bulletin.actor_relations = [];
+      }
+      return axios
+        .get(
+          `/admin/api/bulletin/relations/${this.bulletin.id}?class=actor&page=${page}`,
+        )
+        .then((res) => {
+          this.bulletin.actor_relations.push.apply(
+            this.bulletin.actor_relations,
+            res.data.items,
+          );
+          if (res.data.more) {
+            page += 1;
+            return this.loadAllActorRelations(page);
+          } else {
+            this.actorLM = false;
+            this.actorPage = page;
+          }
+        })
+        .catch((err) => {
+          console.log(err.toJSON());
+        });
+    },
+    loadAllOrganizationRelations(page = 1) {
+      if (page === 1) {
+        this.bulletin.organization_relations = [];
+      }
+      return axios
+        .get(
+          `/admin/api/bulletin/relations/${this.bulletin.id}?class=organization&page=${page}`,
+        )
+        .then((res) => {
+          this.bulletin.organization_relations.push.apply(
+            this.bulletin.organization_relations,
+            res.data.items,
+          );
+          if (res.data.more) {
+            page += 1;
+            return this.loadAllOrganizationRelations(page);
+          } else {
+            this.organizationLM = false;
+            this.organizationPage = page;
+          }
+        })
+        .catch((err) => {
+          console.log(err.toJSON());
+        });
+    },
+    loadAllIncidentRelations(page = 1) {
+      if (page === 1) {
+        this.bulletin.incident_relations = [];
+      }
+      return axios
+        .get(
+          `/admin/api/bulletin/relations/${this.bulletin.id}?class=incident&page=${page}`,
+        )
+        .then((res) => {
+          this.bulletin.incident_relations.push.apply(
+            this.bulletin.incident_relations,
+            res.data.items,
+          );
+          if (res.data.more) {
+            page += 1;
+            return this.loadAllIncidentRelations(page);
+          } else {
+            this.incidentLM = false;
+            this.incidentPage = page;
+          }
+        })
+        .catch((err) => {
+          console.log(err.toJSON());
+        });
+    },
+    closeVisualization() {
+      // Reload the bulletin relations
+      this.bulletinPage = 1;
+      this.bulletin.bulletin_relations = [];
+      this.bulletinLM = true;
+      this.loadBulletinRelations(this.bulletinPage);
+      
+      // Reload the Actor relations
+      this.actorPage = 1;
+      this.bulletin.actor_relations = [];
+      this.actorLM = true;
+      this.loadActorRelations(this.actorPage);
+      
+      // Reload the Organization relations
+      this.organizationPage = 1;
+      this.bulletin.organization_relations = [];
+      this.organizationLM = true;
+      this.loadOrganizationRelations(this.organizationPage);
+      
+      // Reload the Incident relations
+      this.incidentPage = 1;
+      this.bulletin.incident_relations = [];
+      this.incidentLM = true;
+      this.loadIncidentRelations(this.incidentPage);
+    },
+    async visualize() {
+      // Load all the relations
+      await this.loadAllBulletinRelations();
+      await this.loadAllActorRelations();
+      await this.loadAllOrganizationRelations();
+      await this.loadAllIncidentRelations();
+
+      this.$root.$refs.viz.visualize(this.bulletin, this.closeVisualization)
     }
   },
 
@@ -322,7 +456,7 @@ Vue.component("bulletin-card", {
               {{ i18n.edit_ }}
             </v-btn>
 
-            <v-btn v-if="!searchDrawer" @click.stop="$root.$refs.viz.visualize(bulletin)" class="ml-2" outlined small elevation="0">
+            <v-btn v-if="!searchDrawer" @click.stop="visualize()" class="ml-2" outlined small elevation="0">
               <v-icon color="primary" left>mdi-graph-outline</v-icon>
               {{ i18n.visualize_ }}
             </v-btn>

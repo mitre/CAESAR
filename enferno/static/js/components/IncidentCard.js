@@ -206,6 +206,140 @@ Vue.component("incident-card", {
     navigateToInvestigation() {
       const url = new URL(`/admin/investigations/${this.incident.id}`, window.location.origin)
       window.location.href = url.toString()
+    },
+    loadAllBulletinRelations(page = 1) {
+      if (page === 1) {
+        this.incident.bulletin_relations = [];
+      }
+      return axios
+        .get(
+          `/admin/api/incident/relations/${this.incident.id}?class=bulletin&page=${page}`,
+        )
+        .then((res) => {
+          this.incident.bulletin_relations.push.apply(
+            this.incident.bulletin_relations,
+            res.data.items,
+          );
+          if (res.data.more) {
+            page += 1;
+            return this.loadAllBulletinRelations(page);
+          } else {
+            this.bulletinLM = false;
+            this.bulletinPage = page;
+          }
+        })
+        .catch((err) => {
+          console.log(err.toJSON());
+        });
+    },
+    loadAllActorRelations(page = 1) {
+      if (page === 1) {
+        this.incident.actor_relations = [];
+      }
+      return axios
+        .get(
+          `/admin/api/incident/relations/${this.incident.id}?class=actor&page=${page}`,
+        )
+        .then((res) => {
+          this.incident.actor_relations.push.apply(
+            this.incident.actor_relations,
+            res.data.items,
+          );
+          if (res.data.more) {
+            page += 1;
+            return this.loadAllActorRelations(page);
+          } else {
+            this.actorLM = false;
+            this.actorPage = page;
+          }
+        })
+        .catch((err) => {
+          console.log(err.toJSON());
+        });
+    },
+    loadAllOrganizationRelations(page = 1) {
+      if (page === 1) {
+        this.incident.organization_relations = [];
+      }
+      return axios
+        .get(
+          `/admin/api/incident/relations/${this.incident.id}?class=organization&page=${page}`,
+        )
+        .then((res) => {
+          this.incident.organization_relations.push.apply(
+            this.incident.organization_relations,
+            res.data.items,
+          );
+          if (res.data.more) {
+            page += 1;
+            return this.loadAllOrganizationRelations(page);
+          } else {
+            this.organizationLM = false;
+            this.organizationPage = page;
+          }
+        })
+        .catch((err) => {
+          console.log(err.toJSON());
+        });
+    },
+    loadAllIncidentRelations(page = 1) {
+      if (page === 1) {
+        this.incident.incident_relations = [];
+      }
+      return axios
+        .get(
+          `/admin/api/incident/relations/${this.incident.id}?class=incident&page=${page}`,
+        )
+        .then((res) => {
+          this.incident.incident_relations.push.apply(
+            this.incident.incident_relations,
+            res.data.items,
+          );
+          if (res.data.more) {
+            page += 1;
+            return this.loadAllIncidentRelations(page);
+          } else {
+            this.incidentLM = false;
+            this.incidentPage = page;
+          }
+        })
+        .catch((err) => {
+          console.log(err.toJSON());
+        });
+    },
+    closeVisualization() {
+      // Reload the bulletin relations
+      this.bulletinPage = 1;
+      this.incident.bulletin_relations = [];
+      this.bulletinLM = true;
+      this.loadBulletinRelations(this.bulletinPage);
+      
+      // Reload the Actor relations
+      this.actorPage = 1;
+      this.incident.actor_relations = [];
+      this.actorLM = true;
+      this.loadActorRelations(this.actorPage);
+      
+      // Reload the Organization relations
+      this.organizationPage = 1;
+      this.incident.organization_relations = [];
+      this.organizationLM = true;
+      this.loadOrganizationRelations(this.organizationPage);
+      
+      // Reload the Incident relations
+      this.incidentPage = 1;
+      this.incident.incident_relations = [];
+      this.incidentLM = true;
+      this.loadIncidentRelations(this.incidentPage);
+    },
+    async visualize() {
+      // Load all the relations
+      await this.loadAllBulletinRelations();
+      await this.loadAllActorRelations();
+      await this.loadAllOrganizationRelations();
+      await this.loadAllIncidentRelations();
+
+      this.$root.$refs.viz.visualize(this.incident, this.closeVisualization)
     }
   },
 
@@ -246,7 +380,7 @@ Vue.component("incident-card", {
         <v-chip small pill label color="gv darken-2" class="white--text">
           {{ i18n.id_ }} {{ incident.id }}</v-chip>
         <v-btn v-if="editAllowed && !searchDrawer" class="ml-2" @click="$emit('edit',incident)" small outlined><v-icon color="primary" left>mdi-pencil</v-icon> {{ i18n.edit_ }}</v-btn>
-        <v-btn v-if="!searchDrawer" @click.stop="$root.$refs.viz.visualize(incident)" class="ml-2" outlined small elevation="0"><v-icon color="primary" left>mdi-graph-outline</v-icon> {{ i18n.visualize_ }}</v-btn>
+        <v-btn v-if="!searchDrawer" @click.stop="visualize()" class="ml-2" outlined small elevation="0"><v-icon color="primary" left>mdi-graph-outline</v-icon> {{ i18n.visualize_ }}</v-btn>
         <v-btn v-if="deleteAllowed  && !searchDrawer" class="ml-2 red darken-3" @click="deleteIncident" small outlined>
           <v-icon color="white" left>mdi-archive</v-icon>
           <span class="white--text">{{ i18n.archive_ }}</span>

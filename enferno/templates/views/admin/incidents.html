@@ -1077,6 +1077,8 @@
                 this.ir_loaded = true;
                 this.editedItem.check_ar = true;
                 this.ar_loaded = true;
+                this.editedItem.check_or = true;
+                this.or_loaded = true;
                 this.source_alt = null;
                 this.dialog = true;
                 this.handleStatus(item);
@@ -1193,11 +1195,13 @@
                 };
                 this.editedItem.incident_relations.push(relation);
                 this.relateIncidentResults.removeById(incident.id);
+                this.editedItem.check_ir = true;
             }
         },
         removeIncident: function(evt, index) {
             if (confirm("Are you sure?")) {
                 this.editedItem.incident_relations.splice(index, 1);
+                this.editedItem.check_ir = true;
             }
         },
         // handles preview buttons when relating incidents (launches dialog)
@@ -1224,11 +1228,13 @@
                     bulletin: bulletin
                 };
                 this.editedItem.bulletin_relations.push(relation);
+                this.editedItem.check_br = true;
             }
         },
         removeBulletin: function(evt, index) {
             if (confirm("Are you sure?")) {
                 this.editedItem.bulletin_relations.splice(index, 1);
+                this.editedItem.check_br = true;
             }
         },
         // related actors functions ------------------------
@@ -1250,11 +1256,13 @@
                 };
                 this.editedItem.actor_relations.push(relation);
                 this.relateActorResults.removeById(actor.id);
+                this.editedItem.check_ar = true;
             }
         },
         removeActor: function(evt, index) {
             if (confirm("Are you sure?")) {
                 this.editedItem.actor_relations.splice(index, 1);
+                this.editedItem.check_ar = true;
             }
         },
         // related organizations functions ------------------------
@@ -1276,11 +1284,13 @@
                 };
                 this.editedItem.organization_relations.push(relation);
                 this.relateOrganizationResults.removeById(organization.id);
+                this.editedItem.check_or = true;
             }
         },
         removeOrganization: function(evt, index) {
             if (confirm("Are you sure?")) {
                 this.editedItem.organization_relations.splice(index, 1);
+                this.editedItem.check_or = true;
             }
         },
     }
