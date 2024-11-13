@@ -1,0 +1,107 @@
+<v-dialog v-model="shapefileDialog" max-width="500px">
+  <v-card>
+    <v-card-title>
+      <span class="headline">
+        Upload Shapefile
+      </span>
+    </v-card-title>
+    <v-card-text>
+      <v-container>
+        <v-row>
+          <v-col cols="12">
+            <vue-dropzone
+              ref="shapefileDropzone"
+              id="shapefile-dropzone"
+              :options="shapefileDzOpts"
+              @vdropzone-error="showError"
+              @vdropzone-removed-file="shapefileRemoved"
+              @vdropzone-file-added="shapefileAdded"
+              @vdropzone-success="shapefileUploadSuccess"
+              @vdropzone-sending="shapefileSending"
+              @vdropzone-queue-complete="shapefileQueueComplete"
+            ></vue-dropzone>
+            <span>
+              <h3>Required Shapefile files:</h3>
+              <ul>
+                <li>
+                  <v-icon v-if="extensionToIsAdded['shp']" color="success">mdi-check</v-icon>
+                  <v-icon v-else color="error">mdi-close</v-icon>
+                  .shp (Shape Format)
+                </li>
+                <li>
+                  <v-icon v-if="extensionToIsAdded['shx']" color="success">mdi-check</v-icon>
+                  <v-icon v-else color="error">mdi-close</v-icon>
+                  .shx (Shape Index Format)
+                </li>
+                <li>
+                  <v-icon v-if="extensionToIsAdded['dbf']" color="success">mdi-check</v-icon>
+                  <v-icon v-else color="error">mdi-close</v-icon>
+                  .dbf (Attribute Format)
+                </li>
+                <li>
+                  <v-icon v-if="extensionToIsAdded['prj']" color="success">mdi-check</v-icon>
+                  <v-icon v-else color="error">mdi-close</v-icon>
+                  .prj (Projection Format)
+                </li>
+              </ul>
+              <h3>Optional Shapefile files:</h3>
+              <ul>
+                <li>
+                  <v-icon v-if="extensionToIsAdded['cpg']" color="success">mdi-check</v-icon>
+                  <v-icon v-else color="error">mdi-close</v-icon>
+                  .cpg (Code Page File)
+                </li>
+                <li>
+                  <v-icon v-if="extensionToIsAdded['sbn'] || extensionToIsAdded['sbx']" color="success">mdi-check</v-icon>
+                  <v-icon v-else color="error">mdi-close</v-icon>
+                  .sbn .sbx (Spatial Index Files)
+                </li>
+              </ul>
+            </span>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" md="12">
+            <validation-observer v-slot="{ invalid }">
+              <validation-provider 
+                name="shapefile title" 
+                :rules="{oneIsNullTitle: [editedShapefile.title, shapefileDialog]}" 
+                v-slot="{ errors, validate }">
+                <v-text-field v-model="editedShapefile.title">
+                  <template #label>
+                    <span>Title</span>
+                    <span class="red--text"><strong>*</strong></span>
+                  </template>
+                </v-text-field>
+                <span class="red--text">${errors[0]}</span>
+              </validation-provider>
+            </validation-observer>
+          </v-col>
+          <!-- <v-col cols="12" md="6"> -->
+          <!--   <v-card class="d-flex" flat> -->
+          <!--     <search-field label="Media Category" api="/admin/api/mediacategories" v-model="editedMedia.category" item-text="title" item-value="id" :return-object="false"> -->
+          <!--     </search-field> -->
+          <!--   </v-card> -->
+          <!-- </v-col> -->
+        </v-row>
+        <v-row v-if="isShapefileCurrentlyUploading">
+          <v-col cols="12">
+            <span>Uploading and generating geojson...</span>
+            <v-progress-linear
+              :active="isShapefileCurrentlyUploading"
+              indeterminate
+              color="primary"
+            ></v-progress-linear>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-card-text>
+    <v-card-actions class="pa-5">
+      <v-spacer></v-spacer>
+      <v-btn color="grey" text @click="closeShapefile">Cancel</v-btn>
+      <v-btn color="primary"  :disabled="!enableShapefileUpload"  @click="uploadShapefile">Upload Shapefile
+      </v-btn>
+    </v-card-actions>
+  </v-card>
+</v-dialog>
+

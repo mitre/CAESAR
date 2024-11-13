@@ -1,9 +1,11 @@
 import json
+import os
 import pathlib
 from datetime import datetime
 from functools import wraps
 from pathlib import Path
 from tempfile import NamedTemporaryFile
+from zipfile import ZipFile
 
 import pandas as pd
 from dateutil.parser import parse
@@ -12,6 +14,10 @@ from flask_login import current_user
 from geoalchemy2 import Geometry, Geography
 from geoalchemy2.shape import to_shape
 from shapely import centroid, to_geojson
+import fiona
+from fiona.transform import transform_geom
+from fiona.crs import from_epsg
+from shapely.geometry import shape, mapping
 from sqlalchemy import JSON, ARRAY, text, and_, or_, func, Enum
 from sqlalchemy.dialects.postgresql import TSVECTOR, JSONB
 from sqlalchemy.orm.attributes import flag_modified
@@ -880,6 +886,7 @@ class Media(db.Model, BaseMixin):
 
     # set media directory here (could be set in the settings)
     media_dir = Path("enferno/media")
+    shapefile_dir = Path("enferno/media/shapefiles")
     inline_dir = Path("enferno/media/inline")
     id = db.Column(db.Integer, primary_key=True)
     media_file = db.Column(db.String, nullable=False)
@@ -887,6 +894,7 @@ class Media(db.Model, BaseMixin):
     category = db.Column(db.Integer)
     etag = db.Column(db.String, unique=True)
     duration = db.Column(db.String)
+    shapefile_group_uuid = db.Column(db.String, nullable=True)
 
     title = db.Column(db.String)
     title_ar = db.Column(db.String)
@@ -919,6 +927,70 @@ class Media(db.Model, BaseMixin):
     # synced to the Gold database
     ingested = db.Column(db.Boolean, default=False)
 
+    @staticmethod
+    def validate_shapefile_extension(filename):
+        return pathlib.Path(filename).suffix.lower() in [".shp", ".shx", ".dbf", ".prj", ".cpg", ".sbn", ".sbx"]
+
+    @staticmethod
+    def standardize_shapefile_filename(filename, title):
+        return title + pathlib.Path(filename).suffix.lower()
+
+    @staticmethod
+    def create_geojson_from_shapefiles(shapefile_group_uuid, title):
+        all_features = []
+        shapefile_dir = Media.shapefile_dir / shapefile_group_uuid
+        for filename in os.listdir(shapefile_dir):
+            if filename.endswith(".shp"):
+                shapefile_path = Path(shapefile_dir, filename)
+
+                with fiona.open(shapefile_path, 'r') as shapefile:
+                    crs = shapefile.crs
+
+                    for feature in shapefile:
+                        # Transform geometry to WGS84 (EPSG:4326) if needed
+                        geom = feature['geometry']
+                        if crs != from_epsg(4326):
+                            geom = transform_geom(crs, from_epsg(4326), geom)
+                        
+                        geom = mapping(shape(geom))
+                        
+                        # Ensure properties are JSON-serializable
+                        properties = {k: str(v) if not isinstance(v, (str, int, float, bool, type(None))) else v
+                                      for k, v in feature['properties'].items()}
+                        
+                        all_features.append({
+                            'type': 'Feature',
+                            'geometry': geom,
+                            'properties': properties
+                        })
+
+        geojson = {
+            'type': 'FeatureCollection',
+            'features': all_features
+        }
+        geojson_filename = Media.generate_file_name(title + '.geojson')
+        output_geojson_path = Path(shapefile_dir, geojson_filename)
+        with open(output_geojson_path, 'w') as geojson_file:
+            json.dump(geojson, geojson_file, indent=2)
+        return geojson_filename
+
+    @staticmethod
+    def create_shapefile_zip(shapefile_group_uuid):
+        shapefile_dir = Media.shapefile_dir / shapefile_group_uuid
+        zip_filename = 'shapefiles.zip'
+        zip_path = Path(shapefile_dir, zip_filename)
+        new_zip_filename = 'shapefiles.zip'
+        with ZipFile(zip_path, 'w') as zipf:
+            for filename in os.listdir(shapefile_dir):
+                if filename.endswith(".zip"):
+                    continue
+                elif filename.endswith(".geojson"):
+                    new_zip_filename = f'shapefiles-{filename.replace(".geojson", ".zip")}'
+                zipf.write(Path(shapefile_dir, filename), filename)
+        # rename the zip filename to new zip filename
+        os.rename(zip_path, Path(shapefile_dir, new_zip_filename))
+        return new_zip_filename
+
     # custom serialization method
     @check_roles
     def to_dict(self):
@@ -928,6 +1000,7 @@ class Media(db.Model, BaseMixin):
             "title_ar": self.title_ar if self.title_ar else None,
             "fileType": self.media_file_type if self.media_file_type else None,
             "filename": self.media_file if self.media_file else None,
+            "shapefile_group_uuid": self.shapefile_group_uuid if self.shapefile_group_uuid else None,
             "etag": getattr(self, 'etag', None),
             "time": getattr(self, 'time', None),
             "blur": getattr(self, 'blur', None),
@@ -951,6 +1024,7 @@ class Media(db.Model, BaseMixin):
         category = json.get('category', None)
         if category:
             self.category = category.get('id')
+        self.shapefile_group_uuid = json.get('shapefile_group_uuid', None)
         return self
 
     # generate custom file name for upload purposes
