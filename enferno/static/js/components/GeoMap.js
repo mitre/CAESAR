@@ -45,6 +45,9 @@ Vue.component("geo-map", {
       lng: this.value && this.value.lng,
       radius: this.value && this.value.radius ? this.value.radius : 1000, // Default to 1000
       marker: null,
+      dialogVisible: false,
+      customPointLat: null,
+      customPointLng: null,
 
       mapsApiEndpoint: mapsApiEndpoint,
 
@@ -648,6 +651,25 @@ Vue.component("geo-map", {
       }
       this.$emit("input", undefined);
     },
+
+    addCustomPointCoords() {
+      if (!this.customPointLat || !this.customPointLng) return;
+      this.Draw.add({
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "Point",
+          coordinates: [this.customPointLng, this.customPointLat],
+        },
+      });
+      this.dialogVisible = false;
+      this.map.flyTo({
+        center: [this.customPointLng, this.customPointLat],
+        maxDuration: 200,
+      });
+      this.currecntActiveIds = this.getAllFeatureIds();
+      this.currentFeatureCount = this.currecntActiveIds.length;
+    }
   },
   template: `
         <v-card class="pa-1" elevation="0">
@@ -697,6 +719,27 @@ Vue.component("geo-map", {
             </div>
 
             <l-map id="mlMapContainer" ref="mapContainer" :style="'position: relative; display: inline-block; height: '+ mapHeight + 'px; width: 100%; resize: vertical'"></l-map>
+<!-- Dialog for entering coordinates -->
+      <v-dialog v-model="dialogVisible" max-width="400px">
+        <v-card>
+          <v-card-title>
+            <span class="headline">Add Point By Coordinates</span>
+          </v-card-title>
+          <v-card-text>
+            <v-text-field label="Latitude" v-model.number="customPointLat" type="number" min="-90" max="90"></v-text-field>
+            <v-text-field label="Longitude" v-model.number="customPointLng" type="number" min="-180" max="180"></v-text-field>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="dialogVisible = false">Cancel</v-btn>
+            <v-btn color="blue darken-1" text @click="addCustomPointCoords" :disabled="!customPointLat || !customPointLng">Add</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-btn v-if="editMode && currentDrawMode === 'draw_point'" @click="dialogVisible = true" color="primary" small>
+        <v-icon dense>mdi-plus</v-icon>
+        <span>Add Point</span>
+      </v-btn>
 
           </v-card-text>
 
