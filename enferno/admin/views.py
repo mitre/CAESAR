@@ -11,7 +11,7 @@ import boto3
 import passlib
 import shortuuid
 import re
-from flask import request, abort, Response, current_app, json, g, send_from_directory
+from flask import request, abort, Response, current_app, json, g, send_file, send_from_directory
 from flask.templating import render_template
 from flask_babel import gettext
 from flask_bouncer import requires
@@ -2080,6 +2080,94 @@ def api_incident_self_assign(id):
 
 # Media special endpoints
 
+@admin.post('/api/shapefile/chunk')
+@roles_accepted('Admin', 'DA')
+def api_shapefile_chunk():
+    file = request.files["file"]
+
+    if not Media.validate_shapefile_extension(file.filename):
+        return 'This file type is not allowed', 415
+
+    dz_uuid = request.form.get("dzuuid")
+    shapefile_group_uuid = request.form.get("shapefile_group_uuid")
+    title = request.form["title"]
+    if not dz_uuid or not shapefile_group_uuid or not file.filename or not title:
+        return 'Invalid Request', 425
+
+    # Chunked upload
+    try:
+        current_chunk = int(request.form["dzchunkindex"])
+        total_chunks = int(request.form["dztotalchunkcount"])
+        total_size = int(request.form["dztotalfilesize"])
+    except KeyError as err:
+        raise abort(400, body=f"Not all required fields supplied, missing {err}")
+    except ValueError:
+        raise abort(400, body=f"Values provided were not in expected format")
+    
+    if not safe_join(str(Media.media_file), dz_uuid):
+        return 'Invalid Request', 425
+
+    save_dir = Media.shapefile_dir / shapefile_group_uuid / secure_filename(dz_uuid)
+
+    filename = Media.standardize_shapefile_filename(file.filename, title)
+    filepath = (Media.shapefile_dir / shapefile_group_uuid / filename)
+
+    # validate current chunk
+    if not safe_join(str(save_dir), str(current_chunk)) or current_chunk.__class__ != int:
+        return 'Invalid Request', 425
+
+    if not save_dir.exists():
+        save_dir.mkdir(exist_ok=True, parents=True)
+
+    # Save the individual chunk
+    with open(save_dir / secure_filename(str(current_chunk)), "wb") as f:
+        file.save(f)
+
+    # See if we have all the chunks downloaded
+    completed = current_chunk == total_chunks - 1
+
+    if completed:
+        with open(filepath, "wb") as f:
+            for file_number in range(total_chunks):
+                f.write((save_dir / str(file_number)).read_bytes())
+        shutil.rmtree(save_dir)
+        total_files = request.form["numFiles"]
+        current_file_index = request.form["currentFileNumber"]
+
+        if current_file_index == total_files:
+            geojson_path = Media.create_geojson_from_shapefiles(shapefile_group_uuid, title)
+            response = { 
+                'filename': str(geojson_path),
+                'shapefile_group_uuid': shapefile_group_uuid,
+                'completed': True,
+                'title': title
+            }
+            return Response(json.dumps(response)), 200
+
+        response = {'filename': str(filename)}
+        return Response(json.dumps(response), content_type='application/json'), 200
+
+    return "Chunk uploaded successfully", 200
+
+@admin.get('/api/media/shapefile/download/<shapefile_group_uuid>')
+@roles_accepted('Admin', 'DA')
+def api_shapefile_download(shapefile_group_uuid):
+    """
+    Endpoint to download a shapefile group
+    :param shapefile_group_uuid: uuid of the shapefile group
+    :return: file download
+    """
+    shapefile_group = Media.shapefile_dir / shapefile_group_uuid
+    if not shapefile_group.exists():
+        return 'Not found', 404
+    zip_dir = Media.shapefile_dir / shapefile_group_uuid
+    # check if zip file already exists in directory called shapefiles.zip
+    for file in zip_dir.iterdir():
+        if file.is_file() and file.suffix == '.zip':
+            return send_from_directory(f'media/shapefiles/{shapefile_group_uuid}', file.name)
+    zip_filename = Media.create_shapefile_zip(shapefile_group_uuid)
+    return send_from_directory(f'media/shapefiles/{shapefile_group_uuid}', zip_filename, as_attachment=True)
+
 @admin.post('/api/media/chunk')
 @roles_accepted('Admin', 'DA')
 def api_medias_chunk():
@@ -2290,6 +2378,12 @@ def api_local_serve_media(filename):
     if media and not current_user.can_access(media):
         return 'Restricted Access', 403
     else:
+        if filename.lower().endswith('geojson'):
+            shapefile_group_uuid = request.args.get('shapefile_group_uuid')
+            if not shapefile_group_uuid:
+                return 'Invalid Request', 425
+            directory = f'media/shapefiles/{shapefile_group_uuid}'
+            return send_from_directory(directory, filename)
         return send_from_directory('media', filename)
 
 

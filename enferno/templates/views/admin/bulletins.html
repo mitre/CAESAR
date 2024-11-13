@@ -234,6 +234,7 @@
 <script src="/static/js/tinymce-vue.min.js"></script>
 <script src="/static/js/dropzone/vue2Dropzone.js"></script>
 <script src="/static/js/components/MediaCard.js"></script>
+<script src="/static/js/components/MediaMap.js"></script>
 <script src="/static/js/components/BulletinResult.js"></script>
 <script src="/static/js/components/ActorResult.js"></script>
 <script src="/static/js/components/IncidentResult.js"></script>
@@ -296,6 +297,20 @@
                 parallelUploads: 1,
                 maxFilesize: mediaUploadMaxFileSize,
                 timeout: 2*60*1000,
+            },
+            shapefileDzOpts: {
+                url: '/admin/api/shapefile/chunk',
+                autoProcessQueue: false,
+                acceptedFiles: '.shp,.shx,.dbf,.prj,.cpg,.sbn,.sbx',
+                addRemoveLinks: true,
+                chunking: true,
+                forceChunking: true,
+                chunkSize: 500000, // Bytes
+                thumbnailWidth: 80, // px
+                thumbnailHeight: 80,
+                parallelUploads: 1,
+                timeout: 2*60*1000,
+                maxFilesize: mediaUploadMaxFileSize,
             },
             assignBulletin: {},
             credibilityItems: [

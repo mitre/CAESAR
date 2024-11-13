@@ -1,6 +1,7 @@
 let mediaMixin = {
   data: {
     mediaDialog: false,
+    shapefileDialog: false,
 
     medias: [],
     mediaCats: translations.mediaCats,
@@ -10,6 +11,11 @@ let mediaMixin = {
     editedMedia: {
       title: "",
     },
+    editedShapefile: {
+      title: "",
+    },
+    isShapefileCurrentlyUploading: false,
+    shapefileExtensions: ["shp", "shx", "dbf", "prj", "cpg", "sbn", "sbx"],
 
     defaultMedia: {
       title: "",
@@ -37,9 +43,28 @@ let mediaMixin = {
     enableAttach() {
       return this.editedMedia.files && this.editedMedia.files.length > 0;
     },
+    enableShapefileUpload() {
+      if (!this.editedShapefile.files?.length) return false;
+      const requiredFiles = ["shp", "shx", "dbf", "prj"];
+      const currentFileTypes = this.editedShapefile.files.map((file) => file.name.split(".").pop());
+      // check title isn't just spaces
+      const isSpaces = this.editedShapefile.title?.match(/^\s*$/);
+      return requiredFiles.every((file) => currentFileTypes.includes(file)) && this.editedShapefile.title?.length > 0 && !isSpaces;
+    },
+    extensionToIsAdded() {
+      return r = this.shapefileExtensions.reduce((acc, ext) => {
+        acc[ext] = this.fileExtensionHasBeenAdded(ext);
+        return acc;
+      }, {});
+    },
   },
 
   methods: {
+    fileExtensionHasBeenAdded(extension) {
+      if (!this.editedShapefile.files) return false;
+      return this.editedShapefile.files.some((file) => file.name.split(".").pop() === extension);
+    },
+
     showError(err, message) {
       this.showSnack(message);
     },
@@ -69,6 +94,25 @@ let mediaMixin = {
       }
     },
 
+    shapefileAdded(file) {
+      const dropzone = this.$refs.shapefileDropzone.dropzone;
+      const isInvalidExtension = !this.shapefileExtensions.includes(file.name.split(".").pop());
+      if (isInvalidExtension) {
+        dropzone.removeFile(file);
+        return;
+      }
+      for (let i = 0; i < dropzone.files.length - 1; i++) {
+        const fileType = dropzone.files[i].name.split(".").pop();
+        const addedFileType = file.name.split(".").pop();
+        if (fileType === addedFileType) {
+          dropzone.removeFile(file);
+          this.showError("_", "File type already exists");
+          return;
+        }
+      }
+      this.editedShapefile.files.push(file);
+    },
+
     fileRemoved(file, error, xhr) {
       if (!error) {
         // pop out that specific removed file based on UUID
@@ -77,6 +121,15 @@ let mediaMixin = {
         );
       }
     },
+
+    shapefileRemoved(file, error, xhr) {
+      if (!error) {
+        this.editedShapefile.files = this.editedShapefile.files.filter(
+          (x) => x.upload.uuid !== file.upload.uuid,
+        );
+      }
+    },
+
     uploadSuccess(dzfile) {
       // pick file from dropzone files list
       const needle = this.$refs.dropzone
@@ -90,6 +143,19 @@ let mediaMixin = {
       // parse the response in xhr
       this.editedMedia.files.push(file);
       this.upMediaBtnDisabled = false;
+    },
+
+    shapefileUploadSuccess(file) {
+      // Check if response content type is json
+      const response = JSON.parse(file.xhr.response);
+      if (!response.completed) return;
+      this.isShapefileCurrentlyUploading = false;
+      const mediaItem = {};
+      mediaItem.title = response.title
+      mediaItem.fileType = 'geojson'
+      mediaItem.filename = response.filename
+      mediaItem.shapefile_group_uuid = response.shapefile_group_uuid
+      this.editedItem.medias.push(mediaItem);
     },
 
     viewImage(item) {
@@ -341,8 +407,27 @@ let mediaMixin = {
       //this.locations = this.editedItem.locations;
     },
 
-    removeMedia: function (evt, index) {
+    generateUUID() {
+      return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (
+        c,
+      ) {
+          var r = (Math.random() * 16) | 0,
+          v = c == "x" ? r : (r & 0x3) | 0x8;
+          return v.toString(16);
+        });
+      },
+    addShapefile(media, item, index) {
+      this.editedShapefile = structuredClone(this.defaultMedia);
+      this.editedShapefile.uuid = this.generateUUID();
+
+      this.shapefileDialog = true;
+    },
+
+    removeMedia: function (fileName) {
       if (confirm("Are you sure?")) {
+        const index = this.editedItem.medias.findIndex(
+          (x) => x.filename === fileName,
+        );
         this.editedItem.medias.splice(index, 1);
       }
     },
@@ -356,6 +441,17 @@ let mediaMixin = {
         this.editedMediaIndex = -1;
       }, 300);
     },
+
+    closeShapefile() {
+      this.isShapefileCurrentlyUploading = false;
+      this.editedShapefile.files = [];
+      this.$refs.shapefileDropzone.removeAllFiles();
+      this.shapefileDialog = false;
+      setTimeout(() => {
+        this.editedShapefile = Object.assign({}, this.defaultMedia);
+      }, 300);
+    },
+
 
     attachMedia() {
       // detect file mode
@@ -392,6 +488,24 @@ let mediaMixin = {
       this.closeMedia();
     },
 
+    uploadShapefile() {
+      this.$refs.shapefileDropzone.processQueue();
+    },
+
+    shapefileQueueComplete() {
+      this.closeShapefile();
+    },
+
+    shapefileSending(file, xhr, formData) {
+      this.isShapefileCurrentlyUploading = true;
+      formData.append("title", this.editedShapefile.title);
+      formData.append("shapefile_group_uuid", this.editedShapefile.uuid)
+      const numFiles = this.editedShapefile.files.length;
+      const currentFileNumber = this.editedShapefile.files.indexOf(file) + 1;
+      formData.append("numFiles", numFiles);
+      formData.append("currentFileNumber", currentFileNumber);
+    },
+
     onFileUploaded(error, file) {
       if (!error) {
         this.upMediaBtnDisabled = false;
@@ -406,5 +520,14 @@ let mediaMixin = {
         console.log(error);
       }
     },
+    downloadShapefile(media) {
+      var a = document.createElement("a");
+      a.href = `/admin/api/media/shapefile/download/${media.shapefile_group_uuid}`;
+      a.target = "_blank";
+      a.download = `${media.title}-shapefiles.zip`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
   },
 };

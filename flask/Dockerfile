@@ -17,6 +17,8 @@ RUN apt update -y && \
     libxml2-dev \
     libxslt1-dev \
     libzip-dev \
+    gdal-bin \
+    libgdal-dev \
     python-setuptools \
     python3-dev \
     python3-pip \
@@ -24,6 +26,9 @@ RUN apt update -y && \
 
 WORKDIR /app
 
+# Set environment variables for GDAL
+ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
+ENV C_INCLUDE_PATH=/usr/include/gdal
 # Sets utf-8 encoding for Python
 ENV LANG=C.UTF-8
 # Turns off writing .pyc files

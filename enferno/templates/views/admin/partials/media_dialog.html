@@ -13,20 +13,44 @@
                     {% endif %}
                 </span>
             </div>
+            
         </div>
         <div class="mt-2">
             <v-layout wrap>
-                <v-flex class="pa-2" md3 v-for="(item,index) in editedItem.medias" :key="index">
+                <v-flex class="pa-2" v-for="(item,index) in editedItem.medias.filter(media => !media.shapefile_group_uuid)" :key="index+editedItem.medias.length">
                     <media-card conf="simple" @thumb-click="viewImage" @video-click="viewPlayer" :media="item" :key="index+editedItem.medias.length">
                         <template v-slot:actions>
                             <v-spacer></v-spacer>
-                            <v-btn v-if="!item.main" @click="removeMedia($event,index)" x-small depressed fab outlined color="red lighten-1">
+                            <v-btn v-if="!item.main" @click="removeMedia(item.filename)" x-small depressed fab outlined color="red lighten-1">
                                 <v-icon>mdi-delete-sweep</v-icon>
                             </v-btn>
                         </template>
                     </media-card>
                 </v-flex>
             </v-layout>
+            <h2 class="form-section-header">{{ _("Shapefiles") }}</h2>
+            <div class="mt-2">
+              <v-btn @click="addShapefile" color="primary" small><v-icon dense>mdi-plus</v-icon></v-btn>
+              <span class="ml-2 font-italic">
+                Upload Shapefile
+              </span>
+            </div>
+            <v-row class="pa-2" v-for="(item,index) in editedItem.medias.filter(media => media.shapefile_group_uuid)" :key="item.shapefile_group_uuid">
+              <v-col cols="12" md="12">
+                <media-map :value="item" :key="index+editedItem.medias.length">
+                      <template v-slot:actions>
+                          <v-spacer></v-spacer>
+                          <v-btn v-if="!item.main" @click="downloadShapefile(item)" x-small depressed fab outlined color="green lighten-1">
+                              <v-icon>mdi-download</v-icon>
+                          </v-btn>
+                          <v-btn v-if="!item.main" @click="removeMedia(item.filename)" x-small depressed fab outlined color="red lighten-1">
+                              <v-icon>mdi-delete-sweep</v-icon>
+                          </v-btn>
+                          
+                      </template>
+                </media-map>
+              </v-col>
+            </v-row>
         </div>
     </template>
     <v-card>
