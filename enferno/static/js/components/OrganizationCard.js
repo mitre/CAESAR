@@ -434,6 +434,10 @@ Vue.component("organization-card", {
 
     </v-card>
 
+    <div class="d-flex" v-if="organization.credibility">
+      <uni-field :caption="i18n.credibility_" :english="organization._credibility"></uni-field>
+    </div>
+
     <!-- Map -->
     <v-card outlined class="ma-2 pa-2" color="grey lighten-5">
       <global-map :i18n="i18n" :value="mapLocations"></global-map>

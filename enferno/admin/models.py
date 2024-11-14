@@ -3023,6 +3023,8 @@ class Organization(db.Model, BaseMixin):
     comments = db.Column(db.Text)
     tax_id = db.Column(db.String(255))
 
+    credibility = db.Column(db.Integer)
+
     organization_type_id = db.Column(db.Integer, db.ForeignKey('organization_type.id'), nullable=True)
     organization_type = db.relationship('OrganizationType', back_populates='organizations', foreign_keys=[organization_type_id])
 
@@ -3153,6 +3155,7 @@ class Organization(db.Model, BaseMixin):
         self.founded_date = json["founded_date"] if "founded_date" in json else None
         self.description = json["description"] if "description" in json else None
         self.tax_id = json["tax_id"] if "tax_id" in json else None
+        self.credibility = json["credibility"] if "credibility" in json else None
 
         # assigned to
         if "assigned_to" in json and json["assigned_to"] and "id" in json["assigned_to"]:
@@ -3422,6 +3425,7 @@ class Organization(db.Model, BaseMixin):
             "created_at": DateHelper.serialize_datetime(self.created_at),
             "comments": self.comments or "",
             "tax_id": self.tax_id,
+            "credibility": self.credibility or None,
         }
 
     def to_csv_dict(self):
@@ -3431,6 +3435,7 @@ class Organization(db.Model, BaseMixin):
             'name': self.serialize_column('name'),
             'name_ar': self.serialize_column('name_ar'),
             'description': self.serialize_column('description'),
+            'credibility': self.serialize_column('credibility'),
             'created_at': self.serialize_column('created_at'),
             'tax_id': self.serialize_column('tax_id'),
             'organization_type': self.serialize_column('organization_type'),
@@ -3631,6 +3636,8 @@ class Organization(db.Model, BaseMixin):
             "actor_relations": actor_relations_dict,
             "events": events_json,
             "description": self.description or None,
+            "credibility": self.credibility or None,
+            "_credibility": getCredibility(self.credibility) if self.credibility else None,
             "comments": self.comments or None,
             "created_at": DateHelper.serialize_datetime(self.created_at),
             "status": self.status,
@@ -3657,6 +3664,7 @@ class Organization(db.Model, BaseMixin):
             "aliases": [alias.to_dict() for alias in self.aliases] if self.aliases else [],
             "roles_within": [role.to_dict() for role in self.roles_within] if self.roles_within else [],
             "description": self.description or None,
+            "credibility": self.credibility or None,
             "comments": self.comments or None,
             "created_at": DateHelper.serialize_datetime(self.created_at),
             "tax_id": self.tax_id,
