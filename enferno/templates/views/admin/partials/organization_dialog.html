@@ -178,6 +178,29 @@
                     <i v-if="editedItem.social_media_handles?.length <= 0" class="ml-2">Add Social Media for this organization.</i>
                   </v-col>
                 </v-row>
+                <!-- Sanction Regimes -->
+                <h2 class="form-section-header">{{ _("Sanction Regimes") }}</h2>
+                <v-row v-for="(regime, index) in editedItem.sanction_regimes" align="center" justify="center">
+                  <v-col>
+                      <v-select v-if="regime.sanction_regime" v-model="regime.sanction_regime.id" 
+                          hide-details :items="sanctionRegimes" item-text="title" item-value="id" label="{{ _("Regime") }}">
+                      </v-select>
+                      <v-select v-else v-model="regime.sanction_regime_id" hide-details 
+                          :items="sanctionRegimes" item-text="title" item-value="id" label="{{ _("Regime") }}">
+                      </v-select>
+                  </v-col>
+                  <v-col>
+                      <v-col cols="1" class="mt-3">
+                          <v-btn @click="editedItem.sanction_regimes.splice(index, 1)" color="error" small> <v-icon dense>mdi-alpha-x-circle-outline</v-icon> </v-btn>
+                      </v-col>
+                  </v-col>
+                </v-row>
+                <v-row>
+                    <v-col cols="12" md="12">
+                        <v-btn @click="addSanctionRegime" :disabled="isLastSanctionRegimeEmpty()" color="primary" small><v-icon dense>mdi-plus</v-icon></v-btn>
+                        <i v-if="editedItem.sanction_regimes?.length <= 0" class="ml-2">Add Sanction Regimes for this organization.</i>
+                    </v-col>
+                </v-row>
                 <!-- Roles -->
                 <span class="anchor" id="roles"></span>
                 <h2 class="form-section-header">{{ _("Roles") }}</h2>

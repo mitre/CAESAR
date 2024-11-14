@@ -117,6 +117,7 @@ class SanctionRegime(db.Model, BaseMixin):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     sanction_regimes_to_actors = db.relationship("SanctionRegimeToActor", back_populates="sanction_regime", cascade="all, delete-orphan")
+    sanction_regimes_to_organizations = db.relationship("SanctionRegimeToOrganization", back_populates="sanction_regime", cascade="all, delete-orphan")
 
     def to_dict(self):
         return {
@@ -163,6 +164,43 @@ class SanctionRegimeToActor(db.Model, BaseMixin):
             self.actor_id = jsn.get('actor_id')
         elif jsn.get('actor'):
             self.actor_id = jsn.get('actor').get('id')
+        return self
+
+class SanctionRegimeToOrganization(db.Model, BaseMixin):
+    """
+    SQL Alchemy model for Sanction Regime to Organizations
+    Join table to match Organizations to Sanction Regimes
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    
+    sanction_regime_id = db.Column(db.Integer, db.ForeignKey('sanction_regime.id'))
+    sanction_regime = db.relationship("SanctionRegime", back_populates="sanction_regimes_to_organizations", foreign_keys=[sanction_regime_id])
+
+    organization_id = db.Column(db.Integer, db.ForeignKey('organization.id'), nullable=True)
+    organization = db.relationship("Organization", back_populates="sanction_regimes", foreign_keys=[organization_id])
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'sanction_regime': self.sanction_regime.to_dict() if self.sanction_regime else None,
+            'organization': self.organization.to_dict() if self.organization else None
+        }
+    
+    def to_dict_organization(self):
+        return {
+            'id': self.id,
+            'sanction_regime': self.sanction_regime.to_dict() if self.sanction_regime else None
+        }
+    
+    def from_json(self, jsn):
+        if jsn.get('sanction_regime_id'):
+            self.sanction_regime_id = jsn.get('sanction_regime_id')
+        elif jsn.get('sanction_regime'):
+            self.sanction_regime_id = jsn.get('sanction_regime').get('id')
+        if jsn.get('organization_id'):
+            self.organization_id = jsn.get('organization_id')
+        elif jsn.get('organization'):
+            self.organization_id = jsn.get('organization').get('id')
         return self
 
 
@@ -3002,6 +3040,8 @@ class Organization(db.Model, BaseMixin):
 
     social_media_handles = db.relationship('SocialMediaHandleOrganization', back_populates='organization')
 
+    sanction_regimes = db.relationship('SanctionRegimeToOrganization', back_populates='organization')
+
     locations = db.relationship('Location',
                                 secondary=organization_locations,
                                 backref=db.backref('organizations', lazy='dynamic')
@@ -3215,6 +3255,23 @@ class Organization(db.Model, BaseMixin):
                     h.save()
                 new_handles.append(h)
             self.social_media_handles = new_handles
+
+        if "sanction_regimes" in json:
+            new_sanction_regime_to_organizations = []
+            sanction_regimes = json["sanction_regimes"]
+            for regime in sanction_regimes:
+                if "id" not in regime:
+                    # new sanction_regime_to_organization
+                    sr_to_o = SanctionRegimeToOrganization()
+                    sr_to_o = sr_to_o.from_json(regime)
+                    sr_to_o.save()
+                else:
+                    # sanction_regime_to_organization already exists, get a db instance and update it with new data
+                    sr_to_o = SanctionRegimeToActor.query.get(regime["id"])
+                    sr_to_o.from_json(regime)
+                    sr_to_o.save()
+                new_sanction_regime_to_organizations.append(sr_to_o)
+            self.sanction_regimes = new_sanction_regime_to_organizations
 
         # Related Organizations (organization)
         if "organization_relations" in json:
@@ -3514,6 +3571,12 @@ class Organization(db.Model, BaseMixin):
             for handle in self.social_media_handles:
                 handles_json.append(handle.to_dict_organization())
 
+        # Sanction Regime json 
+        regimes_json = []
+        if self.sanction_regimes and len(self.sanction_regimes):
+            for regime in self.sanction_regimes:
+                regimes_json.append(regime.to_dict_organization())
+
         # Events json
         events_json = []
         if self.events and len(self.events):
@@ -3561,6 +3624,7 @@ class Organization(db.Model, BaseMixin):
             "roles_within": [role.to_dict() for role in self.roles_within] if self.roles_within else [],
             "organization_type": self.organization_type.to_dict() if self.organization_type else None,
             "social_media_handles": handles_json,
+            "sanction_regimes": regimes_json,
             "bulletin_relations": bulletin_relations_dict,
             "organization_relations": organization_relations_dict,
             "incident_relations": incident_relations_dict,
