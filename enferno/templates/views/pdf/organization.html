@@ -32,6 +32,10 @@
                 <div class="description">{{ organization.description|safe }}</div>
             </section>
             <section>
+                <h4>Credibility</h4>
+                <div>{{ organization.to_dict()._credibility }}</div>
+            </section>
+            <section>
                 <h4>Locations</h4>
                 {% for location in organization.locations %}<span class="tag">{{ location.title }}</span>{% endfor %}
             </section>
