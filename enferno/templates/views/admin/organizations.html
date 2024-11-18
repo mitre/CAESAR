@@ -449,11 +449,13 @@ let app = new Vue({
     itemsLength: 10,
     editedIndex: -1,
     socialMediaPlatforms: [],
+    sanctionRegimes: [],
     organizationTypes: [],
     editedItem: {
       aliases: [],
       roles_within: [],
       social_media_handles: [],
+      sanction_regimes: [],
       events: [],
       organization_relations: [],
       bulletin_relations: [],
@@ -464,6 +466,7 @@ let app = new Vue({
       aliases: [],
       roles_within: [],
       social_media_handles: [],
+      sanction_regimes: [],
       events: [],
       description: "",
       status: "",
@@ -596,6 +599,7 @@ let app = new Vue({
   },
   mounted: function() {
     this.getSocialMediaPlatforms();
+    this.getSanctionRegimes();
     this.getActorChoices();
     this.getOrganizationTypes();
     this.statusDisabled = !this.has_role(this.currentUser, 'Admin')
@@ -655,6 +659,27 @@ let app = new Vue({
           this.socialMediaPlatforms = [];
           console.error(e.message);
         });
+    },
+    getSanctionRegimes() {
+      axios.get('/admin/api/sanction-regimes/')
+        .then(res => {
+            this.sanctionRegimes = res.data.items;
+        })
+        .catch(e => {
+          this.sanctionRegimes = [];
+          console.log(e.message);
+        });
+    },
+    addSanctionRegime() {
+      this.editedItem.sanction_regimes.push({
+        sanction_regime_id: null
+      });
+    },
+    isLastSanctionRegimeEmpty() {
+      if (this.editedItem.sanction_regimes.length) {
+        return this.editedItem.sanction_regimes[this.editedItem.sanction_regimes.length - 1].sanction_regime_id === null;
+      }
+      return false;
     },
     // form anchors for scrolling
     anchorScroll(id) {
