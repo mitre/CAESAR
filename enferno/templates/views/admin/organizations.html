@@ -227,12 +227,15 @@
 <div class="d-none" data-otoi='{{ otoiInfo|tojson }}'></div>
 <div class="d-none" data-otoa='{{ otoaInfo|tojson }}'></div>
 <div class="d-none" data-statuses='{{ statuses|tojson }}'></div>
+<div class="d-none" data-allowed-media-types='{{ ", ".join(config.MEDIA_ALLOWED_EXTENSIONS) }}'></div>
 {% endblock %}
 {% block js %}
 <script src="/static/js/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
 <script src="/static/js/tinymce-vue.min.js"></script>
 <script src="/static/js/dropzone/vue2Dropzone.js"></script>
 <script src="/static/js/components/OrganizationResult.js"></script>
+<script src="/static/js/components/MediaCard.js"></script>
+<script src="/static/js/components/MediaMap.js"></script>
 <script src="/static/js/components/ActorResult.js"></script>
 <script src="/static/js/components/BulletinResult.js"></script>
 <script src="/static/js/components/IncidentResult.js"></script>
@@ -248,6 +251,7 @@
 <script src="/static/js/components/MixIII.js"></script>
 <script src="/static/js/components/MPCard.js"></script>
 <script src="/static/js/components/MPField.js"></script>
+<script src="/static/js/mixins/media-mixin.js"></script>
 <script src="/static/js/components/PdfViewer.js"></script>
 <script>
 window.__GOOGLE_MAPS_API_KEY__ = '{{ config.GOOGLE_MAPS_API_KEY }}';
@@ -283,6 +287,7 @@ let app = new Vue({
     "tinymce-editor": Editor,
     vueDropzone: vue2Dropzone
   },
+  mixins: [mediaMixin],
   data: () => ({
     translations: translations,
     // TODO change to organizaiton relations
@@ -311,6 +316,33 @@ let app = new Vue({
     rolesWithinDialog: false,
     // missing person toggle
     profile: false,
+    dzOpts: {
+      url: '/admin/api/media/chunk',
+      acceptedFiles: document.querySelector('[data-allowed-media-types]').dataset.allowedMediaTypes,
+      addRemoveLinks: true,
+      chunking: true,
+      forceChunking: true,
+      chunkSize: 5000000, // Bytes
+      thumbnailWidth: 80, // px
+      thumbnailHeight: 80,
+      parallelUploads: 1,
+      maxFilesize: mediaUploadMaxFileSize,
+      timeout: 2*60*1000,
+    },
+    shapefileDzOpts: {
+      url: '/admin/api/shapefile/chunk',
+      autoProcessQueue: false,
+      acceptedFiles: '.shp,.shx,.dbf,.prj,.cpg,.sbn,.sbx',
+      addRemoveLinks: true,
+      chunking: true,
+      forceChunking: true,
+      chunkSize: 500000, // Bytes
+      thumbnailWidth: 80, // px
+      thumbnailHeight: 80,
+      parallelUploads: 1,
+      timeout: 2*60*1000,
+      maxFilesize: mediaUploadMaxFileSize,
+    },
     resultsChip: true,
     currentUser: JSON.parse(`{{ current_user.to_dict()|tojson }}`),
     users: JSON.parse(`{{users|tojson}}`),
@@ -457,6 +489,7 @@ let app = new Vue({
       social_media_handles: [],
       sanction_regimes: [],
       events: [],
+      medias: [],
       organization_relations: [],
       bulletin_relations: [],
       actor_relations: [],
@@ -468,6 +501,7 @@ let app = new Vue({
       social_media_handles: [],
       sanction_regimes: [],
       events: [],
+      medias: [],
       description: "",
       status: "",
       // related organizations
@@ -575,6 +609,9 @@ let app = new Vue({
   watch: {
     eventDialog(val) {
       val || this.closeEvent();
+    },
+    mediaDialog(val) {
+      val || this.closeMedia();
     },
     organizationDrawer: function(val) {
       if (val == false) {

@@ -958,6 +958,9 @@ class Media(db.Model, BaseMixin):
 
     actor_id = db.Column(db.Integer, db.ForeignKey("actor.id"))
     actor = db.relationship("Actor", backref="medias", foreign_keys=[actor_id])
+    
+    organization_id = db.Column(db.Integer, db.ForeignKey("organization.id"))
+    organization = db.relationship("Organization", backref="medias", foreign_keys=[organization_id])
 
     main = db.Column(db.Boolean, default=False)
     
@@ -3376,6 +3379,36 @@ class Organization(db.Model, BaseMixin):
         if "status" in json:
             self.status = json["status"]
 
+        # Related Media
+        if "medias" in json:
+            # untouchable main medias
+            main = [m for m in self.medias if m.main is True]
+            others = [m for m in self.medias if not m.main]
+            to_keep_ids = [m.get('id') for m in json.get('medias') if m.get('id')]
+
+            # handle removed medias
+            to_be_deleted = [m for m in others if m.id not in to_keep_ids]
+
+            others = [m for m in others if m.id in to_keep_ids]
+            to_be_created = [m for m in json.get('medias') if not m.get('id')]
+
+            new_medias = []
+            # create new medias
+            for media in to_be_created:
+                m = Media()
+                m = m.from_json(media)
+                m.save()
+                new_medias.append(m)
+
+            self.medias = main + others + new_medias
+
+            # mark removed media as deleted
+            for media in to_be_deleted:
+                media.deleted = True
+                delete_comment = f'Removed from Actor #{self.id}'
+                media.comments = media.comments + '\n' + delete_comment if media.comments else delete_comment
+                media.save()
+
         return self
 
     # Compact dict for relationships
@@ -3442,6 +3475,7 @@ class Organization(db.Model, BaseMixin):
             'locations': convert_simple_relation(self.locations),
             'roles_within': convert_simple_relation(self.roles_within),
             'aliases': convert_simple_relation(self.aliases),
+            'media': convert_simple_relation(self.medias),
             'related_primary_records': convert_complex_relation(self.bulletin_relations_dict, Bulletin.__tablename__),
             'related_organizations': convert_complex_relation(self.organization_relations_dict, Organization.__tablename__),
             'related_investigations': convert_complex_relation(self.incident_relations_dict, Incident.__tablename__),
@@ -3588,6 +3622,13 @@ class Organization(db.Model, BaseMixin):
             for event in self.events:
                 events_json.append(event.to_dict())
 
+        # medias json
+        medias_json = []
+        if self.medias and len(self.medias):
+
+            for media in self.medias:
+                medias_json.append(media.to_dict())
+
         # Related bulletins json (actually the associated relationships)
         # - in this case the other bulletin carries the relationship
         organization_relations_dict = []
@@ -3617,6 +3658,7 @@ class Organization(db.Model, BaseMixin):
             "name_ar": self.name_ar,
             "founded_date": DateHelper.serialize_datetime(self.founded_date),
             "aliases": [alias.to_dict() for alias in self.aliases] if self.aliases else [],
+            "medias": medias_json,
             # assigned to
             "assigned_to": self.assigned_to.to_compact() if self.assigned_to else None,
             "created_by": self.created_by.to_compact() if self.created_by else None,

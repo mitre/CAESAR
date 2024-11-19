@@ -22,6 +22,17 @@ Vue.component("actor-card", {
     },
   },
 
+  computed: {
+    nonShapefileMedias() {
+      if (!this.actor?.medias) return []
+      return this.actor.medias.filter(m => !m.shapefile_group_uuid)
+    },
+    shapefileMedias(){
+      if (!this.actor?.medias) return []
+      return this.actor.medias.filter(m => m.shapefile_group_uuid)
+    }
+  },
+
   mounted() {
     if(this.actor) this.mapLocations = aggregateActorLocations(this.actor);
   },
@@ -384,6 +395,15 @@ Vue.component("actor-card", {
       await this.loadAllIncidentRelations();
 
       this.$root.$refs.viz.visualize(this.actor, this.closeVisualization)
+    },
+    downloadShapefile(media) {
+      var a = document.createElement("a");
+      a.href = `/admin/api/media/shapefile/download/${media.shapefile_group_uuid}`;
+      a.target = "_blank";
+      a.download = `${media.title}-shapefiles.zip`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     }
   },
 
@@ -395,6 +415,7 @@ Vue.component("actor-card", {
       show: false,
       hloading: false,
       mapLocations: [],
+      iplayer: false,
 
       lightbox: null,
       mediasReady: 0,
@@ -563,17 +584,39 @@ Vue.component("actor-card", {
       </v-card>
 
 
-      <v-card outlined class="ma-2" v-if="actor.medias && actor.medias.length">
-        <v-card outlined id="iplayer" v-if="active">
+      <!-- Media -->
+      <v-card outlined color="grey lighten-5" class="ma-2" v-if="nonShapefileMedias && nonShapefileMedias.length > 0">
+        <v-card v-if="iplayer" elevation="0" id="iplayer" class="px-2 my-3">
+          <video :id="'player'+_uid" controls class="video-js vjs-default-skin vjs-big-play-centered"
+                  crossorigin="anonymous"
+                  height="360" preload="auto"></video>
 
         </v-card>
         <v-card-text>
-          <div class="px-1 mb-3 title black--text">{{ i18n.media }}</div>
+          <div class="pa-2 header-sticky mb-3 title black--text">{{ i18n.media_ }}</div>
+
           <div class="d-flex flex-wrap" id="lightbox">
-            <div class="pa-1 " style="width: 50%" v-for="media in actor.medias" :key="media.id">
-              <media-card @ready="updateMediaState" v-if="active" @thumb-click="viewThumb" @video-click="viewVideo" :media="media"></media-card>
+            <div class="pa-1 " style="width: 50%" v-for="media in nonShapefileMedias" :key="media.id">
+
+              <media-card @ready="updateMediaState" v-if="media" @thumb-click="viewThumb" @video-click="viewVideo"
+                          :media="media"></media-card>
             </div>
           </div>
+
+        </v-card-text>
+      </v-card>
+      <v-card outlined color="grey lighten-5" class="ma-2" v-if="shapefileMedias && shapefileMedias.length > 0">
+
+        <v-card-text>
+          <div class="pa-2 header-sticky title black--text">Shapefiles</div>
+          <v-list>
+            <v-list-item v-for="media in shapefileMedias" :key="media.id">
+              <v-chip @click="downloadShapefile(media)" color="blue-grey lighten-5" label>
+                <v-icon>mdi-download</v-icon>
+                <span class="ml-2">{{ media.title }}</span>
+              </v-chip>
+            </v-list-item>
+          </v-list>
         </v-card-text>
       </v-card>
 

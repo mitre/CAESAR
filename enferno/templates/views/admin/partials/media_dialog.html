@@ -8,6 +8,8 @@
                 <span class="ml-2 font-italic">
                     {% if data_type == 'actor' %}
                     {{ _("Photos or Videos of Actor") }}
+                    {% elif data_type == 'organization' %}
+                    {{ _("Photos or Videos of Organization") }}
                     {% else %}
                     {{ _("Upload Data File") }}
                     {% endif %}
@@ -58,6 +60,8 @@
             <span class="headline">
                 {% if data_type == 'actor' %}
                 {{ _("Photo or Video of Actor") }}
+                {% elif data_type == 'organization' %}
+                {{ _("Photo or Video of Organization") }}
                 {% else %}
                 {{ _("Upload Data File") }}
                 {% endif %}
