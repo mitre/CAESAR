@@ -313,6 +313,7 @@
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
+
                 <!-- Locations -->
                 <span class="anchor" id="locations"></span>
                 <h2 class="form-section-header">{{ _("Locations") }}</h2>
@@ -335,6 +336,20 @@
                     <global-map :i18n="translations" ref="globalmap" :value="compLocations"></global-map>
                   </v-col>
                 </v-row>
+
+                <!-- Media -->
+                <v-row>
+                  <v-col cols="12">
+                    {% include 'views/admin/partials/media_dialog.html' %}
+                  </v-col>
+                </v-row>
+
+                <v-row>
+                  <v-col>
+                      {% include 'views/admin/partials/shapefile_dialog.html' %}
+                  </v-col>
+                </v-row>
+
                 <!-- Relationships -->
                 <span class="anchor" id="data-relationships"></span>
                 <h2 class="form-section-header">{{ _("Data Relationships") }}</h2>

@@ -449,7 +449,16 @@
                                 <v-row>
                                     <v-col col="12">
                                         {% include 'views/admin/partials/media_dialog.html' %}
-                                        {% if config.MISSING_PERSONS %}
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col>
+                                        {% include 'views/admin/partials/shapefile_dialog.html' %}
+                                    </v-col>
+                                </v-row>
+                                {% if config.MISSING_PERSONS %}
+                                <v-row>
+                                    <v-col>
                                         <v-card color="yellow lighten-5" class="my-6">
                                             <v-card-title>
                                                 {{ _("Missing Person Profile") }}
@@ -777,9 +786,9 @@
                                                 </v-container>
                                             </v-card-text>
                                         </v-card>
-                                        {% endif %}
                                     </v-col>
                                 </v-row>
+                                {% endif %}
 
                                 <!-- Relationships -->
                                 <span class="anchor" id="data-relationships"></span>
