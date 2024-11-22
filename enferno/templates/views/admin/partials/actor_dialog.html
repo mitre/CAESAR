@@ -163,15 +163,15 @@
 </v-col> -->
                                 </v-row>
                                 <v-row>
-                                    <v-col cols="12" md="3">
+                                    <v-col cols="12" md="4">
                                         <v-select :items="translations.actorSex" item-text="tr" item-value="en"
                                             v-model="editedItem.sex" clearable label="{{ _('Sex') }}"></v-select>
                                     </v-col>
-                                    <v-col cols="12" md="3">
+                                    <v-col cols="12" md="4">
                                         <v-select :items="translations.actorAge" item-text="tr" item-value="en"
                                             v-model="editedItem.age" clearable label="{{ _('Minor/Adult')}}"></v-select>
                                     </v-col>
-                                    <v-col md="3">
+                                    <!-- <v-col md="3">
                                         <v-select :items="translations.actorTypes" v-model="editedItem.actor_type"
                                             item-text="tr" item-value="en" clearable label="{{ _('Actor Type') }}">
                                         </v-select>
@@ -180,16 +180,16 @@
                                         <v-select :items="subTypes" label="{{ _('Actor Sub Type') }}"
                                             v-model="editedItem.sub_type" item-text="title" return-object
                                             clearable></v-select>
+                                    </v-col> -->
+                                    <v-col cols="12" md="4">
+                                        <v-select :items="translations.actorCivilian" v-model="editedItem.civilian"
+                                            item-text="tr" item-value="en" clearable
+                                            label="{{ _('Actor Type') }}">
+                                        </v-select>
                                     </v-col>
                                 </v-row>
                                 <v-row>
-                                    <v-col cols="12" md="3">
-                                        <v-select :items="translations.actorCivilian" v-model="editedItem.civilian"
-                                            item-text="tr" item-value="en" clearable
-                                            label="{{ _('Civilian/Non Civilian') }}">
-                                        </v-select>
-                                    </v-col>
-                                    <v-col cols="12" md="3">
+                                    <v-col cols="12" md="4">
                                         <v-tooltip top max-width=500 open-delay=1500>
                                             <template v-slot:activator="{ on }">
                                                 <div v-on="on">
@@ -203,7 +203,7 @@
                                             </span>
                                         </v-tooltip>
                                     </v-col>
-                                    <v-col cols="12" md="3">
+                                    <v-col cols="12" md="4">
                                         <v-tooltip top max-width=500 open-delay=1500>
                                             <template v-slot:activator="{ on }">
                                                 <div v-on="on">
@@ -218,7 +218,7 @@
                                                 country of origin of the body.') }}</span>
                                         </v-tooltip>
                                     </v-col>
-                                    <v-col cols="12" md="3">
+                                    <v-col cols="12" md="4">
                                         <v-tooltip top max-width=500 open-delay=1500>
                                             <template v-slot:activator="{ on }">
                                                 <div v-on="on">
