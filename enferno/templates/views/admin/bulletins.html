@@ -403,6 +403,7 @@
             //source link extras
             source_alt: null,
             source_disabled: false,
+            archive_disabled: false,
             //rich text config
             tinyConfig: tinyConfig,
             snackbar: false,
@@ -598,6 +599,15 @@
                 } else {
                     //this.editedItem.source_link = '';
                     this.source_disabled = false;
+                }
+            },
+            archive_alt: function(val) {
+                if (val) {
+                    this.editedItem.archive_link = 'NA';
+                    this.arcvhive_disabled = true;
+                } else {
+                    //this.editedItem.source_link = '';
+                    this.arcvhive_disabled = false;
                 }
             },
             eventDialog(val) {

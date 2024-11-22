@@ -149,30 +149,7 @@
                                                 }}</span>
                                         </v-tooltip>
                                     </v-col>
-                                    <v-col cols="12" md="6">
-                                        <validation-provider name="Source Link" :rules="source_disabled? 'required': 'required|url'" v-slot="{errors}">
-                                            <v-tooltip top max-width=500 open-delay=1500>
-                                                <template v-slot:activator="{ on }">
-                                                    <div v-on="on">
-                                                        <v-text-field :disabled="source_disabled" v-model="editedItem.source_link"
-                                                            label="{{ _('Source Link') }}">
-                                                            <template #label>
-                                                                {{ _("Source Link") }}
-                                                            </template>
-                                                        </v-text-field>
-                                                    </div>
-                                                </template>
-                                                <span>
-                                                    {{ _('The URL to the original source from which the information
-                                                    was obtained. \'Private\' slider can be used if
-                                                    the URL is not reachable anymore. The field validates the entry
-                                                    and will not accept an invalid URL.')}}
-                                                </span>
-                                            </v-tooltip>
-                                            <span class="red--text">${errors[0]}</span>
-                                        </validation-provider>
-                                    </v-col>
-                                    
+
                                     <v-col cols="12" md="6">
                                         <v-tooltip top max-width=500 open-delay=1500>
                                             <template v-slot:activator="{ on }">
@@ -204,6 +181,52 @@
                                             <span>{{ _('Authors are the writers of the content.')}}</span>
                                         </v-tooltip>
                                     </v-col>
+
+                                    <v-col cols="12" md="6">
+                                        <validation-provider name="Source Link" :rules="source_disabled? 'required': 'required|url'" v-slot="{errors}">
+                                            <v-tooltip top max-width=500 open-delay=1500>
+                                                <template v-slot:activator="{ on }">
+                                                    <div v-on="on">
+                                                        <v-text-field :disabled="source_disabled" v-model="editedItem.source_link"
+                                                            label="{{ _('Source Link') }}">
+                                                            <template #label>
+                                                                {{ _("Source Link") }}
+                                                            </template>
+                                                        </v-text-field>
+                                                    </div>
+                                                </template>
+                                                <span>
+                                                    {{ _('The URL to the original source from which the information
+                                                    was obtained. \'Private\' slider can be used if
+                                                    the URL is not reachable anymore. The field validates the entry
+                                                    and will not accept an invalid URL.')}}
+                                                </span>
+                                            </v-tooltip>
+                                            <span class="red--text">${errors[0]}</span>
+                                        </validation-provider>
+                                    </v-col>
+                                    
+                                    <v-col cols="12" md="6">
+                                        <validation-provider name="Archive Link" :rules="archive_disabled? 'required': 'required|url'" v-slot="{errors}">
+                                            <v-tooltip top max-width=500 open-delay=1500>
+                                                <template v-slot:activator="{ on }">
+                                                    <div v-on="on">
+                                                        <v-text-field :disabled="archive_disabled" v-model="editedItem.archive_link"
+                                                            label="{{ _('Archive Link') }}">
+                                                            <template #label>
+                                                                {{ _("Archive Link") }}
+                                                            </template>
+                                                        </v-text-field>
+                                                    </div>
+                                                </template>
+                                                <span>
+                                                    {{ _('The URL to the archive where the information was preserved. The field validates the entry and will not accept an invalid URL.')}}
+                                                </span>
+                                            </v-tooltip>
+                                            <span class="red--text">${errors[0]}</span>
+                                        </validation-provider>
+                                    </v-col>
+                                    
                                 </v-row>
                                 <v-row>
                                     <v-col cols="12" md="3">
@@ -217,6 +240,13 @@
                                     <v-col cols="12" md="6">
                                         <v-select label="Credibility" :items="credibilityItems" item-text="label" item-value="value"
                                             v-model="editedItem.credibility"></v-select>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="12" md="4">
+                                        <v-switch small class="mx-2" label="{{ _('Translation Verified') }}"
+                                            v-model="editedItem.translation_verified" small>
+                                        </v-switch>
                                     </v-col>
                                 </v-row>
                                 <v-row>

@@ -2003,6 +2003,9 @@ class Bulletin(db.Model, BaseMixin):
 
     status = db.Column(db.String(255))
     source_link = db.Column(db.String(255))
+    archive_link = db.Column(db.Text)
+
+    translation_verified = db.Column(db.Boolean, default=False)
     
     sensitive_data = db.Column(db.Boolean, default=False)
 
@@ -2115,6 +2118,8 @@ class Bulletin(db.Model, BaseMixin):
         self.description = json["description"] if "description" in json else None
         self.comments = json["comments"] if "comments" in json else None
         self.source_link = json["source_link"] if "source_link" in json else None
+        self.archive_link = json["archive_link"] if "archive_link" in json else None
+        self.translation_verified = json.get('translation_verified', False)
         self.sensitive_data = json.get('sensitive_data', False)
         self.discovery_file_name = json["discovery_file_name"] if "discovery_file_name" in json else None
         self.credibility = json["credibility"] if "credibility" in json else None
@@ -2400,6 +2405,8 @@ class Bulletin(db.Model, BaseMixin):
             "authors": authors_json,
             "description": self.description or None,
             "source_link": self.source_link or None,
+            "archive_link": self.archive_link or None,
+            "translation_verified": getattr(self, 'translation_verified', False),
             "sensitive_data": getattr(self, 'sensitive_data', False),
             "discovery_file_name": self.discovery_file_name or None,
             "credibility": self.credibility or None,
@@ -2417,6 +2424,9 @@ class Bulletin(db.Model, BaseMixin):
             'title_ar': self.serialize_column('title_ar'),
             'origin_id': self.serialize_column('originid'),
             'source_link': self.serialize_column('source_link'),
+            'archive_link': self.serialize_column('archive_link'),
+            'translation_verified': self.serialize_column('translation_verified'),
+            'sensitive_data': self.serialize_column('sensitive_data'),
             'discovery_file_name': self.serialize_column('discovery_file_name'),
             'credibility': self.serialize_column('credibility'),
             'sjac_title': self.serialize_column('sjac_title'),
@@ -2658,6 +2668,8 @@ class Bulletin(db.Model, BaseMixin):
             "description": self.description or None,
             "comments": self.comments or None,
             "source_link": self.source_link or None,
+            "archive_link": self.archive_link or None,
+            "translation_verified": self.translation_verified or None,
             "sensitive_data": self.sensitive_data or None,
             "discovery_file_name": self.discovery_file_name or None,
             "credibility": self.credibility or None,
@@ -2708,6 +2720,9 @@ class Bulletin(db.Model, BaseMixin):
             "description": self.description or None,
             "comments": self.comments or None,
             "source_link": self.source_link or None,
+            "archive_link": self.archive_link or None,
+            "translation_verified": self.translation_verified or None,
+            "sensitive_data": self.sensitive_data or None,
             "discovery_file_name": self.discovery_file_name or None,
             "credibility": self.credibility or None,
             "publish_date": DateHelper.serialize_date(self.publish_date),

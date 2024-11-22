@@ -850,6 +850,8 @@ Vue.component("bulletin-card", {
         </div>
 
         <uni-field :caption="i18n.sourceLink_" :english="bulletin.source_link"></uni-field>
+        
+        <uni-field :caption="i18n.archiveLink_" :english="bulletin.archive_link"></uni-field>
 
         <!-- Review -->
         <v-card v-if="showReview(bulletin)" outline elevation="0" class="ma-3" color="light-green lighten-5">
