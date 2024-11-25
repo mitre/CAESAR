@@ -31,7 +31,7 @@ def upgrade():
     # View the columns present in the users table
     # This migration is meant to move the type of the column from VARCHAR(255) to VARCHAR
     # If the type of the column is not initially VARCHAR(255), this migration should do nothing
-    if type(original_bulletin_table.c.source_link.type) is VARCHAR(255):
+    if original_bulletin_table.c.source_link.type.length == 255:
         with op.batch_alter_table('bulletin', schema=None) as batch_op:
             batch_op.add_column(sa.Column('source_link_copy', sa.String(), nullable=True))
             
@@ -67,7 +67,7 @@ def upgrade():
     else:
         print("Revision 2b2230a3ccb4 did not need to update the bulletin source_link length.")
 
-    if type(original_actor_table.c.source_link.type) is VARCHAR(255):
+    if original_actor_table.c.source_link.type.length == 255:
         with op.batch_alter_table('actor', schema=None) as batch_op:
             batch_op.add_column(sa.Column('source_link_copy', sa.String(), nullable=True))
             
@@ -90,7 +90,7 @@ def upgrade():
         with op.batch_alter_table('actor', schema=None) as batch_op:
             batch_op.add_column(sa.Column('source_link', sa.String(), nullable=True))
         with op.batch_alter_table('actor', schema=None) as batch_op:
-            batch_op.add_column(sa.Column('search', sa.Text(), nullable=True, server_default=Computed("(((((((((((((((((id)::text || ' '::text) || (COALESCE(title, ''::character varying))::text) || ' '::text) || (COALESCE(title_ar, ''::character varying))::text) || ' '::text) || COALESCE(description, ''::text)) || ' '::text) || (COALESCE(originid, ''::character varying))::text) || ' '::text) || (COALESCE(sjac_title, ''::character varying))::text) || ' '::text) || (COALESCE(sjac_title_ar, ''::character varying))::text) || ' '::text) || (COALESCE(source_link, ''::character varying))::text) || ' '::text) ||  ' '::text) || COALESCE(comments, ''::text)")))
+            batch_op.add_column(sa.Column('search', sa.Text(), nullable=True, server_default=Computed("(((((((((((((id)::text || ' '::text) || (COALESCE(name, ''::character varying))::text) || ' '::text) || (COALESCE(name_ar, ''::character varying))::text) || ' '::text) || (COALESCE(originid, ''::character varying))::text) || ' '::text) || (COALESCE(source_link, ''::character varying))::text) || ' '::text) || COALESCE(description, ''::text)) || ' '::text) || COALESCE(comments, ''::text))")))
 
         # copy the values saved in source_link_copy back to the original source_link column
         conn = op.get_bind()
@@ -112,11 +112,9 @@ def downgrade():
     MetaData.reflect(metadata)
     original_bulletin_table = metadata.tables['bulletin']
     original_actor_table = metadata.tables['actor']
-    
+
     # View the columns present in the users table
-    # This migration is meant to move the type of the column from VARCHAR(255) to VARCHAR
-    # If the type of the column is not initially VARCHAR(255), this migration should do nothing
-    if type(original_bulletin_table.c.source_link.type) is VARCHAR:
+    if original_bulletin_table.c.source_link.type.length != 255:
         with op.batch_alter_table('bulletin', schema=None) as batch_op:
             batch_op.add_column(sa.Column('source_link_copy', sa.String(), nullable=True))
         
@@ -152,7 +150,7 @@ def downgrade():
     else:
         print("Down revision to 791ab40d36f7 did not need to set the bulletin source_link length.")
 
-    if type(original_actor_table.c.source_link.type) is VARCHAR:
+    if original_actor_table.c.source_link.type.length != 255:
         with op.batch_alter_table('actor', schema=None) as batch_op:
             batch_op.add_column(sa.Column('source_link_copy', sa.String(), nullable=True))
         
@@ -175,7 +173,7 @@ def downgrade():
         with op.batch_alter_table('actor', schema=None) as batch_op:
             batch_op.add_column(sa.Column('source_link', sa.String(255), nullable=True))
         with op.batch_alter_table('actor', schema=None) as batch_op:
-            batch_op.add_column(sa.Column('search', sa.Text(), nullable=True, server_default=Computed("(((((((((((((((((id)::text || ' '::text) || (COALESCE(title, ''::character varying))::text) || ' '::text) || (COALESCE(title_ar, ''::character varying))::text) || ' '::text) || COALESCE(description, ''::text)) || ' '::text) || (COALESCE(originid, ''::character varying))::text) || ' '::text) || (COALESCE(sjac_title, ''::character varying))::text) || ' '::text) || (COALESCE(sjac_title_ar, ''::character varying))::text) || ' '::text) || (COALESCE(source_link, ''::character varying))::text) || ' '::text) ||  ' '::text) || COALESCE(comments, ''::text)")))
+            batch_op.add_column(sa.Column('search', sa.Text(), nullable=True, server_default=Computed("(((((((((((((id)::text || ' '::text) || (COALESCE(name, ''::character varying))::text) || ' '::text) || (COALESCE(name_ar, ''::character varying))::text) || ' '::text) || (COALESCE(originid, ''::character varying))::text) || ' '::text) || (COALESCE(source_link, ''::character varying))::text) || ' '::text) || COALESCE(description, ''::text)) || ' '::text) || COALESCE(comments, ''::text))")))
 
         # copy the values saved in source_link_copy back to the original source_link column
         conn = op.get_bind()
