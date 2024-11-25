@@ -257,6 +257,10 @@
             if (['', null, undefined].indexOf(value) !== -1 && ['', null, undefined].indexOf(param[0]) !== -1) {
                 return 'Either Name or Name(Original Language) should not be empty'
             }
+            // Also make sure it's under 255 characters
+            if (value && value.length > 255) {
+                return 'This field must be less than 255 characters'
+            }
             return true
         },
     });

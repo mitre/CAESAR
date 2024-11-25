@@ -110,12 +110,20 @@
                                 <v-row>
                                     <v-col cols="12" md="4">
                                         <v-card class="d-flex" flat>
-                                            <v-text-field v-if="first_name__" v-model="editedItem.first_name"
+                                          <validation-provider v-if="first_name__" name="First Name"
+                                              :rules="{lessThan255Chars: [editedItem.first_name, true]}" v-slot="{errors}">
+                                            <v-text-field v-model="editedItem.first_name"
                                                 label="{{ _('First Name') }}"></v-text-field>
-                                            <v-text-field v-else v-model="editedItem.first_name_ar"
+                                            <span class="red--text">${errors[0]}</span>
+                                          </validation-provider>
+                                          <validation-provider v-else name="First Name (Original Language)"
+                                              :rules="{lessThan255Chars: [editedItem.first_name_ar, true]}" v-slot="{errors}">
+                                            <v-text-field v-model="editedItem.first_name_ar"
                                                 label="{{ _('First Name (Original Language)') }}"
                                                 background-color="lime lighten-5">
                                             </v-text-field>
+                                            <span class="red--text">${errors[0]}</span>
+                                          </validation-provider>
                                             <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline"
                                                 @click="first_name__=!first_name__">
                                                 <v-icon>mdi-web</v-icon>
@@ -124,12 +132,20 @@
                                     </v-col>
                                     <v-col cols="12" md="4">
                                         <v-card class="d-flex" flat>
-                                            <v-text-field v-if="middle_name__" v-model="editedItem.middle_name"
+                                            <validation-provider v-if="middle_name__" name="Middle Name"
+                                              :rules="{lessThan255Chars: [editedItem.middle_name, true]}" v-slot="{errors}">
+                                              <v-text-field v-model="editedItem.middle_name"
                                                 label="{{ _('Middle Name') }}"></v-text-field>
-                                            <v-text-field v-else v-model="editedItem.middle_name_ar"
+                                              <span class="red--text">${errors[0]}</span>
+                                            </validation-provider>
+                                            <validation-provider v-else name="middle_name_ar"
+                                              :rules="{lessThan255Chars: [editedItem.middle_name_ar, true]}" v-slot="{errors}">
+                                              <v-text-field v-model="editedItem.middle_name_ar"
                                                 label="{{ _('Middle Name (Original Language)') }}"
                                                 background-color="lime lighten-5">
-                                            </v-text-field>
+                                              </v-text-field>
+                                              <span class="red--text">${errors[0]}</span>
+                                            </validation-provider>
                                             <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline"
                                                 @click="middle_name__=!middle_name__">
                                                 <v-icon>mdi-web</v-icon>
@@ -138,12 +154,20 @@
                                     </v-col>
                                     <v-col cols="12" md="4">
                                         <v-card class="d-flex" flat>
-                                            <v-text-field v-if="last_name__" v-model="editedItem.last_name"
-                                                label="{{ _('Last Name') }}"></v-text-field>
-                                            <v-text-field v-else v-model="editedItem.last_name_ar"
-                                                label="{{ _('Last Name (Original Language)') }}"
-                                                background-color="lime lighten-5">
-                                            </v-text-field>
+                                        <validation-provider v-if="last_name__" name="last_name__"
+                                          :rules="{lessThan255Chars: [editedItem.last_name__, true]}" v-slot="{errors}">
+                                          <v-text-field v-model="editedItem.last_name"
+                                            label="{{ _('Last Name') }}"></v-text-field>
+                                          <span class="red--text">${errors[0]}</span>
+                                        </validation-provider>
+                                        <validation-provider v-else name="last_name_ar"
+                                          :rules="{lessThan255Chars: [editedItem.last_name_ar, true]}" v-slot="{errors}">
+                                          <v-text-field v-model="editedItem.last_name_ar"
+                                            label="{{ _('Last Name (Original Language)') }}"
+                                            background-color="lime lighten-5">
+                                          </v-text-field>
+                                          <span class="red--text">${errors[0]}</span>
+                                        </validation-provider>
                                             <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline"
                                                 @click="last_name__=!last_name__">
                                                 <v-icon>mdi-web</v-icon>
@@ -222,8 +246,11 @@
                                         <v-tooltip top max-width=500 open-delay=1500>
                                             <template v-slot:activator="{ on }">
                                                 <div v-on="on">
+                                                  <validation-provider name="national_id_card" rules="lessThan255Chars" v-slot="{errors}">
                                                     <v-text-field v-model="editedItem.national_id_card"
-                                                        label="{{ _('Tax ID Number') }}"></v-text-field>
+                                                      label="{{ _('Tax ID Number') }}"></v-text-field>
+                                                    <span class="red--text">${errors[0]}</span>
+                                                  </validation-provider>
                                                 </div>
                                             </template>
                                             <span>{{ _('Any government issued identifying number for a person.')
@@ -238,11 +265,19 @@
                                         </pop-date-field>
                                     </v-col>
                                     <v-col cols="12" md="6" class="align-center d-flex">
-                                        <v-text-field v-if="position__" v-model="editedItem.position"
-                                            label="{{ _('Position / Rank') }}"></v-text-field>
-                                        <v-text-field v-else v-model="editedItem.position_ar"
-                                            label="{{ _('Position / Rank (Original Language)') }}"
-                                            background-color="lime lighten-5"></v-text-field>
+                                      <validation-provider v-if="position__" name="position__"
+                                        :rules="{lessThan255Chars: [editedItem.position__, true]}" v-slot="{errors}">
+                                        <v-text-field v-model="editedItem.position"
+                                          label="{{ _('Position / Rank') }}"></v-text-field>
+                                        <span class="red--text">${errors[0]}</span>
+                                      </validation-provider>
+                                      <validation-provider v-else name="position_ar"
+                                        :rules="{lessThan255Chars: [editedItem.position_ar, true]}" v-slot="{errors}">
+                                        <v-text-field v-model="editedItem.position_ar"
+                                          label="{{ _('Position / Rank (Original Language)') }}"
+                                          background-color="lime lighten-5"></v-text-field>
+                                        <span class="red--text">${errors[0]}</span>
+                                      </validation-provider>
                                         <v-btn color="grey lighten-2" outlined x-small fab class="swh d-inline"
                                             @click="position__=!position__">
                                             <v-icon>mdi-web</v-icon>
@@ -281,8 +316,11 @@
                                 <h2 class="form-section-header">{{ _("Aliases") }}</h2>
                                 <v-row v-for="(alias, index) in editedItem.aliases" align="center" justify="center">
                                     <v-col>
+                                      <validation-provider :name="'name' + index" rules="lessThan255Chars" v-slot="{errors}">
                                         <v-text-field v-model="alias.name" hide-details placeholder="name"
-                                            label="{{ _('Alias Name') }}"></v-text-field>
+                                          label="{{ _('Alias Name') }}"></v-text-field>
+                                        <span class="red--text">${errors[0]}</span>
+                                      </validation-provider>
                                     </v-col>
                                     <v-col cols="1" class="mt-3">
                                         <v-btn @click="editedItem.aliases.splice(index, 1)" color="error" small> <v-icon
@@ -309,8 +347,11 @@
                                             label="{{ _('Platform') }}"></v-select>
                                     </v-col>
                                     <v-col>
+                                      <validation-provider :name="'handle_name' + index" rules="lessThan255Chars" v-slot="{errors}">
                                         <v-text-field v-model="handle.handle_name" hide-details placeholder="@handle"
-                                            label="{{ _('Handle') }}"></v-text-field>
+                                          label="{{ _('Handle') }}"></v-text-field>
+                                        <span class="red--text">${errors[0]}</span>
+                                      </validation-provider>
                                     </v-col>
                                     <v-col cols="1" class="mt-3">
                                         <v-btn @click="editedItem.social_media_handles.splice(index, 1)" color="error"

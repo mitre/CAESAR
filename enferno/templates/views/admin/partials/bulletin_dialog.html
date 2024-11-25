@@ -58,30 +58,23 @@
                                 <h2 class="form-section-header">{{ _("General") }}</h2>
                                 <v-row>
                                     <v-col cols="12" md="6">
-                                        <validation-provider name="Title" rules="" v-slot="{ errors }">
                                             <v-card class="d-flex" flat>
                                                 <v-tooltip top max-width=500 open-delay=1500>
                                                     <template v-slot:activator="{ on }">
-                                                        <v-text-field v-if="title__" v-on="on"
-                                                            v-model="editedItem.title"
-                                                            label="{{ _('Original Title')}}"></v-text-field>
-                                                        <v-text-field v-else v-on="on" v-model="editedItem.title_ar"
-                                                            label="{{ _('Original Title (Original Language)') }}"
-                                                            background-color="lime lighten-5"></v-text-field>
-
-                                                        <div style="flex:auto" v-else>
-                                                            <validation-provider name="Title (Original Language)"
-                                                                :rules="{oneIsNullTitle: [editedItem.title_ar, true]}"
-                                                                v-slot="{errors}">
-                                                                <v-text-field v-model="editedItem.title_ar">
-                                                                    <template #label>
-                                                                        {{ _("Title (Original Language)") }} <span
-                                                                            class="red--text"><strong>*</strong></span>
-                                                                    </template>
-                                                                </v-text-field>
-                                                                <span class="red--text">${errors[0]}</span>
-                                                            </validation-provider>
-                                                        </div>
+                                                      <validation-provider v-if="title__" name="title__" style="width: 100%"
+                                                        :rules="{lessThan255Chars: [editedItem.title__, true]}" v-slot="{errors}">
+                                                        <v-text-field v-on="on"
+                                                          v-model="editedItem.title"
+                                                          label="{{ _('Original Title')}}"></v-text-field>
+                                                        <span class="red--text">${errors[0]}</span>
+                                                      </validation-provider>
+                                                      <validation-provider v-else name="title_ar" style="width: 100%"
+                                                        :rules="{lessThan255Chars: [editedItem.title_ar, true]}" v-slot="{errors}">
+                                                        <v-text-field v-on="on" v-model="editedItem.title_ar"
+                                                          label="{{ _('Original Title (Original Language)') }}"
+                                                          background-color="lime lighten-5"></v-text-field>
+                                                        <span class="red--text">${errors[0]}</span>
+                                                      </validation-provider>
                                                     </template>
                                                     <span>{{ _('Title as it appears in the source.') }}</span>
                                                 </v-tooltip>
@@ -90,19 +83,25 @@
                                                     <v-icon>mdi-web</v-icon>
                                                 </v-btn>
                                             </v-card>
-                                            <span class="red--text">${errors[0]}</span>
-                                        </validation-provider>
                                     </v-col>
                                     <v-col cols="12" md="6">
                                         <v-card class="d-flex" flat>
                                             <v-tooltip top max-width=500 open-delay=1500>
                                                 <template v-slot:activator="{ on }">
-                                                    <v-text-field v-if="sjac_title__" v-on="on"
-                                                        v-model="editedItem.sjac_title" label="{{ _('Title') }}">
+                                                  <validation-provider v-if="sjac_title__" name="sjac_title__" style="width: 100%"
+                                                    :rules="{lessThan255Chars: [editedItem.sjac_title__, true]}" v-slot="{errors}">
+                                                    <v-text-field v-on="on"
+                                                      v-model="editedItem.sjac_title" label="{{ _('Title') }}">
                                                     </v-text-field>
-                                                    <v-text-field v-else v-on="on" v-model="editedItem.sjac_title_ar"
-                                                        label="{{ _('Title (Original Language)') }}"
-                                                        background-color="lime lighten-5"></v-text-field>
+                                                    <span class="red--text">${errors[0]}</span>
+                                                  </validation-provider>
+                                                  <validation-provider v-else name="sjac_title_ar" style="width: 100%"
+                                                    :rules="{lessThan255Chars: [editedItem.sjac_title_ar, true]}" v-slot="{errors}">
+                                                    <v-text-field v-on="on" v-model="editedItem.sjac_title_ar"
+                                                      label="{{ _('Title (Original Language)') }}"
+                                                      background-color="lime lighten-5"></v-text-field>
+                                                    <span class="red--text">${errors[0]}</span>
+                                                  </validation-provider>
                                                 </template>
                                                 <span>{{ _('Title edited for clarity, if needed, or added if there is no
                                                     original title.') }}</span>
@@ -149,7 +148,6 @@
                                                 }}</span>
                                         </v-tooltip>
                                     </v-col>
-
                                     <v-col cols="12" md="6">
                                         <v-tooltip top max-width=500 open-delay=1500>
                                             <template v-slot:activator="{ on }">
@@ -205,7 +203,6 @@
                                             <span class="red--text">${errors[0]}</span>
                                         </validation-provider>
                                     </v-col>
-                                    
                                     <v-col cols="12" md="6">
                                         <validation-provider name="Archive Link" :rules="archive_disabled? 'required': 'required|url'" v-slot="{errors}">
                                             <v-tooltip top max-width=500 open-delay=1500>
@@ -719,8 +716,11 @@
                                     <v-col cols="12" md="8">
                                         <v-tooltip top max-width=500 open-delay=1500>
                                             <template v-slot:activator="{ on }">
+                                              <validation-provider name="discovery_file_name" rules="lessThan255Chars" v-slot="{errors}">
                                                 <v-text-field v-on="on" v-model="editedItem.discovery_file_name"
-                                                    label="{{ _('Discovery File name') }}"></v-text-field>
+                                                  label="{{ _('Discovery File name') }}"></v-text-field>
+                                                <span class="red--text">${errors[0]}</span>
+                                              </validation-provider>
                                             </template>
                                             <span>{{ _('Name of the website capture tool (e.g., Hunchly or
                                                 WebRecorder) file from which data item was extracted') }}</span>
