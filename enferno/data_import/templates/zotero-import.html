@@ -559,7 +559,7 @@
               import_log = getBulletinImportLog(bulletin_id, fileId, file_extension, etag, importHash, context.batch_id, getImportStatusFromStatusCode(response.status), "", response.data)
               this.save_log(import_log)
           }).catch(err => {
-              import_log = getBulletinImportLog(0, fileId, "", etag, importHash, context.batch_id, failed_import_status, "", "Error creating primary record with associated media file: " + err?.response?.data)
+              import_log = getBulletinImportLog(0, fileId, "", etag, importHash, context.batch_id, failed_import_status, "", "Error creating primary record. " + err?.response?.data)
               this.save_log(import_log)
               console.error(err)
           })

@@ -2002,7 +2002,7 @@ class Bulletin(db.Model, BaseMixin):
     )
 
     status = db.Column(db.String(255))
-    source_link = db.Column(db.String(255))
+    source_link = db.Column(db.String())
     archive_link = db.Column(db.Text)
 
     translation_verified = db.Column(db.Boolean, default=False)
@@ -4294,7 +4294,7 @@ class Actor(db.Model, BaseMixin):
     )
 
     status = db.Column(db.String(255))
-    source_link = db.Column(db.String(255))
+    source_link = db.Column(db.String())
     sensitive_data = db.Column(db.Boolean, default=False)
     comments = db.Column(db.Text)
     # review fields
