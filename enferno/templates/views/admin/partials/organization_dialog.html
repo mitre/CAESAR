@@ -64,16 +64,21 @@
                 <h2 class="form-section-header">{{ _("General") }}</h2>
                 <v-row>
                   <v-col cols="12" md="6">
-                    <validation-provider name="Name" rules="" v-slot="{ errors }">
                       <v-card class="d-flex" flat>
                         <v-tooltip top max-width=500 open-delay=1500>
                           <template v-slot:activator="{ on }">
-                            <v-text-field v-if="name__" v-on="on"
+                          <validation-provider v-if="name__" name="Name" :rules="{lessThan255Chars: [editedItem.name_ar, true]}" v-slot="{ errors }" style="width: 100%">
+                            <v-text-field v-on="on"
                               v-model="editedItem.name"
                               label="{{ _('Original Name')}}"></v-text-field>
-                            <v-text-field v-else v-on="on" v-model="editedItem.name_ar"
+                            <span class="red--text">${errors[0]}</span>
+                          </validation-provider>
+                          <validation-provider v-else name="Name alt" :rules="{lessThan255Chars: [editedItem.name, true]}" v-slot="{ errors }" style="width: 100%">
+                            <v-text-field v-on="on" v-model="editedItem.name_ar"
                               label="{{ _('Original name (Original Language)') }}"
                               background-color="lime lighten-5"></v-text-field>
+                            <span class="red--text">${errors[0]}</span>
+                          </validation-provider>
                           </template>
                           <span>{{ _('Name as it appears in the source.') }}</span>
                         </v-tooltip>
@@ -82,8 +87,6 @@
                           <v-icon>mdi-web</v-icon>
                         </v-btn>
                       </v-card>
-                      <span class="red--text">${errors[0]}</span>
-                    </validation-provider>
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-tooltip top max-width=500 open-delay=1500>
@@ -103,7 +106,10 @@
                     </pop-date-field>
                   </v-col>
                   <v-col cols="12" md="6">
-                    <v-text-field v-model="editedItem.tax_id" label="{{ _('Tax ID Number')}}"></v-text-field>
+                    <validation-provider name="Tax ID Number" :rules="{lessThan255Chars: [editedItem.tax_id, true]}" v-slot="{ errors }">
+                      <v-text-field v-model="editedItem.tax_id" label="{{ _('Tax ID Number') }}"></v-text-field>
+                      <span class="red--text">${errors[0]}</span>
+                    </validation-provider>
                   </v-col>
                   <!-- <v-col cols="12" md="6"> -->
                   <!--   <pop-date-field label="{{ _('Status') }}" -->
@@ -141,8 +147,11 @@
                 <h2 class="form-section-header">{{ _("Aliases") }}</h2>
                 <v-row v-for="(alias, index) in editedItem.aliases" align="center" justify="center">
                   <v-col>
-                    <v-text-field v-model="alias.name" hide-details placeholder="name"
-                      label="{{ _('Alias Name') }}"></v-text-field>
+                    <validation-provider :name="'Alias Name' + index" :rules="{lessThan255Chars: [alias.name, true]}" v-slot="{ errors }">
+                      <v-text-field v-model="alias.name" hide-details placeholder="name"
+                        label="{{ _('Alias Name') }}"></v-text-field>
+                      <span class="red--text">${errors[0]}</span>
+                    </validation-provider>
                   </v-col>
                   
                   <v-col cols="1" class="mt-3">
@@ -171,8 +180,11 @@
                       label="{{ _('Platform') }}"></v-select>
                   </v-col>
                   <v-col>
-                    <v-text-field v-model="handle.handle_name" hide-details placeholder="@handle"
-                      label="{{ _('Handle') }}"></v-text-field>
+                    <validation-provider :name="'Handle Name' + index" :rules="{lessThan255Chars: [handle.handle_name, true]}" v-slot="{ errors }">
+                      <v-text-field v-model="handle.handle_name" hide-details placeholder="@handle"
+                        label="{{ _('Handle') }}"></v-text-field>
+                      <span class="red--text">${errors[0]}</span>
+                    </validation-provider>
                   </v-col>
                   <v-col cols="1" class="mt-3">
                     <v-btn @click="editedItem.social_media_handles.splice(index, 1)" color="error"
@@ -237,7 +249,10 @@
                     <v-card-text>
                       <v-row>
                         <v-col cols="12" md="12">
-                          <v-text-field v-model="editedRole.title" label="{{ _('Title') }}"></v-text-field>
+                          <validation-provider name="role title" :rules="{lessThan255Chars: [editedRole.title, true]}" v-slot="{ errors }">
+                            <v-text-field v-model="editedRole.title" label="{{ _('Title') }}"></v-text-field>
+                            <span class="red--text">${errors[0]}</span>
+                          </validation-provider>
                         </v-col>
                       </v-row>
                       <v-row>
@@ -309,7 +324,7 @@
                       <v-spacer> </v-spacer>
                       <v-btn @click="rolesWithinDialog = false" text> {{ _("Cancel") }} </v-btn>
                       <v-btn v-if="editedRoleIndex >= 0" @click="saveRoleWithin()" color="primary"> {{ _("Save")}} </v-btn>
-                      <v-btn v-else @click="addRoleWithin" color="primary"> {{ _("Add") }} </v-btn>
+                      <v-btn v-else @click="addRoleWithin" color="primary" :disabled="isRoleTitleGreaterThan255Chars"> {{ _("Add") }} </v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>

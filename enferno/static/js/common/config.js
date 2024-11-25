@@ -205,8 +205,21 @@ VeeValidate.extend("oneIsNullTitle", {
     if (['', null, undefined].indexOf(value) !== -1 && ['', null, undefined].indexOf(param[0]) !== -1) {
       return 'Either Title or Title(Original Language) should not be empty'
     }
+    if (value && value.length > 255) {
+      return 'This field must be less than 255 characters'
+    }
     return true
   },
+});
+
+VeeValidate.extend("lessThan255Chars", {
+  computesRequired: true,
+  validate: (value, param) => {
+    if (value && value.length > 255) {
+      return 'Field should not exceed 255 characters'
+    }
+    return true;
+  }
 });
 
 // change to true for dev mode

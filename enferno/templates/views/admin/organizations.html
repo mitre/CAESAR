@@ -265,6 +265,9 @@ VeeValidate.extend('oneisnull', {
     if (['', null, undefined].indexOf(value) !== -1 && ['', null, undefined].indexOf(param[0]) !== -1) {
       return 'Either Name or Name(Original Language) should not be empty'
     }
+    if (value && value.length > 255) {
+      return 'Field should not exceed 255 characters'
+    }
     return true
   },
 });
@@ -604,7 +607,11 @@ let app = new Vue({
     },
     reportsToChoices() {
       return [...this.editedItem.roles_within.slice(0, this.editedRoleIndex), ...this.editedItem.roles_within.slice(this.editedRoleIndex + 1)]
-    }
+    },
+    isRoleTitleGreaterThan255Chars() {
+      if (!this.editedRole.title) return false;
+      return this.editedRole.title.length > 255;
+    },
   },
   watch: {
     eventDialog(val) {
