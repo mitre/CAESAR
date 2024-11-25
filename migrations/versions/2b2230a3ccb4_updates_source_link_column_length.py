@@ -1,7 +1,7 @@
 """updates source_link column length
 
 Revision ID: 2b2230a3ccb4
-Revises: 4694b7b87906
+Revises: 791ab40d36f7
 Create Date: 2024-11-13 17:09:50.167755
 
 """
@@ -14,7 +14,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = '2b2230a3ccb4'
-down_revision = '4694b7b87906'
+down_revision = '791ab40d36f7'
 branch_labels = None
 depends_on = None
 
@@ -150,7 +150,7 @@ def downgrade():
         with op.batch_alter_table('bulletin', schema=None) as batch_op:
             batch_op.drop_column('source_link_copy')
     else:
-        print("Down revision 4694b7b87906 did not need to set the bulletin source_link length.")
+        print("Down revision to 791ab40d36f7 did not need to set the bulletin source_link length.")
 
     if type(original_actor_table.c.source_link.type) is VARCHAR:
         with op.batch_alter_table('actor', schema=None) as batch_op:
@@ -186,6 +186,6 @@ def downgrade():
         with op.batch_alter_table('actor', schema=None) as batch_op:
             batch_op.drop_column('source_link_copy')
     else:
-        print("Down revision 4694b7b87906 did not need to set the actor source_link length.")
+        print("Down revision to 791ab40d36f7 did not need to set the actor source_link length.")
 
     # ### end Alembic commands ###
