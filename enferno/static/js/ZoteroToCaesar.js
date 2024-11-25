@@ -155,7 +155,20 @@ function getMediaTitle(zoteroItem){
 }
 
 function getMediaFileFromZoteroItem(zoteroItem){
-    return zoteroItem["L2"]
+    if("L1" in zoteroItem){
+        return zoteroItem["L1"]
+    }
+    if("L2" in zoteroItem){
+        return zoteroItem["L2"]
+    }
+    return ""
+}
+
+function getUrl(zoteroItem){
+    if("UR" in zoteroItem){
+        return zoteroItem["UR"].substring(0, 255)
+    }
+    return ""
 }
 
 function getMediaFromZoteroItem(zoteroItem, mediaFilePath){
@@ -189,6 +202,7 @@ function getPrimaryRecordWithMediaFromZoteroItem(zoteroItem, mediaFilePath, role
         incident_relations: incident_relations,
         bulletin_to_consent_uses: [],
         publish_date: getPublishDate(zoteroItem),
+        source_link: getUrl(zoteroItem),
         created_at: '',
         discovery_file_name: '',
         roles: roles
