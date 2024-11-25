@@ -22,7 +22,7 @@ def upgrade():
         if not column_exists('bulletin', 'archive_link', op):
             batch_op.add_column(sa.Column('archive_link', sa.Text(), nullable=True))
         if not column_exists('bulletin', 'translation_verified', op):
-            batch_op.add_column(sa.Column('translation_verified', sa.String(length=255), nullable=True))
+            batch_op.add_column(sa.Column('translation_verified', sa.Boolean(), nullable=True))
 
 
 def downgrade():
