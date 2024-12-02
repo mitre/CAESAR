@@ -1309,7 +1309,7 @@ class Location(db.Model, BaseMixin):
         select id, title, parent_id from location where id = :id
         union all
         select p.id, p.title, p.parent_id from location p, tree t
-        where p.id = t.parent_id
+        where p.id = t.parent_id and t.id != t.parent_id
         )
         select * from tree;
         """
