@@ -684,10 +684,7 @@ def api_authors():
         words = q.split(' ')
         query.extend([Author.name.ilike(f'%{word}%') for word in words])
 
-    if q:
-        result = Author.query.filter(*query).all()
-    else:
-        result = Author.query.filter(*query)
+    result = Author.query.filter(*query)
 
     # Sort by request property
     sort_by = request.args.get('sort_by', 'id')
