@@ -1178,11 +1178,16 @@ class Location(db.Model, BaseMixin):
             "id": self.id,
             "title": self.title,
             "title_ar": self.title_ar,
+            "description": self.description,
             "location_type": self.location_type.to_dict() if self.location_type else '',
             "admin_level": self.admin_level.to_dict() if self.admin_level else '',
+            "postal_code": self.postal_code,
+            "country": self.country.to_dict() if self.country else None ,
             "parent": self.to_parent_dict(),
+            "tags": self.tags or [],
             "full_location": self.full_location,
             "full_string": '{} | {}'.format(self.full_location or '', self.title_ar or ''),
+            "updated_at": DateHelper.serialize_datetime(self.updated_at)
         }
 
     def to_parent_dict(self):
