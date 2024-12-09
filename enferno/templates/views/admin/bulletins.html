@@ -1473,41 +1473,48 @@
             }
             
             this.sourceLoading = true;
-            
+            let match = "";
 
             const existingSource = this.sources.find(source => {
-                return source.title === newSourceTitle;
+                return source.title.toLowerCase() === newSourceTitle.toLowerCase();
             });
-
             if (existingSource) {
-                return;
-            }
-
-            const res = await axios.post('/admin/api/source', { item: { title: newSourceTitle }})
-                .catch((error) => {
-                    console.log(error);
-                    this.showSnack("Could not add source. Error: " + error, true)
-                });
-
-            const id = res.data.replace('Created Source #', '');
-
-            this.sources.push({ id, title: newSourceTitle });
-
-            const newSourceList = [];
-            this.editedItem.sources.map(selectedSource => {
-                if (typeof selectedSource === 'string') {
-                    const existingSource = this.sources.find(source => {
-                        return source.title === selectedSource;
+                // if this sources exists in sources list - check and see if it's already selected
+                const alreadySelectedIndex = this.editedItem.sources.findIndex(selection => selection.title?.toLowerCase() === existingSource.title.toLowerCase());
+                // if it's already selected - toggle that selection
+                if (alreadySelectedIndex > -1) {
+                    this.editedItem.sources.splice(alreadySelectedIndex, 1);
+                } else { // if it's not already selected push
+                    this.editedItem.sources.push(existingSource);
+                }
+            } else {
+                const res = await axios.post('/admin/api/source', { item: { title: newSourceTitle } })
+                    .catch((error) => {
+                        console.log(error);
+                        this.showSnack("Could not add source. Error: " + error, true)
                     });
 
-                    if (existingSource) {
-                        newSourceList.push(existingSource);
+                const id = res.data.replace('Created Source #', '');
+
+                this.sources.push({ id, title: newSourceTitle });
+                const newSourceList = [];
+                this.editedItem.sources.map(selectedSource => {
+                    if (typeof selectedSource === 'string') {
+                        const existingSource = this.sources.find(source => {
+                            return source.title.toLowerCase() === selectedSource.toLowerCase();
+                        });
+
+                        if (existingSource) {
+                            newSourceList.push(existingSource);
+                        }
+                    } else {
+                        newSourceList.push(selectedSource);
                     }
-                } else {
-                    newSourceList.push(selectedSource);
-                }
-            })
-            this.editedItem.sources = newSourceList;
+                });
+                this.editedItem.sources = newSourceList;
+
+            }
+            
             this.sourceLoading = false;
             return;
         },
@@ -1541,7 +1548,7 @@
         },
         isExistingAuthor(authorName) {
             return this.authors.find(author => {
-                return author.name === authorName;
+                return author.name.toLowerCase() === authorName.toLowerCase();
             });
         },
         isOnlySpaces(str) {
@@ -1549,8 +1556,9 @@
         },
         async createNewAuthor(event) {
             const newAuthorName = event.target._value;
+            
             // make sure is not a blank string or only spaces
-            const isWhitespaceString =  newAuthorName !== null ? this.isOnlySpaces(newAuthorName) : true;
+            const isWhitespaceString = newAuthorName !== null ? this.isOnlySpaces(newAuthorName) : true;
             if (event.key !== 'Enter' && event.key !== 'Tab' || isWhitespaceString) {
                 if (isWhitespaceString) {
                     this.searchAuthorInput = '';
@@ -1560,40 +1568,48 @@
 
             this.authorLoading = true;
             const existingAuthor = this.isExistingAuthor(newAuthorName);
-
+            // if author exists perform checks
             if (existingAuthor) {
-                return;
-            }
-            const res = await axios.post('/admin/api/author/', { item: { name: newAuthorName }})
+                // if this author exists in authors list - check and see if it's already selected
+                const alreadySelectedIndex = this.editedItem.authors.findIndex(selection => selection.name?.toLowerCase() === existingAuthor.name.toLowerCase());
+                // if it's already selected - toggle that selection
+                if (alreadySelectedIndex > -1) {
+                    this.editedItem.authors.splice(alreadySelectedIndex, 1);
+                } else { // if it's not already selected push
+                    this.editedItem.authors.push(existingAuthor)
+                }
+            } else { // if author does not exist add to database
+                const res = await axios.post('/admin/api/author/', { item: { name: newAuthorName } })
                 .catch((error) => {
                     console.log(error);
                     this.showSnack("Could not add author. Error: " + error, true)
                 });
+                const id = res.data.id;
 
-            const id = res.data.id;
+                this.authors.push({ id, name: newAuthorName });
+                this.showSnack(newAuthorName + " author created.")
+                const authorList = [];
+                this.editedItem.authors.map(author => {
+                    if (typeof author === 'string') {
+                        const existingAuthor = this.authors.find(currentAuthor => {
+                            return currentAuthor.name.toLowerCase() === author.toLowerCase();
+                        });
 
-            this.authors.push({ id, name: newAuthorName });
-            this.showSnack(newAuthorName + " author created.")
-            const authorList = [];
-            this.editedItem.authors.map(author => {
-                if (typeof author === 'string') {
-                    const existingAuthor = this.authors.find(currentAuthor => {
-                        return currentAuthor.name === author;
-                    });
-
-                    if (existingAuthor) {
-                        authorList.push(existingAuthor);
+                        if (existingAuthor) {
+                            authorList.push(existingAuthor);
+                        }
+                    } else {
+                        authorList.push(author);
                     }
-                } else {
-                    authorList.push(author);
-                }
-            });
+                });
 
-            this.editedItem.authors = authorList;
+                this.editedItem.authors = authorList;
+            }
+            
             this.authorLoading = false;
             return;
-        },
-    }
-        });
+            },
+        }
+    });
 </script>
 {% endblock %}
