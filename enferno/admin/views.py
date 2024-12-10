@@ -2181,7 +2181,13 @@ def api_medias_chunk():
         # Assume this file has not been chunked
         with open(f"{filepath}", "wb") as f:
             file.save(f)
-        return "File Saved", 200
+
+        # get sha256 hash
+        f = open(filepath, 'rb').read()
+        etag = hashlib.sha256(f).hexdigest()
+        
+        response = {'etag': etag, 'filename': filename}
+        return Response(json.dumps(response), content_type='application/json'), 200
 
     # Chunked upload
     try:
