@@ -1473,20 +1473,33 @@
             }
             
             this.sourceLoading = true;
-            let match = "";
-
+            let newSourceList = [];
             const existingSource = this.sources.find(source => {
                 return source.title.toLowerCase() === newSourceTitle.toLowerCase();
             });
             if (existingSource) {
-                // if this sources exists in sources list - check and see if it's already selected
-                const alreadySelectedIndex = this.editedItem.sources.findIndex(selection => selection.title?.toLowerCase() === existingSource.title.toLowerCase());
-                // if it's already selected - toggle that selection
-                if (alreadySelectedIndex > -1) {
-                    this.editedItem.sources.splice(alreadySelectedIndex, 1);
-                } else { // if it's not already selected push
-                    this.editedItem.sources.push(existingSource);
-                }
+                newSourceList = [];
+                // add to selection
+                this.editedItem.sources.push(existingSource)
+                // check type and add to new list
+                this.editedItem.sources.map(selectedSource => {
+                    if (typeof selectedSource === 'string') {
+                        const existingSource = this.sources.find(source => {
+                            return source.title.toLowerCase() === selectedSource.toLowerCase();
+                        });
+                        if (existingSource) {
+                            newSourceList.push(existingSource);
+                        }
+                    } else {
+                        newSourceList.push(selectedSource);
+                    }
+                });
+                // get unique set
+                const unique = [...new Set(newSourceList.map(JSON.stringify))];
+                // parse back to JSON
+                const output = Array.from(unique).map(JSON.parse);
+                // set model
+                this.editedItem.sources = output;
             } else {
                 const res = await axios.post('/admin/api/source', { item: { title: newSourceTitle } })
                     .catch((error) => {
@@ -1497,13 +1510,12 @@
                 const id = res.data.replace('Created Source #', '');
 
                 this.sources.push({ id, title: newSourceTitle });
-                const newSourceList = [];
+                newSourceList = [];
                 this.editedItem.sources.map(selectedSource => {
                     if (typeof selectedSource === 'string') {
                         const existingSource = this.sources.find(source => {
                             return source.title.toLowerCase() === selectedSource.toLowerCase();
                         });
-
                         if (existingSource) {
                             newSourceList.push(existingSource);
                         }
@@ -1511,8 +1523,12 @@
                         newSourceList.push(selectedSource);
                     }
                 });
-                this.editedItem.sources = newSourceList;
-
+                // get unique set
+                const uniqueNew = [...new Set(newSourceList.map(JSON.stringify))];
+                // parse back to JSON
+                const outputNew = Array.from(uniqueNew).map(JSON.parse);
+                // set model
+                this.editedItem.sources = outputNew;
             }
             
             this.sourceLoading = false;
@@ -1567,17 +1583,33 @@
             }
 
             this.authorLoading = true;
+            let authorList = [];
             const existingAuthor = this.isExistingAuthor(newAuthorName);
+            
             // if author exists perform checks
             if (existingAuthor) {
-                // if this author exists in authors list - check and see if it's already selected
-                const alreadySelectedIndex = this.editedItem.authors.findIndex(selection => selection.name?.toLowerCase() === existingAuthor.name.toLowerCase());
-                // if it's already selected - toggle that selection
-                if (alreadySelectedIndex > -1) {
-                    this.editedItem.authors.splice(alreadySelectedIndex, 1);
-                } else { // if it's not already selected push
-                    this.editedItem.authors.push(existingAuthor)
-                }
+                authorList = [];
+                // add to selection
+                this.editedItem.authors.push(existingAuthor)
+                // check type and add to new list
+                this.editedItem.authors.map(selectedAuthor => {
+                    if (typeof selectedAuthor === 'string') {
+                        const existingAuthor = this.authors.find(author => {
+                            return author.name.toLowerCase() === selectedAuthor.toLowerCase();
+                        });
+                        if (existingAuthor) {
+                            authorList.push(existingAuthor);
+                        }
+                    } else {
+                        authorList.push(selectedAuthor);
+                    }
+                });
+                // get unique set
+                const unique = [...new Set(authorList.map(JSON.stringify))];
+                // parse back to JSON
+                const output = Array.from(unique).map(JSON.parse);
+                // set model
+                this.editedItem.authors = output;
             } else { // if author does not exist add to database
                 const res = await axios.post('/admin/api/author/', { item: { name: newAuthorName } })
                 .catch((error) => {
@@ -1588,7 +1620,8 @@
 
                 this.authors.push({ id, name: newAuthorName });
                 this.showSnack(newAuthorName + " author created.")
-                const authorList = [];
+
+                authorList = [];
                 this.editedItem.authors.map(author => {
                     if (typeof author === 'string') {
                         const existingAuthor = this.authors.find(currentAuthor => {
@@ -1602,14 +1635,19 @@
                         authorList.push(author);
                     }
                 });
+                // get unique set
+                const uniqueNew = [...new Set(authorList.map(JSON.stringify))];
+                // parse back to JSON
+                const outputNew = Array.from(uniqueNew).map(JSON.parse);
+                // set model
 
-                this.editedItem.authors = authorList;
+                this.editedItem.authors = outputNew;
             }
             
             this.authorLoading = false;
             return;
-            },
-        }
-    });
+        },
+    }
+});
 </script>
 {% endblock %}
