@@ -1,5 +1,6 @@
 const ready_import_status = 'Ready'
 const skipped_import_status = 'Skipped'
+const pending_import_status = 'Pending'
 const failed_import_status = 'Failed'
 // https://support.clarivate.com/Endnote/s/article/EndNote-Directions-for-implementing-EndNote-Direct-Export?language=en_US
 
@@ -130,9 +131,11 @@ function getDescription(zoteroItem){
 function getMediaFilesListedInTheZoteroManifest(zoteroList){
     expectedMediaFiles = []
     for(i = 0; i < zoteroList.length; i++){
-        mediaForZoteroItem = getMediaFileFromZoteroItem(zoteroList[i])
+        mediaForZoteroItem = getMediaFilesFromZoteroItem(zoteroList[i])
         if(mediaForZoteroItem){
-            expectedMediaFiles.push(mediaForZoteroItem)
+            for(i = 0; i < mediaForZoteroItem.length; i++){
+                expectedMediaFiles.push(mediaForZoteroItem[i])
+            }
         }
     }
 
@@ -149,19 +152,32 @@ function getTitle(zoteroItem){
         return ""
 }
 
-function getMediaTitle(zoteroItem){
-    title = zoteroItem["TI"]
+function getMediaTitle(zoteroItem, mediaFilePath){
+    try{
+        title = mediaFilePath.split(/[/]+/).pop()
+    }
+    catch{
+        title = zoteroItem["TI"]
+    }
+
     return title
 }
 
-function getMediaFileFromZoteroItem(zoteroItem){
+function getMediaFilesFromZoteroItem(zoteroItem){
+    mediaFiles = []
     if("L1" in zoteroItem){
-        return zoteroItem["L1"]
+        mediaFiles.push(zoteroItem["L1"])
     }
     if("L2" in zoteroItem){
-        return zoteroItem["L2"]
+        mediaFiles.push(zoteroItem["L2"])
     }
-    return ""
+    if("L3" in zoteroItem){
+        mediaFiles.push(zoteroItem["L3"])
+    }
+    if("L4" in zoteroItem){
+        mediaFiles.push(zoteroItem["L4"])
+    }
+    return mediaFiles
 }
 
 function getUrl(zoteroItem){
@@ -173,9 +189,9 @@ function getUrl(zoteroItem){
 
 function getMediaFromZoteroItem(zoteroItem, mediaFilePath){
     // to debug errors in the DB saves, you have to explicitly pass show_exceptions = true for the model.save() calls, otherwise the exceptions are swallowed...
-    // the definition for this json object does NOT match the database object. JSON properties are mapped from what is shown here to the DB/SQLAlchemy representation in Media to_json
+    // the definition for this json object does NOT match the database object. JSON properties are mapped from what is shown here to the DB/SQLAlchemy representation in Media to_json   
     media = {
-        title: getMediaTitle(zoteroItem),
+        title: getMediaTitle(zoteroItem, mediaFilePath),
         filename: mediaFilePath, //media_file in the db
         fileType: "", // media_file_type
     }
@@ -183,8 +199,12 @@ function getMediaFromZoteroItem(zoteroItem, mediaFilePath){
     return media
 }
 
-function getPrimaryRecordWithMediaFromZoteroItem(zoteroItem, mediaFilePath, roles, incident_relations){
-    media = getMediaFromZoteroItem(zoteroItem, mediaFilePath)
+function getPrimaryRecordWithMediaFromZoteroItem(zoteroItem, mediaFilePaths, roles, incident_relations){
+    medias = []
+    for(i = 0; i < mediaFilePaths.length; i++){
+        media = getMediaFromZoteroItem(zoteroItem, mediaFilePaths[i])
+        medias.push(media)
+    }
 
     bulletin = {
         title: getTitle(zoteroItem),
@@ -193,7 +213,7 @@ function getPrimaryRecordWithMediaFromZoteroItem(zoteroItem, mediaFilePath, role
         // related events
         events: [],
         // related media
-        medias: [media],
+        medias: medias,
         // related bulletins
         bulletin_relations: [],
         // related actors

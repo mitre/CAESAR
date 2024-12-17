@@ -214,6 +214,7 @@
         thumbnailHeight: 80,
         parallelUploads: 1,
         timeout: 2*60*1000,
+        maxFilesize: mediaUploadMaxFileSize,
         accept: async function (file, done) {
           // Create a hash of the file
           const fileArrayBuffer = await file.arrayBuffer();
@@ -239,6 +240,9 @@
       // mediaFileUploadResponseByEtag is list of returned metadata about media files that have been uploaded to CAESAR. The filepath of uploaded files is set on the server during the upload, returned, and made available via this dictionary
       mediaFileUploadResponseByEtag: new Map(),
       mediaFileIdsBySimplified: new Map(),
+      // some zotero items can have multiple associated media files. We need to wait for all those uploads to complete before creating the primary record for the zotero item.
+      remainingUploadCountByZoteroItemImportHash: new Map(),
+      uploadedEtagListByZoteroItemImportHash: new Map(),
       // zoteroItems is a list of Zotero 'item' objects read from the Zotero exported manifest file
       zoteroItems: [],
       //etl additional tags
@@ -394,13 +398,28 @@
 
         fileId = this.fileIdByEtag.get(etag)
         zoteroItem = this.zoteroItemByFileId.get(fileId)
-        importHash = this.importHashByFileId.get(fileId)
+        zoteroItemImportHash = this.importHashByFileId.get(fileId)
 
         file_extension = this.getFileExtension(filename)
-        import_log = getMediaImportLog(0, filename, file_extension, etag, importHash, this.batch_id, ready_import_status, "", "")
+        import_log = getMediaImportLog(0, filename, file_extension, etag, zoteroItemImportHash, this.batch_id, ready_import_status, "", "")
         this.save_log(import_log)
 
-        this.buildPrimaryRecordAfterMediaUploadCompletes(this, fileId, importHash, zoteroItem, etag);
+        // JS is single threaded in the browser? Do we need thread safety where we're 'awaiting' responses?
+        currentEtagList = this.uploadedEtagListByZoteroItemImportHash.get(zoteroItemImportHash)
+        currentEtagList.push(etag)
+        this.uploadedEtagListByZoteroItemImportHash.set(zoteroItemImportHash, currentEtagList)
+
+        currentCount = this.remainingUploadCountByZoteroItemImportHash.get(zoteroItemImportHash)
+        if(currentCount <= 1){
+          this.buildPrimaryRecordAfterMediaUploadsComplete(this, fileId, zoteroItemImportHash, zoteroItem, currentEtagList);
+        }
+        else{
+          // log a warning that creation of the PR is pending upload of additional files.
+          newCount = currentCount - 1
+          this.remainingUploadCountByZoteroItemImportHash.set(zoteroItemImportHash, newCount)
+          import_log = getBulletinImportLog(0, fileId, "", etag, zoteroItemImportHash, this.batch_id, pending_import_status, "", "Primary Record creation is awaiting upload of an additional " + newCount + " files.")
+          this.save_log(import_log)
+        }
       },
       // it seems like sometimes, intermittently, the dropzone component does not wait for the file to be added before calling @vdropzone-file-added, which can cause errors - my best fix right now is to reload the page and try again
       fileAdded(file) {
@@ -513,24 +532,37 @@
           console.error(err)
         })
       },
-      processZoteroItem(context, item, importHash){
+      processZoteroItem(context, item, importHashForZoteroItem){
         try{
-          mediaForZoteroItem = getMediaFileFromZoteroItem(item)
-  
-          if(mediaForZoteroItem){
-            mediaFileId = context.getMediaFileIdAssociatedWithFileLink(context, mediaForZoteroItem)
-            context.zoteroItemByFileId.set(mediaFileId, item)
-            context.importHashByFileId.set(mediaFileId, importHash)
-            context.pushMediaFile(mediaForZoteroItem, mediaFileId, item)
-          }
-          else{
-            context.buildPrimaryRecordWithoutMediaFile(context, item, importHash)
-          }
+          mediaForZoteroItem = getMediaFilesFromZoteroItem(item)
         }
         catch(error){
-          import_log = getImportLog(item, importHash, context.batch_id, failed_import_status, JSON.stringify(item), "Error processsing Zotero item." + error.toString())
+          import_log = getImportLog(item, importHashForZoteroItem, context.batch_id, failed_import_status, JSON.stringify(item), "Error processsing Zotero item." + error.toString())
           context.save_log(import_log)
           console.error(error)
+        }
+
+        if(mediaForZoteroItem){
+          expectedUploadFileCount = mediaForZoteroItem.length
+          for(i = 0; i < mediaForZoteroItem.length; i++){
+            try{
+              mediaFileId = context.getMediaFileIdAssociatedWithFileLink(context, mediaForZoteroItem[i])
+              context.zoteroItemByFileId.set(mediaFileId, item)
+              context.importHashByFileId.set(mediaFileId, importHashForZoteroItem)
+              context.pushMediaFile(mediaForZoteroItem[i], mediaFileId, item)
+            }
+            catch(error){
+              import_log = getImportLog(item, importHashForZoteroItem, context.batch_id, failed_import_status, JSON.stringify(item), "Error processsing Zotero item." + error.toString())
+              context.save_log(import_log)
+              expectedUploadFileCount = expectedUploadFileCount - 1
+              console.error(error)
+            }
+          }
+          this.remainingUploadCountByZoteroItemImportHash.set(importHashForZoteroItem, expectedUploadFileCount)
+          this.uploadedEtagListByZoteroItemImportHash.set(importHashForZoteroItem, [])
+        }
+        else{
+          context.buildPrimaryRecordWithoutMediaFile(context, item, importHash)
         }
       },
       pushMediaFile(mediaFile, fileId, zoteroItem){
@@ -543,11 +575,16 @@
         }
       },
       // once the files have been uploaded, we can look up the media path by an etag - but we need to wait for media uploads to complete to do this
-      buildPrimaryRecordAfterMediaUploadCompletes(context, fileId, importHash, zotero_item, etag){
-        // console.error("asdf " + JSON.stringify([...this.asdf.entries()]))
-        fileUploadInfo = this.mediaFileUploadResponseByEtag.get(etag)
-        mediaFilePath = fileUploadInfo["s3url"]
-        bulletin = getPrimaryRecordWithMediaFromZoteroItem(zoteroItem, mediaFilePath, context.roles, context.incident_relations)
+      // buildPrimaryRecordAfterMediaUploadCompletes(context, fileId, etag){
+      buildPrimaryRecordAfterMediaUploadsComplete(context, importHash, zotero_item, uploadedFileList, etagList){
+        mediaFilePaths = []
+        for(i = 0; i < etagList.length; i++){
+          fileUploadInfo = this.mediaFileUploadResponseByEtag.get(etagList[i])
+          mediaFilePath = fileUploadInfo["s3url"]
+          mediaFilePaths.push(mediaFilePath)
+        }
+
+        bulletin = getPrimaryRecordWithMediaFromZoteroItem(zoteroItem, mediaFilePaths, context.roles, context.incident_relations)
 
         // post bulletin
         axios.post("/admin/api/bulletin/", {
@@ -555,8 +592,7 @@
           }).then(response => {
               this.showSnack(response.data);
               bulletin_id = response.data.substring(18)
-              file_extension = this.getFileExtension(this.mediaFilesById.get(fileId).name)
-              import_log = getBulletinImportLog(bulletin_id, fileId, file_extension, etag, importHash, context.batch_id, getImportStatusFromStatusCode(response.status), "", response.data)
+              import_log = getBulletinImportLog(bulletin_id, fileId, "", etag, importHash, context.batch_id, getImportStatusFromStatusCode(response.status), "", response.data)
               this.save_log(import_log)
           }).catch(err => {
               import_log = getBulletinImportLog(0, fileId, "", etag, importHash, context.batch_id, failed_import_status, "", "Error creating primary record. " + err?.response?.data)
