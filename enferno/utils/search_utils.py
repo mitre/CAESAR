@@ -3,6 +3,7 @@ from dateutil.parser import parse
 from sqlalchemy import or_, not_, and_, func, cast
 
 from enferno.admin.models import (
+    Alias,
     Bulletin,
     Actor,
     Incident,
@@ -441,12 +442,8 @@ class SearchUtils:
                 query.append(not_(Actor.search.ilike('%{}%'.format(word))))
 
         # nickname
-        if search := q.get("nickname"):
-            query.append(or_(
-                Actor.nickname.ilike(f"%{search}%"),
-                Actor.nickname_ar.ilike(f"%{search}%")
-            )
-            )
+        if search := q.get("alias"):
+            query.append(Actor.aliases.any(Alias.name.ilike(f"%{search}%")))
 
         # first name
         if search := q.get("first_name"):
