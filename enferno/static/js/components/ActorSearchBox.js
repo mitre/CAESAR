@@ -233,8 +233,8 @@ Vue.component("actor-search-box", {
           <v-row>
             <v-col md="12">
               <v-text-field
-                  v-model="q.nickname"
-                  label="Nickname"
+                  v-model="q.alias"
+                  label="Alias"
                   clearable
               ></v-text-field>
             </v-col>
