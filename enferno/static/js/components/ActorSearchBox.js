@@ -250,6 +250,24 @@ Vue.component("actor-search-box", {
             </v-col>
           </v-row>
 
+
+      <v-row>
+        <v-col md="12">
+          <div class="d-flex align-center">
+            <search-field
+              v-model="q.sanction_regimes"
+              api="/admin/api/sanction-regimes/"
+              item-text="title"
+              item-value="id"
+              :multiple="true"
+              label="Sanction Regimes"
+            ></search-field>
+            <v-checkbox :label="i18n.any_" dense v-model="q.opSanction" color="primary" small
+              class="mx-3"></v-checkbox>
+          </div>
+        </v-col>
+      </v-row>
+
       <v-row>
         <v-col md="12">
           <v-text-field

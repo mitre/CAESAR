@@ -8,6 +8,8 @@ from enferno.admin.models import (
     Incident,
     Label,
     Organization,
+    SanctionRegime,
+    SanctionRegimeToActor,
     SocialMediaHandle,
     SocialMediaPlatform,
     Source,
@@ -485,6 +487,16 @@ class SearchUtils:
 
         if search := q.get("social_media_platform"):
             query.append(Actor.social_media_handles.any(SocialMediaHandle.platform.has(SocialMediaPlatform.id == search)))
+
+
+        if search := q.get("sanction_regimes"):
+            op = q.get('opSanction')
+            ids = [item.get('id') for item in search]
+            if op:
+                query.append(Actor.sanction_regimes.any(SanctionRegimeToActor.sanction_regime_id.in_(ids)))
+            else:
+                for id in ids:
+                    query.append(Actor.sanction_regimes.any(SanctionRegimeToActor.sanction_regime_id == id))
 
         ethno = q.get('ethnography')
         op = q.get('opEthno')
