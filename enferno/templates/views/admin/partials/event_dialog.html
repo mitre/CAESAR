@@ -30,8 +30,8 @@
             <v-btn v-on="on" color="primary" small><v-icon dense>mdi-plus</v-icon></v-btn>
         </div>
         <div class="mt-2">
-            <v-layout wrap>
-                <v-flex md6 v-for="(item,index) in editedItem.events" :key="index">
+              <v-layout wrap style="gap: 5px">
+                <v-flex md3 v-for="(item,index) in editedItem.events" :key="index" style="min-width: 33%">
                     <event-card :number="index+1" :event="item">
                         <template v-slot:actions>
                             <v-card-actions>
