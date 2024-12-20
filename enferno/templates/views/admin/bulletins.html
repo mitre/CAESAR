@@ -1479,7 +1479,7 @@
             
             if (searchMatches > 0) {
                 const newSource = this.$refs.sourcesAutocomplete.filteredItems[0];
-                newSourceList = [...this.editedItem.sources];
+                newSourceList = this.editedItem.sources ? [...this.editedItem.sources] : [];
                 const foundIndex = newSourceList.findIndex(source => {
                     if(typeof source === 'string') {
                         return source.toLowerCase() == newSource.title.toLowerCase();
@@ -1585,7 +1585,7 @@
             // if author exists perform checks
             if (searchMatches > 0) {
                 const newAuthor = this.$refs.authorsAutocomplete.filteredItems[0];
-                newAuthorList = [...this.editedItem.authors];
+                newAuthorList = this.editedItem.authors ? [...this.editedItem.authors] : [];
                 const foundIndex = newAuthorList.findIndex(author => {
                     if (typeof author === 'string') {
                         return author.toLowerCase() == newAuthor.name.toLowerCase();
