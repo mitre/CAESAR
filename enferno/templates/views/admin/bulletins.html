@@ -471,8 +471,6 @@
                 organization_relations: [],
                 bulletin_to_consent_uses: [],
                 incident_relations: [],
-                sources: [],
-                authors: [],
             },
             selectedSources: [],
             defaultItem: {
@@ -1582,15 +1580,11 @@
             this.authorLoading = true;
             let newAuthorList = [];
             let searchMatches = this.$refs.authorsAutocomplete.filteredItems.length;
-            console.log(searchMatches)
             // if author exists perform checks
             if (searchMatches > 0) {
                 const newAuthor = this.$refs.authorsAutocomplete.filteredItems[0];
-                console.log(newAuthor)
                 newAuthorList = [...this.editedItem.authors];
-                console.log(newAuthorList)
                 const foundIndex = newAuthorList.findIndex(author => {
-                    console.log(author)
                     if (typeof author === 'string') {
                         return author.toLowerCase() == newAuthor.name.toLowerCase();
                     } else {
@@ -1613,7 +1607,6 @@
                     this.showSnack("Could not add author. Error: " + error, true)
                 });
                 const id = res.data.id;
-                console.log(id)
                 this.authors.push({ id, name: newAuthorName });
                 this.showSnack(newAuthorName + " author created.")
                 newAuthorList = [];
@@ -1636,7 +1629,6 @@
                 // parse back to JSON
                 const outputNew = Array.from(uniqueNew).map(JSON.parse);
                 // set model
-                console.log(outputNew)
                 this.editedItem.authors = outputNew;
             }
             this.authorLoading = false;
