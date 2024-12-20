@@ -1507,18 +1507,20 @@
                 this.sources.push({ id, title: newSourceTitle });
                 this.showSnack(newSourceTitle + " source created.")
                 newSourceList = [];
-                this.editedItem.sources.map(selectedSource => {
-                    if (typeof selectedSource === 'string') {
-                        const existingSource = this.sources.find(source => {
-                            return source.title.toLowerCase() === selectedSource.toLowerCase();
-                        });
-                        if (existingSource) {
-                            newSourceList.push(existingSource);
+                if (this.editedItem.sources) {
+                    this.editedItem.sources.map(selectedSource => {
+                        if (typeof selectedSource === 'string') {
+                            const existingSource = this.sources.find(source => {
+                                return source.title.toLowerCase() === selectedSource.toLowerCase();
+                            });
+                            if (existingSource) {
+                                newSourceList.push(existingSource);
+                            }
+                        } else {
+                            newSourceList.push(selectedSource);
                         }
-                    } else {
-                        newSourceList.push(selectedSource);
-                    }
-                });
+                    });
+                }
                 newSourceList.push({ id, title: newSourceTitle });
                 this.searchSourceInput = "";
                 // get unique set
@@ -1610,18 +1612,20 @@
                 this.authors.push({ id, name: newAuthorName });
                 this.showSnack(newAuthorName + " author created.")
                 newAuthorList = [];
-                this.editedItem.authors.map(author => {
-                    if (typeof author === 'string') {
-                        const existingAuthor = this.authors.find(currentAuthor => {
-                            return currentAuthor.name.toLowerCase() === author.toLowerCase();
-                        });
-                        if (existingAuthor) {
-                            newAuthorList.push(existingAuthor);
+                if (this.editedItem.authors) {
+                    this.editedItem.authors.map(author => {
+                        if (typeof author === 'string') {
+                            const existingAuthor = this.authors.find(currentAuthor => {
+                                return currentAuthor.name.toLowerCase() === author.toLowerCase();
+                            });
+                            if (existingAuthor) {
+                                newAuthorList.push(existingAuthor);
+                            }
+                        } else {
+                            newAuthorList.push(author);
                         }
-                    } else {
-                        newAuthorList.push(author);
-                    }
-                });
+                    });
+                }
                 newAuthorList.push({ id, name: newAuthorName });
                 this.searchAuthorInput = "";
                 // get unique set
