@@ -117,54 +117,51 @@
                                     <v-col cols="12" md="6">
                                         <v-tooltip top max-width=500 open-delay=1500>
                                             <template v-slot:activator="{ on }">
-                                                <div v-on="on">
-                                                    <v-combobox
-                                                        v-model="editedItem.sources"
-                                                        :items="sources"
-                                                        item-text="title"
-                                                        label="{{ _('Sources') }}"
-                                                        multiple
-                                                        dense
-                                                        chips
-                                                        deletable-chips
-                                                        :search-input.sync="searchSourceInput"
-                                                        :loading="sourceLoading"
-                                                        @keydown="createNewSource"
-                                                        @blur="searchSourceInput = ''"
-                                                    >
-                                                        <template v-slot:no-data>
-                                                            <v-list-item>
-                                                                <v-list-item-title>
-                                                                    No results matching "<strong>${searchSourceInput}</strong>". Press <kbd>enter</kbd> to create a new one
-                                                                </v-list-item-title>
-                                                            </v-list-item>
-                                                        </template>
-                                                    </v-combobox>
-                                                </div>
+                                                <v-autocomplete
+                                                    ref="sourcesAutocomplete"
+                                                    label = "{{ _('Sources') }}"
+                                                    item-text="title"
+                                                    v-model="editedItem.sources"
+                                                    :items="sources"
+                                                    chips
+                                                    deletable-chips
+                                                    multiple
+                                                    @keydown="createNewSource"
+                                                    :search-input.sync="searchSourceInput"
+                                                    :loading = "sourceLoading"
+                                                    @blur="searchSourceInput = ''"
+                                                    dense
+                                                >
+                                                    <template v-slot:no-data>
+                                                        <v-list-item>
+                                                            <v-list-item-title>
+                                                                No results matching "<strong>${searchSourceInput}</strong>". Press <kbd>enter</kbd> to create a new one
+                                                            </v-list-item-title>
+                                                        </v-list-item>
+                                                    </template>
+                                                </v-autocomplete>
                                             </template>
-                                            <span>{{ _('Sources are the original creators and publishers of the content
-                                                of Primary Records in the database. This structure also provides easy
-                                                search and filtering and prevents data entry mistakes by users.')
-                                                }}</span>
+                                            <span>{{ _('Sources are the original creators and publishers of the content of Primary Records in the database. This structure also provides easy search and filtering and prevents data entry mistakes by users.')}}</span>
                                         </v-tooltip>
                                     </v-col>
                                     <v-col cols="12" md="6">
                                         <v-tooltip top max-width=500 open-delay=1500>
                                             <template v-slot:activator="{ on }">
                                                 <div v-on="on">
-                                                    <v-combobox
+                                                    <v-autocomplete
+                                                        ref="authorsAutocomplete"
+                                                        label="{{ _('Authors') }}"
+                                                        item-text="name"
                                                         v-model="editedItem.authors"
                                                         :items="authors"
-                                                        item-text="name"
-                                                        label="{{ _('Authors') }}"
-                                                        :search-input.sync="searchAuthorInput"
-                                                        multiple
-                                                        dense
                                                         chips
                                                         deletable-chips
-                                                        :loading="authorLoading"
+                                                        multiple
                                                         @keydown="createNewAuthor"
+                                                        :search-input.sync="searchAuthorInput"
+                                                        :loading="authorLoading"
                                                         @blur="searchAuthorInput = ''"
+                                                        dense
                                                     >
                                                         <template v-slot:no-data>
                                                             <v-list-item>
@@ -173,7 +170,7 @@
                                                                 </v-list-item-title>
                                                             </v-list-item>
                                                         </template>
-                                                    </v-combobox>
+                                                    </v-autocomplete>
                                                 </div>
                                             </template>
                                             <span>{{ _('Authors are the writers of the content.')}}</span>
