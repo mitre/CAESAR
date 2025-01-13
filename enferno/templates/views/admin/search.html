@@ -31,6 +31,17 @@
                                 </form>
                             </div>
                         </div>
+                      <div> 
+                        <span> Related Field Filters: </span>
+                        <v-autocomplete v-model="selectedActors" :items="actorChoices" item-text="name" item-value="id"
+                          label="Actors" multiple outlined dense></v-autocomplete>
+                        <v-autocomplete v-model="selectedOrganizations" :items="organizationChoices" item-text="name" item-value="id"
+                                    label="Organizations" multiple outlined dense></v-autocomplete>
+                        <v-autocomplete v-model="selectedBulletins" :items="bulletinChoices" item-text="title" item-value="id"
+                                    label="Primary Records" multiple outlined dense></v-autocomplete>
+                        <v-autocomplete v-model="selectedInvestigations" :items="investigationChoices" item-text="title" item-value="id"
+                                    label="Investigations" multiple outlined dense></v-autocomplete>
+                      </div>
                         <div v-if="searched" class="search-results">
                             <v-row>
                                 <v-col>
@@ -144,6 +155,14 @@
         delimiters: delimiters,
         router,
         data: () => ({
+          actorChoices: [],
+          selectedActors: [],
+          organizationChoices: [],
+          selectedOrganizations: [],
+          bulletinChoices: [],
+          selectedBulletins: [],
+          investigationChoices: [],
+          selectedInvestigations: [],
             translations: translations,
             currentUser: JSON.parse(`{{ current_user.to_dict()|tojson }}`),
             drawer: drawer,
@@ -200,6 +219,12 @@
             },
             selectedItemsLength: 0,
         }),
+      mounted() {
+        this.getActorChoices();
+        this.getOrganizationChoices();
+        this.getBulletinChoices();
+        this.getInvestigationChoices();
+      },
         computed: {
             /** 
              * Computed search results
@@ -315,12 +340,57 @@
             }
         },
         methods: {
+          getActorChoices() {
+            axios.post(`/admin/api/actors/?page=1&per_page=500`, {
+              q: [{}]
+            }).then(response => {
+              this.actorChoices = response.data.items;
+            }).catch(error => {
+              this.actorChoices = [];
+              console.error(error.message);
+            });
+          },
+          getOrganizationChoices() {
+            axios.post(`/admin/api/organizations/?page=1&per_page=500`, {
+              q: [{}]
+            }).then(response => {
+              this.organizationChoices = response.data.items;
+            }).catch(error => {
+              this.organizationChoices = [];
+              console.error(error.message);
+            });
+          },
+          getBulletinChoices() {
+            axios.post(`/admin/api/bulletins/?page=1&per_page=500`, {
+              q: [{}]
+            }).then(response => {
+              this.bulletinChoices = response.data.items;
+            }).catch(error => {
+              this.bulletinChoices = [];
+              console.error(error.message);
+            });
+          },
+          getInvestigationChoices() {
+            axios.post(`/admin/api/incidents/?page=1&per_page=500`, {
+              q: {}
+            }).then(response => {
+              this.investigationChoices = response.data.items;
+            }).catch(error => {
+              this.investigationChoices = [];
+              console.error(error.message);
+            });
+          },
+
             async search() {
                 this.searched = true;
                 this.loading = true;
                 this.options.page = 1;
                 const startTime = new Date();
                 this.nonRestrictedResults = [];
+                this.searchTerm[0].related_actors = this.selectedActors;
+                this.searchTerm[0].related_organizations = this.selectedOrganizations;
+                this.searchTerm[0].related_bulletins = this.selectedBulletins;
+                this.searchTerm[0].related_investigations = this.selectedInvestigations;
                 this.actorResults = await this.searchActors();
                 this.prResults = await this.searchPrimaryRecords();
                 this.investigationResults = await this.searchInvestigations();
