@@ -4,11 +4,20 @@ from sqlalchemy import or_, not_, and_, func, cast
 
 from enferno.admin.models import (
     Alias,
+    Atoa,
+    Atob,
+    Btob,
     Bulletin,
     Actor,
     Incident,
+    Itoa,
+    Itob,
+    Itoi,
     Label,
     Organization,
+    Otoa,
+    Otob,
+    Otoi,
     SanctionRegime,
     SanctionRegimeToActor,
     SocialMediaHandle,
@@ -57,6 +66,30 @@ class SearchUtils:
 
     def to_dict(self):
         return self.args
+
+    def query_by_actor_relation(self, model, related_model, q):
+        related_actors = q.get('related_actors')
+        if not related_actors:
+            return None
+        return model.related_actors.any(related_model.actor_id.in_(related_actors))
+
+    def query_by_bulletin_relation(self, model, related_model, q):
+        related_bulletins = q.get('related_bulletins')
+        if not related_bulletins:
+            return None
+        return model.related_bulletins.any(related_model.bulletin_id.in_(related_bulletins))
+
+    def query_by_investigation_relation(self, model, related_model, q):
+        related_investigations = q.get('related_investigations')
+        if not related_investigations:
+            return None
+        return model.related_incidents.any(related_model.incident_id.in_(related_investigations))
+
+    def query_by_organization_relation(self, model, related_model, q):
+        related_organizations = q.get('related_organizations')
+        if not related_organizations:
+            return None
+        return model.related_organizations.any(related_model.organization_id.in_(related_organizations))
 
     def build_bulletin_query(self):
         main = self.bulletin_query(self.search[0])
@@ -290,6 +323,25 @@ class SearchUtils:
                 else:
                     # non-recursive (apply and on all ids)
                     query.extend([Bulletin.sources.any(Source.id == id) for id in ids])
+        related_queries = []
+        if q.get('related_actors'):
+            related_actors_query = self.query_by_actor_relation(Bulletin, Atob, q)
+            related_queries.append(related_actors_query)
+
+        if q.get('related_investigations'):
+            related_investigations_query = self.query_by_investigation_relation(Bulletin, Itob, q)
+            related_queries.append(related_investigations_query)
+
+        if q.get('related_organizations'):
+            related_organizations_query = self.query_by_organization_relation(Bulletin, Otob, q)
+            related_queries.append(related_organizations_query)
+
+        if q.get('related_bulletins'):
+            related_bulletins = q.get('related_bulletins')
+            related_queries.append(Bulletin.bulletins_to.any(Btob.related_bulletin_id.in_(related_bulletins)))
+            related_queries.append(Bulletin.bulletins_from.any(Btob.bulletin_id.in_(related_bulletins)))
+
+        query.append(or_(*related_queries))
 
         # Excluded sources
         exsources = q.get('exsources', [])
@@ -556,6 +608,26 @@ class SearchUtils:
         if len(exsources):
             ids = [item.get('id') for item in exsources]
             query.append(~Actor.sources.any(Source.id.in_(ids)))
+
+        related_queries = []
+        if q.get('related_actors'):
+            related_actors = q.get('related_actors')
+            related_queries.append(Actor.actors_to.any(Atoa.related_actor_id.in_(related_actors)))
+            related_queries.append(Actor.actors_from.any(Atoa.actor_id.in_(related_actors)))
+
+        if q.get('related_bulletins'):
+            related_bulletins_query = self.query_by_bulletin_relation(Actor, Atob, q)
+            related_queries.append(related_bulletins_query)
+
+        if q.get('related_organizations'):
+            related_organizations_query = self.query_by_organization_relation(Actor, Otoa, q)
+            related_queries.append(related_organizations_query)
+
+        if q.get('related_investigations'):
+            related_investigations_query = self.query_by_investigation_relation(Actor, Itoa, q)
+            related_queries.append(related_investigations_query)
+
+        query.append(or_(*related_queries))
 
         res_locations = q.get('resLocations', [])
         if res_locations:
@@ -837,6 +909,26 @@ class SearchUtils:
                 id_mix = [Location.get_children_by_id(id) for id in ids]
                 query.extend(Incident.locations.any(Location.id.in_(i)) for i in id_mix)
 
+        related_queries = []
+        if q.get('related_actors'):
+            related_actors_query = self.query_by_actor_relation(Incident, Itoa, q)
+            related_queries.append(related_actors_query)
+
+        if q.get('related_bulletins'):
+            related_bulletins_query = self.query_by_bulletin_relation(Incident, Itob, q)
+            related_queries.append(related_bulletins_query)
+
+        if q.get('related_organizations'):
+            related_organizations_query = self.query_by_organization_relation(Incident, Otoi, q)
+            related_queries.append(related_organizations_query)
+
+        if q.get('related_investigations'):
+            related_investigations = q.get('related_investigations')
+            related_queries.append(Incident.incidents_to.any(Itoi.related_incident_id.in_(related_investigations)))
+            related_queries.append(Incident.incidents_from.any(Itoi.incident_id.in_(related_investigations)))
+
+        query.append(or_(*related_queries))
+
         # Excluded sources
         exlocations = q.get('exlocations', [])
         if len(exlocations):
@@ -1109,6 +1201,26 @@ class SearchUtils:
             query.append(Organization.roles.any(Role.id.in_(roles)))
         if q.get('norole'):
             query.append(~Organization.roles.any())
+
+        related_queries = []
+        if q.get('related_actors'):
+            related_actors_query = self.query_by_actor_relation(Organization, Otoa, q)
+            related_queries.append(related_actors_query)
+
+        if q.get('related_bulletins'):
+            related_bulletins_query = self.query_by_bulletin_relation(Organization, Otob, q)
+            related_queries.append(related_bulletins_query)
+
+        if q.get('related_organizations'):
+            related_organizations = q.get('related_organizations')
+            related_queries.append(Organization.organizations_to.any(Otoi.related_organization_id.in_(related_organizations)))
+            related_queries.append(Organization.organizations_from.any(Otoi.organization_id.in_(related_organizations)))
+
+        if q.get('related_investigations'):
+            related_investigations_query = self.query_by_investigation_relation(Organization, Otoi, q)
+            related_queries.append(related_investigations_query)
+
+        query.append(or_(*related_queries))
 
         # assigned user(s)
         assigned = q.get('assigned', [])
