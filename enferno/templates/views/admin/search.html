@@ -48,6 +48,7 @@
                                     <div class="result-description">${startRecord} - ${endRecord} of ${resultLength} results <span
                                         v-if="restrictedRecordsLength > 0">| ${restrictedRecordsLength} records matched your search, but you do not have
                                         access</span>
+                                        <v-checkbox v-if="resultLength > 0" :input-value="areAllItemsSelected" @change="areAllItemsSelected ? deselectAllItems() : selectAllItems()" hide-details label="All Results"></v-checkbox>
                                     </div>
                                 </v-col>
                                 <v-col v-if="showExport" align="right">
@@ -337,6 +338,9 @@
             },
             showExport() {
                 return this.exportAllowed() && this.selectedItemsLength > 0;
+            },
+            areAllItemsSelected() {
+              return this.selectedItemsLength === this.searchResults.length;
             }
         },
         methods: {
@@ -537,6 +541,20 @@
 
             selectItem(id, type) {
               this.selectedItems[[id, type]] = !this.selectedItems[[id, type]];
+              this.selectedItemsLength = Object.keys(this.selectedItems).filter(key => this.selectedItems[key]).length;
+            },
+
+            selectAllItems() {
+              this.searchResults.forEach(result => {
+                this.selectedItems[[result.id, result.type]] = true;
+              });
+              this.selectedItemsLength = Object.keys(this.selectedItems).filter(key => this.selectedItems[key]).length;
+            },
+
+            deselectAllItems() {
+              this.searchResults.forEach(result => {
+                this.selectedItems[[result.id, result.type]] = false;
+              });
               this.selectedItemsLength = Object.keys(this.selectedItems).filter(key => this.selectedItems[key]).length;
             },
 
