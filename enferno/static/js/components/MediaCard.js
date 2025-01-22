@@ -32,6 +32,10 @@ Vue.component("media-card", {
     },
 
     mediaType(mediaItem) {
+      const isSafari = /constructor/i.test(window.HTMLElement) 
+        || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })
+        (!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
+
       if (
         ["image/jpeg", "image/png", "image/gif"].includes(mediaItem.fileType)
       ) {
@@ -42,6 +46,9 @@ Vue.component("media-card", {
         return "video";
       } else if (["application/pdf"].includes(mediaItem.fileType)) {
         return "pdf";
+      } else if (isSafari && ["image/tif", "image/tiff"].includes(mediaItem.fileType)) {
+        // Only Safari supports TIF files, so display them as image files on Safari
+        return "image";
       } else {
         return "unknown";
       }
