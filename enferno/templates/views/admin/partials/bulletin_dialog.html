@@ -121,6 +121,7 @@
                                                     ref="sourcesAutocomplete"
                                                     label = "{{ _('Sources') }}"
                                                     item-text="title"
+                                                    return-object
                                                     v-model="editedItem.sources"
                                                     :items="sources"
                                                     chips
@@ -152,6 +153,7 @@
                                                         ref="authorsAutocomplete"
                                                         label="{{ _('Authors') }}"
                                                         item-text="name"
+                                                        return-object
                                                         v-model="editedItem.authors"
                                                         :items="authors"
                                                         chips
