@@ -14,7 +14,7 @@ CAESAR runs as a set of Docker containers using the `docker compose` command.
 
 2. Copy the `.env-sample` file and change the values as appropriate. You should probably change all of the values that are set to `change-me`.
     ```bash
-    cp .env-sample.env
+    cp .env-sample .env
     ```
 
 3. Bring the system up
@@ -22,42 +22,34 @@ CAESAR runs as a set of Docker containers using the `docker compose` command.
     docker compose up -d
     ```
 
-4. Access the website at http://localhost:5000
+4. Wait about a minute for the server to start up and then access the website at http://localhost:5000
 
+## Configuring the System
 
-## Updating Translation Files
-
-Caesar translation uses the Flask-Babel library. A messages.pot file holds all default english messages, while messeages.po language catalog file hold translations for different languages.
-We need to provide translations for our text, but the babel command line tools can be used to generate/regenerate message files. This should be done for any wholesale changes or additions of text messages to Caesar.
-See https://babel.pocoo.org/en/latest/cmdline.html
-To generate a new messages.pot file (caesar/messages.pot) based on code changes using the gettext() conventions, run < pybabel extract -F babel.cfg -o messages.pot . > from the project root
-To generate new messages.po catalog files from the messages.pot file, run < pybabel update -i messages.pot -d ./enferno/translations/ > from the project root
- * messages.po catalog files updated in this way should port all old translations
- * new translations should be added to the messages.po files
-To generate new messages.mo files from the messages.po files, run < pybabel compile -d ./enferno/translations/ > from the project root
-messages.pot, messages.po, and messages.mo files should all show changes in source control diffs 
-
+Initially, CAESAR is configured by changing values in the `.env` file located at the root of the project. Once the application is running and the configuration is changed through the UI, a `config.json` file will be created. The settings in `config.json` will override the values in the `.env` file so changes to the configuration should be done using the UI where possible. There are some configurations, namely the Docker-specific ones, that are only set in the `.env` file. 
 
 ## Caesar Data
-1. Locations:
- - Import locations on startup by setting the LOCATIONS_FILENAME env variable in the .env file e.g. LOCATIONS_FILENAME=ukraine_locations.csv
- - Ukraine location data has been added to the default bayanat data set at /enferno/data in the ukraine_locations.csv file. This file contains a list of Ukrainian cities that was pulled from https://data.humdata.org/dataset/cod-ab-ukr.
- - Sudan location data has been added to the default bayanat data set at /enferno/data in the sudan_locations.csv file. This file contains a list of Sudanese cities that was pulled from https://data.humdata.org/dataset/cod-ab-sdn.
 
-## Local Development
+### Locations:
 
-1. Copy the `.env-sample` to `.env`
-2. `docker compose build`
-3. Run `docker compose up -d`
-4. Frontend available at `http://localhost:5000/`
+- At first startup, or when the `location` table of the database is empty on startup, the locations are set using a file located in the `./enferno/data/` directory
+- You can change which file is used by setting the filename as the `LOCATIONS_FILENAME` value in the `.env` file
+- There are 2 location files currently in the `./enferno/data/` directory that you can use
+  - `LOCATIONS_FILENAME=ukraine_locations.csv` is a list of locations in Ukraine that was pulled from https://data.humdata.org/dataset/cod-ab-ukr
+  - `LOCATIONS_FILENAME=sudan_locations.csv` is a list of locations in Sudan that was pulled from https://data.humdata.org/dataset/cod-ab-sdn
+- You can use a custom set of locations by creating a new CSV file that follows the same format as the existing locations files, adding the file to `./enferno/data/` and setting the `LOCATIONS_FILENAME` variable in the `.env` file
 
-5. If you want to import location data, set LOCATIONS_FILENAME .env file e.g. LOCATIONS_FILENAME=ukraine_locations.csv
+## Development
 
-## Database Migrations
+### API Documentation
+
+CAESAR includes API documentation that is available at `/api/docs/`. If running locally, you can navigate to it by opening http://localhost:5000/api/docs/ in your browser.
+
+### Database Migrations
 
 If you need to change the database model, you will need to create a migration to ensure the changes are reflected in the existing databases. 
 
-### Create and Execute a Migration
+#### Create and Execute a Migration
 
 1. Make the changes to the model
 2. Create a new migration file with the command `flask db migrate -m "Add a short description here"`
@@ -65,6 +57,53 @@ If you need to change the database model, you will need to create a migration to
 4. Execute the migration with the command `flask db upgrade`
 5. Commit the new migration file
 
-### Rolling Back a Migration
+#### Rolling Back a Migration
 
 If something goes wrong with the new migration and you need to undo it, run `flask db downgrade`
+
+### Updating Translation Files
+
+Caesar translation uses the Flask-Babel library. A messages.pot file holds all default english messages, while messeages.po language catalog file holds translations for different languages.
+It is necessary to provide translations for text, but the babel command line tools can be used to generate/regenerate message files. This should be done for any wholesale changes or additions of text messages to Caesar.
+See https://babel.pocoo.org/en/latest/cmdline.html
+To generate a new messages.pot file (caesar/messages.pot) based on code changes using the gettext() conventions, run `pybabel extract -F babel.cfg -o messages.pot .` from the project root
+To generate new messages.po catalog files from the messages.pot file, run `pybabel update -i messages.pot -d ./enferno/translations/` from the project root
+ * messages.po catalog files updated in this way should port all old translations
+ * new translations should be added to the messages.po files
+To generate new messages.mo files from the messages.po files, run `pybabel compile -d ./enferno/translations/` from the project root
+messages.pot, messages.po, and messages.mo files should all show changes in source control diffs
+
+## Deploying with an External Database
+
+There is an alternative Docker Compose file available if deploying with an external PostgreSQL database, such as Amazon Relational Database Service (RDS). The `docker-compose-co.yml` file overrides the default `docker-compose.yml` file to enable running the PostgreSQL server external to the other containers. Make sure the `POSTGRES_HOST`, `POSTGRES_USER`, and `POSTGRES_PASSWORD` variables are set in the `.env` file and then run `docker compose -f docker-compose.yml -f docker-compose.co.yml up -d`. There is also a utility script that you can use to run Docker Compose commands with the configuration files already set. You can run Docker Compose commands by running `bash bin/co-compose.sh` followed by the relevant Docker Compose command. For example, `bash bin/co-compose.sh logs bayanat` would display the logs for the main web server.
+
+## CAESAR History
+
+The CAESAR system was adapted from [Bayanat](https://www.bayanat.org/), specifically v1.29. 
+
+### Major Changes from Bayanat v1.29
+
+- Renames bulletins to primary records
+- Renames incidents to investigations
+- Adds a top-level data type for organizations
+- Adds a map to events and the ability to add custom locations
+- Adds the ability to draw polygon, line, and point based locations
+- Uses MapLibre front-end mapping plugin instead of Leaflet
+- Adds a universal search capability that searches across the major data types
+- Makes the OpenID Connect authentication generic instead of Google-specific
+- Changes to the Docker Compose configuration
+- Primary Records
+  - Adds the ability to upload and visualize shapefiles
+  - Adds the ability to track authors
+  - Adds a field for "Discovery File Name"
+  - Adds a field for tracking the consented uses
+  - Adds a checkbox to indicate the translation in the record is verified
+- Actors
+  - Adds a credibility field
+  - Changes the "Nickname" field to "Alias" and allows for multiple aliases
+  - Adds a field for tracking social media accounts
+  - Adds a field for tracking sanction regimes
+  - Renames "Events" to "Locations of Reported Activity"
+- Adds a "Graphic" checkbox to media that blurs previews by default
+- Auto loads locations based on a specified file; Ukraine and Sudan location files included by default
+- Adds a capability to import Zotero records
