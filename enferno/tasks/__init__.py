@@ -773,6 +773,13 @@ def generate_group_json_file(export_id: int):
     # pass the ids to the next celery task
     return export_id
 
+def convert_to_string(series_obj):
+    """
+    Converts the Dataframe series object to a string
+    """
+    if series_obj.item() != None:
+        return series_obj.astype(str)
+    return ''
 
 @celery.task
 def generate_csv_file(export_id: int):
@@ -794,9 +801,9 @@ def generate_csv_file(export_id: int):
                 # normalize
                 df = pd.json_normalize(adjusted)
                 if csv_df.empty:
-                    csv_df = df
+                    csv_df = df.apply(convert_to_string)
                 else:
-                    csv_df = pd.merge(csv_df, df, how='outer')
+                    csv_df = pd.merge(csv_df, df.apply(convert_to_string), how='outer')
 
             elif export_type == 'actor':
                 actor = Actor.query.get(id)
@@ -805,9 +812,9 @@ def generate_csv_file(export_id: int):
                 # normalize
                 df = pd.json_normalize(adjusted)
                 if csv_df.empty:
-                    csv_df = df
+                    csv_df = df.apply(convert_to_string)
                 else:
-                    csv_df = pd.merge(csv_df, df, how='outer')
+                    csv_df = pd.merge(csv_df, df.apply(convert_to_string), how='outer')
 
             elif export_type == 'organization':
                 organization = Organization.query.get(id)
@@ -816,9 +823,9 @@ def generate_csv_file(export_id: int):
                 # normalize
                 df = pd.json_normalize(adjusted)
                 if csv_df.empty:
-                    csv_df = df
+                    csv_df = df.apply(convert_to_string)
                 else:
-                    csv_df = pd.merge(csv_df, df, how='outer')
+                    csv_df = pd.merge(csv_df, df.apply(convert_to_string), how='outer')
 
         csv_df.to_csv(f'{file_path}.csv')
 
@@ -852,25 +859,25 @@ def generate_group_csv_export(export_id: int):
                 adjusted = convert_list_attributes(bulletin.to_csv_dict())
                 df = pd.json_normalize(adjusted)
                 if bulletin_csv_df.empty:
-                    bulletin_csv_df = df
+                    bulletin_csv_df = df.apply(convert_to_string)
                 else:
-                    bulletin_csv_df = pd.merge(bulletin_csv_df, df, how='outer')
+                    bulletin_csv_df = pd.merge(bulletin_csv_df, df.apply(convert_to_string), how='outer')
             elif item.table == 'actor':
                 actor = Actor.query.get(item.item_id)
                 adjusted = convert_list_attributes(actor.to_csv_dict())
                 df = pd.json_normalize(adjusted)
                 if actor_csv_df.empty:
-                    actor_csv_df = df
+                    actor_csv_df = df.apply(convert_to_string)
                 else:
-                    actor_csv_df = pd.merge(actor_csv_df, df, how='outer')
+                    actor_csv_df = pd.merge(actor_csv_df, df.apply(convert_to_string), how='outer')
             elif item.table == 'organization':
                 organization = Organization.query.get(item.item_id)
                 adjusted = convert_list_attributes(organization.to_csv_dict())
                 df = pd.json_normalize(adjusted)
                 if organization_csv_df.empty:
-                    organization_csv_df = df
+                    organization_csv_df = df.apply(convert_to_string)
                 else:
-                    organization_csv_df = pd.merge(organization_csv_df, df, how='outer')
+                    organization_csv_df = pd.merge(organization_csv_df, df.apply(convert_to_string), how='outer')
         except Exception as e:
             print(f'Error writing export file: {e}')
             clear_failed_export(export_request)
