@@ -27,6 +27,19 @@ def convert_simple_relation(relation):
         return output
     return None
 
+def convert_media_relation(relation):
+    """
+    Converts each related media file into 2 CSV columns. One for the title
+    and one for the filename (media_file). 
+    """
+    output = {}
+    if relation:
+        for i, v in enumerate(relation):
+            output[f'{v.__tablename__}-{i + 1}-title'] = f'{v.title}'
+            output[f'{v.__tablename__}-{i + 1}-filename'] = f'{v.media_file}'
+        return output
+    return None
+
 
 def convert_complex_relation(relation, table_name):
     output = {}

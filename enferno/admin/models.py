@@ -28,7 +28,7 @@ from enferno.extensions import db
 from enferno.settings import Config as cfg
 from enferno.user.models import Role
 from enferno.utils.base import BaseMixin
-from enferno.utils.csv_utils import convert_simple_relation, convert_complex_relation
+from enferno.utils.csv_utils import convert_simple_relation, convert_complex_relation, convert_media_relation
 from enferno.utils.date_helper import DateHelper
 from enferno.utils.rename_utils import export_json_rename_handler
 
@@ -2445,7 +2445,7 @@ class Bulletin(db.Model, BaseMixin):
             'sources': convert_simple_relation(self.sources),
             'authors': convert_simple_relation(self.authors),
             'locations': convert_simple_relation(self.locations),
-            'media': convert_simple_relation(self.medias),
+            'media': convert_media_relation(self.medias),
             'events': convert_simple_relation(self.events),
             'related_primary_records': convert_complex_relation(self.bulletin_relations_dict, Bulletin.__tablename__),
             'related_actors': convert_complex_relation(self.actor_relations_dict, Actor.__tablename__),
@@ -3495,7 +3495,7 @@ class Organization(db.Model, BaseMixin):
             'locations': convert_simple_relation(self.locations),
             'roles_within': convert_simple_relation(self.roles_within),
             'aliases': convert_simple_relation(self.aliases),
-            'media': convert_simple_relation(self.medias),
+            'media': convert_media_relation(self.medias),
             'related_primary_records': convert_complex_relation(self.bulletin_relations_dict, Bulletin.__tablename__),
             'related_organizations': convert_complex_relation(self.organization_relations_dict, Organization.__tablename__),
             'related_investigations': convert_complex_relation(self.incident_relations_dict, Incident.__tablename__),
@@ -4999,7 +4999,7 @@ class Actor(db.Model, BaseMixin):
             'labels': convert_simple_relation(self.labels),
             'verified_labels': convert_simple_relation(self.ver_labels),
             'sources': convert_simple_relation(self.sources),
-            'media': convert_simple_relation(self.medias),
+            'media': convert_media_relation(self.medias),
             'events': convert_simple_relation(self.events),
             'related_primary_records': convert_complex_relation(self.bulletin_relations_dict, Bulletin.__tablename__),
             'related_actors': convert_complex_relation(self.actor_relations_dict, Actor.__tablename__),
