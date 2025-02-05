@@ -24,6 +24,8 @@ CAESAR runs as a set of Docker containers using the `docker compose` command.
 
 4. Wait about a minute for the server to start up and then access the website at http://localhost:5000
 
+5. Admin login credentials for the website are set in the .env file.
+
 ## Configuring the System
 
 Initially, CAESAR is configured by changing values in the `.env` file located at the root of the project. Once the application is running and the configuration is changed through the UI, a `config.json` file will be created. The settings in `config.json` will override the values in the `.env` file so changes to the configuration should be done using the UI where possible. There are some configurations, namely the Docker-specific ones, that are only set in the `.env` file. 
@@ -43,7 +45,7 @@ Initially, CAESAR is configured by changing values in the `.env` file located at
 
 ### API Documentation
 
-CAESAR includes API documentation that is available at `/api/docs/`. If running locally, you can navigate to it by opening http://localhost:5000/api/docs/ in your browser.
+CAESAR includes API documentation that is available at `/api/docs/` when CAESAR is deployed with a `dev` configuration. When running with a `dev` configuration, you can navigate to it by opening http://localhost:5000/api/docs/ in your browser. CAESAR can be set with either a `dev` or `prod` configuration in the `.env` file.
 
 ### Database Migrations
 
@@ -63,8 +65,8 @@ If something goes wrong with the new migration and you need to undo it, run `fla
 
 ### Updating Translation Files
 
-Caesar translation uses the Flask-Babel library. A messages.pot file holds all default english messages, while messeages.po language catalog file holds translations for different languages.
-It is necessary to provide translations for text, but the babel command line tools can be used to generate/regenerate message files. This should be done for any wholesale changes or additions of text messages to Caesar.
+Caesar translation uses the Flask-Babel library. A messages.pot file holds all default english messages, while messages.po language catalog file holds translations for different languages.
+The babel command line tools can be used to generate/regenerate message files, though it is necessary to add translations for new text to these files. Regenerating messages files should be done for any wholesale changes or additions of text messages to Caesar.
 See https://babel.pocoo.org/en/latest/cmdline.html
 To generate a new messages.pot file (caesar/messages.pot) based on code changes using the gettext() conventions, run `pybabel extract -F babel.cfg -o messages.pot .` from the project root
 To generate new messages.po catalog files from the messages.pot file, run `pybabel update -i messages.pot -d ./enferno/translations/` from the project root
@@ -75,7 +77,10 @@ messages.pot, messages.po, and messages.mo files should all show changes in sour
 
 ## Deploying with an External Database
 
-There is an alternative Docker Compose file available if deploying with an external PostgreSQL database, such as Amazon Relational Database Service (RDS). The `docker-compose-co.yml` file overrides the default `docker-compose.yml` file to enable running the PostgreSQL server external to the other containers. Make sure the `POSTGRES_HOST`, `POSTGRES_USER`, and `POSTGRES_PASSWORD` variables are set in the `.env` file and then run `docker compose -f docker-compose.yml -f docker-compose.co.yml up -d`. There is also a utility script that you can use to run Docker Compose commands with the configuration files already set. You can run Docker Compose commands by running `bash bin/co-compose.sh` followed by the relevant Docker Compose command. For example, `bash bin/co-compose.sh logs bayanat` would display the logs for the main web server.
+There is an alternative Docker Compose file available if deploying with an external PostgreSQL database, such as Amazon Relational Database Service (RDS). The `docker-compose-co.yml` file overrides the default `docker-compose.yml` file to enable running the PostgreSQL server external to the other containers. Make sure the `POSTGRES_HOST`, `POSTGRES_USER`, and `POSTGRES_PASSWORD` variables are set in the `.env` file and then run `docker compose -f docker-compose.yml -f docker-compose.co.yml up -d`. If your PostgreSQL runs on a non-standard port, include that in the POSTRES_HOST field. There is also a utility script that you can use to run Docker Compose commands with the configuration files already set. You can run Docker Compose commands by running `bash bin/co-compose.sh` followed by the relevant Docker Compose command. For example, `bash bin/co-compose.sh logs bayanat` would display the logs for the main web server.
+
+## Deploy a PgAdmin Container
+PgAdmin is a tool for interacting with the CAESAR postgres database. To view the CAESAR database from PgAdmin running in a container, run `docker compose up -d pgadmin`.  
 
 ## CAESAR History
 
@@ -95,15 +100,15 @@ The CAESAR system was adapted from [Bayanat](https://www.bayanat.org/), specific
 - Primary Records
   - Adds the ability to upload and visualize shapefiles
   - Adds the ability to track authors
-  - Adds a field for "Discovery File Name"
+  - Adds a field for `Discovery File Name`
   - Adds a field for tracking the consented uses
   - Adds a checkbox to indicate the translation in the record is verified
 - Actors
   - Adds a credibility field
-  - Changes the "Nickname" field to "Alias" and allows for multiple aliases
+  - Changes the `Nickname` field to `Alias` and allows for multiple aliases
   - Adds a field for tracking social media accounts
   - Adds a field for tracking sanction regimes
-  - Renames "Events" to "Locations of Reported Activity"
-- Adds a "Graphic" checkbox to media that blurs previews by default
+  - Renames `Events` to `Locations of Reported Activity`
+- Adds a `Graphic` checkbox to media that blurs previews by default
 - Auto loads locations based on a specified file; Ukraine and Sudan location files included by default
 - Adds a capability to import Zotero records
