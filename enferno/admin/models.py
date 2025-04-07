@@ -1040,6 +1040,7 @@ class Media(db.Model, BaseMixin):
             "title": self.title if self.title else None,
             "title_ar": self.title_ar if self.title_ar else None,
             "fileType": self.media_file_type if self.media_file_type else None,
+            "category": self.category if self.category else None,
             "filename": self.media_file if self.media_file else None,
             "shapefile_group_uuid": self.shapefile_group_uuid if self.shapefile_group_uuid else None,
             "etag": getattr(self, 'etag', None),
