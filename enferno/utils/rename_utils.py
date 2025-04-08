@@ -24,4 +24,6 @@ def export_json_rename_handler(table_dict):
         table_dict['investigation_relations'] = table_dict.pop('incident_relations')
     if 'actor_relations' in table_dict:
         table_dict['actor_relations'] = rename_relation_items(table_dict['actor_relations'])
+    if 'organization_relations' in table_dict:
+        table_dict['organization_relations'] = rename_relation_items(table_dict['organization_relations'])
     return table_dict

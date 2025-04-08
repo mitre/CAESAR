@@ -1,0 +1,364 @@
+# Export Formats - JSON
+
+CAESAR has 4 different export types, 1 for each major data type (Actors, Investigations, Organizations, and Primary Records). They are available in JSON, CSV, and PDF formats. Not all of the fields are the same in each of the formats. The fields below are for the JSON version.
+
+## Actor
+
+- class {string}: Will always be the string "actor"
+- id {number}: Unique identifier
+- originid {number}: Unique identifier from the source
+- name {string}: Name of the actor
+- name_ar {string}: Non-English version of the actor's name
+- description {string}: Description of the actor
+- credibility {number}: 1-5 rating of how likely the information shown is to be true
+- _credibility {string}: Human-readable version of the credibility rating
+- first_name {string}: Actor's first name
+- first_name_ar {string}: Actor's first name in native language
+- middle_name {string}: Actor's middle name
+- middle_name_ar {string}: Actor's middle name in native language
+- last_name {string}: Actor's last name
+- last_name_ar {string}: Actor's last name in native language
+- mother_name {string}: Actor's mother's last name
+- mother_name_ar {string}: Actor's mother's last name in native language
+- sex {string}: Actor's sex
+- _sex {string}: Human-readable version of the sex
+- age {string}: Whether the actor is a Minor or an Adult
+- _age {string}: Whether the actor is a Minor or an Adult
+- occupation {string}: Actor's primary employment
+- occupation_ar {string}: Actor's primary employment in native language
+- position {string}: Actor's rank or position
+- position_ar {string}: Actor's rank or position in native language
+- dialects {string}: The local dialect or dialects the person speaks.
+- dialects_ar {string}: The local dialect or dialects the person speaks in native language.
+- family_status {string}: Marital status and number of children.
+- family_status_ar {string}: Marital status and number of children in native language.
+- ethnography {array<json>}: Ethnicity or ethnicities of the actor.
+  - id {number}: Unique identifier of the ethnicity
+  - title {string}: Name of the ethnicity
+  - title_tr {string}: Name of the ethnicity in native language
+  - created_at {string}: Date and time of creation
+  - updated_at {string}: Date and time of last update
+- nationality {array<json>}: Nationality or nationalities of the actor.
+  - id {number}: Unique identifier of the nationality
+  - title {string}: Name of the nationality
+  - title_tr {string}: Name of the nationality in native language
+  - created_at {string}: Date and time of creation
+  - updated_at {string}: Date and time of last update
+- national_id_card {string}: National ID card number
+- assigned_to {json}: User assigned to the actor
+  - id {number}: Unique identifier of the user
+  - name {string}: Name of the user
+  - username {string}: Username of the user
+  - active {boolean}: Indicates if the user is active
+- created_by {json}: User who created the actor
+  - id {number}: Unique identifier of the user
+  - name {string}: Name of the user
+  - username {string}: Username of the user
+  - active {boolean}: Indicates if the user is active
+- first_peer_reviewer {json}: User who performed the first peer review
+  - id {number}: Unique identifier of the user
+  - name {string}: Name of the user
+  - username {string}: Username of the user
+  - active {boolean}: Indicates if the user is active
+- source_link {string}: Link to the source of the actor information
+- sensitive_data {boolean}: Indicates if the actor record contains sensitive data
+- comments {string}: Comments about the last change made
+- events {array<[Event](#event)>}: List of events associated with the actor
+- social_media_handles {array<json>}: List of social media handles associated with the event
+  - id {number} unique identifier for the social media handle
+  - handle_name {string}: Name of the social media handle
+  - plaform {json}: Platform information
+    - id {number}: Unique identifier for the platform
+    - title {string}: Title of the platform
+- sanction_regimes {array<json>}: List of sanction regimes imposed on the actor
+  - id {number}: Unique identifier for the sanction regime
+  - sanction_regime {json}: Information about the sanction regime
+    - id {number}: Unique identifier for the sanction regime
+    - title {string}: Title of the sanction regime
+- aliases {array<json>}: List of aliases for the actor
+  - id {number}: Unique identifier for the alias
+  - name {string}: Name of the alias
+  - name_ar {string}: Name in native language
+  - actor_id {number}: Unique identifier for the actor
+- medias {array<[Media](#media)>}: List of media sources for the actor
+- actor_relations {array<json>}: List of relationships between the actor and other actors
+  - actor {[Actor](#actor)} Actor record
+- organization_relations {array<json>}: List of relationships between the actor and organizations
+  - actor {[Actor](#actor)} Actor record
+  - organization {[Organization](#organization)} Organization record
+- birth_place {Location}: Location where the actor was born
+- residence_place {Location}: Current residence of the actor
+- birth_date {string}: Date of birth of the actor
+- created_at {string}: Date when the actor record was created
+- status {string}: Where the record is in the process (e.g., "Peer Reviewed")
+- updated_at {string}: Last update date of the actor record
+- roles {array<json>} List of access roles
+  - id {number}: Unique identifier for the role
+  - name {string}: Name of the role
+  - description {string}: Description of the role
+  - color {string}: Color code for the role
+- primary_record_relations {array<json>} List of actor to primary record relationships
+  - actor {[Actor](#actor)}: Actor information
+  - primary_record {[Primary Record](#primary-record)}: Primary record information
+- investigation_relations {array<json>} List of actor to investigation relationships
+  - actor {[Actor](#actor)}: Actor information
+  - investigation {[Investigation](#investigation)}: Investigation information
+
+## Event
+
+- id {number}: Unique identifier of the event
+- title {string}: Title of the event
+- title_ar {string}: Title of the event in native language
+- comments {string}: Notes about the event
+- location {Location}: Location of the event
+- geo_location {json}: Geographical location (if applicable)
+- custom_location {boolean}: Indicates if this is a named location or a custom drawn one
+- from_date {string}: Start date of the event
+- from_time {string}: Start time of the event
+- to_date {string}: End date of the event
+- to_time {string}: End time of the event
+- estimated {boolean}: Indicates if the event dates and times are estimated
+- updated_at {string}: Last update date of the event
+
+## Investigation
+
+- class {string}: Always "investigation"
+- id {number}: Unique identifier of the investigation
+- title {string}: Title of the investigation
+- title_ar {string}: Title of the investigation in native language
+- description {string}: Description of the investigation
+- assigned_to {[User](#user)}: User assigned to the investigation
+- created_by {[User](#user)}: User who created the investigation
+- first_peer_reviewer {[User](#user)}: User assigned as the first peer reviewer
+- actor_relations {array<json>}: Array of actor relations
+  - actor {[Actor](#actor)}: Actor involved in the investigation
+  - related_as {array<number>}: Array of relation types
+  - probability {number}: Probability of the relation
+  - comment {string}: Comment about the relation
+  - investigation {[Investigation](#investigation)}: Investigation object (self-reference)
+- organization_relations {array<json>}: Array of organization relations
+  - organization {[Organization](#organization)}: Organization involved in the investigation
+  - related_as {array<number>}: Array of relation types
+  - probability {number}: Probability of the relation
+  - comment {string}: Comment about the relation
+  - investigation {[Investigation](#investigation)}: Investigation object (self-reference)
+- comments {string}: Latest comments about changes made to the investigation
+- status {string}: Status of the investigation
+- updated_at {string}: Datetime the record was last updated
+- created_at {string}: Datetime the record was created
+- roles {array<json>}: List of access groups assigned to this investigation
+  - id {number}: Unique identifier for the access group
+  - name {string}: Name of the access group
+  - description {string}: Description of the access group
+  - color {string}: Color associated with the access group
+- primary_record_relations {array<json>}: Array of primary record relations
+  - related_as {array<number>}: Array of relation types
+  - probability {number}: Probability of the relation
+  - comment {string}: Comment about the relation
+  - primary_record {[Primary Record](#primary-record)}: Primary record involved in the investigation
+  - investigation {[Investigation](#investigation)}: Investigation object (self-reference)
+
+
+## Location
+
+- id {number}: Unique identifier of the location
+- title {string}: Title of the location
+- title_ar {string}: Title of the location in native language
+- location_type {json}: Type of the location
+  - id {number}: Unique identifier of the location type
+  - title {string}: Title of the location type
+  - description {string}: Description of the location type
+- admin_level {json}: Administrative level of the location
+  - id {number}: Unique identifier of the administrative level
+  - code {number}: Code of the administrative level
+  - title {string}: Title of the administrative level
+- geometry {json}: Geometry of the location
+  - type {string}: Type of the geometry (MultiPolygon, Point, LineString)
+  - ccordinates {array}: Coordinates of the geometry
+- postal_code {string}: Postal code of the location
+- country {json}: Country of the location
+  - id {number}: Unique identifier of the country
+  - title {string}: Title of the country
+  - title_tr {string}: Translated title of the country
+  - created_at {string}: Creation date of the country
+  - updated_at {string}: Last update date of the country
+- parent {json}: Parent location (if applicable)
+- full_location {string}: Full location string
+- full_string {string}: Full string representation of the location
+- updated_at {string}: Last update date of the location
+
+## Media
+
+- id {number}: Unique identifier for the media source
+- title {string}: Title of the media source
+- title_ar {string}: Title of the media source in native language
+- fileType {string}: Type of the media file (i.e. image/jpeg)
+- category {number}: ID for the media category (i.e. Photo)
+- filename {string}: Full name of the media file
+- shapefile_group_uuid {string}: UUID for the shapefile group if this is a shapefile
+- etag {string}: Hash for the media file
+- blur {boolean}: Indicates if the media file has graphic content that should be blurred by default
+- updated_at {string}: Timestamp for when the media source was last updated
+
+## Organization
+- class {string} Always "organization"
+- id {number}: Unique identifier for the organization
+- name {string}: Name of the organization
+- name_ar {string}: Name of the organization in native language
+- founded_date {string}: Date the organization was founded
+- aliases {array}: List of aliases for the organization
+  - id {number}: Unique identifier for the alias
+  - name {string}: Name of the alias
+  - name_ar {string}: Name in native language
+  - actor_id {number}: Unique identifier for the actor
+- medias {array<[Media](#media)>}: List of media attached to the organization record
+- assigned_to {[User](#user)}: User assigned to the organization record
+- created_by {[User](#user)}: User who created the organization record
+- tax_id {string}: Tax identification number of the organization
+- first_peer_reviewer {[User](#user)}: User who first peer reviewed the organization record
+- locations {array<[Location](#location)>}: List of locations associated with the organization
+- roles_within {array<Role>}: List of roles within the organization
+  - id {number}: Unique identifier for the role
+  - title {string}: Title of the role
+  - currently_active {boolean}: Indicates if the role is currently active
+  - from_date {string}: Start date of the role
+  - to_date {string}: End date of the role
+  - organization_id {number}: Unique identifier for the organization
+  - reports_to_id {number}: Unique identifier for the parent organization
+  - reports_to_title {string}: Title of the parent organization
+  - reportees {array<json>}: List of organization roles reporting to this role
+  - actors {array<json>}: List of actors that have served in this role
+    - id {number}: Unique identifier for the actor in this role
+    - actor_id {number}: Unique identifier for the actor
+    - actor_name {string}: Name of the actor
+    - currently_active {boolean}: Indicates if the actor is currently active in this role
+    - from_date {string}: Start date of the actor's tenure in this role
+    - to_date {string}: End date of the actor's tenure in this role (null if currently_active is true)
+    - organization_role_id {number}: Unique identifier for the organization role
+- social_media_handles {array<json>}: List of social media handles for the organization
+  - id {number}: Unique identifier for the social media handle
+  - handle_name {string}: Name of the social media handle
+  - platform {json}: Information about the social media platform
+    - id {number}: Unique identifier for the platform
+    - title {string}: Name of the platform
+- sanction_regime {json}: Information about the sanction regimes
+  - id {number}: Unique identifier for the sanction regime assigned to this organization
+  - sanction_regime {json}: Information about the sanction regime
+    - id {number}: Unique identifier for the sanction regime
+    - title {string}: Name of the sanction regime
+- organization_relations {array<json>}: List of relations with other organizations
+  - organization {[Organization](#organization)}: Information about the related organization
+- actor_relations {array<json>}: List of relations with actors
+  - actor {[Actor](#actor)}: Information about the related actor
+  - organization {[Organization](#organization)}: Information about the organization the actor is related to
+- events {array<[Event](#event)>}: List of events related to the organization
+- description {string}: Description of the organization
+- credibiliity {number}: Credibility score for the information about the organization
+- _credibility {string}: Display text for the credibility score
+- comments {string}: Latest comments about changes made to the organization
+- created_at {string}: Date and time when the organization was created
+- status {string}: Status of the organization (i.e. "Updated")
+- updated_at {string}: Date and time when the organization was last updated
+- roles {array<json>}: List of access groups assigned to this organization
+  - id {number}: Unique identifier for the access group
+  - name {string}: Name of the access group
+  - description {string}: Description of the access group
+  - color {string}: Color associated with the access group
+- primary_record_relations {array<json>}: List of primary records related to this organization
+  - organization {[Organization](#organization)}: Details of the related organization
+  - primary_record {[Primary Record](#primary-record)}: Details of the related primary record
+  - related_as {array<string>}: List of relationships with the primary record
+  - probability {number}: Probability of the relationship
+  - comment {string}: Comment about the relationship
+- investigation_relations
+  - organization {[Organization](#organization)}: Details of the related organization
+  - investigation {[Investigation](#investigation)}: Details of the related investigation
+  - related_as {array<string>}: List of relationships with the primary record
+  - probability {number}: Probability of the relationship
+  - comment {string}: Comment about the relationship
+
+## Primary Record
+
+- class {string} Always "primary_record"
+- id {number}: Unique identifier for the primary record
+- title {string}: Original title of the primary record
+- title_ar {string}: Original Native language title of the primary record
+- sjac_title {string}: New title given to the primary record in the CAESAR system
+- sjac_title_ar {string}: New Native language title given to the primary record in the CAESAR system
+- assigned_to {json}: User the primary record is assigned to
+  - id {number}: Unique identifier for the user
+  - name {string}: Name of the user
+  - username {string}: Username of the user
+  - active {boolean}: Indicates if the user is active
+- created_by
+  - id {number}: Unique identifier for the user
+  - name {string}: Name of the user
+  - username {string}: Username of the user
+  - active {boolean}: Indicates if the user is active
+- first_peer_reviewer
+  - id {number}: Unique identifier for the user
+  - name {string}: Name of the user
+  - username {string}: Username of the user
+  - active {boolean}: Indicates if the user is active
+- sources {array<json>}: List of sources of the primary record
+  - id {number}: Unique identifier for the source
+  - title {string}: Title of the source
+- authors {array<json>}: List of authors of the primary record
+  - id {number}: Unique identifier for the author
+  - name {string}: Name of the author
+- events {array<[Event](#event)>}: List of events for this primary record
+- medias {array<[Media](#media)>}: List of media files attached to this primary record
+- actor_relations {array<json>}: List of relations to actors for this primary record
+  - actor {[Actor](#actor)}: Actor object
+  - related_as {array<number>}: List of relation types
+  - probability {number}: Likelyhood this relationship is accurate
+  - comment {string}: Additional comments about the relationship
+  - primary_record {[Primary Record](#primary-record)}: Primary record object
+- organization_relations {array<json>}: List of relations to organizations for this primary record
+  - primary_record {[Primary Record](#primary-record)}: Primary record object
+  - organziation {[Organization](#organization)}: Organization object
+  - related_as {array<number>}: List of relation types
+  - probability {number}: Likelyhood this relationship is accurate
+  - comment {string}: Additional comments about the relationship
+- description {string}: Description of the primary record
+- comments {string}: Latest comment about the changes made to the primary record
+- source_link {string}: URL source of the primary record
+- archive_link {string}: URL to the archived version of the source
+- translation_verified {boolean}: Indicates if the translation of the primary record has been verified by a human
+- sensitive_data {boolean}: Indicates if the record contains sensitive data
+- discovery_file_name {string}: Name of the file that records the internet browsing session that includes this source (i.e. Hunchly file name)
+- credibility {number}: Credibility rating of the data (1-5)
+- _credibility {string}: Human-readable credibility rating
+- ref {array<string>}: Investigation reference strings
+- publish_date {string}: Date the source was published
+- publish_time {string}: Time the source was published
+- created_at {string}: Datetime the primary record was created
+- status {string}: Status of the source (e.g., "Updated")
+- updated_at {string}: Datetime the primary record was last updated
+- roles {array<json>}: List of access groups assigned to this primary record
+  - id {number}: Unique identifier for the access group
+  - name {string}: Name of the access group
+  - description {string}: Description of the access group
+  - color {string}: Color associated with the access group
+- consent_use_relations {array<json>}: List of consent use relations
+  - id {number}: Unique identifier for the consented use relation
+  - consent_use {json}: Consented use object
+  - date {string}: Datetime of the consent use
+  - status {string}: Status of the consent use
+- primary_record_relations {array<json>}: List of related primary records
+  - related_as {array<number>}: List of relation types
+  - probability {number}: Probability of the relation
+  - comment {string}: Comment about the relation
+  - primary_record {[Primary Record](#primary-record)}: Details of the primary record
+- investigation_relations {array<json>}: List of related investigations
+  - related_as {array<number>}: List of relation types
+  - probability {number}: Probability of the relation
+  - comment {string}: Comment about the relation
+  - primary_record {[Primary Record](#primary-record)}: Details of the primary record
+  - investigation {[Investigation](#investigation)}: Details of the investigation
+
+## User
+- id {number}: Unique identifier for the user
+- name {string}: Name of the user
+- username {string}: Username of the user
+- active {boolean}: Indicates if the user is active
