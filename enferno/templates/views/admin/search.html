@@ -63,7 +63,7 @@
                                     <div class="d-flex">
                                       <v-checkbox :input-value="selectedItems[[result.id, result.type]]" @change="selectItem(result.id, result.type)" @click.stop hide-details class="shrink mt-0 pt-0"></v-checkbox>
                                       <h3>
-                                          <span v-if="result.type === 'actor'">${result.name}</span>
+                                          <span v-if="['actor', 'org'].includes(result.type)">${result.name}</span>
                                           <span v-else>${result.title}</span>
                                       </h3>
                                     </div>
@@ -78,6 +78,12 @@
                                             mdi-file-document-multiple
                                         </v-icon>
                                         Primary Record
+                                    </v-chip>
+                                    <v-chip v-if="result.type == 'org'">
+                                        <v-icon small left>
+                                            mdi-sitemap
+                                        </v-icon>
+                                        Organization
                                     </v-chip>
                                     <v-chip v-if="result.type == 'investigation'">
                                         <v-icon small left>
@@ -203,6 +209,7 @@
             pitem: null, // preview item for result click
             prResults: [],
             investigationResults: [],
+            organizationResults: [],
             loading: false,
             dataTypeFilters: [],
             accessGroupFilters: [],
@@ -276,6 +283,9 @@
                 this.investigationResults.forEach(inv => {
                     if (inv.restricted) ret++;
                 })
+                this.organizationResults.forEach(org => {
+                    if (org.restricted) ret++;
+                })
                 return ret;
             },
             startRecord() {
@@ -288,11 +298,14 @@
                 let prFilterCount = 0;
                 let actorFilterCount = 0;
                 let investigationFilterCount = 0;
+                let organizationFilterCount = 0;
                 this.nonRestrictedResults.forEach(element => {
                     if (element.type === 'pr') {
                         prFilterCount++;
                     } else if (element.type === 'actor') {
                         actorFilterCount++;
+                    } else if (element.type === 'org') {
+                        organizationFilterCount++;
                     } else {
                         investigationFilterCount++;
                     }
@@ -307,6 +320,11 @@
                         label: "Actors",
                         count: actorFilterCount,
                         value: "actor"
+                    },
+                    {
+                        label: "Organizations",
+                        count: organizationFilterCount,
+                        value: "org"
                     },
                     {
                         label: "Investigations",
@@ -398,10 +416,12 @@
                 this.actorResults = await this.searchActors();
                 this.prResults = await this.searchPrimaryRecords();
                 this.investigationResults = await this.searchInvestigations();
+                this.organizationResults = await this.searchOrganizations();
 
                 let nonRestrictedPr = [];
                 let nonRestrictedActors = [];
                 let nonRestrictedInvestigations = [];
+                let nonRestrictedOrganizations = [];
                 // set the non restricted results
                 if (this.prResults.length > 0) {
                     const precords = this.prResults.map(pr => ({ ...pr, type: "pr" }));
@@ -413,22 +433,38 @@
                 if (this.actorResults.length > 0) {
                     const actors = this.actorResults.map(actor => ({ ...actor, type: "actor" }));
                     nonRestrictedActors = actors.filter(actor => {
-                        return !actor.restricted
+                        return !actor.restricted;
                     });
                     this.nonRestrictedResults.push(...nonRestrictedActors);
                 }
                 if (this.investigationResults.length > 0) {
                     const investigations = this.investigationResults.map(investigation => ({ ...investigation, type: "investigation" }));
                     nonRestrictedInvestigations = investigations.filter(inv => {
-                        return !inv.restricted
+                        return !inv.restricted;
                     });
                     this.nonRestrictedResults.push(...nonRestrictedInvestigations);
+                }
+                if (this.organizationResults.length > 0) {
+                    const organizations = this.organizationResults.map(organization => ({ ...organization, type: "org" }));
+                    nonRestrictedOrganizations = organizations.filter(org => {
+                        return !org.restricted;
+                    });
+                    this.nonRestrictedResults.push(...nonRestrictedOrganizations);
                 }
                 this.loading = false;
             },
             async searchActors() {
                 let ret = [];
                 await axios.post(`/admin/api/actors/?page=${this.options.page}&per_page=${this.options.itemsPerPage}`, {
+                   q: this.searchTerm
+                }).then(response => {
+                    ret = response.data.items;
+                });
+                return ret;
+            },
+            async searchOrganizations() {
+                let ret = [];
+                await axios.post(`/admin/api/organizations/?page=${this.options.page}&per_page=${this.options.itemsPerPage}`, {
                    q: this.searchTerm
                 }).then(response => {
                     ret = response.data.items;

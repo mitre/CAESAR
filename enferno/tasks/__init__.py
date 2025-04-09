@@ -22,9 +22,6 @@ from enferno.data_import.utils.media_import import MediaImport
 from enferno.data_import.utils.sheet_import import SheetImport
 from enferno.utils.pdf_utils import PDFUtil
 
-
-
-
 celery = Celery('tasks', broker=cfg.celery_broker_url)
 # remove deprecated warning
 celery.conf.update(
@@ -647,7 +644,7 @@ def generate_group_pdf_files(export_id):
             bulletin_group_items = [group_item.item_id for group_item in group if group_item.table == 'bulletin']
             actor_group_items = [group_item.item_id for group_item in group if group_item.table == 'actor']
             incident_group_items = [group_item.item_id for group_item in group if group_item.table == 'incident']
-            organization_group_items = [group_item.item_id for group_item in group if group_item.table == 'organization']
+            organization_group_items = [group_item.item_id for group_item in group if group_item.table == 'org']
             for bulletin in Bulletin.query.filter(Bulletin.id.in_(bulletin_group_items)):
                 pdf = PDFUtil(bulletin)
                 pdf.generate_pdf(f'{Export.export_dir}/{dir_id}/{pdf.filename}')
@@ -702,7 +699,7 @@ def generate_json_file(export_id: int):
                 elif export_type == 'incident':
                     batch = ','.join(incident.to_json(export=True) for incident in Incident.query.filter(Incident.id.in_(group)))
                     file.write(f'{batch}\n')
-                elif export_type == 'organization':
+                elif export_type == 'org':
                     batch = ','.join(organization.to_json(export=True) for organization in Organization.query.filter(Organization.id.in_(group)))
                     file.write(f'{batch}\n')
                 # less db overhead
@@ -728,7 +725,7 @@ def generate_group_json_file(export_id: int):
     bulletin_items = [item for item in export_request.items if item.table == 'bulletin']
     actor_items = [item for item in export_request.items if item.table == 'actor']
     incident_items = [item for item in export_request.items if item.table == 'incident']
-    organization_items = [item for item in export_request.items if item.table == 'organization']
+    organization_items = [item for item in export_request.items if item.table == 'org']
     bulletin_chunks = chunk_list(bulletin_items, BULK_CHUNK_SIZE)
     actor_chunks = chunk_list(actor_items, BULK_CHUNK_SIZE)
     incident_chunks = chunk_list(incident_items, BULK_CHUNK_SIZE)
@@ -816,7 +813,7 @@ def generate_csv_file(export_id: int):
                 else:
                     csv_df = pd.merge(csv_df, df.apply(convert_to_string), how='outer')
 
-            elif export_type == 'organization':
+            elif export_type == 'org':
                 organization = Organization.query.get(id)
                 # adjust list attributes to normal dicts
                 adjusted = convert_list_attributes(organization.to_csv_dict())
@@ -870,7 +867,7 @@ def generate_group_csv_export(export_id: int):
                     actor_csv_df = df.apply(convert_to_string)
                 else:
                     actor_csv_df = pd.merge(actor_csv_df, df.apply(convert_to_string), how='outer')
-            elif item.table == 'organization':
+            elif item.table == 'org':
                 organization = Organization.query.get(item.item_id)
                 adjusted = convert_list_attributes(organization.to_csv_dict())
                 df = pd.json_normalize(adjusted)
