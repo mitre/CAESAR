@@ -742,7 +742,8 @@ def generate_group_json_file(export_id: int):
         try:
             with open(f'{item_file_path}.json', 'a') as file:
                 file.write('{ \n')
-                file.write(f'"{item_name}s": [ \n')
+                key = item_name if item_name != 'bulletin' else 'primary_record'
+                file.write(f'"{key}s": [ \n')
                 for group in item_chunks:
                     batch = ','.join(item.to_json(export=True) for item in ItemModel.query.filter(ItemModel.id.in_([group_item.item_id for group_item in group])))
                     file.write(f'{batch}\n')
