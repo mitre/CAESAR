@@ -936,7 +936,11 @@ def generate_export_media(previous_result: int, is_group_export: bool = False):
     for item in items:
         if item.medias:
             for media in item.medias:
-                target_file = f'{Export.export_dir}/{export_request.file_id}/{media.media_file}'
+                if media.shapefile_group_uuid:
+                    target_file = f'{Export.export_dir}/{export_request.file_id}/shapefiles/{media.shapefile_group_uuid}/{media.media_file}'
+                else:
+                    target_file = f'{Export.export_dir}/{export_request.file_id}/{media.media_file}'
+                
                 print(f'Exporting media file: {media.media_file}')
 
                 if cfg.FILESYSTEM_LOCAL:
