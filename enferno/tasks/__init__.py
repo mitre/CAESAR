@@ -945,8 +945,12 @@ def generate_export_media(previous_result: int, is_group_export: bool = False):
 
                 if cfg.FILESYSTEM_LOCAL:
                     print('Downloading file locally')
+                    if media.shapefile_group_uuid:
+                        source_file = f'{media.media_dir}/shapefiles/{media.shapefile_group_uuid}/{media.media_file}'
+                    else:
+                        source_file = f'{media.media_dir}/{media.media_file}'
                     # copy file (including metadata)
-                    shutil.copy2(f'{media.media_dir}/{media.media_file}', target_file)
+                    shutil.copy2(source_file, target_file)
                 else:
                     print('Downloading S3 file')
                     s3 = boto3.client('s3',
