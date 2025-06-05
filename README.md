@@ -2,6 +2,8 @@
     <img alt="CAESAR" width="500" src="enferno/static/img/logo.png">
 </p>
 
+CAESAR is a tool for preserving and analyzing data on potential war-crimes. The system was adapted from an open-source tool called [Bayanat](https://www.bayanat.org/) and provides the user the ability to document data and connect that data together to inform investigations into possible human rights violations. 
+
 ## Getting Started
 
 CAESAR runs as a set of Docker containers using the `docker compose` command.
